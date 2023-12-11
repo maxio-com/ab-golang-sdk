@@ -1,0 +1,28 @@
+
+# Invoice Event Type Enum
+
+Invoice Event Type
+
+## Enumeration
+
+`InvoiceEventTypeEnum`
+
+## Fields
+
+| Name |
+|  --- |
+| `ISSUEINVOICE` |
+| `APPLYCREDITNOTE` |
+| `CREATECREDITNOTE` |
+| `APPLYPAYMENT` |
+| `APPLYDEBITNOTE` |
+| `REFUNDINVOICE` |
+| `VOIDINVOICE` |
+| `VOIDREMAINDER` |
+| `BACKPORTINVOICE` |
+| `CHANGEINVOICESTATUS` |
+| `CHANGEINVOICECOLLECTIONMETHOD` |
+| `REMOVEPAYMENT` |
+| `FAILEDPAYMENT` |
+| `CHANGECHARGEBACKSTATUS` |
+

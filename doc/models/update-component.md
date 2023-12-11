@@ -1,0 +1,34 @@
+
+# Update Component
+
+## Structure
+
+`UpdateComponent`
+
+## Fields
+
+| Name | Type | Tags | Description |
+|  --- | --- | --- | --- |
+| `Handle` | `*string` | Optional | - |
+| `Name` | `*string` | Optional | The name of the Component, suitable for display on statements. i.e. Text Messages. |
+| `Description` | `Optional[string]` | Optional | The description of the component. |
+| `AccountingCode` | `Optional[string]` | Optional | - |
+| `Taxable` | `*bool` | Optional | Boolean flag describing whether a component is taxable or not. |
+| `TaxCode` | `Optional[string]` | Optional | A string representing the tax code related to the component type. This is especially important when using the Avalara service to tax based on locale. This attribute has a max length of 10 characters. |
+| `ItemCategory` | [`Optional[models.ItemCategoryEnum]`](item-category-enum.md) | Optional | One of the following: Business Software, Consumer Software, Digital Services, Physical Goods, Other |
+| `DisplayOnHostedPage` | `*bool` | Optional | - |
+| `UpgradeCharge` | [`Optional[models.CreditTypeEnum]`](credit-type-enum.md) | Optional | The type of credit to be created when upgrading/downgrading. Defaults to the component and then site setting if one is not provided.<br>Available values: `full`, `prorated`, `none`. |
+
+## Example (as JSON)
+
+```json
+{
+  "item_category": "Business Software",
+  "handle": "handle6",
+  "name": "name0",
+  "description": "description0",
+  "accounting_code": "accounting_code6",
+  "taxable": false
+}
+```
+
