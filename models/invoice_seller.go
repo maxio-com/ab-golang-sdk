@@ -1,61 +1,61 @@
 package models
 
 import (
-	"encoding/json"
+    "encoding/json"
 )
 
 // InvoiceSeller represents a InvoiceSeller struct.
 // Information about the seller (merchant) listed on the masthead of the invoice.
 type InvoiceSeller struct {
-	Name    *string          `json:"name,omitempty"`
-	Address *InvoiceAddress  `json:"address,omitempty"`
-	Phone   *string          `json:"phone,omitempty"`
-	LogoUrl Optional[string] `json:"logo_url"`
+    Name    *string          `json:"name,omitempty"`
+    Address *InvoiceAddress  `json:"address,omitempty"`
+    Phone   *string          `json:"phone,omitempty"`
+    LogoUrl Optional[string] `json:"logo_url"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for InvoiceSeller.
 // It customizes the JSON marshaling process for InvoiceSeller objects.
 func (i *InvoiceSeller) MarshalJSON() (
-	[]byte,
-	error) {
-	return json.Marshal(i.toMap())
+    []byte,
+    error) {
+    return json.Marshal(i.toMap())
 }
 
 // toMap converts the InvoiceSeller object to a map representation for JSON marshaling.
 func (i *InvoiceSeller) toMap() map[string]any {
-	structMap := make(map[string]any)
-	if i.Name != nil {
-		structMap["name"] = i.Name
-	}
-	if i.Address != nil {
-		structMap["address"] = i.Address
-	}
-	if i.Phone != nil {
-		structMap["phone"] = i.Phone
-	}
-	if i.LogoUrl.IsValueSet() {
-		structMap["logo_url"] = i.LogoUrl.Value()
-	}
-	return structMap
+    structMap := make(map[string]any)
+    if i.Name != nil {
+        structMap["name"] = i.Name
+    }
+    if i.Address != nil {
+        structMap["address"] = i.Address
+    }
+    if i.Phone != nil {
+        structMap["phone"] = i.Phone
+    }
+    if i.LogoUrl.IsValueSet() {
+        structMap["logo_url"] = i.LogoUrl.Value()
+    }
+    return structMap
 }
 
 // UnmarshalJSON implements the json.Unmarshaler interface for InvoiceSeller.
 // It customizes the JSON unmarshaling process for InvoiceSeller objects.
 func (i *InvoiceSeller) UnmarshalJSON(input []byte) error {
-	temp := &struct {
-		Name    *string          `json:"name,omitempty"`
-		Address *InvoiceAddress  `json:"address,omitempty"`
-		Phone   *string          `json:"phone,omitempty"`
-		LogoUrl Optional[string] `json:"logo_url"`
-	}{}
-	err := json.Unmarshal(input, &temp)
-	if err != nil {
-		return err
-	}
-
-	i.Name = temp.Name
-	i.Address = temp.Address
-	i.Phone = temp.Phone
-	i.LogoUrl = temp.LogoUrl
-	return nil
+    temp := &struct {
+        Name    *string          `json:"name,omitempty"`
+        Address *InvoiceAddress  `json:"address,omitempty"`
+        Phone   *string          `json:"phone,omitempty"`
+        LogoUrl Optional[string] `json:"logo_url"`
+    }{}
+    err := json.Unmarshal(input, &temp)
+    if err != nil {
+    	return err
+    }
+    
+    i.Name = temp.Name
+    i.Address = temp.Address
+    i.Phone = temp.Phone
+    i.LogoUrl = temp.LogoUrl
+    return nil
 }

@@ -9,7 +9,7 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `Offer` | [`models.CreateOffer`](create-offer.md) | Required | - |
+| `Offer` | [`models.CreateOffer`](../../doc/models/create-offer.md) | Required | - |
 
 ## Example (as JSON)
 

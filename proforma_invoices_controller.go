@@ -1,24 +1,24 @@
-package ab_golang_sdk
+package advancedbilling
 
 import (
-	"context"
-	"fmt"
-	"github.com/apimatic/go-core-runtime/utilities"
-	"maxioadvancedbilling/errors"
-	"maxioadvancedbilling/models"
-	"net/http"
+    "context"
+    "fmt"
+    "github.com/apimatic/go-core-runtime/utilities"
+    "github.com/maxio-com/ab-golang-sdk/errors"
+    "github.com/maxio-com/ab-golang-sdk/models"
+    "net/http"
 )
 
 // ProformaInvoicesController represents a controller struct.
 type ProformaInvoicesController struct {
-	baseController
+    baseController
 }
 
 // NewProformaInvoicesController creates a new instance of ProformaInvoicesController.
 // It takes a baseController as a parameter and returns a pointer to the ProformaInvoicesController.
 func NewProformaInvoicesController(baseController baseController) *ProformaInvoicesController {
-	proformaInvoicesController := ProformaInvoicesController{baseController: baseController}
-	return &proformaInvoicesController
+    proformaInvoicesController := ProformaInvoicesController{baseController: baseController}
+    return &proformaInvoicesController
 }
 
 // CreateConsolidatedProformaInvoice takes context, uid as parameters and
@@ -29,29 +29,29 @@ func NewProformaInvoicesController(baseController baseController) *ProformaInvoi
 // ## Restrictions
 // Proforma invoices are only available on Relationship Invoicing sites. To create a proforma invoice, the subscription must not be prepaid, and must be in a live state.
 func (p *ProformaInvoicesController) CreateConsolidatedProformaInvoice(
-	ctx context.Context,
-	uid string) (
-	*http.Response,
-	error) {
-	req := p.prepareRequest(
-		ctx,
-		"POST",
-		fmt.Sprintf("/subscription_groups/%v/proforma_invoices.json", uid),
-	)
-	req.Authenticate(true)
-
-	context, err := req.Call()
-	if err != nil {
-		return context.Response, err
-	}
-	err = validateResponse(*context.Response)
-	if err != nil {
-		return context.Response, err
-	}
-	if context.Response.StatusCode == 422 {
-		err = errors.NewErrorListResponse(422, "Unprocessable Entity (WebDAV)")
-	}
-	return context.Response, err
+    ctx context.Context,
+    uid string) (
+    *http.Response,
+    error) {
+    req := p.prepareRequest(
+      ctx,
+      "POST",
+      fmt.Sprintf("/subscription_groups/%v/proforma_invoices.json", uid),
+    )
+    req.Authenticate(true)
+    
+    context, err := req.Call()
+    if err != nil {
+        return context.Response, err
+    }
+    err = validateResponse(*context.Response)
+    if err != nil {
+        return context.Response, err
+    }
+    if context.Response.StatusCode == 422 {
+        err = errors.NewErrorListResponse(422, "Unprocessable Entity (WebDAV)")
+    }
+    return context.Response, err
 }
 
 // ListSubscriptionGroupProformaInvoices takes context, uid as parameters and
@@ -60,39 +60,36 @@ func (p *ProformaInvoicesController) CreateConsolidatedProformaInvoice(
 // Only proforma invoices with a `consolidation_level` of parent are returned.
 // By default, proforma invoices returned on the index will only include totals, not detailed breakdowns for `line_items`, `discounts`, `taxes`, `credits`, `payments`, `custom_fields`. To include breakdowns, pass the specific field as a key in the query with a value set to true.
 func (p *ProformaInvoicesController) ListSubscriptionGroupProformaInvoices(
-	ctx context.Context,
-	uid string) (
-	models.ApiResponse[models.ProformaInvoice],
-	error) {
-	req := p.prepareRequest(
-		ctx,
-		"GET",
-		fmt.Sprintf("/subscription_groups/%v/proforma_invoices.json", uid),
-	)
-	req.Authenticate(true)
-
-	var result models.ProformaInvoice
-	decoder, resp, err := req.CallAsJson()
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-	err = validateResponse(*resp)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	result, err = utilities.DecodeResults[models.ProformaInvoice](decoder)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	if resp.StatusCode == 403 {
-		err = errors.NewApiError(403, "Forbidden")
-	}
-	if resp.StatusCode == 404 {
-		err = errors.NewApiError(404, "Not Found")
-	}
-	return models.NewApiResponse(result, resp), err
+    ctx context.Context,
+    uid string) (
+    models.ApiResponse[models.ProformaInvoice],
+    error) {
+    req := p.prepareRequest(
+      ctx,
+      "GET",
+      fmt.Sprintf("/subscription_groups/%v/proforma_invoices.json", uid),
+    )
+    req.Authenticate(true)
+    
+    var result models.ProformaInvoice
+    decoder, resp, err := req.CallAsJson()
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    err = validateResponse(*resp)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    result, err = utilities.DecodeResults[models.ProformaInvoice](decoder)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    if resp.StatusCode == 404 {
+        err = errors.NewApiError(404, "Not Found")
+    }
+    return models.NewApiResponse(result, resp), err
 }
 
 // ReadProformaInvoice takes context, proformaInvoiceUid as parameters and
@@ -102,39 +99,36 @@ func (p *ProformaInvoicesController) ListSubscriptionGroupProformaInvoices(
 // ## Restrictions
 // Proforma invoices are only available on Relationship Invoicing sites.
 func (p *ProformaInvoicesController) ReadProformaInvoice(
-	ctx context.Context,
-	proformaInvoiceUid int) (
-	models.ApiResponse[models.ProformaInvoice],
-	error) {
-	req := p.prepareRequest(
-		ctx,
-		"GET",
-		fmt.Sprintf("/proforma_invoices/%v.json", proformaInvoiceUid),
-	)
-	req.Authenticate(true)
-
-	var result models.ProformaInvoice
-	decoder, resp, err := req.CallAsJson()
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-	err = validateResponse(*resp)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	result, err = utilities.DecodeResults[models.ProformaInvoice](decoder)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	if resp.StatusCode == 403 {
-		err = errors.NewApiError(403, "Forbidden")
-	}
-	if resp.StatusCode == 404 {
-		err = errors.NewApiError(404, "Not Found")
-	}
-	return models.NewApiResponse(result, resp), err
+    ctx context.Context,
+    proformaInvoiceUid int) (
+    models.ApiResponse[models.ProformaInvoice],
+    error) {
+    req := p.prepareRequest(
+      ctx,
+      "GET",
+      fmt.Sprintf("/proforma_invoices/%v.json", proformaInvoiceUid),
+    )
+    req.Authenticate(true)
+    
+    var result models.ProformaInvoice
+    decoder, resp, err := req.CallAsJson()
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    err = validateResponse(*resp)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    result, err = utilities.DecodeResults[models.ProformaInvoice](decoder)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    if resp.StatusCode == 404 {
+        err = errors.NewApiError(404, "Not Found")
+    }
+    return models.NewApiResponse(result, resp), err
 }
 
 // CreateProformaInvoice takes context, subscriptionId as parameters and
@@ -145,39 +139,36 @@ func (p *ProformaInvoicesController) ReadProformaInvoice(
 // ## Restrictions
 // Proforma invoices are only available on Relationship Invoicing sites. To create a proforma invoice, the subscription must not be in a group, must not be prepaid, and must be in a live state.
 func (p *ProformaInvoicesController) CreateProformaInvoice(
-	ctx context.Context,
-	subscriptionId int) (
-	models.ApiResponse[models.ProformaInvoice],
-	error) {
-	req := p.prepareRequest(
-		ctx,
-		"POST",
-		fmt.Sprintf("/subscriptions/%v/proforma_invoices.json", subscriptionId),
-	)
-	req.Authenticate(true)
-
-	var result models.ProformaInvoice
-	decoder, resp, err := req.CallAsJson()
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-	err = validateResponse(*resp)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	result, err = utilities.DecodeResults[models.ProformaInvoice](decoder)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	if resp.StatusCode == 403 {
-		err = errors.NewApiError(403, "Forbidden")
-	}
-	if resp.StatusCode == 422 {
-		err = errors.NewErrorListResponse(422, "Unprocessable Entity (WebDAV)")
-	}
-	return models.NewApiResponse(result, resp), err
+    ctx context.Context,
+    subscriptionId int) (
+    models.ApiResponse[models.ProformaInvoice],
+    error) {
+    req := p.prepareRequest(
+      ctx,
+      "POST",
+      fmt.Sprintf("/subscriptions/%v/proforma_invoices.json", subscriptionId),
+    )
+    req.Authenticate(true)
+    
+    var result models.ProformaInvoice
+    decoder, resp, err := req.CallAsJson()
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    err = validateResponse(*resp)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    result, err = utilities.DecodeResults[models.ProformaInvoice](decoder)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    if resp.StatusCode == 422 {
+        err = errors.NewErrorListResponse(422, "Unprocessable Entity (WebDAV)")
+    }
+    return models.NewApiResponse(result, resp), err
 }
 
 // ListProformaInvoices takes context, subscriptionId, startDate, endDate, status, page, perPage, direction, lineItems, discounts, taxes, credits, payments, customFields as parameters and
@@ -185,81 +176,81 @@ func (p *ProformaInvoicesController) CreateProformaInvoice(
 // an error if there was an issue with the request or response.
 // By default, proforma invoices returned on the index will only include totals, not detailed breakdowns for `line_items`, `discounts`, `taxes`, `credits`, `payments`, or `custom_fields`. To include breakdowns, pass the specific field as a key in the query with a value set to `true`.
 func (p *ProformaInvoicesController) ListProformaInvoices(
-	ctx context.Context,
-	subscriptionId int,
-	startDate *string,
-	endDate *string,
-	status *models.StatusEnum,
-	page *int,
-	perPage *int,
-	direction *models.DirectionEnum,
-	lineItems *bool,
-	discounts *bool,
-	taxes *bool,
-	credits *bool,
-	payments *bool,
-	customFields *bool) (
-	models.ApiResponse[[]models.ProformaInvoice],
-	error) {
-	req := p.prepareRequest(
-		ctx,
-		"GET",
-		fmt.Sprintf("/subscriptions/%v/proforma_invoices.json", subscriptionId),
-	)
-	req.Authenticate(true)
-	if startDate != nil {
-		req.QueryParam("start_date", *startDate)
-	}
-	if endDate != nil {
-		req.QueryParam("end_date", *endDate)
-	}
-	if status != nil {
-		req.QueryParam("status", *status)
-	}
-	if page != nil {
-		req.QueryParam("page", *page)
-	}
-	if perPage != nil {
-		req.QueryParam("per_page", *perPage)
-	}
-	if direction != nil {
-		req.QueryParam("direction", *direction)
-	}
-	if lineItems != nil {
-		req.QueryParam("line_items", *lineItems)
-	}
-	if discounts != nil {
-		req.QueryParam("discounts", *discounts)
-	}
-	if taxes != nil {
-		req.QueryParam("taxes", *taxes)
-	}
-	if credits != nil {
-		req.QueryParam("credits", *credits)
-	}
-	if payments != nil {
-		req.QueryParam("payments", *payments)
-	}
-	if customFields != nil {
-		req.QueryParam("custom_fields", *customFields)
-	}
-
-	var result []models.ProformaInvoice
-	decoder, resp, err := req.CallAsJson()
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-	err = validateResponse(*resp)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	result, err = utilities.DecodeResults[[]models.ProformaInvoice](decoder)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	return models.NewApiResponse(result, resp), err
+    ctx context.Context,
+    subscriptionId int,
+    startDate *string,
+    endDate *string,
+    status *models.InvoiceStatus,
+    page *int,
+    perPage *int,
+    direction *models.Direction,
+    lineItems *bool,
+    discounts *bool,
+    taxes *bool,
+    credits *bool,
+    payments *bool,
+    customFields *bool) (
+    models.ApiResponse[[]models.ProformaInvoice],
+    error) {
+    req := p.prepareRequest(
+      ctx,
+      "GET",
+      fmt.Sprintf("/subscriptions/%v/proforma_invoices.json", subscriptionId),
+    )
+    req.Authenticate(true)
+    if startDate != nil {
+        req.QueryParam("start_date", *startDate)
+    }
+    if endDate != nil {
+        req.QueryParam("end_date", *endDate)
+    }
+    if status != nil {
+        req.QueryParam("status", *status)
+    }
+    if page != nil {
+        req.QueryParam("page", *page)
+    }
+    if perPage != nil {
+        req.QueryParam("per_page", *perPage)
+    }
+    if direction != nil {
+        req.QueryParam("direction", *direction)
+    }
+    if lineItems != nil {
+        req.QueryParam("line_items", *lineItems)
+    }
+    if discounts != nil {
+        req.QueryParam("discounts", *discounts)
+    }
+    if taxes != nil {
+        req.QueryParam("taxes", *taxes)
+    }
+    if credits != nil {
+        req.QueryParam("credits", *credits)
+    }
+    if payments != nil {
+        req.QueryParam("payments", *payments)
+    }
+    if customFields != nil {
+        req.QueryParam("custom_fields", *customFields)
+    }
+    
+    var result []models.ProformaInvoice
+    decoder, resp, err := req.CallAsJson()
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    err = validateResponse(*resp)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    result, err = utilities.DecodeResults[[]models.ProformaInvoice](decoder)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    return models.NewApiResponse(result, resp), err
 }
 
 // VoidProformaInvoice takes context, proformaInvoiceUid, body as parameters and
@@ -271,47 +262,44 @@ func (p *ProformaInvoicesController) ListProformaInvoices(
 // Only proforma invoices that have the appropriate status may be reopened. If the invoice identified by {uid} does not have the appropriate status, the response will have HTTP status code 422 and an error message.
 // A reason for the void operation is required to be included in the request body. If one is not provided, the response will have HTTP status code 422 and an error message.
 func (p *ProformaInvoicesController) VoidProformaInvoice(
-	ctx context.Context,
-	proformaInvoiceUid string,
-	body *models.VoidInvoiceRequest) (
-	models.ApiResponse[models.ProformaInvoice],
-	error) {
-	req := p.prepareRequest(
-		ctx,
-		"POST",
-		fmt.Sprintf("/proforma_invoices/%v/void.json", proformaInvoiceUid),
-	)
-	req.Authenticate(true)
-	req.Header("Content-Type", "application/json")
-	if body != nil {
-		req.Json(*body)
-	}
-
-	var result models.ProformaInvoice
-	decoder, resp, err := req.CallAsJson()
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-	err = validateResponse(*resp)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	result, err = utilities.DecodeResults[models.ProformaInvoice](decoder)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	if resp.StatusCode == 403 {
-		err = errors.NewApiError(403, "Forbidden")
-	}
-	if resp.StatusCode == 404 {
-		err = errors.NewApiError(404, "Not Found")
-	}
-	if resp.StatusCode == 422 {
-		err = errors.NewErrorListResponse(422, "Unprocessable Entity (WebDAV)")
-	}
-	return models.NewApiResponse(result, resp), err
+    ctx context.Context,
+    proformaInvoiceUid string,
+    body *models.VoidInvoiceRequest) (
+    models.ApiResponse[models.ProformaInvoice],
+    error) {
+    req := p.prepareRequest(
+      ctx,
+      "POST",
+      fmt.Sprintf("/proforma_invoices/%v/void.json", proformaInvoiceUid),
+    )
+    req.Authenticate(true)
+    req.Header("Content-Type", "application/json")
+    if body != nil {
+        req.Json(*body)
+    }
+    
+    var result models.ProformaInvoice
+    decoder, resp, err := req.CallAsJson()
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    err = validateResponse(*resp)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    result, err = utilities.DecodeResults[models.ProformaInvoice](decoder)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    if resp.StatusCode == 404 {
+        err = errors.NewApiError(404, "Not Found")
+    }
+    if resp.StatusCode == 422 {
+        err = errors.NewErrorListResponse(422, "Unprocessable Entity (WebDAV)")
+    }
+    return models.NewApiResponse(result, resp), err
 }
 
 // PreviewProformaInvoice takes context, subscriptionId as parameters and
@@ -322,42 +310,39 @@ func (p *ProformaInvoicesController) VoidProformaInvoice(
 // If all the data returned in the preview is as expected, you may then create a static proforma invoice and send it to your customer. The data within a preview will not be saved and will not be accessible after the call is made.
 // Alternatively, if you have some proforma invoices already, you may make a preview call to determine whether any billing information for the subscription's upcoming renewal has changed.
 func (p *ProformaInvoicesController) PreviewProformaInvoice(
-	ctx context.Context,
-	subscriptionId int) (
-	models.ApiResponse[models.ProformaInvoicePreview],
-	error) {
-	req := p.prepareRequest(
-		ctx,
-		"POST",
-		fmt.Sprintf("/subscriptions/%v/proforma_invoices/preview.json", subscriptionId),
-	)
-	req.Authenticate(true)
-
-	var result models.ProformaInvoicePreview
-	decoder, resp, err := req.CallAsJson()
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-	err = validateResponse(*resp)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	result, err = utilities.DecodeResults[models.ProformaInvoicePreview](decoder)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	if resp.StatusCode == 403 {
-		err = errors.NewApiError(403, "Forbidden")
-	}
-	if resp.StatusCode == 404 {
-		err = errors.NewApiError(404, "Not Found")
-	}
-	if resp.StatusCode == 422 {
-		err = errors.NewErrorListResponse(422, "Unprocessable Entity (WebDAV)")
-	}
-	return models.NewApiResponse(result, resp), err
+    ctx context.Context,
+    subscriptionId int) (
+    models.ApiResponse[models.ProformaInvoicePreview],
+    error) {
+    req := p.prepareRequest(
+      ctx,
+      "POST",
+      fmt.Sprintf("/subscriptions/%v/proforma_invoices/preview.json", subscriptionId),
+    )
+    req.Authenticate(true)
+    
+    var result models.ProformaInvoicePreview
+    decoder, resp, err := req.CallAsJson()
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    err = validateResponse(*resp)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    result, err = utilities.DecodeResults[models.ProformaInvoicePreview](decoder)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    if resp.StatusCode == 404 {
+        err = errors.NewApiError(404, "Not Found")
+    }
+    if resp.StatusCode == 422 {
+        err = errors.NewErrorListResponse(422, "Unprocessable Entity (WebDAV)")
+    }
+    return models.NewApiResponse(result, resp), err
 }
 
 // CreateSignupProformaInvoice takes context, body as parameters and
@@ -368,41 +353,38 @@ func (p *ProformaInvoicesController) PreviewProformaInvoice(
 // Pass a payload that resembles a subscription create or signup preview request. For example, you can specify components, coupons/a referral, offers, custom pricing, and an existing customer or payment profile to populate a shipping or billing address.
 // A product and customer first name, last name, and email are the minimum requirements. We recommend associating the proforma invoice with a customer_id to easily find their proforma invoices, since the subscription_id will always be blank.
 func (p *ProformaInvoicesController) CreateSignupProformaInvoice(
-	ctx context.Context,
-	body *models.CreateSubscriptionRequest) (
-	models.ApiResponse[models.ProformaInvoice],
-	error) {
-	req := p.prepareRequest(ctx, "POST", "/subscriptions/proforma_invoices.json")
-	req.Authenticate(true)
-	req.Header("Content-Type", "application/json")
-	if body != nil {
-		req.Json(*body)
-	}
-	var result models.ProformaInvoice
-	decoder, resp, err := req.CallAsJson()
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-	err = validateResponse(*resp)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	result, err = utilities.DecodeResults[models.ProformaInvoice](decoder)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	if resp.StatusCode == 400 {
-		err = errors.NewProformaBadRequestErrorResponse(400, "Bad Request")
-	}
-	if resp.StatusCode == 403 {
-		err = errors.NewApiError(403, "Forbidden")
-	}
-	if resp.StatusCode == 422 {
-		err = errors.NewErrorMapResponse(422, "Unprocessable Entity (WebDAV)")
-	}
-	return models.NewApiResponse(result, resp), err
+    ctx context.Context,
+    body *models.CreateSubscriptionRequest) (
+    models.ApiResponse[models.ProformaInvoice],
+    error) {
+    req := p.prepareRequest(ctx, "POST", "/subscriptions/proforma_invoices.json")
+    req.Authenticate(true)
+    req.Header("Content-Type", "application/json")
+    if body != nil {
+        req.Json(*body)
+    }
+    var result models.ProformaInvoice
+    decoder, resp, err := req.CallAsJson()
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    err = validateResponse(*resp)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    result, err = utilities.DecodeResults[models.ProformaInvoice](decoder)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    if resp.StatusCode == 400 {
+        err = errors.NewProformaBadRequestErrorResponse(400, "Bad Request")
+    }
+    if resp.StatusCode == 422 {
+        err = errors.NewErrorMapResponse(422, "Unprocessable Entity (WebDAV)")
+    }
+    return models.NewApiResponse(result, resp), err
 }
 
 // PreviewSignupProformaInvoice takes context, includeNextProformaInvoice, body as parameters and
@@ -413,47 +395,44 @@ func (p *ProformaInvoicesController) CreateSignupProformaInvoice(
 // Pass a payload that resembles a subscription create or signup preview request. For example, you can specify components, coupons/a referral, offers, custom pricing, and an existing customer or payment profile to populate a shipping or billing address.
 // A product and customer first name, last name, and email are the minimum requirements.
 func (p *ProformaInvoicesController) PreviewSignupProformaInvoice(
-	ctx context.Context,
-	includeNextProformaInvoice *string,
-	body *models.CreateSubscriptionRequest) (
-	models.ApiResponse[models.SignupProformaPreviewResponse],
-	error) {
-	req := p.prepareRequest(
-		ctx,
-		"POST",
-		"/subscriptions/proforma_invoices/preview.json",
-	)
-	req.Authenticate(true)
-	req.Header("Content-Type", "application/json")
-	if includeNextProformaInvoice != nil {
-		req.QueryParam("include=next_proforma_invoice", *includeNextProformaInvoice)
-	}
-	if body != nil {
-		req.Json(*body)
-	}
-	var result models.SignupProformaPreviewResponse
-	decoder, resp, err := req.CallAsJson()
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-	err = validateResponse(*resp)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	result, err = utilities.DecodeResults[models.SignupProformaPreviewResponse](decoder)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	if resp.StatusCode == 400 {
-		err = errors.NewProformaBadRequestErrorResponse(400, "Bad Request")
-	}
-	if resp.StatusCode == 403 {
-		err = errors.NewApiError(403, "Forbidden")
-	}
-	if resp.StatusCode == 422 {
-		err = errors.NewErrorMapResponse(422, "Unprocessable Entity (WebDAV)")
-	}
-	return models.NewApiResponse(result, resp), err
+    ctx context.Context,
+    includeNextProformaInvoice *string,
+    body *models.CreateSubscriptionRequest) (
+    models.ApiResponse[models.SignupProformaPreviewResponse],
+    error) {
+    req := p.prepareRequest(
+      ctx,
+      "POST",
+      "/subscriptions/proforma_invoices/preview.json",
+    )
+    req.Authenticate(true)
+    req.Header("Content-Type", "application/json")
+    if includeNextProformaInvoice != nil {
+        req.QueryParam("include=next_proforma_invoice", *includeNextProformaInvoice)
+    }
+    if body != nil {
+        req.Json(*body)
+    }
+    var result models.SignupProformaPreviewResponse
+    decoder, resp, err := req.CallAsJson()
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    err = validateResponse(*resp)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    result, err = utilities.DecodeResults[models.SignupProformaPreviewResponse](decoder)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    if resp.StatusCode == 400 {
+        err = errors.NewProformaBadRequestErrorResponse(400, "Bad Request")
+    }
+    if resp.StatusCode == 422 {
+        err = errors.NewErrorMapResponse(422, "Unprocessable Entity (WebDAV)")
+    }
+    return models.NewApiResponse(result, resp), err
 }

@@ -9,7 +9,7 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `SubscriptionGroup` | [`models.SubscriptionGroupSignup`](subscription-group-signup.md) | Required | - |
+| `SubscriptionGroup` | [`models.SubscriptionGroupSignup`](../../doc/models/subscription-group-signup.md) | Required | - |
 
 ## Example (as JSON)
 

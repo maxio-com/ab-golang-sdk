@@ -9,7 +9,7 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `Subscription` | [`models.CreateSubscription`](create-subscription.md) | Required | - |
+| `Subscription` | [`models.CreateSubscription`](../../doc/models/create-subscription.md) | Required | - |
 
 ## Example (as JSON)
 

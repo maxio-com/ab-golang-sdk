@@ -9,8 +9,8 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `CurrentProformaInvoice` | [`*models.ProformaInvoice`](proforma-invoice.md) | Optional | - |
-| `NextProformaInvoice` | [`*models.ProformaInvoice`](proforma-invoice.md) | Optional | - |
+| `CurrentProformaInvoice` | [`*models.ProformaInvoice`](../../doc/models/proforma-invoice.md) | Optional | - |
+| `NextProformaInvoice` | [`*models.ProformaInvoice`](../../doc/models/proforma-invoice.md) | Optional | - |
 
 ## Example (as JSON)
 

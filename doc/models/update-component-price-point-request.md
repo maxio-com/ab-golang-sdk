@@ -9,7 +9,7 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `PricePoint` | [`*models.UpdateComponentPricePoint`](update-component-price-point.md) | Optional | - |
+| `PricePoint` | [`*models.UpdateComponentPricePoint`](../../doc/models/update-component-price-point.md) | Optional | - |
 
 ## Example (as JSON)
 
@@ -17,6 +17,8 @@
 {
   "price_point": {
     "name": "name0",
+    "interval": 44,
+    "interval_unit": "day",
     "prices": [
       {
         "id": 18,

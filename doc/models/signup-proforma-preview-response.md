@@ -9,7 +9,7 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `ProformaInvoicePreview` | [`models.SignupProformaPreview`](signup-proforma-preview.md) | Required | - |
+| `ProformaInvoicePreview` | [`models.SignupProformaPreview`](../../doc/models/signup-proforma-preview.md) | Required | - |
 
 ## Example (as JSON)
 

@@ -10,9 +10,9 @@ advanceInvoiceController := client.AdvanceInvoiceController()
 
 ## Methods
 
-* [Issue Advance Invoice](advance-invoice.md#issue-advance-invoice)
-* [Read Advance Invoice](advance-invoice.md#read-advance-invoice)
-* [Void Advance Invoice](advance-invoice.md#void-advance-invoice)
+* [Issue Advance Invoice](../../doc/controllers/advance-invoice.md#issue-advance-invoice)
+* [Read Advance Invoice](../../doc/controllers/advance-invoice.md#read-advance-invoice)
+* [Void Advance Invoice](../../doc/controllers/advance-invoice.md#void-advance-invoice)
 
 
 # Issue Advance Invoice
@@ -36,11 +36,11 @@ IssueAdvanceInvoice(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription |
-| `body` | [`*models.IssueAdvanceInvoiceRequest`](../models/issue-advance-invoice-request.md) | Body, Optional | - |
+| `body` | [`*models.IssueAdvanceInvoiceRequest`](../../doc/models/issue-advance-invoice-request.md) | Body, Optional | - |
 
 ## Response Type
 
-[`models.Invoice`](../models/invoice.md)
+[`models.Invoice`](../../doc/models/invoice.md)
 
 ## Example Usage
 
@@ -66,9 +66,8 @@ if err != nil {
 
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
-| 403 | Forbidden | `ApiError` |
 | 404 | Not Found | `ApiError` |
-| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../models/error-list-response-exception.md) |
+| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../../doc/models/error-list-response-exception.md) |
 
 
 # Read Advance Invoice
@@ -91,7 +90,7 @@ ReadAdvanceInvoice(
 
 ## Response Type
 
-[`models.Invoice`](../models/invoice.md)
+[`models.Invoice`](../../doc/models/invoice.md)
 
 ## Example Usage
 
@@ -113,7 +112,6 @@ if err != nil {
 
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
-| 403 | Forbidden | `ApiError` |
 | 404 | Not Found | `ApiError` |
 
 
@@ -136,11 +134,11 @@ VoidAdvanceInvoice(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription |
-| `body` | [`*models.VoidInvoiceRequest`](../models/void-invoice-request.md) | Body, Optional | - |
+| `body` | [`*models.VoidInvoiceRequest`](../../doc/models/void-invoice-request.md) | Body, Optional | - |
 
 ## Response Type
 
-[`models.Invoice`](../models/invoice.md)
+[`models.Invoice`](../../doc/models/invoice.md)
 
 ## Example Usage
 
@@ -162,6 +160,5 @@ if err != nil {
 
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
-| 403 | Forbidden | `ApiError` |
 | 404 | Not Found | `ApiError` |
 

@@ -10,11 +10,11 @@ offersController := client.OffersController()
 
 ## Methods
 
-* [Create Offer](offers.md#create-offer)
-* [List Offers](offers.md#list-offers)
-* [Read Offers](offers.md#read-offers)
-* [Archive Offer](offers.md#archive-offer)
-* [Unarchive Offer](offers.md#unarchive-offer)
+* [Create Offer](../../doc/controllers/offers.md#create-offer)
+* [List Offers](../../doc/controllers/offers.md#list-offers)
+* [Read Offers](../../doc/controllers/offers.md#read-offers)
+* [Archive Offer](../../doc/controllers/offers.md#archive-offer)
+* [Unarchive Offer](../../doc/controllers/offers.md#unarchive-offer)
 
 
 # Create Offer
@@ -45,11 +45,11 @@ CreateOffer(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `body` | [`*models.CreateOfferRequest`](../models/create-offer-request.md) | Body, Optional | - |
+| `body` | [`*models.CreateOfferRequest`](../../doc/models/create-offer-request.md) | Body, Optional | - |
 
 ## Response Type
 
-[`models.OfferResponse`](../models/offer-response.md)
+[`models.OfferResponse`](../../doc/models/offer-response.md)
 
 ## Example Usage
 
@@ -132,7 +132,7 @@ if err != nil {
 
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
-| 422 | Unprocessable Entity (WebDAV) | [`ErrorMapResponseException`](../models/error-map-response-exception.md) |
+| 422 | Unprocessable Entity (WebDAV) | [`ErrorMapResponseException`](../../doc/models/error-map-response-exception.md) |
 
 
 # List Offers
@@ -150,13 +150,13 @@ ListOffers(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br>**Default**: `1`<br>**Constraints**: `>= 1` |
-| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`.<br>**Default**: `20`<br>**Constraints**: `<= 200` |
+| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`. |
+| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`. |
 | `includeArchived` | `*bool` | Query, Optional | Include archived products. Use in query: `include_archived=true`. |
 
 ## Response Type
 
-[`models.ListOffersResponse`](../models/list-offers-response.md)
+[`models.ListOffersResponse`](../../doc/models/list-offers-response.md)
 
 ## Example Usage
 
@@ -253,7 +253,7 @@ ReadOffers(
 
 ## Response Type
 
-[`models.OfferResponse`](../models/offer-response.md)
+[`models.OfferResponse`](../../doc/models/offer-response.md)
 
 ## Example Usage
 
@@ -270,12 +270,6 @@ if err != nil {
     fmt.Println(apiResponse.Response.StatusCode)
 }
 ```
-
-## Errors
-
-| HTTP Status Code | Error Description | Exception Class |
-|  --- | --- | --- |
-| 401 | Unauthorized | `ApiError` |
 
 
 # Archive Offer
@@ -314,12 +308,6 @@ if err != nil {
 }
 ```
 
-## Errors
-
-| HTTP Status Code | Error Description | Exception Class |
-|  --- | --- | --- |
-| 401 | Unauthorized | `ApiError` |
-
 
 # Unarchive Offer
 
@@ -356,10 +344,4 @@ if err != nil {
     fmt.Println(resp.StatusCode)
 }
 ```
-
-## Errors
-
-| HTTP Status Code | Error Description | Exception Class |
-|  --- | --- | --- |
-| 401 | Unauthorized | `ApiError` |
 

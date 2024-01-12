@@ -9,7 +9,7 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `SubscriptionsMrr` | [`[]models.SubscriptionMRR`](subscription-mrr.md) | Required | **Constraints**: *Minimum Items*: `1`, *Unique Items Required* |
+| `SubscriptionsMrr` | [`[]models.SubscriptionMRR`](../../doc/models/subscription-mrr.md) | Required | **Constraints**: *Minimum Items*: `1`, *Unique Items Required* |
 
 ## Example (as JSON)
 

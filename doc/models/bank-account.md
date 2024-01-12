@@ -13,7 +13,7 @@
 | `FirstName` | `*string` | Optional | - |
 | `LastName` | `*string` | Optional | - |
 | `CustomerId` | `*int` | Optional | - |
-| `CurrentVault` | [`*models.BankAccountVaultEnum`](bank-account-vault-enum.md) | Optional | The vault that stores the payment profile with the provided vault_token. |
+| `CurrentVault` | [`*models.BankAccountVault`](../../doc/models/bank-account-vault.md) | Optional | The vault that stores the payment profile with the provided vault_token. |
 | `VaultToken` | `*string` | Optional | - |
 | `BillingAddress` | `*string` | Optional | - |
 | `BillingCity` | `*string` | Optional | - |

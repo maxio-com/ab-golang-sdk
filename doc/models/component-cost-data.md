@@ -14,8 +14,8 @@
 | `ProductId` | `*int` | Optional | - |
 | `Quantity` | `*string` | Optional | - |
 | `Amount` | `*string` | Optional | - |
-| `PricingScheme` | [`*models.PricingSchemeEnum`](pricing-scheme-enum.md) | Optional | The identifier for the pricing scheme. See [Product Components](https://help.chargify.com/products/product-components.html) for an overview of pricing schemes. |
-| `Tiers` | [`[]models.ComponentCostDataRateTier`](component-cost-data-rate-tier.md) | Optional | - |
+| `PricingScheme` | [`*models.PricingScheme`](../../doc/models/pricing-scheme.md) | Optional | The identifier for the pricing scheme. See [Product Components](https://help.chargify.com/products/product-components.html) for an overview of pricing schemes. |
+| `Tiers` | [`[]models.ComponentCostDataRateTier`](../../doc/models/component-cost-data-rate-tier.md) | Optional | - |
 
 ## Example (as JSON)
 

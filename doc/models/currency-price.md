@@ -14,7 +14,7 @@
 | `Price` | `*float64` | Optional | - |
 | `FormattedPrice` | `*string` | Optional | - |
 | `ProductPricePointId` | `*int` | Optional | - |
-| `Role` | [`*models.CurrencyPriceRoleEnum`](currency-price-role-enum.md) | Optional | Role for the price. |
+| `Role` | [`*models.CurrencyPriceRole`](../../doc/models/currency-price-role.md) | Optional | Role for the price. |
 
 ## Example (as JSON)
 

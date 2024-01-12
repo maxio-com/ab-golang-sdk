@@ -15,29 +15,29 @@ The following parameters are configurable for the API Client:
 The API client can be initialized as follows:
 
 ```go
-config := maxioadvancedbilling.CreateConfiguration(
-    maxioadvancedbilling.WithHttpConfiguration(
-        maxioadvancedbilling.CreateHttpConfiguration(
-            maxioadvancedbilling.WithTimeout(0),
-            maxioadvancedbilling.WithTransport(http.DefaultTransport),
-            maxioadvancedbilling.WithRetryConfiguration(
-                maxioadvancedbilling.CreateRetryConfiguration(
-                    maxioadvancedbilling.WithMaxRetryAttempts(0),
-                    maxioadvancedbilling.WithRetryOnTimeout(true),
-                    maxioadvancedbilling.WithRetryInterval(1),
-                    maxioadvancedbilling.WithMaximumRetryWaitTime(0),
-                    maxioadvancedbilling.WithBackoffFactor(2),
-                    maxioadvancedbilling.WithHttpStatusCodesToRetry([]int64{408, 413, 429, 500, 502, 503, 504, 521, 522, 524}),
-                    maxioadvancedbilling.WithHttpMethodsToRetry([]string{"GET", "PUT"}),
+config := advancedbilling.CreateConfiguration(
+    advancedbilling.WithHttpConfiguration(
+        advancedbilling.CreateHttpConfiguration(
+            advancedbilling.WithTimeout(30),
+            advancedbilling.WithTransport(http.DefaultTransport),
+            advancedbilling.WithRetryConfiguration(
+                advancedbilling.CreateRetryConfiguration(
+                    advancedbilling.WithMaxRetryAttempts(0),
+                    advancedbilling.WithRetryOnTimeout(true),
+                    advancedbilling.WithRetryInterval(1),
+                    advancedbilling.WithMaximumRetryWaitTime(0),
+                    advancedbilling.WithBackoffFactor(2),
+                    advancedbilling.WithHttpStatusCodesToRetry([]int64{408, 413, 429, 500, 502, 503, 504, 521, 522, 524, 408, 413, 429, 500, 502, 503, 504, 521, 522, 524}),
+                    advancedbilling.WithHttpMethodsToRetry([]string{"GET", "PUT", "GET", "PUT"}),
                 ),
             ),
         ),
     ),
-    maxioadvancedbilling.WithEnvironment(maxioadvancedbilling.PRODUCTION),
-    maxioadvancedbilling.WithBasicAuthUserName("BasicAuthUserName"),
-    maxioadvancedbilling.WithBasicAuthPassword("BasicAuthPassword"),
+    advancedbilling.WithEnvironment(advancedbilling.PRODUCTION),
+    advancedbilling.WithBasicAuthUserName("BasicAuthUserName"),
+    advancedbilling.WithBasicAuthPassword("BasicAuthPassword"),
 )
-client := maxioadvancedbilling.NewClient(config)
+client := advancedbilling.NewClient(config)
 ```
 
 ## Maxio Advanced Billing Client

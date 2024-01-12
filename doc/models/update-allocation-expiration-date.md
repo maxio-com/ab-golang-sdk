@@ -9,7 +9,7 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `Allocation` | [`*models.AllocationExpirationDate`](allocation-expiration-date.md) | Optional | - |
+| `Allocation` | [`*models.AllocationExpirationDate`](../../doc/models/allocation-expiration-date.md) | Optional | - |
 
 ## Example (as JSON)
 

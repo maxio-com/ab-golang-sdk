@@ -9,7 +9,7 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `Segment` | [`models.UpdateSegment`](update-segment.md) | Required | - |
+| `Segment` | [`models.UpdateSegment`](../../doc/models/update-segment.md) | Required | - |
 
 ## Example (as JSON)
 

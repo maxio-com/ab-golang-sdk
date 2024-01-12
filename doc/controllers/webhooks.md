@@ -10,12 +10,12 @@ webhooksController := client.WebhooksController()
 
 ## Methods
 
-* [List Webhooks](webhooks.md#list-webhooks)
-* [Enable Webhooks](webhooks.md#enable-webhooks)
-* [Replay Webhooks](webhooks.md#replay-webhooks)
-* [Create Endpoint](webhooks.md#create-endpoint)
-* [List Endpoints](webhooks.md#list-endpoints)
-* [Update Endpoint](webhooks.md#update-endpoint)
+* [List Webhooks](../../doc/controllers/webhooks.md#list-webhooks)
+* [Enable Webhooks](../../doc/controllers/webhooks.md#enable-webhooks)
+* [Replay Webhooks](../../doc/controllers/webhooks.md#replay-webhooks)
+* [Create Endpoint](../../doc/controllers/webhooks.md#create-endpoint)
+* [List Endpoints](../../doc/controllers/webhooks.md#list-endpoints)
+* [Update Endpoint](../../doc/controllers/webhooks.md#update-endpoint)
 
 
 # List Webhooks
@@ -46,17 +46,17 @@ ListWebhooks(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `status` | [`*models.WebhookStatusEnum`](../models/webhook-status-enum.md) | Query, Optional | Webhooks with matching status would be returned. |
+| `status` | [`*models.WebhookStatus`](../../doc/models/webhook-status.md) | Query, Optional | Webhooks with matching status would be returned. |
 | `sinceDate` | `*string` | Query, Optional | Format YYYY-MM-DD. Returns Webhooks with the created_at date greater than or equal to the one specified. |
 | `untilDate` | `*string` | Query, Optional | Format YYYY-MM-DD. Returns Webhooks with the created_at date less than or equal to the one specified. |
-| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br>**Default**: `1`<br>**Constraints**: `>= 1` |
-| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`.<br>**Default**: `20`<br>**Constraints**: `<= 200` |
-| `order` | [`*models.WebhookOrderEnum`](../models/webhook-order-enum.md) | Query, Optional | The order in which the Webhooks are returned. |
+| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`. |
+| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`. |
+| `order` | [`*models.WebhookOrder`](../../doc/models/webhook-order.md) | Query, Optional | The order in which the Webhooks are returned. |
 | `subscription` | `*int` | Query, Optional | The Chargify id of a subscription you'd like to filter for |
 
 ## Response Type
 
-[`[]models.WebhookResponse`](../models/webhook-response.md)
+[`[]models.WebhookResponse`](../../doc/models/webhook-response.md)
 
 ## Example Usage
 
@@ -131,11 +131,11 @@ EnableWebhooks(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `body` | [`*models.EnableWebhooksRequest`](../models/enable-webhooks-request.md) | Body, Optional | - |
+| `body` | [`*models.EnableWebhooksRequest`](../../doc/models/enable-webhooks-request.md) | Body, Optional | - |
 
 ## Response Type
 
-[`models.EnableWebhooksResponse`](../models/enable-webhooks-response.md)
+[`models.EnableWebhooksResponse`](../../doc/models/enable-webhooks-response.md)
 
 ## Example Usage
 
@@ -183,11 +183,11 @@ ReplayWebhooks(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `body` | [`*models.ReplayWebhooksRequest`](../models/replay-webhooks-request.md) | Body, Optional | - |
+| `body` | [`*models.ReplayWebhooksRequest`](../../doc/models/replay-webhooks-request.md) | Body, Optional | - |
 
 ## Response Type
 
-[`models.ReplayWebhooksResponse`](../models/replay-webhooks-response.md)
+[`models.ReplayWebhooksResponse`](../../doc/models/replay-webhooks-response.md)
 
 ## Example Usage
 
@@ -236,11 +236,11 @@ CreateEndpoint(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `body` | [`*models.UpdateEndpointRequest`](../models/update-endpoint-request.md) | Body, Optional | - |
+| `body` | [`*models.UpdateEndpointRequest`](../../doc/models/update-endpoint-request.md) | Body, Optional | Used to Create or Update Endpoint |
 
 ## Response Type
 
-[`models.EndpointResponse`](../models/endpoint-response.md)
+[`models.EndpointResponse`](../../doc/models/endpoint-response.md)
 
 ## Example Usage
 
@@ -249,7 +249,7 @@ ctx := context.Background()
 
 bodyEndpoint := models.UpdateEndpoint{
     Url:                  "https://your.site/webhooks",
-    WebhookSubscriptions: []models.WebhookSubscriptionEnum{models.WebhookSubscriptionEnum("payment_success"), models.WebhookSubscriptionEnum("payment_failure")},
+    WebhookSubscriptions: []models.WebhookSubscription{models.WebhookSubscription("payment_success"), models.WebhookSubscription("payment_failure")},
 }
 
 body := models.UpdateEndpointRequest{
@@ -287,7 +287,7 @@ if err != nil {
 
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
-| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../models/error-list-response-exception.md) |
+| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../../doc/models/error-list-response-exception.md) |
 
 
 # List Endpoints
@@ -303,7 +303,7 @@ ListEndpoints(
 
 ## Response Type
 
-[`[]models.Endpoint`](../models/endpoint.md)
+[`[]models.Endpoint`](../../doc/models/endpoint.md)
 
 ## Example Usage
 
@@ -374,11 +374,11 @@ UpdateEndpoint(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `endpointId` | `int` | Template, Required | The Chargify id for the endpoint that should be updated |
-| `body` | [`*models.UpdateEndpointRequest`](../models/update-endpoint-request.md) | Body, Optional | - |
+| `body` | [`*models.UpdateEndpointRequest`](../../doc/models/update-endpoint-request.md) | Body, Optional | Used to Create or Update Endpoint |
 
 ## Response Type
 
-[`models.EndpointResponse`](../models/endpoint-response.md)
+[`models.EndpointResponse`](../../doc/models/endpoint-response.md)
 
 ## Example Usage
 
@@ -388,7 +388,7 @@ endpointId := 42
 
 bodyEndpoint := models.UpdateEndpoint{
     Url:                  "https://yout.site/webhooks/1/json.",
-    WebhookSubscriptions: []models.WebhookSubscriptionEnum{models.WebhookSubscriptionEnum("payment_failure"), models.WebhookSubscriptionEnum("payment_success"), models.WebhookSubscriptionEnum("refund_failure")},
+    WebhookSubscriptions: []models.WebhookSubscription{models.WebhookSubscription("payment_failure"), models.WebhookSubscription("payment_success"), models.WebhookSubscription("refund_failure")},
 }
 
 body := models.UpdateEndpointRequest{
@@ -410,5 +410,5 @@ if err != nil {
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
 | 404 | Not Found | `ApiError` |
-| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../models/error-list-response-exception.md) |
+| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../../doc/models/error-list-response-exception.md) |
 

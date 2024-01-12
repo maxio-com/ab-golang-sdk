@@ -1,24 +1,24 @@
-package ab_golang_sdk
+package advancedbilling
 
 import (
-	"context"
-	"fmt"
-	"github.com/apimatic/go-core-runtime/utilities"
-	"maxioadvancedbilling/errors"
-	"maxioadvancedbilling/models"
-	"net/http"
+    "context"
+    "fmt"
+    "github.com/apimatic/go-core-runtime/utilities"
+    "github.com/maxio-com/ab-golang-sdk/errors"
+    "github.com/maxio-com/ab-golang-sdk/models"
+    "net/http"
 )
 
 // CustomFieldsController represents a controller struct.
 type CustomFieldsController struct {
-	baseController
+    baseController
 }
 
 // NewCustomFieldsController creates a new instance of CustomFieldsController.
 // It takes a baseController as a parameter and returns a pointer to the CustomFieldsController.
 func NewCustomFieldsController(baseController baseController) *CustomFieldsController {
-	customFieldsController := CustomFieldsController{baseController: baseController}
-	return &customFieldsController
+    customFieldsController := CustomFieldsController{baseController: baseController}
+    return &customFieldsController
 }
 
 // CreateMetafields takes context, resourceType, body as parameters and
@@ -38,38 +38,41 @@ func NewCustomFieldsController(baseController baseController) *CustomFieldsContr
 // ### Metafield Scope Warning
 // If configuring metafields in the Admin UI or via the API, be careful sending updates to metafields with the scope attribute – **if a partial update is sent it will overwrite the current configuration**.
 func (c *CustomFieldsController) CreateMetafields(
-	ctx context.Context,
-	resourceType models.ResourceTypeEnum,
-	body *models.CreateMetafieldsRequest) (
-	models.ApiResponse[[]models.Metafield],
-	error) {
-	req := c.prepareRequest(
-		ctx,
-		"POST",
-		fmt.Sprintf("/%v/metafields.json", resourceType),
-	)
-	req.Authenticate(true)
-	req.Header("Content-Type", "application/json")
-	if body != nil {
-		req.Json(*body)
-	}
-
-	var result []models.Metafield
-	decoder, resp, err := req.CallAsJson()
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-	err = validateResponse(*resp)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	result, err = utilities.DecodeResults[[]models.Metafield](decoder)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	return models.NewApiResponse(result, resp), err
+    ctx context.Context,
+    resourceType models.ResourceType,
+    body *models.CreateMetafieldsRequest) (
+    models.ApiResponse[[]models.Metafield],
+    error) {
+    req := c.prepareRequest(
+      ctx,
+      "POST",
+      fmt.Sprintf("/%v/metafields.json", resourceType),
+    )
+    req.Authenticate(true)
+    req.Header("Content-Type", "application/json")
+    if body != nil {
+        req.Json(*body)
+    }
+    
+    var result []models.Metafield
+    decoder, resp, err := req.CallAsJson()
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    err = validateResponse(*resp)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    result, err = utilities.DecodeResults[[]models.Metafield](decoder)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    if resp.StatusCode == 422 {
+        err = errors.NewSingleErrorResponse(422, "Unprocessable Entity (WebDAV)")
+    }
+    return models.NewApiResponse(result, resp), err
 }
 
 // ListMetafields takes context, resourceType, name, page, perPage, direction as parameters and
@@ -77,49 +80,49 @@ func (c *CustomFieldsController) CreateMetafields(
 // an error if there was an issue with the request or response.
 // This endpoint lists metafields associated with a site. The metafield description and usage is contained in the response.
 func (c *CustomFieldsController) ListMetafields(
-	ctx context.Context,
-	resourceType models.ResourceTypeEnum,
-	name *string,
-	page *int,
-	perPage *int,
-	direction *models.SortingDirectionEnum) (
-	models.ApiResponse[models.ListMetafieldsResponse],
-	error) {
-	req := c.prepareRequest(
-		ctx,
-		"GET",
-		fmt.Sprintf("/%v/metafields.json", resourceType),
-	)
-	req.Authenticate(true)
-	if name != nil {
-		req.QueryParam("name", *name)
-	}
-	if page != nil {
-		req.QueryParam("page", *page)
-	}
-	if perPage != nil {
-		req.QueryParam("per_page", *perPage)
-	}
-	if direction != nil {
-		req.QueryParam("direction", *direction)
-	}
-
-	var result models.ListMetafieldsResponse
-	decoder, resp, err := req.CallAsJson()
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-	err = validateResponse(*resp)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	result, err = utilities.DecodeResults[models.ListMetafieldsResponse](decoder)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	return models.NewApiResponse(result, resp), err
+    ctx context.Context,
+    resourceType models.ResourceType,
+    name *string,
+    page *int,
+    perPage *int,
+    direction *models.SortingDirection) (
+    models.ApiResponse[models.ListMetafieldsResponse],
+    error) {
+    req := c.prepareRequest(
+      ctx,
+      "GET",
+      fmt.Sprintf("/%v/metafields.json", resourceType),
+    )
+    req.Authenticate(true)
+    if name != nil {
+        req.QueryParam("name", *name)
+    }
+    if page != nil {
+        req.QueryParam("page", *page)
+    }
+    if perPage != nil {
+        req.QueryParam("per_page", *perPage)
+    }
+    if direction != nil {
+        req.QueryParam("direction", *direction)
+    }
+    
+    var result models.ListMetafieldsResponse
+    decoder, resp, err := req.CallAsJson()
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    err = validateResponse(*resp)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    result, err = utilities.DecodeResults[models.ListMetafieldsResponse](decoder)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    return models.NewApiResponse(result, resp), err
 }
 
 // UpdateMetafield takes context, resourceType, name, currentName, body as parameters and
@@ -127,44 +130,44 @@ func (c *CustomFieldsController) ListMetafields(
 // an error if there was an issue with the request or response.
 // Use the following method to update metafields for your Site. Metafields can be populated with metadata after the fact.
 func (c *CustomFieldsController) UpdateMetafield(
-	ctx context.Context,
-	resourceType models.ResourceTypeEnum,
-	name string,
-	currentName *string,
-	body *models.UpdateMetafieldsRequest) (
-	models.ApiResponse[[]models.Metafield],
-	error) {
-	req := c.prepareRequest(
-		ctx,
-		"PUT",
-		fmt.Sprintf("/%v/metafields.json", resourceType),
-	)
-	req.Authenticate(true)
-	req.Header("Content-Type", "application/json")
-	req.QueryParam("name", name)
-	if currentName != nil {
-		req.QueryParam("current_name", *currentName)
-	}
-	if body != nil {
-		req.Json(*body)
-	}
-
-	var result []models.Metafield
-	decoder, resp, err := req.CallAsJson()
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-	err = validateResponse(*resp)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	result, err = utilities.DecodeResults[[]models.Metafield](decoder)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	return models.NewApiResponse(result, resp), err
+    ctx context.Context,
+    resourceType models.ResourceType,
+    name string,
+    currentName *string,
+    body *models.UpdateMetafieldsRequest) (
+    models.ApiResponse[[]models.Metafield],
+    error) {
+    req := c.prepareRequest(
+      ctx,
+      "PUT",
+      fmt.Sprintf("/%v/metafields.json", resourceType),
+    )
+    req.Authenticate(true)
+    req.Header("Content-Type", "application/json")
+    req.QueryParam("name", name)
+    if currentName != nil {
+        req.QueryParam("current_name", *currentName)
+    }
+    if body != nil {
+        req.Json(*body)
+    }
+    
+    var result []models.Metafield
+    decoder, resp, err := req.CallAsJson()
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    err = validateResponse(*resp)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    result, err = utilities.DecodeResults[[]models.Metafield](decoder)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    return models.NewApiResponse(result, resp), err
 }
 
 // DeleteMetafield takes context, resourceType, name as parameters and
@@ -173,36 +176,36 @@ func (c *CustomFieldsController) UpdateMetafield(
 // Use the following method to delete a metafield. This will remove the metafield from the Site.
 // Additionally, this will remove the metafield and associated metadata with all Subscriptions on the Site.
 func (c *CustomFieldsController) DeleteMetafield(
-	ctx context.Context,
-	resourceType models.ResourceTypeEnum,
-	name *string) (
-	*http.Response,
-	error) {
-	req := c.prepareRequest(
-		ctx,
-		"DELETE",
-		fmt.Sprintf("/%v/metafields.json", resourceType),
-	)
-	req.Authenticate(true)
-	if name != nil {
-		req.QueryParam("name", *name)
-	}
-
-	context, err := req.Call()
-	if err != nil {
-		return context.Response, err
-	}
-	err = validateResponse(*context.Response)
-	if err != nil {
-		return context.Response, err
-	}
-	if context.Response.StatusCode == 404 {
-		err = errors.NewApiError(404, "Not Found")
-	}
-	return context.Response, err
+    ctx context.Context,
+    resourceType models.ResourceType,
+    name *string) (
+    *http.Response,
+    error) {
+    req := c.prepareRequest(
+      ctx,
+      "DELETE",
+      fmt.Sprintf("/%v/metafields.json", resourceType),
+    )
+    req.Authenticate(true)
+    if name != nil {
+        req.QueryParam("name", *name)
+    }
+    
+    context, err := req.Call()
+    if err != nil {
+        return context.Response, err
+    }
+    err = validateResponse(*context.Response)
+    if err != nil {
+        return context.Response, err
+    }
+    if context.Response.StatusCode == 404 {
+        err = errors.NewApiError(404, "Not Found")
+    }
+    return context.Response, err
 }
 
-// CreateMetadata takes context, resourceType, resourceId, value, body as parameters and
+// CreateMetadata takes context, resourceType, resourceId, body as parameters and
 // returns an models.ApiResponse with []models.Metadata data and
 // an error if there was an issue with the request or response.
 // ## Custom Fields: Metadata Intro
@@ -218,132 +221,127 @@ func (c *CustomFieldsController) DeleteMetafield(
 // ### Subscription or Customer Resource
 // Please pay special attention to the resource you use when creating metadata.
 func (c *CustomFieldsController) CreateMetadata(
-	ctx context.Context,
-	resourceType models.ResourceTypeEnum,
-	resourceId string,
-	value *string,
-	body *models.CreateMetadataRequest) (
-	models.ApiResponse[[]models.Metadata],
-	error) {
-	req := c.prepareRequest(
-		ctx,
-		"POST",
-		fmt.Sprintf("/%v/%v/metadata.json", resourceType, resourceId),
-	)
-	req.Authenticate(true)
-	req.Header("Content-Type", "application/json")
-	if value != nil {
-		req.QueryParam("value", *value)
-	}
-	if body != nil {
-		req.Json(*body)
-	}
-
-	var result []models.Metadata
-	decoder, resp, err := req.CallAsJson()
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-	err = validateResponse(*resp)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	result, err = utilities.DecodeResults[[]models.Metadata](decoder)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	return models.NewApiResponse(result, resp), err
+    ctx context.Context,
+    resourceType models.ResourceType,
+    resourceId string,
+    body *models.CreateMetadataRequest) (
+    models.ApiResponse[[]models.Metadata],
+    error) {
+    req := c.prepareRequest(
+      ctx,
+      "POST",
+      fmt.Sprintf("/%v/%v/metadata.json", resourceType, resourceId),
+    )
+    req.Authenticate(true)
+    req.Header("Content-Type", "application/json")
+    if body != nil {
+        req.Json(*body)
+    }
+    
+    var result []models.Metadata
+    decoder, resp, err := req.CallAsJson()
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    err = validateResponse(*resp)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    result, err = utilities.DecodeResults[[]models.Metadata](decoder)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    if resp.StatusCode == 422 {
+        err = errors.NewSingleErrorResponse(422, "Unprocessable Entity (WebDAV)")
+    }
+    return models.NewApiResponse(result, resp), err
 }
 
-// ReadMetadata takes context, resourceType, resourceId, page, perPage as parameters and
+// ListMetadata takes context, resourceType, resourceId, page, perPage as parameters and
 // returns an models.ApiResponse with models.PaginatedMetadata data and
 // an error if there was an issue with the request or response.
 // This request will list all of the metadata belonging to a particular resource (ie. subscription, customer) that is specified.
 // ## Metadata Data
 // This endpoint will also display the current stats of your metadata to use as a tool for pagination.
-func (c *CustomFieldsController) ReadMetadata(
-	ctx context.Context,
-	resourceType models.ResourceTypeEnum,
-	resourceId string,
-	page *int,
-	perPage *int) (
-	models.ApiResponse[models.PaginatedMetadata],
-	error) {
-	req := c.prepareRequest(
-		ctx,
-		"GET",
-		fmt.Sprintf("/%v/%v/metadata.json", resourceType, resourceId),
-	)
-	req.Authenticate(true)
-	if page != nil {
-		req.QueryParam("page", *page)
-	}
-	if perPage != nil {
-		req.QueryParam("per_page", *perPage)
-	}
-
-	var result models.PaginatedMetadata
-	decoder, resp, err := req.CallAsJson()
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-	err = validateResponse(*resp)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	result, err = utilities.DecodeResults[models.PaginatedMetadata](decoder)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	return models.NewApiResponse(result, resp), err
+func (c *CustomFieldsController) ListMetadata(
+    ctx context.Context,
+    resourceType models.ResourceType,
+    resourceId string,
+    page *int,
+    perPage *int) (
+    models.ApiResponse[models.PaginatedMetadata],
+    error) {
+    req := c.prepareRequest(
+      ctx,
+      "GET",
+      fmt.Sprintf("/%v/%v/metadata.json", resourceType, resourceId),
+    )
+    req.Authenticate(true)
+    if page != nil {
+        req.QueryParam("page", *page)
+    }
+    if perPage != nil {
+        req.QueryParam("per_page", *perPage)
+    }
+    
+    var result models.PaginatedMetadata
+    decoder, resp, err := req.CallAsJson()
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    err = validateResponse(*resp)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    result, err = utilities.DecodeResults[models.PaginatedMetadata](decoder)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    return models.NewApiResponse(result, resp), err
 }
 
-// UpdateMetadata takes context, resourceType, resourceId, value, body as parameters and
+// UpdateMetadata takes context, resourceType, resourceId, body as parameters and
 // returns an models.ApiResponse with []models.Metadata data and
 // an error if there was an issue with the request or response.
 // This method allows you to update the existing metadata associated with a subscription or customer.
 func (c *CustomFieldsController) UpdateMetadata(
-	ctx context.Context,
-	resourceType models.ResourceTypeEnum,
-	resourceId string,
-	value *string,
-	body *models.UpdateMetadataRequest) (
-	models.ApiResponse[[]models.Metadata],
-	error) {
-	req := c.prepareRequest(
-		ctx,
-		"PUT",
-		fmt.Sprintf("/%v/%v/metadata.json", resourceType, resourceId),
-	)
-	req.Authenticate(true)
-	req.Header("Content-Type", "application/json")
-	if value != nil {
-		req.QueryParam("value", *value)
-	}
-	if body != nil {
-		req.Json(*body)
-	}
-
-	var result []models.Metadata
-	decoder, resp, err := req.CallAsJson()
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-	err = validateResponse(*resp)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	result, err = utilities.DecodeResults[[]models.Metadata](decoder)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	return models.NewApiResponse(result, resp), err
+    ctx context.Context,
+    resourceType models.ResourceType,
+    resourceId string,
+    body *models.UpdateMetadataRequest) (
+    models.ApiResponse[[]models.Metadata],
+    error) {
+    req := c.prepareRequest(
+      ctx,
+      "PUT",
+      fmt.Sprintf("/%v/%v/metadata.json", resourceType, resourceId),
+    )
+    req.Authenticate(true)
+    req.Header("Content-Type", "application/json")
+    if body != nil {
+        req.Json(*body)
+    }
+    
+    var result []models.Metadata
+    decoder, resp, err := req.CallAsJson()
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    err = validateResponse(*resp)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    result, err = utilities.DecodeResults[[]models.Metadata](decoder)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    return models.NewApiResponse(result, resp), err
 }
 
 // DeleteMetadata takes context, resourceType, resourceId, name, names as parameters and
@@ -364,41 +362,41 @@ func (c *CustomFieldsController) UpdateMetadata(
 // ## Unsuccessful Response
 // When a failed response is encountered, you will receive a `404` response and the plain text response of `true`.
 func (c *CustomFieldsController) DeleteMetadata(
-	ctx context.Context,
-	resourceType models.ResourceTypeEnum,
-	resourceId string,
-	name *string,
-	names []string) (
-	*http.Response,
-	error) {
-	req := c.prepareRequest(
-		ctx,
-		"DELETE",
-		fmt.Sprintf("/%v/%v/metadata.json", resourceType, resourceId),
-	)
-	req.Authenticate(true)
-	if name != nil {
-		req.QueryParam("name", *name)
-	}
-	if names != nil {
-		req.QueryParam("names[]", names)
-	}
-
-	context, err := req.Call()
-	if err != nil {
-		return context.Response, err
-	}
-	err = validateResponse(*context.Response)
-	if err != nil {
-		return context.Response, err
-	}
-	if context.Response.StatusCode == 404 {
-		err = errors.NewApiError(404, "Not Found")
-	}
-	return context.Response, err
+    ctx context.Context,
+    resourceType models.ResourceType,
+    resourceId string,
+    name *string,
+    names []string) (
+    *http.Response,
+    error) {
+    req := c.prepareRequest(
+      ctx,
+      "DELETE",
+      fmt.Sprintf("/%v/%v/metadata.json", resourceType, resourceId),
+    )
+    req.Authenticate(true)
+    if name != nil {
+        req.QueryParam("name", *name)
+    }
+    if names != nil {
+        req.QueryParam("names[]", names)
+    }
+    
+    context, err := req.Call()
+    if err != nil {
+        return context.Response, err
+    }
+    err = validateResponse(*context.Response)
+    if err != nil {
+        return context.Response, err
+    }
+    if context.Response.StatusCode == 404 {
+        err = errors.NewApiError(404, "Not Found")
+    }
+    return context.Response, err
 }
 
-// ListMetadata takes context, resourceType, page, perPage, dateField, startDate, endDate, startDatetime, endDatetime, withDeleted, resourceIds, direction as parameters and
+// ListMetadataForResourceType takes context, resourceType, page, perPage, dateField, startDate, endDate, startDatetime, endDatetime, withDeleted, resourceIds, direction as parameters and
 // returns an models.ApiResponse with models.PaginatedMetadata data and
 // an error if there was an issue with the request or response.
 // This method will provide you information on usage of metadata across your selected resource (ie. subscriptions, customers)
@@ -408,72 +406,72 @@ func (c *CustomFieldsController) DeleteMetadata(
 // `https://acme.chargify.com/subscriptions/metadata.json?resource_ids[]=1&resource_ids[]=2`
 // ## Read Metadata for a Site
 // This endpoint will list the number of pages of metadata information that are contained within a site.
-func (c *CustomFieldsController) ListMetadata(
-	ctx context.Context,
-	resourceType models.ResourceTypeEnum,
-	page *int,
-	perPage *int,
-	dateField *models.BasicDateFieldEnum,
-	startDate *string,
-	endDate *string,
-	startDatetime *string,
-	endDatetime *string,
-	withDeleted *bool,
-	resourceIds []int,
-	direction *models.SortingDirectionEnum) (
-	models.ApiResponse[models.PaginatedMetadata],
-	error) {
-	req := c.prepareRequest(
-		ctx,
-		"GET",
-		fmt.Sprintf("/%v/metadata.json", resourceType),
-	)
-	req.Authenticate(true)
-	if page != nil {
-		req.QueryParam("page", *page)
-	}
-	if perPage != nil {
-		req.QueryParam("per_page", *perPage)
-	}
-	if dateField != nil {
-		req.QueryParam("date_field", *dateField)
-	}
-	if startDate != nil {
-		req.QueryParam("start_date", *startDate)
-	}
-	if endDate != nil {
-		req.QueryParam("end_date", *endDate)
-	}
-	if startDatetime != nil {
-		req.QueryParam("start_datetime", *startDatetime)
-	}
-	if endDatetime != nil {
-		req.QueryParam("end_datetime", *endDatetime)
-	}
-	if withDeleted != nil {
-		req.QueryParam("with_deleted", *withDeleted)
-	}
-	if resourceIds != nil {
-		req.QueryParam("resource_ids[]", resourceIds)
-	}
-	if direction != nil {
-		req.QueryParam("direction", *direction)
-	}
-
-	var result models.PaginatedMetadata
-	decoder, resp, err := req.CallAsJson()
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-	err = validateResponse(*resp)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	result, err = utilities.DecodeResults[models.PaginatedMetadata](decoder)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	return models.NewApiResponse(result, resp), err
+func (c *CustomFieldsController) ListMetadataForResourceType(
+    ctx context.Context,
+    resourceType models.ResourceType,
+    page *int,
+    perPage *int,
+    dateField *models.BasicDateField,
+    startDate *string,
+    endDate *string,
+    startDatetime *string,
+    endDatetime *string,
+    withDeleted *bool,
+    resourceIds []int,
+    direction *models.SortingDirection) (
+    models.ApiResponse[models.PaginatedMetadata],
+    error) {
+    req := c.prepareRequest(
+      ctx,
+      "GET",
+      fmt.Sprintf("/%v/metadata.json", resourceType),
+    )
+    req.Authenticate(true)
+    if page != nil {
+        req.QueryParam("page", *page)
+    }
+    if perPage != nil {
+        req.QueryParam("per_page", *perPage)
+    }
+    if dateField != nil {
+        req.QueryParam("date_field", *dateField)
+    }
+    if startDate != nil {
+        req.QueryParam("start_date", *startDate)
+    }
+    if endDate != nil {
+        req.QueryParam("end_date", *endDate)
+    }
+    if startDatetime != nil {
+        req.QueryParam("start_datetime", *startDatetime)
+    }
+    if endDatetime != nil {
+        req.QueryParam("end_datetime", *endDatetime)
+    }
+    if withDeleted != nil {
+        req.QueryParam("with_deleted", *withDeleted)
+    }
+    if resourceIds != nil {
+        req.QueryParam("resource_ids[]", resourceIds)
+    }
+    if direction != nil {
+        req.QueryParam("direction", *direction)
+    }
+    
+    var result models.PaginatedMetadata
+    decoder, resp, err := req.CallAsJson()
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    err = validateResponse(*resp)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    result, err = utilities.DecodeResults[models.PaginatedMetadata](decoder)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    return models.NewApiResponse(result, resp), err
 }

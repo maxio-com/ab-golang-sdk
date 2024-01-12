@@ -1,60 +1,60 @@
 package models
 
 import (
-	"encoding/json"
+    "encoding/json"
 )
 
 // InvoiceCustomField represents a InvoiceCustomField struct.
 type InvoiceCustomField struct {
-	Name      *string `json:"name,omitempty"`
-	Value     *string `json:"value,omitempty"`
-	OwnerId   *int    `json:"owner_id,omitempty"`
-	OwnerType *string `json:"owner_type,omitempty"`
+    Name      *string `json:"name,omitempty"`
+    Value     *string `json:"value,omitempty"`
+    OwnerId   *int    `json:"owner_id,omitempty"`
+    OwnerType *string `json:"owner_type,omitempty"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for InvoiceCustomField.
 // It customizes the JSON marshaling process for InvoiceCustomField objects.
 func (i *InvoiceCustomField) MarshalJSON() (
-	[]byte,
-	error) {
-	return json.Marshal(i.toMap())
+    []byte,
+    error) {
+    return json.Marshal(i.toMap())
 }
 
 // toMap converts the InvoiceCustomField object to a map representation for JSON marshaling.
 func (i *InvoiceCustomField) toMap() map[string]any {
-	structMap := make(map[string]any)
-	if i.Name != nil {
-		structMap["name"] = i.Name
-	}
-	if i.Value != nil {
-		structMap["value"] = i.Value
-	}
-	if i.OwnerId != nil {
-		structMap["owner_id"] = i.OwnerId
-	}
-	if i.OwnerType != nil {
-		structMap["owner_type"] = i.OwnerType
-	}
-	return structMap
+    structMap := make(map[string]any)
+    if i.Name != nil {
+        structMap["name"] = i.Name
+    }
+    if i.Value != nil {
+        structMap["value"] = i.Value
+    }
+    if i.OwnerId != nil {
+        structMap["owner_id"] = i.OwnerId
+    }
+    if i.OwnerType != nil {
+        structMap["owner_type"] = i.OwnerType
+    }
+    return structMap
 }
 
 // UnmarshalJSON implements the json.Unmarshaler interface for InvoiceCustomField.
 // It customizes the JSON unmarshaling process for InvoiceCustomField objects.
 func (i *InvoiceCustomField) UnmarshalJSON(input []byte) error {
-	temp := &struct {
-		Name      *string `json:"name,omitempty"`
-		Value     *string `json:"value,omitempty"`
-		OwnerId   *int    `json:"owner_id,omitempty"`
-		OwnerType *string `json:"owner_type,omitempty"`
-	}{}
-	err := json.Unmarshal(input, &temp)
-	if err != nil {
-		return err
-	}
-
-	i.Name = temp.Name
-	i.Value = temp.Value
-	i.OwnerId = temp.OwnerId
-	i.OwnerType = temp.OwnerType
-	return nil
+    temp := &struct {
+        Name      *string `json:"name,omitempty"`
+        Value     *string `json:"value,omitempty"`
+        OwnerId   *int    `json:"owner_id,omitempty"`
+        OwnerType *string `json:"owner_type,omitempty"`
+    }{}
+    err := json.Unmarshal(input, &temp)
+    if err != nil {
+    	return err
+    }
+    
+    i.Name = temp.Name
+    i.Value = temp.Value
+    i.OwnerId = temp.OwnerId
+    i.OwnerType = temp.OwnerType
+    return nil
 }

@@ -9,7 +9,7 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `PrepaidConfiguration` | [`models.UpsertPrepaidConfiguration`](upsert-prepaid-configuration.md) | Required | - |
+| `PrepaidConfiguration` | [`models.UpsertPrepaidConfiguration`](../../doc/models/upsert-prepaid-configuration.md) | Required | - |
 
 ## Example (as JSON)
 

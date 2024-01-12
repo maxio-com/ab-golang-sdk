@@ -9,10 +9,10 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `OpenInvoices` | [`*models.AccountBalance`](account-balance.md) | Optional | The balance, in cents, of the sum of the subscription's  open, payable invoices. |
-| `PendingDiscounts` | [`*models.AccountBalance`](account-balance.md) | Optional | The balance, in cents, of the subscription's Pending Discount account. |
-| `ServiceCredits` | [`*models.AccountBalance`](account-balance.md) | Optional | The balance, in cents, of the subscription's Service Credit account. |
-| `Prepayments` | [`*models.AccountBalance`](account-balance.md) | Optional | The balance, in cents, of the subscription's Prepayment account. |
+| `OpenInvoices` | [`*models.AccountBalance`](../../doc/models/account-balance.md) | Optional | The balance, in cents, of the sum of the subscription's  open, payable invoices. |
+| `PendingDiscounts` | [`*models.AccountBalance`](../../doc/models/account-balance.md) | Optional | The balance, in cents, of the subscription's Pending Discount account. |
+| `ServiceCredits` | [`*models.AccountBalance`](../../doc/models/account-balance.md) | Optional | The balance, in cents, of the subscription's Service Credit account. |
+| `Prepayments` | [`*models.AccountBalance`](../../doc/models/account-balance.md) | Optional | The balance, in cents, of the subscription's Prepayment account. |
 
 ## Example (as JSON)
 

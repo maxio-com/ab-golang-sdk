@@ -10,7 +10,7 @@
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `CustomerId` | `*int` | Optional | - |
-| `PaymentProfile` | [`*models.SubscriptionGroupPaymentProfile`](subscription-group-payment-profile.md) | Optional | - |
+| `PaymentProfile` | [`*models.SubscriptionGroupPaymentProfile`](../../doc/models/subscription-group-payment-profile.md) | Optional | - |
 | `PaymentCollectionMethod` | `*string` | Optional | - |
 | `SubscriptionIds` | `[]int` | Optional | - |
 | `CreatedAt` | `*string` | Optional | - |

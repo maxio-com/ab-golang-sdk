@@ -10,10 +10,10 @@
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `Id` | `*int` | Optional | - |
-| `EventType` | [`*models.InvoiceEventTypeEnum`](invoice-event-type-enum.md) | Optional | Invoice Event Type |
-| `EventData` | [`*models.InvoiceEvent1`](invoice-event-1.md) | Optional | The event data is the data that, when combined with the command, results in the output invoice found in the invoice field. |
+| `EventType` | [`*models.InvoiceEventType`](../../doc/models/invoice-event-type.md) | Optional | Invoice Event Type |
+| `EventData` | [`*models.InvoiceEvent1`](../../doc/models/invoice-event-1.md) | Optional | The event data is the data that, when combined with the command, results in the output invoice found in the invoice field. |
 | `Timestamp` | `*string` | Optional | - |
-| `Invoice` | [`*models.Invoice`](invoice.md) | Optional | - |
+| `Invoice` | [`*models.Invoice`](../../doc/models/invoice.md) | Optional | - |
 
 ## Example (as JSON)
 

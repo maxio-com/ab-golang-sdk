@@ -14,7 +14,7 @@
 | `DiscountType` | `*string` | Optional | **Constraints**: *Minimum Length*: `1` |
 | `EligibleAmount` | `*string` | Optional | **Constraints**: *Minimum Length*: `1` |
 | `DiscountAmount` | `*string` | Optional | **Constraints**: *Minimum Length*: `1` |
-| `LineItemBreakouts` | [`[]models.ProformaInvoiceDiscountBreakout`](proforma-invoice-discount-breakout.md) | Optional | **Constraints**: *Minimum Items*: `1`, *Unique Items Required* |
+| `LineItemBreakouts` | [`[]models.ProformaInvoiceDiscountBreakout`](../../doc/models/proforma-invoice-discount-breakout.md) | Optional | **Constraints**: *Minimum Items*: `1`, *Unique Items Required* |
 
 ## Example (as JSON)
 

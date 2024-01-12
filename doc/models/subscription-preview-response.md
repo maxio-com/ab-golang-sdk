@@ -9,7 +9,7 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `SubscriptionPreview` | [`models.SubscriptionPreview`](subscription-preview.md) | Required | - |
+| `SubscriptionPreview` | [`models.SubscriptionPreview`](../../doc/models/subscription-preview.md) | Required | - |
 
 ## Example (as JSON)
 
@@ -19,8 +19,8 @@
     "current_billing_manifest": {
       "line_items": [
         {
-          "transaction_type": "transaction_type0",
-          "kind": "kind6",
+          "transaction_type": "credit",
+          "kind": "component",
           "amount_in_cents": 24,
           "memo": "memo2",
           "discount_amount_in_cents": 172
@@ -34,22 +34,22 @@
     "next_billing_manifest": {
       "line_items": [
         {
-          "transaction_type": "transaction_type0",
-          "kind": "kind6",
+          "transaction_type": "credit",
+          "kind": "component",
           "amount_in_cents": 24,
           "memo": "memo2",
           "discount_amount_in_cents": 172
         },
         {
-          "transaction_type": "transaction_type0",
-          "kind": "kind6",
+          "transaction_type": "credit",
+          "kind": "component",
           "amount_in_cents": 24,
           "memo": "memo2",
           "discount_amount_in_cents": 172
         },
         {
-          "transaction_type": "transaction_type0",
-          "kind": "kind6",
+          "transaction_type": "credit",
+          "kind": "component",
           "amount_in_cents": 24,
           "memo": "memo2",
           "discount_amount_in_cents": 172

@@ -9,9 +9,9 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `Subscriptions` | [`map[string]models.SubscriptionGroupSubscriptionError`](subscription-group-subscription-error.md) | Optional | Object that as key have subscription position in request subscriptions array and as value subscription errors object. |
+| `Subscriptions` | [`map[string]models.SubscriptionGroupSubscriptionError`](../../doc/models/subscription-group-subscription-error.md) | Optional | Object that as key have subscription position in request subscriptions array and as value subscription errors object. |
 | `PayerReference` | `*string` | Optional | - |
-| `Payer` | [`*models.PayerError`](payer-error.md) | Optional | - |
+| `Payer` | [`*models.PayerError`](../../doc/models/payer-error.md) | Optional | - |
 | `SubscriptionGroup` | `[]string` | Optional | - |
 | `PaymentProfileId` | `*string` | Optional | - |
 | `PayerId` | `*string` | Optional | - |

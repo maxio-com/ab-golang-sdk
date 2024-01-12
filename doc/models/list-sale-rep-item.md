@@ -12,7 +12,7 @@
 | `Id` | `*int` | Optional | - |
 | `FullName` | `*string` | Optional | - |
 | `SubscriptionsCount` | `*int` | Optional | - |
-| `MrrData` | [`map[string]models.SaleRepItemMrr`](sale-rep-item-mrr.md) | Optional | - |
+| `MrrData` | [`map[string]models.SaleRepItemMrr`](../../doc/models/sale-rep-item-mrr.md) | Optional | - |
 | `TestMode` | `*bool` | Optional | - |
 
 ## Example (as JSON)

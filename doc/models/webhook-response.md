@@ -9,7 +9,7 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `Webhook` | [`*models.Webhook`](webhook.md) | Optional | - |
+| `Webhook` | [`*models.Webhook`](../../doc/models/webhook.md) | Optional | - |
 
 ## Example (as JSON)
 

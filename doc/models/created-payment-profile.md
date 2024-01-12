@@ -17,7 +17,7 @@
 | `ExpirationMonth` | `*int` | Optional | - |
 | `ExpirationYear` | `*int` | Optional | - |
 | `CustomerId` | `*int` | Optional | - |
-| `CurrentVault` | [`*models.CurrentVaultEnum`](current-vault-enum.md) | Optional | The vault that stores the payment profile with the provided `vault_token`. Use `bogus` for testing. |
+| `CurrentVault` | [`*models.CurrentVault`](../../doc/models/current-vault.md) | Optional | The vault that stores the payment profile with the provided `vault_token`. Use `bogus` for testing. |
 | `VaultToken` | `*string` | Optional | - |
 | `BillingAddress` | `*string` | Optional | - |
 | `BillingCity` | `*string` | Optional | - |
@@ -35,6 +35,7 @@
 | `Verified` | `*bool` | Optional | - |
 | `SiteGatewaySettingId` | `*int` | Optional | - |
 | `GatewayHandle` | `*string` | Optional | - |
+| `Disabled` | `*bool` | Optional | - |
 
 ## Example (as JSON)
 

@@ -9,7 +9,7 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `Endpoint` | [`*models.Endpoint`](endpoint.md) | Optional | - |
+| `Endpoint` | [`*models.Endpoint`](../../doc/models/endpoint.md) | Optional | - |
 
 ## Example (as JSON)
 

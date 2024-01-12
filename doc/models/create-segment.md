@@ -13,8 +13,8 @@
 | `SegmentProperty2Value` | `*interface{}` | Optional | A value that will occur in your events that you want to bill upon. The type of the value depends on the property type in the related event based billing metric. |
 | `SegmentProperty3Value` | `*interface{}` | Optional | A value that will occur in your events that you want to bill upon. The type of the value depends on the property type in the related event based billing metric. |
 | `SegmentProperty4Value` | `*interface{}` | Optional | A value that will occur in your events that you want to bill upon. The type of the value depends on the property type in the related event based billing metric. |
-| `PricingScheme` | [`models.PricingSchemeEnum`](pricing-scheme-enum.md) | Required | The identifier for the pricing scheme. See [Product Components](https://help.chargify.com/products/product-components.html) for an overview of pricing schemes. |
-| `Prices` | [`[]models.CreateOrUpdateSegmentPrice`](create-or-update-segment-price.md) | Optional | - |
+| `PricingScheme` | [`models.PricingScheme`](../../doc/models/pricing-scheme.md) | Required | The identifier for the pricing scheme. See [Product Components](https://help.chargify.com/products/product-components.html) for an overview of pricing schemes. |
+| `Prices` | [`[]models.CreateOrUpdateSegmentPrice`](../../doc/models/create-or-update-segment-price.md) | Optional | - |
 
 ## Example (as JSON)
 

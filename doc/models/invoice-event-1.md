@@ -20,20 +20,20 @@ The event data is the data that, when combined with the command, results in the 
 | `Memo` | `*string` | Optional | The credit note memo. |
 | `Role` | `*string` | Optional | The role of the credit note (e.g. 'general') |
 | `ConsolidatedInvoice` | `*bool` | Optional | Shows whether it was applied to consolidated invoice or not |
-| `AppliedCreditNotes` | [`[]models.AppliedCreditNote`](applied-credit-note.md) | Optional | List of credit notes applied to children invoices (if consolidated invoice) |
+| `AppliedCreditNotes` | [`[]models.AppliedCreditNote`](../../doc/models/applied-credit-note.md) | Optional | List of credit notes applied to children invoices (if consolidated invoice) |
 | `DebitNoteNumber` | `*string` | Optional | A unique, identifying string that appears on the debit note and in places it is referenced. |
 | `DebitNoteUid` | `*string` | Optional | Unique identifier for the debit note. It is generated automatically by Chargify and has the prefix "db_" followed by alphanumeric characters. |
-| `PaymentMethod` | [`*models.PaymentMethodNestedData`](payment-method-nested-data.md) | Optional | A nested data structure detailing the method of payment |
+| `PaymentMethod` | [`*models.PaymentMethodNestedData`](../../doc/models/payment-method-nested-data.md) | Optional | A nested data structure detailing the method of payment |
 | `TransactionId` | `*int` | Optional | The Chargify id of the original payment |
 | `FromCollectionMethod` | `*string` | Optional | The previous collection method of the invoice. |
 | `ToCollectionMethod` | `*string` | Optional | The new collection method of the invoice. |
-| `ConsolidationLevel` | [`*models.InvoiceConsolidationLevelEnum`](invoice-consolidation-level-enum.md) | Optional | Consolidation level of the invoice, which is applicable to invoice consolidation.  It will hold one of the following values:<br><br>* "none": A normal invoice with no consolidation.<br>* "child": An invoice segment which has been combined into a consolidated invoice.<br>* "parent": A consolidated invoice, whose contents are composed of invoice segments.<br><br>"Parent" invoices do not have lines of their own, but they have subtotals and totals which aggregate the member invoice segments.<br><br>See also the [invoice consolidation documentation](https://chargify.zendesk.com/hc/en-us/articles/4407746391835). |
-| `FromStatus` | [`*models.StatusEnum`](status-enum.md) | Optional | The status of the invoice before event occurence. See [Invoice Statuses](https://chargify.zendesk.com/hc/en-us/articles/4407737494171#line-item-breakdowns) for more. |
-| `ToStatus` | [`*models.StatusEnum`](status-enum.md) | Optional | The status of the invoice after event occurence. See [Invoice Statuses](https://chargify.zendesk.com/hc/en-us/articles/4407737494171#line-item-breakdowns) for more. |
+| `ConsolidationLevel` | [`*models.InvoiceConsolidationLevel`](../../doc/models/invoice-consolidation-level.md) | Optional | Consolidation level of the invoice, which is applicable to invoice consolidation.  It will hold one of the following values:<br><br>* "none": A normal invoice with no consolidation.<br>* "child": An invoice segment which has been combined into a consolidated invoice.<br>* "parent": A consolidated invoice, whose contents are composed of invoice segments.<br><br>"Parent" invoices do not have lines of their own, but they have subtotals and totals which aggregate the member invoice segments.<br><br>See also the [invoice consolidation documentation](https://chargify.zendesk.com/hc/en-us/articles/4407746391835). |
+| `FromStatus` | [`*models.InvoiceStatus`](../../doc/models/invoice-status.md) | Optional | The status of the invoice before event occurence. See [Invoice Statuses](https://chargify.zendesk.com/hc/en-us/articles/4407737494171#line-item-breakdowns) for more. |
+| `ToStatus` | [`*models.InvoiceStatus`](../../doc/models/invoice-status.md) | Optional | The status of the invoice after event occurence. See [Invoice Statuses](https://chargify.zendesk.com/hc/en-us/articles/4407737494171#line-item-breakdowns) for more. |
 | `DueAmount` | `*string` | Optional | Amount due on the invoice, which is `total_amount - credit_amount - paid_amount`. |
 | `TotalAmount` | `*string` | Optional | The invoice total, which is `subtotal_amount - discount_amount + tax_amount`.' |
 | `ApplyCredit` | `*bool` | Optional | If true, credit was created and applied it to the invoice. |
-| `CreditNoteAttributes` | [`*models.CreditNote1`](credit-note-1.md) | Optional | - |
+| `CreditNoteAttributes` | [`*models.CreditNote1`](../../doc/models/credit-note-1.md) | Optional | - |
 | `PaymentId` | `*int` | Optional | The ID of the payment transaction to be refunded. |
 | `RefundAmount` | `*string` | Optional | The amount of the refund. |
 | `RefundId` | `*int` | Optional | The ID of the refund transaction. |

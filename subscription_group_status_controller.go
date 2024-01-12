@@ -1,24 +1,24 @@
-package ab_golang_sdk
+package advancedbilling
 
 import (
-	"context"
-	"fmt"
-	"github.com/apimatic/go-core-runtime/utilities"
-	"maxioadvancedbilling/errors"
-	"maxioadvancedbilling/models"
-	"net/http"
+    "context"
+    "fmt"
+    "github.com/apimatic/go-core-runtime/utilities"
+    "github.com/maxio-com/ab-golang-sdk/errors"
+    "github.com/maxio-com/ab-golang-sdk/models"
+    "net/http"
 )
 
 // SubscriptionGroupStatusController represents a controller struct.
 type SubscriptionGroupStatusController struct {
-	baseController
+    baseController
 }
 
 // NewSubscriptionGroupStatusController creates a new instance of SubscriptionGroupStatusController.
 // It takes a baseController as a parameter and returns a pointer to the SubscriptionGroupStatusController.
 func NewSubscriptionGroupStatusController(baseController baseController) *SubscriptionGroupStatusController {
-	subscriptionGroupStatusController := SubscriptionGroupStatusController{baseController: baseController}
-	return &subscriptionGroupStatusController
+    subscriptionGroupStatusController := SubscriptionGroupStatusController{baseController: baseController}
+    return &subscriptionGroupStatusController
 }
 
 // CancelSubscriptionsInGroup takes context, uid, body as parameters and
@@ -27,34 +27,34 @@ func NewSubscriptionGroupStatusController(baseController baseController) *Subscr
 // This endpoint will immediately cancel all subscriptions within the specified group. The group is identified by it's `uid` passed in the URL. To successfully cancel the group, the primary subscription must be on automatic billing. The group members as well must be on automatic billing or they must be prepaid.
 // In order to cancel a subscription group while also charging for any unbilled usage on metered or prepaid components, the `charge_unbilled_usage=true` parameter must be included in the request.
 func (s *SubscriptionGroupStatusController) CancelSubscriptionsInGroup(
-	ctx context.Context,
-	uid string,
-	body *models.CancelGroupedSubscriptionsRequest) (
-	*http.Response,
-	error) {
-	req := s.prepareRequest(
-		ctx,
-		"POST",
-		fmt.Sprintf("/subscription_groups/%v/cancel.json", uid),
-	)
-	req.Authenticate(true)
-	req.Header("Content-Type", "application/json")
-	if body != nil {
-		req.Json(*body)
-	}
-
-	context, err := req.Call()
-	if err != nil {
-		return context.Response, err
-	}
-	err = validateResponse(*context.Response)
-	if err != nil {
-		return context.Response, err
-	}
-	if context.Response.StatusCode == 422 {
-		err = errors.NewErrorListResponse(422, "Unprocessable Entity (WebDAV)")
-	}
-	return context.Response, err
+    ctx context.Context,
+    uid string,
+    body *models.CancelGroupedSubscriptionsRequest) (
+    *http.Response,
+    error) {
+    req := s.prepareRequest(
+      ctx,
+      "POST",
+      fmt.Sprintf("/subscription_groups/%v/cancel.json", uid),
+    )
+    req.Authenticate(true)
+    req.Header("Content-Type", "application/json")
+    if body != nil {
+        req.Json(*body)
+    }
+    
+    context, err := req.Call()
+    if err != nil {
+        return context.Response, err
+    }
+    err = validateResponse(*context.Response)
+    if err != nil {
+        return context.Response, err
+    }
+    if context.Response.StatusCode == 422 {
+        err = errors.NewErrorListResponse(422, "Unprocessable Entity (WebDAV)")
+    }
+    return context.Response, err
 }
 
 // InitiateDelayedCancellationForGroup takes context, uid as parameters and
@@ -63,29 +63,29 @@ func (s *SubscriptionGroupStatusController) CancelSubscriptionsInGroup(
 // This endpoint will schedule all subscriptions within the specified group to be canceled at the end of their billing period. The group is identified by it's uid passed in the URL.
 // All subscriptions in the group must be on automatic billing in order to successfully cancel them, and the group must not be in a "past_due" state.
 func (s *SubscriptionGroupStatusController) InitiateDelayedCancellationForGroup(
-	ctx context.Context,
-	uid string) (
-	*http.Response,
-	error) {
-	req := s.prepareRequest(
-		ctx,
-		"POST",
-		fmt.Sprintf("/subscription_groups/%v/delayed_cancel.json", uid),
-	)
-	req.Authenticate(true)
-
-	context, err := req.Call()
-	if err != nil {
-		return context.Response, err
-	}
-	err = validateResponse(*context.Response)
-	if err != nil {
-		return context.Response, err
-	}
-	if context.Response.StatusCode == 422 {
-		err = errors.NewErrorListResponse(422, "Unprocessable Entity (WebDAV)")
-	}
-	return context.Response, err
+    ctx context.Context,
+    uid string) (
+    *http.Response,
+    error) {
+    req := s.prepareRequest(
+      ctx,
+      "POST",
+      fmt.Sprintf("/subscription_groups/%v/delayed_cancel.json", uid),
+    )
+    req.Authenticate(true)
+    
+    context, err := req.Call()
+    if err != nil {
+        return context.Response, err
+    }
+    err = validateResponse(*context.Response)
+    if err != nil {
+        return context.Response, err
+    }
+    if context.Response.StatusCode == 422 {
+        err = errors.NewErrorListResponse(422, "Unprocessable Entity (WebDAV)")
+    }
+    return context.Response, err
 }
 
 // StopDelayedCancellationForGroup takes context, uid as parameters and
@@ -93,29 +93,29 @@ func (s *SubscriptionGroupStatusController) InitiateDelayedCancellationForGroup(
 // an error if there was an issue with the request or response.
 // Removing the delayed cancellation on a subscription group will ensure that the subscriptions do not get canceled at the end of the period. The request will reset the `cancel_at_end_of_period` flag to false on each member in the group.
 func (s *SubscriptionGroupStatusController) StopDelayedCancellationForGroup(
-	ctx context.Context,
-	uid string) (
-	*http.Response,
-	error) {
-	req := s.prepareRequest(
-		ctx,
-		"DELETE",
-		fmt.Sprintf("/subscription_groups/%v/delayed_cancel.json", uid),
-	)
-	req.Authenticate(true)
-
-	context, err := req.Call()
-	if err != nil {
-		return context.Response, err
-	}
-	err = validateResponse(*context.Response)
-	if err != nil {
-		return context.Response, err
-	}
-	if context.Response.StatusCode == 422 {
-		err = errors.NewErrorListResponse(422, "Unprocessable Entity (WebDAV)")
-	}
-	return context.Response, err
+    ctx context.Context,
+    uid string) (
+    *http.Response,
+    error) {
+    req := s.prepareRequest(
+      ctx,
+      "DELETE",
+      fmt.Sprintf("/subscription_groups/%v/delayed_cancel.json", uid),
+    )
+    req.Authenticate(true)
+    
+    context, err := req.Call()
+    if err != nil {
+        return context.Response, err
+    }
+    err = validateResponse(*context.Response)
+    if err != nil {
+        return context.Response, err
+    }
+    if context.Response.StatusCode == 422 {
+        err = errors.NewErrorListResponse(422, "Unprocessable Entity (WebDAV)")
+    }
+    return context.Response, err
 }
 
 // ReactivateSubscriptionGroup takes context, uid, body as parameters and
@@ -132,39 +132,39 @@ func (s *SubscriptionGroupStatusController) StopDelayedCancellationForGroup(
 // Member subscriptions can have billing periods that are longer than the primary (e.g. a monthly primary with annual group members). If the primary subscription in a group cannot be reactivated within the current period, but other group members can be, passing `resume_members=true` will resume the existing billing period for eligible group members. The primary subscription will begin a new billing period.
 // For calendar billing subscriptions, the new billing period created will be a partial one, spanning from the date of reactivation to the next corresponding calendar renewal date.
 func (s *SubscriptionGroupStatusController) ReactivateSubscriptionGroup(
-	ctx context.Context,
-	uid string,
-	body *models.ReactivateSubscriptionGroupRequest) (
-	models.ApiResponse[models.ReactivateSubscriptionGroupResponse],
-	error) {
-	req := s.prepareRequest(
-		ctx,
-		"POST",
-		fmt.Sprintf("/subscription_groups/%v/reactivate.json", uid),
-	)
-	req.Authenticate(true)
-	req.Header("Content-Type", "application/json")
-	if body != nil {
-		req.Json(*body)
-	}
-
-	var result models.ReactivateSubscriptionGroupResponse
-	decoder, resp, err := req.CallAsJson()
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-	err = validateResponse(*resp)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	result, err = utilities.DecodeResults[models.ReactivateSubscriptionGroupResponse](decoder)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	if resp.StatusCode == 422 {
-		err = errors.NewErrorListResponse(422, "Unprocessable Entity (WebDAV)")
-	}
-	return models.NewApiResponse(result, resp), err
+    ctx context.Context,
+    uid string,
+    body *models.ReactivateSubscriptionGroupRequest) (
+    models.ApiResponse[models.ReactivateSubscriptionGroupResponse],
+    error) {
+    req := s.prepareRequest(
+      ctx,
+      "POST",
+      fmt.Sprintf("/subscription_groups/%v/reactivate.json", uid),
+    )
+    req.Authenticate(true)
+    req.Header("Content-Type", "application/json")
+    if body != nil {
+        req.Json(*body)
+    }
+    
+    var result models.ReactivateSubscriptionGroupResponse
+    decoder, resp, err := req.CallAsJson()
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    err = validateResponse(*resp)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    result, err = utilities.DecodeResults[models.ReactivateSubscriptionGroupResponse](decoder)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    if resp.StatusCode == 422 {
+        err = errors.NewErrorListResponse(422, "Unprocessable Entity (WebDAV)")
+    }
+    return models.NewApiResponse(result, resp), err
 }

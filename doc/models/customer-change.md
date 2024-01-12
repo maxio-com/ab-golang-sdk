@@ -9,10 +9,10 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `Payer` | [`*models.CustomerPayerChange`](customer-payer-change.md) | Optional | - |
-| `ShippingAddress` | [`*models.CustomerShippingAddressChange`](customer-shipping-address-change.md) | Optional | - |
-| `BillingAddress` | [`*models.CustomerBillingAddressChange`](customer-billing-address-change.md) | Optional | - |
-| `CustomFields` | [`*models.CustomerCustomFieldsChange`](customer-custom-fields-change.md) | Optional | - |
+| `Payer` | [`*models.CustomerPayerChange`](../../doc/models/customer-payer-change.md) | Optional | - |
+| `ShippingAddress` | [`*models.CustomerShippingAddressChange`](../../doc/models/customer-shipping-address-change.md) | Optional | - |
+| `BillingAddress` | [`*models.CustomerBillingAddressChange`](../../doc/models/customer-billing-address-change.md) | Optional | - |
+| `CustomFields` | [`*models.CustomerCustomFieldsChange`](../../doc/models/customer-custom-fields-change.md) | Optional | - |
 
 ## Example (as JSON)
 

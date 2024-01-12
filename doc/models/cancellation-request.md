@@ -9,7 +9,7 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `Subscription` | [`models.CancellationOptions`](cancellation-options.md) | Required | - |
+| `Subscription` | [`models.CancellationOptions`](../../doc/models/cancellation-options.md) | Required | - |
 
 ## Example (as JSON)
 

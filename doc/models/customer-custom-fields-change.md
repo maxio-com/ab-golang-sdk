@@ -9,8 +9,8 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `Before` | [`[]models.ProformaCustomField`](proforma-custom-field.md) | Optional | - |
-| `After` | [`[]models.ProformaCustomField`](proforma-custom-field.md) | Optional | - |
+| `Before` | [`[]models.ProformaCustomField`](../../doc/models/proforma-custom-field.md) | Optional | - |
+| `After` | [`[]models.ProformaCustomField`](../../doc/models/proforma-custom-field.md) | Optional | - |
 
 ## Example (as JSON)
 

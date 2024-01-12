@@ -9,7 +9,7 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `SubscriptionsComponents` | [`[]models.SubscriptionComponent`](subscription-component.md) | Required | - |
+| `SubscriptionsComponents` | [`[]models.SubscriptionComponent`](../../doc/models/subscription-component.md) | Required | - |
 
 ## Example (as JSON)
 
@@ -19,7 +19,7 @@
     {
       "id": 138,
       "name": "name2",
-      "kind": "kind0",
+      "kind": "metered_component",
       "unit_name": "unit_name4",
       "enabled": false
     }

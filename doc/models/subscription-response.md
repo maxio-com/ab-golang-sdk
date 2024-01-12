@@ -9,7 +9,7 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `Subscription` | [`*models.Subscription`](subscription.md) | Optional | - |
+| `Subscription` | [`*models.Subscription`](../../doc/models/subscription.md) | Optional | - |
 
 ## Example (as JSON)
 

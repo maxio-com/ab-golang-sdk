@@ -9,8 +9,8 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `CurrentBillingManifest` | [`*models.BillingManifest`](billing-manifest.md) | Optional | - |
-| `NextBillingManifest` | [`*models.BillingManifest`](billing-manifest.md) | Optional | - |
+| `CurrentBillingManifest` | [`*models.BillingManifest`](../../doc/models/billing-manifest.md) | Optional | - |
+| `NextBillingManifest` | [`*models.BillingManifest`](../../doc/models/billing-manifest.md) | Optional | - |
 
 ## Example (as JSON)
 
@@ -19,8 +19,8 @@
   "current_billing_manifest": {
     "line_items": [
       {
-        "transaction_type": "transaction_type0",
-        "kind": "kind6",
+        "transaction_type": "credit",
+        "kind": "component",
         "amount_in_cents": 24,
         "memo": "memo2",
         "discount_amount_in_cents": 172
@@ -34,22 +34,22 @@
   "next_billing_manifest": {
     "line_items": [
       {
-        "transaction_type": "transaction_type0",
-        "kind": "kind6",
+        "transaction_type": "credit",
+        "kind": "component",
         "amount_in_cents": 24,
         "memo": "memo2",
         "discount_amount_in_cents": 172
       },
       {
-        "transaction_type": "transaction_type0",
-        "kind": "kind6",
+        "transaction_type": "credit",
+        "kind": "component",
         "amount_in_cents": 24,
         "memo": "memo2",
         "discount_amount_in_cents": 172
       },
       {
-        "transaction_type": "transaction_type0",
-        "kind": "kind6",
+        "transaction_type": "credit",
+        "kind": "component",
         "amount_in_cents": 24,
         "memo": "memo2",
         "discount_amount_in_cents": 172

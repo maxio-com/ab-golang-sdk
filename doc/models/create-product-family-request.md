@@ -9,7 +9,7 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `ProductFamily` | [`models.CreateProductFamily`](create-product-family.md) | Required | - |
+| `ProductFamily` | [`models.CreateProductFamily`](../../doc/models/create-product-family.md) | Required | - |
 
 ## Example (as JSON)
 

@@ -9,7 +9,7 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `ServiceCredit` | [`models.IssueServiceCredit`](issue-service-credit.md) | Required | - |
+| `ServiceCredit` | [`models.IssueServiceCredit`](../../doc/models/issue-service-credit.md) | Required | - |
 
 ## Example (as JSON)
 

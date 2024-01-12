@@ -10,15 +10,15 @@ customFieldsController := client.CustomFieldsController()
 
 ## Methods
 
-* [Create Metafields](custom-fields.md#create-metafields)
-* [List Metafields](custom-fields.md#list-metafields)
-* [Update Metafield](custom-fields.md#update-metafield)
-* [Delete Metafield](custom-fields.md#delete-metafield)
-* [Create Metadata](custom-fields.md#create-metadata)
-* [Read Metadata](custom-fields.md#read-metadata)
-* [Update Metadata](custom-fields.md#update-metadata)
-* [Delete Metadata](custom-fields.md#delete-metadata)
-* [List Metadata](custom-fields.md#list-metadata)
+* [Create Metafields](../../doc/controllers/custom-fields.md#create-metafields)
+* [List Metafields](../../doc/controllers/custom-fields.md#list-metafields)
+* [Update Metafield](../../doc/controllers/custom-fields.md#update-metafield)
+* [Delete Metafield](../../doc/controllers/custom-fields.md#delete-metafield)
+* [Create Metadata](../../doc/controllers/custom-fields.md#create-metadata)
+* [List Metadata](../../doc/controllers/custom-fields.md#list-metadata)
+* [Update Metadata](../../doc/controllers/custom-fields.md#update-metadata)
+* [Delete Metadata](../../doc/controllers/custom-fields.md#delete-metadata)
+* [List Metadata for Resource Type](../../doc/controllers/custom-fields.md#list-metadata-for-resource-type)
 
 
 # Create Metafields
@@ -51,7 +51,7 @@ If configuring metafields in the Admin UI or via the API, be careful sending upd
 ```go
 CreateMetafields(
     ctx context.Context,
-    resourceType models.ResourceTypeEnum,
+    resourceType models.ResourceType,
     body *models.CreateMetafieldsRequest) (
     models.ApiResponse[[]models.Metafield],
     error)
@@ -61,33 +61,21 @@ CreateMetafields(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `resourceType` | [`models.ResourceTypeEnum`](../models/resource-type-enum.md) | Template, Required | the resource type to which the metafields belong |
-| `body` | [`*models.CreateMetafieldsRequest`](../models/create-metafields-request.md) | Body, Optional | - |
+| `resourceType` | [`models.ResourceType`](../../doc/models/resource-type.md) | Template, Required | the resource type to which the metafields belong |
+| `body` | [`*models.CreateMetafieldsRequest`](../../doc/models/create-metafields-request.md) | Body, Optional | - |
 
 ## Response Type
 
-[`[]models.Metafield`](../models/metafield.md)
+[`[]models.Metafield`](../../doc/models/metafield.md)
 
 ## Example Usage
 
 ```go
 ctx := context.Background()
-resourceType := models.ResourceTypeEnum("subscriptions")
-
-bodyMetafieldsScope := models.MetafieldScope{
-    PublicShow: models.ToPointer(models.IncludeOptionEnum("1")),
-    PublicEdit: models.ToPointer(models.IncludeOptionEnum("1")),
-}
-
-bodyMetafields := models.Metafields{
-    Name:      models.ToPointer("Dropdown field"),
-    InputType: models.ToPointer(models.MetafieldInputEnum("dropdown")),
-    Enum:      []string{"option 1", "option 2"},
-    Scope:     models.ToPointer(bodyMetafieldsScope),
-}
+resourceType := models.ResourceType("subscriptions")
 
 body := models.CreateMetafieldsRequest{
-    Metafields: bodyMetafields,
+    Metafields: interface{}("[name, Dropdown field][input_type, dropdown][enum, System.Object[]][scope, DotLiquid.Hash]"),
 }
 
 apiResponse, err := customFieldsController.CreateMetafields(ctx, resourceType, &body)
@@ -133,6 +121,12 @@ if err != nil {
 ]
 ```
 
+## Errors
+
+| HTTP Status Code | Error Description | Exception Class |
+|  --- | --- | --- |
+| 422 | Unprocessable Entity (WebDAV) | [`SingleErrorResponseException`](../../doc/models/single-error-response-exception.md) |
+
 
 # List Metafields
 
@@ -149,21 +143,21 @@ ListMetafields(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `resourceType` | [`models.ResourceTypeEnum`](../models/resource-type-enum.md) | Template, Required | the resource type to which the metafields belong |
+| `resourceType` | [`models.ResourceType`](../../doc/models/resource-type.md) | Template, Required | the resource type to which the metafields belong |
 | `name` | `*string` | Query, Optional | filter by the name of the metafield |
-| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br>**Default**: `1`<br>**Constraints**: `>= 1` |
-| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`.<br>**Default**: `20`<br>**Constraints**: `<= 200` |
-| `direction` | [`*models.SortingDirectionEnum`](../models/sorting-direction-enum.md) | Query, Optional | Controls the order in which results are returned.<br>Use in query `direction=asc`. |
+| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`. |
+| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`. |
+| `direction` | [`*models.SortingDirection`](../../doc/models/sorting-direction.md) | Query, Optional | Controls the order in which results are returned.<br>Use in query `direction=asc`. |
 
 ## Response Type
 
-[`models.ListMetafieldsResponse`](../models/list-metafields-response.md)
+[`models.ListMetafieldsResponse`](../../doc/models/list-metafields-response.md)
 
 ## Example Usage
 
 ```go
 ctx := context.Background()
-resourceType := models.ResourceTypeEnum("subscriptions")
+resourceType := models.ResourceType("subscriptions")
 page := 2
 perPage := 50
 
@@ -213,7 +207,7 @@ Use the following method to update metafields for your Site. Metafields can be p
 ```go
 UpdateMetafield(
     ctx context.Context,
-    resourceType models.ResourceTypeEnum,
+    resourceType models.ResourceType,
     name string,
     currentName *string,
     body *models.UpdateMetafieldsRequest) (
@@ -225,20 +219,20 @@ UpdateMetafield(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `resourceType` | [`models.ResourceTypeEnum`](../models/resource-type-enum.md) | Template, Required | the resource type to which the metafields belong |
+| `resourceType` | [`models.ResourceType`](../../doc/models/resource-type.md) | Template, Required | the resource type to which the metafields belong |
 | `name` | `string` | Query, Required | Name of the custom field. |
 | `currentName` | `*string` | Query, Optional | This only applies when you are updating an existing record and you wish to rename the field. Note you must supply name and current_name to rename the field |
-| `body` | [`*models.UpdateMetafieldsRequest`](../models/update-metafields-request.md) | Body, Optional | - |
+| `body` | [`*models.UpdateMetafieldsRequest`](../../doc/models/update-metafields-request.md) | Body, Optional | - |
 
 ## Response Type
 
-[`[]models.Metafield`](../models/metafield.md)
+[`[]models.Metafield`](../../doc/models/metafield.md)
 
 ## Example Usage
 
 ```go
 ctx := context.Background()
-resourceType := models.ResourceTypeEnum("subscriptions")
+resourceType := models.ResourceType("subscriptions")
 name := "name0"
 
 apiResponse, err := customFieldsController.UpdateMetafield(ctx, resourceType, name, nil, nil)
@@ -261,7 +255,7 @@ Additionally, this will remove the metafield and associated metadata with all Su
 ```go
 DeleteMetafield(
     ctx context.Context,
-    resourceType models.ResourceTypeEnum,
+    resourceType models.ResourceType,
     name *string) (
     http.Response,
     error)
@@ -271,7 +265,7 @@ DeleteMetafield(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `resourceType` | [`models.ResourceTypeEnum`](../models/resource-type-enum.md) | Template, Required | the resource type to which the metafields belong |
+| `resourceType` | [`models.ResourceType`](../../doc/models/resource-type.md) | Template, Required | the resource type to which the metafields belong |
 | `name` | `*string` | Query, Optional | The name of the metafield to be deleted |
 
 ## Response Type
@@ -282,7 +276,7 @@ DeleteMetafield(
 
 ```go
 ctx := context.Background()
-resourceType := models.ResourceTypeEnum("subscriptions")
+resourceType := models.ResourceType("subscriptions")
 
 resp, err := customFieldsController.DeleteMetafield(ctx, resourceType, nil)
 if err != nil {
@@ -327,9 +321,8 @@ Please pay special attention to the resource you use when creating metadata.
 ```go
 CreateMetadata(
     ctx context.Context,
-    resourceType models.ResourceTypeEnum,
+    resourceType models.ResourceType,
     resourceId string,
-    value *string,
     body *models.CreateMetadataRequest) (
     models.ApiResponse[[]models.Metadata],
     error)
@@ -339,20 +332,19 @@ CreateMetadata(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `resourceType` | [`models.ResourceTypeEnum`](../models/resource-type-enum.md) | Template, Required | the resource type to which the metafields belong |
+| `resourceType` | [`models.ResourceType`](../../doc/models/resource-type.md) | Template, Required | the resource type to which the metafields belong |
 | `resourceId` | `string` | Template, Required | The Chargify id of the customer or the subscription for which the metadata applies |
-| `value` | `*string` | Query, Optional | Can be a single item or a list of metadata |
-| `body` | [`*models.CreateMetadataRequest`](../models/create-metadata-request.md) | Body, Optional | - |
+| `body` | [`*models.CreateMetadataRequest`](../../doc/models/create-metadata-request.md) | Body, Optional | - |
 
 ## Response Type
 
-[`[]models.Metadata`](../models/metadata.md)
+[`[]models.Metadata`](../../doc/models/metadata.md)
 
 ## Example Usage
 
 ```go
 ctx := context.Background()
-resourceType := models.ResourceTypeEnum("subscriptions")
+resourceType := models.ResourceType("subscriptions")
 resourceId := "resource_id4"
 
 bodyMetadata0 := models.CreateMetadata{
@@ -370,7 +362,7 @@ body := models.CreateMetadataRequest{
     Metadata: bodyMetadata,
 }
 
-apiResponse, err := customFieldsController.CreateMetadata(ctx, resourceType, resourceId, nil, &body)
+apiResponse, err := customFieldsController.CreateMetadata(ctx, resourceType, resourceId, &body)
 if err != nil {
     log.Fatalln(err)
 } else {
@@ -380,8 +372,14 @@ if err != nil {
 }
 ```
 
+## Errors
 
-# Read Metadata
+| HTTP Status Code | Error Description | Exception Class |
+|  --- | --- | --- |
+| 422 | Unprocessable Entity (WebDAV) | [`SingleErrorResponseException`](../../doc/models/single-error-response-exception.md) |
+
+
+# List Metadata
 
 This request will list all of the metadata belonging to a particular resource (ie. subscription, customer) that is specified.
 
@@ -390,8 +388,8 @@ This request will list all of the metadata belonging to a particular resource (i
 This endpoint will also display the current stats of your metadata to use as a tool for pagination.
 
 ```go
-ReadMetadata(
-    ctx context.Context,input ReadMetadataInput) (
+ListMetadata(
+    ctx context.Context,input ListMetadataInput) (
     models.ApiResponse[models.PaginatedMetadata],
     error)
 ```
@@ -400,25 +398,25 @@ ReadMetadata(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `resourceType` | [`models.ResourceTypeEnum`](../models/resource-type-enum.md) | Template, Required | the resource type to which the metafields belong |
+| `resourceType` | [`models.ResourceType`](../../doc/models/resource-type.md) | Template, Required | the resource type to which the metafields belong |
 | `resourceId` | `string` | Template, Required | The Chargify id of the customer or the subscription for which the metadata applies |
-| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br>**Default**: `1`<br>**Constraints**: `>= 1` |
-| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`.<br>**Default**: `20`<br>**Constraints**: `<= 200` |
+| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`. |
+| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`. |
 
 ## Response Type
 
-[`models.PaginatedMetadata`](../models/paginated-metadata.md)
+[`models.PaginatedMetadata`](../../doc/models/paginated-metadata.md)
 
 ## Example Usage
 
 ```go
 ctx := context.Background()
-resourceType := models.ResourceTypeEnum("subscriptions")
+resourceType := models.ResourceType("subscriptions")
 resourceId := "resource_id4"
 page := 2
 perPage := 50
 
-apiResponse, err := customFieldsController.ReadMetadata(ctx, resourceType, resourceId, &page, &perPage)
+apiResponse, err := customFieldsController.ListMetadata(ctx, resourceType, resourceId, &page, &perPage)
 if err != nil {
     log.Fatalln(err)
 } else {
@@ -436,9 +434,8 @@ This method allows you to update the existing metadata associated with a subscri
 ```go
 UpdateMetadata(
     ctx context.Context,
-    resourceType models.ResourceTypeEnum,
+    resourceType models.ResourceType,
     resourceId string,
-    value *string,
     body *models.UpdateMetadataRequest) (
     models.ApiResponse[[]models.Metadata],
     error)
@@ -448,23 +445,22 @@ UpdateMetadata(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `resourceType` | [`models.ResourceTypeEnum`](../models/resource-type-enum.md) | Template, Required | the resource type to which the metafields belong |
+| `resourceType` | [`models.ResourceType`](../../doc/models/resource-type.md) | Template, Required | the resource type to which the metafields belong |
 | `resourceId` | `string` | Template, Required | The Chargify id of the customer or the subscription for which the metadata applies |
-| `value` | `*string` | Query, Optional | Can be a single item or a list of metadata |
-| `body` | [`*models.UpdateMetadataRequest`](../models/update-metadata-request.md) | Body, Optional | - |
+| `body` | [`*models.UpdateMetadataRequest`](../../doc/models/update-metadata-request.md) | Body, Optional | - |
 
 ## Response Type
 
-[`[]models.Metadata`](../models/metadata.md)
+[`[]models.Metadata`](../../doc/models/metadata.md)
 
 ## Example Usage
 
 ```go
 ctx := context.Background()
-resourceType := models.ResourceTypeEnum("subscriptions")
+resourceType := models.ResourceType("subscriptions")
 resourceId := "resource_id4"
 
-apiResponse, err := customFieldsController.UpdateMetadata(ctx, resourceType, resourceId, nil, nil)
+apiResponse, err := customFieldsController.UpdateMetadata(ctx, resourceType, resourceId, nil)
 if err != nil {
     log.Fatalln(err)
 } else {
@@ -504,7 +500,7 @@ When a failed response is encountered, you will receive a `404` response and the
 ```go
 DeleteMetadata(
     ctx context.Context,
-    resourceType models.ResourceTypeEnum,
+    resourceType models.ResourceType,
     resourceId string,
     name *string,
     names []string) (
@@ -516,7 +512,7 @@ DeleteMetadata(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `resourceType` | [`models.ResourceTypeEnum`](../models/resource-type-enum.md) | Template, Required | the resource type to which the metafields belong |
+| `resourceType` | [`models.ResourceType`](../../doc/models/resource-type.md) | Template, Required | the resource type to which the metafields belong |
 | `resourceId` | `string` | Template, Required | The Chargify id of the customer or the subscription for which the metadata applies |
 | `name` | `*string` | Query, Optional | Name of field to be removed. |
 | `names` | `[]string` | Query, Optional | Names of fields to be removed. Use in query: `names[]=field1&names[]=my-field&names[]=another-field`. |
@@ -529,7 +525,7 @@ DeleteMetadata(
 
 ```go
 ctx := context.Background()
-resourceType := models.ResourceTypeEnum("subscriptions")
+resourceType := models.ResourceType("subscriptions")
 resourceId := "resource_id4"Liquid error: Value cannot be null. (Parameter 'key')
 
 resp, err := customFieldsController.DeleteMetadata(ctx, resourceType, resourceId, nil, Liquid error: Value cannot be null. (Parameter 'key'))
@@ -547,7 +543,7 @@ if err != nil {
 | 404 | Not Found | `ApiError` |
 
 
-# List Metadata
+# List Metadata for Resource Type
 
 This method will provide you information on usage of metadata across your selected resource (ie. subscriptions, customers)
 
@@ -564,8 +560,8 @@ This endpoint will also display the current stats of your metadata to use as a t
 This endpoint will list the number of pages of metadata information that are contained within a site.
 
 ```go
-ListMetadata(
-    ctx context.Context,input ListMetadataInput) (
+ListMetadataForResourceType(
+    ctx context.Context,input ListMetadataForResourceTypeInput) (
     models.ApiResponse[models.PaginatedMetadata],
     error)
 ```
@@ -574,32 +570,32 @@ ListMetadata(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `resourceType` | [`models.ResourceTypeEnum`](../models/resource-type-enum.md) | Template, Required | the resource type to which the metafields belong |
-| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br>**Default**: `1`<br>**Constraints**: `>= 1` |
-| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`.<br>**Default**: `20`<br>**Constraints**: `<= 200` |
-| `dateField` | [`*models.BasicDateFieldEnum`](../models/basic-date-field-enum.md) | Query, Optional | The type of filter you would like to apply to your search. |
+| `resourceType` | [`models.ResourceType`](../../doc/models/resource-type.md) | Template, Required | the resource type to which the metafields belong |
+| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`. |
+| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`. |
+| `dateField` | [`*models.BasicDateField`](../../doc/models/basic-date-field.md) | Query, Optional | The type of filter you would like to apply to your search. |
 | `startDate` | `*string` | Query, Optional | The start date (format YYYY-MM-DD) with which to filter the date_field. Returns metadata with a timestamp at or after midnight (12:00:00 AM) in your site’s time zone on the date specified. |
 | `endDate` | `*string` | Query, Optional | The end date (format YYYY-MM-DD) with which to filter the date_field. Returns metadata with a timestamp up to and including 11:59:59PM in your site’s time zone on the date specified. |
 | `startDatetime` | `*string` | Query, Optional | The start date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns metadata with a timestamp at or after exact time provided in query. You can specify timezone in query - otherwise your site's time zone will be used. If provided, this parameter will be used instead of start_date. |
 | `endDatetime` | `*string` | Query, Optional | The end date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns metadata with a timestamp at or before exact time provided in query. You can specify timezone in query - otherwise your site's time zone will be used. If provided, this parameter will be used instead of end_date. |
 | `withDeleted` | `*bool` | Query, Optional | Allow to fetch deleted metadata. |
-| `resourceIds` | `[]int` | Query, Optional | Allow to fetch metadata for multiple records based on provided ids. Use in query: `resource_ids[]=122&resource_ids[]=123&resource_ids[]=124`.<br>**Constraints**: *Maximum Items*: `50` |
-| `direction` | [`*models.SortingDirectionEnum`](../models/sorting-direction-enum.md) | Query, Optional | Controls the order in which results are returned.<br>Use in query `direction=asc`. |
+| `resourceIds` | `[]int` | Query, Optional | Allow to fetch metadata for multiple records based on provided ids. Use in query: `resource_ids[]=122&resource_ids[]=123&resource_ids[]=124`. |
+| `direction` | [`*models.SortingDirection`](../../doc/models/sorting-direction.md) | Query, Optional | Controls the order in which results are returned.<br>Use in query `direction=asc`. |
 
 ## Response Type
 
-[`models.PaginatedMetadata`](../models/paginated-metadata.md)
+[`models.PaginatedMetadata`](../../doc/models/paginated-metadata.md)
 
 ## Example Usage
 
 ```go
 ctx := context.Background()
-resourceType := models.ResourceTypeEnum("subscriptions")
+resourceType := models.ResourceType("subscriptions")
 page := 2
 perPage := 50
-dateField := models.BasicDateFieldEnum("updated_at")Liquid error: Value cannot be null. (Parameter 'key')
+dateField := models.BasicDateField("updated_at")Liquid error: Value cannot be null. (Parameter 'key')
 
-apiResponse, err := customFieldsController.ListMetadata(ctx, resourceType, &page, &perPage, &dateField, nil, nil, nil, nil, nil, Liquid error: Value cannot be null. (Parameter 'key'), nil)
+apiResponse, err := customFieldsController.ListMetadataForResourceType(ctx, resourceType, &page, &perPage, &dateField, nil, nil, nil, nil, nil, Liquid error: Value cannot be null. (Parameter 'key'), nil)
 if err != nil {
     log.Fatalln(err)
 } else {

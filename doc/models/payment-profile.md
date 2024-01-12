@@ -13,11 +13,11 @@
 | `FirstName` | `*string` | Optional | The first name of the card holder. |
 | `LastName` | `*string` | Optional | The last name of the card holder. |
 | `MaskedCardNumber` | `*string` | Optional | A string representation of the credit card number with all but the last 4 digits masked with X’s (i.e. ‘XXXX-XXXX-XXXX-1234’). |
-| `CardType` | [`*models.CardTypeEnum`](card-type-enum.md) | Optional | The type of card used. |
+| `CardType` | [`*models.CardType`](../../doc/models/card-type.md) | Optional | The type of card used. |
 | `ExpirationMonth` | `*int` | Optional | An integer representing the expiration month of the card(1 – 12). |
 | `ExpirationYear` | `*int` | Optional | An integer representing the 4-digit expiration year of the card(i.e. ‘2012’). |
 | `CustomerId` | `*int` | Optional | The Chargify-assigned id for the customer record to which the card belongs. |
-| `CurrentVault` | [`*models.CurrentVaultEnum`](current-vault-enum.md) | Optional | The vault that stores the payment profile with the provided `vault_token`. Use `bogus` for testing. |
+| `CurrentVault` | [`*models.CurrentVault`](../../doc/models/current-vault.md) | Optional | The vault that stores the payment profile with the provided `vault_token`. Use `bogus` for testing. |
 | `VaultToken` | `Optional[string]` | Optional | The “token” provided by your vault storage for an already stored payment profile. |
 | `BillingAddress` | `Optional[string]` | Optional | The current billing street address for the card. |
 | `BillingCity` | `Optional[string]` | Optional | The current billing address city for the card. |
@@ -26,7 +26,7 @@
 | `BillingCountry` | `Optional[string]` | Optional | The current billing address country for the card. |
 | `CustomerVaultToken` | `Optional[string]` | Optional | (only for Authorize.Net CIM storage): the customerProfileId for the owner of the customerPaymentProfileId provided as the vault_token. |
 | `BillingAddress2` | `Optional[string]` | Optional | The current billing street address, second line, for the card. |
-| `PaymentType` | [`*models.PaymentTypeEnum`](payment-type-enum.md) | Optional | **Default**: `"credit_card"` |
+| `PaymentType` | [`*models.PaymentType`](../../doc/models/payment-type.md) | Optional | **Default**: `"credit_card"` |
 | `Disabled` | `*bool` | Optional | - |
 | `ChargifyToken` | `*string` | Optional | Token received after sending billing informations using chargify.js. |
 | `SiteGatewaySettingId` | `Optional[int]` | Optional | - |

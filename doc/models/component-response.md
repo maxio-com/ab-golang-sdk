@@ -9,7 +9,7 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `Component` | [`models.Component`](component.md) | Required | - |
+| `Component` | [`models.Component`](../../doc/models/component.md) | Required | - |
 
 ## Example (as JSON)
 

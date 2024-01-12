@@ -13,7 +13,7 @@
 | `SiteName` | `*string` | Optional | - |
 | `SiteId` | `*int` | Optional | - |
 | `SiteCurrency` | `*string` | Optional | - |
-| `Stats` | [`*models.SiteStatistics`](site-statistics.md) | Optional | - |
+| `Stats` | [`*models.SiteStatistics`](../../doc/models/site-statistics.md) | Optional | - |
 
 ## Example (as JSON)
 

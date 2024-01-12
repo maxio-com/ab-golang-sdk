@@ -19,11 +19,11 @@
 | `CustomerHierarchyEnabled` | `*bool` | Optional | - |
 | `WhopaysEnabled` | `*bool` | Optional | - |
 | `WhopaysDefaultPayer` | `*string` | Optional | - |
-| `AllocationSettings` | [`*models.AllocationSettings`](allocation-settings.md) | Optional | - |
+| `AllocationSettings` | [`*models.AllocationSettings`](../../doc/models/allocation-settings.md) | Optional | - |
 | `DefaultPaymentCollectionMethod` | `*string` | Optional | - |
-| `OrganizationAddress` | [`*models.OrganizationAddress`](organization-address.md) | Optional | - |
-| `TaxConfiguration` | [`*models.TaxConfiguration`](tax-configuration.md) | Optional | - |
-| `NetTerms` | [`*models.NetTerms`](net-terms.md) | Optional | - |
+| `OrganizationAddress` | [`*models.OrganizationAddress`](../../doc/models/organization-address.md) | Optional | - |
+| `TaxConfiguration` | [`*models.TaxConfiguration`](../../doc/models/tax-configuration.md) | Optional | - |
+| `NetTerms` | [`*models.NetTerms`](../../doc/models/net-terms.md) | Optional | - |
 | `Test` | `*bool` | Optional | - |
 
 ## Example (as JSON)

@@ -15,7 +15,7 @@
 | `Percentage` | `*string` | Optional | **Constraints**: *Minimum Length*: `1` |
 | `TaxableAmount` | `*string` | Optional | **Constraints**: *Minimum Length*: `1` |
 | `TaxAmount` | `*string` | Optional | **Constraints**: *Minimum Length*: `1` |
-| `LineItemBreakouts` | [`[]models.ProformaInvoiceTaxBreakout`](proforma-invoice-tax-breakout.md) | Optional | **Constraints**: *Minimum Items*: `1`, *Unique Items Required* |
+| `LineItemBreakouts` | [`[]models.ProformaInvoiceTaxBreakout`](../../doc/models/proforma-invoice-tax-breakout.md) | Optional | **Constraints**: *Minimum Items*: `1`, *Unique Items Required* |
 
 ## Example (as JSON)
 

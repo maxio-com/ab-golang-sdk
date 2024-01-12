@@ -9,9 +9,9 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `UpgradeCharge` | [`Optional[models.CreditTypeEnum]`](credit-type-enum.md) | Optional | The type of credit to be created when upgrading/downgrading. Defaults to the component and then site setting if one is not provided.<br>Available values: `full`, `prorated`, `none`. |
-| `DowngradeCredit` | [`Optional[models.CreditTypeEnum]`](credit-type-enum.md) | Optional | The type of credit to be created when upgrading/downgrading. Defaults to the component and then site setting if one is not provided.<br>Available values: `full`, `prorated`, `none`. |
-| `AccrueCharge` | `*bool` | Optional | - |
+| `UpgradeCharge` | [`Optional[models.CreditType]`](../../doc/models/credit-type.md) | Optional | The type of credit to be created when upgrading/downgrading. Defaults to the component and then site setting if one is not provided.<br>Available values: `full`, `prorated`, `none`. |
+| `DowngradeCredit` | [`Optional[models.CreditType]`](../../doc/models/credit-type.md) | Optional | The type of credit to be created when upgrading/downgrading. Defaults to the component and then site setting if one is not provided.<br>Available values: `full`, `prorated`, `none`. |
+| `AccrueCharge` | `*string` | Optional | Either "true" or "false". |
 
 ## Example (as JSON)
 
@@ -19,7 +19,7 @@
 {
   "upgrade_charge": "none",
   "downgrade_credit": "prorated",
-  "accrue_charge": false
+  "accrue_charge": "accrue_charge0"
 }
 ```
 

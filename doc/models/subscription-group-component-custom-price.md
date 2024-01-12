@@ -11,9 +11,9 @@ Used in place of `price_point_id` to define a custom price point unique to the s
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `PricingScheme` | [`*models.PricingSchemeEnum`](pricing-scheme-enum.md) | Optional | The identifier for the pricing scheme. See [Product Components](https://help.chargify.com/products/product-components.html) for an overview of pricing schemes. |
-| `Prices` | [`[]models.Price`](price.md) | Optional | - |
-| `OveragePricing` | [`[]models.ComponentCustomPrice`](component-custom-price.md) | Optional | - |
+| `PricingScheme` | [`*models.PricingScheme`](../../doc/models/pricing-scheme.md) | Optional | The identifier for the pricing scheme. See [Product Components](https://help.chargify.com/products/product-components.html) for an overview of pricing schemes. |
+| `Prices` | [`[]models.Price`](../../doc/models/price.md) | Optional | - |
+| `OveragePricing` | [`[]models.ComponentCustomPrice`](../../doc/models/component-custom-price.md) | Optional | - |
 
 ## Example (as JSON)
 
@@ -39,6 +39,8 @@ Used in place of `price_point_id` to define a custom price point unique to the s
   "overage_pricing": [
     {
       "pricing_scheme": "stairstep",
+      "interval": 230,
+      "interval_unit": "day",
       "prices": [
         {
           "starting_quantity": {

@@ -9,7 +9,7 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `ReferralCode` | [`*models.ReferralCode`](referral-code.md) | Optional | - |
+| `ReferralCode` | [`*models.ReferralCode`](../../doc/models/referral-code.md) | Optional | - |
 
 ## Example (as JSON)
 

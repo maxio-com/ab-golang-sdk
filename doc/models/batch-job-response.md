@@ -9,7 +9,7 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `Batchjob` | [`models.BatchJob`](batch-job.md) | Required | - |
+| `Batchjob` | [`models.BatchJob`](../../doc/models/batch-job.md) | Required | - |
 
 ## Example (as JSON)
 

@@ -9,7 +9,7 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `Product` | [`models.CreateOrUpdateProduct`](create-or-update-product.md) | Required | - |
+| `Product` | [`models.CreateOrUpdateProduct`](../../doc/models/create-or-update-product.md) | Required | - |
 
 ## Example (as JSON)
 

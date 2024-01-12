@@ -1,42 +1,42 @@
 package models
 
 import (
-	"encoding/json"
+    "encoding/json"
 )
 
 // SubscriptionComponentResponse represents a SubscriptionComponentResponse struct.
 type SubscriptionComponentResponse struct {
-	Component *SubscriptionComponent `json:"component,omitempty"`
+    Component *SubscriptionComponent `json:"component,omitempty"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for SubscriptionComponentResponse.
 // It customizes the JSON marshaling process for SubscriptionComponentResponse objects.
 func (s *SubscriptionComponentResponse) MarshalJSON() (
-	[]byte,
-	error) {
-	return json.Marshal(s.toMap())
+    []byte,
+    error) {
+    return json.Marshal(s.toMap())
 }
 
 // toMap converts the SubscriptionComponentResponse object to a map representation for JSON marshaling.
 func (s *SubscriptionComponentResponse) toMap() map[string]any {
-	structMap := make(map[string]any)
-	if s.Component != nil {
-		structMap["component"] = s.Component
-	}
-	return structMap
+    structMap := make(map[string]any)
+    if s.Component != nil {
+        structMap["component"] = s.Component
+    }
+    return structMap
 }
 
 // UnmarshalJSON implements the json.Unmarshaler interface for SubscriptionComponentResponse.
 // It customizes the JSON unmarshaling process for SubscriptionComponentResponse objects.
 func (s *SubscriptionComponentResponse) UnmarshalJSON(input []byte) error {
-	temp := &struct {
-		Component *SubscriptionComponent `json:"component,omitempty"`
-	}{}
-	err := json.Unmarshal(input, &temp)
-	if err != nil {
-		return err
-	}
-
-	s.Component = temp.Component
-	return nil
+    temp := &struct {
+        Component *SubscriptionComponent `json:"component,omitempty"`
+    }{}
+    err := json.Unmarshal(input, &temp)
+    if err != nil {
+    	return err
+    }
+    
+    s.Component = temp.Component
+    return nil
 }

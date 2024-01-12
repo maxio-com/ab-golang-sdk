@@ -11,7 +11,7 @@ Updatable fields for Subscription Note
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `Note` | [`models.UpdateSubscriptionNote`](update-subscription-note.md) | Required | Updatable fields for Subscription Note |
+| `Note` | [`models.UpdateSubscriptionNote`](../../doc/models/update-subscription-note.md) | Required | Updatable fields for Subscription Note |
 
 ## Example (as JSON)
 

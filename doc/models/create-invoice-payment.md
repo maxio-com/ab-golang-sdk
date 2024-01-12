@@ -11,7 +11,7 @@
 |  --- | --- | --- | --- |
 | `Amount` | `*interface{}` | Optional | A string of the dollar amount to be refunded (eg. "10.50" => $10.50) |
 | `Memo` | `*string` | Optional | A description to be attached to the payment. |
-| `Method` | [`*models.InvoicePaymentMethodTypeEnum`](invoice-payment-method-type-enum.md) | Optional | The type of payment method used.<br>**Default**: `"other"` |
+| `Method` | [`*models.InvoicePaymentMethodType`](../../doc/models/invoice-payment-method-type.md) | Optional | The type of payment method used.<br>**Default**: `"other"` |
 | `Details` | `*string` | Optional | Additional information related to the payment method (eg. Check #) |
 
 ## Example (as JSON)

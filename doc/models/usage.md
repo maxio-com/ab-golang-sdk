@@ -11,7 +11,7 @@
 |  --- | --- | --- | --- |
 | `Id` | `*int` | Optional | - |
 | `Memo` | `*string` | Optional | - |
-| `CreatedAt` | `*string` | Optional | - |
+| `CreatedAt` | `*time.Time` | Optional | - |
 | `PricePointId` | `*int` | Optional | - |
 | `Quantity` | `*interface{}` | Optional | - |
 | `OverageQuantity` | `*int` | Optional | - |
@@ -25,7 +25,7 @@
 {
   "id": 252,
   "memo": "memo8",
-  "created_at": "created_at2",
+  "created_at": "2016-03-13T12:52:32.123Z",
   "price_point_id": 126,
   "quantity": {
     "key1": "val1",

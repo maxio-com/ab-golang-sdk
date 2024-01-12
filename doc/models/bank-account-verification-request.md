@@ -9,7 +9,7 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `BankAccountVerification` | [`models.BankAccountVerification`](bank-account-verification.md) | Required | - |
+| `BankAccountVerification` | [`models.BankAccountVerification`](../../doc/models/bank-account-verification.md) | Required | - |
 
 ## Example (as JSON)
 

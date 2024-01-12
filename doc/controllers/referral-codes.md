@@ -37,7 +37,7 @@ ValidateReferralCode(
 
 ## Response Type
 
-[`models.ReferralValidationResponse`](../models/referral-validation-response.md)
+[`models.ReferralValidationResponse`](../../doc/models/referral-validation-response.md)
 
 ## Example Usage
 
@@ -72,5 +72,5 @@ if err != nil {
 
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
-| 404 | Not Found | [`SingleStringErrorResponseException`](../models/single-string-error-response-exception.md) |
+| 404 | Not Found | [`SingleStringErrorResponseException`](../../doc/models/single-string-error-response-exception.md) |
 

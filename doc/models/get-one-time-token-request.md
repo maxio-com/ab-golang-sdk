@@ -9,7 +9,7 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `PaymentProfile` | [`models.GetOneTimeTokenPaymentProfile`](get-one-time-token-payment-profile.md) | Required | - |
+| `PaymentProfile` | [`models.GetOneTimeTokenPaymentProfile`](../../doc/models/get-one-time-token-payment-profile.md) | Required | - |
 
 ## Example (as JSON)
 

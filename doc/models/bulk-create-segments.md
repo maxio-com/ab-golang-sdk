@@ -9,7 +9,7 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `Segments` | [`[]models.CreateSegment`](create-segment.md) | Optional | **Constraints**: *Maximum Items*: `2000` |
+| `Segments` | [`[]models.CreateSegment`](../../doc/models/create-segment.md) | Optional | **Constraints**: *Maximum Items*: `2000` |
 
 ## Example (as JSON)
 

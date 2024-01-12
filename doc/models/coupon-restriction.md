@@ -10,7 +10,7 @@
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `Id` | `*int` | Optional | - |
-| `ItemType` | [`*models.RestrictionTypeEnum`](restriction-type-enum.md) | Optional | - |
+| `ItemType` | [`*models.RestrictionType`](../../doc/models/restriction-type.md) | Optional | - |
 | `ItemId` | `*int` | Optional | - |
 | `Name` | `*string` | Optional | - |
 | `Handle` | `Optional[string]` | Optional | - |

@@ -9,7 +9,7 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `Errors` | [`models.SubscriptionGroupSignupError`](subscription-group-signup-error.md) | Required | - |
+| `Errors` | [`models.SubscriptionGroupSignupError`](../../doc/models/subscription-group-signup-error.md) | Required | - |
 
 ## Example (as JSON)
 

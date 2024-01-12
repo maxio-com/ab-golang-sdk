@@ -12,7 +12,7 @@
 | `Amount` | `float64` | Required | - |
 | `Details` | `string` | Required | - |
 | `Memo` | `string` | Required | - |
-| `Method` | [`models.PrepaymentMethodEnum`](prepayment-method-enum.md) | Required | :- When the `method` specified is `"credit_card_on_file"`, the prepayment amount will be collected using the default credit card payment profile and applied to the prepayment account balance. This is especially useful for manual replenishment of prepaid subscriptions. |
+| `Method` | [`models.PrepaymentMethod`](../../doc/models/prepayment-method.md) | Required | :- When the `method` specified is `"credit_card_on_file"`, the prepayment amount will be collected using the default credit card payment profile and applied to the prepayment account balance. This is especially useful for manual replenishment of prepaid subscriptions. |
 | `PaymentProfileId` | `*int` | Optional | - |
 
 ## Example (as JSON)

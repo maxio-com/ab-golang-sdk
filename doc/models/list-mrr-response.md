@@ -9,7 +9,7 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `Mrr` | [`models.ListMRRResponseResult`](list-mrr-response-result.md) | Required | - |
+| `Mrr` | [`models.ListMRRResponseResult`](../../doc/models/list-mrr-response-result.md) | Required | - |
 
 ## Example (as JSON)
 

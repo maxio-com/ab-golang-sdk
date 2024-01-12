@@ -9,7 +9,7 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `PaymentProfile` | [`models.CreatePaymentProfile`](create-payment-profile.md) | Required | - |
+| `PaymentProfile` | [`models.CreatePaymentProfile`](../../doc/models/create-payment-profile.md) | Required | - |
 
 ## Example (as JSON)
 

@@ -12,7 +12,7 @@
 | `Quantity` | `*float64` | Optional | integer by default or decimal number if fractional quantities are enabled for the component |
 | `PricePointId` | `*string` | Optional | - |
 | `Memo` | `*string` | Optional | - |
-| `BillingSchedule` | [`*models.BillingSchedule`](billing-schedule.md) | Optional | This attribute is particularly useful when you need to align billing events for different components on distinct schedules within a subscription. Please note this only works for site with Multifrequency enabled |
+| `BillingSchedule` | [`*models.BillingSchedule`](../../doc/models/billing-schedule.md) | Optional | This attribute is particularly useful when you need to align billing events for different components on distinct schedules within a subscription. Please note this only works for site with Multifrequency enabled |
 
 ## Example (as JSON)
 

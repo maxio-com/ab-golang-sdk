@@ -14,7 +14,7 @@
 | `Description` | `*string` | Optional | - |
 | `ProductId` | `int` | Required | - |
 | `ProductPricePointId` | `*int` | Optional | - |
-| `Components` | [`[]models.CreateOfferComponent`](create-offer-component.md) | Optional | - |
+| `Components` | [`[]models.CreateOfferComponent`](../../doc/models/create-offer-component.md) | Optional | - |
 | `Coupons` | `[]string` | Optional | - |
 
 ## Example (as JSON)

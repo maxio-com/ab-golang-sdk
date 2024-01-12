@@ -9,7 +9,7 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `Segments` | [`[]models.Segment`](segment.md) | Optional | - |
+| `Segments` | [`[]models.Segment`](../../doc/models/segment.md) | Optional | - |
 
 ## Example (as JSON)
 

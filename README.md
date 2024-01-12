@@ -270,35 +270,19 @@ It is up to API consumers to parse the string into a decimal number representati
 
 The SDK requires **Go version 1.18 or above**.
 
-## Building
-
-### Install Dependencies
-
-Resolve all the SDK dependencies, using the `go get` command.
-
 ## Installation
 
-The following section explains how to use the maxioadvancedbilling library in a new project.
+The following section explains how to use the advancedbilling library in a new project.
 
-### 1. Add SDK as a Dependency to the Application
+### 1. Install the Package
 
-- Add the following lines to your application's `go.mod` file:
-
-```go
-replace maxioadvancedbilling => ".\\Maxio Advanced Billing" // local path to the SDK
-
-require maxioadvancedbilling v0.0.0
-```
-
-- Resolve the dependencies in the updated `go.mod` file, using the `go get` command.
-
-## Test the SDK
-
-`Go Testing` is used as the testing framework. To run the unit tests of the SDK, navigate to the `tests` directory of the SDK and run the following command in the terminal:
+To use the package in your application, you can install the package from [pkg.go.dev](https://pkg.go.dev/) using the following command:
 
 ```bash
-$ go test
+$ go get github.com/maxio-com/ab-golang-sdk@v0.0.4
 ```
+
+You can also view the package at: https://pkg.go.dev/github.com/maxio-com/ab-golang-sdk@v0.0.4
 
 ## Initialize the API Client
 
@@ -318,29 +302,29 @@ The following parameters are configurable for the API Client:
 The API client can be initialized as follows:
 
 ```go
-config := maxioadvancedbilling.CreateConfiguration(
-    maxioadvancedbilling.WithHttpConfiguration(
-        maxioadvancedbilling.CreateHttpConfiguration(
-            maxioadvancedbilling.WithTimeout(0),
-            maxioadvancedbilling.WithTransport(http.DefaultTransport),
-            maxioadvancedbilling.WithRetryConfiguration(
-                maxioadvancedbilling.CreateRetryConfiguration(
-                    maxioadvancedbilling.WithMaxRetryAttempts(0),
-                    maxioadvancedbilling.WithRetryOnTimeout(true),
-                    maxioadvancedbilling.WithRetryInterval(1),
-                    maxioadvancedbilling.WithMaximumRetryWaitTime(0),
-                    maxioadvancedbilling.WithBackoffFactor(2),
-                    maxioadvancedbilling.WithHttpStatusCodesToRetry([]int64{408, 413, 429, 500, 502, 503, 504, 521, 522, 524}),
-                    maxioadvancedbilling.WithHttpMethodsToRetry([]string{"GET", "PUT"}),
+config := advancedbilling.CreateConfiguration(
+    advancedbilling.WithHttpConfiguration(
+        advancedbilling.CreateHttpConfiguration(
+            advancedbilling.WithTimeout(30),
+            advancedbilling.WithTransport(http.DefaultTransport),
+            advancedbilling.WithRetryConfiguration(
+                advancedbilling.CreateRetryConfiguration(
+                    advancedbilling.WithMaxRetryAttempts(0),
+                    advancedbilling.WithRetryOnTimeout(true),
+                    advancedbilling.WithRetryInterval(1),
+                    advancedbilling.WithMaximumRetryWaitTime(0),
+                    advancedbilling.WithBackoffFactor(2),
+                    advancedbilling.WithHttpStatusCodesToRetry([]int64{408, 413, 429, 500, 502, 503, 504, 521, 522, 524, 408, 413, 429, 500, 502, 503, 504, 521, 522, 524}),
+                    advancedbilling.WithHttpMethodsToRetry([]string{"GET", "PUT", "GET", "PUT"}),
                 ),
             ),
         ),
     ),
-    maxioadvancedbilling.WithEnvironment(maxioadvancedbilling.PRODUCTION),
-    maxioadvancedbilling.WithBasicAuthUserName("BasicAuthUserName"),
-    maxioadvancedbilling.WithBasicAuthPassword("BasicAuthPassword"),
+    advancedbilling.WithEnvironment(advancedbilling.PRODUCTION),
+    advancedbilling.WithBasicAuthUserName("BasicAuthUserName"),
+    advancedbilling.WithBasicAuthPassword("BasicAuthPassword"),
 )
-client := maxioadvancedbilling.NewClient(config)
+client := advancedbilling.NewClient(config)
 ```
 
 ## Environments

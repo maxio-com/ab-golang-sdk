@@ -15,7 +15,7 @@
 | `TotalEntries` | `*int` | Optional | - |
 | `Currency` | `*string` | Optional | - |
 | `CurrencySymbol` | `*string` | Optional | - |
-| `Movements` | [`[]models.Movement`](movement.md) | Optional | - |
+| `Movements` | [`[]models.Movement`](../../doc/models/movement.md) | Optional | - |
 
 ## Example (as JSON)
 

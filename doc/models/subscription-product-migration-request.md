@@ -9,7 +9,7 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `Migration` | [`models.SubscriptionProductMigration`](subscription-product-migration.md) | Required | - |
+| `Migration` | [`models.SubscriptionProductMigration`](../../doc/models/subscription-product-migration.md) | Required | - |
 
 ## Example (as JSON)
 

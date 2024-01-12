@@ -9,7 +9,7 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `Chargify` | [`*models.ChargifyEBB`](chargify-ebb.md) | Optional | - |
+| `Chargify` | [`*models.ChargifyEBB`](../../doc/models/chargify-ebb.md) | Optional | - |
 
 ## Example (as JSON)
 

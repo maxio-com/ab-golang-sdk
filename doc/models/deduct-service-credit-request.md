@@ -9,7 +9,7 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `Deduction` | [`models.DeductServiceCredit`](deduct-service-credit.md) | Required | - |
+| `Deduction` | [`models.DeductServiceCredit`](../../doc/models/deduct-service-credit.md) | Required | - |
 
 ## Example (as JSON)
 

@@ -9,7 +9,7 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `Component` | [`*models.SubscriptionComponent`](subscription-component.md) | Optional | - |
+| `Component` | [`*models.SubscriptionComponent`](../../doc/models/subscription-component.md) | Optional | - |
 
 ## Example (as JSON)
 
@@ -18,7 +18,7 @@
   "component": {
     "id": 80,
     "name": "name8",
-    "kind": "kind6",
+    "kind": "quantity_based_component",
     "unit_name": "unit_name0",
     "enabled": false
   }

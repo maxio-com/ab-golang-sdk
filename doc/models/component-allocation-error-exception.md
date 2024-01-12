@@ -9,7 +9,7 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `Errors` | [`[]models.ComponentAllocationErrorItem`](component-allocation-error-item.md) | Optional | - |
+| `Errors` | [`[]models.ComponentAllocationErrorItem`](../../doc/models/component-allocation-error-item.md) | Optional | - |
 
 ## Example (as JSON)
 

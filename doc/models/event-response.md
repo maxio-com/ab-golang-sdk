@@ -9,7 +9,7 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `Event` | [`models.Event`](event.md) | Required | - |
+| `Event` | [`models.Event`](../../doc/models/event.md) | Required | - |
 
 ## Example (as JSON)
 

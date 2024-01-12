@@ -9,7 +9,7 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `AllocationPreview` | [`models.AllocationPreview`](allocation-preview.md) | Required | - |
+| `AllocationPreview` | [`models.AllocationPreview`](../../doc/models/allocation-preview.md) | Required | - |
 
 ## Example (as JSON)
 

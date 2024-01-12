@@ -1,7 +1,7 @@
-package ab_golang_sdk
+package advancedbilling
 
 import (
-	"github.com/apimatic/go-core-runtime/https"
+    "github.com/apimatic/go-core-runtime/https"
 )
 
 // HttpConfiguration holds the configuration options for the client.
@@ -17,37 +17,37 @@ type RetryConfigurationOptions = https.RetryConfigurationOptions
 type HttpConfigurationOptions = https.HttpConfigurationOptions
 
 // NewRetryConfiguration creates a new RetryConfiguration.
-var NewRetryConfiguration = https.NewRetryConfiguration
+var NewRetryConfiguration = https.NewRetryConfiguration 
 
 // NewHttpConfiguration creates a new HttpConfiguration.
-var NewHttpConfiguration = https.NewHttpConfiguration
+var NewHttpConfiguration = https.NewHttpConfiguration 
 
 // WithMaxRetryAttempts sets the MaxRetryAttempts.
-var WithMaxRetryAttempts = https.WithMaxRetryAttempts
+var WithMaxRetryAttempts = https.WithMaxRetryAttempts 
 
 // WithRetryOnTimeout sets the RetryOnTimeout.
-var WithRetryOnTimeout = https.WithRetryOnTimeout
+var WithRetryOnTimeout = https.WithRetryOnTimeout 
 
 // WithRetryInterval sets the RetryInterval.
-var WithRetryInterval = https.WithRetryInterval
+var WithRetryInterval = https.WithRetryInterval 
 
 // WithMaximumRetryWaitTime sets the MaximumRetryWaitTime.
-var WithMaximumRetryWaitTime = https.WithMaximumRetryWaitTime
+var WithMaximumRetryWaitTime = https.WithMaximumRetryWaitTime 
 
 // WithBackoffFactor sets the BackoffFactor.
-var WithBackoffFactor = https.WithBackoffFactor
+var WithBackoffFactor = https.WithBackoffFactor 
 
 // WithHttpStatusCodesToRetry sets the HttpStatusCodesToRetry.
-var WithHttpStatusCodesToRetry = https.WithHttpStatusCodesToRetry
+var WithHttpStatusCodesToRetry = https.WithHttpStatusCodesToRetry 
 
 // WithHttpMethodsToRetry sets the HttpMethodsToRetry.
-var WithHttpMethodsToRetry = https.WithHttpMethodsToRetry
+var WithHttpMethodsToRetry = https.WithHttpMethodsToRetry 
 
 // WithTimeout sets the Timeout.
-var WithTimeout = https.WithTimeout
+var WithTimeout = https.WithTimeout 
 
 // WithTransport sets the Transport.
-var WithTransport = https.WithTransport
+var WithTransport = https.WithTransport 
 
 // WithRetryConfiguration sets the RetryConfiguration.
-var WithRetryConfiguration = https.WithRetryConfiguration
+var WithRetryConfiguration = https.WithRetryConfiguration 

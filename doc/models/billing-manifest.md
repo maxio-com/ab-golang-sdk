@@ -9,7 +9,7 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `LineItems` | [`[]models.BillingManifestItem`](billing-manifest-item.md) | Optional | - |
+| `LineItems` | [`[]models.BillingManifestItem`](../../doc/models/billing-manifest-item.md) | Optional | - |
 | `TotalInCents` | `*int64` | Optional | - |
 | `TotalDiscountInCents` | `*int64` | Optional | - |
 | `TotalTaxInCents` | `*int64` | Optional | - |
@@ -25,22 +25,22 @@
 {
   "line_items": [
     {
-      "transaction_type": "transaction_type0",
-      "kind": "kind6",
+      "transaction_type": "credit",
+      "kind": "component",
       "amount_in_cents": 24,
       "memo": "memo2",
       "discount_amount_in_cents": 172
     },
     {
-      "transaction_type": "transaction_type0",
-      "kind": "kind6",
+      "transaction_type": "credit",
+      "kind": "component",
       "amount_in_cents": 24,
       "memo": "memo2",
       "discount_amount_in_cents": 172
     },
     {
-      "transaction_type": "transaction_type0",
-      "kind": "kind6",
+      "transaction_type": "credit",
+      "kind": "component",
       "amount_in_cents": 24,
       "memo": "memo2",
       "discount_amount_in_cents": 172

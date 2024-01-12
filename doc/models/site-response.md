@@ -9,7 +9,7 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `Site` | [`models.Site`](site.md) | Required | - |
+| `Site` | [`models.Site`](../../doc/models/site.md) | Required | - |
 
 ## Example (as JSON)
 

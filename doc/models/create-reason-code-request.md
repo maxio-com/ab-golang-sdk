@@ -9,7 +9,7 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `ReasonCode` | [`models.CreateReasonCode`](create-reason-code.md) | Required | - |
+| `ReasonCode` | [`models.CreateReasonCode`](../../doc/models/create-reason-code.md) | Required | - |
 
 ## Example (as JSON)
 

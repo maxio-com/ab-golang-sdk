@@ -10,10 +10,10 @@ subscriptionGroupInvoiceAccountController := client.SubscriptionGroupInvoiceAcco
 
 ## Methods
 
-* [Create Subscription Group Prepayment](subscription-group-invoice-account.md#create-subscription-group-prepayment)
-* [List Prepayments for Subscription Group](subscription-group-invoice-account.md#list-prepayments-for-subscription-group)
-* [Issue Subscription Group Service Credits](subscription-group-invoice-account.md#issue-subscription-group-service-credits)
-* [Deduct Subscription Group Service Credits](subscription-group-invoice-account.md#deduct-subscription-group-service-credits)
+* [Create Subscription Group Prepayment](../../doc/controllers/subscription-group-invoice-account.md#create-subscription-group-prepayment)
+* [List Prepayments for Subscription Group](../../doc/controllers/subscription-group-invoice-account.md#list-prepayments-for-subscription-group)
+* [Issue Subscription Group Service Credits](../../doc/controllers/subscription-group-invoice-account.md#issue-subscription-group-service-credits)
+* [Deduct Subscription Group Service Credits](../../doc/controllers/subscription-group-invoice-account.md#deduct-subscription-group-service-credits)
 
 
 # Create Subscription Group Prepayment
@@ -34,11 +34,11 @@ CreateSubscriptionGroupPrepayment(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `uid` | `string` | Template, Required | The uid of the subscription group |
-| `body` | [`*models.SubscriptionGroupPrepaymentRequest`](../models/subscription-group-prepayment-request.md) | Body, Optional | - |
+| `body` | [`*models.SubscriptionGroupPrepaymentRequest`](../../doc/models/subscription-group-prepayment-request.md) | Body, Optional | - |
 
 ## Response Type
 
-[`models.SubscriptionGroupPrepaymentResponse`](../models/subscription-group-prepayment-response.md)
+[`models.SubscriptionGroupPrepaymentResponse`](../../doc/models/subscription-group-prepayment-response.md)
 
 ## Example Usage
 
@@ -72,7 +72,7 @@ if err != nil {
 
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
-| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../models/error-list-response-exception.md) |
+| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../../doc/models/error-list-response-exception.md) |
 
 
 # List Prepayments for Subscription Group
@@ -91,15 +91,15 @@ ListPrepaymentsForSubscriptionGroup(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `uid` | `string` | Template, Required | The uid of the subscription group |
-| `filterDateField` | [`*models.ListSubscriptionGroupPrepaymentDateFieldEnum`](../models/list-subscription-group-prepayment-date-field-enum.md) | Query, Optional | The type of filter you would like to apply to your search.<br>Use in query: `filter[date_field]=created_at`. |
+| `filterDateField` | [`*models.ListSubscriptionGroupPrepaymentDateField`](../../doc/models/list-subscription-group-prepayment-date-field.md) | Query, Optional | The type of filter you would like to apply to your search.<br>Use in query: `filter[date_field]=created_at`. |
 | `filterEndDate` | `*time.Time` | Query, Optional | The end date (format YYYY-MM-DD) with which to filter the date_field.<br>Returns prepayments with a timestamp up to and including 11:59:59PM in your site's time zone on the date specified.<br>Use in query: `filter[end_date]=2011-12-15`. |
 | `filterStartDate` | `*time.Time` | Query, Optional | The start date (format YYYY-MM-DD) with which to filter the date_field.<br>Returns prepayments with a timestamp at or after midnight (12:00:00 AM) in your site's time zone on the date specified.<br>Use in query: `filter[start_date]=2011-12-15`. |
-| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br>**Default**: `1`<br>**Constraints**: `>= 1` |
-| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`.<br>**Default**: `20`<br>**Constraints**: `<= 200` |
+| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`. |
+| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`. |
 
 ## Response Type
 
-[`models.ListSubscriptionGroupPrepaymentResponse`](../models/list-subscription-group-prepayment-response.md)
+[`models.ListSubscriptionGroupPrepaymentResponse`](../../doc/models/list-subscription-group-prepayment-response.md)
 
 ## Example Usage
 
@@ -145,8 +145,6 @@ if err != nil {
 
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
-| 401 | Unauthorized | `ApiError` |
-| 403 | Forbidden | `ApiError` |
 | 404 | Not Found | `ApiError` |
 
 
@@ -168,11 +166,11 @@ IssueSubscriptionGroupServiceCredits(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `uid` | `string` | Template, Required | The uid of the subscription group |
-| `body` | [`*models.IssueServiceCreditRequest`](../models/issue-service-credit-request.md) | Body, Optional | - |
+| `body` | [`*models.IssueServiceCreditRequest`](../../doc/models/issue-service-credit-request.md) | Body, Optional | - |
 
 ## Response Type
 
-[`models.ServiceCreditResponse`](../models/service-credit-response.md)
+[`models.ServiceCreditResponse`](../../doc/models/service-credit-response.md)
 
 ## Example Usage
 
@@ -217,7 +215,7 @@ if err != nil {
 
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
-| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../models/error-list-response-exception.md) |
+| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../../doc/models/error-list-response-exception.md) |
 
 
 # Deduct Subscription Group Service Credits
@@ -238,11 +236,11 @@ DeductSubscriptionGroupServiceCredits(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `uid` | `string` | Template, Required | The uid of the subscription group |
-| `body` | [`*models.DeductServiceCreditRequest`](../models/deduct-service-credit-request.md) | Body, Optional | - |
+| `body` | [`*models.DeductServiceCreditRequest`](../../doc/models/deduct-service-credit-request.md) | Body, Optional | - |
 
 ## Response Type
 
-[`models.ServiceCredit`](../models/service-credit.md)
+[`models.ServiceCredit`](../../doc/models/service-credit.md)
 
 ## Example Usage
 
@@ -285,5 +283,5 @@ if err != nil {
 
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
-| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../models/error-list-response-exception.md) |
+| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../../doc/models/error-list-response-exception.md) |
 

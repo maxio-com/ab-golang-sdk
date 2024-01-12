@@ -9,7 +9,7 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `Refund` | [`models.RefundPrepayment`](refund-prepayment.md) | Required | - |
+| `Refund` | [`models.RefundPrepayment`](../../doc/models/refund-prepayment.md) | Required | - |
 
 ## Example (as JSON)
 

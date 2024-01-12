@@ -1,25 +1,25 @@
-package ab_golang_sdk
+package advancedbilling
 
 import (
-	"context"
-	"fmt"
-	"github.com/apimatic/go-core-runtime/utilities"
-	"maxioadvancedbilling/errors"
-	"maxioadvancedbilling/models"
-	"net/http"
-	"time"
+    "context"
+    "fmt"
+    "github.com/apimatic/go-core-runtime/utilities"
+    "github.com/maxio-com/ab-golang-sdk/errors"
+    "github.com/maxio-com/ab-golang-sdk/models"
+    "net/http"
+    "time"
 )
 
 // SubscriptionsController represents a controller struct.
 type SubscriptionsController struct {
-	baseController
+    baseController
 }
 
 // NewSubscriptionsController creates a new instance of SubscriptionsController.
 // It takes a baseController as a parameter and returns a pointer to the SubscriptionsController.
 func NewSubscriptionsController(baseController baseController) *SubscriptionsController {
-	subscriptionsController := SubscriptionsController{baseController: baseController}
-	return &subscriptionsController
+    subscriptionsController := SubscriptionsController{baseController: baseController}
+    return &subscriptionsController
 }
 
 // CreateSubscription takes context, body as parameters and
@@ -485,38 +485,38 @@ func NewSubscriptionsController(baseController baseController) *SubscriptionsCon
 // }
 // ```
 func (s *SubscriptionsController) CreateSubscription(
-	ctx context.Context,
-	body *models.CreateSubscriptionRequest) (
-	models.ApiResponse[models.SubscriptionResponse],
-	error) {
-	req := s.prepareRequest(ctx, "POST", "/subscriptions.json")
-	req.Authenticate(true)
-	req.Header("Content-Type", "application/json")
-	if body != nil {
-		req.Json(*body)
-	}
-	var result models.SubscriptionResponse
-	decoder, resp, err := req.CallAsJson()
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-	err = validateResponse(*resp)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	result, err = utilities.DecodeResults[models.SubscriptionResponse](decoder)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	if resp.StatusCode == 422 {
-		err = errors.NewErrorListResponse(422, "Unprocessable Entity (WebDAV)")
-	}
-	return models.NewApiResponse(result, resp), err
+    ctx context.Context,
+    body *models.CreateSubscriptionRequest) (
+    models.ApiResponse[models.SubscriptionResponse],
+    error) {
+    req := s.prepareRequest(ctx, "POST", "/subscriptions.json")
+    req.Authenticate(true)
+    req.Header("Content-Type", "application/json")
+    if body != nil {
+        req.Json(*body)
+    }
+    var result models.SubscriptionResponse
+    decoder, resp, err := req.CallAsJson()
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    err = validateResponse(*resp)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    result, err = utilities.DecodeResults[models.SubscriptionResponse](decoder)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    if resp.StatusCode == 422 {
+        err = errors.NewErrorListResponse(422, "Unprocessable Entity (WebDAV)")
+    }
+    return models.NewApiResponse(result, resp), err
 }
 
-// ListSubscriptions takes context, page, perPage, state, product, productPricePointId, coupon, dateField, startDate, endDate, startDatetime, endDatetime, metadata, direction, sort as parameters and
+// ListSubscriptions takes context, page, perPage, state, product, productPricePointId, coupon, dateField, startDate, endDate, startDatetime, endDatetime, metadata, direction, sort, include as parameters and
 // returns an models.ApiResponse with []models.SubscriptionResponse data and
 // an error if there was an issue with the request or response.
 // This method will return an array of subscriptions from a Site. Pay close attention to query string filters and pagination in order to control responses from the server.
@@ -525,83 +525,87 @@ func (s *SubscriptionsController) CreateSubscription(
 // ## Self-Service Page token
 // Self-Service Page token for the subscriptions is not returned by default. If this information is desired, the include[]=self_service_page_token parameter must be provided with the request.
 func (s *SubscriptionsController) ListSubscriptions(
-	ctx context.Context,
-	page *int,
-	perPage *int,
-	state *models.SubscriptionStateFilterEnum,
-	product *int,
-	productPricePointId *int,
-	coupon *int,
-	dateField *models.SubscriptionDateFieldEnum,
-	startDate *time.Time,
-	endDate *time.Time,
-	startDatetime *time.Time,
-	endDatetime *time.Time,
-	metadata map[string]string,
-	direction *models.SortingDirectionEnum,
-	sort *models.SubscriptionSortEnum) (
-	models.ApiResponse[[]models.SubscriptionResponse],
-	error) {
-	req := s.prepareRequest(ctx, "GET", "/subscriptions.json")
-	req.Authenticate(true)
-	if page != nil {
-		req.QueryParam("page", *page)
-	}
-	if perPage != nil {
-		req.QueryParam("per_page", *perPage)
-	}
-	if state != nil {
-		req.QueryParam("state", *state)
-	}
-	if product != nil {
-		req.QueryParam("product", *product)
-	}
-	if productPricePointId != nil {
-		req.QueryParam("product_price_point_id", *productPricePointId)
-	}
-	if coupon != nil {
-		req.QueryParam("coupon", *coupon)
-	}
-	if dateField != nil {
-		req.QueryParam("date_field", *dateField)
-	}
-	if startDate != nil {
-		req.QueryParam("start_date", startDate.Format(models.DEFAULT_DATE))
-	}
-	if endDate != nil {
-		req.QueryParam("end_date", endDate.Format(models.DEFAULT_DATE))
-	}
-	if startDatetime != nil {
-		req.QueryParam("start_datetime", startDatetime.Format(time.RFC3339))
-	}
-	if endDatetime != nil {
-		req.QueryParam("end_datetime", endDatetime.Format(time.RFC3339))
-	}
-	if metadata != nil {
-		req.QueryParam("metadata", metadata)
-	}
-	if direction != nil {
-		req.QueryParam("direction", *direction)
-	}
-	if sort != nil {
-		req.QueryParam("sort", *sort)
-	}
-	var result []models.SubscriptionResponse
-	decoder, resp, err := req.CallAsJson()
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-	err = validateResponse(*resp)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	result, err = utilities.DecodeResults[[]models.SubscriptionResponse](decoder)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	return models.NewApiResponse(result, resp), err
+    ctx context.Context,
+    page *int,
+    perPage *int,
+    state *models.SubscriptionStateFilter,
+    product *int,
+    productPricePointId *int,
+    coupon *int,
+    dateField *models.SubscriptionDateField,
+    startDate *time.Time,
+    endDate *time.Time,
+    startDatetime *time.Time,
+    endDatetime *time.Time,
+    metadata map[string]string,
+    direction *models.SortingDirection,
+    sort *models.SubscriptionSort,
+    include []models.SubscriptionListInclude) (
+    models.ApiResponse[[]models.SubscriptionResponse],
+    error) {
+    req := s.prepareRequest(ctx, "GET", "/subscriptions.json")
+    req.Authenticate(true)
+    if page != nil {
+        req.QueryParam("page", *page)
+    }
+    if perPage != nil {
+        req.QueryParam("per_page", *perPage)
+    }
+    if state != nil {
+        req.QueryParam("state", *state)
+    }
+    if product != nil {
+        req.QueryParam("product", *product)
+    }
+    if productPricePointId != nil {
+        req.QueryParam("product_price_point_id", *productPricePointId)
+    }
+    if coupon != nil {
+        req.QueryParam("coupon", *coupon)
+    }
+    if dateField != nil {
+        req.QueryParam("date_field", *dateField)
+    }
+    if startDate != nil {
+        req.QueryParam("start_date", startDate.Format(models.DEFAULT_DATE))
+    }
+    if endDate != nil {
+        req.QueryParam("end_date", endDate.Format(models.DEFAULT_DATE))
+    }
+    if startDatetime != nil {
+        req.QueryParam("start_datetime", startDatetime.Format(time.RFC3339))
+    }
+    if endDatetime != nil {
+        req.QueryParam("end_datetime", endDatetime.Format(time.RFC3339))
+    }
+    if metadata != nil {
+        req.QueryParam("metadata", metadata)
+    }
+    if direction != nil {
+        req.QueryParam("direction", *direction)
+    }
+    if sort != nil {
+        req.QueryParam("sort", *sort)
+    }
+    if include != nil {
+        req.QueryParam("include[]", include)
+    }
+    var result []models.SubscriptionResponse
+    decoder, resp, err := req.CallAsJson()
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    err = validateResponse(*resp)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    result, err = utilities.DecodeResults[[]models.SubscriptionResponse](decoder)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    return models.NewApiResponse(result, resp), err
 }
 
 // UpdateSubscription takes context, subscriptionId, body as parameters and
@@ -629,41 +633,41 @@ func (s *SubscriptionsController) ListSubscriptions(
 // For a subscription using Calendar Billing, setting the next billing date is a bit different. Send the `snap_day` attribute to change the calendar billing date for **a subscription using a product eligible for calendar billing**.
 // Note: If you change the product associated with a subscription that contains a `snap_date` and immediately `READ/GET` the subscription data, it will still contain evidence of the existing `snap_date`. This is due to the fact that a product change is instantanous and only affects the product associated with a subscription. After the `next_billing` date arrives, the `snap_day` associated with the subscription will return to `null.` Another way of looking at this is that you willl have to wait for the next billing cycle to arrive before the `snap_date` will reset to `null`.
 func (s *SubscriptionsController) UpdateSubscription(
-	ctx context.Context,
-	subscriptionId int,
-	body *models.UpdateSubscriptionRequest) (
-	models.ApiResponse[models.SubscriptionResponse],
-	error) {
-	req := s.prepareRequest(
-		ctx,
-		"PUT",
-		fmt.Sprintf("/subscriptions/%v.json", subscriptionId),
-	)
-	req.Authenticate(true)
-	req.Header("Content-Type", "application/json")
-	if body != nil {
-		req.Json(*body)
-	}
-
-	var result models.SubscriptionResponse
-	decoder, resp, err := req.CallAsJson()
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-	err = validateResponse(*resp)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	result, err = utilities.DecodeResults[models.SubscriptionResponse](decoder)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	if resp.StatusCode == 422 {
-		err = errors.NewErrorListResponse(422, "Unprocessable Entity (WebDAV)")
-	}
-	return models.NewApiResponse(result, resp), err
+    ctx context.Context,
+    subscriptionId int,
+    body *models.UpdateSubscriptionRequest) (
+    models.ApiResponse[models.SubscriptionResponse],
+    error) {
+    req := s.prepareRequest(
+      ctx,
+      "PUT",
+      fmt.Sprintf("/subscriptions/%v.json", subscriptionId),
+    )
+    req.Authenticate(true)
+    req.Header("Content-Type", "application/json")
+    if body != nil {
+        req.Json(*body)
+    }
+    
+    var result models.SubscriptionResponse
+    decoder, resp, err := req.CallAsJson()
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    err = validateResponse(*resp)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    result, err = utilities.DecodeResults[models.SubscriptionResponse](decoder)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    if resp.StatusCode == 422 {
+        err = errors.NewErrorListResponse(422, "Unprocessable Entity (WebDAV)")
+    }
+    return models.NewApiResponse(result, resp), err
 }
 
 // ReadSubscription takes context, subscriptionId, include as parameters and
@@ -673,37 +677,37 @@ func (s *SubscriptionsController) UpdateSubscription(
 // ## Self-Service Page token
 // Self-Service Page token for the subscription is not returned by default. If this information is desired, the include[]=self_service_page_token parameter must be provided with the request.
 func (s *SubscriptionsController) ReadSubscription(
-	ctx context.Context,
-	subscriptionId int,
-	include []models.SubscriptionIncludeEnum) (
-	models.ApiResponse[models.SubscriptionResponse],
-	error) {
-	req := s.prepareRequest(
-		ctx,
-		"GET",
-		fmt.Sprintf("/subscriptions/%v.json", subscriptionId),
-	)
-	req.Authenticate(true)
-	if include != nil {
-		req.QueryParam("include[]", include)
-	}
-
-	var result models.SubscriptionResponse
-	decoder, resp, err := req.CallAsJson()
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-	err = validateResponse(*resp)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	result, err = utilities.DecodeResults[models.SubscriptionResponse](decoder)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	return models.NewApiResponse(result, resp), err
+    ctx context.Context,
+    subscriptionId int,
+    include []models.SubscriptionInclude) (
+    models.ApiResponse[models.SubscriptionResponse],
+    error) {
+    req := s.prepareRequest(
+      ctx,
+      "GET",
+      fmt.Sprintf("/subscriptions/%v.json", subscriptionId),
+    )
+    req.Authenticate(true)
+    if include != nil {
+        req.QueryParam("include[]", include)
+    }
+    
+    var result models.SubscriptionResponse
+    decoder, resp, err := req.CallAsJson()
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    err = validateResponse(*resp)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    result, err = utilities.DecodeResults[models.SubscriptionResponse](decoder)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    return models.NewApiResponse(result, resp), err
 }
 
 // OverrideSubscription takes context, subscriptionId, body as parameters and
@@ -721,37 +725,34 @@ func (s *SubscriptionsController) ReadSubscription(
 // 3. The value passed must be before the current date/time.
 // If unpermitted parameters are sent, a 400 HTTP response is sent along with a string giving the reason for the problem.
 func (s *SubscriptionsController) OverrideSubscription(
-	ctx context.Context,
-	subscriptionId int,
-	body *models.OverrideSubscriptionRequest) (
-	*http.Response,
-	error) {
-	req := s.prepareRequest(
-		ctx,
-		"PUT",
-		fmt.Sprintf("/subscriptions/%v/override.json", subscriptionId),
-	)
-	req.Authenticate(true)
-	req.Header("Content-Type", "application/json")
-	if body != nil {
-		req.Json(*body)
-	}
-
-	context, err := req.Call()
-	if err != nil {
-		return context.Response, err
-	}
-	err = validateResponse(*context.Response)
-	if err != nil {
-		return context.Response, err
-	}
-	if context.Response.StatusCode == 400 {
-		err = errors.NewApiError(400, "Bad Request")
-	}
-	if context.Response.StatusCode == 422 {
-		err = errors.NewApiError(422, "Unprocessable Entity (WebDAV)")
-	}
-	return context.Response, err
+    ctx context.Context,
+    subscriptionId int,
+    body *models.OverrideSubscriptionRequest) (
+    *http.Response,
+    error) {
+    req := s.prepareRequest(
+      ctx,
+      "PUT",
+      fmt.Sprintf("/subscriptions/%v/override.json", subscriptionId),
+    )
+    req.Authenticate(true)
+    req.Header("Content-Type", "application/json")
+    if body != nil {
+        req.Json(*body)
+    }
+    
+    context, err := req.Call()
+    if err != nil {
+        return context.Response, err
+    }
+    err = validateResponse(*context.Response)
+    if err != nil {
+        return context.Response, err
+    }
+    if context.Response.StatusCode == 422 {
+        err = errors.NewSingleErrorResponse(422, "Unprocessable Entity (WebDAV)")
+    }
+    return context.Response, err
 }
 
 // ReadSubscriptionByReference takes context, reference as parameters and
@@ -759,31 +760,31 @@ func (s *SubscriptionsController) OverrideSubscription(
 // an error if there was an issue with the request or response.
 // Use this endpoint to find a subscription by its reference.
 func (s *SubscriptionsController) ReadSubscriptionByReference(
-	ctx context.Context,
-	reference *string) (
-	models.ApiResponse[models.SubscriptionResponse],
-	error) {
-	req := s.prepareRequest(ctx, "GET", "/subscriptions/lookup.json")
-	req.Authenticate(true)
-	if reference != nil {
-		req.QueryParam("reference", *reference)
-	}
-	var result models.SubscriptionResponse
-	decoder, resp, err := req.CallAsJson()
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-	err = validateResponse(*resp)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	result, err = utilities.DecodeResults[models.SubscriptionResponse](decoder)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	return models.NewApiResponse(result, resp), err
+    ctx context.Context,
+    reference *string) (
+    models.ApiResponse[models.SubscriptionResponse],
+    error) {
+    req := s.prepareRequest(ctx, "GET", "/subscriptions/lookup.json")
+    req.Authenticate(true)
+    if reference != nil {
+        req.QueryParam("reference", *reference)
+    }
+    var result models.SubscriptionResponse
+    decoder, resp, err := req.CallAsJson()
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    err = validateResponse(*resp)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    result, err = utilities.DecodeResults[models.SubscriptionResponse](decoder)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    return models.NewApiResponse(result, resp), err
 }
 
 // PurgeSubscription takes context, subscriptionId, ack, cascade as parameters and
@@ -795,35 +796,32 @@ func (s *SubscriptionsController) ReadSubscriptionByReference(
 // ### Delete customer and payment profile
 // The query params will be: `?ack={customer_id}&cascade[]=customer&cascade[]=payment_profile`
 func (s *SubscriptionsController) PurgeSubscription(
-	ctx context.Context,
-	subscriptionId int,
-	ack int,
-	cascade []models.SubscriptionPurgeTypeEnum) (
-	*http.Response,
-	error) {
-	req := s.prepareRequest(
-		ctx,
-		"POST",
-		fmt.Sprintf("/subscriptions/%v/purge.json", subscriptionId),
-	)
-	req.Authenticate(true)
-	req.QueryParam("ack", ack)
-	if cascade != nil {
-		req.QueryParam("cascade[]", cascade)
-	}
-
-	context, err := req.Call()
-	if err != nil {
-		return context.Response, err
-	}
-	err = validateResponse(*context.Response)
-	if err != nil {
-		return context.Response, err
-	}
-	if context.Response.StatusCode == 400 {
-		err = errors.NewApiError(400, "Bad Request")
-	}
-	return context.Response, err
+    ctx context.Context,
+    subscriptionId int,
+    ack int,
+    cascade []models.SubscriptionPurgeType) (
+    *http.Response,
+    error) {
+    req := s.prepareRequest(
+      ctx,
+      "POST",
+      fmt.Sprintf("/subscriptions/%v/purge.json", subscriptionId),
+    )
+    req.Authenticate(true)
+    req.QueryParam("ack", ack)
+    if cascade != nil {
+        req.QueryParam("cascade[]", cascade)
+    }
+    
+    context, err := req.Call()
+    if err != nil {
+        return context.Response, err
+    }
+    err = validateResponse(*context.Response)
+    if err != nil {
+        return context.Response, err
+    }
+    return context.Response, err
 }
 
 // CreatePrepaidSubscription takes context, subscriptionId, body as parameters and
@@ -831,38 +829,38 @@ func (s *SubscriptionsController) PurgeSubscription(
 // an error if there was an issue with the request or response.
 // Use this endpoint to update a subscription's prepaid configuration.
 func (s *SubscriptionsController) CreatePrepaidSubscription(
-	ctx context.Context,
-	subscriptionId int,
-	body *models.UpsertPrepaidConfigurationRequest) (
-	models.ApiResponse[models.PrepaidConfigurationResponse],
-	error) {
-	req := s.prepareRequest(
-		ctx,
-		"POST",
-		fmt.Sprintf("/subscriptions/%v/prepaid_configurations.json", subscriptionId),
-	)
-	req.Authenticate(true)
-	req.Header("Content-Type", "application/json")
-	if body != nil {
-		req.Json(*body)
-	}
-
-	var result models.PrepaidConfigurationResponse
-	decoder, resp, err := req.CallAsJson()
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-	err = validateResponse(*resp)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	result, err = utilities.DecodeResults[models.PrepaidConfigurationResponse](decoder)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	return models.NewApiResponse(result, resp), err
+    ctx context.Context,
+    subscriptionId int,
+    body *models.UpsertPrepaidConfigurationRequest) (
+    models.ApiResponse[models.PrepaidConfigurationResponse],
+    error) {
+    req := s.prepareRequest(
+      ctx,
+      "POST",
+      fmt.Sprintf("/subscriptions/%v/prepaid_configurations.json", subscriptionId),
+    )
+    req.Authenticate(true)
+    req.Header("Content-Type", "application/json")
+    if body != nil {
+        req.Json(*body)
+    }
+    
+    var result models.PrepaidConfigurationResponse
+    decoder, resp, err := req.CallAsJson()
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    err = validateResponse(*resp)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    result, err = utilities.DecodeResults[models.PrepaidConfigurationResponse](decoder)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    return models.NewApiResponse(result, resp), err
 }
 
 // PreviewSubscription takes context, body as parameters and
@@ -883,32 +881,32 @@ func (s *SubscriptionsController) CreatePrepaidSubscription(
 // ## Non-taxable Subscriptions
 // If you'd like to calculate subscriptions that do not include tax, please feel free to leave off the billing information.
 func (s *SubscriptionsController) PreviewSubscription(
-	ctx context.Context,
-	body *models.CreateSubscriptionRequest) (
-	models.ApiResponse[models.SubscriptionPreviewResponse],
-	error) {
-	req := s.prepareRequest(ctx, "POST", "/subscriptions/preview.json")
-	req.Authenticate(true)
-	req.Header("Content-Type", "application/json")
-	if body != nil {
-		req.Json(*body)
-	}
-	var result models.SubscriptionPreviewResponse
-	decoder, resp, err := req.CallAsJson()
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-	err = validateResponse(*resp)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	result, err = utilities.DecodeResults[models.SubscriptionPreviewResponse](decoder)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	return models.NewApiResponse(result, resp), err
+    ctx context.Context,
+    body *models.CreateSubscriptionRequest) (
+    models.ApiResponse[models.SubscriptionPreviewResponse],
+    error) {
+    req := s.prepareRequest(ctx, "POST", "/subscriptions/preview.json")
+    req.Authenticate(true)
+    req.Header("Content-Type", "application/json")
+    if body != nil {
+        req.Json(*body)
+    }
+    var result models.SubscriptionPreviewResponse
+    decoder, resp, err := req.CallAsJson()
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    err = validateResponse(*resp)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    result, err = utilities.DecodeResults[models.SubscriptionPreviewResponse](decoder)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    return models.NewApiResponse(result, resp), err
 }
 
 // ApplyCouponToSubscription takes context, subscriptionId, code, body as parameters and
@@ -919,45 +917,45 @@ func (s *SubscriptionsController) PreviewSubscription(
 // Passing in a coupon code as a query parameter will add the code to the subscription, completely replacing all existing coupon codes on the subscription.
 // For this reason, using this query parameter on this endpoint has been deprecated in favor of using the request body parameters as described below. When passing in request body parameters, the list of coupon codes will simply be added to any existing list of codes on the subscription.
 func (s *SubscriptionsController) ApplyCouponToSubscription(
-	ctx context.Context,
-	subscriptionId int,
-	code *string,
-	body *models.AddCouponsRequest) (
-	models.ApiResponse[models.SubscriptionResponse],
-	error) {
-	req := s.prepareRequest(
-		ctx,
-		"POST",
-		fmt.Sprintf("/subscriptions/%v/add_coupon.json", subscriptionId),
-	)
-	req.Authenticate(true)
-	req.Header("Content-Type", "application/json")
-	if code != nil {
-		req.QueryParam("code", *code)
-	}
-	if body != nil {
-		req.Json(*body)
-	}
-
-	var result models.SubscriptionResponse
-	decoder, resp, err := req.CallAsJson()
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-	err = validateResponse(*resp)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	result, err = utilities.DecodeResults[models.SubscriptionResponse](decoder)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	if resp.StatusCode == 422 {
-		err = errors.NewSubscriptionAddCouponError(422, "Unprocessable Entity (WebDAV)")
-	}
-	return models.NewApiResponse(result, resp), err
+    ctx context.Context,
+    subscriptionId int,
+    code *string,
+    body *models.AddCouponsRequest) (
+    models.ApiResponse[models.SubscriptionResponse],
+    error) {
+    req := s.prepareRequest(
+      ctx,
+      "POST",
+      fmt.Sprintf("/subscriptions/%v/add_coupon.json", subscriptionId),
+    )
+    req.Authenticate(true)
+    req.Header("Content-Type", "application/json")
+    if code != nil {
+        req.QueryParam("code", *code)
+    }
+    if body != nil {
+        req.Json(*body)
+    }
+    
+    var result models.SubscriptionResponse
+    decoder, resp, err := req.CallAsJson()
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    err = validateResponse(*resp)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    result, err = utilities.DecodeResults[models.SubscriptionResponse](decoder)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    if resp.StatusCode == 422 {
+        err = errors.NewSubscriptionAddCouponError(422, "Unprocessable Entity (WebDAV)")
+    }
+    return models.NewApiResponse(result, resp), err
 }
 
 // DeleteCouponFromSubscription takes context, subscriptionId, couponCode as parameters and
@@ -966,35 +964,35 @@ func (s *SubscriptionsController) ApplyCouponToSubscription(
 // Use this endpoint to remove a coupon from an existing subscription.
 // For more information on the expected behaviour of removing a coupon from a subscription, please see our documentation [here.](https://chargify.zendesk.com/hc/en-us/articles/4407896488987#removing-a-coupon)
 func (s *SubscriptionsController) DeleteCouponFromSubscription(
-	ctx context.Context,
-	subscriptionId int,
-	couponCode *string) (
-	models.ApiResponse[string],
-	error) {
-	req := s.prepareRequest(
-		ctx,
-		"DELETE",
-		fmt.Sprintf("/subscriptions/%v/remove_coupon.json", subscriptionId),
-	)
-	req.Authenticate(true)
-	if couponCode != nil {
-		req.QueryParam("coupon_code", *couponCode)
-	}
+    ctx context.Context,
+    subscriptionId int,
+    couponCode *string) (
+    models.ApiResponse[string],
+    error) {
+    req := s.prepareRequest(
+      ctx,
+      "DELETE",
+      fmt.Sprintf("/subscriptions/%v/remove_coupon.json", subscriptionId),
+    )
+    req.Authenticate(true)
+    if couponCode != nil {
+        req.QueryParam("coupon_code", *couponCode)
+    }
+    
+    str, resp, err := req.CallAsText()
+    var result string = str
 
-	str, resp, err := req.CallAsText()
-	var result string = str
-
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-	err = validateResponse(*resp)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-	if resp.StatusCode == 422 {
-		err = errors.NewSubscriptionRemoveCouponErrors(422, "Unprocessable Entity (WebDAV)")
-	}
-	return models.NewApiResponse(result, resp), err
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    err = validateResponse(*resp)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    if resp.StatusCode == 422 {
+        err = errors.NewSubscriptionRemoveCouponErrors(422, "Unprocessable Entity (WebDAV)")
+    }
+    return models.NewApiResponse(result, resp), err
 }
 
 // ActivateSubscription takes context, subscriptionId, body as parameters and
@@ -1032,39 +1030,39 @@ func (s *SubscriptionsController) DeleteCouponFromSubscription(
 // You can read more about the behavior of trialing subscriptions [here](https://maxio-chargify.zendesk.com/hc/en-us/articles/5404494617357#trialing-subscriptions-0-0).
 // When the `revert_on_failure` parameter is set to `true`, the subscription's state will remain as Trialing, we will void the invoice from activation and return any prepayments and credits applied to the invoice back to the subscription.
 func (s *SubscriptionsController) ActivateSubscription(
-	ctx context.Context,
-	subscriptionId int,
-	body *models.ActivateSubscriptionRequest) (
-	models.ApiResponse[models.SubscriptionResponse],
-	error) {
-	req := s.prepareRequest(
-		ctx,
-		"PUT",
-		fmt.Sprintf("/subscriptions/%v/activate.json", subscriptionId),
-	)
-	req.Authenticate(true)
-	req.Header("Content-Type", "application/json")
-	if body != nil {
-		req.Json(*body)
-	}
-
-	var result models.SubscriptionResponse
-	decoder, resp, err := req.CallAsJson()
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-	err = validateResponse(*resp)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	result, err = utilities.DecodeResults[models.SubscriptionResponse](decoder)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	if resp.StatusCode == 400 {
-		err = errors.NewNestedErrorResponse(400, "Bad Request")
-	}
-	return models.NewApiResponse(result, resp), err
+    ctx context.Context,
+    subscriptionId int,
+    body *models.ActivateSubscriptionRequest) (
+    models.ApiResponse[models.SubscriptionResponse],
+    error) {
+    req := s.prepareRequest(
+      ctx,
+      "PUT",
+      fmt.Sprintf("/subscriptions/%v/activate.json", subscriptionId),
+    )
+    req.Authenticate(true)
+    req.Header("Content-Type", "application/json")
+    if body != nil {
+        req.Json(*body)
+    }
+    
+    var result models.SubscriptionResponse
+    decoder, resp, err := req.CallAsJson()
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    err = validateResponse(*resp)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    result, err = utilities.DecodeResults[models.SubscriptionResponse](decoder)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    if resp.StatusCode == 400 {
+        err = errors.NewNestedErrorResponse(400, "Bad Request")
+    }
+    return models.NewApiResponse(result, resp), err
 }
