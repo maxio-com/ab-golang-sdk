@@ -10,7 +10,7 @@
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `ComponentId` | `*int` | Optional | - |
-| `CustomPrice` | [`*models.ComponentCustomPrice`](component-custom-price.md) | Optional | Create or update custom pricing unique to the subscription. Used in place of `price_point_id`. |
+| `CustomPrice` | [`*models.ComponentCustomPrice`](../../doc/models/component-custom-price.md) | Optional | Create or update custom pricing unique to the subscription. Used in place of `price_point_id`. |
 
 ## Example (as JSON)
 
@@ -19,6 +19,8 @@
   "component_id": 244,
   "custom_price": {
     "pricing_scheme": "stairstep",
+    "interval": 66,
+    "interval_unit": "day",
     "prices": [
       {
         "starting_quantity": {

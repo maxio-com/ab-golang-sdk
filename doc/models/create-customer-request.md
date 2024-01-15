@@ -9,7 +9,7 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `Customer` | [`models.CreateCustomer`](create-customer.md) | Required | - |
+| `Customer` | [`models.CreateCustomer`](../../doc/models/create-customer.md) | Required | - |
 
 ## Example (as JSON)
 

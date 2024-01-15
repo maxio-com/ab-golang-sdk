@@ -9,7 +9,7 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `Errors` | [`models.ProductPricePointErrors`](product-price-point-errors.md) | Required | - |
+| `Errors` | [`models.ProductPricePointErrors`](../../doc/models/product-price-point-errors.md) | Required | - |
 
 ## Example (as JSON)
 

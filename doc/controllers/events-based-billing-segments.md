@@ -10,12 +10,12 @@ eventsBasedBillingSegmentsController := client.EventsBasedBillingSegmentsControl
 
 ## Methods
 
-* [Create Segment](events-based-billing-segments.md#create-segment)
-* [List Segments for Price Point](events-based-billing-segments.md#list-segments-for-price-point)
-* [Update Segment](events-based-billing-segments.md#update-segment)
-* [Delete Segment](events-based-billing-segments.md#delete-segment)
-* [Create Segments](events-based-billing-segments.md#create-segments)
-* [Update Segments](events-based-billing-segments.md#update-segments)
+* [Create Segment](../../doc/controllers/events-based-billing-segments.md#create-segment)
+* [List Segments for Price Point](../../doc/controllers/events-based-billing-segments.md#list-segments-for-price-point)
+* [Update Segment](../../doc/controllers/events-based-billing-segments.md#update-segment)
+* [Delete Segment](../../doc/controllers/events-based-billing-segments.md#delete-segment)
+* [Create Segments](../../doc/controllers/events-based-billing-segments.md#create-segments)
+* [Update Segments](../../doc/controllers/events-based-billing-segments.md#update-segments)
 
 
 # Create Segment
@@ -40,11 +40,11 @@ CreateSegment(
 |  --- | --- | --- | --- |
 | `componentId` | `string` | Template, Required | ID or Handle for the Component |
 | `pricePointId` | `string` | Template, Required | ID or Handle for the Price Point belonging to the Component |
-| `body` | [`*models.CreateSegmentRequest`](../models/create-segment-request.md) | Body, Optional | - |
+| `body` | [`*models.CreateSegmentRequest`](../../doc/models/create-segment-request.md) | Body, Optional | - |
 
 ## Response Type
 
-[`models.SegmentResponse`](../models/segment-response.md)
+[`models.SegmentResponse`](../../doc/models/segment-response.md)
 
 ## Example Usage
 
@@ -68,7 +68,7 @@ bodySegmentPrices := []models.CreateOrUpdateSegmentPrice{bodySegmentPrices0, bod
 bodySegment := models.CreateSegment{
     SegmentProperty1Value: models.ToPointer(interface{}("[key1, val1][key2, val2]")),
     SegmentProperty2Value: models.ToPointer(interface{}("[key1, val1][key2, val2]")),
-    PricingScheme:         models.PricingSchemeEnum("volume"),
+    PricingScheme:         models.PricingScheme("volume"),
     Prices:                bodySegmentPrices,
 }
 
@@ -90,10 +90,8 @@ if err != nil {
 
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
-| 401 | Unauthorized | `ApiError` |
-| 403 | Forbidden | `ApiError` |
 | 404 | Not Found | `ApiError` |
-| 422 | Unprocessable Entity (WebDAV) | [`EventBasedBillingSegmentErrorsException`](../models/event-based-billing-segment-errors-exception.md) |
+| 422 | Unprocessable Entity (WebDAV) | [`EventBasedBillingSegmentErrorsException`](../../doc/models/event-based-billing-segment-errors-exception.md) |
 
 
 # List Segments for Price Point
@@ -117,8 +115,8 @@ ListSegmentsForPricePoint(
 |  --- | --- | --- | --- |
 | `componentId` | `string` | Template, Required | ID or Handle for the Component |
 | `pricePointId` | `string` | Template, Required | ID or Handle for the Price Point belonging to the Component |
-| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br>**Default**: `1`<br>**Constraints**: `>= 1` |
-| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 30. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`.<br>**Default**: `30`<br>**Constraints**: `<= 200` |
+| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`. |
+| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 30. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`. |
 | `filterSegmentProperty1Value` | `*string` | Query, Optional | The value passed here would be used to filter segments. Pass a value related to `segment_property_1` on attached Metric. If empty string is passed, this filter would be rejected. Use in query `filter[segment_property_1_value]=EU`. |
 | `filterSegmentProperty2Value` | `*string` | Query, Optional | The value passed here would be used to filter segments. Pass a value related to `segment_property_2` on attached Metric. If empty string is passed, this filter would be rejected. |
 | `filterSegmentProperty3Value` | `*string` | Query, Optional | The value passed here would be used to filter segments. Pass a value related to `segment_property_3` on attached Metric. If empty string is passed, this filter would be rejected. |
@@ -126,7 +124,7 @@ ListSegmentsForPricePoint(
 
 ## Response Type
 
-[`models.ListSegmentsResponse`](../models/list-segments-response.md)
+[`models.ListSegmentsResponse`](../../doc/models/list-segments-response.md)
 
 ## Example Usage
 
@@ -151,10 +149,8 @@ if err != nil {
 
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
-| 401 | Unauthorized | `ApiError` |
-| 403 | Forbidden | `ApiError` |
 | 404 | Not Found | `ApiError` |
-| 422 | Unprocessable Entity (WebDAV) | [`EventBasedBillingListSegmentsErrorsException`](../models/event-based-billing-list-segments-errors-exception.md) |
+| 422 | Unprocessable Entity (WebDAV) | [`EventBasedBillingListSegmentsErrorsException`](../../doc/models/event-based-billing-list-segments-errors-exception.md) |
 
 
 # Update Segment
@@ -181,11 +177,11 @@ UpdateSegment(
 | `componentId` | `string` | Template, Required | ID or Handle of the Component |
 | `pricePointId` | `string` | Template, Required | ID or Handle of the Price Point belonging to the Component |
 | `id` | `float64` | Template, Required | The ID of the Segment |
-| `body` | [`*models.UpdateSegmentRequest`](../models/update-segment-request.md) | Body, Optional | - |
+| `body` | [`*models.UpdateSegmentRequest`](../../doc/models/update-segment-request.md) | Body, Optional | - |
 
 ## Response Type
 
-[`models.SegmentResponse`](../models/segment-response.md)
+[`models.SegmentResponse`](../../doc/models/segment-response.md)
 
 ## Example Usage
 
@@ -209,10 +205,8 @@ if err != nil {
 
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
-| 401 | Unauthorized | `ApiError` |
-| 403 | Forbidden | `ApiError` |
 | 404 | Not Found | `ApiError` |
-| 422 | Unprocessable Entity (WebDAV) | [`EventBasedBillingSegmentErrorsException`](../models/event-based-billing-segment-errors-exception.md) |
+| 422 | Unprocessable Entity (WebDAV) | [`EventBasedBillingSegmentErrorsException`](../../doc/models/event-based-billing-segment-errors-exception.md) |
 
 
 # Delete Segment
@@ -263,8 +257,6 @@ if err != nil {
 
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
-| 401 | Unauthorized | `ApiError` |
-| 403 | Forbidden | `ApiError` |
 | 404 | Not Found | `ApiError` |
 | 422 | Unprocessable Entity (WebDAV) | `ApiError` |
 
@@ -293,11 +285,11 @@ CreateSegments(
 |  --- | --- | --- | --- |
 | `componentId` | `string` | Template, Required | ID or Handle for the Component |
 | `pricePointId` | `string` | Template, Required | ID or Handle for the Price Point belonging to the Component |
-| `body` | [`*models.BulkCreateSegments`](../models/bulk-create-segments.md) | Body, Optional | - |
+| `body` | [`*models.BulkCreateSegments`](../../doc/models/bulk-create-segments.md) | Body, Optional | - |
 
 ## Response Type
 
-[`models.ListSegmentsResponse`](../models/list-segments-response.md)
+[`models.ListSegmentsResponse`](../../doc/models/list-segments-response.md)
 
 ## Example Usage
 
@@ -320,10 +312,8 @@ if err != nil {
 
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
-| 401 | Unauthorized | `ApiError` |
-| 403 | Forbidden | `ApiError` |
 | 404 | Not Found | `ApiError` |
-| 422 | Unprocessable Entity (WebDAV) | [`EventBasedBillingSegmentException`](../models/event-based-billing-segment-exception.md) |
+| 422 | Unprocessable Entity (WebDAV) | [`EventBasedBillingSegmentException`](../../doc/models/event-based-billing-segment-exception.md) |
 
 
 # Update Segments
@@ -350,11 +340,11 @@ UpdateSegments(
 |  --- | --- | --- | --- |
 | `componentId` | `string` | Template, Required | ID or Handle for the Component |
 | `pricePointId` | `string` | Template, Required | ID or Handle for the Price Point belonging to the Component |
-| `body` | [`*models.BulkUpdateSegments`](../models/bulk-update-segments.md) | Body, Optional | - |
+| `body` | [`*models.BulkUpdateSegments`](../../doc/models/bulk-update-segments.md) | Body, Optional | - |
 
 ## Response Type
 
-[`models.ListSegmentsResponse`](../models/list-segments-response.md)
+[`models.ListSegmentsResponse`](../../doc/models/list-segments-response.md)
 
 ## Example Usage
 
@@ -377,8 +367,6 @@ if err != nil {
 
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
-| 401 | Unauthorized | `ApiError` |
-| 403 | Forbidden | `ApiError` |
 | 404 | Not Found | `ApiError` |
-| 422 | Unprocessable Entity (WebDAV) | [`EventBasedBillingSegmentException`](../models/event-based-billing-segment-exception.md) |
+| 422 | Unprocessable Entity (WebDAV) | [`EventBasedBillingSegmentException`](../../doc/models/event-based-billing-segment-exception.md) |
 

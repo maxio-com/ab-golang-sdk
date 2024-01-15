@@ -9,7 +9,7 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `Errors` | [`[]models.ComponentPricePointErrorItem`](component-price-point-error-item.md) | Optional | - |
+| `Errors` | [`[]models.ComponentPricePointErrorItem`](../../doc/models/component-price-point-error-item.md) | Optional | - |
 
 ## Example (as JSON)
 

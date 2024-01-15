@@ -9,10 +9,10 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `Prepayments` | [`*models.AccountBalance`](account-balance.md) | Optional | - |
-| `ServiceCredits` | [`*models.AccountBalance`](account-balance.md) | Optional | - |
-| `OpenInvoices` | [`*models.AccountBalance`](account-balance.md) | Optional | - |
-| `PendingDiscounts` | [`*models.AccountBalance`](account-balance.md) | Optional | - |
+| `Prepayments` | [`*models.AccountBalance`](../../doc/models/account-balance.md) | Optional | - |
+| `ServiceCredits` | [`*models.AccountBalance`](../../doc/models/account-balance.md) | Optional | - |
+| `OpenInvoices` | [`*models.AccountBalance`](../../doc/models/account-balance.md) | Optional | - |
+| `PendingDiscounts` | [`*models.AccountBalance`](../../doc/models/account-balance.md) | Optional | - |
 
 ## Example (as JSON)
 

@@ -9,7 +9,7 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `Segment` | [`models.CreateSegment`](create-segment.md) | Required | - |
+| `Segment` | [`models.CreateSegment`](../../doc/models/create-segment.md) | Required | - |
 
 ## Example (as JSON)
 

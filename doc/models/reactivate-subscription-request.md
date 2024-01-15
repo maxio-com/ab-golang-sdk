@@ -9,7 +9,7 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `CalendarBilling` | [`*models.ReactivationBilling`](reactivation-billing.md) | Optional | These values are only applicable to subscriptions using calendar billing |
+| `CalendarBilling` | [`*models.ReactivationBilling`](../../doc/models/reactivation-billing.md) | Optional | These values are only applicable to subscriptions using calendar billing |
 | `IncludeTrial` | `*bool` | Optional | If `true` is sent, the reactivated Subscription will include a trial if one is available. If `false` is sent, the trial period will be ignored. |
 | `PreserveBalance` | `*bool` | Optional | If `true` is passed, the existing subscription balance will NOT be cleared/reset before adding the additional reactivation charges. |
 | `CouponCode` | `*string` | Optional | The coupon code to be applied during reactivation. |

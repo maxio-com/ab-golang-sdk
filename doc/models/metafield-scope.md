@@ -11,12 +11,12 @@ Warning: When updating a metafield's scope attribute, all scope attributes must 
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `Csv` | [`*models.IncludeOptionEnum`](include-option-enum.md) | Optional | Include (1) or exclude (0) metafields from the csv export. |
-| `Invoices` | [`*models.IncludeOptionEnum`](include-option-enum.md) | Optional | Include (1) or exclude (0) metafields from invoices. |
-| `Statements` | [`*models.IncludeOptionEnum`](include-option-enum.md) | Optional | Include (1) or exclude (0) metafields from statements. |
-| `Portal` | [`*models.IncludeOptionEnum`](include-option-enum.md) | Optional | Include (1) or exclude (0) metafields from the portal. |
-| `PublicShow` | [`*models.IncludeOptionEnum`](include-option-enum.md) | Optional | Include (1) or exclude (0) metafields from being viewable by your ecosystem. |
-| `PublicEdit` | [`*models.IncludeOptionEnum`](include-option-enum.md) | Optional | Include (1) or exclude (0) metafields from being edited by your ecosystem. |
+| `Csv` | [`*models.IncludeOption`](../../doc/models/include-option.md) | Optional | Include (1) or exclude (0) metafields from the csv export. |
+| `Invoices` | [`*models.IncludeOption`](../../doc/models/include-option.md) | Optional | Include (1) or exclude (0) metafields from invoices. |
+| `Statements` | [`*models.IncludeOption`](../../doc/models/include-option.md) | Optional | Include (1) or exclude (0) metafields from statements. |
+| `Portal` | [`*models.IncludeOption`](../../doc/models/include-option.md) | Optional | Include (1) or exclude (0) metafields from the portal. |
+| `PublicShow` | [`*models.IncludeOption`](../../doc/models/include-option.md) | Optional | Include (1) or exclude (0) metafields from being viewable by your ecosystem. |
+| `PublicEdit` | [`*models.IncludeOption`](../../doc/models/include-option.md) | Optional | Include (1) or exclude (0) metafields from being edited by your ecosystem. |
 | `Hosted` | `[]string` | Optional | - |
 
 ## Example (as JSON)

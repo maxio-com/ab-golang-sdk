@@ -10,18 +10,18 @@ subscriptionsController := client.SubscriptionsController()
 
 ## Methods
 
-* [Create Subscription](subscriptions.md#create-subscription)
-* [List Subscriptions](subscriptions.md#list-subscriptions)
-* [Update Subscription](subscriptions.md#update-subscription)
-* [Read Subscription](subscriptions.md#read-subscription)
-* [Override Subscription](subscriptions.md#override-subscription)
-* [Read Subscription by Reference](subscriptions.md#read-subscription-by-reference)
-* [Purge Subscription](subscriptions.md#purge-subscription)
-* [Create Prepaid Subscription](subscriptions.md#create-prepaid-subscription)
-* [Preview Subscription](subscriptions.md#preview-subscription)
-* [Apply Coupon to Subscription](subscriptions.md#apply-coupon-to-subscription)
-* [Delete Coupon From Subscription](subscriptions.md#delete-coupon-from-subscription)
-* [Activate Subscription](subscriptions.md#activate-subscription)
+* [Create Subscription](../../doc/controllers/subscriptions.md#create-subscription)
+* [List Subscriptions](../../doc/controllers/subscriptions.md#list-subscriptions)
+* [Update Subscription](../../doc/controllers/subscriptions.md#update-subscription)
+* [Read Subscription](../../doc/controllers/subscriptions.md#read-subscription)
+* [Override Subscription](../../doc/controllers/subscriptions.md#override-subscription)
+* [Read Subscription by Reference](../../doc/controllers/subscriptions.md#read-subscription-by-reference)
+* [Purge Subscription](../../doc/controllers/subscriptions.md#purge-subscription)
+* [Create Prepaid Subscription](../../doc/controllers/subscriptions.md#create-prepaid-subscription)
+* [Preview Subscription](../../doc/controllers/subscriptions.md#preview-subscription)
+* [Apply Coupon to Subscription](../../doc/controllers/subscriptions.md#apply-coupon-to-subscription)
+* [Delete Coupon From Subscription](../../doc/controllers/subscriptions.md#delete-coupon-from-subscription)
+* [Activate Subscription](../../doc/controllers/subscriptions.md#activate-subscription)
 
 
 # Create Subscription
@@ -649,11 +649,11 @@ CreateSubscription(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `body` | [`*models.CreateSubscriptionRequest`](../models/create-subscription-request.md) | Body, Optional | - |
+| `body` | [`*models.CreateSubscriptionRequest`](../../doc/models/create-subscription-request.md) | Body, Optional | - |
 
 ## Response Type
 
-[`models.SubscriptionResponse`](../models/subscription-response.md)
+[`models.SubscriptionResponse`](../../doc/models/subscription-response.md)
 
 ## Example Usage
 
@@ -679,7 +679,7 @@ bodySubscriptionCreditCardAttributes := models.PaymentProfileAttributes{
     FirstName:          models.ToPointer("Joe"),
     LastName:           models.ToPointer("Smith"),
     FullNumber:         models.ToPointer("4111111111111111"),
-    CardType:           models.ToPointer(models.CardTypeEnum("visa")),
+    CardType:           models.ToPointer(models.CardType("visa")),
     ExpirationMonth:    models.ToPointer(interface{}("[key1, val1][key2, val2]")),
     ExpirationYear:     models.ToPointer(interface{}("[key1, val1][key2, val2]")),
     BillingAddress:     models.ToPointer("123 Mass Ave."),
@@ -853,7 +853,7 @@ if err != nil {
 
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
-| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../models/error-list-response-exception.md) |
+| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../../doc/models/error-list-response-exception.md) |
 
 
 # List Subscriptions
@@ -879,24 +879,25 @@ ListSubscriptions(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br>**Default**: `1`<br>**Constraints**: `>= 1` |
-| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`.<br>**Default**: `20`<br>**Constraints**: `<= 200` |
-| `state` | [`*models.SubscriptionStateFilterEnum`](../models/subscription-state-filter-enum.md) | Query, Optional | The current state of the subscription |
+| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`. |
+| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`. |
+| `state` | [`*models.SubscriptionStateFilter`](../../doc/models/subscription-state-filter.md) | Query, Optional | The current state of the subscription |
 | `product` | `*int` | Query, Optional | The product id of the subscription. (Note that the product handle cannot be used.) |
 | `productPricePointId` | `*int` | Query, Optional | The ID of the product price point. If supplied, product is required |
 | `coupon` | `*int` | Query, Optional | The numeric id of the coupon currently applied to the subscription. (This can be found in the URL when editing a coupon. Note that the coupon code cannot be used.) |
-| `dateField` | [`*models.SubscriptionDateFieldEnum`](../models/subscription-date-field-enum.md) | Query, Optional | The type of filter you'd like to apply to your search.  Allowed Values: , current_period_ends_at, current_period_starts_at, created_at, activated_at, canceled_at, expires_at, trial_started_at, trial_ended_at, updated_at |
+| `dateField` | [`*models.SubscriptionDateField`](../../doc/models/subscription-date-field.md) | Query, Optional | The type of filter you'd like to apply to your search.  Allowed Values: , current_period_ends_at, current_period_starts_at, created_at, activated_at, canceled_at, expires_at, trial_started_at, trial_ended_at, updated_at |
 | `startDate` | `*time.Time` | Query, Optional | The start date (format YYYY-MM-DD) with which to filter the date_field. Returns subscriptions with a timestamp at or after midnight (12:00:00 AM) in your site’s time zone on the date specified. Use in query `start_date=2022-07-01`. |
 | `endDate` | `*time.Time` | Query, Optional | The end date (format YYYY-MM-DD) with which to filter the date_field. Returns subscriptions with a timestamp up to and including 11:59:59PM in your site’s time zone on the date specified. Use in query `end_date=2022-08-01`. |
 | `startDatetime` | `*time.Time` | Query, Optional | The start date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns subscriptions with a timestamp at or after exact time provided in query. You can specify timezone in query - otherwise your site's time zone will be used. If provided, this parameter will be used instead of start_date. Use in query `start_datetime=2022-07-01 09:00:05`. |
 | `endDatetime` | `*time.Time` | Query, Optional | The end date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns subscriptions with a timestamp at or before exact time provided in query. You can specify timezone in query - otherwise your site's time zone will be used. If provided, this parameter will be used instead of end_date. Use in query `end_datetime=2022-08-01 10:00:05`. |
 | `metadata` | `map[string]string` | Query, Optional | The value of the metadata field specified in the parameter. Use in query `metadata[my-field]=value&metadata[other-field]=another_value`. |
-| `direction` | [`*models.SortingDirectionEnum`](../models/sorting-direction-enum.md) | Query, Optional | Controls the order in which results are returned.<br>Use in query `direction=asc`. |
-| `sort` | [`*models.SubscriptionSortEnum`](../models/subscription-sort-enum.md) | Query, Optional | The attribute by which to sort<br>**Default**: `"signup_date"` |
+| `direction` | [`*models.SortingDirection`](../../doc/models/sorting-direction.md) | Query, Optional | Controls the order in which results are returned.<br>Use in query `direction=asc`. |
+| `sort` | [`*models.SubscriptionSort`](../../doc/models/subscription-sort.md) | Query, Optional | The attribute by which to sort |
+| `include` | [`[]models.SubscriptionListInclude`](../../doc/models/subscription-list-include.md) | Query, Optional | Allows including additional data in the response. Use in query: `include[]=self_service_page_token`. |
 
 ## Response Type
 
-[`[]models.SubscriptionResponse`](../models/subscription-response.md)
+[`[]models.SubscriptionResponse`](../../doc/models/subscription-response.md)
 
 ## Example Usage
 
@@ -920,9 +921,9 @@ endDatetime, err := time.Parse(time.RFC3339, "2022-08-01 10:00:05")
 if err != nil {
     log.Fatalln(err)
 }
-sort := models.SubscriptionSortEnum("signup_date")
+sort := models.SubscriptionSort("signup_date")Liquid error: Value cannot be null. (Parameter 'key')
 
-apiResponse, err := subscriptionsController.ListSubscriptions(ctx, &page, &perPage, nil, nil, nil, nil, nil, &startDate, &endDate, &startDatetime, &endDatetime, nil, nil, &sort)
+apiResponse, err := subscriptionsController.ListSubscriptions(ctx, &page, &perPage, nil, nil, nil, nil, nil, &startDate, &endDate, &startDatetime, &endDatetime, nil, nil, &sort, Liquid error: Value cannot be null. (Parameter 'key'))
 if err != nil {
     log.Fatalln(err)
 } else {
@@ -991,11 +992,11 @@ UpdateSubscription(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription |
-| `body` | [`*models.UpdateSubscriptionRequest`](../models/update-subscription-request.md) | Body, Optional | - |
+| `body` | [`*models.UpdateSubscriptionRequest`](../../doc/models/update-subscription-request.md) | Body, Optional | - |
 
 ## Response Type
 
-[`models.SubscriptionResponse`](../models/subscription-response.md)
+[`models.SubscriptionResponse`](../../doc/models/subscription-response.md)
 
 ## Example Usage
 
@@ -1142,7 +1143,7 @@ if err != nil {
 
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
-| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../models/error-list-response-exception.md) |
+| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../../doc/models/error-list-response-exception.md) |
 
 
 # Read Subscription
@@ -1157,7 +1158,7 @@ Self-Service Page token for the subscription is not returned by default. If this
 ReadSubscription(
     ctx context.Context,
     subscriptionId int,
-    include []models.SubscriptionIncludeEnum) (
+    include []models.SubscriptionInclude) (
     models.ApiResponse[models.SubscriptionResponse],
     error)
 ```
@@ -1167,11 +1168,11 @@ ReadSubscription(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription |
-| `include` | [`[]models.SubscriptionIncludeEnum`](../models/subscription-include-enum.md) | Query, Optional | Allows including additional data in the response. Use in query: `include[]=coupons&include[]=self_service_page_token`. |
+| `include` | [`[]models.SubscriptionInclude`](../../doc/models/subscription-include.md) | Query, Optional | Allows including additional data in the response. Use in query: `include[]=coupons&include[]=self_service_page_token`. |
 
 ## Response Type
 
-[`models.SubscriptionResponse`](../models/subscription-response.md)
+[`models.SubscriptionResponse`](../../doc/models/subscription-response.md)
 
 ## Example Usage
 
@@ -1365,7 +1366,7 @@ OverrideSubscription(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription |
-| `body` | [`*models.OverrideSubscriptionRequest`](../override-subscription-request.md) | Body, Optional | Only these fields are available to be set. |
+| `body` | [`*models.OverrideSubscriptionRequest`](../../doc/models/override-subscription-request.md) | Body, Optional | Only these fields are available to be set. |
 
 ## Response Type
 
@@ -1377,11 +1378,23 @@ OverrideSubscription(
 ctx := context.Background()
 subscriptionId := 222
 
+bodySubscriptionActivatedAt, err := time.Parse(time.RFC3339, "1999-12-01T10:28:34-05:00")
+if err != nil {
+    log.Fatalln(err)
+}
+bodySubscriptionCanceledAt, err := time.Parse(time.RFC3339, "2000-12-31T10:28:34-05:00")
+if err != nil {
+    log.Fatalln(err)
+}
+bodySubscriptionExpiresAt, err := time.Parse(time.RFC3339, "2001-07-15T10:28:34-05:00")
+if err != nil {
+    log.Fatalln(err)
+}
 bodySubscription := models.OverrideSubscription{
-    ActivatedAt:           models.ToPointer("1999-12-01"),
-    CanceledAt:            models.ToPointer("2000-12-31"),
     CancellationMessage:   models.ToPointer("Original cancellation in 2000"),
-    ExpiresAt:             models.ToPointer("2001-07-15"),
+    ActivatedAt:           models.ToPointer(bodySubscriptionActivatedAt),
+    CanceledAt:            models.ToPointer(bodySubscriptionCanceledAt),
+    ExpiresAt:             models.ToPointer(bodySubscriptionExpiresAt),
 }
 
 body := models.OverrideSubscriptionRequest{
@@ -1400,8 +1413,7 @@ if err != nil {
 
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
-| 400 | Bad Request | `ApiError` |
-| 422 | Unprocessable Entity (WebDAV) | `ApiError` |
+| 422 | Unprocessable Entity (WebDAV) | [`SingleErrorResponseException`](../../doc/models/single-error-response-exception.md) |
 
 
 # Read Subscription by Reference
@@ -1424,7 +1436,7 @@ ReadSubscriptionByReference(
 
 ## Response Type
 
-[`models.SubscriptionResponse`](../subscription-response.md)
+[`models.SubscriptionResponse`](../../doc/models/subscription-response.md)
 
 ## Example Usage
 
@@ -1459,7 +1471,7 @@ PurgeSubscription(
     ctx context.Context,
     subscriptionId int,
     ack int,
-    cascade []models.SubscriptionPurgeTypeEnum) (
+    cascade []models.SubscriptionPurgeType) (
     http.Response,
     error)
 ```
@@ -1470,7 +1482,7 @@ PurgeSubscription(
 |  --- | --- | --- | --- |
 | `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription |
 | `ack` | `int` | Query, Required | id of the customer. |
-| `cascade` | [`[]models.SubscriptionPurgeTypeEnum`](../subscription-purge-type-enum.md) | Query, Optional | Options are "customer" or "payment_profile".<br>Use in query: `cascade[]=customer&cascade[]=payment_profile`. |
+| `cascade` | [`[]models.SubscriptionPurgeType`](../../doc/models/subscription-purge-type.md) | Query, Optional | Options are "customer" or "payment_profile".<br>Use in query: `cascade[]=customer&cascade[]=payment_profile`. |
 
 ## Response Type
 
@@ -1491,12 +1503,6 @@ if err != nil {
 }
 ```
 
-## Errors
-
-| HTTP Status Code | Error Description | Exception Class |
-|  --- | --- | --- |
-| 400 | Bad Request | `ApiError` |
-
 
 # Create Prepaid Subscription
 
@@ -1516,11 +1522,11 @@ CreatePrepaidSubscription(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription |
-| `body` | [`*models.UpsertPrepaidConfigurationRequest`](../upsert-prepaid-configuration-request.md) | Body, Optional | - |
+| `body` | [`*models.UpsertPrepaidConfigurationRequest`](../../doc/models/upsert-prepaid-configuration-request.md) | Body, Optional | - |
 
 ## Response Type
 
-[`models.PrepaidConfigurationResponse`](../prepaid-configuration-response.md)
+[`models.PrepaidConfigurationResponse`](../../doc/models/prepaid-configuration-response.md)
 
 ## Example Usage
 
@@ -1604,11 +1610,11 @@ PreviewSubscription(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `body` | [`*models.CreateSubscriptionRequest`](../create-subscription-request.md) | Body, Optional | - |
+| `body` | [`*models.CreateSubscriptionRequest`](../../doc/models/create-subscription-request.md) | Body, Optional | - |
 
 ## Response Type
 
-[`models.SubscriptionPreviewResponse`](../subscription-preview-response.md)
+[`models.SubscriptionPreviewResponse`](../../doc/models/subscription-preview-response.md)
 
 ## Example Usage
 
@@ -1780,11 +1786,11 @@ ApplyCouponToSubscription(
 |  --- | --- | --- | --- |
 | `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription |
 | `code` | `*string` | Query, Optional | A code for the coupon that would be applied to a subscription |
-| `body` | [`*models.AddCouponsRequest`](../add-coupons-request.md) | Body, Optional | - |
+| `body` | [`*models.AddCouponsRequest`](../../doc/models/add-coupons-request.md) | Body, Optional | - |
 
 ## Response Type
 
-[`models.SubscriptionResponse`](../subscription-response.md)
+[`models.SubscriptionResponse`](../../doc/models/subscription-response.md)
 
 ## Example Usage
 
@@ -1960,7 +1966,7 @@ if err != nil {
 
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
-| 422 | Unprocessable Entity (WebDAV) | [`SubscriptionAddCouponErrorException`](../subscription-add-coupon-error-exception.md) |
+| 422 | Unprocessable Entity (WebDAV) | [`SubscriptionAddCouponErrorException`](../../doc/models/subscription-add-coupon-error-exception.md) |
 
 
 # Delete Coupon From Subscription
@@ -2015,7 +2021,7 @@ if err != nil {
 
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
-| 422 | Unprocessable Entity (WebDAV) | [`SubscriptionRemoveCouponErrorsException`](../subscription-remove-coupon-errors-exception.md) |
+| 422 | Unprocessable Entity (WebDAV) | [`SubscriptionRemoveCouponErrorsException`](../../doc/models/subscription-remove-coupon-errors-exception.md) |
 
 
 # Activate Subscription
@@ -2078,11 +2084,11 @@ ActivateSubscription(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription |
-| `body` | [`*models.ActivateSubscriptionRequest`](../activate-subscription-request.md) | Body, Optional | - |
+| `body` | [`*models.ActivateSubscriptionRequest`](../../doc/models/activate-subscription-request.md) | Body, Optional | - |
 
 ## Response Type
 
-[`models.SubscriptionResponse`](../subscription-response.md)
+[`models.SubscriptionResponse`](../../doc/models/subscription-response.md)
 
 ## Example Usage
 
@@ -2104,5 +2110,5 @@ if err != nil {
 
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
-| 400 | Bad Request | [`NestedErrorResponseException`](../nested-error-response-exception.md) |
+| 400 | Bad Request | [`NestedErrorResponseException`](../../doc/models/nested-error-response-exception.md) |
 

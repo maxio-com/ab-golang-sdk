@@ -9,7 +9,7 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `CurrencyPrices` | [`[]models.CreateProductCurrencyPrice`](create-product-currency-price.md) | Required | - |
+| `CurrencyPrices` | [`[]models.CreateProductCurrencyPrice`](../../doc/models/create-product-currency-price.md) | Required | - |
 
 ## Example (as JSON)
 

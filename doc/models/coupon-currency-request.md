@@ -9,7 +9,7 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `CurrencyPrices` | [`[]models.UpdateCouponCurrency`](update-coupon-currency.md) | Required | - |
+| `CurrencyPrices` | [`[]models.UpdateCouponCurrency`](../../doc/models/update-coupon-currency.md) | Required | - |
 
 ## Example (as JSON)
 

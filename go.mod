@@ -1,4 +1,4 @@
-module maxioadvancedbilling
+module github.com/maxio-com/ab-golang-sdk
 
 go 1.18
 

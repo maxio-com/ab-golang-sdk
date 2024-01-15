@@ -9,7 +9,7 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `Prepayments` | [`[]models.ListSubscriptionGroupPrepayment`](list-subscription-group-prepayment.md) | Required | - |
+| `Prepayments` | [`[]models.ListSubscriptionGroupPrepayment`](../../doc/models/list-subscription-group-prepayment.md) | Required | - |
 
 ## Example (as JSON)
 

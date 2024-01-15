@@ -1,23 +1,23 @@
-package ab_golang_sdk
+package advancedbilling
 
 import (
-	"context"
-	"fmt"
-	"github.com/apimatic/go-core-runtime/utilities"
-	"maxioadvancedbilling/errors"
-	"maxioadvancedbilling/models"
+    "context"
+    "fmt"
+    "github.com/apimatic/go-core-runtime/utilities"
+    "github.com/maxio-com/ab-golang-sdk/errors"
+    "github.com/maxio-com/ab-golang-sdk/models"
 )
 
 // WebhooksController represents a controller struct.
 type WebhooksController struct {
-	baseController
+    baseController
 }
 
 // NewWebhooksController creates a new instance of WebhooksController.
 // It takes a baseController as a parameter and returns a pointer to the WebhooksController.
 func NewWebhooksController(baseController baseController) *WebhooksController {
-	webhooksController := WebhooksController{baseController: baseController}
-	return &webhooksController
+    webhooksController := WebhooksController{baseController: baseController}
+    return &webhooksController
 }
 
 // ListWebhooks takes context, status, sinceDate, untilDate, page, perPage, order, subscription as parameters and
@@ -33,55 +33,55 @@ func NewWebhooksController(baseController baseController) *WebhooksController {
 // ## List Webhooks for a Site
 // This method allows you to fetch data about webhooks. You can pass query parameters if you want to filter webhooks.
 func (w *WebhooksController) ListWebhooks(
-	ctx context.Context,
-	status *models.WebhookStatusEnum,
-	sinceDate *string,
-	untilDate *string,
-	page *int,
-	perPage *int,
-	order *models.WebhookOrderEnum,
-	subscription *int) (
-	models.ApiResponse[[]models.WebhookResponse],
-	error) {
-	req := w.prepareRequest(ctx, "GET", "/webhooks.json")
-	req.Authenticate(true)
-	if status != nil {
-		req.QueryParam("status", *status)
-	}
-	if sinceDate != nil {
-		req.QueryParam("since_date", *sinceDate)
-	}
-	if untilDate != nil {
-		req.QueryParam("until_date", *untilDate)
-	}
-	if page != nil {
-		req.QueryParam("page", *page)
-	}
-	if perPage != nil {
-		req.QueryParam("per_page", *perPage)
-	}
-	if order != nil {
-		req.QueryParam("order", *order)
-	}
-	if subscription != nil {
-		req.QueryParam("subscription", *subscription)
-	}
-	var result []models.WebhookResponse
-	decoder, resp, err := req.CallAsJson()
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-	err = validateResponse(*resp)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	result, err = utilities.DecodeResults[[]models.WebhookResponse](decoder)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	return models.NewApiResponse(result, resp), err
+    ctx context.Context,
+    status *models.WebhookStatus,
+    sinceDate *string,
+    untilDate *string,
+    page *int,
+    perPage *int,
+    order *models.WebhookOrder,
+    subscription *int) (
+    models.ApiResponse[[]models.WebhookResponse],
+    error) {
+    req := w.prepareRequest(ctx, "GET", "/webhooks.json")
+    req.Authenticate(true)
+    if status != nil {
+        req.QueryParam("status", *status)
+    }
+    if sinceDate != nil {
+        req.QueryParam("since_date", *sinceDate)
+    }
+    if untilDate != nil {
+        req.QueryParam("until_date", *untilDate)
+    }
+    if page != nil {
+        req.QueryParam("page", *page)
+    }
+    if perPage != nil {
+        req.QueryParam("per_page", *perPage)
+    }
+    if order != nil {
+        req.QueryParam("order", *order)
+    }
+    if subscription != nil {
+        req.QueryParam("subscription", *subscription)
+    }
+    var result []models.WebhookResponse
+    decoder, resp, err := req.CallAsJson()
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    err = validateResponse(*resp)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    result, err = utilities.DecodeResults[[]models.WebhookResponse](decoder)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    return models.NewApiResponse(result, resp), err
 }
 
 // EnableWebhooks takes context, body as parameters and
@@ -89,32 +89,32 @@ func (w *WebhooksController) ListWebhooks(
 // an error if there was an issue with the request or response.
 // This method allows you to enable webhooks via API for your site
 func (w *WebhooksController) EnableWebhooks(
-	ctx context.Context,
-	body *models.EnableWebhooksRequest) (
-	models.ApiResponse[models.EnableWebhooksResponse],
-	error) {
-	req := w.prepareRequest(ctx, "PUT", "/webhooks/settings.json")
-	req.Authenticate(true)
-	req.Header("Content-Type", "application/json")
-	if body != nil {
-		req.Json(*body)
-	}
-	var result models.EnableWebhooksResponse
-	decoder, resp, err := req.CallAsJson()
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-	err = validateResponse(*resp)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	result, err = utilities.DecodeResults[models.EnableWebhooksResponse](decoder)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	return models.NewApiResponse(result, resp), err
+    ctx context.Context,
+    body *models.EnableWebhooksRequest) (
+    models.ApiResponse[models.EnableWebhooksResponse],
+    error) {
+    req := w.prepareRequest(ctx, "PUT", "/webhooks/settings.json")
+    req.Authenticate(true)
+    req.Header("Content-Type", "application/json")
+    if body != nil {
+        req.Json(*body)
+    }
+    var result models.EnableWebhooksResponse
+    decoder, resp, err := req.CallAsJson()
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    err = validateResponse(*resp)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    result, err = utilities.DecodeResults[models.EnableWebhooksResponse](decoder)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    return models.NewApiResponse(result, resp), err
 }
 
 // ReplayWebhooks takes context, body as parameters and
@@ -123,32 +123,32 @@ func (w *WebhooksController) EnableWebhooks(
 // Posting to the replay endpoint does not immediately resend the webhooks. They are added to a queue and will be sent as soon as possible, depending on available system resources.
 // You may submit an array of up to 1000 webhook IDs to replay in the request.
 func (w *WebhooksController) ReplayWebhooks(
-	ctx context.Context,
-	body *models.ReplayWebhooksRequest) (
-	models.ApiResponse[models.ReplayWebhooksResponse],
-	error) {
-	req := w.prepareRequest(ctx, "POST", "/webhooks/replay.json")
-	req.Authenticate(true)
-	req.Header("Content-Type", "application/json")
-	if body != nil {
-		req.Json(*body)
-	}
-	var result models.ReplayWebhooksResponse
-	decoder, resp, err := req.CallAsJson()
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-	err = validateResponse(*resp)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	result, err = utilities.DecodeResults[models.ReplayWebhooksResponse](decoder)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	return models.NewApiResponse(result, resp), err
+    ctx context.Context,
+    body *models.ReplayWebhooksRequest) (
+    models.ApiResponse[models.ReplayWebhooksResponse],
+    error) {
+    req := w.prepareRequest(ctx, "POST", "/webhooks/replay.json")
+    req.Authenticate(true)
+    req.Header("Content-Type", "application/json")
+    if body != nil {
+        req.Json(*body)
+    }
+    var result models.ReplayWebhooksResponse
+    decoder, resp, err := req.CallAsJson()
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    err = validateResponse(*resp)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    result, err = utilities.DecodeResults[models.ReplayWebhooksResponse](decoder)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    return models.NewApiResponse(result, resp), err
 }
 
 // CreateEndpoint takes context, body as parameters and
@@ -158,35 +158,35 @@ func (w *WebhooksController) ReplayWebhooks(
 // You can check available events here.
 // [Event keys](https://maxio-chargify.zendesk.com/hc/en-us/articles/5405357509645-Webhooks-Reference#example-payloads)
 func (w *WebhooksController) CreateEndpoint(
-	ctx context.Context,
-	body *models.UpdateEndpointRequest) (
-	models.ApiResponse[models.EndpointResponse],
-	error) {
-	req := w.prepareRequest(ctx, "POST", "/endpoints.json")
-	req.Authenticate(true)
-	req.Header("Content-Type", "application/json")
-	if body != nil {
-		req.Json(*body)
-	}
-	var result models.EndpointResponse
-	decoder, resp, err := req.CallAsJson()
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-	err = validateResponse(*resp)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	result, err = utilities.DecodeResults[models.EndpointResponse](decoder)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	if resp.StatusCode == 422 {
-		err = errors.NewErrorListResponse(422, "Unprocessable Entity (WebDAV)")
-	}
-	return models.NewApiResponse(result, resp), err
+    ctx context.Context,
+    body *models.UpdateEndpointRequest) (
+    models.ApiResponse[models.EndpointResponse],
+    error) {
+    req := w.prepareRequest(ctx, "POST", "/endpoints.json")
+    req.Authenticate(true)
+    req.Header("Content-Type", "application/json")
+    if body != nil {
+        req.Json(*body)
+    }
+    var result models.EndpointResponse
+    decoder, resp, err := req.CallAsJson()
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    err = validateResponse(*resp)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    result, err = utilities.DecodeResults[models.EndpointResponse](decoder)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    if resp.StatusCode == 422 {
+        err = errors.NewErrorListResponse(422, "Unprocessable Entity (WebDAV)")
+    }
+    return models.NewApiResponse(result, resp), err
 }
 
 // ListEndpoints takes context as parameters and
@@ -194,26 +194,26 @@ func (w *WebhooksController) CreateEndpoint(
 // an error if there was an issue with the request or response.
 // This method returns created endpoints for site.
 func (w *WebhooksController) ListEndpoints(ctx context.Context) (
-	models.ApiResponse[[]models.Endpoint],
-	error) {
-	req := w.prepareRequest(ctx, "GET", "/endpoints.json")
-	req.Authenticate(true)
-	var result []models.Endpoint
-	decoder, resp, err := req.CallAsJson()
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-	err = validateResponse(*resp)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	result, err = utilities.DecodeResults[[]models.Endpoint](decoder)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	return models.NewApiResponse(result, resp), err
+    models.ApiResponse[[]models.Endpoint],
+    error) {
+    req := w.prepareRequest(ctx, "GET", "/endpoints.json")
+    req.Authenticate(true)
+    var result []models.Endpoint
+    decoder, resp, err := req.CallAsJson()
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    err = validateResponse(*resp)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    result, err = utilities.DecodeResults[[]models.Endpoint](decoder)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    return models.NewApiResponse(result, resp), err
 }
 
 // UpdateEndpoint takes context, endpointId, body as parameters and
@@ -226,42 +226,42 @@ func (w *WebhooksController) ListEndpoints(ctx context.Context) (
 // Sending an PUT request for existing endpoint with empty list of `webhook_subscriptions` will end with unsubscribe from all events.
 // If you want unsubscribe from specific event, just send a list of `webhook_subscriptions` without the specific event key.
 func (w *WebhooksController) UpdateEndpoint(
-	ctx context.Context,
-	endpointId int,
-	body *models.UpdateEndpointRequest) (
-	models.ApiResponse[models.EndpointResponse],
-	error) {
-	req := w.prepareRequest(
-		ctx,
-		"PUT",
-		fmt.Sprintf("/endpoints/%v.json", endpointId),
-	)
-	req.Authenticate(true)
-	req.Header("Content-Type", "application/json")
-	if body != nil {
-		req.Json(*body)
-	}
-
-	var result models.EndpointResponse
-	decoder, resp, err := req.CallAsJson()
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-	err = validateResponse(*resp)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	result, err = utilities.DecodeResults[models.EndpointResponse](decoder)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	if resp.StatusCode == 404 {
-		err = errors.NewApiError(404, "Not Found")
-	}
-	if resp.StatusCode == 422 {
-		err = errors.NewErrorListResponse(422, "Unprocessable Entity (WebDAV)")
-	}
-	return models.NewApiResponse(result, resp), err
+    ctx context.Context,
+    endpointId int,
+    body *models.UpdateEndpointRequest) (
+    models.ApiResponse[models.EndpointResponse],
+    error) {
+    req := w.prepareRequest(
+      ctx,
+      "PUT",
+      fmt.Sprintf("/endpoints/%v.json", endpointId),
+    )
+    req.Authenticate(true)
+    req.Header("Content-Type", "application/json")
+    if body != nil {
+        req.Json(*body)
+    }
+    
+    var result models.EndpointResponse
+    decoder, resp, err := req.CallAsJson()
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    err = validateResponse(*resp)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    result, err = utilities.DecodeResults[models.EndpointResponse](decoder)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    if resp.StatusCode == 404 {
+        err = errors.NewApiError(404, "Not Found")
+    }
+    if resp.StatusCode == 422 {
+        err = errors.NewErrorListResponse(422, "Unprocessable Entity (WebDAV)")
+    }
+    return models.NewApiResponse(result, resp), err
 }

@@ -9,28 +9,15 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `Metafields` | [`models.Metafields`](metafields.md) | Required | - |
+| `Metafields` | `interface{}` | Required | - |
 
 ## Example (as JSON)
 
 ```json
 {
   "metafields": {
-    "input_type": "text",
-    "id": 22,
-    "name": "name2",
-    "scope": {
-      "csv": "0",
-      "invoices": "0",
-      "statements": "0",
-      "portal": "0",
-      "public_show": "0"
-    },
-    "enum": [
-      "enum8",
-      "enum9",
-      "enum0"
-    ]
+    "key1": "val1",
+    "key2": "val2"
   }
 }
 ```

@@ -10,11 +10,11 @@ reasonCodesController := client.ReasonCodesController()
 
 ## Methods
 
-* [Create Reason Code](reason-codes.md#create-reason-code)
-* [List Reason Codes](reason-codes.md#list-reason-codes)
-* [Read Reason Code](reason-codes.md#read-reason-code)
-* [Update Reason Code](reason-codes.md#update-reason-code)
-* [Delete Reason Code](reason-codes.md#delete-reason-code)
+* [Create Reason Code](../../doc/controllers/reason-codes.md#create-reason-code)
+* [List Reason Codes](../../doc/controllers/reason-codes.md#list-reason-codes)
+* [Read Reason Code](../../doc/controllers/reason-codes.md#read-reason-code)
+* [Update Reason Code](../../doc/controllers/reason-codes.md#update-reason-code)
+* [Delete Reason Code](../../doc/controllers/reason-codes.md#delete-reason-code)
 
 
 # Create Reason Code
@@ -47,11 +47,11 @@ CreateReasonCode(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `body` | [`*models.CreateReasonCodeRequest`](../models/create-reason-code-request.md) | Body, Optional | - |
+| `body` | [`*models.CreateReasonCodeRequest`](../../doc/models/create-reason-code-request.md) | Body, Optional | - |
 
 ## Response Type
 
-[`models.ReasonCodeResponse`](../models/reason-code-response.md)
+[`models.ReasonCodeResponse`](../../doc/models/reason-code-response.md)
 
 ## Example Usage
 
@@ -82,7 +82,7 @@ if err != nil {
 
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
-| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../models/error-list-response-exception.md) |
+| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../../doc/models/error-list-response-exception.md) |
 
 
 # List Reason Codes
@@ -100,12 +100,12 @@ ListReasonCodes(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br>**Default**: `1`<br>**Constraints**: `>= 1` |
-| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`.<br>**Default**: `20`<br>**Constraints**: `<= 200` |
+| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`. |
+| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`. |
 
 ## Response Type
 
-[`[]models.ReasonCodeResponse`](../models/reason-code-response.md)
+[`[]models.ReasonCodeResponse`](../../doc/models/reason-code-response.md)
 
 ## Example Usage
 
@@ -185,7 +185,7 @@ ReadReasonCode(
 
 ## Response Type
 
-[`models.ReasonCodeResponse`](../models/reason-code-response.md)
+[`models.ReasonCodeResponse`](../../doc/models/reason-code-response.md)
 
 ## Example Usage
 
@@ -228,11 +228,11 @@ UpdateReasonCode(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `reasonCodeId` | `int` | Template, Required | The Chargify id of the reason code |
-| `body` | [`*models.UpdateReasonCodeRequest`](../models/update-reason-code-request.md) | Body, Optional | - |
+| `body` | [`*models.UpdateReasonCodeRequest`](../../doc/models/update-reason-code-request.md) | Body, Optional | - |
 
 ## Response Type
 
-[`models.ReasonCodeResponse`](../models/reason-code-response.md)
+[`models.ReasonCodeResponse`](../../doc/models/reason-code-response.md)
 
 ## Example Usage
 
@@ -277,7 +277,7 @@ DeleteReasonCode(
 
 ## Response Type
 
-[`models.ReasonCodesJsonResponse`](../models/reason-codes-json-response.md)
+[`models.ReasonCodesJsonResponse`](../../doc/models/reason-codes-json-response.md)
 
 ## Example Usage
 

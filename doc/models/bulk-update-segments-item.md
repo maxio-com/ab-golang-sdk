@@ -10,8 +10,8 @@
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `Id` | `int` | Required | The ID of the segment you want to update. |
-| `PricingScheme` | [`models.PricingSchemeEnum`](pricing-scheme-enum.md) | Required | The identifier for the pricing scheme. See [Product Components](https://help.chargify.com/products/product-components.html) for an overview of pricing schemes. |
-| `Prices` | [`[]models.CreateOrUpdateSegmentPrice`](create-or-update-segment-price.md) | Required | - |
+| `PricingScheme` | [`models.PricingScheme`](../../doc/models/pricing-scheme.md) | Required | The identifier for the pricing scheme. See [Product Components](https://help.chargify.com/products/product-components.html) for an overview of pricing schemes. |
+| `Prices` | [`[]models.CreateOrUpdateSegmentPrice`](../../doc/models/create-or-update-segment-price.md) | Required | - |
 
 ## Example (as JSON)
 

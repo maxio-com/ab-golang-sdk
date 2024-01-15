@@ -9,7 +9,7 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `Changes` | [`models.CustomerChange`](customer-change.md) | Required | - |
+| `Changes` | [`models.CustomerChange`](../../doc/models/customer-change.md) | Required | - |
 
 ## Example (as JSON)
 

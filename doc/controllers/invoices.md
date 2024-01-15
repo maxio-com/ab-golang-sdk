@@ -10,23 +10,23 @@ invoicesController := client.InvoicesController()
 
 ## Methods
 
-* [Refund Invoice](invoices.md#refund-invoice)
-* [List Invoices](invoices.md#list-invoices)
-* [Read Invoice](invoices.md#read-invoice)
-* [List Invoice Events](invoices.md#list-invoice-events)
-* [Record Payment for Invoice](invoices.md#record-payment-for-invoice)
-* [Record External Payment for Invoices](invoices.md#record-external-payment-for-invoices)
-* [List Credit Notes](invoices.md#list-credit-notes)
-* [Read Credit Note](invoices.md#read-credit-note)
-* [Record Payment for Subscription](invoices.md#record-payment-for-subscription)
-* [Reopen Invoice](invoices.md#reopen-invoice)
-* [Void Invoice](invoices.md#void-invoice)
-* [List Invoice Segments](invoices.md#list-invoice-segments)
-* [Create Invoice](invoices.md#create-invoice)
-* [Send Invoice](invoices.md#send-invoice)
-* [Preview Customer Information Changes](invoices.md#preview-customer-information-changes)
-* [Update Customer Information](invoices.md#update-customer-information)
-* [Issue Invoice](invoices.md#issue-invoice)
+* [Refund Invoice](../../doc/controllers/invoices.md#refund-invoice)
+* [List Invoices](../../doc/controllers/invoices.md#list-invoices)
+* [Read Invoice](../../doc/controllers/invoices.md#read-invoice)
+* [List Invoice Events](../../doc/controllers/invoices.md#list-invoice-events)
+* [Record Payment for Invoice](../../doc/controllers/invoices.md#record-payment-for-invoice)
+* [Record External Payment for Invoices](../../doc/controllers/invoices.md#record-external-payment-for-invoices)
+* [List Credit Notes](../../doc/controllers/invoices.md#list-credit-notes)
+* [Read Credit Note](../../doc/controllers/invoices.md#read-credit-note)
+* [Record Payment for Subscription](../../doc/controllers/invoices.md#record-payment-for-subscription)
+* [Reopen Invoice](../../doc/controllers/invoices.md#reopen-invoice)
+* [Void Invoice](../../doc/controllers/invoices.md#void-invoice)
+* [List Invoice Segments](../../doc/controllers/invoices.md#list-invoice-segments)
+* [Create Invoice](../../doc/controllers/invoices.md#create-invoice)
+* [Send Invoice](../../doc/controllers/invoices.md#send-invoice)
+* [Preview Customer Information Changes](../../doc/controllers/invoices.md#preview-customer-information-changes)
+* [Update Customer Information](../../doc/controllers/invoices.md#update-customer-information)
+* [Issue Invoice](../../doc/controllers/invoices.md#issue-invoice)
 
 
 # Refund Invoice
@@ -53,11 +53,11 @@ RefundInvoice(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `uid` | `string` | Template, Required | The unique identifier for the invoice, this does not refer to the public facing invoice number. |
-| `body` | [`*models.RefundInvoiceRequest`](../models/refund-invoice-request.md) | Body, Optional | - |
+| `body` | [`*models.RefundInvoiceRequest`](../../doc/models/refund-invoice-request.md) | Body, Optional | - |
 
 ## Response Type
 
-[`models.Invoice`](../models/invoice.md)
+[`models.Invoice`](../../doc/models/invoice.md)
 
 ## Example Usage
 
@@ -104,30 +104,30 @@ ListInvoices(
 |  --- | --- | --- | --- |
 | `startDate` | `*string` | Query, Optional | The start date (format YYYY-MM-DD) with which to filter the date_field. Returns invoices with a timestamp at or after midnight (12:00:00 AM) in your site’s time zone on the date specified. |
 | `endDate` | `*string` | Query, Optional | The end date (format YYYY-MM-DD) with which to filter the date_field. Returns invoices with a timestamp up to and including 11:59:59PM in your site’s time zone on the date specified. |
-| `status` | [`*models.StatusEnum`](../models/status-enum.md) | Query, Optional | The current status of the invoice.  Allowed Values: draft, open, paid, pending, voided |
+| `status` | [`*models.InvoiceStatus`](../../doc/models/invoice-status.md) | Query, Optional | The current status of the invoice.  Allowed Values: draft, open, paid, pending, voided |
 | `subscriptionId` | `*int` | Query, Optional | The subscription's ID. |
 | `subscriptionGroupUid` | `*string` | Query, Optional | The UID of the subscription group you want to fetch consolidated invoices for. This will return a paginated list of consolidated invoices for the specified group. |
-| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br>**Default**: `1`<br>**Constraints**: `>= 1` |
-| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`.<br>**Default**: `20`<br>**Constraints**: `<= 200` |
-| `direction` | [`*models.DirectionEnum`](../models/direction-enum.md) | Query, Optional | The sort direction of the returned invoices.<br>**Default**: `"desc"` |
-| `lineItems` | `*bool` | Query, Optional | Include line items data<br>**Default**: `false` |
-| `discounts` | `*bool` | Query, Optional | Include discounts data<br>**Default**: `false` |
-| `taxes` | `*bool` | Query, Optional | Include taxes data<br>**Default**: `false` |
-| `credits` | `*bool` | Query, Optional | Include credits data<br>**Default**: `false` |
-| `payments` | `*bool` | Query, Optional | Include payments data<br>**Default**: `false` |
-| `customFields` | `*bool` | Query, Optional | Include custom fields data<br>**Default**: `false` |
-| `refunds` | `*bool` | Query, Optional | Include refunds data<br>**Default**: `false` |
-| `dateField` | [`*models.InvoiceDateFieldEnum`](../models/invoice-date-field-enum.md) | Query, Optional | The type of filter you would like to apply to your search. Use in query `date_field=issue_date`.<br>**Default**: `"due_date"` |
+| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`. |
+| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`. |
+| `direction` | [`*models.Direction`](../../doc/models/direction.md) | Query, Optional | The sort direction of the returned invoices. |
+| `lineItems` | `*bool` | Query, Optional | Include line items data |
+| `discounts` | `*bool` | Query, Optional | Include discounts data |
+| `taxes` | `*bool` | Query, Optional | Include taxes data |
+| `credits` | `*bool` | Query, Optional | Include credits data |
+| `payments` | `*bool` | Query, Optional | Include payments data |
+| `customFields` | `*bool` | Query, Optional | Include custom fields data |
+| `refunds` | `*bool` | Query, Optional | Include refunds data |
+| `dateField` | [`*models.InvoiceDateField`](../../doc/models/invoice-date-field.md) | Query, Optional | The type of filter you would like to apply to your search. Use in query `date_field=issue_date`. |
 | `startDatetime` | `*string` | Query, Optional | The start date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns invoices with a timestamp at or after exact time provided in query. You can specify timezone in query - otherwise your site's time zone will be used. If provided, this parameter will be used instead of start_date. Allowed to be used only along with date_field set to created_at or updated_at. |
 | `endDatetime` | `*string` | Query, Optional | The end date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns invoices with a timestamp at or before exact time provided in query. You can specify timezone in query - otherwise your site's time zone will be used. If provided, this parameter will be used instead of end_date. Allowed to be used only along with date_field set to created_at or updated_at. |
 | `customerIds` | `[]int` | Query, Optional | Allows fetching invoices with matching customer id based on provided values. Use in query `customer_ids=1,2,3`. |
 | `number` | `[]string` | Query, Optional | Allows fetching invoices with matching invoice number based on provided values. Use in query `number=1234,1235`. |
 | `productIds` | `[]int` | Query, Optional | Allows fetching invoices with matching line items product ids based on provided values. Use in query `product_ids=23,34`. |
-| `sort` | [`*models.InvoiceSortFieldEnum`](../models/invoice-sort-field-enum.md) | Query, Optional | Allows specification of the order of the returned list. Use in query `sort=total_amount`.<br>**Default**: `"number"` |
+| `sort` | [`*models.InvoiceSortField`](../../doc/models/invoice-sort-field.md) | Query, Optional | Allows specification of the order of the returned list. Use in query `sort=total_amount`. |
 
 ## Response Type
 
-[`models.ListInvoicesResponse`](../models/list-invoices-response.md)
+[`models.ListInvoicesResponse`](../../doc/models/list-invoices-response.md)
 
 ## Example Usage
 
@@ -135,7 +135,7 @@ ListInvoices(
 ctx := context.Background()
 page := 2
 perPage := 50
-direction := models.DirectionEnum("desc")
+direction := models.Direction("desc")
 lineItems := false
 discounts := false
 taxes := false
@@ -143,11 +143,11 @@ credits := false
 payments := false
 customFields := false
 refunds := false
-dateField := models.InvoiceDateFieldEnum("issue_date")
+dateField := models.InvoiceDateField("issue_date")
 customerIds := []int{1, 2, 3}
 number := []string{"1234", "1235"}
 productIds := []int{23, 34}
-sort := models.InvoiceSortFieldEnum("total_amount")
+sort := models.InvoiceSortField("total_amount")
 
 apiResponse, err := invoicesController.ListInvoices(ctx, nil, nil, nil, nil, nil, &page, &perPage, &direction, &lineItems, &discounts, &taxes, &credits, &payments, &customFields, &refunds, &dateField, nil, nil, customerIds, number, productIds, &sort)
 if err != nil {
@@ -453,7 +453,7 @@ ReadInvoice(
 
 ## Response Type
 
-[`models.Invoice`](../models/invoice.md)
+[`models.Invoice`](../../doc/models/invoice.md)
 
 ## Example Usage
 
@@ -625,15 +625,15 @@ ListInvoiceEvents(
 |  --- | --- | --- | --- |
 | `sinceDate` | `*string` | Query, Optional | The timestamp in a format `YYYY-MM-DD T HH:MM:SS Z`, or `YYYY-MM-DD`(in this case, it returns data from the beginning of the day). of the event from which you want to start the search. All the events before the `since_date` timestamp are not returned in the response. |
 | `sinceId` | `*int` | Query, Optional | The ID of the event from which you want to start the search(ID is not included. e.g. if ID is set to 2, then all events with ID 3 and more will be shown) This parameter is not used if since_date is defined. |
-| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br>**Default**: `1`<br>**Constraints**: `>= 1` |
-| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 100. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>**Default**: `100` |
+| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`. |
+| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 100. The maximum allowed values is 200; any per_page value over 200 will be changed to 200. |
 | `invoiceUid` | `*string` | Query, Optional | Providing an invoice_uid allows for scoping of the invoice events to a single invoice or credit note. |
 | `withChangeInvoiceStatus` | `*string` | Query, Optional | Use this parameter if you want to fetch also invoice events with change_invoice_status type. |
-| `eventTypes` | [`[]models.InvoiceEventTypeEnum`](../models/invoice-event-type-enum.md) | Query, Optional | Filter results by event_type. Supply a comma separated list of event types (listed above). Use in query: `event_types=void_invoice,void_remainder`. |
+| `eventTypes` | [`[]models.InvoiceEventType`](../../doc/models/invoice-event-type.md) | Query, Optional | Filter results by event_type. Supply a comma separated list of event types (listed above). Use in query: `event_types=void_invoice,void_remainder`. |
 
 ## Response Type
 
-[`models.ListInvoiceEventsResponse`](../models/list-invoice-events-response.md)
+[`models.ListInvoiceEventsResponse`](../../doc/models/list-invoice-events-response.md)
 
 ## Example Usage
 
@@ -1089,11 +1089,11 @@ RecordPaymentForInvoice(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `uid` | `string` | Template, Required | The unique identifier for the invoice, this does not refer to the public facing invoice number. |
-| `body` | [`*models.CreateInvoicePaymentRequest`](../models/create-invoice-payment-request.md) | Body, Optional | - |
+| `body` | [`*models.CreateInvoicePaymentRequest`](../../doc/models/create-invoice-payment-request.md) | Body, Optional | - |
 
 ## Response Type
 
-[`models.Invoice`](../models/invoice.md)
+[`models.Invoice`](../../doc/models/invoice.md)
 
 ## Example Usage
 
@@ -1104,7 +1104,7 @@ uid := "uid0"
 bodyPayment := models.CreateInvoicePayment{
     Amount:  models.ToPointer(interface{}("[key1, val1][key2, val2]")),
     Memo:    models.ToPointer("for John Smith"),
-    Method:  models.ToPointer(models.InvoicePaymentMethodTypeEnum("check")),
+    Method:  models.ToPointer(models.InvoicePaymentMethodType("check")),
     Details: models.ToPointer("#0102"),
 }
 
@@ -1164,11 +1164,11 @@ RecordExternalPaymentForInvoices(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `body` | [`*models.CreateMultiInvoicePaymentRequest`](../models/create-multi-invoice-payment-request.md) | Body, Optional | - |
+| `body` | [`*models.CreateMultiInvoicePaymentRequest`](../../doc/models/create-multi-invoice-payment-request.md) | Body, Optional | - |
 
 ## Response Type
 
-[`models.MultiInvoicePaymentResponse`](../models/multi-invoice-payment-response.md)
+[`models.MultiInvoicePaymentResponse`](../../doc/models/multi-invoice-payment-response.md)
 
 ## Example Usage
 
@@ -1189,7 +1189,7 @@ bodyPaymentApplications := []models.CreateInvoicePaymentApplication{bodyPaymentA
 bodyPayment := models.CreateMultiInvoicePayment{
     Memo:         models.ToPointer("to pay the bills"),
     Details:      models.ToPointer("check number 8675309"),
-    Method:       models.ToPointer(models.InvoicePaymentMethodTypeEnum("check")),
+    Method:       models.ToPointer(models.InvoicePaymentMethodType("check")),
     Amount:       interface{}("[key1, val1][key2, val2]"),
     Applications: bodyPaymentApplications,
 }
@@ -1236,7 +1236,7 @@ if err != nil {
 
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
-| 422 | Unprocessable Entity | [`ErrorListResponseException`](../models/error-list-response-exception.md) |
+| 422 | Unprocessable Entity | [`ErrorListResponseException`](../../doc/models/error-list-response-exception.md) |
 
 
 # List Credit Notes
@@ -1257,17 +1257,17 @@ ListCreditNotes(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `subscriptionId` | `*int` | Query, Optional | The subscription's Chargify id |
-| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br>**Default**: `1`<br>**Constraints**: `>= 1` |
-| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`.<br>**Default**: `20`<br>**Constraints**: `<= 200` |
-| `lineItems` | `*bool` | Query, Optional | Include line items data<br>**Default**: `false` |
-| `discounts` | `*bool` | Query, Optional | Include discounts data<br>**Default**: `false` |
-| `taxes` | `*bool` | Query, Optional | Include taxes data<br>**Default**: `false` |
-| `refunds` | `*bool` | Query, Optional | Include refunds data<br>**Default**: `false` |
-| `applications` | `*bool` | Query, Optional | Include applications data<br>**Default**: `false` |
+| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`. |
+| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`. |
+| `lineItems` | `*bool` | Query, Optional | Include line items data |
+| `discounts` | `*bool` | Query, Optional | Include discounts data |
+| `taxes` | `*bool` | Query, Optional | Include taxes data |
+| `refunds` | `*bool` | Query, Optional | Include refunds data |
+| `applications` | `*bool` | Query, Optional | Include applications data |
 
 ## Response Type
 
-[`models.ListCreditNotesResponse`](../models/list-credit-notes-response.md)
+[`models.ListCreditNotesResponse`](../../doc/models/list-credit-notes-response.md)
 
 ## Example Usage
 
@@ -1592,7 +1592,7 @@ ReadCreditNote(
 
 ## Response Type
 
-[`models.CreditNote`](../models/credit-note.md)
+[`models.CreditNote`](../../doc/models/credit-note.md)
 
 ## Example Usage
 
@@ -1911,11 +1911,11 @@ RecordPaymentForSubscription(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription |
-| `body` | [`*models.RecordPaymentRequest`](../record-payment-request.md) | Body, Optional | - |
+| `body` | [`*models.RecordPaymentRequest`](../../doc/models/record-payment-request.md) | Body, Optional | - |
 
 ## Response Type
 
-[`models.PaymentResponse`](../payment-response.md)
+[`models.PaymentResponse`](../../doc/models/payment-response.md)
 
 ## Example Usage
 
@@ -1974,7 +1974,7 @@ if err != nil {
 
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
-| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../error-list-response-exception.md) |
+| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../../doc/models/error-list-response-exception.md) |
 
 
 # Reopen Invoice
@@ -2008,7 +2008,7 @@ ReopenInvoice(
 
 ## Response Type
 
-[`models.Invoice`](../invoice.md)
+[`models.Invoice`](../../doc/models/invoice.md)
 
 ## Example Usage
 
@@ -2031,7 +2031,7 @@ if err != nil {
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
 | 404 | Not Found | `ApiError` |
-| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../error-list-response-exception.md) |
+| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../../doc/models/error-list-response-exception.md) |
 
 
 # Void Invoice
@@ -2052,11 +2052,11 @@ VoidInvoice(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `uid` | `string` | Template, Required | The unique identifier for the invoice, this does not refer to the public facing invoice number. |
-| `body` | [`*models.VoidInvoiceRequest`](../void-invoice-request.md) | Body, Optional | - |
+| `body` | [`*models.VoidInvoiceRequest`](../../doc/models/void-invoice-request.md) | Body, Optional | - |
 
 ## Response Type
 
-[`models.Invoice`](../invoice.md)
+[`models.Invoice`](../../doc/models/invoice.md)
 
 ## Example Usage
 
@@ -2087,7 +2087,7 @@ if err != nil {
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
 | 404 | Not Found | `ApiError` |
-| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../error-list-response-exception.md) |
+| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../../doc/models/error-list-response-exception.md) |
 
 
 # List Invoice Segments
@@ -2106,13 +2106,13 @@ ListInvoiceSegments(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `invoiceUid` | `string` | Template, Required | The unique identifier of the consolidated invoice |
-| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br>**Default**: `1`<br>**Constraints**: `>= 1` |
-| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`.<br>**Default**: `20`<br>**Constraints**: `<= 200` |
-| `direction` | [`*models.DirectionEnum`](../direction-enum.md) | Query, Optional | Sort direction of the returned segments.<br>**Default**: `"asc"` |
+| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`. |
+| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`. |
+| `direction` | [`*models.Direction`](../../doc/models/direction.md) | Query, Optional | Sort direction of the returned segments. |
 
 ## Response Type
 
-[`models.ConsolidatedInvoice`](../consolidated-invoice.md)
+[`models.ConsolidatedInvoice`](../../doc/models/consolidated-invoice.md)
 
 ## Example Usage
 
@@ -2121,7 +2121,7 @@ ctx := context.Background()
 invoiceUid := "invoice_uid0"
 page := 2
 perPage := 50
-direction := models.DirectionEnum("asc")
+direction := models.Direction("asc")
 
 apiResponse, err := invoicesController.ListInvoiceSegments(ctx, invoiceUid, &page, &perPage, &direction)
 if err != nil {
@@ -2591,11 +2591,11 @@ CreateInvoice(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription |
-| `body` | [`*models.CreateInvoiceRequest`](../create-invoice-request.md) | Body, Optional | - |
+| `body` | [`*models.CreateInvoiceRequest`](../../doc/models/create-invoice-request.md) | Body, Optional | - |
 
 ## Response Type
 
-[`models.InvoiceResponse`](../invoice-response.md)
+[`models.InvoiceResponse`](../../doc/models/invoice-response.md)
 
 ## Example Usage
 
@@ -2735,8 +2735,7 @@ if err != nil {
 
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
-| 401 | Unauthorized | `ApiError` |
-| 422 | Unprocessable Entity (WebDAV) | [`NestedErrorResponseException`](../nested-error-response-exception.md) |
+| 422 | Unprocessable Entity (WebDAV) | [`NestedErrorResponseException`](../../doc/models/nested-error-response-exception.md) |
 
 
 # Send Invoice
@@ -2761,7 +2760,7 @@ SendInvoice(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `uid` | `string` | Template, Required | The unique identifier for the invoice, this does not refer to the public facing invoice number. |
-| `body` | [`*models.SendInvoiceRequest`](../send-invoice-request.md) | Body, Optional | - |
+| `body` | [`*models.SendInvoiceRequest`](../../doc/models/send-invoice-request.md) | Body, Optional | - |
 
 ## Response Type
 
@@ -2791,7 +2790,7 @@ if err != nil {
 
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
-| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../error-list-response-exception.md) |
+| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../../doc/models/error-list-response-exception.md) |
 
 
 # Preview Customer Information Changes
@@ -2816,7 +2815,7 @@ PreviewCustomerInformationChanges(
 
 ## Response Type
 
-[`models.CustomerChangesPreviewResponse`](../customer-changes-preview-response.md)
+[`models.CustomerChangesPreviewResponse`](../../doc/models/customer-changes-preview-response.md)
 
 ## Example Usage
 
@@ -2891,8 +2890,8 @@ if err != nil {
 
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
-| 404 | Not Found | [`ErrorListResponseException`](../error-list-response-exception.md) |
-| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../error-list-response-exception.md) |
+| 404 | Not Found | [`ErrorListResponseException`](../../doc/models/error-list-response-exception.md) |
+| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../../doc/models/error-list-response-exception.md) |
 
 
 # Update Customer Information
@@ -2917,7 +2916,7 @@ UpdateCustomerInformation(
 
 ## Response Type
 
-[`models.Invoice`](../invoice.md)
+[`models.Invoice`](../../doc/models/invoice.md)
 
 ## Example Usage
 
@@ -2945,9 +2944,9 @@ if err != nil {
   "subscription_id": 12801726,
   "number": "dolore et ut",
   "sequence_number": -84210096,
-  "issue_date": "in e",
-  "due_date": "magna elit tempor occaecat amet",
-  "paid_date": "consectetur elit culpa magna sint",
+  "issue_date": "2017-01-01",
+  "due_date": "2017-01-30",
+  "paid_date": "2017-01-28",
   "status": "open",
   "collection_method": "Excepteur",
   "payment_instructions": "enim officia",
@@ -3109,7 +3108,7 @@ if err != nil {
   ],
   "public_url": "dolo",
   "previous_balance_data": {
-    "capture_date": "aliqua velit quis voluptate",
+    "captured_at": "2024-01-09T11:22:23-05:00",
     "invoices": [
       {
         "number": "veniam dolore labore ipsum cupidatat",
@@ -3128,8 +3127,8 @@ if err != nil {
 
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
-| 404 | Not Found | [`ErrorListResponseException`](../error-list-response-exception.md) |
-| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../error-list-response-exception.md) |
+| 404 | Not Found | [`ErrorListResponseException`](../../doc/models/error-list-response-exception.md) |
+| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../../doc/models/error-list-response-exception.md) |
 
 
 # Issue Invoice
@@ -3160,11 +3159,11 @@ IssueInvoice(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `uid` | `string` | Template, Required | The unique identifier for the invoice, this does not refer to the public facing invoice number. |
-| `body` | [`*models.IssueInvoiceRequest`](../issue-invoice-request.md) | Body, Optional | - |
+| `body` | [`*models.IssueInvoiceRequest`](../../doc/models/issue-invoice-request.md) | Body, Optional | - |
 
 ## Response Type
 
-[`models.Invoice`](../invoice.md)
+[`models.Invoice`](../../doc/models/invoice.md)
 
 ## Example Usage
 
@@ -3173,7 +3172,7 @@ ctx := context.Background()
 uid := "uid0"
 
 body := models.IssueInvoiceRequest{
-    OnFailedPayment: models.ToPointer(models.FailedPaymentActionEnum("leave_open_invoice")),
+    OnFailedPayment: models.ToPointer(models.FailedPaymentAction("leave_open_invoice")),
 }
 
 apiResponse, err := invoicesController.IssueInvoice(ctx, uid, &body)
@@ -3190,7 +3189,6 @@ if err != nil {
 
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
-| 401 | Unauthorized | `ApiError` |
 | 404 | Not Found | `ApiError` |
-| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../error-list-response-exception.md) |
+| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../../doc/models/error-list-response-exception.md) |
 

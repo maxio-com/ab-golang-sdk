@@ -11,7 +11,7 @@ Used to Create or Update Endpoint
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `Endpoint` | [`models.UpdateEndpoint`](update-endpoint.md) | Required | Used to Create or Update Endpoint |
+| `Endpoint` | [`models.UpdateEndpoint`](../../doc/models/update-endpoint.md) | Required | Used to Create or Update Endpoint |
 
 ## Example (as JSON)
 

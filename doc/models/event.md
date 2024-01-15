@@ -12,7 +12,7 @@
 | `Id` | `int` | Required | - |
 | `Key` | `string` | Required | **Constraints**: *Minimum Length*: `1` |
 | `Message` | `string` | Required | **Constraints**: *Minimum Length*: `1` |
-| `SubscriptionId` | `int` | Required | - |
+| `SubscriptionId` | `*int` | Required | - |
 | `CustomerId` | `int` | Required | - |
 | `CreatedAt` | `string` | Required | **Constraints**: *Minimum Length*: `1` |
 | `EventSpecificData` | `interface{}` | Required | - |

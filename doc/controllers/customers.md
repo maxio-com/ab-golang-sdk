@@ -10,13 +10,13 @@ customersController := client.CustomersController()
 
 ## Methods
 
-* [Create Customer](customers.md#create-customer)
-* [List Customers](customers.md#list-customers)
-* [Read Customer](customers.md#read-customer)
-* [Update Customer](customers.md#update-customer)
-* [Delete Customer](customers.md#delete-customer)
-* [Read Customer by Reference](customers.md#read-customer-by-reference)
-* [List Customer Subscriptions](customers.md#list-customer-subscriptions)
+* [Create Customer](../../doc/controllers/customers.md#create-customer)
+* [List Customers](../../doc/controllers/customers.md#list-customers)
+* [Read Customer](../../doc/controllers/customers.md#read-customer)
+* [Update Customer](../../doc/controllers/customers.md#update-customer)
+* [Delete Customer](../../doc/controllers/customers.md#delete-customer)
+* [Read Customer by Reference](../../doc/controllers/customers.md#read-customer-by-reference)
+* [List Customer Subscriptions](../../doc/controllers/customers.md#list-customer-subscriptions)
 
 
 # Create Customer
@@ -58,11 +58,11 @@ CreateCustomer(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `body` | [`*models.CreateCustomerRequest`](../models/create-customer-request.md) | Body, Optional | - |
+| `body` | [`*models.CreateCustomerRequest`](../../doc/models/create-customer-request.md) | Body, Optional | - |
 
 ## Response Type
 
-[`models.CustomerResponse`](../models/customer-response.md)
+[`models.CustomerResponse`](../../doc/models/customer-response.md)
 
 ## Example Usage
 
@@ -139,7 +139,7 @@ if err != nil {
 
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
-| 422 | Unprocessable Entity (WebDAV) | [`CustomerErrorResponseException`](../models/customer-error-response-exception.md) |
+| 422 | Unprocessable Entity (WebDAV) | [`CustomerErrorResponseException`](../../doc/models/customer-error-response-exception.md) |
 
 
 # List Customers
@@ -171,10 +171,10 @@ ListCustomers(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `direction` | [`*models.SortingDirectionEnum`](../models/sorting-direction-enum.md) | Query, Optional | Direction to sort customers by time of creation |
-| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br>**Default**: `1`<br>**Constraints**: `>= 1` |
-| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 50. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`.<br>**Default**: `50`<br>**Constraints**: `<= 200` |
-| `dateField` | [`*models.BasicDateFieldEnum`](../models/basic-date-field-enum.md) | Query, Optional | The type of filter you would like to apply to your search.<br>Use in query: `date_field=created_at`. |
+| `direction` | [`*models.SortingDirection`](../../doc/models/sorting-direction.md) | Query, Optional | Direction to sort customers by time of creation |
+| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`. |
+| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 50. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`. |
+| `dateField` | [`*models.BasicDateField`](../../doc/models/basic-date-field.md) | Query, Optional | The type of filter you would like to apply to your search.<br>Use in query: `date_field=created_at`. |
 | `startDate` | `*string` | Query, Optional | The start date (format YYYY-MM-DD) with which to filter the date_field. Returns subscriptions with a timestamp at or after midnight (12:00:00 AM) in your site’s time zone on the date specified. |
 | `endDate` | `*string` | Query, Optional | The end date (format YYYY-MM-DD) with which to filter the date_field. Returns subscriptions with a timestamp up to and including 11:59:59PM in your site’s time zone on the date specified. |
 | `startDatetime` | `*string` | Query, Optional | The start date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns subscriptions with a timestamp at or after exact time provided in query. You can specify timezone in query - otherwise your site's time zone will be used. If provided, this parameter will be used instead of start_date. |
@@ -183,7 +183,7 @@ ListCustomers(
 
 ## Response Type
 
-[`[]models.CustomerResponse`](../models/customer-response.md)
+[`[]models.CustomerResponse`](../../doc/models/customer-response.md)
 
 ## Example Usage
 
@@ -191,7 +191,7 @@ ListCustomers(
 ctx := context.Background()
 page := 2
 perPage := 30
-dateField := models.BasicDateFieldEnum("updated_at")
+dateField := models.BasicDateField("updated_at")
 
 apiResponse, err := customersController.ListCustomers(ctx, nil, &page, &perPage, &dateField, nil, nil, nil, nil, nil)
 if err != nil {
@@ -308,7 +308,7 @@ ReadCustomer(
 
 ## Response Type
 
-[`models.CustomerResponse`](../models/customer-response.md)
+[`models.CustomerResponse`](../../doc/models/customer-response.md)
 
 ## Example Usage
 
@@ -345,11 +345,11 @@ UpdateCustomer(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `id` | `int` | Template, Required | The Chargify id of the customer |
-| `body` | [`*models.UpdateCustomerRequest`](../models/update-customer-request.md) | Body, Optional | - |
+| `body` | [`*models.UpdateCustomerRequest`](../../doc/models/update-customer-request.md) | Body, Optional | - |
 
 ## Response Type
 
-[`models.CustomerResponse`](../models/customer-response.md)
+[`models.CustomerResponse`](../../doc/models/customer-response.md)
 
 ## Example Usage
 
@@ -413,7 +413,7 @@ if err != nil {
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
 | 404 | Not Found | `ApiError` |
-| 422 | Unprocessable Entity (WebDAV) | [`CustomerErrorResponseException`](../models/customer-error-response-exception.md) |
+| 422 | Unprocessable Entity (WebDAV) | [`CustomerErrorResponseException`](../../doc/models/customer-error-response-exception.md) |
 
 
 # Delete Customer
@@ -473,7 +473,7 @@ ReadCustomerByReference(
 
 ## Response Type
 
-[`models.CustomerResponse`](../models/customer-response.md)
+[`models.CustomerResponse`](../../doc/models/customer-response.md)
 
 ## Example Usage
 
@@ -512,7 +512,7 @@ ListCustomerSubscriptions(
 
 ## Response Type
 
-[`[]models.SubscriptionResponse`](../models/subscription-response.md)
+[`[]models.SubscriptionResponse`](../../doc/models/subscription-response.md)
 
 ## Example Usage
 

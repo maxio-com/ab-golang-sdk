@@ -11,12 +11,12 @@
 |  --- | --- | --- | --- |
 | `ChargifyToken` | `*string` | Optional | Token received after sending billing informations using chargify.js. |
 | `Id` | `*int` | Optional | - |
-| `PaymentType` | [`*models.PaymentTypeEnum`](payment-type-enum.md) | Optional | **Default**: `"credit_card"` |
+| `PaymentType` | [`*models.PaymentType`](../../doc/models/payment-type.md) | Optional | **Default**: `"credit_card"` |
 | `FirstName` | `*string` | Optional | First name on card or bank account. If omitted, the first_name from customer attributes will be used. |
 | `LastName` | `*string` | Optional | Last name on card or bank account. If omitted, the last_name from customer attributes will be used. |
 | `MaskedCardNumber` | `*string` | Optional | - |
 | `FullNumber` | `*string` | Optional | The full credit card number |
-| `CardType` | [`*models.CardTypeEnum`](card-type-enum.md) | Optional | The type of card used. |
+| `CardType` | [`*models.CardType`](../../doc/models/card-type.md) | Optional | The type of card used. |
 | `ExpirationMonth` | `*interface{}` | Optional | (Optional when performing an Import via vault_token, required otherwise) The 1- or 2-digit credit card expiration month, as an integer or string, i.e. 5 |
 | `ExpirationYear` | `*interface{}` | Optional | (Optional when performing a Import via vault_token, required otherwise) The 4-digit credit card expiration year, as an integer or string, i.e. 2012 |
 | `BillingAddress` | `*string` | Optional | The credit card or bank account billing street address (i.e. 123 Main St.). This value is merely passed through to the payment gateway. |
@@ -25,7 +25,7 @@
 | `BillingState` | `*string` | Optional | The credit card or bank account billing address state (i.e. MA). This value is merely passed through to the payment gateway. This must conform to the [ISO_3166-1](https://en.wikipedia.org/wiki/ISO_3166-1#Current_codes) in order to be valid for tax locale purposes. |
 | `BillingCountry` | `*string` | Optional | The credit card or bank account billing address country, required in [ISO_3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) format (i.e. “US”). This value is merely passed through to the payment gateway. Some gateways require country codes in a specific format. Please check your gateway’s documentation. If creating an ACH subscription, only US is supported at this time. |
 | `BillingZip` | `*string` | Optional | The credit card or bank account billing address zip code (i.e. 12345). This value is merely passed through to the payment gateway. |
-| `CurrentVault` | [`*models.CurrentVaultEnum`](current-vault-enum.md) | Optional | The vault that stores the payment profile with the provided `vault_token`. Use `bogus` for testing. |
+| `CurrentVault` | [`*models.CurrentVault`](../../doc/models/current-vault.md) | Optional | The vault that stores the payment profile with the provided `vault_token`. Use `bogus` for testing. |
 | `VaultToken` | `*string` | Optional | The “token” provided by your vault storage for an already stored payment profile |
 | `CustomerVaultToken` | `*string` | Optional | (only for Authorize.Net CIM storage or Square) The customerProfileId for the owner of the customerPaymentProfileId provided as the vault_token |
 | `CustomerId` | `*int` | Optional | (Required when creating a new payment profile) The Chargify customer id. |

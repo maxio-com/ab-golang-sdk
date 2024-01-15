@@ -11,7 +11,7 @@ Errors returned on creating a refund prepayment when bad request
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `Errors` | [`*models.RefundPrepaymentBaseRefundError`](refund-prepayment-base-refund-error.md) | Optional | - |
+| `Errors` | [`*models.RefundPrepaymentBaseRefundError`](../../doc/models/refund-prepayment-base-refund-error.md) | Optional | - |
 
 ## Example (as JSON)
 

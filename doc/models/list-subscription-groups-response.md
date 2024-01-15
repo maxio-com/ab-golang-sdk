@@ -9,8 +9,8 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `SubscriptionGroups` | [`[]models.ListSubscriptionGroupsItem`](list-subscription-groups-item.md) | Optional | - |
-| `Meta` | [`*models.ListSubscriptionGroupsMeta`](list-subscription-groups-meta.md) | Optional | - |
+| `SubscriptionGroups` | [`[]models.ListSubscriptionGroupsItem`](../../doc/models/list-subscription-groups-item.md) | Optional | - |
+| `Meta` | [`*models.ListSubscriptionGroupsMeta`](../../doc/models/list-subscription-groups-meta.md) | Optional | - |
 
 ## Example (as JSON)
 

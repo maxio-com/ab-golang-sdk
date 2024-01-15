@@ -13,7 +13,7 @@
 | `Memo` | `*string` | Optional | - |
 | `OriginalAmount` | `*string` | Optional | - |
 | `AppliedAmount` | `*string` | Optional | - |
-| `PaymentMethod` | [`*models.InvoicePaymentMethod`](invoice-payment-method.md) | Optional | - |
+| `PaymentMethod` | [`*models.InvoicePaymentMethod`](../../doc/models/invoice-payment-method.md) | Optional | - |
 | `TransactionId` | `*int` | Optional | - |
 | `Prepayment` | `*bool` | Optional | - |
 | `GatewayHandle` | `Optional[string]` | Optional | - |

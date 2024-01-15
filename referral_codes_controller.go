@@ -1,22 +1,22 @@
-package ab_golang_sdk
+package advancedbilling
 
 import (
-	"context"
-	"github.com/apimatic/go-core-runtime/utilities"
-	"maxioadvancedbilling/errors"
-	"maxioadvancedbilling/models"
+    "context"
+    "github.com/apimatic/go-core-runtime/utilities"
+    "github.com/maxio-com/ab-golang-sdk/errors"
+    "github.com/maxio-com/ab-golang-sdk/models"
 )
 
 // ReferralCodesController represents a controller struct.
 type ReferralCodesController struct {
-	baseController
+    baseController
 }
 
 // NewReferralCodesController creates a new instance of ReferralCodesController.
 // It takes a baseController as a parameter and returns a pointer to the ReferralCodesController.
 func NewReferralCodesController(baseController baseController) *ReferralCodesController {
-	referralCodesController := ReferralCodesController{baseController: baseController}
-	return &referralCodesController
+    referralCodesController := ReferralCodesController{baseController: baseController}
+    return &referralCodesController
 }
 
 // ValidateReferralCode takes context, code as parameters and
@@ -28,30 +28,30 @@ func NewReferralCodesController(baseController baseController) *ReferralCodesCon
 // ## Server Response
 // If the referral code is valid the status code will be `200` and the referral code will be returned. If the referral code is invalid, a `404` response will be returned.
 func (r *ReferralCodesController) ValidateReferralCode(
-	ctx context.Context,
-	code string) (
-	models.ApiResponse[models.ReferralValidationResponse],
-	error) {
-	req := r.prepareRequest(ctx, "GET", "/referral_codes/validate.json")
-	req.Authenticate(true)
-	req.QueryParam("code", code)
-	var result models.ReferralValidationResponse
-	decoder, resp, err := req.CallAsJson()
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-	err = validateResponse(*resp)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	result, err = utilities.DecodeResults[models.ReferralValidationResponse](decoder)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	if resp.StatusCode == 404 {
-		err = errors.NewSingleStringErrorResponse(404, "Not Found")
-	}
-	return models.NewApiResponse(result, resp), err
+    ctx context.Context,
+    code string) (
+    models.ApiResponse[models.ReferralValidationResponse],
+    error) {
+    req := r.prepareRequest(ctx, "GET", "/referral_codes/validate.json")
+    req.Authenticate(true)
+    req.QueryParam("code", code)
+    var result models.ReferralValidationResponse
+    decoder, resp, err := req.CallAsJson()
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    err = validateResponse(*resp)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    result, err = utilities.DecodeResults[models.ReferralValidationResponse](decoder)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    if resp.StatusCode == 404 {
+        err = errors.NewSingleStringErrorResponse(404, "Not Found")
+    }
+    return models.NewApiResponse(result, resp), err
 }

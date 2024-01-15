@@ -14,8 +14,8 @@
 | `AmountFormatted` | `*string` | Optional | - |
 | `Description` | `*string` | Optional | - |
 | `Category` | `*string` | Optional | - |
-| `Breakouts` | [`*models.Breakouts`](breakouts.md) | Optional | - |
-| `LineItems` | [`[]models.MovementLineItem`](movement-line-item.md) | Optional | - |
+| `Breakouts` | [`*models.Breakouts`](../../doc/models/breakouts.md) | Optional | - |
+| `LineItems` | [`[]models.MovementLineItem`](../../doc/models/movement-line-item.md) | Optional | - |
 | `SubscriptionId` | `*int` | Optional | - |
 | `SubscriberName` | `*string` | Optional | - |
 

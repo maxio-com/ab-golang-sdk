@@ -12,7 +12,7 @@
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `SnapDay` | `*interface{}` | Optional | A day of month that subscription will be processed on. Can be 1 up to 28 or 'end'. |
-| `CalendarBillingFirstCharge` | [`*models.FirstChargeTypeEnum`](first-charge-type-enum.md) | Optional | - |
+| `CalendarBillingFirstCharge` | [`*models.FirstChargeType`](../../doc/models/first-charge-type.md) | Optional | - |
 
 ## Example (as JSON)
 

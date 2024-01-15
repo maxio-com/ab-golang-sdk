@@ -9,7 +9,7 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `Void` | [`models.VoidInvoice`](void-invoice.md) | Required | - |
+| `Void` | [`models.VoidInvoice`](../../doc/models/void-invoice.md) | Required | - |
 
 ## Example (as JSON)
 

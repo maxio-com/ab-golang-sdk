@@ -9,7 +9,7 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `Payment` | [`models.CreatePayment`](create-payment.md) | Required | - |
+| `Payment` | [`models.CreatePayment`](../../doc/models/create-payment.md) | Required | - |
 
 ## Example (as JSON)
 

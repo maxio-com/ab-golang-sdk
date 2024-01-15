@@ -9,7 +9,7 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `Usage` | [`models.CreateUsage`](create-usage.md) | Required | - |
+| `Usage` | [`models.CreateUsage`](../../doc/models/create-usage.md) | Required | - |
 
 ## Example (as JSON)
 

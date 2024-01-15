@@ -9,7 +9,7 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `ReasonCode` | [`models.ReasonCode`](reason-code.md) | Required | - |
+| `ReasonCode` | [`models.ReasonCode`](../../doc/models/reason-code.md) | Required | - |
 
 ## Example (as JSON)
 

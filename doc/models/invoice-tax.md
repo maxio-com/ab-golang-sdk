@@ -18,8 +18,8 @@
 | `TaxableAmount` | `*string` | Optional | - |
 | `TaxAmount` | `*string` | Optional | - |
 | `TransactionId` | `*int` | Optional | - |
-| `LineItemBreakouts` | [`[]models.InvoiceTaxBreakout`](invoice-tax-breakout.md) | Optional | - |
-| `TaxComponentBreakouts` | [`[]models.InvoiceTaxComponentBreakout`](invoice-tax-component-breakout.md) | Optional | - |
+| `LineItemBreakouts` | [`[]models.InvoiceTaxBreakout`](../../doc/models/invoice-tax-breakout.md) | Optional | - |
+| `TaxComponentBreakouts` | [`[]models.InvoiceTaxComponentBreakout`](../../doc/models/invoice-tax-component-breakout.md) | Optional | - |
 
 ## Example (as JSON)
 

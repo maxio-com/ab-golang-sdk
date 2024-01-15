@@ -16,7 +16,7 @@
 | `RequireCreditCard` | `*bool` | Optional | Deprecated value that can be ignored unless you have legacy hosted pages. For Public Signup Page users, please read this attribute from under the signup page. |
 | `PriceInCents` | `int64` | Required | The product price, in integer cents |
 | `Interval` | `int` | Required | The numerical interval. i.e. an interval of ‘30’ coupled with an interval_unit of day would mean this product would renew every 30 days |
-| `IntervalUnit` | [`models.IntervalUnitEnum`](interval-unit-enum.md) | Required | A string representing the interval unit for this product, either month or day |
+| `IntervalUnit` | [`models.IntervalUnit`](../../doc/models/interval-unit.md) | Required | A string representing the interval unit for this product, either month or day |
 | `AutoCreateSignupPage` | `*bool` | Optional | - |
 | `TaxCode` | `*string` | Optional | A string representing the tax code related to the product type. This is especially important when using the Avalara service to tax based on locale. This attribute has a max length of 10 characters.<br>**Constraints**: *Maximum Length*: `10` |
 

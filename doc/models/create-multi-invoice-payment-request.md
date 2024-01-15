@@ -9,7 +9,7 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `Payment` | [`models.CreateMultiInvoicePayment`](create-multi-invoice-payment.md) | Required | - |
+| `Payment` | [`models.CreateMultiInvoicePayment`](../../doc/models/create-multi-invoice-payment.md) | Required | - |
 
 ## Example (as JSON)
 

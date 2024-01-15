@@ -9,7 +9,7 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `Note` | [`models.SubscriptionNote`](subscription-note.md) | Required | - |
+| `Note` | [`models.SubscriptionNote`](../../doc/models/subscription-note.md) | Required | - |
 
 ## Example (as JSON)
 

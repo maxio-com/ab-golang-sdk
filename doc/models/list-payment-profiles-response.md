@@ -9,7 +9,7 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `PaymentProfile` | [`*models.ListPaymentProfileItem`](list-payment-profile-item.md) | Optional | - |
+| `PaymentProfile` | [`*models.ListPaymentProfileItem`](../../doc/models/list-payment-profile-item.md) | Optional | - |
 
 ## Example (as JSON)
 

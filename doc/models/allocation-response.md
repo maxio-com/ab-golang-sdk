@@ -9,18 +9,21 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `Allocation` | [`*models.Allocation`](allocation.md) | Optional | - |
+| `Allocation` | [`*models.Allocation`](../../doc/models/allocation.md) | Optional | - |
 
 ## Example (as JSON)
 
 ```json
 {
   "allocation": {
+    "allocation_id": 238,
     "component_id": 8,
+    "component_handle": "component_handle8",
     "subscription_id": 8,
-    "quantity": 110,
-    "previous_quantity": 60,
-    "memo": "memo2"
+    "quantity": {
+      "key1": "val1",
+      "key2": "val2"
+    }
   }
 }
 ```

@@ -9,7 +9,7 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `Metadata` | [`*models.UpdateMetadata`](update-metadata.md) | Optional | - |
+| `Metadata` | [`*models.UpdateMetadata`](../../doc/models/update-metadata.md) | Optional | - |
 
 ## Example (as JSON)
 

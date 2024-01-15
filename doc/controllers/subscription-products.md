@@ -10,8 +10,8 @@ subscriptionProductsController := client.SubscriptionProductsController()
 
 ## Methods
 
-* [Migrate Subscription Product](subscription-products.md#migrate-subscription-product)
-* [Preview Subscription Product Migration](subscription-products.md#preview-subscription-product-migration)
+* [Migrate Subscription Product](../../doc/controllers/subscription-products.md#migrate-subscription-product)
+* [Preview Subscription Product Migration](../../doc/controllers/subscription-products.md#preview-subscription-product-migration)
 
 
 # Migrate Subscription Product
@@ -87,11 +87,11 @@ MigrateSubscriptionProduct(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription |
-| `body` | [`*models.SubscriptionProductMigrationRequest`](../models/subscription-product-migration-request.md) | Body, Optional | - |
+| `body` | [`*models.SubscriptionProductMigrationRequest`](../../doc/models/subscription-product-migration-request.md) | Body, Optional | - |
 
 ## Response Type
 
-[`models.SubscriptionResponse`](../models/subscription-response.md)
+[`models.SubscriptionResponse`](../../doc/models/subscription-response.md)
 
 ## Example Usage
 
@@ -247,7 +247,7 @@ if err != nil {
 
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
-| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../models/error-list-response-exception.md) |
+| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../../doc/models/error-list-response-exception.md) |
 
 
 # Preview Subscription Product Migration
@@ -272,11 +272,11 @@ PreviewSubscriptionProductMigration(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription |
-| `body` | [`*models.SubscriptionMigrationPreviewRequest`](../models/subscription-migration-preview-request.md) | Body, Optional | - |
+| `body` | [`*models.SubscriptionMigrationPreviewRequest`](../../doc/models/subscription-migration-preview-request.md) | Body, Optional | - |
 
 ## Response Type
 
-[`models.SubscriptionMigrationPreviewResponse`](../models/subscription-migration-preview-response.md)
+[`models.SubscriptionMigrationPreviewResponse`](../../doc/models/subscription-migration-preview-response.md)
 
 ## Example Usage
 
@@ -319,5 +319,5 @@ if err != nil {
 
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
-| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../models/error-list-response-exception.md) |
+| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../../doc/models/error-list-response-exception.md) |
 

@@ -9,7 +9,7 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `Mrr` | [`models.MRR`](mrr.md) | Required | - |
+| `Mrr` | [`models.MRR`](../../doc/models/mrr.md) | Required | - |
 
 ## Example (as JSON)
 

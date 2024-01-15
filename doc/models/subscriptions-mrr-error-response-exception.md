@@ -9,7 +9,7 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `Errors` | [`models.AttributeError`](attribute-error.md) | Required | - |
+| `Errors` | [`models.AttributeError`](../../doc/models/attribute-error.md) | Required | - |
 
 ## Example (as JSON)
 

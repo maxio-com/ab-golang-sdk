@@ -13,7 +13,7 @@
 | `AllocatedQuantity` | `*interface{}` | Optional | - |
 | `UnitBalance` | `*interface{}` | Optional | - |
 | `PricePointId` | `*interface{}` | Optional | - |
-| `CustomPrice` | [`*models.SubscriptionGroupComponentCustomPrice`](subscription-group-component-custom-price.md) | Optional | Used in place of `price_point_id` to define a custom price point unique to the subscription. You still need to provide `component_id`. |
+| `CustomPrice` | [`*models.SubscriptionGroupComponentCustomPrice`](../../doc/models/subscription-group-component-custom-price.md) | Optional | Used in place of `price_point_id` to define a custom price point unique to the subscription. You still need to provide `component_id`. |
 
 ## Example (as JSON)
 
@@ -70,6 +70,8 @@
     "overage_pricing": [
       {
         "pricing_scheme": "stairstep",
+        "interval": 230,
+        "interval_unit": "day",
         "prices": [
           {
             "starting_quantity": {
@@ -89,6 +91,8 @@
       },
       {
         "pricing_scheme": "stairstep",
+        "interval": 230,
+        "interval_unit": "day",
         "prices": [
           {
             "starting_quantity": {
@@ -108,6 +112,8 @@
       },
       {
         "pricing_scheme": "stairstep",
+        "interval": 230,
+        "interval_unit": "day",
         "prices": [
           {
             "starting_quantity": {

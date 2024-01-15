@@ -10,12 +10,12 @@ subscriptionInvoiceAccountController := client.SubscriptionInvoiceAccountControl
 
 ## Methods
 
-* [Read Account Balances](subscription-invoice-account.md#read-account-balances)
-* [Create Prepayment](subscription-invoice-account.md#create-prepayment)
-* [List Prepayments](subscription-invoice-account.md#list-prepayments)
-* [Issue Service Credit](subscription-invoice-account.md#issue-service-credit)
-* [Deduct Service Credit](subscription-invoice-account.md#deduct-service-credit)
-* [Refund Prepayment](subscription-invoice-account.md#refund-prepayment)
+* [Read Account Balances](../../doc/controllers/subscription-invoice-account.md#read-account-balances)
+* [Create Prepayment](../../doc/controllers/subscription-invoice-account.md#create-prepayment)
+* [List Prepayments](../../doc/controllers/subscription-invoice-account.md#list-prepayments)
+* [Issue Service Credit](../../doc/controllers/subscription-invoice-account.md#issue-service-credit)
+* [Deduct Service Credit](../../doc/controllers/subscription-invoice-account.md#deduct-service-credit)
+* [Refund Prepayment](../../doc/controllers/subscription-invoice-account.md#refund-prepayment)
 
 
 # Read Account Balances
@@ -38,7 +38,7 @@ ReadAccountBalances(
 
 ## Response Type
 
-[`models.AccountBalances`](../models/account-balances.md)
+[`models.AccountBalances`](../../doc/models/account-balances.md)
 
 ## Example Usage
 
@@ -81,11 +81,11 @@ CreatePrepayment(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription |
-| `body` | [`*models.CreatePrepaymentRequest`](../models/create-prepayment-request.md) | Body, Optional | - |
+| `body` | [`*models.CreatePrepaymentRequest`](../../doc/models/create-prepayment-request.md) | Body, Optional | - |
 
 ## Response Type
 
-[`models.CreatePrepaymentResponse`](../models/create-prepayment-response.md)
+[`models.CreatePrepaymentResponse`](../../doc/models/create-prepayment-response.md)
 
 ## Example Usage
 
@@ -97,7 +97,7 @@ bodyPrepayment := models.CreatePrepayment{
     Amount:           float64(100),
     Details:          "John Doe signup for $100",
     Memo:             "Signup for $100",
-    Method:           models.PrepaymentMethodEnum("check"),
+    Method:           models.PrepaymentMethod("check"),
 }
 
 body := models.CreatePrepaymentRequest{
@@ -147,15 +147,15 @@ ListPrepayments(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription |
-| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br>**Default**: `1`<br>**Constraints**: `>= 1` |
-| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`.<br>**Default**: `20`<br>**Constraints**: `<= 200` |
-| `filterDateField` | [`*models.BasicDateFieldEnum`](../models/basic-date-field-enum.md) | Query, Optional | The type of filter you would like to apply to your search. created_at - Time when prepayment was created. application_at - Time when prepayment was applied to invoice. Use in query `filter[date_field]=created_at`. |
+| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`. |
+| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`. |
+| `filterDateField` | [`*models.BasicDateField`](../../doc/models/basic-date-field.md) | Query, Optional | The type of filter you would like to apply to your search. created_at - Time when prepayment was created. application_at - Time when prepayment was applied to invoice. Use in query `filter[date_field]=created_at`. |
 | `filterStartDate` | `*time.Time` | Query, Optional | The start date (format YYYY-MM-DD) with which to filter the date_field. Returns prepayments with a timestamp at or after midnight (12:00:00 AM) in your site’s time zone on the date specified. Use in query `filter[start_date]=2011-12-15`. |
 | `filterEndDate` | `*time.Time` | Query, Optional | The end date (format YYYY-MM-DD) with which to filter the date_field. Returns prepayments with a timestamp up to and including 11:59:59PM in your site’s time zone on the date specified. Use in query `filter[end_date]=2011-12-15`. |
 
 ## Response Type
 
-[`models.PrepaymentsResponse`](../models/prepayments-response.md)
+[`models.PrepaymentsResponse`](../../doc/models/prepayments-response.md)
 
 ## Example Usage
 
@@ -200,8 +200,6 @@ if err != nil {
 
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
-| 401 | Unauthorized | `ApiError` |
-| 403 | Forbidden | `ApiError` |
 | 404 | Not Found | `ApiError` |
 
 
@@ -223,11 +221,11 @@ IssueServiceCredit(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription |
-| `body` | [`*models.IssueServiceCreditRequest`](../models/issue-service-credit-request.md) | Body, Optional | - |
+| `body` | [`*models.IssueServiceCreditRequest`](../../doc/models/issue-service-credit-request.md) | Body, Optional | - |
 
 ## Response Type
 
-[`models.ServiceCredit`](../models/service-credit.md)
+[`models.ServiceCredit`](../../doc/models/service-credit.md)
 
 ## Example Usage
 
@@ -285,7 +283,7 @@ DeductServiceCredit(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription |
-| `body` | [`*models.DeductServiceCreditRequest`](../models/deduct-service-credit-request.md) | Body, Optional | - |
+| `body` | [`*models.DeductServiceCreditRequest`](../../doc/models/deduct-service-credit-request.md) | Body, Optional | - |
 
 ## Response Type
 
@@ -318,7 +316,7 @@ if err != nil {
 
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
-| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../models/error-list-response-exception.md) |
+| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../../doc/models/error-list-response-exception.md) |
 
 
 # Refund Prepayment
@@ -343,11 +341,11 @@ RefundPrepayment(
 |  --- | --- | --- | --- |
 | `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription |
 | `prepaymentId` | `string` | Template, Required | id of prepayment |
-| `body` | [`*models.RefundPrepaymentRequest`](../models/refund-prepayment-request.md) | Body, Optional | - |
+| `body` | [`*models.RefundPrepaymentRequest`](../../doc/models/refund-prepayment-request.md) | Body, Optional | - |
 
 ## Response Type
 
-[`models.PrepaymentResponse`](../models/prepayment-response.md)
+[`models.PrepaymentResponse`](../../doc/models/prepayment-response.md)
 
 ## Example Usage
 
@@ -370,7 +368,7 @@ if err != nil {
 
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
-| 400 | Bad Request | [`RefundPrepaymentBaseErrorsResponseException`](../models/refund-prepayment-base-errors-response-exception.md) |
+| 400 | Bad Request | [`RefundPrepaymentBaseErrorsResponseException`](../../doc/models/refund-prepayment-base-errors-response-exception.md) |
 | 404 | Not Found | `ApiError` |
-| 422 | Unprocessable Entity | [`RefundPrepaymentAggregatedErrorsResponseException`](../models/refund-prepayment-aggregated-errors-response-exception.md) |
+| 422 | Unprocessable Entity | [`RefundPrepaymentAggregatedErrorsResponseException`](../../doc/models/refund-prepayment-aggregated-errors-response-exception.md) |
 

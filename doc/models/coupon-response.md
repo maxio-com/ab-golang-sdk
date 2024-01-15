@@ -9,7 +9,7 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `Coupon` | [`*models.Coupon`](coupon.md) | Optional | - |
+| `Coupon` | [`*models.Coupon`](../../doc/models/coupon.md) | Optional | - |
 
 ## Example (as JSON)
 

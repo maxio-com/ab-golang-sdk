@@ -11,7 +11,7 @@ Errors returned on creating a refund prepayment, grouped by field, as arrays of 
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `Errors` | [`*models.RefundPrepaymentAggregatedError`](refund-prepayment-aggregated-error.md) | Optional | - |
+| `Errors` | [`*models.RefundPrepaymentAggregatedError`](../../doc/models/refund-prepayment-aggregated-error.md) | Optional | - |
 
 ## Example (as JSON)
 

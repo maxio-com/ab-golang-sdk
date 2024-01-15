@@ -27,7 +27,7 @@
 | `ComponentId` | `Optional[int]` | Optional | The ID of the component being billed. Will be `nil` for non-component charges. |
 | `PricePointId` | `Optional[int]` | Optional | The price point ID of the component being billed. Will be `nil` for non-component charges. |
 | `Hide` | `*bool` | Optional | - |
-| `ComponentCostData` | [`Optional[models.InvoiceLineItemComponentCostData]`](invoice-line-item-component-cost-data.md) | Optional | - |
+| `ComponentCostData` | [`Optional[models.InvoiceLineItemComponentCostData]`](../../doc/models/invoice-line-item-component-cost-data.md) | Optional | - |
 | `ProductPricePointId` | `Optional[int]` | Optional | The price point ID of the line item's product |
 | `CustomItem` | `*bool` | Optional | - |
 

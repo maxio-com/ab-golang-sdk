@@ -13,7 +13,7 @@
 | `CurrentPage` | `*int` | Optional | - |
 | `TotalPages` | `*int` | Optional | - |
 | `PerPage` | `*int` | Optional | - |
-| `Metadata` | [`[]models.Metadata`](metadata.md) | Optional | - |
+| `Metadata` | [`[]models.Metadata`](../../doc/models/metadata.md) | Optional | - |
 
 ## Example (as JSON)
 

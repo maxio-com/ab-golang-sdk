@@ -10,20 +10,20 @@ couponsController := client.CouponsController()
 
 ## Methods
 
-* [Create Coupon](coupons.md#create-coupon)
-* [List Coupons for Product Family](coupons.md#list-coupons-for-product-family)
-* [Read Coupon by Code](coupons.md#read-coupon-by-code)
-* [Read Coupon](coupons.md#read-coupon)
-* [Update Coupon](coupons.md#update-coupon)
-* [Archive Coupon](coupons.md#archive-coupon)
-* [List Coupons](coupons.md#list-coupons)
-* [Read Coupon Usage](coupons.md#read-coupon-usage)
-* [Validate Coupon](coupons.md#validate-coupon)
-* [Update Coupon Currency Prices](coupons.md#update-coupon-currency-prices)
-* [Create Coupon Subcodes](coupons.md#create-coupon-subcodes)
-* [List Coupon Subcodes](coupons.md#list-coupon-subcodes)
-* [Update Coupon Subcodes](coupons.md#update-coupon-subcodes)
-* [Delete Coupon Subcode](coupons.md#delete-coupon-subcode)
+* [Create Coupon](../../doc/controllers/coupons.md#create-coupon)
+* [List Coupons for Product Family](../../doc/controllers/coupons.md#list-coupons-for-product-family)
+* [Read Coupon by Code](../../doc/controllers/coupons.md#read-coupon-by-code)
+* [Read Coupon](../../doc/controllers/coupons.md#read-coupon)
+* [Update Coupon](../../doc/controllers/coupons.md#update-coupon)
+* [Archive Coupon](../../doc/controllers/coupons.md#archive-coupon)
+* [List Coupons](../../doc/controllers/coupons.md#list-coupons)
+* [Read Coupon Usage](../../doc/controllers/coupons.md#read-coupon-usage)
+* [Validate Coupon](../../doc/controllers/coupons.md#validate-coupon)
+* [Update Coupon Currency Prices](../../doc/controllers/coupons.md#update-coupon-currency-prices)
+* [Create Coupon Subcodes](../../doc/controllers/coupons.md#create-coupon-subcodes)
+* [List Coupon Subcodes](../../doc/controllers/coupons.md#list-coupon-subcodes)
+* [Update Coupon Subcodes](../../doc/controllers/coupons.md#update-coupon-subcodes)
+* [Delete Coupon Subcode](../../doc/controllers/coupons.md#delete-coupon-subcode)
 
 
 # Create Coupon
@@ -57,11 +57,11 @@ CreateCoupon(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `productFamilyId` | `int` | Template, Required | The Chargify id of the product family to which the coupon belongs |
-| `body` | [`*models.CreateOrUpdateCoupon`](../models/create-or-update-coupon.md) | Body, Optional | - |
+| `body` | [`*models.CreateOrUpdateCoupon`](../../doc/models/create-or-update-coupon.md) | Body, Optional | - |
 
 ## Response Type
 
-[`models.CouponResponse`](../models/coupon-response.md)
+[`models.CouponResponse`](../../doc/models/coupon-response.md)
 
 ## Example Usage
 
@@ -70,7 +70,7 @@ ctx := context.Background()
 productFamilyId := 140
 
 body := models.CreateOrUpdateCoupon{
-    Coupon:               models.ToPointer(interface{}("[name, 15% off][code, 15OFF][description, 15% off for life][percentage, 15][allow_negative_balance, false][recurring, false][end_date, 2012-08-29T12:00:00-04:00][product_family_id, 2][stackable, true][compounding_strategy, compound][exclude_mid_period_allocations, True][apply_on_cancel_at_end_of_period, True]")),
+    Coupon:               models.ToPointer(interface{}("[name, 15% off][code, 15OFF][description, 15% off for life][percentage, 15][allow_negative_balance, False][recurring, False][end_date, 2012-08-29T12:00:00-04:00][product_family_id, 2][stackable, True][compounding_strategy, compound][exclude_mid_period_allocations, True][apply_on_cancel_at_end_of_period, True]")),
     RestrictedProducts:   map[string]bool{
 "1" : true,
 },
@@ -94,7 +94,7 @@ if err != nil {
 
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
-| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../models/error-list-response-exception.md) |
+| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../../doc/models/error-list-response-exception.md) |
 
 
 # List Coupons for Product Family
@@ -115,21 +115,21 @@ ListCouponsForProductFamily(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `productFamilyId` | `int` | Template, Required | The Chargify id of the product family to which the coupon belongs |
-| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br>**Default**: `1`<br>**Constraints**: `>= 1` |
-| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 30. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`.<br>**Default**: `30`<br>**Constraints**: `<= 200` |
-| `filterDateField` | [`*models.BasicDateFieldEnum`](../models/basic-date-field-enum.md) | Query, Optional | The type of filter you would like to apply to your search. Use in query `filter[date_field]=created_at`. |
+| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`. |
+| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 30. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`. |
+| `filterDateField` | [`*models.BasicDateField`](../../doc/models/basic-date-field.md) | Query, Optional | The type of filter you would like to apply to your search. Use in query `filter[date_field]=created_at`. |
 | `filterEndDate` | `*time.Time` | Query, Optional | The end date (format YYYY-MM-DD) with which to filter the date_field. Returns coupons with a timestamp up to and including 11:59:59PM in your site’s time zone on the date specified. Use in query `filter[date_field]=2011-12-15`. |
 | `filterEndDatetime` | `*time.Time` | Query, Optional | The end date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns coupons with a timestamp at or before exact time provided in query. You can specify timezone in query - otherwise your site's time zone will be used. If provided, this parameter will be used instead of end_date. Use in query `?filter[end_datetime]=2011-12-1T10:15:30+01:00`. |
 | `filterStartDate` | `*time.Time` | Query, Optional | The start date (format YYYY-MM-DD) with which to filter the date_field. Returns coupons with a timestamp at or after midnight (12:00:00 AM) in your site’s time zone on the date specified. Use in query `filter[start_date]=2011-12-17`. |
 | `filterStartDatetime` | `*time.Time` | Query, Optional | The start date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns coupons with a timestamp at or after exact time provided in query. You can specify timezone in query - otherwise your site's time zone will be used. If provided, this parameter will be used instead of start_date. Use in query `filter[start_datetime]=2011-12-19T10:15:30+01:00`. |
-| `filterIds` | `[]int` | Query, Optional | Allows fetching coupons with matching id based on provided values. Use in query `filter[ids]=1,2,3`.<br>**Constraints**: *Minimum Items*: `1` |
+| `filterIds` | `[]int` | Query, Optional | Allows fetching coupons with matching id based on provided values. Use in query `filter[ids]=1,2,3`. |
 | `filterCodes` | `[]string` | Query, Optional | Allows fetching coupons with matching codes based on provided values. Use in query `filter[codes]=free,free_trial`. |
 | `currencyPrices` | `*bool` | Query, Optional | When fetching coupons, if you have defined multiple currencies at the site level, you can optionally pass the `?currency_prices=true` query param to include an array of currency price data in the response. Use in query `currency_prices=true`. |
 | `filterUseSiteExchangeRate` | `*bool` | Query, Optional | Allows fetching coupons with matching use_site_exchange_rate based on provided value. Use in query `filter[use_site_exchange_rate]=true`. |
 
 ## Response Type
 
-[`[]models.CouponResponse`](../models/coupon-response.md)
+[`[]models.CouponResponse`](../../doc/models/coupon-response.md)
 
 ## Example Usage
 
@@ -268,7 +268,7 @@ ReadCouponByCode(
 
 ## Response Type
 
-[`models.CouponResponse`](../models/coupon-response.md)
+[`models.CouponResponse`](../../doc/models/coupon-response.md)
 
 ## Example Usage
 
@@ -313,7 +313,7 @@ ReadCoupon(
 
 ## Response Type
 
-[`models.CouponResponse`](../models/coupon-response.md)
+[`models.CouponResponse`](../../doc/models/coupon-response.md)
 
 ## Example Usage
 
@@ -388,11 +388,11 @@ UpdateCoupon(
 |  --- | --- | --- | --- |
 | `productFamilyId` | `int` | Template, Required | The Chargify id of the product family to which the coupon belongs |
 | `couponId` | `int` | Template, Required | The Chargify id of the coupon |
-| `body` | [`*models.CreateOrUpdateCoupon`](../models/create-or-update-coupon.md) | Body, Optional | - |
+| `body` | [`*models.CreateOrUpdateCoupon`](../../doc/models/create-or-update-coupon.md) | Body, Optional | - |
 
 ## Response Type
 
-[`models.CouponResponse`](../models/coupon-response.md)
+[`models.CouponResponse`](../../doc/models/coupon-response.md)
 
 ## Example Usage
 
@@ -402,7 +402,7 @@ productFamilyId := 140
 couponId := 162
 
 body := models.CreateOrUpdateCoupon{
-    Coupon:               models.ToPointer(interface{}("[name, 15% off][code, 15OFF][description, 15% off for life][percentage, 15][allow_negative_balance, false][recurring, false][end_date, 2012-08-29T12:00:00-04:00][product_family_id, 2][stackable, true][compounding_strategy, compound]")),
+    Coupon:               models.ToPointer(interface{}("[name, 15% off][code, 15OFF][description, 15% off for life][percentage, 15][allow_negative_balance, False][recurring, False][end_date, 2012-08-29T12:00:00-04:00][product_family_id, 2][stackable, True][compounding_strategy, compound]")),
     RestrictedProducts:   map[string]bool{
 "1" : true,
 },
@@ -477,7 +477,7 @@ ArchiveCoupon(
 
 ## Response Type
 
-[`models.CouponResponse`](../models/coupon-response.md)
+[`models.CouponResponse`](../../doc/models/coupon-response.md)
 
 ## Example Usage
 
@@ -544,26 +544,26 @@ ListCoupons(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br>**Default**: `1`<br>**Constraints**: `>= 1` |
-| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 30. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`.<br>**Default**: `30`<br>**Constraints**: `<= 200` |
-| `dateField` | [`*models.BasicDateFieldEnum`](../models/basic-date-field-enum.md) | Query, Optional | The field was deprecated: on January 20, 2022. We recommend using filter[date_field] instead to achieve the same result. The type of filter you would like to apply to your search. |
+| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`. |
+| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 30. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`. |
+| `dateField` | [`*models.BasicDateField`](../../doc/models/basic-date-field.md) | Query, Optional | The field was deprecated: on January 20, 2022. We recommend using filter[date_field] instead to achieve the same result. The type of filter you would like to apply to your search. |
 | `startDate` | `*time.Time` | Query, Optional | The field was deprecated: on January 20, 2022. We recommend using filter[start_date] instead to achieve the same result. The start date (format YYYY-MM-DD) with which to filter the date_field. Returns coupons with a timestamp at or after midnight (12:00:00 AM) in your site’s time zone on the date specified. |
 | `endDate` | `*time.Time` | Query, Optional | The field was deprecated: on January 20, 2022. We recommend using filter[end_date] instead to achieve the same result. The end date (format YYYY-MM-DD) with which to filter the date_field. Returns coupons with a timestamp up to and including 11:59:59PM in your site’s time zone on the date specified. |
 | `startDatetime` | `*time.Time` | Query, Optional | The field was deprecated: on January 20, 2022. We recommend using filter[start_datetime] instead to achieve the same result. The start date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns coupons with a timestamp at or after exact time provided in query. You can specify timezone in query - otherwise your site's time zone will be used. If provided, this parameter will be used instead of start_date. |
 | `endDatetime` | `*time.Time` | Query, Optional | The field was deprecated: on January 20, 2022. We recommend using filter[end_datetime] instead to achieve the same result. The end date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns coupons with a timestamp at or before exact time provided in query. You can specify timezone in query - otherwise your site's time zone will be used. If provided, this parameter will be used instead of end_date. |
-| `filterIds` | `[]int` | Query, Optional | Allows fetching coupons with matching id based on provided values. Use in query `filter[ids]=1,2,3`.<br>**Constraints**: *Minimum Items*: `1` |
-| `filterCodes` | `[]string` | Query, Optional | Allows fetching coupons with matching code based on provided values. Use in query `filter[ids]=1,2,3`.<br>**Constraints**: *Minimum Items*: `1` |
+| `filterIds` | `[]int` | Query, Optional | Allows fetching coupons with matching id based on provided values. Use in query `filter[ids]=1,2,3`. |
+| `filterCodes` | `[]string` | Query, Optional | Allows fetching coupons with matching code based on provided values. Use in query `filter[ids]=1,2,3`. |
 | `currencyPrices` | `*bool` | Query, Optional | When fetching coupons, if you have defined multiple currencies at the site level, you can optionally pass the `?currency_prices=true` query param to include an array of currency price data in the response. Use in query `currency_prices=true`. |
 | `filterEndDate` | `*time.Time` | Query, Optional | The end date (format YYYY-MM-DD) with which to filter the date_field. Returns coupons with a timestamp up to and including 11:59:59PM in your site’s time zone on the date specified. Use in query `filter[end_date]=2011-12-17`. |
 | `filterEndDatetime` | `*time.Time` | Query, Optional | The end date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns coupons with a timestamp at or before exact time provided in query. You can specify timezone in query - otherwise your site's time zone will be used. If provided, this parameter will be used instead of end_date. Use in query `filter[end_datetime]=2011-12-19T10:15:30+01:00`. |
 | `filterStartDate` | `*time.Time` | Query, Optional | The start date (format YYYY-MM-DD) with which to filter the date_field. Returns coupons with a timestamp at or after midnight (12:00:00 AM) in your site’s time zone on the date specified. Use in query `filter[start_date]=2011-12-19`. |
 | `filterStartDatetime` | `*time.Time` | Query, Optional | The start date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns coupons with a timestamp at or after exact time provided in query. You can specify timezone in query - otherwise your site's time zone will be used. If provided, this parameter will be used instead of start_date. Use in query `filter[start_datetime]=2011-12-19T10:15:30+01:00`. |
-| `filterDateField` | [`*models.BasicDateFieldEnum`](../models/basic-date-field-enum.md) | Query, Optional | The type of filter you would like to apply to your search. Use in query `filter[date_field]=updated_at`. |
+| `filterDateField` | [`*models.BasicDateField`](../../doc/models/basic-date-field.md) | Query, Optional | The type of filter you would like to apply to your search. Use in query `filter[date_field]=updated_at`. |
 | `filterUseSiteExchangeRate` | `*bool` | Query, Optional | Allows fetching coupons with matching use_site_exchange_rate based on provided value. Use in query `filter[use_site_exchange_rate]=true`. |
 
 ## Response Type
 
-[`[]models.CouponResponse`](../models/coupon-response.md)
+[`[]models.CouponResponse`](../../doc/models/coupon-response.md)
 
 ## Example Usage
 
@@ -571,7 +571,7 @@ ListCoupons(
 ctx := context.Background()
 page := 2
 perPage := 50
-dateField := models.BasicDateFieldEnum("updated_at")
+dateField := models.BasicDateField("updated_at")
 startDate, err := time.Parse(time.RFC3339, "2011-12-17")
 if err != nil {
     log.Fatalln(err)
@@ -667,7 +667,7 @@ ReadCouponUsage(
 
 ## Response Type
 
-[`[]models.CouponUsage`](../models/coupon-usage.md)
+[`[]models.CouponUsage`](../../doc/models/coupon-usage.md)
 
 ## Example Usage
 
@@ -763,7 +763,7 @@ ValidateCoupon(
 
 ## Response Type
 
-[`models.CouponResponse`](../models/coupon-response.md)
+[`models.CouponResponse`](../../doc/models/coupon-response.md)
 
 ## Example Usage
 
@@ -815,7 +815,7 @@ if err != nil {
 
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
-| 404 | Not Found | [`SingleStringErrorResponseException`](../models/single-string-error-response-exception.md) |
+| 404 | Not Found | [`SingleStringErrorResponseException`](../../doc/models/single-string-error-response-exception.md) |
 
 
 # Update Coupon Currency Prices
@@ -829,7 +829,7 @@ UpdateCouponCurrencyPrices(
     ctx context.Context,
     couponId int,
     body *models.CouponCurrencyRequest) (
-    models.ApiResponse[[]models.CouponCurrency],
+    models.ApiResponse[models.CouponCurrencyResponse],
     error)
 ```
 
@@ -838,11 +838,11 @@ UpdateCouponCurrencyPrices(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `couponId` | `int` | Template, Required | The Chargify id of the coupon |
-| `body` | [`*models.CouponCurrencyRequest`](../models/coupon-currency-request.md) | Body, Optional | - |
+| `body` | [`*models.CouponCurrencyRequest`](../../doc/models/coupon-currency-request.md) | Body, Optional | - |
 
 ## Response Type
 
-[`[]models.CouponCurrency`](../models/coupon-currency.md)
+[`models.CouponCurrencyResponse`](../../doc/models/coupon-currency-response.md)
 
 ## Example Usage
 
@@ -933,11 +933,11 @@ CreateCouponSubcodes(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `couponId` | `int` | Template, Required | The Chargify id of the coupon |
-| `body` | [`*models.CouponSubcodes`](../models/coupon-subcodes.md) | Body, Optional | - |
+| `body` | [`*models.CouponSubcodes`](../../doc/models/coupon-subcodes.md) | Body, Optional | - |
 
 ## Response Type
 
-[`models.CouponSubcodesResponse`](../models/coupon-subcodes-response.md)
+[`models.CouponSubcodesResponse`](../../doc/models/coupon-subcodes-response.md)
 
 ## Example Usage
 
@@ -990,12 +990,12 @@ ListCouponSubcodes(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `couponId` | `int` | Template, Required | The Chargify id of the coupon |
-| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br>**Default**: `1`<br>**Constraints**: `>= 1` |
-| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`.<br>**Default**: `20`<br>**Constraints**: `<= 200` |
+| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`. |
+| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`. |
 
 ## Response Type
 
-[`models.CouponSubcodes`](../models/coupon-subcodes.md)
+[`models.CouponSubcodes`](../../doc/models/coupon-subcodes.md)
 
 ## Example Usage
 
@@ -1073,11 +1073,11 @@ UpdateCouponSubcodes(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `couponId` | `int` | Template, Required | The Chargify id of the coupon |
-| `body` | [`*models.CouponSubcodes`](../models/coupon-subcodes.md) | Body, Optional | - |
+| `body` | [`*models.CouponSubcodes`](../../doc/models/coupon-subcodes.md) | Body, Optional | - |
 
 ## Response Type
 
-[`models.CouponSubcodesResponse`](../models/coupon-subcodes-response.md)
+[`models.CouponSubcodesResponse`](../../doc/models/coupon-subcodes-response.md)
 
 ## Example Usage
 

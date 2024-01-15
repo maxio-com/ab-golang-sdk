@@ -16,16 +16,16 @@
 | `Amount` | `Optional[float64]` | Optional | - |
 | `AmountInCents` | `Optional[int]` | Optional | - |
 | `ProductFamilyId` | `*int` | Optional | - |
-| `ProductFamilyName` | `*string` | Optional | - |
+| `ProductFamilyName` | `Optional[string]` | Optional | - |
 | `StartDate` | `*string` | Optional | - |
 | `EndDate` | `Optional[string]` | Optional | - |
 | `Percentage` | `Optional[float64]` | Optional | - |
 | `Recurring` | `*bool` | Optional | - |
-| `RecurringScheme` | [`*models.RecurringSchemeEnum`](recurring-scheme-enum.md) | Optional | - |
+| `RecurringScheme` | [`*models.RecurringScheme`](../../doc/models/recurring-scheme.md) | Optional | - |
 | `DurationPeriodCount` | `Optional[int]` | Optional | - |
 | `DurationInterval` | `Optional[int]` | Optional | - |
 | `DurationIntervalUnit` | `Optional[string]` | Optional | - |
-| `DurationIntervalSpan` | `*string` | Optional | - |
+| `DurationIntervalSpan` | `Optional[string]` | Optional | - |
 | `AllowNegativeBalance` | `*bool` | Optional | - |
 | `ArchivedAt` | `Optional[string]` | Optional | - |
 | `ConversionLimit` | `Optional[string]` | Optional | - |
@@ -34,10 +34,10 @@
 | `UseSiteExchangeRate` | `*bool` | Optional | - |
 | `CreatedAt` | `*string` | Optional | - |
 | `UpdatedAt` | `*string` | Optional | - |
-| `DiscountType` | [`*models.DiscountTypeEnum`](discount-type-enum.md) | Optional | - |
+| `DiscountType` | [`*models.DiscountType`](../../doc/models/discount-type.md) | Optional | - |
 | `ExcludeMidPeriodAllocations` | `*bool` | Optional | - |
 | `ApplyOnCancelAtEndOfPeriod` | `*bool` | Optional | - |
-| `CouponRestrictions` | [`[]models.CouponRestriction`](coupon-restriction.md) | Optional | - |
+| `CouponRestrictions` | [`[]models.CouponRestriction`](../../doc/models/coupon-restriction.md) | Optional | - |
 
 ## Example (as JSON)
 

@@ -10,24 +10,24 @@ componentsController := client.ComponentsController()
 
 ## Methods
 
-* [Create Component](components.md#create-component)
-* [Read Component by Handle](components.md#read-component-by-handle)
-* [Read Component by Id](components.md#read-component-by-id)
-* [Update Product Family Component](components.md#update-product-family-component)
-* [Archive Component](components.md#archive-component)
-* [List Components](components.md#list-components)
-* [Update Component](components.md#update-component)
-* [Update Default Price Point for Component](components.md#update-default-price-point-for-component)
-* [List Components for Product Family](components.md#list-components-for-product-family)
-* [Create Component Price Point](components.md#create-component-price-point)
-* [List Component Price Points](components.md#list-component-price-points)
-* [Create Component Price Points](components.md#create-component-price-points)
-* [Update Component Price Point](components.md#update-component-price-point)
-* [Archive Component Price Point](components.md#archive-component-price-point)
-* [Unarchive Component Price Point](components.md#unarchive-component-price-point)
-* [Create Currency Prices](components.md#create-currency-prices)
-* [Update Currency Prices](components.md#update-currency-prices)
-* [List All Component Price Points](components.md#list-all-component-price-points)
+* [Create Component](../../doc/controllers/components.md#create-component)
+* [Read Component by Handle](../../doc/controllers/components.md#read-component-by-handle)
+* [Read Component by Id](../../doc/controllers/components.md#read-component-by-id)
+* [Update Product Family Component](../../doc/controllers/components.md#update-product-family-component)
+* [Archive Component](../../doc/controllers/components.md#archive-component)
+* [List Components](../../doc/controllers/components.md#list-components)
+* [Update Component](../../doc/controllers/components.md#update-component)
+* [Update Default Price Point for Component](../../doc/controllers/components.md#update-default-price-point-for-component)
+* [List Components for Product Family](../../doc/controllers/components.md#list-components-for-product-family)
+* [Create Component Price Point](../../doc/controllers/components.md#create-component-price-point)
+* [List Component Price Points](../../doc/controllers/components.md#list-component-price-points)
+* [Create Component Price Points](../../doc/controllers/components.md#create-component-price-points)
+* [Update Component Price Point](../../doc/controllers/components.md#update-component-price-point)
+* [Archive Component Price Point](../../doc/controllers/components.md#archive-component-price-point)
+* [Unarchive Component Price Point](../../doc/controllers/components.md#unarchive-component-price-point)
+* [Create Currency Prices](../../doc/controllers/components.md#create-currency-prices)
+* [Update Currency Prices](../../doc/controllers/components.md#update-currency-prices)
+* [List All Component Price Points](../../doc/controllers/components.md#list-all-component-price-points)
 
 
 # Create Component
@@ -53,7 +53,7 @@ For information on how to record component usage against a subscription, please 
 CreateComponent(
     ctx context.Context,
     productFamilyId int,
-    componentKind models.ComponentKindPathEnum,
+    componentKind models.ComponentKindPath,
     body *interface{}) (
     models.ApiResponse[models.ComponentResponse],
     error)
@@ -64,19 +64,19 @@ CreateComponent(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `productFamilyId` | `int` | Template, Required | The Chargify id of the product family to which the component belongs |
-| `componentKind` | [`models.ComponentKindPathEnum`](../models/component-kind-path-enum.md) | Template, Required | The component kind |
+| `componentKind` | [`models.ComponentKindPath`](../../doc/models/component-kind-path.md) | Template, Required | The component kind |
 | `body` | `*interface{}` | Body, Optional | - |
 
 ## Response Type
 
-[`models.ComponentResponse`](../models/component-response.md)
+[`models.ComponentResponse`](../../doc/models/component-response.md)
 
 ## Example Usage
 
 ```go
 ctx := context.Background()
 productFamilyId := 140
-componentKind := models.ComponentKindPathEnum("on_off_components")
+componentKind := models.ComponentKindPath("on_off_components")
 body := interface{}("[metered_component, DotLiquid.Hash]")
 
 apiResponse, err := componentsController.CreateComponent(ctx, productFamilyId, componentKind, &body)
@@ -126,7 +126,7 @@ if err != nil {
 
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
-| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../models/error-list-response-exception.md) |
+| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../../doc/models/error-list-response-exception.md) |
 
 
 # Read Component by Handle
@@ -149,7 +149,7 @@ ReadComponentByHandle(
 
 ## Response Type
 
-[`models.ComponentResponse`](../models/component-response.md)
+[`models.ComponentResponse`](../../doc/models/component-response.md)
 
 ## Example Usage
 
@@ -218,11 +218,11 @@ ReadComponentById(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `productFamilyId` | `int` | Template, Required | The Chargify id of the product family to which the component belongs |
-| `componentId` | `string` | Template, Required | Either the Chargify id of the component or the handle for the component prefixed with `handle:`<br>**Constraints**: *Pattern*: `/\A(?:\d+\|handle:(?:uuid:\|[a-z])(?:\w\|-)+)\z/` |
+| `componentId` | `string` | Template, Required | Either the Chargify id of the component or the handle for the component prefixed with `handle:` |
 
 ## Response Type
 
-[`models.ComponentResponse`](../models/component-response.md)
+[`models.ComponentResponse`](../../doc/models/component-response.md)
 
 ## Example Usage
 
@@ -293,12 +293,12 @@ UpdateProductFamilyComponent(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `productFamilyId` | `int` | Template, Required | The Chargify id of the product family to which the component belongs |
-| `componentId` | `string` | Template, Required | Either the Chargify id of the component or the handle for the component prefixed with `handle:`<br>**Constraints**: *Pattern*: `/\A(?:\d+\|handle:(?:uuid:\|[a-z])(?:\w\|-)+)\z/` |
-| `body` | [`*models.UpdateComponentRequest`](../models/update-component-request.md) | Body, Optional | - |
+| `componentId` | `string` | Template, Required | Either the Chargify id of the component or the handle for the component prefixed with `handle:` |
+| `body` | [`*models.UpdateComponentRequest`](../../doc/models/update-component-request.md) | Body, Optional | - |
 
 ## Response Type
 
-[`models.ComponentResponse`](../models/component-response.md)
+[`models.ComponentResponse`](../../doc/models/component-response.md)
 
 ## Example Usage
 
@@ -308,7 +308,7 @@ productFamilyId := 140
 componentId := "component_id8"
 
 bodyComponent := models.UpdateComponent{
-    ItemCategory:        models.NewOptional(models.ToPointer(models.ItemCategoryEnum("Business Software"))),
+    ItemCategory:        models.NewOptional(models.ToPointer(models.ItemCategory("Business Software"))),
 }
 
 body := models.UpdateComponentRequest{
@@ -359,7 +359,7 @@ if err != nil {
 
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
-| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../models/error-list-response-exception.md) |
+| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../../doc/models/error-list-response-exception.md) |
 
 
 # Archive Component
@@ -380,11 +380,11 @@ ArchiveComponent(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `productFamilyId` | `int` | Template, Required | The Chargify id of the product family to which the component belongs |
-| `componentId` | `string` | Template, Required | Either the Chargify id of the component or the handle for the component prefixed with `handle:`<br>**Constraints**: *Pattern*: `/\A(?:\d+\|handle:(?:uuid:\|[a-z])(?:\w\|-)+)\z/` |
+| `componentId` | `string` | Template, Required | Either the Chargify id of the component or the handle for the component prefixed with `handle:` |
 
 ## Response Type
 
-[`models.Component`](../models/component.md)
+[`models.Component`](../../doc/models/component.md)
 
 ## Example Usage
 
@@ -433,7 +433,7 @@ if err != nil {
 
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
-| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../models/error-list-response-exception.md) |
+| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../../doc/models/error-list-response-exception.md) |
 
 
 # List Components
@@ -451,26 +451,26 @@ ListComponents(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `dateField` | [`*models.BasicDateFieldEnum`](../models/basic-date-field-enum.md) | Query, Optional | The type of filter you would like to apply to your search. |
+| `dateField` | [`*models.BasicDateField`](../../doc/models/basic-date-field.md) | Query, Optional | The type of filter you would like to apply to your search. |
 | `startDate` | `*string` | Query, Optional | The start date (format YYYY-MM-DD) with which to filter the date_field. Returns components with a timestamp at or after midnight (12:00:00 AM) in your site’s time zone on the date specified. |
 | `endDate` | `*string` | Query, Optional | The end date (format YYYY-MM-DD) with which to filter the date_field. Returns components with a timestamp up to and including 11:59:59PM in your site’s time zone on the date specified. |
 | `startDatetime` | `*string` | Query, Optional | The start date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns components with a timestamp at or after exact time provided in query. You can specify timezone in query - otherwise your site's time zone will be used. If provided, this parameter will be used instead of start_date. |
 | `endDatetime` | `*string` | Query, Optional | The end date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns components with a timestamp at or before exact time provided in query. You can specify timezone in query - otherwise your site's time zone will be used. If provided, this parameter will be used instead of end_date.  optional |
 | `includeArchived` | `*bool` | Query, Optional | Include archived items |
-| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br>**Default**: `1`<br>**Constraints**: `>= 1` |
-| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`.<br>**Default**: `20`<br>**Constraints**: `<= 200` |
+| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`. |
+| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`. |
 | `filterIds` | `[]string` | Query, Optional | Allows fetching components with matching id based on provided value. Use in query `filter[ids]=1,2,3`. |
 | `filterUseSiteExchangeRate` | `*bool` | Query, Optional | Allows fetching components with matching use_site_exchange_rate based on provided value (refers to default price point). Use in query `filter[use_site_exchange_rate]=true`. |
 
 ## Response Type
 
-[`[]models.ComponentResponse`](../models/component-response.md)
+[`[]models.ComponentResponse`](../../doc/models/component-response.md)
 
 ## Example Usage
 
 ```go
 ctx := context.Background()
-dateField := models.BasicDateFieldEnum("updated_at")
+dateField := models.BasicDateField("updated_at")
 page := 2
 perPage := 50Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')
 
@@ -601,11 +601,11 @@ UpdateComponent(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `componentId` | `string` | Template, Required | The id or handle of the component |
-| `body` | [`*models.UpdateComponentRequest`](../models/update-component-request.md) | Body, Optional | - |
+| `body` | [`*models.UpdateComponentRequest`](../../doc/models/update-component-request.md) | Body, Optional | - |
 
 ## Response Type
 
-[`models.ComponentResponse`](../models/component-response.md)
+[`models.ComponentResponse`](../../doc/models/component-response.md)
 
 ## Example Usage
 
@@ -614,7 +614,7 @@ ctx := context.Background()
 componentId := "component_id8"
 
 bodyComponent := models.UpdateComponent{
-    ItemCategory:        models.NewOptional(models.ToPointer(models.ItemCategoryEnum("Business Software"))),
+    ItemCategory:        models.NewOptional(models.ToPointer(models.ItemCategory("Business Software"))),
 }
 
 body := models.UpdateComponentRequest{
@@ -665,7 +665,7 @@ if err != nil {
 
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
-| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../models/error-list-response-exception.md) |
+| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../../doc/models/error-list-response-exception.md) |
 
 
 # Update Default Price Point for Component
@@ -694,7 +694,7 @@ UpdateDefaultPricePointForComponent(
 
 ## Response Type
 
-[`models.ComponentResponse`](../models/component-response.md)
+[`models.ComponentResponse`](../../doc/models/component-response.md)
 
 ## Example Usage
 
@@ -765,9 +765,9 @@ ListComponentsForProductFamily(
 | `productFamilyId` | `int` | Template, Required | The Chargify id of the product family |
 | `includeArchived` | `*bool` | Query, Optional | Include archived items. |
 | `filterIds` | `[]int` | Query, Optional | Allows fetching components with matching id based on provided value. Use in query `filter[ids]=1,2`. |
-| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br>**Default**: `1`<br>**Constraints**: `>= 1` |
-| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`.<br>**Default**: `20`<br>**Constraints**: `<= 200` |
-| `dateField` | [`*models.BasicDateFieldEnum`](../models/basic-date-field-enum.md) | Query, Optional | The type of filter you would like to apply to your search. Use in query `date_field=created_at`. |
+| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`. |
+| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`. |
+| `dateField` | [`*models.BasicDateField`](../../doc/models/basic-date-field.md) | Query, Optional | The type of filter you would like to apply to your search. Use in query `date_field=created_at`. |
 | `endDate` | `*string` | Query, Optional | The end date (format YYYY-MM-DD) with which to filter the date_field. Returns components with a timestamp up to and including 11:59:59PM in your site’s time zone on the date specified. |
 | `endDatetime` | `*string` | Query, Optional | The end date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns components with a timestamp at or before exact time provided in query. You can specify timezone in query - otherwise your site's time zone will be used. If provided, this parameter will be used instead of end_date. optional. |
 | `startDate` | `*string` | Query, Optional | The start date (format YYYY-MM-DD) with which to filter the date_field. Returns components with a timestamp at or after midnight (12:00:00 AM) in your site’s time zone on the date specified. |
@@ -776,7 +776,7 @@ ListComponentsForProductFamily(
 
 ## Response Type
 
-[`[]models.ComponentResponse`](../models/component-response.md)
+[`[]models.ComponentResponse`](../../doc/models/component-response.md)
 
 ## Example Usage
 
@@ -785,7 +785,7 @@ ctx := context.Background()
 productFamilyId := 140Liquid error: Value cannot be null. (Parameter 'key')
 page := 2
 perPage := 50
-dateField := models.BasicDateFieldEnum("updated_at")Liquid error: Value cannot be null. (Parameter 'key')
+dateField := models.BasicDateField("updated_at")Liquid error: Value cannot be null. (Parameter 'key')
 
 apiResponse, err := componentsController.ListComponentsForProductFamily(ctx, productFamilyId, nil, Liquid error: Value cannot be null. (Parameter 'key'), &page, &perPage, &dateField, nil, nil, nil, nil, Liquid error: Value cannot be null. (Parameter 'key'))
 if err != nil {
@@ -912,11 +912,11 @@ CreateComponentPricePoint(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `componentId` | `int` | Template, Required | The Chargify id of the component |
-| `body` | [`*models.CreateComponentPricePointRequest`](../models/create-component-price-point-request.md) | Body, Optional | - |
+| `body` | [`*models.CreateComponentPricePointRequest`](../../doc/models/create-component-price-point-request.md) | Body, Optional | - |
 
 ## Response Type
 
-[`models.ComponentPricePointResponse`](../models/component-price-point-response.md)
+[`models.ComponentPricePointResponse`](../../doc/models/component-price-point-response.md)
 
 ## Example Usage
 
@@ -939,7 +939,7 @@ bodyPricePointPrices := []models.Price{bodyPricePointPrices0, bodyPricePointPric
 bodyPricePoint := models.PricePoint{
     Name:                     models.ToPointer("Wholesale"),
     Handle:                   models.ToPointer("wholesale-handle"),
-    PricingScheme:            models.ToPointer(models.PricingSchemeEnum("stairstep")),
+    PricingScheme:            models.ToPointer(models.PricingScheme("stairstep")),
     Prices:                   bodyPricePointPrices,
 }
 
@@ -981,13 +981,13 @@ ListComponentPricePoints(
 |  --- | --- | --- | --- |
 | `componentId` | `int` | Template, Required | The Chargify id of the component |
 | `currencyPrices` | `*bool` | Query, Optional | Include an array of currency price data |
-| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br>**Default**: `1`<br>**Constraints**: `>= 1` |
-| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`.<br>**Default**: `20`<br>**Constraints**: `<= 200` |
-| `filterType` | [`[]models.PricePointTypeEnum`](../models/price-point-type-enum.md) | Query, Optional | Use in query: `filter[type]=catalog,default`. |
+| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`. |
+| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`. |
+| `filterType` | [`[]models.PricePointType`](../../doc/models/price-point-type.md) | Query, Optional | Use in query: `filter[type]=catalog,default`. |
 
 ## Response Type
 
-[`models.ComponentPricePointsResponse`](../models/component-price-points-response.md)
+[`models.ComponentPricePointsResponse`](../../doc/models/component-price-points-response.md)
 
 ## Example Usage
 
@@ -1075,11 +1075,11 @@ CreateComponentPricePoints(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `componentId` | `string` | Template, Required | The Chargify id of the component for which you want to fetch price points. |
-| `body` | [`*models.CreateComponentPricePointsRequest`](../models/create-component-price-points-request.md) | Body, Optional | - |
+| `body` | [`*models.CreateComponentPricePointsRequest`](../../doc/models/create-component-price-points-request.md) | Body, Optional | - |
 
 ## Response Type
 
-[`models.ComponentPricePointsResponse`](../models/component-price-points-response.md)
+[`models.ComponentPricePointsResponse`](../../doc/models/component-price-points-response.md)
 
 ## Example Usage
 
@@ -1096,7 +1096,7 @@ bodyPricePoints0Prices := []models.Price{bodyPricePoints0Prices0}
 bodyPricePoints0 := models.PricePoint{
     Name:                     models.ToPointer("Wholesale"),
     Handle:                   models.ToPointer("wholesale"),
-    PricingScheme:            models.ToPointer(models.PricingSchemeEnum("per_unit")),
+    PricingScheme:            models.ToPointer(models.PricingScheme("per_unit")),
     Prices:                   bodyPricePoints0Prices,
 }
 
@@ -1109,7 +1109,7 @@ bodyPricePoints1Prices := []models.Price{bodyPricePoints1Prices0}
 bodyPricePoints1 := models.PricePoint{
     Name:                     models.ToPointer("MSRP"),
     Handle:                   models.ToPointer("msrp"),
-    PricingScheme:            models.ToPointer(models.PricingSchemeEnum("per_unit")),
+    PricingScheme:            models.ToPointer(models.PricingScheme("per_unit")),
     Prices:                   bodyPricePoints1Prices,
 }
 
@@ -1122,7 +1122,7 @@ bodyPricePoints2Prices := []models.Price{bodyPricePoints2Prices0}
 bodyPricePoints2 := models.PricePoint{
     Name:                     models.ToPointer("Special Pricing"),
     Handle:                   models.ToPointer("special"),
-    PricingScheme:            models.ToPointer(models.PricingSchemeEnum("per_unit")),
+    PricingScheme:            models.ToPointer(models.PricingScheme("per_unit")),
     Prices:                   bodyPricePoints2Prices,
 }
 
@@ -1217,11 +1217,11 @@ UpdateComponentPricePoint(
 |  --- | --- | --- | --- |
 | `componentId` | `int` | Template, Required | The Chargify id of the component to which the price point belongs |
 | `pricePointId` | `int` | Template, Required | The Chargify id of the price point |
-| `body` | [`*models.UpdateComponentPricePointRequest`](../models/update-component-price-point-request.md) | Body, Optional | - |
+| `body` | [`*models.UpdateComponentPricePointRequest`](../../doc/models/update-component-price-point-request.md) | Body, Optional | - |
 
 ## Response Type
 
-[`models.ComponentPricePointResponse`](../models/component-price-point-response.md)
+[`models.ComponentPricePointResponse`](../../doc/models/component-price-point-response.md)
 
 ## Example Usage
 
@@ -1248,8 +1248,8 @@ bodyPricePointPrices2 := models.UpdatePrice{
 
 bodyPricePointPrices := []models.UpdatePrice{bodyPricePointPrices0, bodyPricePointPrices1, bodyPricePointPrices2}
 bodyPricePoint := models.UpdateComponentPricePoint{
-    Name:   models.ToPointer("Default"),
-    Prices: bodyPricePointPrices,
+    Name:         models.ToPointer("Default"),
+    Prices:       bodyPricePointPrices,
 }
 
 body := models.UpdateComponentPricePointRequest{
@@ -1289,7 +1289,7 @@ ArchiveComponentPricePoint(
 
 ## Response Type
 
-[`models.ComponentPricePointResponse`](../models/component-price-point-response.md)
+[`models.ComponentPricePointResponse`](../../doc/models/component-price-point-response.md)
 
 ## Example Usage
 
@@ -1365,7 +1365,7 @@ UnarchiveComponentPricePoint(
 
 ## Response Type
 
-[`models.ComponentPricePointResponse`](../models/component-price-point-response.md)
+[`models.ComponentPricePointResponse`](../../doc/models/component-price-point-response.md)
 
 ## Example Usage
 
@@ -1441,11 +1441,11 @@ CreateCurrencyPrices(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `pricePointId` | `int` | Template, Required | The Chargify id of the price point |
-| `body` | [`*models.CreateCurrencyPricesRequest`](../models/create-currency-prices-request.md) | Body, Optional | - |
+| `body` | [`*models.CreateCurrencyPricesRequest`](../../doc/models/create-currency-prices-request.md) | Body, Optional | - |
 
 ## Response Type
 
-[`[]models.CurrencyPrice`](../models/currency-price.md)
+[`[]models.CurrencyPrice`](../../doc/models/currency-price.md)
 
 ## Example Usage
 
@@ -1501,11 +1501,11 @@ UpdateCurrencyPrices(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `pricePointId` | `int` | Template, Required | The Chargify id of the price point |
-| `body` | [`*models.UpdateCurrencyPricesRequest`](../models/update-currency-prices-request.md) | Body, Optional | - |
+| `body` | [`*models.UpdateCurrencyPricesRequest`](../../doc/models/update-currency-prices-request.md) | Body, Optional | - |
 
 ## Response Type
 
-[`[]models.CurrencyPrice`](../models/currency-price.md)
+[`[]models.CurrencyPrice`](../../doc/models/currency-price.md)
 
 ## Example Usage
 
@@ -1554,28 +1554,28 @@ ListAllComponentPricePoints(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `filterDateField` | [`*models.BasicDateFieldEnum`](../models/basic-date-field-enum.md) | Query, Optional | The type of filter you would like to apply to your search. Use in query: `filter[date_field]=created_at`. |
+| `filterDateField` | [`*models.BasicDateField`](../../doc/models/basic-date-field.md) | Query, Optional | The type of filter you would like to apply to your search. Use in query: `filter[date_field]=created_at`. |
 | `filterEndDate` | `*time.Time` | Query, Optional | The end date (format YYYY-MM-DD) with which to filter the date_field. Returns price points with a timestamp up to and including 11:59:59PM in your site’s time zone on the date specified. |
 | `filterEndDatetime` | `*time.Time` | Query, Optional | The end date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns price points with a timestamp at or before exact time provided in query. You can specify timezone in query - otherwise your site's time zone will be used. If provided, this parameter will be used instead of end_date. |
-| `include` | [`*models.ListComponentsPricePointsIncludeEnum`](../models/list-components-price-points-include-enum.md) | Query, Optional | Allows including additional data in the response. Use in query: `include=currency_prices`. |
-| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br>**Default**: `1`<br>**Constraints**: `>= 1` |
-| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`.<br>**Default**: `20`<br>**Constraints**: `<= 200` |
+| `include` | [`*models.ListComponentsPricePointsInclude`](../../doc/models/list-components-price-points-include.md) | Query, Optional | Allows including additional data in the response. Use in query: `include=currency_prices`. |
+| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`. |
+| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`. |
 | `filterStartDate` | `*time.Time` | Query, Optional | The start date (format YYYY-MM-DD) with which to filter the date_field. Returns price points with a timestamp at or after midnight (12:00:00 AM) in your site’s time zone on the date specified. |
 | `filterStartDatetime` | `*time.Time` | Query, Optional | The start date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns price points with a timestamp at or after exact time provided in query. You can specify timezone in query - otherwise your site's time zone will be used. If provided, this parameter will be used instead of start_date. |
-| `filterType` | [`[]models.PricePointTypeEnum`](../models/price-point-type-enum.md) | Query, Optional | Allows fetching price points with matching type. Use in query: `filter[type]=custom,catalog`. |
-| `direction` | [`*models.SortingDirectionEnum`](../models/sorting-direction-enum.md) | Query, Optional | Controls the order in which results are returned.<br>Use in query `direction=asc`. |
+| `filterType` | [`[]models.PricePointType`](../../doc/models/price-point-type.md) | Query, Optional | Allows fetching price points with matching type. Use in query: `filter[type]=custom,catalog`. |
+| `direction` | [`*models.SortingDirection`](../../doc/models/sorting-direction.md) | Query, Optional | Controls the order in which results are returned.<br>Use in query `direction=asc`. |
 | `filterIds` | `[]int` | Query, Optional | Allows fetching price points with matching id based on provided values. Use in query: `filter[ids]=1,2,3`. |
-| `filterArchivedAt` | [`*models.IncludeNotNullEnum`](../models/include-not-null-enum.md) | Query, Optional | Allows fetching price points only if archived_at is present or not. Use in query: `filter[archived_at]=not_null`. |
+| `filterArchivedAt` | [`*models.IncludeNotNull`](../../doc/models/include-not-null.md) | Query, Optional | Allows fetching price points only if archived_at is present or not. Use in query: `filter[archived_at]=not_null`. |
 
 ## Response Type
 
-[`models.ListComponentsPricePointsResponse`](../models/list-components-price-points-response.md)
+[`models.ListComponentsPricePointsResponse`](../../doc/models/list-components-price-points-response.md)
 
 ## Example Usage
 
 ```go
 ctx := context.Background()Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')
-include := models.ListComponentsPricePointsIncludeEnum("currency_prices")
+include := models.ListComponentsPricePointsInclude("currency_prices")
 page := 2
 perPage := 50Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')
 
@@ -1626,5 +1626,5 @@ if err != nil {
 
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
-| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../models/error-list-response-exception.md) |
+| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../../doc/models/error-list-response-exception.md) |
 

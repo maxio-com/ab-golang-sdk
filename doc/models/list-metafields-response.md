@@ -13,7 +13,7 @@
 | `CurrentPage` | `*int` | Optional | - |
 | `TotalPages` | `*int` | Optional | - |
 | `PerPage` | `*int` | Optional | - |
-| `Metafields` | [`[]models.Metafield`](metafield.md) | Optional | - |
+| `Metafields` | [`[]models.Metafield`](../../doc/models/metafield.md) | Optional | - |
 
 ## Example (as JSON)
 

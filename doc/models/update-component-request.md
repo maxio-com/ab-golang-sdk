@@ -9,7 +9,7 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `Component` | [`models.UpdateComponent`](update-component.md) | Required | - |
+| `Component` | [`models.UpdateComponent`](../../doc/models/update-component.md) | Required | - |
 
 ## Example (as JSON)
 

@@ -10,10 +10,10 @@ billingPortalController := client.BillingPortalController()
 
 ## Methods
 
-* [Enable Billing Portal for Customer](billing-portal.md#enable-billing-portal-for-customer)
-* [Read Billing Portal Link](billing-portal.md#read-billing-portal-link)
-* [Resend Billing Portal Invitation](billing-portal.md#resend-billing-portal-invitation)
-* [Revoke Billing Portal Access](billing-portal.md#revoke-billing-portal-access)
+* [Enable Billing Portal for Customer](../../doc/controllers/billing-portal.md#enable-billing-portal-for-customer)
+* [Read Billing Portal Link](../../doc/controllers/billing-portal.md#read-billing-portal-link)
+* [Resend Billing Portal Invitation](../../doc/controllers/billing-portal.md#resend-billing-portal-invitation)
+* [Revoke Billing Portal Access](../../doc/controllers/billing-portal.md#revoke-billing-portal-access)
 
 
 # Enable Billing Portal for Customer
@@ -38,7 +38,7 @@ In order to prevent abuse & overuse, we ask that you request a new URL only when
 EnableBillingPortalForCustomer(
     ctx context.Context,
     customerId int,
-    autoInvite *models.AutoInviteEnum) (
+    autoInvite *models.AutoInvite) (
     models.ApiResponse[models.CustomerResponse],
     error)
 ```
@@ -48,11 +48,11 @@ EnableBillingPortalForCustomer(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `customerId` | `int` | Template, Required | The Chargify id of the customer |
-| `autoInvite` | [`*models.AutoInviteEnum`](../models/auto-invite-enum.md) | Query, Optional | When set to 1, an Invitation email will be sent to the Customer.<br>When set to 0, or not sent, an email will not be sent.<br>Use in query: `auto_invite=1`. |
+| `autoInvite` | [`*models.AutoInvite`](../../doc/models/auto-invite.md) | Query, Optional | When set to 1, an Invitation email will be sent to the Customer.<br>When set to 0, or not sent, an email will not be sent.<br>Use in query: `auto_invite=1`. |
 
 ## Response Type
 
-[`models.CustomerResponse`](../models/customer-response.md)
+[`models.CustomerResponse`](../../doc/models/customer-response.md)
 
 ## Example Usage
 
@@ -74,7 +74,7 @@ if err != nil {
 
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
-| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../models/error-list-response-exception.md) |
+| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../../doc/models/error-list-response-exception.md) |
 
 
 # Read Billing Portal Link
@@ -105,7 +105,7 @@ ReadBillingPortalLink(
 
 ## Response Type
 
-[`models.PortalManagementLink`](../models/portal-management-link.md)
+[`models.PortalManagementLink`](../../doc/models/portal-management-link.md)
 
 ## Example Usage
 
@@ -140,8 +140,8 @@ if err != nil {
 
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
-| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../models/error-list-response-exception.md) |
-| 429 | Too Many Requests | [`TooManyManagementLinkRequestsErrorException`](../models/too-many-management-link-requests-error-exception.md) |
+| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../../doc/models/error-list-response-exception.md) |
+| 429 | Too Many Requests | [`TooManyManagementLinkRequestsErrorException`](../../doc/models/too-many-management-link-requests-error-exception.md) |
 
 
 # Resend Billing Portal Invitation
@@ -176,7 +176,7 @@ ResendBillingPortalInvitation(
 
 ## Response Type
 
-[`models.ResentInvitation`](../models/resent-invitation.md)
+[`models.ResentInvitation`](../../doc/models/resent-invitation.md)
 
 ## Example Usage
 
@@ -210,7 +210,7 @@ if err != nil {
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
 | 404 | Not Found | `ApiError` |
-| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../models/error-list-response-exception.md) |
+| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../../doc/models/error-list-response-exception.md) |
 
 
 # Revoke Billing Portal Access
@@ -239,7 +239,7 @@ RevokeBillingPortalAccess(
 
 ## Response Type
 
-[`models.RevokedInvitation`](../models/revoked-invitation.md)
+[`models.RevokedInvitation`](../../doc/models/revoked-invitation.md)
 
 ## Example Usage
 
@@ -266,10 +266,4 @@ if err != nil {
   "uninvited_count": 8
 }
 ```
-
-## Errors
-
-| HTTP Status Code | Error Description | Exception Class |
-|  --- | --- | --- |
-| 422 | Unprocessable Entity (WebDAV) | `ApiError` |
 

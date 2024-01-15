@@ -9,7 +9,7 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `Subscription` | [`models.UpdateSubscription`](update-subscription.md) | Required | - |
+| `Subscription` | [`models.UpdateSubscription`](../../doc/models/update-subscription.md) | Required | - |
 
 ## Example (as JSON)
 

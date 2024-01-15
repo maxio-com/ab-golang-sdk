@@ -18,7 +18,7 @@
 | `NextAssessmentAt` | `*string` | Optional | - |
 | `State` | `*string` | Optional | - |
 | `CancelAtEndOfPeriod` | `*bool` | Optional | - |
-| `AccountBalances` | [`*models.SubscriptionGroupBalances`](subscription-group-balances.md) | Optional | - |
+| `AccountBalances` | [`*models.SubscriptionGroupBalances`](../../doc/models/subscription-group-balances.md) | Optional | - |
 
 ## Example (as JSON)
 

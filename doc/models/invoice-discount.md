@@ -20,7 +20,7 @@
 | `EligibleAmount` | `*string` | Optional | - |
 | `DiscountAmount` | `*string` | Optional | - |
 | `TransactionId` | `*int` | Optional | - |
-| `LineItemBreakouts` | [`[]models.InvoiceDiscountBreakout`](invoice-discount-breakout.md) | Optional | - |
+| `LineItemBreakouts` | [`[]models.InvoiceDiscountBreakout`](../../doc/models/invoice-discount-breakout.md) | Optional | - |
 
 ## Example (as JSON)
 

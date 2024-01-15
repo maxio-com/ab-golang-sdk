@@ -17,7 +17,7 @@
 | `ExpirationMonth` | `float64` | Required | - |
 | `ExpirationYear` | `float64` | Required | - |
 | `CustomerId` | `Optional[string]` | Optional | - |
-| `CurrentVault` | [`models.CurrentVaultEnum`](current-vault-enum.md) | Required | The vault that stores the payment profile with the provided `vault_token`. Use `bogus` for testing. |
+| `CurrentVault` | [`models.CurrentVault`](../../doc/models/current-vault.md) | Required | The vault that stores the payment profile with the provided `vault_token`. Use `bogus` for testing. |
 | `VaultToken` | `string` | Required | **Constraints**: *Minimum Length*: `1` |
 | `BillingAddress` | `string` | Required | **Constraints**: *Minimum Length*: `1` |
 | `BillingAddress2` | `*string` | Optional | - |

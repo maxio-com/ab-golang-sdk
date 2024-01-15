@@ -10,15 +10,15 @@ proformaInvoicesController := client.ProformaInvoicesController()
 
 ## Methods
 
-* [Create Consolidated Proforma Invoice](proforma-invoices.md#create-consolidated-proforma-invoice)
-* [List Subscription Group Proforma Invoices](proforma-invoices.md#list-subscription-group-proforma-invoices)
-* [Read Proforma Invoice](proforma-invoices.md#read-proforma-invoice)
-* [Create Proforma Invoice](proforma-invoices.md#create-proforma-invoice)
-* [List Proforma Invoices](proforma-invoices.md#list-proforma-invoices)
-* [Void Proforma Invoice](proforma-invoices.md#void-proforma-invoice)
-* [Preview Proforma Invoice](proforma-invoices.md#preview-proforma-invoice)
-* [Create Signup Proforma Invoice](proforma-invoices.md#create-signup-proforma-invoice)
-* [Preview Signup Proforma Invoice](proforma-invoices.md#preview-signup-proforma-invoice)
+* [Create Consolidated Proforma Invoice](../../doc/controllers/proforma-invoices.md#create-consolidated-proforma-invoice)
+* [List Subscription Group Proforma Invoices](../../doc/controllers/proforma-invoices.md#list-subscription-group-proforma-invoices)
+* [Read Proforma Invoice](../../doc/controllers/proforma-invoices.md#read-proforma-invoice)
+* [Create Proforma Invoice](../../doc/controllers/proforma-invoices.md#create-proforma-invoice)
+* [List Proforma Invoices](../../doc/controllers/proforma-invoices.md#list-proforma-invoices)
+* [Void Proforma Invoice](../../doc/controllers/proforma-invoices.md#void-proforma-invoice)
+* [Preview Proforma Invoice](../../doc/controllers/proforma-invoices.md#preview-proforma-invoice)
+* [Create Signup Proforma Invoice](../../doc/controllers/proforma-invoices.md#create-signup-proforma-invoice)
+* [Preview Signup Proforma Invoice](../../doc/controllers/proforma-invoices.md#preview-signup-proforma-invoice)
 
 
 # Create Consolidated Proforma Invoice
@@ -67,7 +67,7 @@ if err != nil {
 
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
-| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../models/error-list-response-exception.md) |
+| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../../doc/models/error-list-response-exception.md) |
 
 
 # List Subscription Group Proforma Invoices
@@ -92,7 +92,7 @@ ListSubscriptionGroupProformaInvoices(
 
 ## Response Type
 
-[`models.ProformaInvoice`](../models/proforma-invoice.md)
+[`models.ProformaInvoice`](../../doc/models/proforma-invoice.md)
 
 ## Example Usage
 
@@ -114,7 +114,6 @@ if err != nil {
 
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
-| 403 | Forbidden | `ApiError` |
 | 404 | Not Found | `ApiError` |
 
 
@@ -142,7 +141,7 @@ ReadProformaInvoice(
 
 ## Response Type
 
-[`models.ProformaInvoice`](../models/proforma-invoice.md)
+[`models.ProformaInvoice`](../../doc/models/proforma-invoice.md)
 
 ## Example Usage
 
@@ -164,7 +163,6 @@ if err != nil {
 
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
-| 403 | Forbidden | `ApiError` |
 | 404 | Not Found | `ApiError` |
 
 
@@ -194,7 +192,7 @@ CreateProformaInvoice(
 
 ## Response Type
 
-[`models.ProformaInvoice`](../models/proforma-invoice.md)
+[`models.ProformaInvoice`](../../doc/models/proforma-invoice.md)
 
 ## Example Usage
 
@@ -216,8 +214,7 @@ if err != nil {
 
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
-| 403 | Forbidden | `ApiError` |
-| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../models/error-list-response-exception.md) |
+| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../../doc/models/error-list-response-exception.md) |
 
 
 # List Proforma Invoices
@@ -238,20 +235,20 @@ ListProformaInvoices(
 | `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription |
 | `startDate` | `*string` | Query, Optional | The beginning date range for the invoice's Due Date, in the YYYY-MM-DD format. |
 | `endDate` | `*string` | Query, Optional | The ending date range for the invoice's Due Date, in the YYYY-MM-DD format. |
-| `status` | [`*models.StatusEnum`](../models/status-enum.md) | Query, Optional | The current status of the invoice.  Allowed Values: draft, open, paid, pending, voided |
-| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br>**Default**: `1`<br>**Constraints**: `>= 1` |
-| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`.<br>**Default**: `20`<br>**Constraints**: `<= 200` |
-| `direction` | [`*models.DirectionEnum`](../models/direction-enum.md) | Query, Optional | The sort direction of the returned invoices.<br>**Default**: `"desc"` |
-| `lineItems` | `*bool` | Query, Optional | Include line items data<br>**Default**: `false` |
-| `discounts` | `*bool` | Query, Optional | Include discounts data<br>**Default**: `false` |
-| `taxes` | `*bool` | Query, Optional | Include taxes data<br>**Default**: `false` |
-| `credits` | `*bool` | Query, Optional | Include credits data<br>**Default**: `false` |
-| `payments` | `*bool` | Query, Optional | Include payments data<br>**Default**: `false` |
-| `customFields` | `*bool` | Query, Optional | Include custom fields data<br>**Default**: `false` |
+| `status` | [`*models.InvoiceStatus`](../../doc/models/invoice-status.md) | Query, Optional | The current status of the invoice.  Allowed Values: draft, open, paid, pending, voided |
+| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`. |
+| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`. |
+| `direction` | [`*models.Direction`](../../doc/models/direction.md) | Query, Optional | The sort direction of the returned invoices. |
+| `lineItems` | `*bool` | Query, Optional | Include line items data |
+| `discounts` | `*bool` | Query, Optional | Include discounts data |
+| `taxes` | `*bool` | Query, Optional | Include taxes data |
+| `credits` | `*bool` | Query, Optional | Include credits data |
+| `payments` | `*bool` | Query, Optional | Include payments data |
+| `customFields` | `*bool` | Query, Optional | Include custom fields data |
 
 ## Response Type
 
-[`[]models.ProformaInvoice`](../models/proforma-invoice.md)
+[`[]models.ProformaInvoice`](../../doc/models/proforma-invoice.md)
 
 ## Example Usage
 
@@ -260,7 +257,7 @@ ctx := context.Background()
 subscriptionId := 222
 page := 2
 perPage := 50
-direction := models.DirectionEnum("desc")
+direction := models.Direction("desc")
 lineItems := false
 discounts := false
 taxes := false
@@ -305,11 +302,11 @@ VoidProformaInvoice(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `proformaInvoiceUid` | `string` | Template, Required | The uid of the proforma invoice |
-| `body` | [`*models.VoidInvoiceRequest`](../models/void-invoice-request.md) | Body, Optional | - |
+| `body` | [`*models.VoidInvoiceRequest`](../../doc/models/void-invoice-request.md) | Body, Optional | - |
 
 ## Response Type
 
-[`models.ProformaInvoice`](../models/proforma-invoice.md)
+[`models.ProformaInvoice`](../../doc/models/proforma-invoice.md)
 
 ## Example Usage
 
@@ -331,9 +328,8 @@ if err != nil {
 
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
-| 403 | Forbidden | `ApiError` |
 | 404 | Not Found | `ApiError` |
-| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../models/error-list-response-exception.md) |
+| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../../doc/models/error-list-response-exception.md) |
 
 
 # Preview Proforma Invoice
@@ -362,7 +358,7 @@ PreviewProformaInvoice(
 
 ## Response Type
 
-[`models.ProformaInvoicePreview`](../models/proforma-invoice-preview.md)
+[`models.ProformaInvoicePreview`](../../doc/models/proforma-invoice-preview.md)
 
 ## Example Usage
 
@@ -384,9 +380,8 @@ if err != nil {
 
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
-| 403 | Forbidden | `ApiError` |
 | 404 | Not Found | `ApiError` |
-| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../models/error-list-response-exception.md) |
+| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../../doc/models/error-list-response-exception.md) |
 
 
 # Create Signup Proforma Invoice
@@ -411,11 +406,11 @@ CreateSignupProformaInvoice(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `body` | [`*models.CreateSubscriptionRequest`](../models/create-subscription-request.md) | Body, Optional | - |
+| `body` | [`*models.CreateSubscriptionRequest`](../../doc/models/create-subscription-request.md) | Body, Optional | - |
 
 ## Response Type
 
-[`models.ProformaInvoice`](../models/proforma-invoice.md)
+[`models.ProformaInvoice`](../../doc/models/proforma-invoice.md)
 
 ## Example Usage
 
@@ -451,9 +446,8 @@ if err != nil {
 
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
-| 400 | Bad Request | [`ProformaBadRequestErrorResponseException`](../models/proforma-bad-request-error-response-exception.md) |
-| 403 | Forbidden | `ApiError` |
-| 422 | Unprocessable Entity (WebDAV) | [`ErrorMapResponseException`](../models/error-map-response-exception.md) |
+| 400 | Bad Request | [`ProformaBadRequestErrorResponseException`](../../doc/models/proforma-bad-request-error-response-exception.md) |
+| 422 | Unprocessable Entity (WebDAV) | [`ErrorMapResponseException`](../../doc/models/error-map-response-exception.md) |
 
 
 # Preview Signup Proforma Invoice
@@ -480,11 +474,11 @@ PreviewSignupProformaInvoice(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `includeNextProformaInvoice` | `*string` | Query, Optional | Choose to include a proforma invoice preview for the first renewal |
-| `body` | [`*models.CreateSubscriptionRequest`](../models/create-subscription-request.md) | Body, Optional | - |
+| `body` | [`*models.CreateSubscriptionRequest`](../../doc/models/create-subscription-request.md) | Body, Optional | - |
 
 ## Response Type
 
-[`models.SignupProformaPreviewResponse`](../models/signup-proforma-preview-response.md)
+[`models.SignupProformaPreviewResponse`](../../doc/models/signup-proforma-preview-response.md)
 
 ## Example Usage
 
@@ -520,7 +514,6 @@ if err != nil {
 
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
-| 400 | Bad Request | [`ProformaBadRequestErrorResponseException`](../models/proforma-bad-request-error-response-exception.md) |
-| 403 | Forbidden | `ApiError` |
-| 422 | Unprocessable Entity (WebDAV) | [`ErrorMapResponseException`](../models/error-map-response-exception.md) |
+| 400 | Bad Request | [`ProformaBadRequestErrorResponseException`](../../doc/models/proforma-bad-request-error-response-exception.md) |
+| 422 | Unprocessable Entity (WebDAV) | [`ErrorMapResponseException`](../../doc/models/error-map-response-exception.md) |
 

@@ -10,9 +10,9 @@ sitesController := client.SitesController()
 
 ## Methods
 
-* [Read Site](sites.md#read-site)
-* [Clear Site](sites.md#clear-site)
-* [List Chargify Js Public Keys](sites.md#list-chargify-js-public-keys)
+* [Read Site](../../doc/controllers/sites.md#read-site)
+* [Clear Site](../../doc/controllers/sites.md#clear-site)
+* [List Chargify Js Public Keys](../../doc/controllers/sites.md#list-chargify-js-public-keys)
 
 
 # Read Site
@@ -43,7 +43,7 @@ ReadSite(
 
 ## Response Type
 
-[`models.SiteResponse`](../models/site-response.md)
+[`models.SiteResponse`](../../doc/models/site-response.md)
 
 ## Example Usage
 
@@ -99,7 +99,12 @@ if err != nil {
       "net_terms_on_remittance_signups_enabled": false,
       "custom_net_terms_enabled": false
     },
-    "test": true
+    "test": true,
+    "allocation_settings": {
+      "upgrade_charge": "prorated",
+      "downgrade_credit": "none",
+      "accrue_charge": "true"
+    }
   }
 }
 ```
@@ -114,7 +119,7 @@ This call is asynchronous and there may be a delay before the site data is fully
 ```go
 ClearSite(
     ctx context.Context,
-    cleanupScope *models.CleanupScopeEnum) (
+    cleanupScope *models.CleanupScope) (
     http.Response,
     error)
 ```
@@ -123,7 +128,7 @@ ClearSite(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `cleanupScope` | [`*models.CleanupScopeEnum`](../models/cleanup-scope-enum.md) | Query, Optional | `all`: Will clear all products, customers, and related subscriptions from the site.<br>`customers`: Will clear only customers and related subscriptions (leaving the products untouched) for the site.<br>Revenue will also be reset to 0.<br>Use in query `cleanup_scope=all`.<br>**Default**: `"all"` |
+| `cleanupScope` | [`*models.CleanupScope`](../../doc/models/cleanup-scope.md) | Query, Optional | `all`: Will clear all products, customers, and related subscriptions from the site.<br>`customers`: Will clear only customers and related subscriptions (leaving the products untouched) for the site.<br>Revenue will also be reset to 0.<br>Use in query `cleanup_scope=all`. |
 
 ## Response Type
 
@@ -133,7 +138,7 @@ ClearSite(
 
 ```go
 ctx := context.Background()
-cleanupScope := models.CleanupScopeEnum("all")
+cleanupScope := models.CleanupScope("all")
 
 resp, err := sitesController.ClearSite(ctx, &cleanupScope)
 if err != nil {
@@ -142,12 +147,6 @@ if err != nil {
     fmt.Println(resp.StatusCode)
 }
 ```
-
-## Errors
-
-| HTTP Status Code | Error Description | Exception Class |
-|  --- | --- | --- |
-| 403 | Forbidden | `ApiError` |
 
 
 # List Chargify Js Public Keys
@@ -165,12 +164,12 @@ ListChargifyJsPublicKeys(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br>**Default**: `1`<br>**Constraints**: `>= 1` |
-| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`.<br>**Default**: `20`<br>**Constraints**: `<= 200` |
+| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`. |
+| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`. |
 
 ## Response Type
 
-[`models.ListPublicKeysResponse`](../models/list-public-keys-response.md)
+[`models.ListPublicKeysResponse`](../../doc/models/list-public-keys-response.md)
 
 ## Example Usage
 

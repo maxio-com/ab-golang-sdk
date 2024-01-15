@@ -17,7 +17,7 @@
 | `Details` | `*string` | Optional | **Constraints**: *Minimum Length*: `1` |
 | `External` | `bool` | Required | - |
 | `Memo` | `string` | Required | **Constraints**: *Minimum Length*: `1` |
-| `PaymentType` | [`*models.PrepaymentMethodEnum`](prepayment-method-enum.md) | Optional | The payment type of the prepayment. |
+| `PaymentType` | [`*models.PrepaymentMethod`](../../doc/models/prepayment-method.md) | Optional | The payment type of the prepayment. |
 | `CreatedAt` | `string` | Required | **Constraints**: *Minimum Length*: `1` |
 
 ## Example (as JSON)

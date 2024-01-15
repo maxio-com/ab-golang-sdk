@@ -15,14 +15,14 @@
 | `Handle` | `*string` | Optional | (Optional) |
 | `PriceInCents` | `interface{}` | Required | Required if using `custom_price` attribute. |
 | `Interval` | `interface{}` | Required | Required if using `custom_price` attribute. |
-| `IntervalUnit` | [`models.IntervalUnitEnum`](interval-unit-enum.md) | Required | Required if using `custom_price` attribute. |
+| `IntervalUnit` | [`models.IntervalUnit`](../../doc/models/interval-unit.md) | Required | Required if using `custom_price` attribute. |
 | `TrialPriceInCents` | `*interface{}` | Optional | (Optional) |
 | `TrialInterval` | `*interface{}` | Optional | (Optional) |
-| `TrialIntervalUnit` | [`*models.IntervalUnitEnum`](interval-unit-enum.md) | Optional | (Optional) |
+| `TrialIntervalUnit` | [`*models.IntervalUnit`](../../doc/models/interval-unit.md) | Optional | (Optional) |
 | `InitialChargeInCents` | `*interface{}` | Optional | (Optional) |
 | `InitialChargeAfterTrial` | `*bool` | Optional | (Optional) |
 | `ExpirationInterval` | `*interface{}` | Optional | (Optional) |
-| `ExpirationIntervalUnit` | [`*models.IntervalUnitEnum`](interval-unit-enum.md) | Optional | (Optional) |
+| `ExpirationIntervalUnit` | [`*models.IntervalUnit`](../../doc/models/interval-unit.md) | Optional | (Optional) |
 | `TaxIncluded` | `*bool` | Optional | (Optional) |
 
 ## Example (as JSON)

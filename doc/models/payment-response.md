@@ -9,8 +9,8 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `PaidInvoices` | [`[]models.Payment`](payment.md) | Optional | - |
-| `Prepayment` | [`*models.InvoicePrePayment`](invoice-pre-payment.md) | Optional | - |
+| `PaidInvoices` | [`[]models.Payment`](../../doc/models/payment.md) | Optional | - |
+| `Prepayment` | [`*models.InvoicePrePayment`](../../doc/models/invoice-pre-payment.md) | Optional | - |
 
 ## Example (as JSON)
 

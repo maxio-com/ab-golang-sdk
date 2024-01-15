@@ -11,7 +11,7 @@
 |  --- | --- | --- | --- |
 | `SubscriptionId` | `int` | Required | - |
 | `MrrAmountInCents` | `int64` | Required | - |
-| `Breakouts` | [`*models.SubscriptionMRRBreakout`](subscription-mrr-breakout.md) | Optional | - |
+| `Breakouts` | [`*models.SubscriptionMRRBreakout`](../../doc/models/subscription-mrr-breakout.md) | Optional | - |
 
 ## Example (as JSON)
 

@@ -14,7 +14,7 @@
 | `PricePointId` | `*int` | Optional | - |
 | `Name` | `*string` | Optional | - |
 | `Mrr` | `*int` | Optional | - |
-| `MrrMovements` | [`[]models.MRRMovement`](mrr-movement.md) | Optional | - |
+| `MrrMovements` | [`[]models.MRRMovement`](../../doc/models/mrr-movement.md) | Optional | - |
 | `Quantity` | `*int` | Optional | - |
 | `PrevQuantity` | `*int` | Optional | - |
 | `Recurring` | `*bool` | Optional | When `true`, the line item's MRR value will contribute to the `plan` breakout. When `false`, the line item contributes to the `usage` breakout. |

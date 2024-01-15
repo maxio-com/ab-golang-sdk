@@ -10,10 +10,10 @@ subscriptionGroupStatusController := client.SubscriptionGroupStatusController()
 
 ## Methods
 
-* [Cancel Subscriptions in Group](subscription-group-status.md#cancel-subscriptions-in-group)
-* [Initiate Delayed Cancellation for Group](subscription-group-status.md#initiate-delayed-cancellation-for-group)
-* [Stop Delayed Cancellation for Group](subscription-group-status.md#stop-delayed-cancellation-for-group)
-* [Reactivate Subscription Group](subscription-group-status.md#reactivate-subscription-group)
+* [Cancel Subscriptions in Group](../../doc/controllers/subscription-group-status.md#cancel-subscriptions-in-group)
+* [Initiate Delayed Cancellation for Group](../../doc/controllers/subscription-group-status.md#initiate-delayed-cancellation-for-group)
+* [Stop Delayed Cancellation for Group](../../doc/controllers/subscription-group-status.md#stop-delayed-cancellation-for-group)
+* [Reactivate Subscription Group](../../doc/controllers/subscription-group-status.md#reactivate-subscription-group)
 
 
 # Cancel Subscriptions in Group
@@ -36,7 +36,7 @@ CancelSubscriptionsInGroup(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `uid` | `string` | Template, Required | The uid of the subscription group |
-| `body` | [`*models.CancelGroupedSubscriptionsRequest`](../models/cancel-grouped-subscriptions-request.md) | Body, Optional | - |
+| `body` | [`*models.CancelGroupedSubscriptionsRequest`](../../doc/models/cancel-grouped-subscriptions-request.md) | Body, Optional | - |
 
 ## Response Type
 
@@ -64,7 +64,7 @@ if err != nil {
 
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
-| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../models/error-list-response-exception.md) |
+| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../../doc/models/error-list-response-exception.md) |
 
 
 # Initiate Delayed Cancellation for Group
@@ -109,7 +109,7 @@ if err != nil {
 
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
-| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../models/error-list-response-exception.md) |
+| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../../doc/models/error-list-response-exception.md) |
 
 
 # Stop Delayed Cancellation for Group
@@ -152,7 +152,7 @@ if err != nil {
 
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
-| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../models/error-list-response-exception.md) |
+| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../../doc/models/error-list-response-exception.md) |
 
 
 # Reactivate Subscription Group
@@ -191,11 +191,11 @@ ReactivateSubscriptionGroup(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `uid` | `string` | Template, Required | The uid of the subscription group |
-| `body` | [`*models.ReactivateSubscriptionGroupRequest`](../models/reactivate-subscription-group-request.md) | Body, Optional | - |
+| `body` | [`*models.ReactivateSubscriptionGroupRequest`](../../doc/models/reactivate-subscription-group-request.md) | Body, Optional | - |
 
 ## Response Type
 
-[`models.ReactivateSubscriptionGroupResponse`](../models/reactivate-subscription-group-response.md)
+[`models.ReactivateSubscriptionGroupResponse`](../../doc/models/reactivate-subscription-group-response.md)
 
 ## Example Usage
 
@@ -240,5 +240,5 @@ if err != nil {
 
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
-| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../models/error-list-response-exception.md) |
+| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../../doc/models/error-list-response-exception.md) |
 

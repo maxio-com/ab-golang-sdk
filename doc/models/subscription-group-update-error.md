@@ -9,7 +9,7 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `Members` | [`[]models.SubscriptionGroupMemberError`](subscription-group-member-error.md) | Optional | - |
+| `Members` | [`[]models.SubscriptionGroupMemberError`](../../doc/models/subscription-group-member-error.md) | Optional | - |
 
 ## Example (as JSON)
 

@@ -10,18 +10,18 @@ paymentProfilesController := client.PaymentProfilesController()
 
 ## Methods
 
-* [Create Payment Profile](payment-profiles.md#create-payment-profile)
-* [List Payment Profiles](payment-profiles.md#list-payment-profiles)
-* [Read Payment Profile](payment-profiles.md#read-payment-profile)
-* [Update Payment Profile](payment-profiles.md#update-payment-profile)
-* [Delete Unused Payment Profile](payment-profiles.md#delete-unused-payment-profile)
-* [Delete Subscriptions Payment Profile](payment-profiles.md#delete-subscriptions-payment-profile)
-* [Verify Bank Account](payment-profiles.md#verify-bank-account)
-* [Delete Subscription Group Payment Profile](payment-profiles.md#delete-subscription-group-payment-profile)
-* [Update Subscription Default Payment Profile](payment-profiles.md#update-subscription-default-payment-profile)
-* [Update Subscription Group Default Payment Profile](payment-profiles.md#update-subscription-group-default-payment-profile)
-* [Read One Time Token](payment-profiles.md#read-one-time-token)
-* [Send Request Update Payment Email](payment-profiles.md#send-request-update-payment-email)
+* [Create Payment Profile](../../doc/controllers/payment-profiles.md#create-payment-profile)
+* [List Payment Profiles](../../doc/controllers/payment-profiles.md#list-payment-profiles)
+* [Read Payment Profile](../../doc/controllers/payment-profiles.md#read-payment-profile)
+* [Update Payment Profile](../../doc/controllers/payment-profiles.md#update-payment-profile)
+* [Delete Unused Payment Profile](../../doc/controllers/payment-profiles.md#delete-unused-payment-profile)
+* [Delete Subscriptions Payment Profile](../../doc/controllers/payment-profiles.md#delete-subscriptions-payment-profile)
+* [Verify Bank Account](../../doc/controllers/payment-profiles.md#verify-bank-account)
+* [Delete Subscription Group Payment Profile](../../doc/controllers/payment-profiles.md#delete-subscription-group-payment-profile)
+* [Update Subscription Default Payment Profile](../../doc/controllers/payment-profiles.md#update-subscription-default-payment-profile)
+* [Update Subscription Group Default Payment Profile](../../doc/controllers/payment-profiles.md#update-subscription-group-default-payment-profile)
+* [Read One Time Token](../../doc/controllers/payment-profiles.md#read-one-time-token)
+* [Send Request Update Payment Email](../../doc/controllers/payment-profiles.md#send-request-update-payment-email)
 
 
 # Create Payment Profile
@@ -283,11 +283,11 @@ CreatePaymentProfile(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `body` | [`*models.CreatePaymentProfileRequest`](../models/create-payment-profile-request.md) | Body, Optional | When following the IBAN or the Local Bank details examples, a customer, bank account and mandate will be created in your current vault. If the customer, bank account, and mandate already exist in your vault, follow the Import example to link the payment profile into Chargify. |
+| `body` | [`*models.CreatePaymentProfileRequest`](../../doc/models/create-payment-profile-request.md) | Body, Optional | When following the IBAN or the Local Bank details examples, a customer, bank account and mandate will be created in your current vault. If the customer, bank account, and mandate already exist in your vault, follow the Import example to link the payment profile into Chargify. |
 
 ## Response Type
 
-[`models.CreatePaymentProfileResponse`](../models/create-payment-profile-response.md)
+[`models.CreatePaymentProfileResponse`](../../doc/models/create-payment-profile-response.md)
 
 ## Example Usage
 
@@ -295,7 +295,7 @@ CreatePaymentProfile(
 ctx := context.Background()
 
 bodyPaymentProfile := models.CreatePaymentProfile{
-    PaymentType:           models.ToPointer(models.PaymentTypeEnum("bank_account")),
+    PaymentType:           models.ToPointer(models.PaymentType("bank_account")),
     CustomerId:            models.ToPointer(123),
     BankName:              models.ToPointer("Best Bank"),
     BankRoutingNumber:     models.ToPointer("021000089"),
@@ -340,7 +340,8 @@ if err != nil {
     "billing_address_2": null,
     "payment_type": "credit_card",
     "site_gateway_setting_id": 1,
-    "gateway_handle": "handle"
+    "gateway_handle": "handle",
+    "disabled": false
   }
 }
 ```
@@ -350,6 +351,7 @@ if err != nil {
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
 | 404 | Not Found | `ApiError` |
+| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../../doc/models/error-list-response-exception.md) |
 
 
 # List Payment Profiles
@@ -367,13 +369,13 @@ ListPaymentProfiles(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br>**Default**: `1`<br>**Constraints**: `>= 1` |
-| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`.<br>**Default**: `20`<br>**Constraints**: `<= 200` |
+| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`. |
+| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`. |
 | `customerId` | `*int` | Query, Optional | The ID of the customer for which you wish to list payment profiles |
 
 ## Response Type
 
-[`[]models.ListPaymentProfilesResponse`](../models/list-payment-profiles-response.md)
+[`[]models.ListPaymentProfilesResponse`](../../doc/models/list-payment-profiles-response.md)
 
 ## Example Usage
 
@@ -504,7 +506,7 @@ ReadPaymentProfile(
 
 ## Response Type
 
-[`models.ReadPaymentProfileResponse`](../models/read-payment-profile-response.md)
+[`models.ReadPaymentProfileResponse`](../../doc/models/read-payment-profile-response.md)
 
 ## Example Usage
 
@@ -603,11 +605,11 @@ UpdatePaymentProfile(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `paymentProfileId` | `string` | Template, Required | The Chargify id of the payment profile |
-| `body` | [`*models.UpdatePaymentProfileRequest`](../models/update-payment-profile-request.md) | Body, Optional | - |
+| `body` | [`*models.UpdatePaymentProfileRequest`](../../doc/models/update-payment-profile-request.md) | Body, Optional | - |
 
 ## Response Type
 
-[`models.UpdatePaymentProfileResponse`](../models/update-payment-profile-response.md)
+[`models.UpdatePaymentProfileResponse`](../../doc/models/update-payment-profile-response.md)
 
 ## Example Usage
 
@@ -619,10 +621,10 @@ bodyPaymentProfile := models.UpdatePaymentProfile{
     FirstName:       models.ToPointer("Graham"),
     LastName:        models.ToPointer("Test"),
     FullNumber:      models.ToPointer("4111111111111111"),
-    CardType:        models.ToPointer(models.CardTypeEnum("master")),
+    CardType:        models.ToPointer(models.CardType("master")),
     ExpirationMonth: models.ToPointer("04"),
     ExpirationYear:  models.ToPointer("2030"),
-    CurrentVault:    models.ToPointer(models.CurrentVaultEnum("bogus")),
+    CurrentVault:    models.ToPointer(models.CurrentVault("bogus")),
     BillingAddress:  models.ToPointer("456 Juniper Court"),
     BillingCity:     models.ToPointer("Boulder"),
     BillingState:    models.ToPointer("CO"),
@@ -717,7 +719,7 @@ if err != nil {
 
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
-| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../models/error-list-response-exception.md) |
+| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../../doc/models/error-list-response-exception.md) |
 
 
 # Delete Subscriptions Payment Profile
@@ -782,11 +784,11 @@ VerifyBankAccount(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `bankAccountId` | `int` | Template, Required | Identifier of the bank account in the system. |
-| `body` | [`*models.BankAccountVerificationRequest`](../models/bank-account-verification-request.md) | Body, Optional | - |
+| `body` | [`*models.BankAccountVerificationRequest`](../../doc/models/bank-account-verification-request.md) | Body, Optional | - |
 
 ## Response Type
 
-[`models.BankAccountResponse`](../models/bank-account-response.md)
+[`models.BankAccountResponse`](../../doc/models/bank-account-response.md)
 
 ## Example Usage
 
@@ -846,7 +848,7 @@ if err != nil {
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
 | 404 | Not Found | `ApiError` |
-| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../models/error-list-response-exception.md) |
+| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../../doc/models/error-list-response-exception.md) |
 
 
 # Delete Subscription Group Payment Profile
@@ -915,7 +917,7 @@ UpdateSubscriptionDefaultPaymentProfile(
 
 ## Response Type
 
-[`models.PaymentProfileResponse`](../models/payment-profile-response.md)
+[`models.PaymentProfileResponse`](../../doc/models/payment-profile-response.md)
 
 ## Example Usage
 
@@ -967,7 +969,7 @@ if err != nil {
 
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
-| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../models/error-list-response-exception.md) |
+| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../../doc/models/error-list-response-exception.md) |
 
 
 # Update Subscription Group Default Payment Profile
@@ -996,7 +998,7 @@ UpdateSubscriptionGroupDefaultPaymentProfile(
 
 ## Response Type
 
-[`models.PaymentProfileResponse`](../models/payment-profile-response.md)
+[`models.PaymentProfileResponse`](../../doc/models/payment-profile-response.md)
 
 ## Example Usage
 
@@ -1048,7 +1050,7 @@ if err != nil {
 
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
-| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../models/error-list-response-exception.md) |
+| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../../doc/models/error-list-response-exception.md) |
 
 
 # Read One Time Token
@@ -1075,7 +1077,7 @@ ReadOneTimeToken(
 
 ## Response Type
 
-[`models.GetOneTimeTokenRequest`](../models/get-one-time-token-request.md)
+[`models.GetOneTimeTokenRequest`](../../doc/models/get-one-time-token-request.md)
 
 ## Example Usage
 
@@ -1097,7 +1099,7 @@ if err != nil {
 
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
-| 404 | Not Found | [`ErrorListResponseException`](../models/error-list-response-exception.md) |
+| 404 | Not Found | [`ErrorListResponseException`](../../doc/models/error-list-response-exception.md) |
 
 
 # Send Request Update Payment Email
@@ -1147,5 +1149,5 @@ if err != nil {
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
 | 404 | Not Found | `ApiError` |
-| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../models/error-list-response-exception.md) |
+| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../../doc/models/error-list-response-exception.md) |
 

@@ -19,8 +19,8 @@
 | `State` | `*string` | Optional | - |
 | `CancelAtEndOfPeriod` | `*bool` | Optional | - |
 | `CurrentBillingAmountInCents` | `*int64` | Optional | - |
-| `Customer` | [`*models.SubscriptionGroupCustomer`](subscription-group-customer.md) | Optional | - |
-| `AccountBalances` | [`*models.SubscriptionGroupBalances`](subscription-group-balances.md) | Optional | - |
+| `Customer` | [`*models.SubscriptionGroupCustomer`](../../doc/models/subscription-group-customer.md) | Optional | - |
+| `AccountBalances` | [`*models.SubscriptionGroupBalances`](../../doc/models/subscription-group-balances.md) | Optional | - |
 
 ## Example (as JSON)
 

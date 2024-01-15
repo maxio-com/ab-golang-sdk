@@ -10,7 +10,7 @@
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `Name` | `*string` | Optional | - |
-| `Address` | [`*models.InvoiceAddress`](invoice-address.md) | Optional | - |
+| `Address` | [`*models.InvoiceAddress`](../../doc/models/invoice-address.md) | Optional | - |
 | `Phone` | `*string` | Optional | - |
 | `LogoUrl` | `Optional[string]` | Optional | - |
 

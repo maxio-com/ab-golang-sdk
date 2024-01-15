@@ -9,7 +9,7 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `Invoices` | [`[]models.Invoice`](invoice.md) | Optional | - |
+| `Invoices` | [`[]models.Invoice`](../../doc/models/invoice.md) | Optional | - |
 
 ## Example (as JSON)
 

@@ -10,17 +10,17 @@ productPricePointsController := client.ProductPricePointsController()
 
 ## Methods
 
-* [Create Product Price Point](product-price-points.md#create-product-price-point)
-* [List Product Price Points](product-price-points.md#list-product-price-points)
-* [Update Product Price Point](product-price-points.md#update-product-price-point)
-* [Read Product Price Point](product-price-points.md#read-product-price-point)
-* [Archive Product Price Point](product-price-points.md#archive-product-price-point)
-* [Unarchive Product Price Point](product-price-points.md#unarchive-product-price-point)
-* [Promote Product Price Point to Default](product-price-points.md#promote-product-price-point-to-default)
-* [Create Product Price Points](product-price-points.md#create-product-price-points)
-* [Create Product Currency Prices](product-price-points.md#create-product-currency-prices)
-* [Update Product Currency Prices](product-price-points.md#update-product-currency-prices)
-* [List All Product Price Points](product-price-points.md#list-all-product-price-points)
+* [Create Product Price Point](../../doc/controllers/product-price-points.md#create-product-price-point)
+* [List Product Price Points](../../doc/controllers/product-price-points.md#list-product-price-points)
+* [Update Product Price Point](../../doc/controllers/product-price-points.md#update-product-price-point)
+* [Read Product Price Point](../../doc/controllers/product-price-points.md#read-product-price-point)
+* [Archive Product Price Point](../../doc/controllers/product-price-points.md#archive-product-price-point)
+* [Unarchive Product Price Point](../../doc/controllers/product-price-points.md#unarchive-product-price-point)
+* [Promote Product Price Point to Default](../../doc/controllers/product-price-points.md#promote-product-price-point-to-default)
+* [Create Product Price Points](../../doc/controllers/product-price-points.md#create-product-price-points)
+* [Create Product Currency Prices](../../doc/controllers/product-price-points.md#create-product-currency-prices)
+* [Update Product Currency Prices](../../doc/controllers/product-price-points.md#update-product-currency-prices)
+* [List All Product Price Points](../../doc/controllers/product-price-points.md#list-all-product-price-points)
 
 
 # Create Product Price Point
@@ -41,11 +41,11 @@ CreateProductPricePoint(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `productId` | `interface{}` | Template, Required | The id or handle of the product. When using the handle, it must be prefixed with `handle:` |
-| `body` | [`*models.CreateProductPricePointRequest`](../models/create-product-price-point-request.md) | Body, Optional | - |
+| `body` | [`*models.CreateProductPricePointRequest`](../../doc/models/create-product-price-point-request.md) | Body, Optional | - |
 
 ## Response Type
 
-[`models.ProductPricePointResponse`](../models/product-price-point-response.md)
+[`models.ProductPricePointResponse`](../../doc/models/product-price-point-response.md)
 
 ## Example Usage
 
@@ -58,14 +58,14 @@ bodyPricePoint := models.CreateProductPricePoint{
     Handle:                  models.ToPointer("educational"),
     PriceInCents:            int64(1000),
     Interval:                1,
-    IntervalUnit:            models.IntervalUnitEnum("month"),
+    IntervalUnit:            models.IntervalUnit("month"),
     TrialPriceInCents:       models.ToPointer(int64(4900)),
     TrialInterval:           models.ToPointer(1),
-    TrialIntervalUnit:       models.ToPointer(models.IntervalUnitEnum("month")),
+    TrialIntervalUnit:       models.ToPointer(models.IntervalUnit("month")),
     TrialType:               models.ToPointer("payment_expected"),
     InitialChargeInCents:    models.ToPointer(int64(120000)),
     ExpirationInterval:      models.ToPointer(12),
-    ExpirationIntervalUnit:  models.ToPointer(models.IntervalUnitEnum("month")),
+    ExpirationIntervalUnit:  models.ToPointer(models.IntervalUnit("month")),
 }
 
 body := models.CreateProductPricePointRequest{
@@ -113,7 +113,7 @@ if err != nil {
 
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
-| 422 | Unprocessable Entity (WebDAV) | [`ProductPricePointErrorResponseException`](../models/product-price-point-error-response-exception.md) |
+| 422 | Unprocessable Entity (WebDAV) | [`ProductPricePointErrorResponseException`](../../doc/models/product-price-point-error-response-exception.md) |
 
 
 # List Product Price Points
@@ -132,14 +132,14 @@ ListProductPricePoints(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `productId` | `interface{}` | Template, Required | The id or handle of the product. When using the handle, it must be prefixed with `handle:` |
-| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br>**Default**: `1`<br>**Constraints**: `>= 1` |
-| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 10. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>**Default**: `10`<br>**Constraints**: `<= 200` |
+| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`. |
+| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 10. The maximum allowed values is 200; any per_page value over 200 will be changed to 200. |
 | `currencyPrices` | `*bool` | Query, Optional | When fetching a product's price points, if you have defined multiple currencies at the site level, you can optionally pass the ?currency_prices=true query param to include an array of currency price data in the response. If the product price point is set to use_site_exchange_rate: true, it will return pricing based on the current exchange rate. If the flag is set to false, it will return all of the defined prices for each currency. |
-| `filterType` | [`[]models.PricePointTypeEnum`](../models/price-point-type-enum.md) | Query, Optional | Use in query: `filter[type]=catalog,default`. |
+| `filterType` | [`[]models.PricePointType`](../../doc/models/price-point-type.md) | Query, Optional | Use in query: `filter[type]=catalog,default`. |
 
 ## Response Type
 
-[`models.ListProductPricePointsResponse`](../models/list-product-price-points-response.md)
+[`models.ListProductPricePointsResponse`](../../doc/models/list-product-price-points-response.md)
 
 ## Example Usage
 
@@ -211,11 +211,11 @@ UpdateProductPricePoint(
 |  --- | --- | --- | --- |
 | `productId` | `interface{}` | Template, Required | The id or handle of the product. When using the handle, it must be prefixed with `handle:` |
 | `pricePointId` | `interface{}` | Template, Required | The id or handle of the price point. When using the handle, it must be prefixed with `handle:` |
-| `body` | [`*models.UpdateProductPricePointRequest`](../models/update-product-price-point-request.md) | Body, Optional | - |
+| `body` | [`*models.UpdateProductPricePointRequest`](../../doc/models/update-product-price-point-request.md) | Body, Optional | - |
 
 ## Response Type
 
-[`models.ProductPricePointResponse`](../models/product-price-point-response.md)
+[`models.ProductPricePointResponse`](../../doc/models/product-price-point-response.md)
 
 ## Example Usage
 
@@ -295,7 +295,7 @@ ReadProductPricePoint(
 
 ## Response Type
 
-[`models.ProductPricePointResponse`](../models/product-price-point-response.md)
+[`models.ProductPricePointResponse`](../../doc/models/product-price-point-response.md)
 
 ## Example Usage
 
@@ -364,7 +364,7 @@ ArchiveProductPricePoint(
 
 ## Response Type
 
-[`models.ProductPricePointResponse`](../models/product-price-point-response.md)
+[`models.ProductPricePointResponse`](../../doc/models/product-price-point-response.md)
 
 ## Example Usage
 
@@ -414,7 +414,7 @@ if err != nil {
 
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
-| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../models/error-list-response-exception.md) |
+| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../../doc/models/error-list-response-exception.md) |
 
 
 # Unarchive Product Price Point
@@ -439,7 +439,7 @@ UnarchiveProductPricePoint(
 
 ## Response Type
 
-[`models.ProductPricePointResponse`](../models/product-price-point-response.md)
+[`models.ProductPricePointResponse`](../../doc/models/product-price-point-response.md)
 
 ## Example Usage
 
@@ -510,7 +510,7 @@ PromoteProductPricePointToDefault(
 
 ## Response Type
 
-[`models.ProductResponse`](../models/product-response.md)
+[`models.ProductResponse`](../../doc/models/product-response.md)
 
 ## Example Usage
 
@@ -602,11 +602,11 @@ CreateProductPricePoints(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `productId` | `int` | Template, Required | The Chargify id of the product to which the price points belong |
-| `body` | [`*models.BulkCreateProductPricePointsRequest`](../models/bulk-create-product-price-points-request.md) | Body, Optional | - |
+| `body` | [`*models.BulkCreateProductPricePointsRequest`](../../doc/models/bulk-create-product-price-points-request.md) | Body, Optional | - |
 
 ## Response Type
 
-[`models.BulkCreateProductPricePointsResponse`](../models/bulk-create-product-price-points-response.md)
+[`models.BulkCreateProductPricePointsResponse`](../../doc/models/bulk-create-product-price-points-response.md)
 
 ## Example Usage
 
@@ -619,14 +619,14 @@ bodyPricePoints0 := models.CreateProductPricePoint{
     Handle:                  models.ToPointer("educational"),
     PriceInCents:            int64(1000),
     Interval:                1,
-    IntervalUnit:            models.IntervalUnitEnum("month"),
+    IntervalUnit:            models.IntervalUnit("month"),
     TrialPriceInCents:       models.ToPointer(int64(4900)),
     TrialInterval:           models.ToPointer(1),
-    TrialIntervalUnit:       models.ToPointer(models.IntervalUnitEnum("month")),
+    TrialIntervalUnit:       models.ToPointer(models.IntervalUnit("month")),
     TrialType:               models.ToPointer("payment_expected"),
     InitialChargeInCents:    models.ToPointer(int64(120000)),
     ExpirationInterval:      models.ToPointer(12),
-    ExpirationIntervalUnit:  models.ToPointer(models.IntervalUnitEnum("month")),
+    ExpirationIntervalUnit:  models.ToPointer(models.IntervalUnit("month")),
 }
 
 bodyPricePoints1 := models.CreateProductPricePoint{
@@ -634,14 +634,14 @@ bodyPricePoints1 := models.CreateProductPricePoint{
     Handle:                  models.ToPointer("more-educational"),
     PriceInCents:            int64(2000),
     Interval:                1,
-    IntervalUnit:            models.IntervalUnitEnum("month"),
+    IntervalUnit:            models.IntervalUnit("month"),
     TrialPriceInCents:       models.ToPointer(int64(4900)),
     TrialInterval:           models.ToPointer(1),
-    TrialIntervalUnit:       models.ToPointer(models.IntervalUnitEnum("month")),
+    TrialIntervalUnit:       models.ToPointer(models.IntervalUnit("month")),
     TrialType:               models.ToPointer("payment_expected"),
     InitialChargeInCents:    models.ToPointer(int64(120000)),
     ExpirationInterval:      models.ToPointer(12),
-    ExpirationIntervalUnit:  models.ToPointer(models.IntervalUnitEnum("month")),
+    ExpirationIntervalUnit:  models.ToPointer(models.IntervalUnit("month")),
 }
 
 bodyPricePoints := []models.CreateProductPricePoint{bodyPricePoints0, bodyPricePoints1}
@@ -717,11 +717,11 @@ CreateProductCurrencyPrices(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `productPricePointId` | `int` | Template, Required | The Chargify id of the product price point |
-| `body` | [`*models.CreateProductCurrencyPricesRequest`](../models/create-product-currency-prices-request.md) | Body, Optional | - |
+| `body` | [`*models.CreateProductCurrencyPricesRequest`](../../doc/models/create-product-currency-prices-request.md) | Body, Optional | - |
 
 ## Response Type
 
-[`models.ProductPricePointCurrencyPrice`](../models/product-price-point-currency-price.md)
+[`models.ProductPricePointCurrencyPrice`](../../doc/models/product-price-point-currency-price.md)
 
 ## Example Usage
 
@@ -732,19 +732,19 @@ productPricePointId := 234
 bodyCurrencyPrices0 := models.CreateProductCurrencyPrice{
     Currency: "EUR",
     Price:    60,
-    Role:     models.CurrencyPriceRoleEnum("baseline"),
+    Role:     models.CurrencyPriceRole("baseline"),
 }
 
 bodyCurrencyPrices1 := models.CreateProductCurrencyPrice{
     Currency: "EUR",
     Price:    30,
-    Role:     models.CurrencyPriceRoleEnum("trial"),
+    Role:     models.CurrencyPriceRole("trial"),
 }
 
 bodyCurrencyPrices2 := models.CreateProductCurrencyPrice{
     Currency: "EUR",
     Price:    100,
-    Role:     models.CurrencyPriceRoleEnum("initial"),
+    Role:     models.CurrencyPriceRole("initial"),
 }
 
 bodyCurrencyPrices := []models.CreateProductCurrencyPrice{bodyCurrencyPrices0, bodyCurrencyPrices1, bodyCurrencyPrices2}
@@ -783,7 +783,7 @@ if err != nil {
 
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
-| 422 | Unprocessable Entity (WebDAV) | [`ErrorMapResponseException`](../models/error-map-response-exception.md) |
+| 422 | Unprocessable Entity (WebDAV) | [`ErrorMapResponseException`](../../doc/models/error-map-response-exception.md) |
 
 
 # Update Product Currency Prices
@@ -808,11 +808,11 @@ UpdateProductCurrencyPrices(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `productPricePointId` | `int` | Template, Required | The Chargify id of the product price point |
-| `body` | [`*models.UpdateCurrencyPricesRequest`](../models/update-currency-prices-request.md) | Body, Optional | - |
+| `body` | [`*models.UpdateCurrencyPricesRequest`](../../doc/models/update-currency-prices-request.md) | Body, Optional | - |
 
 ## Response Type
 
-[`models.ProductPricePointCurrencyPrice`](../models/product-price-point-currency-price.md)
+[`models.ProductPricePointCurrencyPrice`](../../doc/models/product-price-point-currency-price.md)
 
 ## Example Usage
 
@@ -866,7 +866,7 @@ if err != nil {
 
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
-| 422 | Unprocessable Entity (WebDAV) | [`ErrorMapResponseException`](../models/error-map-response-exception.md) |
+| 422 | Unprocessable Entity (WebDAV) | [`ErrorMapResponseException`](../../doc/models/error-map-response-exception.md) |
 
 
 # List All Product Price Points
@@ -884,28 +884,28 @@ ListAllProductPricePoints(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `direction` | [`*models.SortingDirectionEnum`](../models/sorting-direction-enum.md) | Query, Optional | Controls the order in which results are returned.<br>Use in query `direction=asc`. |
-| `filterArchivedAt` | [`*models.IncludeNotNullEnum`](../models/include-not-null-enum.md) | Query, Optional | Allows fetching price points only if archived_at is present or not. Use in query: `filter[archived_at]=not_null`. |
-| `filterDateField` | [`*models.BasicDateFieldEnum`](../models/basic-date-field-enum.md) | Query, Optional | The type of filter you would like to apply to your search. Use in query: `filter[date_field]=created_at`. |
+| `direction` | [`*models.SortingDirection`](../../doc/models/sorting-direction.md) | Query, Optional | Controls the order in which results are returned.<br>Use in query `direction=asc`. |
+| `filterArchivedAt` | [`*models.IncludeNotNull`](../../doc/models/include-not-null.md) | Query, Optional | Allows fetching price points only if archived_at is present or not. Use in query: `filter[archived_at]=not_null`. |
+| `filterDateField` | [`*models.BasicDateField`](../../doc/models/basic-date-field.md) | Query, Optional | The type of filter you would like to apply to your search. Use in query: `filter[date_field]=created_at`. |
 | `filterEndDate` | `*time.Time` | Query, Optional | The end date (format YYYY-MM-DD) with which to filter the date_field. Returns price points with a timestamp up to and including 11:59:59PM in your site’s time zone on the date specified. |
 | `filterEndDatetime` | `*time.Time` | Query, Optional | The end date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns price points with a timestamp at or before exact time provided in query. You can specify timezone in query - otherwise your site's time zone will be used. If provided, this parameter will be used instead of end_date. |
 | `filterIds` | `[]int` | Query, Optional | Allows fetching price points with matching id based on provided values. Use in query: `filter[ids]=1,2,3`. |
 | `filterStartDate` | `*time.Time` | Query, Optional | The start date (format YYYY-MM-DD) with which to filter the date_field. Returns price points with a timestamp at or after midnight (12:00:00 AM) in your site’s time zone on the date specified. |
 | `filterStartDatetime` | `*time.Time` | Query, Optional | The start date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns price points with a timestamp at or after exact time provided in query. You can specify timezone in query - otherwise your site's time zone will be used. If provided, this parameter will be used instead of start_date. |
-| `filterType` | [`[]models.PricePointTypeEnum`](../models/price-point-type-enum.md) | Query, Optional | Allows fetching price points with matching type. Use in query: `filter[type]=catalog,custom`. |
-| `include` | [`*models.ListProductsPricePointsIncludeEnum`](../models/list-products-price-points-include-enum.md) | Query, Optional | Allows including additional data in the response. Use in query: `include=currency_prices`. |
-| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br>**Default**: `1`<br>**Constraints**: `>= 1` |
-| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`.<br>**Default**: `20`<br>**Constraints**: `<= 200` |
+| `filterType` | [`[]models.PricePointType`](../../doc/models/price-point-type.md) | Query, Optional | Allows fetching price points with matching type. Use in query: `filter[type]=catalog,custom`. |
+| `include` | [`*models.ListProductsPricePointsInclude`](../../doc/models/list-products-price-points-include.md) | Query, Optional | Allows including additional data in the response. Use in query: `include=currency_prices`. |
+| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`. |
+| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`. |
 
 ## Response Type
 
-[`models.ListProductPricePointsResponse`](../models/list-product-price-points-response.md)
+[`models.ListProductPricePointsResponse`](../../doc/models/list-product-price-points-response.md)
 
 ## Example Usage
 
 ```go
 ctx := context.Background()Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')
-include := models.ListProductsPricePointsIncludeEnum("currency_prices")
+include := models.ListProductsPricePointsInclude("currency_prices")
 page := 2
 perPage := 50
 
@@ -953,5 +953,5 @@ if err != nil {
 
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
-| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../models/error-list-response-exception.md) |
+| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../../doc/models/error-list-response-exception.md) |
 

@@ -9,7 +9,7 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `PaymentProfile` | [`models.BankAccount`](bank-account.md) | Required | - |
+| `PaymentProfile` | [`models.BankAccount`](../../doc/models/bank-account.md) | Required | - |
 
 ## Example (as JSON)
 

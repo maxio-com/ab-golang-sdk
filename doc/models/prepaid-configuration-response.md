@@ -9,7 +9,7 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `PrepaidConfiguration` | [`models.PrepaidConfiguration`](prepaid-configuration.md) | Required | - |
+| `PrepaidConfiguration` | [`models.PrepaidConfiguration`](../../doc/models/prepaid-configuration.md) | Required | - |
 
 ## Example (as JSON)
 

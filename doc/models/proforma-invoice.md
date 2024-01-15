@@ -25,11 +25,11 @@
 | `ProductName` | `*string` | Optional | - |
 | `ProductFamilyName` | `*string` | Optional | - |
 | `Role` | `*string` | Optional | - |
-| `Seller` | [`*models.InvoiceSeller`](invoice-seller.md) | Optional | Information about the seller (merchant) listed on the masthead of the invoice. |
-| `Customer` | [`*models.InvoiceCustomer`](invoice-customer.md) | Optional | Information about the customer who is owner or recipient the invoiced subscription. |
+| `Seller` | [`*models.InvoiceSeller`](../../doc/models/invoice-seller.md) | Optional | Information about the seller (merchant) listed on the masthead of the invoice. |
+| `Customer` | [`*models.InvoiceCustomer`](../../doc/models/invoice-customer.md) | Optional | Information about the customer who is owner or recipient the invoiced subscription. |
 | `Memo` | `*string` | Optional | - |
-| `BillingAddress` | [`*models.InvoiceAddress`](invoice-address.md) | Optional | - |
-| `ShippingAddress` | [`*models.InvoiceAddress`](invoice-address.md) | Optional | - |
+| `BillingAddress` | [`*models.InvoiceAddress`](../../doc/models/invoice-address.md) | Optional | - |
+| `ShippingAddress` | [`*models.InvoiceAddress`](../../doc/models/invoice-address.md) | Optional | - |
 | `SubtotalAmount` | `*string` | Optional | - |
 | `DiscountAmount` | `*string` | Optional | - |
 | `TaxAmount` | `*string` | Optional | - |
@@ -38,12 +38,12 @@
 | `PaidAmount` | `*string` | Optional | - |
 | `RefundAmount` | `*string` | Optional | - |
 | `DueAmount` | `*string` | Optional | - |
-| `LineItems` | [`[]models.InvoiceLineItem`](invoice-line-item.md) | Optional | - |
-| `Discounts` | [`[]models.ProformaInvoiceDiscount`](proforma-invoice-discount.md) | Optional | - |
-| `Taxes` | [`[]models.ProformaInvoiceTax`](proforma-invoice-tax.md) | Optional | - |
-| `Credits` | [`[]models.ProformaInvoiceCredit`](proforma-invoice-credit.md) | Optional | - |
-| `Payments` | [`[]models.ProformaInvoicePayment`](proforma-invoice-payment.md) | Optional | - |
-| `CustomFields` | [`[]models.ProformaCustomField`](proforma-custom-field.md) | Optional | - |
+| `LineItems` | [`[]models.InvoiceLineItem`](../../doc/models/invoice-line-item.md) | Optional | - |
+| `Discounts` | [`[]models.ProformaInvoiceDiscount`](../../doc/models/proforma-invoice-discount.md) | Optional | - |
+| `Taxes` | [`[]models.ProformaInvoiceTax`](../../doc/models/proforma-invoice-tax.md) | Optional | - |
+| `Credits` | [`[]models.ProformaInvoiceCredit`](../../doc/models/proforma-invoice-credit.md) | Optional | - |
+| `Payments` | [`[]models.ProformaInvoicePayment`](../../doc/models/proforma-invoice-payment.md) | Optional | - |
+| `CustomFields` | [`[]models.ProformaCustomField`](../../doc/models/proforma-custom-field.md) | Optional | - |
 | `PublicUrl` | `*string` | Optional | - |
 
 ## Example (as JSON)

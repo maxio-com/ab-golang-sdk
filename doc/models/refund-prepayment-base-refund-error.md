@@ -9,7 +9,7 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `Refund` | [`*models.BaseRefundError`](base-refund-error.md) | Optional | - |
+| `Refund` | [`*models.BaseRefundError`](../../doc/models/base-refund-error.md) | Optional | - |
 
 ## Example (as JSON)
 

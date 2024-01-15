@@ -11,7 +11,7 @@ Allows to pause a Subscription
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `Hold` | [`*models.AutoResume`](auto-resume.md) | Optional | - |
+| `Hold` | [`*models.AutoResume`](../../doc/models/auto-resume.md) | Optional | - |
 
 ## Example (as JSON)
 

@@ -12,11 +12,11 @@
 | `PaymentProfileId` | `*int` | Optional | - |
 | `PayerId` | `*int` | Optional | - |
 | `PayerReference` | `*string` | Optional | - |
-| `PaymentCollectionMethod` | [`*models.PaymentCollectionMethodEnum`](payment-collection-method-enum.md) | Optional | The type of payment collection to be used in the subscription. For legacy Statements Architecture valid options are - `invoice`, `automatic`. For current Relationship Invoicing Architecture valid options are - `remittance`, `automatic`, `prepaid`.<br>**Default**: `"automatic"` |
-| `PayerAttributes` | [`*models.PayerAttributes`](payer-attributes.md) | Optional | - |
-| `CreditCardAttributes` | [`*models.SubscriptionGroupCreditCard`](subscription-group-credit-card.md) | Optional | - |
-| `BankAccountAttributes` | [`*models.SubscriptionGroupBankAccount`](subscription-group-bank-account.md) | Optional | - |
-| `Subscriptions` | [`[]models.SubscriptionGroupSignupItem`](subscription-group-signup-item.md) | Required | - |
+| `PaymentCollectionMethod` | [`*models.PaymentCollectionMethod`](../../doc/models/payment-collection-method.md) | Optional | The type of payment collection to be used in the subscription. For legacy Statements Architecture valid options are - `invoice`, `automatic`. For current Relationship Invoicing Architecture valid options are - `remittance`, `automatic`, `prepaid`.<br>**Default**: `"automatic"` |
+| `PayerAttributes` | [`*models.PayerAttributes`](../../doc/models/payer-attributes.md) | Optional | - |
+| `CreditCardAttributes` | [`*models.SubscriptionGroupCreditCard`](../../doc/models/subscription-group-credit-card.md) | Optional | - |
+| `BankAccountAttributes` | [`*models.SubscriptionGroupBankAccount`](../../doc/models/subscription-group-bank-account.md) | Optional | - |
+| `Subscriptions` | [`[]models.SubscriptionGroupSignupItem`](../../doc/models/subscription-group-signup-item.md) | Required | - |
 
 ## Example (as JSON)
 

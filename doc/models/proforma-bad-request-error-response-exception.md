@@ -9,7 +9,7 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `Errors` | [`*models.ProformaError`](proforma-error.md) | Optional | - |
+| `Errors` | [`*models.ProformaError`](../../doc/models/proforma-error.md) | Optional | - |
 
 ## Example (as JSON)
 

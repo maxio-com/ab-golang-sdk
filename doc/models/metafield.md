@@ -11,7 +11,7 @@
 |  --- | --- | --- | --- |
 | `Id` | `*int` | Optional | - |
 | `Name` | `*string` | Optional | - |
-| `Scope` | [`*models.MetafieldScope`](metafield-scope.md) | Optional | Warning: When updating a metafield's scope attribute, all scope attributes must be passed. Partially complete scope attributes will override the existing settings. |
+| `Scope` | [`*models.MetafieldScope`](../../doc/models/metafield-scope.md) | Optional | Warning: When updating a metafield's scope attribute, all scope attributes must be passed. Partially complete scope attributes will override the existing settings. |
 | `DataCount` | `*int` | Optional | the amount of subscriptions this metafield has been applied to in Chargify |
 | `InputType` | `*string` | Optional | - |
 | `Enum` | `Optional[interface{}]` | Optional | - |

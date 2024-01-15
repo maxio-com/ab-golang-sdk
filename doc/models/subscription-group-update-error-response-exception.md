@@ -9,7 +9,7 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `Errors` | [`*models.SubscriptionGroupUpdateError`](subscription-group-update-error.md) | Optional | - |
+| `Errors` | [`*models.SubscriptionGroupUpdateError`](../../doc/models/subscription-group-update-error.md) | Optional | - |
 
 ## Example (as JSON)
 

@@ -9,7 +9,7 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `Refund` | [`models.Refund`](refund.md) | Required | - |
+| `Refund` | [`models.Refund`](../../doc/models/refund.md) | Required | - |
 
 ## Example (as JSON)
 

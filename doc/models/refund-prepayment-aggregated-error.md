@@ -9,7 +9,7 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `Refund` | [`*models.PrepaymentAggregatedError`](prepayment-aggregated-error.md) | Optional | - |
+| `Refund` | [`*models.PrepaymentAggregatedError`](../../doc/models/prepayment-aggregated-error.md) | Optional | - |
 
 ## Example (as JSON)
 

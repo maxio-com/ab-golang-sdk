@@ -10,16 +10,16 @@ subscriptionStatusController := client.SubscriptionStatusController()
 
 ## Methods
 
-* [Retry Subscription](subscription-status.md#retry-subscription)
-* [Cancel Subscription](subscription-status.md#cancel-subscription)
-* [Resume Subscription](subscription-status.md#resume-subscription)
-* [Pause Subscription](subscription-status.md#pause-subscription)
-* [Update Automatic Subscription Resumption](subscription-status.md#update-automatic-subscription-resumption)
-* [Reactivate Subscription](subscription-status.md#reactivate-subscription)
-* [Initiate Delayed Cancellation](subscription-status.md#initiate-delayed-cancellation)
-* [Stop Delayed Cancellation](subscription-status.md#stop-delayed-cancellation)
-* [Cancel Dunning](subscription-status.md#cancel-dunning)
-* [Preview Renewal](subscription-status.md#preview-renewal)
+* [Retry Subscription](../../doc/controllers/subscription-status.md#retry-subscription)
+* [Cancel Subscription](../../doc/controllers/subscription-status.md#cancel-subscription)
+* [Resume Subscription](../../doc/controllers/subscription-status.md#resume-subscription)
+* [Pause Subscription](../../doc/controllers/subscription-status.md#pause-subscription)
+* [Update Automatic Subscription Resumption](../../doc/controllers/subscription-status.md#update-automatic-subscription-resumption)
+* [Reactivate Subscription](../../doc/controllers/subscription-status.md#reactivate-subscription)
+* [Initiate Delayed Cancellation](../../doc/controllers/subscription-status.md#initiate-delayed-cancellation)
+* [Stop Delayed Cancellation](../../doc/controllers/subscription-status.md#stop-delayed-cancellation)
+* [Cancel Dunning](../../doc/controllers/subscription-status.md#cancel-dunning)
+* [Preview Renewal](../../doc/controllers/subscription-status.md#preview-renewal)
 
 
 # Retry Subscription
@@ -50,7 +50,7 @@ RetrySubscription(
 
 ## Response Type
 
-[`models.SubscriptionResponse`](../models/subscription-response.md)
+[`models.SubscriptionResponse`](../../doc/models/subscription-response.md)
 
 ## Example Usage
 
@@ -209,7 +209,7 @@ if err != nil {
 
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
-| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../models/error-list-response-exception.md) |
+| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../../doc/models/error-list-response-exception.md) |
 
 
 # Cancel Subscription
@@ -230,11 +230,11 @@ CancelSubscription(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription |
-| `body` | [`*models.CancellationRequest`](../models/cancellation-request.md) | Body, Optional | - |
+| `body` | [`*models.CancellationRequest`](../../doc/models/cancellation-request.md) | Body, Optional | - |
 
 ## Response Type
 
-[`models.SubscriptionResponse`](../models/subscription-response.md)
+[`models.SubscriptionResponse`](../../doc/models/subscription-response.md)
 
 ## Example Usage
 
@@ -404,7 +404,7 @@ Resume a paused (on-hold) subscription. If the normal next renewal date has not 
 ResumeSubscription(
     ctx context.Context,
     subscriptionId int,
-    calendarBillingResumptionCharge *models.ResumptionChargeEnum) (
+    calendarBillingResumptionCharge *models.ResumptionCharge) (
     models.ApiResponse[models.SubscriptionResponse],
     error)
 ```
@@ -414,11 +414,11 @@ ResumeSubscription(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription |
-| `calendarBillingResumptionCharge` | [`*models.ResumptionChargeEnum`](../models/resumption-charge-enum.md) | Query, Optional | (For calendar billing subscriptions only) The way that the resumed subscription's charge should be handled<br>**Default**: `"prorated"` |
+| `calendarBillingResumptionCharge` | [`*models.ResumptionCharge`](../../doc/models/resumption-charge.md) | Query, Optional | (For calendar billing subscriptions only) The way that the resumed subscription's charge should be handled |
 
 ## Response Type
 
-[`models.SubscriptionResponse`](../models/subscription-response.md)
+[`models.SubscriptionResponse`](../../doc/models/subscription-response.md)
 
 ## Example Usage
 
@@ -549,7 +549,7 @@ if err != nil {
 
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
-| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../models/error-list-response-exception.md) |
+| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../../doc/models/error-list-response-exception.md) |
 
 
 # Pause Subscription
@@ -574,11 +574,11 @@ PauseSubscription(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription |
-| `body` | [`*models.PauseRequest`](../models/pause-request.md) | Body, Optional | - |
+| `body` | [`*models.PauseRequest`](../../doc/models/pause-request.md) | Body, Optional | Allows to pause a Subscription |
 
 ## Response Type
 
-[`models.SubscriptionResponse`](../models/subscription-response.md)
+[`models.SubscriptionResponse`](../../doc/models/subscription-response.md)
 
 ## Example Usage
 
@@ -721,7 +721,7 @@ if err != nil {
 
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
-| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../models/error-list-response-exception.md) |
+| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../../doc/models/error-list-response-exception.md) |
 
 
 # Update Automatic Subscription Resumption
@@ -748,11 +748,11 @@ UpdateAutomaticSubscriptionResumption(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription |
-| `body` | [`*models.PauseRequest`](../models/pause-request.md) | Body, Optional | - |
+| `body` | [`*models.PauseRequest`](../../doc/models/pause-request.md) | Body, Optional | Allows to pause a Subscription |
 
 ## Response Type
 
-[`models.SubscriptionResponse`](../models/subscription-response.md)
+[`models.SubscriptionResponse`](../../doc/models/subscription-response.md)
 
 ## Example Usage
 
@@ -908,7 +908,7 @@ if err != nil {
 
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
-| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../models/error-list-response-exception.md) |
+| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../../doc/models/error-list-response-exception.md) |
 
 
 # Reactivate Subscription
@@ -1087,11 +1087,11 @@ ReactivateSubscription(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription |
-| `body` | [`*models.ReactivateSubscriptionRequest`](../models/reactivate-subscription-request.md) | Body, Optional | - |
+| `body` | [`*models.ReactivateSubscriptionRequest`](../../doc/models/reactivate-subscription-request.md) | Body, Optional | - |
 
 ## Response Type
 
-[`models.SubscriptionResponse`](../models/subscription-response.md)
+[`models.SubscriptionResponse`](../../doc/models/subscription-response.md)
 
 ## Example Usage
 
@@ -1100,7 +1100,7 @@ ctx := context.Background()
 subscriptionId := 222
 
 bodyCalendarBilling := models.ReactivationBilling{
-    ReactivationCharge: models.ToPointer(models.ReactivationChargeEnum("prorated")),
+    ReactivationCharge: models.ToPointer(models.ReactivationCharge("prorated")),
 }
 
 body := models.ReactivateSubscriptionRequest{
@@ -1236,7 +1236,7 @@ if err != nil {
 
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
-| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../models/error-list-response-exception.md) |
+| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../../doc/models/error-list-response-exception.md) |
 
 
 # Initiate Delayed Cancellation
@@ -1261,11 +1261,11 @@ InitiateDelayedCancellation(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription |
-| `body` | [`*models.CancellationRequest`](../models/cancellation-request.md) | Body, Optional | - |
+| `body` | [`*models.CancellationRequest`](../../doc/models/cancellation-request.md) | Body, Optional | - |
 
 ## Response Type
 
-[`models.DelayedCancellationResponse`](../models/delayed-cancellation-response.md)
+[`models.DelayedCancellationResponse`](../../doc/models/delayed-cancellation-response.md)
 
 ## Example Usage
 
@@ -1312,7 +1312,7 @@ StopDelayedCancellation(
 
 ## Response Type
 
-[`models.DelayedCancellationResponse`](../models/delayed-cancellation-response.md)
+[`models.DelayedCancellationResponse`](../../doc/models/delayed-cancellation-response.md)
 
 ## Example Usage
 
@@ -1365,7 +1365,7 @@ CancelDunning(
 
 ## Response Type
 
-[`models.SubscriptionResponse`](../models/subscription-response.md)
+[`models.SubscriptionResponse`](../../doc/models/subscription-response.md)
 
 ## Example Usage
 
@@ -1423,11 +1423,11 @@ PreviewRenewal(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription |
-| `body` | [`*models.RenewalPreviewRequest`](../models/renewal-preview-request.md) | Body, Optional | - |
+| `body` | [`*models.RenewalPreviewRequest`](../../doc/models/renewal-preview-request.md) | Body, Optional | - |
 
 ## Response Type
 
-[`models.RenewalPreviewResponse`](../models/renewal-preview-response.md)
+[`models.RenewalPreviewResponse`](../../doc/models/renewal-preview-response.md)
 
 ## Example Usage
 
@@ -1490,7 +1490,9 @@ if err != nil {
         "taxable_amount_in_cents": 0,
         "product_id": 1,
         "product_handle": "gold-product",
-        "product_name": "Gold Product"
+        "product_name": "Gold Product",
+        "period_range_start": "01/10/2024",
+        "period_range_end": "02/10/2024"
       },
       {
         "transaction_type": "charge",
@@ -1501,10 +1503,18 @@ if err != nil {
         "taxable_amount_in_cents": 0,
         "component_id": 104,
         "component_handle": "quantity-component",
-        "component_name": "Quantity Component"
+        "component_name": "Quantity Component",
+        "period_range_start": "01/10/2024",
+        "period_range_end": "02/10/2024"
       }
     ]
   }
 }
 ```
+
+## Errors
+
+| HTTP Status Code | Error Description | Exception Class |
+|  --- | --- | --- |
+| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../../doc/models/error-list-response-exception.md) |
 

@@ -9,7 +9,7 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `Errors` | [`models.EventBasedBillingSegmentError`](event-based-billing-segment-error.md) | Required | - |
+| `Errors` | [`models.EventBasedBillingSegmentError`](../../doc/models/event-based-billing-segment-error.md) | Required | - |
 
 ## Example (as JSON)
 

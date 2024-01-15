@@ -9,7 +9,7 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `Customer` | [`models.UpdateCustomer`](update-customer.md) | Required | - |
+| `Customer` | [`models.UpdateCustomer`](../../doc/models/update-customer.md) | Required | - |
 
 ## Example (as JSON)
 

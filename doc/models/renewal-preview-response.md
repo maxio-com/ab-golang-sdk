@@ -9,7 +9,7 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `RenewalPreview` | [`models.RenewalPreview`](renewal-preview.md) | Required | - |
+| `RenewalPreview` | [`models.RenewalPreview`](../../doc/models/renewal-preview.md) | Required | - |
 
 ## Example (as JSON)
 

@@ -9,7 +9,7 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `Subscription` | [`*models.BaseStringError`](base-string-error.md) | Optional | The error is base if it is not directly associated with a single attribute. |
+| `Subscription` | [`*models.BaseStringError`](../../doc/models/base-string-error.md) | Optional | The error is base if it is not directly associated with a single attribute. |
 
 ## Example (as JSON)
 

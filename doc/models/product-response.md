@@ -9,7 +9,7 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `Product` | [`models.Product`](product.md) | Required | - |
+| `Product` | [`models.Product`](../../doc/models/product.md) | Required | - |
 
 ## Example (as JSON)
 

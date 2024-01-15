@@ -13,7 +13,7 @@
 | `FullName` | `*string` | Optional | - |
 | `SubscriptionsCount` | `*int` | Optional | - |
 | `TestMode` | `*bool` | Optional | - |
-| `Subscriptions` | [`[]models.SaleRepSubscription`](sale-rep-subscription.md) | Optional | - |
+| `Subscriptions` | [`[]models.SaleRepSubscription`](../../doc/models/sale-rep-subscription.md) | Optional | - |
 
 ## Example (as JSON)
 

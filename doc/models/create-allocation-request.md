@@ -9,7 +9,7 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `Allocation` | [`models.CreateAllocation`](create-allocation.md) | Required | - |
+| `Allocation` | [`models.CreateAllocation`](../../doc/models/create-allocation.md) | Required | - |
 
 ## Example (as JSON)
 

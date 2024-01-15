@@ -10,7 +10,7 @@
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `InvoiceUid` | `*string` | Optional | The uid of the paid invoice |
-| `Status` | [`*models.StatusEnum`](status-enum.md) | Optional | The current status of the invoice. See [Invoice Statuses](https://chargify.zendesk.com/hc/en-us/articles/4407737494171#line-item-breakdowns) for more. |
+| `Status` | [`*models.InvoiceStatus`](../../doc/models/invoice-status.md) | Optional | The current status of the invoice. See [Invoice Statuses](https://chargify.zendesk.com/hc/en-us/articles/4407737494171#line-item-breakdowns) for more. |
 | `DueAmount` | `*string` | Optional | The remaining due amount on the invoice |
 | `PaidAmount` | `*string` | Optional | The total amount paid on this invoice (including any prior payments) |
 

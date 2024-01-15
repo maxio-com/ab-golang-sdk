@@ -10,23 +10,23 @@ subscriptionComponentsController := client.SubscriptionComponentsController()
 
 ## Methods
 
-* [Read Subscription Component](subscription-components.md#read-subscription-component)
-* [List Subscription Components](subscription-components.md#list-subscription-components)
-* [Update Subscription Components Price Points](subscription-components.md#update-subscription-components-price-points)
-* [Reset Subscription Components Price Points](subscription-components.md#reset-subscription-components-price-points)
-* [Allocate Component](subscription-components.md#allocate-component)
-* [List Allocations](subscription-components.md#list-allocations)
-* [Allocate Components](subscription-components.md#allocate-components)
-* [Preview Allocations](subscription-components.md#preview-allocations)
-* [Update Prepaid Usage Allocation](subscription-components.md#update-prepaid-usage-allocation)
-* [Delete Prepaid Usage Allocation](subscription-components.md#delete-prepaid-usage-allocation)
-* [Create Usage](subscription-components.md#create-usage)
-* [List Usages](subscription-components.md#list-usages)
-* [Activate Event Based Component](subscription-components.md#activate-event-based-component)
-* [Deactivate Event Based Component](subscription-components.md#deactivate-event-based-component)
-* [Record Event](subscription-components.md#record-event)
-* [Record Events](subscription-components.md#record-events)
-* [List Subscription Components for Site](subscription-components.md#list-subscription-components-for-site)
+* [Read Subscription Component](../../doc/controllers/subscription-components.md#read-subscription-component)
+* [List Subscription Components](../../doc/controllers/subscription-components.md#list-subscription-components)
+* [Update Subscription Components Price Points](../../doc/controllers/subscription-components.md#update-subscription-components-price-points)
+* [Reset Subscription Components Price Points](../../doc/controllers/subscription-components.md#reset-subscription-components-price-points)
+* [Allocate Component](../../doc/controllers/subscription-components.md#allocate-component)
+* [List Allocations](../../doc/controllers/subscription-components.md#list-allocations)
+* [Allocate Components](../../doc/controllers/subscription-components.md#allocate-components)
+* [Preview Allocations](../../doc/controllers/subscription-components.md#preview-allocations)
+* [Update Prepaid Usage Allocation](../../doc/controllers/subscription-components.md#update-prepaid-usage-allocation)
+* [Delete Prepaid Usage Allocation](../../doc/controllers/subscription-components.md#delete-prepaid-usage-allocation)
+* [Create Usage](../../doc/controllers/subscription-components.md#create-usage)
+* [List Usages](../../doc/controllers/subscription-components.md#list-usages)
+* [Activate Event Based Component](../../doc/controllers/subscription-components.md#activate-event-based-component)
+* [Deactivate Event Based Component](../../doc/controllers/subscription-components.md#deactivate-event-based-component)
+* [Record Event](../../doc/controllers/subscription-components.md#record-event)
+* [Record Events](../../doc/controllers/subscription-components.md#record-events)
+* [List Subscription Components for Site](../../doc/controllers/subscription-components.md#list-subscription-components-for-site)
 
 
 # Read Subscription Component
@@ -51,7 +51,7 @@ ReadSubscriptionComponent(
 
 ## Response Type
 
-[`models.SubscriptionComponentResponse`](../models/subscription-component-response.md)
+[`models.SubscriptionComponentResponse`](../../doc/models/subscription-component-response.md)
 
 ## Example Usage
 
@@ -116,33 +116,33 @@ ListSubscriptionComponents(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription |
-| `dateField` | [`*models.SubscriptionListDateFieldEnum`](../models/subscription-list-date-field-enum.md) | Query, Optional | The type of filter you'd like to apply to your search. Use in query `date_field=updated_at`. |
-| `direction` | [`*models.SortingDirectionEnum`](../models/sorting-direction-enum.md) | Query, Optional | Controls the order in which results are returned.<br>Use in query `direction=asc`. |
+| `dateField` | [`*models.SubscriptionListDateField`](../../doc/models/subscription-list-date-field.md) | Query, Optional | The type of filter you'd like to apply to your search. Use in query `date_field=updated_at`. |
+| `direction` | [`*models.SortingDirection`](../../doc/models/sorting-direction.md) | Query, Optional | Controls the order in which results are returned.<br>Use in query `direction=asc`. |
 | `endDate` | `*string` | Query, Optional | The end date (format YYYY-MM-DD) with which to filter the date_field. Returns components with a timestamp up to and including 11:59:59PM in your site’s time zone on the date specified. |
 | `endDatetime` | `*string` | Query, Optional | The end date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns components with a timestamp at or before exact time provided in query. You can specify timezone in query - otherwise your site''s time zone will be used. If provided, this parameter will be used instead of end_date. |
-| `pricePointIds` | [`*models.IncludeNotNullEnum`](../models/include-not-null-enum.md) | Query, Optional | Allows fetching components allocation only if price point id is present. Use in query `price_point_ids=not_null`. |
+| `pricePointIds` | [`*models.IncludeNotNull`](../../doc/models/include-not-null.md) | Query, Optional | Allows fetching components allocation only if price point id is present. Use in query `price_point_ids=not_null`. |
 | `productFamilyIds` | `[]int` | Query, Optional | Allows fetching components allocation with matching product family id based on provided ids. Use in query `product_family_ids=1,2,3`. |
-| `sort` | [`*models.ListSubscriptionComponentsSortEnum`](../models/list-subscription-components-sort-enum.md) | Query, Optional | The attribute by which to sort. Use in query `sort=updated_at`. |
+| `sort` | [`*models.ListSubscriptionComponentsSort`](../../doc/models/list-subscription-components-sort.md) | Query, Optional | The attribute by which to sort. Use in query `sort=updated_at`. |
 | `startDate` | `*string` | Query, Optional | The start date (format YYYY-MM-DD) with which to filter the date_field. Returns components with a timestamp at or after midnight (12:00:00 AM) in your site’s time zone on the date specified. |
 | `startDatetime` | `*string` | Query, Optional | The start date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns components with a timestamp at or after exact time provided in query. You can specify timezone in query - otherwise your site''s time zone will be used. If provided, this parameter will be used instead of start_date. |
-| `include` | [`*models.ListSubscriptionComponentsIncludeEnum`](../models/list-subscription-components-include-enum.md) | Query, Optional | Allows including additional data in the response. Use in query `include=subscription`. |
+| `include` | [`*models.ListSubscriptionComponentsInclude`](../../doc/models/list-subscription-components-include.md) | Query, Optional | Allows including additional data in the response. Use in query `include=subscription`. |
 | `filterUseSiteExchangeRate` | `*bool` | Query, Optional | Allows fetching components allocation with matching use_site_exchange_rate based on provided value. Use in query `filter[use_site_exchange_rate]=true`. |
 | `filterCurrencies` | `[]string` | Query, Optional | Allows fetching components allocation with matching currency based on provided values. Use in query `filter[currencies]=EUR,USD`. |
 
 ## Response Type
 
-[`[]models.SubscriptionComponentResponse`](../models/subscription-component-response.md)
+[`[]models.SubscriptionComponentResponse`](../../doc/models/subscription-component-response.md)
 
 ## Example Usage
 
 ```go
 ctx := context.Background()
 subscriptionId := 222
-dateField := models.SubscriptionListDateFieldEnum("updated_at")
-pricePointIds := models.IncludeNotNullEnum("not_null")
+dateField := models.SubscriptionListDateField("updated_at")
+pricePointIds := models.IncludeNotNull("not_null")
 productFamilyIds := []int{1, 2, 3}
-sort := models.ListSubscriptionComponentsSortEnum("updated_at")
-include := models.ListSubscriptionComponentsIncludeEnum("subscription")Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')
+sort := models.ListSubscriptionComponentsSort("updated_at")
+include := models.ListSubscriptionComponentsInclude("subscription")Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')
 
 apiResponse, err := subscriptionComponentsController.ListSubscriptionComponents(ctx, subscriptionId, &dateField, nil, nil, nil, &pricePointIds, productFamilyIds, &sort, nil, nil, &include, Liquid error: Value cannot be null. (Parameter 'key'), Liquid error: Value cannot be null. (Parameter 'key'))
 if err != nil {
@@ -165,7 +165,7 @@ if err != nil {
       "allocated_quantity": 0,
       "pricing_scheme": "per_unit",
       "name": "string",
-      "kind": "string",
+      "kind": "quantity_based_component",
       "unit_name": "string",
       "price_point_id": 0,
       "price_point_handle": "string",
@@ -174,8 +174,8 @@ if err != nil {
       "enabled": true,
       "unit_balance": 0,
       "id": 0,
-      "created_at": "string",
-      "updated_at": "string",
+      "created_at": "2022-02-22T14:07:00-05:00",
+      "updated_at": "2022-02-22T14:07:00-05:00",
       "component_handle": "string",
       "archived_at": "string"
     }
@@ -208,11 +208,11 @@ UpdateSubscriptionComponentsPricePoints(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription |
-| `body` | [`*models.BulkComponentSPricePointAssignment`](../models/bulk-component-s-price-point-assignment.md) | Body, Optional | - |
+| `body` | [`*models.BulkComponentSPricePointAssignment`](../../doc/models/bulk-component-s-price-point-assignment.md) | Body, Optional | - |
 
 ## Response Type
 
-[`models.BulkComponentSPricePointAssignment`](../models/bulk-component-s-price-point-assignment.md)
+[`models.BulkComponentSPricePointAssignment`](../../doc/models/bulk-component-s-price-point-assignment.md)
 
 ## Example Usage
 
@@ -271,7 +271,7 @@ if err != nil {
 
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
-| 422 | Unprocessable Entity (WebDAV) | [`ComponentPricePointErrorException`](../models/component-price-point-error-exception.md) |
+| 422 | Unprocessable Entity (WebDAV) | [`ComponentPricePointErrorException`](../../doc/models/component-price-point-error-exception.md) |
 
 
 # Reset Subscription Components Price Points
@@ -296,7 +296,7 @@ ResetSubscriptionComponentsPricePoints(
 
 ## Response Type
 
-[`models.SubscriptionResponse`](../models/subscription-response.md)
+[`models.SubscriptionResponse`](../../doc/models/subscription-response.md)
 
 ## Example Usage
 
@@ -484,11 +484,11 @@ AllocateComponent(
 |  --- | --- | --- | --- |
 | `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription |
 | `componentId` | `int` | Template, Required | The Chargify id of the component |
-| `body` | [`*models.CreateAllocationRequest`](../models/create-allocation-request.md) | Body, Optional | - |
+| `body` | [`*models.CreateAllocationRequest`](../../doc/models/create-allocation-request.md) | Body, Optional | - |
 
 ## Response Type
 
-[`models.AllocationResponse`](../models/allocation-response.md)
+[`models.AllocationResponse`](../../doc/models/allocation-response.md)
 
 ## Example Usage
 
@@ -526,7 +526,7 @@ if err != nil {
     "quantity": 3,
     "previous_quantity": 2,
     "memo": "dolore cupidatat elit",
-    "timestamp": "ex proident dolor i",
+    "timestamp": "2022-11-23T10:28:34-05:00",
     "proration_upgrade_scheme": "laboris ipsum dolore",
     "proration_downgrade_scheme": "eiusmod dolore",
     "price_point_id": -69720370,
@@ -543,6 +543,12 @@ if err != nil {
   }
 }
 ```
+
+## Errors
+
+| HTTP Status Code | Error Description | Exception Class |
+|  --- | --- | --- |
+| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../../doc/models/error-list-response-exception.md) |
 
 
 # List Allocations
@@ -584,11 +590,11 @@ ListAllocations(
 |  --- | --- | --- | --- |
 | `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription |
 | `componentId` | `int` | Template, Required | The Chargify id of the component |
-| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br>**Default**: `1`<br>**Constraints**: `>= 1` |
+| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`. |
 
 ## Response Type
 
-[`[]models.AllocationResponse`](../models/allocation-response.md)
+[`[]models.AllocationResponse`](../../doc/models/allocation-response.md)
 
 ## Example Usage
 
@@ -643,9 +649,8 @@ if err != nil {
 
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
-| 401 | Unauthorized | `ApiError` |
 | 404 | Not Found | `ApiError` |
-| 422 | Unprocessable Entity (WebDAV) | `ApiError` |
+| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../../doc/models/error-list-response-exception.md) |
 
 
 # Allocate Components
@@ -670,11 +675,11 @@ AllocateComponents(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription |
-| `body` | [`*models.AllocateComponents`](../models/allocate-components.md) | Body, Optional | - |
+| `body` | [`*models.AllocateComponents`](../../doc/models/allocate-components.md) | Body, Optional | - |
 
 ## Response Type
 
-[`[]models.AllocationResponse`](../models/allocation-response.md)
+[`[]models.AllocationResponse`](../../doc/models/allocation-response.md)
 
 ## Example Usage
 
@@ -682,27 +687,19 @@ AllocateComponents(
 ctx := context.Background()
 subscriptionId := 222
 
-
-bodyAllocations0Allocation := models.CreateAllocation{
+bodyAllocations0 := models.CreateAllocation{
     Quantity:                 float64(10),
     ComponentId:              models.ToPointer(123),
     Memo:                     models.ToPointer("foo"),
 }
 
-bodyAllocations0 := models.CreateAllocationRequest{
-    Allocation: bodyAllocations0Allocation,
-}
-
-bodyAllocations1Allocation := models.CreateAllocation{
+bodyAllocations1 := models.CreateAllocation{
     Quantity:                 float64(5),
     ComponentId:              models.ToPointer(456),
     Memo:                     models.ToPointer("bar"),
 }
 
-bodyAllocations1 := models.CreateAllocationRequest{
-    Allocation: bodyAllocations1Allocation,
-}
-bodyAllocations := []models.CreateAllocationRequest{bodyAllocations0, bodyAllocations1}
+bodyAllocations := []models.CreateAllocation{bodyAllocations0, bodyAllocations1}
 body := models.AllocateComponents{
     ProrationUpgradeScheme:   models.ToPointer("prorate-attempt-capture"),
     ProrationDowngradeScheme: models.ToPointer("no-prorate"),
@@ -766,9 +763,8 @@ if err != nil {
 
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
-| 401 | Unauthorized | `ApiError` |
 | 404 | Not Found | `ApiError` |
-| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../models/error-list-response-exception.md) |
+| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../../doc/models/error-list-response-exception.md) |
 
 
 # Preview Allocations
@@ -777,7 +773,7 @@ Chargify offers the ability to preview a potential subscription's **quantity-bas
 
 ## Fine-grained Component Control: Use with multiple `upgrade_charge`s or `downgrade_credits`
 
-When the allocation uses multiple different types of `upgrade_charge`s or `downgrade_credit`s, the Allocation is viewed as an Allocation which uses "Fine-Grained Component Control". As a result, the response will not include `direction` and `proration` within the `allocation_preview` at the `line_items` and `allocations` level respectfully.
+When the allocation uses multiple different types of `upgrade_charge`s or `downgrade_credit`s, the Allocation is viewed as an Allocation which uses "Fine-Grained Component Control". As a result, the response will not include `direction` and `proration` within the `allocation_preview`, but at the `line_items` and `allocations` level respectfully.
 
 See example below for Fine-Grained Component Control response.
 
@@ -795,11 +791,11 @@ PreviewAllocations(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription |
-| `body` | [`*models.PreviewAllocationsRequest`](../models/preview-allocations-request.md) | Body, Optional | - |
+| `body` | [`*models.PreviewAllocationsRequest`](../../doc/models/preview-allocations-request.md) | Body, Optional | - |
 
 ## Response Type
 
-[`models.AllocationPreviewResponse`](../models/allocation-preview-response.md)
+[`models.AllocationPreviewResponse`](../../doc/models/allocation-preview-response.md)
 
 ## Example Usage
 
@@ -807,6 +803,10 @@ PreviewAllocations(
 ctx := context.Background()
 subscriptionId := 222
 
+bodyEffectiveProrationDate, err := time.Parse(models.DEFAULT_DATE, "2023-11-01")
+if err != nil {
+    log.Fatalln(err)
+}
 bodyAllocations0 := models.CreateAllocation{
     Quantity:                 float64(10),
     ComponentId:              models.ToPointer(554108),
@@ -818,7 +818,7 @@ bodyAllocations0 := models.CreateAllocation{
 
 bodyAllocations := []models.CreateAllocation{bodyAllocations0}
 body := models.PreviewAllocationsRequest{
-    EffectiveProrationDate: models.ToPointer("2023-11-01"),
+    EffectiveProrationDate: models.ToPointer(bodyEffectiveProrationDate),
     Allocations:            bodyAllocations,
 }
 
@@ -939,7 +939,7 @@ if err != nil {
 
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
-| 422 | Unprocessable Entity (WebDAV) | [`ComponentAllocationErrorException`](../models/component-allocation-error-exception.md) |
+| 422 | Unprocessable Entity (WebDAV) | [`ComponentAllocationErrorException`](../../doc/models/component-allocation-error-exception.md) |
 
 
 # Update Prepaid Usage Allocation
@@ -974,7 +974,7 @@ UpdatePrepaidUsageAllocation(
 | `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription |
 | `componentId` | `int` | Template, Required | The Chargify id of the component |
 | `allocationId` | `int` | Template, Required | The Chargify id of the allocation |
-| `body` | [`*models.UpdateAllocationExpirationDate`](../models/update-allocation-expiration-date.md) | Body, Optional | - |
+| `body` | [`*models.UpdateAllocationExpirationDate`](../../doc/models/update-allocation-expiration-date.md) | Body, Optional | - |
 
 ## Response Type
 
@@ -1008,7 +1008,7 @@ if err != nil {
 
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
-| 422 | Unprocessable Entity (WebDAV) | [`SubscriptionComponentAllocationErrorException`](../models/subscription-component-allocation-error-exception.md) |
+| 422 | Unprocessable Entity (WebDAV) | [`SubscriptionComponentAllocationErrorException`](../../doc/models/subscription-component-allocation-error-exception.md) |
 
 
 # Delete Prepaid Usage Allocation
@@ -1041,7 +1041,7 @@ DeletePrepaidUsageAllocation(
 | `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription |
 | `componentId` | `int` | Template, Required | The Chargify id of the component |
 | `allocationId` | `int` | Template, Required | The Chargify id of the allocation |
-| `body` | [`*models.CreditSchemeRequest`](../models/credit-scheme-request.md) | Body, Optional | - |
+| `body` | [`*models.CreditSchemeRequest`](../../doc/models/credit-scheme-request.md) | Body, Optional | - |
 
 ## Response Type
 
@@ -1056,7 +1056,7 @@ componentId := 222
 allocationId := 24
 
 body := models.CreditSchemeRequest{
-    CreditScheme: models.CreditSchemeEnum("none"),
+    CreditScheme: models.CreditScheme("none"),
 }
 
 resp, err := subscriptionComponentsController.DeletePrepaidUsageAllocation(ctx, subscriptionId, componentId, allocationId, &body)
@@ -1071,7 +1071,7 @@ if err != nil {
 
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
-| 422 | Unprocessable Entity (WebDAV) | [`SubscriptionComponentAllocationErrorException`](../models/subscription-component-allocation-error-exception.md) |
+| 422 | Unprocessable Entity (WebDAV) | [`SubscriptionComponentAllocationErrorException`](../../doc/models/subscription-component-allocation-error-exception.md) |
 
 
 # Create Usage
@@ -1137,7 +1137,7 @@ A. No. Usage should be reported as one API call per component on a single subscr
 CreateUsage(
     ctx context.Context,
     subscriptionId int,
-    componentId int,
+    componentId interface{},
     body *models.CreateUsageRequest) (
     models.ApiResponse[models.UsageResponse],
     error)
@@ -1148,19 +1148,19 @@ CreateUsage(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription |
-| `componentId` | `int` | Template, Required | Either the Chargify id for the component or the component's handle prefixed by `handle:` |
-| `body` | [`*models.CreateUsageRequest`](../models/create-usage-request.md) | Body, Optional | - |
+| `componentId` | `interface{}` | Template, Required | Either the Chargify id for the component or the component's handle prefixed by `handle:` |
+| `body` | [`*models.CreateUsageRequest`](../../doc/models/create-usage-request.md) | Body, Optional | - |
 
 ## Response Type
 
-[`models.UsageResponse`](../models/usage-response.md)
+[`models.UsageResponse`](../../doc/models/usage-response.md)
 
 ## Example Usage
 
 ```go
 ctx := context.Background()
 subscriptionId := 222
-componentId := 222
+componentId := interface{}("[key1, val1][key2, val2]")
 
 bodyUsage := models.CreateUsage{
     Quantity:        models.ToPointer(float64(1000)),
@@ -1203,7 +1203,7 @@ if err != nil {
 
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
-| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../models/error-list-response-exception.md) |
+| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../../doc/models/error-list-response-exception.md) |
 
 
 # List Usages
@@ -1236,24 +1236,24 @@ ListUsages(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription |
-| `componentId` | `int` | Template, Required | Either the Chargify id for the component or the component's handle prefixed by `handle:` |
+| `componentId` | `interface{}` | Template, Required | Either the Chargify id for the component or the component's handle prefixed by `handle:` |
 | `sinceId` | `*int` | Query, Optional | Returns usages with an id greater than or equal to the one specified |
 | `maxId` | `*int` | Query, Optional | Returns usages with an id less than or equal to the one specified |
-| `sinceDate` | `*string` | Query, Optional | Returns usages with a created_at date greater than or equal to midnight (12:00 AM) on the date specified. |
-| `untilDate` | `*string` | Query, Optional | Returns usages with a created_at date less than or equal to midnight (12:00 AM) on the date specified. |
-| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br>**Default**: `1`<br>**Constraints**: `>= 1` |
-| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`.<br>**Default**: `20`<br>**Constraints**: `<= 200` |
+| `sinceDate` | `*time.Time` | Query, Optional | Returns usages with a created_at date greater than or equal to midnight (12:00 AM) on the date specified. |
+| `untilDate` | `*time.Time` | Query, Optional | Returns usages with a created_at date less than or equal to midnight (12:00 AM) on the date specified. |
+| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`. |
+| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`. |
 
 ## Response Type
 
-[`[]models.UsageResponse`](../models/usage-response.md)
+[`[]models.UsageResponse`](../../doc/models/usage-response.md)
 
 ## Example Usage
 
 ```go
 ctx := context.Background()
 subscriptionId := 222
-componentId := 222
+componentId := interface{}("[key1, val1][key2, val2]")
 page := 2
 perPage := 50
 
@@ -1425,7 +1425,7 @@ RecordEvent(
 | `subdomain` | `string` | Template, Required | Your site's subdomain |
 | `apiHandle` | `string` | Template, Required | Identifies the Stream for which the event should be published. |
 | `storeUid` | `*string` | Query, Optional | If you've attached your own Keen project as a Chargify event data-store, use this parameter to indicate the data-store. |
-| `body` | [`*models.EBBEvent`](../models/ebb-event.md) | Body, Optional | - |
+| `body` | [`*models.EBBEvent`](../../doc/models/ebb-event.md) | Body, Optional | - |
 
 ## Response Type
 
@@ -1482,7 +1482,7 @@ RecordEvents(
 | `subdomain` | `string` | Template, Required | Your site's subdomain |
 | `apiHandle` | `string` | Template, Required | Identifies the Stream for which the events should be published. |
 | `storeUid` | `*string` | Query, Optional | If you've attached your own Keen project as a Chargify event data-store, use this parameter to indicate the data-store. |
-| `body` | [`[]models.EBBEvent`](../models/ebb-event.md) | Body, Optional | - |
+| `body` | [`[]models.EBBEvent`](../../doc/models/ebb-event.md) | Body, Optional | - |
 
 ## Response Type
 
@@ -1529,23 +1529,23 @@ ListSubscriptionComponentsForSite(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br>**Default**: `1`<br>**Constraints**: `>= 1` |
-| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`.<br>**Default**: `20`<br>**Constraints**: `<= 200` |
-| `sort` | [`*models.ListSubscriptionComponentsSortEnum`](../models/list-subscription-components-sort-enum.md) | Query, Optional | The attribute by which to sort. Use in query: `sort=updated_at`. |
-| `direction` | [`*models.SortingDirectionEnum`](../models/sorting-direction-enum.md) | Query, Optional | Controls the order in which results are returned.<br>Use in query `direction=asc`. |
-| `dateField` | [`*models.SubscriptionListDateFieldEnum`](../models/subscription-list-date-field-enum.md) | Query, Optional | The type of filter you'd like to apply to your search. Use in query: `date_field=updated_at`. |
+| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`. |
+| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`. |
+| `sort` | [`*models.ListSubscriptionComponentsSort`](../../doc/models/list-subscription-components-sort.md) | Query, Optional | The attribute by which to sort. Use in query: `sort=updated_at`. |
+| `direction` | [`*models.SortingDirection`](../../doc/models/sorting-direction.md) | Query, Optional | Controls the order in which results are returned.<br>Use in query `direction=asc`. |
+| `dateField` | [`*models.SubscriptionListDateField`](../../doc/models/subscription-list-date-field.md) | Query, Optional | The type of filter you'd like to apply to your search. Use in query: `date_field=updated_at`. |
 | `startDate` | `*string` | Query, Optional | The start date (format YYYY-MM-DD) with which to filter the date_field. Returns components with a timestamp at or after midnight (12:00:00 AM) in your site’s time zone on the date specified. Use in query `start_date=2011-12-15`. |
 | `startDatetime` | `*string` | Query, Optional | The start date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns components with a timestamp at or after exact time provided in query. You can specify timezone in query - otherwise your site''s time zone will be used. If provided, this parameter will be used instead of start_date. Use in query `start_datetime=2022-07-01 09:00:05`. |
 | `endDate` | `*string` | Query, Optional | The end date (format YYYY-MM-DD) with which to filter the date_field. Returns components with a timestamp up to and including 11:59:59PM in your site’s time zone on the date specified. Use in query `end_date=2011-12-16`. |
 | `endDatetime` | `*string` | Query, Optional | The end date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns components with a timestamp at or before exact time provided in query. You can specify timezone in query - otherwise your site''s time zone will be used. If provided, this parameter will be used instead of end_date. Use in query `end_datetime=2022-07-01 09:00:05`. |
-| `subscriptionIds` | `[]int` | Query, Optional | Allows fetching components allocation with matching subscription id based on provided ids. Use in query `subscription_ids=1,2,3`.<br>**Constraints**: *Minimum Items*: `1`, *Maximum Items*: `200` |
-| `pricePointIds` | [`*models.IncludeNotNullEnum`](../models/include-not-null-enum.md) | Query, Optional | Allows fetching components allocation only if price point id is present. Use in query `price_point_ids=not_null`. |
+| `subscriptionIds` | `[]int` | Query, Optional | Allows fetching components allocation with matching subscription id based on provided ids. Use in query `subscription_ids=1,2,3`. |
+| `pricePointIds` | [`*models.IncludeNotNull`](../../doc/models/include-not-null.md) | Query, Optional | Allows fetching components allocation only if price point id is present. Use in query `price_point_ids=not_null`. |
 | `productFamilyIds` | `[]int` | Query, Optional | Allows fetching components allocation with matching product family id based on provided ids. Use in query `product_family_ids=1,2,3`. |
-| `include` | [`*models.ListSubscriptionComponentsIncludeEnum`](../models/list-subscription-components-include-enum.md) | Query, Optional | Allows including additional data in the response. Use in query `include=subscription`. |
+| `include` | [`*models.ListSubscriptionComponentsInclude`](../../doc/models/list-subscription-components-include.md) | Query, Optional | Allows including additional data in the response. Use in query `include=subscription`. |
 | `filterUseSiteExchangeRate` | `*bool` | Query, Optional | Allows fetching components allocation with matching use_site_exchange_rate based on provided value. Use in query `filter[use_site_exchange_rate]=true`. |
 | `filterCurrencies` | `[]string` | Query, Optional | Allows fetching components allocation with matching currency based on provided values. Use in query `filter[currencies]=USD,EUR`. |
-| `filterSubscriptionStates` | [`[]models.SubscriptionStateFilterEnum`](../models/subscription-state-filter-enum.md) | Query, Optional | Allows fetching components allocations that belong to the subscription with matching states based on provided values. To use this filter you also have to include the following param in the request `include=subscription`. Use in query `filter[subscription][states]=active,canceled&include=subscription`. |
-| `filterSubscriptionDateField` | [`*models.SubscriptionListDateFieldEnum`](../models/subscription-list-date-field-enum.md) | Query, Optional | The type of filter you'd like to apply to your search. To use this filter you also have to include the following param in the request `include=subscription`. |
+| `filterSubscriptionStates` | [`[]models.SubscriptionStateFilter`](../../doc/models/subscription-state-filter.md) | Query, Optional | Allows fetching components allocations that belong to the subscription with matching states based on provided values. To use this filter you also have to include the following param in the request `include=subscription`. Use in query `filter[subscription][states]=active,canceled&include=subscription`. |
+| `filterSubscriptionDateField` | [`*models.SubscriptionListDateField`](../../doc/models/subscription-list-date-field.md) | Query, Optional | The type of filter you'd like to apply to your search. To use this filter you also have to include the following param in the request `include=subscription`. |
 | `filterSubscriptionStartDate` | `*string` | Query, Optional | The start date (format YYYY-MM-DD) with which to filter the date_field. Returns components that belong to the subscription with a timestamp at or after midnight (12:00:00 AM) in your site’s time zone on the date specified. To use this filter you also have to include the following param in the request `include=subscription`. |
 | `filterSubscriptionStartDatetime` | `*string` | Query, Optional | The start date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns components that belong to the subscription with a timestamp at or after exact time provided in query. You can specify timezone in query - otherwise your site''s time zone will be used. If provided, this parameter will be used instead of start_date. To use this filter you also have to include the following param in the request `include=subscription`. |
 | `filterSubscriptionEndDate` | `*string` | Query, Optional | The end date (format YYYY-MM-DD) with which to filter the date_field. Returns components that belong to the subscription with a timestamp up to and including 11:59:59PM in your site’s time zone on the date specified. To use this filter you also have to include the following param in the request `include=subscription`. |
@@ -1553,7 +1553,7 @@ ListSubscriptionComponentsForSite(
 
 ## Response Type
 
-[`models.ListSubscriptionComponentsResponse`](../list-subscription-components-response.md)
+[`models.ListSubscriptionComponentsResponse`](../../doc/models/list-subscription-components-response.md)
 
 ## Example Usage
 
@@ -1561,12 +1561,12 @@ ListSubscriptionComponentsForSite(
 ctx := context.Background()
 page := 2
 perPage := 50
-sort := models.ListSubscriptionComponentsSortEnum("updated_at")
-dateField := models.SubscriptionListDateFieldEnum("updated_at")
+sort := models.ListSubscriptionComponentsSort("updated_at")
+dateField := models.SubscriptionListDateField("updated_at")
 subscriptionIds := []int{1, 2, 3}
-pricePointIds := models.IncludeNotNullEnum("not_null")
+pricePointIds := models.IncludeNotNull("not_null")
 productFamilyIds := []int{1, 2, 3}
-include := models.ListSubscriptionComponentsIncludeEnum("subscription")Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')
+include := models.ListSubscriptionComponentsInclude("subscription")Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')
 
 apiResponse, err := subscriptionComponentsController.ListSubscriptionComponentsForSite(ctx, &page, &perPage, &sort, nil, &dateField, nil, nil, nil, nil, subscriptionIds, &pricePointIds, productFamilyIds, &include, Liquid error: Value cannot be null. (Parameter 'key'), Liquid error: Value cannot be null. (Parameter 'key'), Liquid error: Value cannot be null. (Parameter 'key'), Liquid error: Value cannot be null. (Parameter 'key'), Liquid error: Value cannot be null. (Parameter 'key'), Liquid error: Value cannot be null. (Parameter 'key'), Liquid error: Value cannot be null. (Parameter 'key'), Liquid error: Value cannot be null. (Parameter 'key'))
 if err != nil {

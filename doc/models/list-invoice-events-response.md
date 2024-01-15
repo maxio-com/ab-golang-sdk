@@ -9,7 +9,7 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `Events` | [`[]models.InvoiceEvent`](invoice-event.md) | Optional | - |
+| `Events` | [`[]models.InvoiceEvent`](../../doc/models/invoice-event.md) | Optional | - |
 | `Page` | `*int` | Optional | - |
 | `PerPage` | `*int` | Optional | - |
 | `TotalPages` | `*int` | Optional | - |

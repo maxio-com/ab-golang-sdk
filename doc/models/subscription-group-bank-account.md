@@ -14,8 +14,8 @@
 | `BankRoutingNumber` | `*string` | Optional | (Required when creating a subscription with ACH. Optional when creating a subscription with GoCardless). The routing number of the bank. It becomes bank_code while passing via GoCardless API |
 | `BankIban` | `*string` | Optional | (Optional when creating a subscription with GoCardless). International Bank Account Number. Alternatively, local bank details can be provided |
 | `BankBranchCode` | `*string` | Optional | (Optional when creating a subscription with GoCardless) Branch code. Alternatively, an IBAN can be provided |
-| `BankAccountType` | [`*models.BankAccountTypeEnum`](bank-account-type-enum.md) | Optional | **Default**: `"checking"` |
-| `BankAccountHolderType` | [`*models.HolderTypeEnum`](holder-type-enum.md) | Optional | - |
+| `BankAccountType` | [`*models.BankAccountType`](../../doc/models/bank-account-type.md) | Optional | **Default**: `"checking"` |
+| `BankAccountHolderType` | [`*models.HolderType`](../../doc/models/holder-type.md) | Optional | - |
 | `PaymentType` | `*string` | Optional | - |
 | `BillingAddress` | `*string` | Optional | - |
 | `BillingCity` | `*string` | Optional | - |
@@ -23,7 +23,7 @@
 | `BillingZip` | `*string` | Optional | - |
 | `BillingCountry` | `*string` | Optional | - |
 | `ChargifyToken` | `*string` | Optional | - |
-| `CurrentVault` | [`*models.BankAccountVaultEnum`](bank-account-vault-enum.md) | Optional | The vault that stores the payment profile with the provided vault_token. |
+| `CurrentVault` | [`*models.BankAccountVault`](../../doc/models/bank-account-vault.md) | Optional | The vault that stores the payment profile with the provided vault_token. |
 | `GatewayHandle` | `*string` | Optional | - |
 
 ## Example (as JSON)

@@ -10,11 +10,11 @@ subscriptionNotesController := client.SubscriptionNotesController()
 
 ## Methods
 
-* [Create Subscription Note](subscription-notes.md#create-subscription-note)
-* [List Subscription Notes](subscription-notes.md#list-subscription-notes)
-* [Read Subscription Note](subscription-notes.md#read-subscription-note)
-* [Update Subscription Note](subscription-notes.md#update-subscription-note)
-* [Delete Subscription Note](subscription-notes.md#delete-subscription-note)
+* [Create Subscription Note](../../doc/controllers/subscription-notes.md#create-subscription-note)
+* [List Subscription Notes](../../doc/controllers/subscription-notes.md#list-subscription-notes)
+* [Read Subscription Note](../../doc/controllers/subscription-notes.md#read-subscription-note)
+* [Update Subscription Note](../../doc/controllers/subscription-notes.md#update-subscription-note)
+* [Delete Subscription Note](../../doc/controllers/subscription-notes.md#delete-subscription-note)
 
 
 # Create Subscription Note
@@ -43,11 +43,11 @@ CreateSubscriptionNote(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription |
-| `body` | [`*models.UpdateSubscriptionNoteRequest`](../models/update-subscription-note-request.md) | Body, Optional | - |
+| `body` | [`*models.UpdateSubscriptionNoteRequest`](../../doc/models/update-subscription-note-request.md) | Body, Optional | Updatable fields for Subscription Note |
 
 ## Response Type
 
-[`models.SubscriptionNoteResponse`](../models/subscription-note-response.md)
+[`models.SubscriptionNoteResponse`](../../doc/models/subscription-note-response.md)
 
 ## Example Usage
 
@@ -91,12 +91,12 @@ ListSubscriptionNotes(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription |
-| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br>**Default**: `1`<br>**Constraints**: `>= 1` |
-| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`.<br>**Default**: `20`<br>**Constraints**: `<= 200` |
+| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`. |
+| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`. |
 
 ## Response Type
 
-[`[]models.SubscriptionNoteResponse`](../models/subscription-note-response.md)
+[`[]models.SubscriptionNoteResponse`](../../doc/models/subscription-note-response.md)
 
 ## Example Usage
 
@@ -166,7 +166,7 @@ ReadSubscriptionNote(
 
 ## Response Type
 
-[`models.SubscriptionNoteResponse`](../models/subscription-note-response.md)
+[`models.SubscriptionNoteResponse`](../../doc/models/subscription-note-response.md)
 
 ## Example Usage
 
@@ -221,11 +221,11 @@ UpdateSubscriptionNote(
 |  --- | --- | --- | --- |
 | `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription |
 | `noteId` | `int` | Template, Required | The Chargify id of the note |
-| `body` | [`*models.UpdateSubscriptionNoteRequest`](../models/update-subscription-note-request.md) | Body, Optional | - |
+| `body` | [`*models.UpdateSubscriptionNoteRequest`](../../doc/models/update-subscription-note-request.md) | Body, Optional | Updatable fields for Subscription Note |
 
 ## Response Type
 
-[`models.SubscriptionNoteResponse`](../models/subscription-note-response.md)
+[`models.SubscriptionNoteResponse`](../../doc/models/subscription-note-response.md)
 
 ## Example Usage
 
@@ -292,10 +292,4 @@ if err != nil {
     fmt.Println(resp.StatusCode)
 }
 ```
-
-## Errors
-
-| HTTP Status Code | Error Description | Exception Class |
-|  --- | --- | --- |
-| 422 | Unprocessable Entity (WebDAV) | `ApiError` |
 

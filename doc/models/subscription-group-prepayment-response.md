@@ -12,7 +12,7 @@
 | `Id` | `*int` | Optional | - |
 | `AmountInCents` | `*int64` | Optional | The amount in cents of the entry. |
 | `EndingBalanceInCents` | `*int64` | Optional | The ending balance in cents of the account. |
-| `EntryType` | [`*models.ServiceCreditTypeEnum`](service-credit-type-enum.md) | Optional | The type of entry |
+| `EntryType` | [`*models.ServiceCreditType`](../../doc/models/service-credit-type.md) | Optional | The type of entry |
 | `Memo` | `*string` | Optional | A memo attached to the entry. |
 
 ## Example (as JSON)

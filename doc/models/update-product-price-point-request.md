@@ -9,7 +9,7 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `PricePoint` | [`models.UpdateProductPricePoint`](update-product-price-point.md) | Required | - |
+| `PricePoint` | [`models.UpdateProductPricePoint`](../../doc/models/update-product-price-point.md) | Required | - |
 
 ## Example (as JSON)
 

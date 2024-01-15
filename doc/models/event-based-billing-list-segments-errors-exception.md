@@ -9,7 +9,7 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `Errors` | [`*models.Errors`](errors.md) | Optional | - |
+| `Errors` | [`*models.Errors`](../../doc/models/errors.md) | Optional | - |
 
 ## Example (as JSON)
 

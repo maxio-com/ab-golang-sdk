@@ -10,15 +10,15 @@ subscriptionGroupsController := client.SubscriptionGroupsController()
 
 ## Methods
 
-* [Signup With Subscription Group](subscription-groups.md#signup-with-subscription-group)
-* [Create Subscription Group](subscription-groups.md#create-subscription-group)
-* [List Subscription Groups](subscription-groups.md#list-subscription-groups)
-* [Read Subscription Group](subscription-groups.md#read-subscription-group)
-* [Update Subscription Group Members](subscription-groups.md#update-subscription-group-members)
-* [Delete Subscription Group](subscription-groups.md#delete-subscription-group)
-* [Read Subscription Group by Subscription Id](subscription-groups.md#read-subscription-group-by-subscription-id)
-* [Create Subscription Group Hierarchy](subscription-groups.md#create-subscription-group-hierarchy)
-* [Remove Subscription From Group](subscription-groups.md#remove-subscription-from-group)
+* [Signup With Subscription Group](../../doc/controllers/subscription-groups.md#signup-with-subscription-group)
+* [Create Subscription Group](../../doc/controllers/subscription-groups.md#create-subscription-group)
+* [List Subscription Groups](../../doc/controllers/subscription-groups.md#list-subscription-groups)
+* [Read Subscription Group](../../doc/controllers/subscription-groups.md#read-subscription-group)
+* [Update Subscription Group Members](../../doc/controllers/subscription-groups.md#update-subscription-group-members)
+* [Delete Subscription Group](../../doc/controllers/subscription-groups.md#delete-subscription-group)
+* [Read Subscription Group by Subscription Id](../../doc/controllers/subscription-groups.md#read-subscription-group-by-subscription-id)
+* [Create Subscription Group Hierarchy](../../doc/controllers/subscription-groups.md#create-subscription-group-hierarchy)
+* [Remove Subscription From Group](../../doc/controllers/subscription-groups.md#remove-subscription-from-group)
 
 
 # Signup With Subscription Group
@@ -45,11 +45,11 @@ SignupWithSubscriptionGroup(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `body` | [`*models.SubscriptionGroupSignupRequest`](../models/subscription-group-signup-request.md) | Body, Optional | - |
+| `body` | [`*models.SubscriptionGroupSignupRequest`](../../doc/models/subscription-group-signup-request.md) | Body, Optional | - |
 
 ## Response Type
 
-[`models.SubscriptionGroupSignupResponse`](../models/subscription-group-signup-response.md)
+[`models.SubscriptionGroupSignupResponse`](../../doc/models/subscription-group-signup-response.md)
 
 ## Example Usage
 
@@ -94,7 +94,7 @@ if err != nil {
 
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
-| 422 | Unprocessable Entity (WebDAV) | [`SubscriptionGroupSignupErrorResponseException`](../models/subscription-group-signup-error-response-exception.md) |
+| 422 | Unprocessable Entity (WebDAV) | [`SubscriptionGroupSignupErrorResponseException`](../../doc/models/subscription-group-signup-error-response-exception.md) |
 
 
 # Create Subscription Group
@@ -113,11 +113,11 @@ CreateSubscriptionGroup(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `body` | [`*models.CreateSubscriptionGroupRequest`](../models/create-subscription-group-request.md) | Body, Optional | - |
+| `body` | [`*models.CreateSubscriptionGroupRequest`](../../doc/models/create-subscription-group-request.md) | Body, Optional | - |
 
 ## Response Type
 
-[`models.SubscriptionGroupResponse`](../models/subscription-group-response.md)
+[`models.SubscriptionGroupResponse`](../../doc/models/subscription-group-response.md)
 
 ## Example Usage
 
@@ -169,7 +169,7 @@ if err != nil {
 
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
-| 422 | Unprocessable Entity (WebDAV) | [`SingleStringErrorResponseException`](../models/single-string-error-response-exception.md) |
+| 422 | Unprocessable Entity (WebDAV) | [`SingleStringErrorResponseException`](../../doc/models/single-string-error-response-exception.md) |
 
 
 # List Subscription Groups
@@ -191,13 +191,13 @@ ListSubscriptionGroups(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br>**Default**: `1`<br>**Constraints**: `>= 1` |
-| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`.<br>**Default**: `20`<br>**Constraints**: `<= 200` |
+| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`. |
+| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`. |
 | `include` | `*string` | Query, Optional | A list of additional information to include in the response. The following values are supported:<br><br>- `account_balances`: Account balance information for the subscription groups. Use in query: `include[]=account_balances` |
 
 ## Response Type
 
-[`models.ListSubscriptionGroupsResponse`](../models/list-subscription-groups-response.md)
+[`models.ListSubscriptionGroupsResponse`](../../doc/models/list-subscription-groups-response.md)
 
 ## Example Usage
 
@@ -279,7 +279,7 @@ ReadSubscriptionGroup(
 
 ## Response Type
 
-[`models.FullSubscriptionGroupResponse`](../models/full-subscription-group-response.md)
+[`models.FullSubscriptionGroupResponse`](../../doc/models/full-subscription-group-response.md)
 
 ## Example Usage
 
@@ -359,11 +359,11 @@ UpdateSubscriptionGroupMembers(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `uid` | `string` | Template, Required | The uid of the subscription group |
-| `body` | [`*models.UpdateSubscriptionGroupRequest`](../models/update-subscription-group-request.md) | Body, Optional | - |
+| `body` | [`*models.UpdateSubscriptionGroupRequest`](../../doc/models/update-subscription-group-request.md) | Body, Optional | - |
 
 ## Response Type
 
-[`models.SubscriptionGroupResponse`](../models/subscription-group-response.md)
+[`models.SubscriptionGroupResponse`](../../doc/models/subscription-group-response.md)
 
 ## Example Usage
 
@@ -414,7 +414,7 @@ if err != nil {
 
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
-| 422 | Unprocessable Entity (WebDAV) | [`SubscriptionGroupUpdateErrorResponseException`](../models/subscription-group-update-error-response-exception.md) |
+| 422 | Unprocessable Entity (WebDAV) | [`SubscriptionGroupUpdateErrorResponseException`](../../doc/models/subscription-group-update-error-response-exception.md) |
 
 
 # Delete Subscription Group
@@ -438,7 +438,7 @@ DeleteSubscriptionGroup(
 
 ## Response Type
 
-[`models.DeleteSubscriptionGroupResponse`](../models/delete-subscription-group-response.md)
+[`models.DeleteSubscriptionGroupResponse`](../../doc/models/delete-subscription-group-response.md)
 
 ## Example Usage
 
@@ -494,7 +494,7 @@ ReadSubscriptionGroupBySubscriptionId(
 
 ## Response Type
 
-[`models.FullSubscriptionGroupResponse`](../models/full-subscription-group-response.md)
+[`models.FullSubscriptionGroupResponse`](../../doc/models/full-subscription-group-response.md)
 
 ## Example Usage
 
@@ -591,11 +591,11 @@ CreateSubscriptionGroupHierarchy(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription |
-| `body` | [`*models.AddSubscriptionToAGroup`](../models/add-subscription-to-a-group.md) | Body, Optional | - |
+| `body` | [`*models.AddSubscriptionToAGroup`](../../doc/models/add-subscription-to-a-group.md) | Body, Optional | - |
 
 ## Response Type
 
-[`models.SubscriptionGroupResponse`](../models/subscription-group-response.md)
+[`models.SubscriptionGroupResponse`](../../doc/models/subscription-group-response.md)
 
 ## Example Usage
 
@@ -681,5 +681,5 @@ if err != nil {
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
 | 404 | Not Found | `ApiError` |
-| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../models/error-list-response-exception.md) |
+| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../../doc/models/error-list-response-exception.md) |
 

@@ -9,7 +9,7 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `PaymentProfile` | [`models.UpdatedPaymentProfile`](updated-payment-profile.md) | Required | - |
+| `PaymentProfile` | [`models.UpdatedPaymentProfile`](../../doc/models/updated-payment-profile.md) | Required | - |
 
 ## Example (as JSON)
 
