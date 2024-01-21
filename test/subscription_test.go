@@ -25,9 +25,6 @@ func (s *APISuite) TestSubscriptionCreate() {
 		subscription models.CreateSubscription
 		assert       func(*testing.T, models.ApiResponse[models.SubscriptionResponse], models.CreateSubscription, error)
 	}{
-		{
-			name:   "valid",
-			client: s.client,
 			subscription: s.newSubscription(
 				customer,
 				product,
