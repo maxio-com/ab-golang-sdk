@@ -9,7 +9,7 @@ import (
 	"github.com/maxio-com/ab-golang-sdk/models"
 )
 
-func (s *APITestSuite) TestReadSite() {
+func (s *APISuite) TestReadSite() {
 	cases := []struct {
 		name        string
 		client      advancedbilling.ClientInterface

@@ -2,16 +2,15 @@ package test
 
 import (
 	"context"
-	"encoding/json"
-	"io/ioutil"
 	"net/http"
 	"testing"
 	"time"
 
+	advancedbilling "github.com/maxio-com/ab-golang-sdk"
 	"github.com/maxio-com/ab-golang-sdk/models"
 )
 
-func (s *APITestSuite) TestSubscriptionCreate() {
+func (s *APISuite) TestSubscriptionCreate() {
 	ctx := context.Background()
 
 	customer := s.createCustomer(ctx)
@@ -22,11 +21,13 @@ func (s *APITestSuite) TestSubscriptionCreate() {
 
 	cases := []struct {
 		name         string
+		client       advancedbilling.ClientInterface
 		subscription models.CreateSubscription
 		assert       func(*testing.T, models.ApiResponse[models.SubscriptionResponse], models.CreateSubscription, error)
 	}{
 		{
-			name: "valid",
+			name:   "valid",
+			client: s.client,
 			subscription: s.newSubscription(
 				customer,
 				product,
@@ -94,25 +95,43 @@ func (s *APITestSuite) TestSubscriptionCreate() {
 				s.Equal(*coupon.Code, readSubResp.Data.Subscription.CouponCodes[0])
 			},
 		},
-		// {
-		// 	name: "invalid coupon code",
-		// 	subscription: s.newSubscription(
-		// 		customer,
-		// 		product,
-		// 		"",
-		// 		[]models.CreateSubscriptionComponent{},
-		// 	),
-		// 	assert: func(t *testing.T, ar models.ApiResponse[models.SubscriptionResponse], subscription models.CreateSubscription, err error) {
-		// 		s.Equal(http.StatusUnprocessableEntity, ar.Response.StatusCode)
-		// 	},
-		// },
+		{
+			name:   "invalid coupon code",
+			client: s.client,
+			subscription: s.newSubscription(
+				customer,
+				product,
+				"invalid coupon code",
+				[]models.CreateSubscriptionComponent{},
+			),
+			assert: func(t *testing.T, ar models.ApiResponse[models.SubscriptionResponse], subscription models.CreateSubscription, err error) {
+				s.Equal(http.StatusUnprocessableEntity, ar.Response.StatusCode)
+			},
+		},
+		{
+			name:   "unauthorized",
+			client: s.unauthorizedClient,
+			subscription: s.newSubscription(
+				customer,
+				product,
+				*coupon.Code,
+				[]models.CreateSubscriptionComponent{
+					{
+						ComponentId: interfacePtr(*component.Id),
+						Enabled:     boolPtr(true),
+						UnitBalance: intPtr(1),
+					},
+				},
+			),
+			assert: func(t *testing.T, ar models.ApiResponse[models.SubscriptionResponse], cs models.CreateSubscription, err error) {
+				s.Equal(http.StatusUnauthorized, ar.Response.StatusCode)
+			},
+		},
 	}
 
 	for _, c := range cases {
 		s.T().Run(c.name, func(t *testing.T) {
-			content, _ := json.Marshal(c.subscription)
-			ioutil.WriteFile("subscription.json", content, 0644)
-			resp, err := s.client.SubscriptionsController().CreateSubscription(
+			resp, err := c.client.SubscriptionsController().CreateSubscription(
 				ctx,
 				&models.CreateSubscriptionRequest{
 					Subscription: c.subscription,
@@ -124,7 +143,7 @@ func (s *APITestSuite) TestSubscriptionCreate() {
 	}
 }
 
-func (s *APITestSuite) newSubscription(
+func (s *APISuite) newSubscription(
 	customer models.Customer,
 	product models.Product,
 	couponCode string,
@@ -135,7 +154,7 @@ func (s *APITestSuite) newSubscription(
 		PaymentCollectionMethod: toPtr[models.PaymentCollectionMethod](models.PaymentCollectionMethod_AUTOMATIC),
 		CustomerId:              customer.Id,
 		Currency:                strPtr("USD"),
-		InitialBillingAt:        strPtr(newDate()),
+		InitialBillingAt:        strPtr("2029-08-29T12:00:00-04:00"),
 		CouponCode:              &couponCode,
 		Components:              components,
 		PaymentProfileAttributes: &models.PaymentProfileAttributes{
