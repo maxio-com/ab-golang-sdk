@@ -383,7 +383,7 @@ func (p *ProductPricePointsController) CreateProductCurrencyPrices(
     }
     
     if resp.StatusCode == 422 {
-        err = errors.NewErrorMapResponse(422, "Unprocessable Entity (WebDAV)")
+        err = errors.NewErrorArrayMapResponse(422, "Unprocessable Entity (WebDAV)")
     }
     return models.NewApiResponse(result, resp), err
 }
@@ -427,7 +427,7 @@ func (p *ProductPricePointsController) UpdateProductCurrencyPrices(
     }
     
     if resp.StatusCode == 422 {
-        err = errors.NewErrorMapResponse(422, "Unprocessable Entity (WebDAV)")
+        err = errors.NewErrorArrayMapResponse(422, "Unprocessable Entity (WebDAV)")
     }
     return models.NewApiResponse(result, resp), err
 }

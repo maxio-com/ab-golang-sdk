@@ -19,7 +19,7 @@
 | `ProductFamilyName` | `Optional[string]` | Optional | - |
 | `StartDate` | `*string` | Optional | - |
 | `EndDate` | `Optional[string]` | Optional | - |
-| `Percentage` | `Optional[float64]` | Optional | - |
+| `Percentage` | `Optional[string]` | Optional | - |
 | `Recurring` | `*bool` | Optional | - |
 | `RecurringScheme` | [`*models.RecurringScheme`](../../doc/models/recurring-scheme.md) | Optional | - |
 | `DurationPeriodCount` | `Optional[int]` | Optional | - |

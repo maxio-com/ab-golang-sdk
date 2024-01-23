@@ -7,6 +7,7 @@ import (
 // ComponentPricePointsResponse represents a ComponentPricePointsResponse struct.
 type ComponentPricePointsResponse struct {
     PricePoints []ComponentPricePoint `json:"price_points,omitempty"`
+    Meta        *ListPublicKeysMeta   `json:"meta,omitempty"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for ComponentPricePointsResponse.
@@ -23,6 +24,9 @@ func (c *ComponentPricePointsResponse) toMap() map[string]any {
     if c.PricePoints != nil {
         structMap["price_points"] = c.PricePoints
     }
+    if c.Meta != nil {
+        structMap["meta"] = c.Meta
+    }
     return structMap
 }
 
@@ -31,6 +35,7 @@ func (c *ComponentPricePointsResponse) toMap() map[string]any {
 func (c *ComponentPricePointsResponse) UnmarshalJSON(input []byte) error {
     temp := &struct {
         PricePoints []ComponentPricePoint `json:"price_points,omitempty"`
+        Meta        *ListPublicKeysMeta   `json:"meta,omitempty"`
     }{}
     err := json.Unmarshal(input, &temp)
     if err != nil {
@@ -38,5 +43,6 @@ func (c *ComponentPricePointsResponse) UnmarshalJSON(input []byte) error {
     }
     
     c.PricePoints = temp.PricePoints
+    c.Meta = temp.Meta
     return nil
 }

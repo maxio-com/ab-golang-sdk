@@ -7,27 +7,29 @@ import (
 // SubscriptionGroupBankAccount represents a SubscriptionGroupBankAccount struct.
 type SubscriptionGroupBankAccount struct {
     // (Required when creating a subscription with ACH or GoCardless) The name of the bank where the customer’s account resides
-    BankName              *string           `json:"bank_name,omitempty"`
+    BankName              *string                `json:"bank_name,omitempty"`
     // (Required when creating a subscription with ACH. Required when creating a subscription with GoCardless and bank_iban is blank) The customerʼs bank account number
-    BankAccountNumber     *string           `json:"bank_account_number,omitempty"`
+    BankAccountNumber     *string                `json:"bank_account_number,omitempty"`
     // (Required when creating a subscription with ACH. Optional when creating a subscription with GoCardless). The routing number of the bank. It becomes bank_code while passing via GoCardless API
-    BankRoutingNumber     *string           `json:"bank_routing_number,omitempty"`
+    BankRoutingNumber     *string                `json:"bank_routing_number,omitempty"`
     // (Optional when creating a subscription with GoCardless). International Bank Account Number. Alternatively, local bank details can be provided
-    BankIban              *string           `json:"bank_iban,omitempty"`
+    BankIban              *string                `json:"bank_iban,omitempty"`
     // (Optional when creating a subscription with GoCardless) Branch code. Alternatively, an IBAN can be provided
-    BankBranchCode        *string           `json:"bank_branch_code,omitempty"`
-    BankAccountType       *BankAccountType  `json:"bank_account_type,omitempty"`
-    BankAccountHolderType *HolderType       `json:"bank_account_holder_type,omitempty"`
-    PaymentType           *string           `json:"payment_type,omitempty"`
-    BillingAddress        *string           `json:"billing_address,omitempty"`
-    BillingCity           *string           `json:"billing_city,omitempty"`
-    BillingState          *string           `json:"billing_state,omitempty"`
-    BillingZip            *string           `json:"billing_zip,omitempty"`
-    BillingCountry        *string           `json:"billing_country,omitempty"`
-    ChargifyToken         *string           `json:"chargify_token,omitempty"`
+    BankBranchCode        *string                `json:"bank_branch_code,omitempty"`
+    // Defaults to checking
+    BankAccountType       *BankAccountType       `json:"bank_account_type,omitempty"`
+    // Defaults to personal
+    BankAccountHolderType *BankAccountHolderType `json:"bank_account_holder_type,omitempty"`
+    PaymentType           *PaymentType           `json:"payment_type,omitempty"`
+    BillingAddress        *string                `json:"billing_address,omitempty"`
+    BillingCity           *string                `json:"billing_city,omitempty"`
+    BillingState          *string                `json:"billing_state,omitempty"`
+    BillingZip            *string                `json:"billing_zip,omitempty"`
+    BillingCountry        *string                `json:"billing_country,omitempty"`
+    ChargifyToken         *string                `json:"chargify_token,omitempty"`
     // The vault that stores the payment profile with the provided vault_token.
-    CurrentVault          *BankAccountVault `json:"current_vault,omitempty"`
-    GatewayHandle         *string           `json:"gateway_handle,omitempty"`
+    CurrentVault          *BankAccountVault      `json:"current_vault,omitempty"`
+    GatewayHandle         *string                `json:"gateway_handle,omitempty"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for SubscriptionGroupBankAccount.
@@ -96,22 +98,22 @@ func (s *SubscriptionGroupBankAccount) toMap() map[string]any {
 // It customizes the JSON unmarshaling process for SubscriptionGroupBankAccount objects.
 func (s *SubscriptionGroupBankAccount) UnmarshalJSON(input []byte) error {
     temp := &struct {
-        BankName              *string           `json:"bank_name,omitempty"`
-        BankAccountNumber     *string           `json:"bank_account_number,omitempty"`
-        BankRoutingNumber     *string           `json:"bank_routing_number,omitempty"`
-        BankIban              *string           `json:"bank_iban,omitempty"`
-        BankBranchCode        *string           `json:"bank_branch_code,omitempty"`
-        BankAccountType       *BankAccountType  `json:"bank_account_type,omitempty"`
-        BankAccountHolderType *HolderType       `json:"bank_account_holder_type,omitempty"`
-        PaymentType           *string           `json:"payment_type,omitempty"`
-        BillingAddress        *string           `json:"billing_address,omitempty"`
-        BillingCity           *string           `json:"billing_city,omitempty"`
-        BillingState          *string           `json:"billing_state,omitempty"`
-        BillingZip            *string           `json:"billing_zip,omitempty"`
-        BillingCountry        *string           `json:"billing_country,omitempty"`
-        ChargifyToken         *string           `json:"chargify_token,omitempty"`
-        CurrentVault          *BankAccountVault `json:"current_vault,omitempty"`
-        GatewayHandle         *string           `json:"gateway_handle,omitempty"`
+        BankName              *string                `json:"bank_name,omitempty"`
+        BankAccountNumber     *string                `json:"bank_account_number,omitempty"`
+        BankRoutingNumber     *string                `json:"bank_routing_number,omitempty"`
+        BankIban              *string                `json:"bank_iban,omitempty"`
+        BankBranchCode        *string                `json:"bank_branch_code,omitempty"`
+        BankAccountType       *BankAccountType       `json:"bank_account_type,omitempty"`
+        BankAccountHolderType *BankAccountHolderType `json:"bank_account_holder_type,omitempty"`
+        PaymentType           *PaymentType           `json:"payment_type,omitempty"`
+        BillingAddress        *string                `json:"billing_address,omitempty"`
+        BillingCity           *string                `json:"billing_city,omitempty"`
+        BillingState          *string                `json:"billing_state,omitempty"`
+        BillingZip            *string                `json:"billing_zip,omitempty"`
+        BillingCountry        *string                `json:"billing_country,omitempty"`
+        ChargifyToken         *string                `json:"chargify_token,omitempty"`
+        CurrentVault          *BankAccountVault      `json:"current_vault,omitempty"`
+        GatewayHandle         *string                `json:"gateway_handle,omitempty"`
     }{}
     err := json.Unmarshal(input, &temp)
     if err != nil {

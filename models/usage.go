@@ -8,7 +8,7 @@ import (
 
 // Usage represents a Usage struct.
 type Usage struct {
-    Id              *int         `json:"id,omitempty"`
+    Id              *int64       `json:"id,omitempty"`
     Memo            *string      `json:"memo,omitempty"`
     CreatedAt       *time.Time   `json:"created_at,omitempty"`
     PricePointId    *int         `json:"price_point_id,omitempty"`
@@ -64,7 +64,7 @@ func (u *Usage) toMap() map[string]any {
 // It customizes the JSON unmarshaling process for Usage objects.
 func (u *Usage) UnmarshalJSON(input []byte) error {
     temp := &struct {
-        Id              *int         `json:"id,omitempty"`
+        Id              *int64       `json:"id,omitempty"`
         Memo            *string      `json:"memo,omitempty"`
         CreatedAt       *string      `json:"created_at,omitempty"`
         PricePointId    *int         `json:"price_point_id,omitempty"`

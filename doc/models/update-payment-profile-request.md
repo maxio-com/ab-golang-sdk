@@ -19,7 +19,7 @@
     "full_number": "5424000000000015",
     "first_name": "first_name4",
     "last_name": "last_name2",
-    "card_type": "discover",
+    "card_type": "bogus",
     "expiration_month": "expiration_month0"
   }
 }

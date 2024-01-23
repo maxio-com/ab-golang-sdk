@@ -613,6 +613,9 @@ func (c *ComponentsController) UpdateComponentPricePoint(
         return models.NewApiResponse(result, resp), err
     }
     
+    if resp.StatusCode == 422 {
+        err = errors.NewErrorArrayMapResponse(422, "Unprocessable Entity (WebDAV)")
+    }
     return models.NewApiResponse(result, resp), err
 }
 
@@ -648,6 +651,9 @@ func (c *ComponentsController) ArchiveComponentPricePoint(
         return models.NewApiResponse(result, resp), err
     }
     
+    if resp.StatusCode == 422 {
+        err = errors.NewErrorListResponse(422, "Unprocessable Entity (WebDAV)")
+    }
     return models.NewApiResponse(result, resp), err
 }
 

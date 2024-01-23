@@ -1,9 +1,9 @@
 
-# Error Map Response Exception
+# Error Array Map Response Exception
 
 ## Structure
 
-`ErrorMapResponseException`
+`ErrorArrayMapResponseException`
 
 ## Fields
 

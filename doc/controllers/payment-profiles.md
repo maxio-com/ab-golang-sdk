@@ -275,7 +275,7 @@ You may wish to redirect customers to different pages depending on whether their
 CreatePaymentProfile(
     ctx context.Context,
     body *models.CreatePaymentProfileRequest) (
-    models.ApiResponse[models.CreatePaymentProfileResponse],
+    models.ApiResponse[models.PaymentProfileResponse],
     error)
 ```
 
@@ -287,7 +287,7 @@ CreatePaymentProfile(
 
 ## Response Type
 
-[`models.CreatePaymentProfileResponse`](../../doc/models/create-payment-profile-response.md)
+[`models.PaymentProfileResponse`](../../doc/models/payment-profile-response.md)
 
 ## Example Usage
 
@@ -300,8 +300,8 @@ bodyPaymentProfile := models.CreatePaymentProfile{
     BankName:              models.ToPointer("Best Bank"),
     BankRoutingNumber:     models.ToPointer("021000089"),
     BankAccountNumber:     models.ToPointer("111111111111"),
-    BankAccountType:       models.ToPointer("checking"),
-    BankAccountHolderType: models.ToPointer("business"),
+    BankAccountType:       models.ToPointer(models.BankAccountType("checking")),
+    BankAccountHolderType: models.ToPointer(models.BankAccountHolderType("business")),
 }
 
 body := models.CreatePaymentProfileRequest{
@@ -326,6 +326,7 @@ if err != nil {
     "first_name": "Jessica",
     "last_name": "Test",
     "card_type": "visa",
+    "masked_card_number": "XXXX-XXXX-XXXX-1111",
     "expiration_month": 10,
     "expiration_year": 2018,
     "customer_id": 19195410,
@@ -361,7 +362,7 @@ This method will return all of the active `payment_profiles` for a Site, or for 
 ```go
 ListPaymentProfiles(
     ctx context.Context,input ListPaymentProfilesInput) (
-    models.ApiResponse[[]models.ListPaymentProfilesResponse],
+    models.ApiResponse[[]models.PaymentProfileResponse],
     error)
 ```
 
@@ -375,7 +376,7 @@ ListPaymentProfiles(
 
 ## Response Type
 
-[`[]models.ListPaymentProfilesResponse`](../../doc/models/list-payment-profiles-response.md)
+[`[]models.PaymentProfileResponse`](../../doc/models/payment-profile-response.md)
 
 ## Example Usage
 
@@ -419,6 +420,7 @@ if err != nil {
       "bank_account_type": "checking",
       "bank_account_holder_type": "personal",
       "payment_type": "bank_account",
+      "verified": true,
       "site_gateway_setting_id": 1,
       "gateway_handle": "handle"
     }
@@ -444,6 +446,7 @@ if err != nil {
       "bank_account_type": "checking",
       "bank_account_holder_type": "personal",
       "payment_type": "bank_account",
+      "verified": true,
       "site_gateway_setting_id": 1,
       "gateway_handle": "handle"
     }
@@ -493,8 +496,8 @@ Example response for Bank Account:
 ```go
 ReadPaymentProfile(
     ctx context.Context,
-    paymentProfileId string) (
-    models.ApiResponse[models.ReadPaymentProfileResponse],
+    paymentProfileId int) (
+    models.ApiResponse[models.PaymentProfileResponse],
     error)
 ```
 
@@ -502,17 +505,17 @@ ReadPaymentProfile(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `paymentProfileId` | `string` | Template, Required | The Chargify id of the payment profile |
+| `paymentProfileId` | `int` | Template, Required | The Chargify id of the payment profile |
 
 ## Response Type
 
-[`models.ReadPaymentProfileResponse`](../../doc/models/read-payment-profile-response.md)
+[`models.PaymentProfileResponse`](../../doc/models/payment-profile-response.md)
 
 ## Example Usage
 
 ```go
 ctx := context.Background()
-paymentProfileId := "payment_profile_id2"
+paymentProfileId := 198
 
 apiResponse, err := paymentProfilesController.ReadPaymentProfile(ctx, paymentProfileId)
 if err != nil {
@@ -552,6 +555,12 @@ if err != nil {
   }
 }
 ```
+
+## Errors
+
+| HTTP Status Code | Error Description | Exception Class |
+|  --- | --- | --- |
+| 404 | Not Found | `ApiError` |
 
 
 # Update Payment Profile
@@ -594,9 +603,9 @@ The result will be that you have updated the billing information for the card, y
 ```go
 UpdatePaymentProfile(
     ctx context.Context,
-    paymentProfileId string,
+    paymentProfileId int,
     body *models.UpdatePaymentProfileRequest) (
-    models.ApiResponse[models.UpdatePaymentProfileResponse],
+    models.ApiResponse[models.PaymentProfileResponse],
     error)
 ```
 
@@ -604,18 +613,18 @@ UpdatePaymentProfile(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `paymentProfileId` | `string` | Template, Required | The Chargify id of the payment profile |
+| `paymentProfileId` | `int` | Template, Required | The Chargify id of the payment profile |
 | `body` | [`*models.UpdatePaymentProfileRequest`](../../doc/models/update-payment-profile-request.md) | Body, Optional | - |
 
 ## Response Type
 
-[`models.UpdatePaymentProfileResponse`](../../doc/models/update-payment-profile-response.md)
+[`models.PaymentProfileResponse`](../../doc/models/payment-profile-response.md)
 
 ## Example Usage
 
 ```go
 ctx := context.Background()
-paymentProfileId := "payment_profile_id2"
+paymentProfileId := 198
 
 bodyPaymentProfile := models.UpdatePaymentProfile{
     FirstName:       models.ToPointer("Graham"),
@@ -676,6 +685,13 @@ if err != nil {
 }
 ```
 
+## Errors
+
+| HTTP Status Code | Error Description | Exception Class |
+|  --- | --- | --- |
+| 404 | Not Found | `ApiError` |
+| 422 | Unprocessable Entity (WebDAV) | [`ErrorStringMapResponseException`](../../doc/models/error-string-map-response-exception.md) |
+
 
 # Delete Unused Payment Profile
 
@@ -686,7 +702,7 @@ If the payment profile is in use by one or more subscriptions or groups, a 422 a
 ```go
 DeleteUnusedPaymentProfile(
     ctx context.Context,
-    paymentProfileId string) (
+    paymentProfileId int) (
     http.Response,
     error)
 ```
@@ -695,7 +711,7 @@ DeleteUnusedPaymentProfile(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `paymentProfileId` | `string` | Template, Required | The Chargify id of the payment profile |
+| `paymentProfileId` | `int` | Template, Required | The Chargify id of the payment profile |
 
 ## Response Type
 
@@ -705,7 +721,7 @@ DeleteUnusedPaymentProfile(
 
 ```go
 ctx := context.Background()
-paymentProfileId := "payment_profile_id2"
+paymentProfileId := 198
 
 resp, err := paymentProfilesController.DeleteUnusedPaymentProfile(ctx, paymentProfileId)
 if err != nil {
@@ -719,6 +735,7 @@ if err != nil {
 
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
+| 404 | Not Found | `ApiError` |
 | 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../../doc/models/error-list-response-exception.md) |
 
 
@@ -734,7 +751,7 @@ This will delete a payment profile belonging to the customer on the subscription
 DeleteSubscriptionsPaymentProfile(
     ctx context.Context,
     subscriptionId int,
-    paymentProfileId string) (
+    paymentProfileId int) (
     http.Response,
     error)
 ```
@@ -744,7 +761,7 @@ DeleteSubscriptionsPaymentProfile(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription |
-| `paymentProfileId` | `string` | Template, Required | The Chargify id of the payment profile |
+| `paymentProfileId` | `int` | Template, Required | The Chargify id of the payment profile |
 
 ## Response Type
 
@@ -755,7 +772,7 @@ DeleteSubscriptionsPaymentProfile(
 ```go
 ctx := context.Background()
 subscriptionId := 222
-paymentProfileId := "payment_profile_id2"
+paymentProfileId := 198
 
 resp, err := paymentProfilesController.DeleteSubscriptionsPaymentProfile(ctx, subscriptionId, paymentProfileId)
 if err != nil {
@@ -861,7 +878,7 @@ This will delete a Payment Profile belonging to a Subscription Group.
 DeleteSubscriptionGroupPaymentProfile(
     ctx context.Context,
     uid string,
-    paymentProfileId string) (
+    paymentProfileId int) (
     http.Response,
     error)
 ```
@@ -871,7 +888,7 @@ DeleteSubscriptionGroupPaymentProfile(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `uid` | `string` | Template, Required | The uid of the subscription group |
-| `paymentProfileId` | `string` | Template, Required | The Chargify id of the payment profile |
+| `paymentProfileId` | `int` | Template, Required | The Chargify id of the payment profile |
 
 ## Response Type
 
@@ -882,7 +899,7 @@ DeleteSubscriptionGroupPaymentProfile(
 ```go
 ctx := context.Background()
 uid := "uid0"
-paymentProfileId := "payment_profile_id2"
+paymentProfileId := 198
 
 resp, err := paymentProfilesController.DeleteSubscriptionGroupPaymentProfile(ctx, uid, paymentProfileId)
 if err != nil {
@@ -969,6 +986,7 @@ if err != nil {
 
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
+| 404 | Not Found | `ApiError` |
 | 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../../doc/models/error-list-response-exception.md) |
 
 
@@ -984,7 +1002,7 @@ The new payment profile must belong to the subscription group's customer, otherw
 UpdateSubscriptionGroupDefaultPaymentProfile(
     ctx context.Context,
     uid string,
-    paymentProfileId string) (
+    paymentProfileId int) (
     models.ApiResponse[models.PaymentProfileResponse],
     error)
 ```
@@ -994,7 +1012,7 @@ UpdateSubscriptionGroupDefaultPaymentProfile(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `uid` | `string` | Template, Required | The uid of the subscription group |
-| `paymentProfileId` | `string` | Template, Required | The Chargify id of the payment profile |
+| `paymentProfileId` | `int` | Template, Required | The Chargify id of the payment profile |
 
 ## Response Type
 
@@ -1005,7 +1023,7 @@ UpdateSubscriptionGroupDefaultPaymentProfile(
 ```go
 ctx := context.Background()
 uid := "uid0"
-paymentProfileId := "payment_profile_id2"
+paymentProfileId := 198
 
 apiResponse, err := paymentProfilesController.UpdateSubscriptionGroupDefaultPaymentProfile(ctx, uid, paymentProfileId)
 if err != nil {

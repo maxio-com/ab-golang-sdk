@@ -51,6 +51,8 @@ type ProductPricePoint struct {
     TaxIncluded             *bool               `json:"tax_included,omitempty"`
     // The subscription id this price point belongs to
     SubscriptionId          Optional[int]       `json:"subscription_id"`
+    // An array of currency pricing data is available when multiple currencies are defined for the site. It varies based on the use_site_exchange_rate setting for the price point. This parameter is present only in the response of read endpoints, after including the appropriate query parameter.
+    CurrencyPrices          []CurrencyPrice     `json:"currency_prices,omitempty"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for ProductPricePoint.
@@ -138,6 +140,9 @@ func (p *ProductPricePoint) toMap() map[string]any {
     if p.SubscriptionId.IsValueSet() {
         structMap["subscription_id"] = p.SubscriptionId.Value()
     }
+    if p.CurrencyPrices != nil {
+        structMap["currency_prices"] = p.CurrencyPrices
+    }
     return structMap
 }
 
@@ -168,6 +173,7 @@ func (p *ProductPricePoint) UnmarshalJSON(input []byte) error {
         Type                    *PricePointType  `json:"type,omitempty"`
         TaxIncluded             *bool            `json:"tax_included,omitempty"`
         SubscriptionId          Optional[int]    `json:"subscription_id"`
+        CurrencyPrices          []CurrencyPrice  `json:"currency_prices,omitempty"`
     }{}
     err := json.Unmarshal(input, &temp)
     if err != nil {
@@ -216,5 +222,6 @@ func (p *ProductPricePoint) UnmarshalJSON(input []byte) error {
     p.Type = temp.Type
     p.TaxIncluded = temp.TaxIncluded
     p.SubscriptionId = temp.SubscriptionId
+    p.CurrencyPrices = temp.CurrencyPrices
     return nil
 }

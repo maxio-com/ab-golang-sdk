@@ -22,7 +22,7 @@ func NewPaymentProfilesController(baseController baseController) *PaymentProfile
 }
 
 // CreatePaymentProfile takes context, body as parameters and
-// returns an models.ApiResponse with models.CreatePaymentProfileResponse data and
+// returns an models.ApiResponse with models.PaymentProfileResponse data and
 // an error if there was an issue with the request or response.
 // Use this endpoint to create a payment profile for a customer.
 // Payment Profiles house the credit card, ACH (Authorize.Net or Stripe only,) or PayPal (Braintree only,) data for a customer. The payment information is attached to the customer within Chargify, as opposed to the Subscription itself.
@@ -211,7 +211,7 @@ func NewPaymentProfilesController(baseController baseController) *PaymentProfile
 func (p *PaymentProfilesController) CreatePaymentProfile(
     ctx context.Context,
     body *models.CreatePaymentProfileRequest) (
-    models.ApiResponse[models.CreatePaymentProfileResponse],
+    models.ApiResponse[models.PaymentProfileResponse],
     error) {
     req := p.prepareRequest(ctx, "POST", "/payment_profiles.json")
     req.Authenticate(true)
@@ -219,7 +219,7 @@ func (p *PaymentProfilesController) CreatePaymentProfile(
     if body != nil {
         req.Json(*body)
     }
-    var result models.CreatePaymentProfileResponse
+    var result models.PaymentProfileResponse
     decoder, resp, err := req.CallAsJson()
     if err != nil {
         return models.NewApiResponse(result, resp), err
@@ -229,7 +229,7 @@ func (p *PaymentProfilesController) CreatePaymentProfile(
         return models.NewApiResponse(result, resp), err
     }
     
-    result, err = utilities.DecodeResults[models.CreatePaymentProfileResponse](decoder)
+    result, err = utilities.DecodeResults[models.PaymentProfileResponse](decoder)
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
@@ -244,7 +244,7 @@ func (p *PaymentProfilesController) CreatePaymentProfile(
 }
 
 // ListPaymentProfiles takes context, page, perPage, customerId as parameters and
-// returns an models.ApiResponse with []models.ListPaymentProfilesResponse data and
+// returns an models.ApiResponse with []models.PaymentProfileResponse data and
 // an error if there was an issue with the request or response.
 // This method will return all of the active `payment_profiles` for a Site, or for one Customer within a site.  If no payment profiles are found, this endpoint will return an empty array, not a 404.
 func (p *PaymentProfilesController) ListPaymentProfiles(
@@ -252,7 +252,7 @@ func (p *PaymentProfilesController) ListPaymentProfiles(
     page *int,
     perPage *int,
     customerId *int) (
-    models.ApiResponse[[]models.ListPaymentProfilesResponse],
+    models.ApiResponse[[]models.PaymentProfileResponse],
     error) {
     req := p.prepareRequest(ctx, "GET", "/payment_profiles.json")
     req.Authenticate(true)
@@ -265,7 +265,7 @@ func (p *PaymentProfilesController) ListPaymentProfiles(
     if customerId != nil {
         req.QueryParam("customer_id", *customerId)
     }
-    var result []models.ListPaymentProfilesResponse
+    var result []models.PaymentProfileResponse
     decoder, resp, err := req.CallAsJson()
     if err != nil {
         return models.NewApiResponse(result, resp), err
@@ -275,7 +275,7 @@ func (p *PaymentProfilesController) ListPaymentProfiles(
         return models.NewApiResponse(result, resp), err
     }
     
-    result, err = utilities.DecodeResults[[]models.ListPaymentProfilesResponse](decoder)
+    result, err = utilities.DecodeResults[[]models.PaymentProfileResponse](decoder)
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
@@ -284,7 +284,7 @@ func (p *PaymentProfilesController) ListPaymentProfiles(
 }
 
 // ReadPaymentProfile takes context, paymentProfileId as parameters and
-// returns an models.ApiResponse with models.ReadPaymentProfileResponse data and
+// returns an models.ApiResponse with models.PaymentProfileResponse data and
 // an error if there was an issue with the request or response.
 // Using the GET method you can retrieve a Payment Profile identified by its unique ID.
 // Please note that a different JSON object will be returned if the card method on file is a bank account.
@@ -319,8 +319,8 @@ func (p *PaymentProfilesController) ListPaymentProfiles(
 // ```
 func (p *PaymentProfilesController) ReadPaymentProfile(
     ctx context.Context,
-    paymentProfileId string) (
-    models.ApiResponse[models.ReadPaymentProfileResponse],
+    paymentProfileId int) (
+    models.ApiResponse[models.PaymentProfileResponse],
     error) {
     req := p.prepareRequest(
       ctx,
@@ -329,7 +329,7 @@ func (p *PaymentProfilesController) ReadPaymentProfile(
     )
     req.Authenticate(true)
     
-    var result models.ReadPaymentProfileResponse
+    var result models.PaymentProfileResponse
     decoder, resp, err := req.CallAsJson()
     if err != nil {
         return models.NewApiResponse(result, resp), err
@@ -339,16 +339,19 @@ func (p *PaymentProfilesController) ReadPaymentProfile(
         return models.NewApiResponse(result, resp), err
     }
     
-    result, err = utilities.DecodeResults[models.ReadPaymentProfileResponse](decoder)
+    result, err = utilities.DecodeResults[models.PaymentProfileResponse](decoder)
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
     
+    if resp.StatusCode == 404 {
+        err = errors.NewApiError(404, "Not Found")
+    }
     return models.NewApiResponse(result, resp), err
 }
 
 // UpdatePaymentProfile takes context, paymentProfileId, body as parameters and
-// returns an models.ApiResponse with models.UpdatePaymentProfileResponse data and
+// returns an models.ApiResponse with models.PaymentProfileResponse data and
 // an error if there was an issue with the request or response.
 // ## Partial Card Updates
 // In the event that you are using the Authorize.net, Stripe, Cybersource, Forte or Braintree Blue payment gateways, you can update just the billing and contact information for a payment method. Note the lack of credit-card related data contained in the JSON payload.
@@ -376,9 +379,9 @@ func (p *PaymentProfilesController) ReadPaymentProfile(
 // - If you are using Authorize.net or Stripe, you may elect to manually trigger a retry for a past due subscription after a partial update.
 func (p *PaymentProfilesController) UpdatePaymentProfile(
     ctx context.Context,
-    paymentProfileId string,
+    paymentProfileId int,
     body *models.UpdatePaymentProfileRequest) (
-    models.ApiResponse[models.UpdatePaymentProfileResponse],
+    models.ApiResponse[models.PaymentProfileResponse],
     error) {
     req := p.prepareRequest(
       ctx,
@@ -391,7 +394,7 @@ func (p *PaymentProfilesController) UpdatePaymentProfile(
         req.Json(*body)
     }
     
-    var result models.UpdatePaymentProfileResponse
+    var result models.PaymentProfileResponse
     decoder, resp, err := req.CallAsJson()
     if err != nil {
         return models.NewApiResponse(result, resp), err
@@ -401,11 +404,17 @@ func (p *PaymentProfilesController) UpdatePaymentProfile(
         return models.NewApiResponse(result, resp), err
     }
     
-    result, err = utilities.DecodeResults[models.UpdatePaymentProfileResponse](decoder)
+    result, err = utilities.DecodeResults[models.PaymentProfileResponse](decoder)
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
     
+    if resp.StatusCode == 404 {
+        err = errors.NewApiError(404, "Not Found")
+    }
+    if resp.StatusCode == 422 {
+        err = errors.NewErrorStringMapResponse(422, "Unprocessable Entity (WebDAV)")
+    }
     return models.NewApiResponse(result, resp), err
 }
 
@@ -416,7 +425,7 @@ func (p *PaymentProfilesController) UpdatePaymentProfile(
 // If the payment profile is in use by one or more subscriptions or groups, a 422 and error message will be returned.
 func (p *PaymentProfilesController) DeleteUnusedPaymentProfile(
     ctx context.Context,
-    paymentProfileId string) (
+    paymentProfileId int) (
     *http.Response,
     error) {
     req := p.prepareRequest(
@@ -434,6 +443,9 @@ func (p *PaymentProfilesController) DeleteUnusedPaymentProfile(
     if err != nil {
         return context.Response, err
     }
+    if context.Response.StatusCode == 404 {
+        err = errors.NewApiError(404, "Not Found")
+    }
     if context.Response.StatusCode == 422 {
         err = errors.NewErrorListResponse(422, "Unprocessable Entity (WebDAV)")
     }
@@ -449,7 +461,7 @@ func (p *PaymentProfilesController) DeleteUnusedPaymentProfile(
 func (p *PaymentProfilesController) DeleteSubscriptionsPaymentProfile(
     ctx context.Context,
     subscriptionId int,
-    paymentProfileId string) (
+    paymentProfileId int) (
     *http.Response,
     error) {
     req := p.prepareRequest(
@@ -523,7 +535,7 @@ func (p *PaymentProfilesController) VerifyBankAccount(
 func (p *PaymentProfilesController) DeleteSubscriptionGroupPaymentProfile(
     ctx context.Context,
     uid string,
-    paymentProfileId string) (
+    paymentProfileId int) (
     *http.Response,
     error) {
     req := p.prepareRequest(
@@ -577,6 +589,9 @@ func (p *PaymentProfilesController) UpdateSubscriptionDefaultPaymentProfile(
         return models.NewApiResponse(result, resp), err
     }
     
+    if resp.StatusCode == 404 {
+        err = errors.NewApiError(404, "Not Found")
+    }
     if resp.StatusCode == 422 {
         err = errors.NewErrorListResponse(422, "Unprocessable Entity (WebDAV)")
     }
@@ -592,7 +607,7 @@ func (p *PaymentProfilesController) UpdateSubscriptionDefaultPaymentProfile(
 func (p *PaymentProfilesController) UpdateSubscriptionGroupDefaultPaymentProfile(
     ctx context.Context,
     uid string,
-    paymentProfileId string) (
+    paymentProfileId int) (
     models.ApiResponse[models.PaymentProfileResponse],
     error) {
     req := p.prepareRequest(

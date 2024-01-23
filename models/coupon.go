@@ -16,7 +16,7 @@ type Coupon struct {
     ProductFamilyName           Optional[string]    `json:"product_family_name"`
     StartDate                   *string             `json:"start_date,omitempty"`
     EndDate                     Optional[string]    `json:"end_date"`
-    Percentage                  Optional[float64]   `json:"percentage"`
+    Percentage                  Optional[string]    `json:"percentage"`
     Recurring                   *bool               `json:"recurring,omitempty"`
     RecurringScheme             *RecurringScheme    `json:"recurring_scheme,omitempty"`
     DurationPeriodCount         Optional[int]       `json:"duration_period_count"`
@@ -152,7 +152,7 @@ func (c *Coupon) UnmarshalJSON(input []byte) error {
         ProductFamilyName           Optional[string]    `json:"product_family_name"`
         StartDate                   *string             `json:"start_date,omitempty"`
         EndDate                     Optional[string]    `json:"end_date"`
-        Percentage                  Optional[float64]   `json:"percentage"`
+        Percentage                  Optional[string]    `json:"percentage"`
         Recurring                   *bool               `json:"recurring,omitempty"`
         RecurringScheme             *RecurringScheme    `json:"recurring_scheme,omitempty"`
         DurationPeriodCount         Optional[int]       `json:"duration_period_count"`

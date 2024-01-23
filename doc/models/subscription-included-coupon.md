@@ -14,7 +14,7 @@
 | `UsesAllowed` | `*int` | Optional | - |
 | `ExpiresAt` | `Optional[string]` | Optional | - |
 | `Recurring` | `*bool` | Optional | - |
-| `AmountInCents` | `Optional[int64]` | Optional | - |
+| `AmountInCents` | `Optional[int64]` | Optional | **Constraints**: `>= 0` |
 | `Percentage` | `Optional[string]` | Optional | - |
 
 ## Example (as JSON)

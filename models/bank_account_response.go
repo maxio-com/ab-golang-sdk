@@ -6,7 +6,7 @@ import (
 
 // BankAccountResponse represents a BankAccountResponse struct.
 type BankAccountResponse struct {
-    PaymentProfile BankAccount `json:"payment_profile"`
+    PaymentProfile BankAccountPaymentProfile `json:"payment_profile"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for BankAccountResponse.
@@ -28,7 +28,7 @@ func (b *BankAccountResponse) toMap() map[string]any {
 // It customizes the JSON unmarshaling process for BankAccountResponse objects.
 func (b *BankAccountResponse) UnmarshalJSON(input []byte) error {
     temp := &struct {
-        PaymentProfile BankAccount `json:"payment_profile"`
+        PaymentProfile BankAccountPaymentProfile `json:"payment_profile"`
     }{}
     err := json.Unmarshal(input, &temp)
     if err != nil {

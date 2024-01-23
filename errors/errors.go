@@ -139,6 +139,31 @@ func (s *SingleErrorResponse) Error() string {
     return fmt.Sprintf("SingleErrorResponse occured %v", s.Body)
 }
 
+// ErrorArrayMapResponse is a custom error.
+type ErrorArrayMapResponse struct {
+    apiError.ApiError
+    Errors            map[string]interface{} `json:"errors,omitempty"`
+}
+
+// NewErrorArrayMapResponse is a constructor for ErrorArrayMapResponse.
+// It creates and returns a pointer to a new ErrorArrayMapResponse instance with the given statusCode and body.
+func NewErrorArrayMapResponse(
+    statusCode int,
+    body string) *ErrorArrayMapResponse {
+    return &ErrorArrayMapResponse{
+    	ApiError: apiError.ApiError{
+    		StatusCode: statusCode,
+    		Body:       body,
+    	},
+    }
+}
+
+// Error implements the Error method for the error interface.
+// It returns a formatted error message for ErrorArrayMapResponse.
+func (e *ErrorArrayMapResponse) Error() string {
+    return fmt.Sprintf("ErrorArrayMapResponse occured %v", e.Body)
+}
+
 // ProductPricePointErrorResponse is a custom error.
 type ProductPricePointErrorResponse struct {
     apiError.ApiError
@@ -164,18 +189,18 @@ func (p *ProductPricePointErrorResponse) Error() string {
     return fmt.Sprintf("ProductPricePointErrorResponse occured %v", p.Body)
 }
 
-// ErrorMapResponse is a custom error.
-type ErrorMapResponse struct {
+// ErrorStringMapResponse is a custom error.
+type ErrorStringMapResponse struct {
     apiError.ApiError
-    Errors            map[string]interface{} `json:"errors,omitempty"`
+    Errors            map[string]string `json:"errors,omitempty"`
 }
 
-// NewErrorMapResponse is a constructor for ErrorMapResponse.
-// It creates and returns a pointer to a new ErrorMapResponse instance with the given statusCode and body.
-func NewErrorMapResponse(
+// NewErrorStringMapResponse is a constructor for ErrorStringMapResponse.
+// It creates and returns a pointer to a new ErrorStringMapResponse instance with the given statusCode and body.
+func NewErrorStringMapResponse(
     statusCode int,
-    body string) *ErrorMapResponse {
-    return &ErrorMapResponse{
+    body string) *ErrorStringMapResponse {
+    return &ErrorStringMapResponse{
     	ApiError: apiError.ApiError{
     		StatusCode: statusCode,
     		Body:       body,
@@ -184,9 +209,9 @@ func NewErrorMapResponse(
 }
 
 // Error implements the Error method for the error interface.
-// It returns a formatted error message for ErrorMapResponse.
-func (e *ErrorMapResponse) Error() string {
-    return fmt.Sprintf("ErrorMapResponse occured %v", e.Body)
+// It returns a formatted error message for ErrorStringMapResponse.
+func (e *ErrorStringMapResponse) Error() string {
+    return fmt.Sprintf("ErrorStringMapResponse occured %v", e.Body)
 }
 
 // ComponentPricePointError is a custom error.
@@ -262,31 +287,6 @@ func NewSubscriptionComponentAllocationError(
 // It returns a formatted error message for SubscriptionComponentAllocationError.
 func (s *SubscriptionComponentAllocationError) Error() string {
     return fmt.Sprintf("SubscriptionComponentAllocationError occured %v", s.Body)
-}
-
-// NestedErrorResponse is a custom error.
-type NestedErrorResponse struct {
-    apiError.ApiError
-    Errors            map[string]interface{} `json:"errors,omitempty"`
-}
-
-// NewNestedErrorResponse is a constructor for NestedErrorResponse.
-// It creates and returns a pointer to a new NestedErrorResponse instance with the given statusCode and body.
-func NewNestedErrorResponse(
-    statusCode int,
-    body string) *NestedErrorResponse {
-    return &NestedErrorResponse{
-    	ApiError: apiError.ApiError{
-    		StatusCode: statusCode,
-    		Body:       body,
-    	},
-    }
-}
-
-// Error implements the Error method for the error interface.
-// It returns a formatted error message for NestedErrorResponse.
-func (n *NestedErrorResponse) Error() string {
-    return fmt.Sprintf("NestedErrorResponse occured %v", n.Body)
 }
 
 // SubscriptionGroupSignupErrorResponse is a custom error.

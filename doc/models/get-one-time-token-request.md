@@ -20,7 +20,7 @@
     "first_name": "first_name4",
     "last_name": "last_name2",
     "masked_card_number": "masked_card_number2",
-    "card_type": "card_type0",
+    "card_type": "bogus",
     "expiration_month": 133.5,
     "expiration_year": 156.84,
     "customer_id": "customer_id2",

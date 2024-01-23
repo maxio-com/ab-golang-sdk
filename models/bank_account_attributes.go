@@ -6,25 +6,27 @@ import (
 
 // BankAccountAttributes represents a BankAccountAttributes struct.
 type BankAccountAttributes struct {
-    ChargifyToken         *string           `json:"chargify_token,omitempty"`
+    ChargifyToken         *string                `json:"chargify_token,omitempty"`
     // (Required when creating a subscription with ACH or GoCardless) The name of the bank where the customer’s account resides
-    BankName              *string           `json:"bank_name,omitempty"`
+    BankName              *string                `json:"bank_name,omitempty"`
     // (Required when creating a subscription with ACH. Optional when creating a subscription with GoCardless). The routing number of the bank. It becomes bank_code while passing via GoCardless API
-    BankRoutingNumber     *string           `json:"bank_routing_number,omitempty"`
+    BankRoutingNumber     *string                `json:"bank_routing_number,omitempty"`
     // (Required when creating a subscription with ACH. Required when creating a subscription with GoCardless and bank_iban is blank) The customerʼs bank account number
-    BankAccountNumber     *string           `json:"bank_account_number,omitempty"`
-    BankAccountType       *string           `json:"bank_account_type,omitempty"`
+    BankAccountNumber     *string                `json:"bank_account_number,omitempty"`
+    // Defaults to checking
+    BankAccountType       *BankAccountType       `json:"bank_account_type,omitempty"`
     // (Optional when creating a subscription with GoCardless) Branch code. Alternatively, an IBAN can be provided
-    BankBranchCode        *string           `json:"bank_branch_code,omitempty"`
+    BankBranchCode        *string                `json:"bank_branch_code,omitempty"`
     // (Optional when creating a subscription with GoCardless). International Bank Account Number. Alternatively, local bank details can be provided
-    BankIban              *string           `json:"bank_iban,omitempty"`
-    BankAccountHolderType *string           `json:"bank_account_holder_type,omitempty"`
-    PaymentType           *string           `json:"payment_type,omitempty"`
+    BankIban              *string                `json:"bank_iban,omitempty"`
+    // Defaults to personal
+    BankAccountHolderType *BankAccountHolderType `json:"bank_account_holder_type,omitempty"`
+    PaymentType           *PaymentType           `json:"payment_type,omitempty"`
     // The vault that stores the payment profile with the provided vault_token.
-    CurrentVault          *BankAccountVault `json:"current_vault,omitempty"`
-    VaultToken            *string           `json:"vault_token,omitempty"`
+    CurrentVault          *BankAccountVault      `json:"current_vault,omitempty"`
+    VaultToken            *string                `json:"vault_token,omitempty"`
     // (only for Authorize.Net CIM storage or Square) The customerProfileId for the owner of the customerPaymentProfileId provided as the vault_token
-    CustomerVaultToken    *string           `json:"customer_vault_token,omitempty"`
+    CustomerVaultToken    *string                `json:"customer_vault_token,omitempty"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for BankAccountAttributes.
@@ -81,18 +83,18 @@ func (b *BankAccountAttributes) toMap() map[string]any {
 // It customizes the JSON unmarshaling process for BankAccountAttributes objects.
 func (b *BankAccountAttributes) UnmarshalJSON(input []byte) error {
     temp := &struct {
-        ChargifyToken         *string           `json:"chargify_token,omitempty"`
-        BankName              *string           `json:"bank_name,omitempty"`
-        BankRoutingNumber     *string           `json:"bank_routing_number,omitempty"`
-        BankAccountNumber     *string           `json:"bank_account_number,omitempty"`
-        BankAccountType       *string           `json:"bank_account_type,omitempty"`
-        BankBranchCode        *string           `json:"bank_branch_code,omitempty"`
-        BankIban              *string           `json:"bank_iban,omitempty"`
-        BankAccountHolderType *string           `json:"bank_account_holder_type,omitempty"`
-        PaymentType           *string           `json:"payment_type,omitempty"`
-        CurrentVault          *BankAccountVault `json:"current_vault,omitempty"`
-        VaultToken            *string           `json:"vault_token,omitempty"`
-        CustomerVaultToken    *string           `json:"customer_vault_token,omitempty"`
+        ChargifyToken         *string                `json:"chargify_token,omitempty"`
+        BankName              *string                `json:"bank_name,omitempty"`
+        BankRoutingNumber     *string                `json:"bank_routing_number,omitempty"`
+        BankAccountNumber     *string                `json:"bank_account_number,omitempty"`
+        BankAccountType       *BankAccountType       `json:"bank_account_type,omitempty"`
+        BankBranchCode        *string                `json:"bank_branch_code,omitempty"`
+        BankIban              *string                `json:"bank_iban,omitempty"`
+        BankAccountHolderType *BankAccountHolderType `json:"bank_account_holder_type,omitempty"`
+        PaymentType           *PaymentType           `json:"payment_type,omitempty"`
+        CurrentVault          *BankAccountVault      `json:"current_vault,omitempty"`
+        VaultToken            *string                `json:"vault_token,omitempty"`
+        CustomerVaultToken    *string                `json:"customer_vault_token,omitempty"`
     }{}
     err := json.Unmarshal(input, &temp)
     if err != nil {

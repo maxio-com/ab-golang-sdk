@@ -9,7 +9,7 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `Id` | `*int` | Optional | - |
+| `Id` | `*int64` | Optional | **Constraints**: `>= 0` |
 | `Memo` | `*string` | Optional | - |
 | `CreatedAt` | `*time.Time` | Optional | - |
 | `PricePointId` | `*int` | Optional | - |
