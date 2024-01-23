@@ -1,11 +1,14 @@
 package test
 
 import (
+	"math/rand"
 	"testing"
+	"time"
 
 	"github.com/caarlos0/env/v10"
 	"github.com/jaswdr/faker"
 	advancedbilling "github.com/maxio-com/ab-golang-sdk"
+	"github.com/maxio-com/ab-golang-sdk/models"
 	"github.com/stretchr/testify/suite"
 )
 
@@ -22,14 +25,33 @@ type APISuite struct {
 
 	client             advancedbilling.ClientInterface
 	unauthorizedClient advancedbilling.ClientInterface
+	baseBillingAddress baseBillingAddress
 }
 
-func TestAPITestSuite(t *testing.T) {
+type baseBillingAddress struct {
+	firstName string
+	lastName  string
+	phone     string
+	address   string
+	city      string
+	state     string
+	country   string
+	zip       string
+	card      card
+}
+
+type card struct {
+	expirationMonth int
+	expirationYear  int
+	cardType        models.CardType
+}
+
+func TestAPISuite(t *testing.T) {
 	suite.Run(t, new(APISuite))
 }
 
 func (s *APISuite) SetupTest() {
-	s.fkr = faker.New()
+	s.fkr = faker.NewWithSeed(rand.NewSource(time.Now().Unix()))
 
 	cfg := Config{}
 	if err := env.Parse(&cfg); err != nil {
@@ -50,4 +72,20 @@ func (s *APISuite) SetupTest() {
 
 	s.client = advancedbilling.NewClient(config)
 	s.unauthorizedClient = advancedbilling.NewClient(configUnauthorized)
+
+	s.baseBillingAddress = baseBillingAddress{
+		firstName: "Joe",
+		lastName:  "Smith",
+		phone:     "4111111111111111",
+		card: card{
+			expirationMonth: int(time.Now().Month()),
+			expirationYear:  time.Now().Year() + 1,
+			cardType:        models.CardType_VISA,
+		},
+		city:    "Boston",
+		state:   "MA",
+		address: "123 Mass Ave.",
+		country: "US",
+		zip:     "02120",
+	}
 }
