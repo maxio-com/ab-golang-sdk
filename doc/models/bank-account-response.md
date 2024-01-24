@@ -9,13 +9,17 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `PaymentProfile` | [`models.BankAccount`](../../doc/models/bank-account.md) | Required | - |
+| `PaymentProfile` | [`models.BankAccountPaymentProfile`](../../doc/models/bank-account-payment-profile.md) | Required | - |
 
 ## Example (as JSON)
 
 ```json
 {
   "payment_profile": {
+    "masked_bank_routing_number": "masked_bank_routing_number0",
+    "masked_bank_account_number": "masked_bank_account_number6",
+    "bank_account_type": "checking",
+    "payment_type": "credit_card",
     "verified": false,
     "id": 44,
     "first_name": "first_name4",

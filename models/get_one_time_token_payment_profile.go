@@ -10,7 +10,8 @@ type GetOneTimeTokenPaymentProfile struct {
     FirstName            string           `json:"first_name"`
     LastName             string           `json:"last_name"`
     MaskedCardNumber     string           `json:"masked_card_number"`
-    CardType             string           `json:"card_type"`
+    // The type of card used.
+    CardType             CardType         `json:"card_type"`
     ExpirationMonth      float64          `json:"expiration_month"`
     ExpirationYear       float64          `json:"expiration_year"`
     CustomerId           Optional[string] `json:"customer_id"`
@@ -83,7 +84,7 @@ func (g *GetOneTimeTokenPaymentProfile) UnmarshalJSON(input []byte) error {
         FirstName            string           `json:"first_name"`
         LastName             string           `json:"last_name"`
         MaskedCardNumber     string           `json:"masked_card_number"`
-        CardType             string           `json:"card_type"`
+        CardType             CardType         `json:"card_type"`
         ExpirationMonth      float64          `json:"expiration_month"`
         ExpirationYear       float64          `json:"expiration_year"`
         CustomerId           Optional[string] `json:"customer_id"`

@@ -23,7 +23,8 @@ type SubscriptionGroupCreditCard struct {
     BillingZip         *string       `json:"billing_zip,omitempty"`
     BillingCountry     *string       `json:"billing_country,omitempty"`
     LastFour           *string       `json:"last_four,omitempty"`
-    CardType           *string       `json:"card_type,omitempty"`
+    // The type of card used.
+    CardType           *CardType     `json:"card_type,omitempty"`
     CustomerVaultToken *string       `json:"customer_vault_token,omitempty"`
     Cvv                *string       `json:"cvv,omitempty"`
     PaymentType        *string       `json:"payment_type,omitempty"`
@@ -123,7 +124,7 @@ func (s *SubscriptionGroupCreditCard) UnmarshalJSON(input []byte) error {
         BillingZip         *string       `json:"billing_zip,omitempty"`
         BillingCountry     *string       `json:"billing_country,omitempty"`
         LastFour           *string       `json:"last_four,omitempty"`
-        CardType           *string       `json:"card_type,omitempty"`
+        CardType           *CardType     `json:"card_type,omitempty"`
         CustomerVaultToken *string       `json:"customer_vault_token,omitempty"`
         Cvv                *string       `json:"cvv,omitempty"`
         PaymentType        *string       `json:"payment_type,omitempty"`

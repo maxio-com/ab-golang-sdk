@@ -81,9 +81,9 @@ type Subscription struct {
     PaymentCollectionMethod           *PaymentCollectionMethod          `json:"payment_collection_method,omitempty"`
     Customer                          *Customer                         `json:"customer,omitempty"`
     Product                           *Product                          `json:"product,omitempty"`
-    CreditCard                        *PaymentProfile                   `json:"credit_card,omitempty"`
+    CreditCard                        *CreditCardPaymentProfile         `json:"credit_card,omitempty"`
     Group                             Optional[NestedSubscriptionGroup] `json:"group"`
-    BankAccount                       *SubscriptionBankAccount          `json:"bank_account,omitempty"`
+    BankAccount                       *BankAccountPaymentProfile        `json:"bank_account,omitempty"`
     // The payment profile type for the active profile on file.
     PaymentType                       Optional[string]                  `json:"payment_type"`
     // The subscription's unique code that can be given to referrals.
@@ -417,9 +417,9 @@ func (s *Subscription) UnmarshalJSON(input []byte) error {
         PaymentCollectionMethod           *PaymentCollectionMethod          `json:"payment_collection_method,omitempty"`
         Customer                          *Customer                         `json:"customer,omitempty"`
         Product                           *Product                          `json:"product,omitempty"`
-        CreditCard                        *PaymentProfile                   `json:"credit_card,omitempty"`
+        CreditCard                        *CreditCardPaymentProfile         `json:"credit_card,omitempty"`
         Group                             Optional[NestedSubscriptionGroup] `json:"group"`
-        BankAccount                       *SubscriptionBankAccount          `json:"bank_account,omitempty"`
+        BankAccount                       *BankAccountPaymentProfile        `json:"bank_account,omitempty"`
         PaymentType                       Optional[string]                  `json:"payment_type"`
         ReferralCode                      Optional[string]                  `json:"referral_code"`
         NextProductId                     Optional[int]                     `json:"next_product_id"`

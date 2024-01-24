@@ -4,8 +4,8 @@ import (
     "encoding/json"
 )
 
-// PaymentProfile represents a PaymentProfile struct.
-type PaymentProfile struct {
+// CreditCardPaymentProfile represents a CreditCardPaymentProfile struct.
+type CreditCardPaymentProfile struct {
     // The Chargify-assigned ID of the stored card. This value can be used as an input to payment_profile_id when creating a subscription, in order to re-use a stored payment profile for the same customer.
     Id                   *int             `json:"id,omitempty"`
     // The first name of the card holder.
@@ -13,7 +13,7 @@ type PaymentProfile struct {
     // The last name of the card holder.
     LastName             *string          `json:"last_name,omitempty"`
     // A string representation of the credit card number with all but the last 4 digits masked with X’s (i.e. ‘XXXX-XXXX-XXXX-1234’).
-    MaskedCardNumber     *string          `json:"masked_card_number,omitempty"`
+    MaskedCardNumber     string           `json:"masked_card_number"`
     // The type of card used.
     CardType             *CardType        `json:"card_type,omitempty"`
     // An integer representing the expiration month of the card(1 – 12).
@@ -42,101 +42,99 @@ type PaymentProfile struct {
     BillingAddress2      Optional[string] `json:"billing_address_2"`
     PaymentType          *PaymentType     `json:"payment_type,omitempty"`
     Disabled             *bool            `json:"disabled,omitempty"`
-    // Token received after sending billing informations using chargify.js.
+    // Token received after sending billing information using chargify.js. This token will only be received if passed as a sole attribute of credit_card_attributes (i.e. tok_9g6hw85pnpt6knmskpwp4ttt)
     ChargifyToken        *string          `json:"chargify_token,omitempty"`
     SiteGatewaySettingId Optional[int]    `json:"site_gateway_setting_id"`
     // An identifier of connected gateway.
     GatewayHandle        Optional[string] `json:"gateway_handle"`
 }
 
-// MarshalJSON implements the json.Marshaler interface for PaymentProfile.
-// It customizes the JSON marshaling process for PaymentProfile objects.
-func (p *PaymentProfile) MarshalJSON() (
+// MarshalJSON implements the json.Marshaler interface for CreditCardPaymentProfile.
+// It customizes the JSON marshaling process for CreditCardPaymentProfile objects.
+func (c *CreditCardPaymentProfile) MarshalJSON() (
     []byte,
     error) {
-    return json.Marshal(p.toMap())
+    return json.Marshal(c.toMap())
 }
 
-// toMap converts the PaymentProfile object to a map representation for JSON marshaling.
-func (p *PaymentProfile) toMap() map[string]any {
+// toMap converts the CreditCardPaymentProfile object to a map representation for JSON marshaling.
+func (c *CreditCardPaymentProfile) toMap() map[string]any {
     structMap := make(map[string]any)
-    if p.Id != nil {
-        structMap["id"] = p.Id
+    if c.Id != nil {
+        structMap["id"] = c.Id
     }
-    if p.FirstName != nil {
-        structMap["first_name"] = p.FirstName
+    if c.FirstName != nil {
+        structMap["first_name"] = c.FirstName
     }
-    if p.LastName != nil {
-        structMap["last_name"] = p.LastName
+    if c.LastName != nil {
+        structMap["last_name"] = c.LastName
     }
-    if p.MaskedCardNumber != nil {
-        structMap["masked_card_number"] = p.MaskedCardNumber
+    structMap["masked_card_number"] = c.MaskedCardNumber
+    if c.CardType != nil {
+        structMap["card_type"] = c.CardType
     }
-    if p.CardType != nil {
-        structMap["card_type"] = p.CardType
+    if c.ExpirationMonth != nil {
+        structMap["expiration_month"] = c.ExpirationMonth
     }
-    if p.ExpirationMonth != nil {
-        structMap["expiration_month"] = p.ExpirationMonth
+    if c.ExpirationYear != nil {
+        structMap["expiration_year"] = c.ExpirationYear
     }
-    if p.ExpirationYear != nil {
-        structMap["expiration_year"] = p.ExpirationYear
+    if c.CustomerId != nil {
+        structMap["customer_id"] = c.CustomerId
     }
-    if p.CustomerId != nil {
-        structMap["customer_id"] = p.CustomerId
+    if c.CurrentVault != nil {
+        structMap["current_vault"] = c.CurrentVault
     }
-    if p.CurrentVault != nil {
-        structMap["current_vault"] = p.CurrentVault
+    if c.VaultToken.IsValueSet() {
+        structMap["vault_token"] = c.VaultToken.Value()
     }
-    if p.VaultToken.IsValueSet() {
-        structMap["vault_token"] = p.VaultToken.Value()
+    if c.BillingAddress.IsValueSet() {
+        structMap["billing_address"] = c.BillingAddress.Value()
     }
-    if p.BillingAddress.IsValueSet() {
-        structMap["billing_address"] = p.BillingAddress.Value()
+    if c.BillingCity.IsValueSet() {
+        structMap["billing_city"] = c.BillingCity.Value()
     }
-    if p.BillingCity.IsValueSet() {
-        structMap["billing_city"] = p.BillingCity.Value()
+    if c.BillingState.IsValueSet() {
+        structMap["billing_state"] = c.BillingState.Value()
     }
-    if p.BillingState.IsValueSet() {
-        structMap["billing_state"] = p.BillingState.Value()
+    if c.BillingZip.IsValueSet() {
+        structMap["billing_zip"] = c.BillingZip.Value()
     }
-    if p.BillingZip.IsValueSet() {
-        structMap["billing_zip"] = p.BillingZip.Value()
+    if c.BillingCountry.IsValueSet() {
+        structMap["billing_country"] = c.BillingCountry.Value()
     }
-    if p.BillingCountry.IsValueSet() {
-        structMap["billing_country"] = p.BillingCountry.Value()
+    if c.CustomerVaultToken.IsValueSet() {
+        structMap["customer_vault_token"] = c.CustomerVaultToken.Value()
     }
-    if p.CustomerVaultToken.IsValueSet() {
-        structMap["customer_vault_token"] = p.CustomerVaultToken.Value()
+    if c.BillingAddress2.IsValueSet() {
+        structMap["billing_address_2"] = c.BillingAddress2.Value()
     }
-    if p.BillingAddress2.IsValueSet() {
-        structMap["billing_address_2"] = p.BillingAddress2.Value()
+    if c.PaymentType != nil {
+        structMap["payment_type"] = c.PaymentType
     }
-    if p.PaymentType != nil {
-        structMap["payment_type"] = p.PaymentType
+    if c.Disabled != nil {
+        structMap["disabled"] = c.Disabled
     }
-    if p.Disabled != nil {
-        structMap["disabled"] = p.Disabled
+    if c.ChargifyToken != nil {
+        structMap["chargify_token"] = c.ChargifyToken
     }
-    if p.ChargifyToken != nil {
-        structMap["chargify_token"] = p.ChargifyToken
+    if c.SiteGatewaySettingId.IsValueSet() {
+        structMap["site_gateway_setting_id"] = c.SiteGatewaySettingId.Value()
     }
-    if p.SiteGatewaySettingId.IsValueSet() {
-        structMap["site_gateway_setting_id"] = p.SiteGatewaySettingId.Value()
-    }
-    if p.GatewayHandle.IsValueSet() {
-        structMap["gateway_handle"] = p.GatewayHandle.Value()
+    if c.GatewayHandle.IsValueSet() {
+        structMap["gateway_handle"] = c.GatewayHandle.Value()
     }
     return structMap
 }
 
-// UnmarshalJSON implements the json.Unmarshaler interface for PaymentProfile.
-// It customizes the JSON unmarshaling process for PaymentProfile objects.
-func (p *PaymentProfile) UnmarshalJSON(input []byte) error {
+// UnmarshalJSON implements the json.Unmarshaler interface for CreditCardPaymentProfile.
+// It customizes the JSON unmarshaling process for CreditCardPaymentProfile objects.
+func (c *CreditCardPaymentProfile) UnmarshalJSON(input []byte) error {
     temp := &struct {
         Id                   *int             `json:"id,omitempty"`
         FirstName            *string          `json:"first_name,omitempty"`
         LastName             *string          `json:"last_name,omitempty"`
-        MaskedCardNumber     *string          `json:"masked_card_number,omitempty"`
+        MaskedCardNumber     string           `json:"masked_card_number"`
         CardType             *CardType        `json:"card_type,omitempty"`
         ExpirationMonth      *int             `json:"expiration_month,omitempty"`
         ExpirationYear       *int             `json:"expiration_year,omitempty"`
@@ -161,27 +159,27 @@ func (p *PaymentProfile) UnmarshalJSON(input []byte) error {
     	return err
     }
     
-    p.Id = temp.Id
-    p.FirstName = temp.FirstName
-    p.LastName = temp.LastName
-    p.MaskedCardNumber = temp.MaskedCardNumber
-    p.CardType = temp.CardType
-    p.ExpirationMonth = temp.ExpirationMonth
-    p.ExpirationYear = temp.ExpirationYear
-    p.CustomerId = temp.CustomerId
-    p.CurrentVault = temp.CurrentVault
-    p.VaultToken = temp.VaultToken
-    p.BillingAddress = temp.BillingAddress
-    p.BillingCity = temp.BillingCity
-    p.BillingState = temp.BillingState
-    p.BillingZip = temp.BillingZip
-    p.BillingCountry = temp.BillingCountry
-    p.CustomerVaultToken = temp.CustomerVaultToken
-    p.BillingAddress2 = temp.BillingAddress2
-    p.PaymentType = temp.PaymentType
-    p.Disabled = temp.Disabled
-    p.ChargifyToken = temp.ChargifyToken
-    p.SiteGatewaySettingId = temp.SiteGatewaySettingId
-    p.GatewayHandle = temp.GatewayHandle
+    c.Id = temp.Id
+    c.FirstName = temp.FirstName
+    c.LastName = temp.LastName
+    c.MaskedCardNumber = temp.MaskedCardNumber
+    c.CardType = temp.CardType
+    c.ExpirationMonth = temp.ExpirationMonth
+    c.ExpirationYear = temp.ExpirationYear
+    c.CustomerId = temp.CustomerId
+    c.CurrentVault = temp.CurrentVault
+    c.VaultToken = temp.VaultToken
+    c.BillingAddress = temp.BillingAddress
+    c.BillingCity = temp.BillingCity
+    c.BillingState = temp.BillingState
+    c.BillingZip = temp.BillingZip
+    c.BillingCountry = temp.BillingCountry
+    c.CustomerVaultToken = temp.CustomerVaultToken
+    c.BillingAddress2 = temp.BillingAddress2
+    c.PaymentType = temp.PaymentType
+    c.Disabled = temp.Disabled
+    c.ChargifyToken = temp.ChargifyToken
+    c.SiteGatewaySettingId = temp.SiteGatewaySettingId
+    c.GatewayHandle = temp.GatewayHandle
     return nil
 }

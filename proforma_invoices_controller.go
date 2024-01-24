@@ -382,7 +382,7 @@ func (p *ProformaInvoicesController) CreateSignupProformaInvoice(
         err = errors.NewProformaBadRequestErrorResponse(400, "Bad Request")
     }
     if resp.StatusCode == 422 {
-        err = errors.NewErrorMapResponse(422, "Unprocessable Entity (WebDAV)")
+        err = errors.NewErrorArrayMapResponse(422, "Unprocessable Entity (WebDAV)")
     }
     return models.NewApiResponse(result, resp), err
 }
@@ -432,7 +432,7 @@ func (p *ProformaInvoicesController) PreviewSignupProformaInvoice(
         err = errors.NewProformaBadRequestErrorResponse(400, "Bad Request")
     }
     if resp.StatusCode == 422 {
-        err = errors.NewErrorMapResponse(422, "Unprocessable Entity (WebDAV)")
+        err = errors.NewErrorArrayMapResponse(422, "Unprocessable Entity (WebDAV)")
     }
     return models.NewApiResponse(result, resp), err
 }

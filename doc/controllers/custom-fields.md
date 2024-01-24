@@ -208,8 +208,6 @@ Use the following method to update metafields for your Site. Metafields can be p
 UpdateMetafield(
     ctx context.Context,
     resourceType models.ResourceType,
-    name string,
-    currentName *string,
     body *models.UpdateMetafieldsRequest) (
     models.ApiResponse[[]models.Metafield],
     error)
@@ -220,8 +218,6 @@ UpdateMetafield(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `resourceType` | [`models.ResourceType`](../../doc/models/resource-type.md) | Template, Required | the resource type to which the metafields belong |
-| `name` | `string` | Query, Required | Name of the custom field. |
-| `currentName` | `*string` | Query, Optional | This only applies when you are updating an existing record and you wish to rename the field. Note you must supply name and current_name to rename the field |
 | `body` | [`*models.UpdateMetafieldsRequest`](../../doc/models/update-metafields-request.md) | Body, Optional | - |
 
 ## Response Type
@@ -233,9 +229,8 @@ UpdateMetafield(
 ```go
 ctx := context.Background()
 resourceType := models.ResourceType("subscriptions")
-name := "name0"
 
-apiResponse, err := customFieldsController.UpdateMetafield(ctx, resourceType, name, nil, nil)
+apiResponse, err := customFieldsController.UpdateMetafield(ctx, resourceType, nil)
 if err != nil {
     log.Fatalln(err)
 } else {

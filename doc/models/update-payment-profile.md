@@ -30,7 +30,7 @@
   "full_number": "5424000000000015",
   "first_name": "first_name2",
   "last_name": "last_name0",
-  "card_type": "switch",
+  "card_type": "carnet",
   "expiration_month": "expiration_month2"
 }
 ```

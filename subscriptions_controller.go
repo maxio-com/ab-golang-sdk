@@ -1062,7 +1062,7 @@ func (s *SubscriptionsController) ActivateSubscription(
     }
     
     if resp.StatusCode == 400 {
-        err = errors.NewNestedErrorResponse(400, "Bad Request")
+        err = errors.NewErrorArrayMapResponse(400, "Bad Request")
     }
     return models.NewApiResponse(result, resp), err
 }

@@ -125,15 +125,13 @@ func (c *CustomFieldsController) ListMetafields(
     return models.NewApiResponse(result, resp), err
 }
 
-// UpdateMetafield takes context, resourceType, name, currentName, body as parameters and
+// UpdateMetafield takes context, resourceType, body as parameters and
 // returns an models.ApiResponse with []models.Metafield data and
 // an error if there was an issue with the request or response.
 // Use the following method to update metafields for your Site. Metafields can be populated with metadata after the fact.
 func (c *CustomFieldsController) UpdateMetafield(
     ctx context.Context,
     resourceType models.ResourceType,
-    name string,
-    currentName *string,
     body *models.UpdateMetafieldsRequest) (
     models.ApiResponse[[]models.Metafield],
     error) {
@@ -144,10 +142,6 @@ func (c *CustomFieldsController) UpdateMetafield(
     )
     req.Authenticate(true)
     req.Header("Content-Type", "application/json")
-    req.QueryParam("name", name)
-    if currentName != nil {
-        req.QueryParam("current_name", *currentName)
-    }
     if body != nil {
         req.Json(*body)
     }

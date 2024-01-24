@@ -208,19 +208,42 @@ const (
 type CardType string
 
 const (
-    CardType_BOGUS              CardType = "bogus"
     CardType_VISA               CardType = "visa"
     CardType_MASTER             CardType = "master"
+    CardType_ELO                CardType = "elo"
+    CardType_CABAL              CardType = "cabal"
+    CardType_ALELO              CardType = "alelo"
     CardType_DISCOVER           CardType = "discover"
     CardType_AMERICANEXPRESS    CardType = "american_express"
+    CardType_NARANJA            CardType = "naranja"
     CardType_DINERSCLUB         CardType = "diners_club"
     CardType_JCB                CardType = "jcb"
-    CardType_ENUMSWITCH         CardType = "switch"
-    CardType_SOLO               CardType = "solo"
     CardType_DANKORT            CardType = "dankort"
     CardType_MAESTRO            CardType = "maestro"
-    CardType_LASER              CardType = "laser"
+    CardType_MAESTRONOLUHN      CardType = "maestro_no_luhn"
     CardType_FORBRUGSFORENINGEN CardType = "forbrugsforeningen"
+    CardType_SODEXO             CardType = "sodexo"
+    CardType_ALIA               CardType = "alia"
+    CardType_VR                 CardType = "vr"
+    CardType_UNIONPAY           CardType = "unionpay"
+    CardType_CARNET             CardType = "carnet"
+    CardType_CARTESBANCAIRES    CardType = "cartes_bancaires"
+    CardType_OLIMPICA           CardType = "olimpica"
+    CardType_CREDITEL           CardType = "creditel"
+    CardType_CONFIABLE          CardType = "confiable"
+    CardType_SYNCHRONY          CardType = "synchrony"
+    CardType_ROUTEX             CardType = "routex"
+    CardType_MADA               CardType = "mada"
+    CardType_BPPLUS             CardType = "bp_plus"
+    CardType_PASSCARD           CardType = "passcard"
+    CardType_EDENRED            CardType = "edenred"
+    CardType_ANDA               CardType = "anda"
+    CardType_TARJETAD           CardType = "tarjeta-d"
+    CardType_HIPERCARD          CardType = "hipercard"
+    CardType_BOGUS              CardType = "bogus"
+    CardType_ENUMSWITCH         CardType = "switch"
+    CardType_SOLO               CardType = "solo"
+    CardType_LASER              CardType = "laser"
 )
 
 // CurrentVault is a string enum.
@@ -276,6 +299,24 @@ const (
     BankAccountVault_STRIPECONNECT BankAccountVault = "stripe_connect"
     BankAccountVault_BRAINTREEBLUE BankAccountVault = "braintree_blue"
     BankAccountVault_GOCARDLESS    BankAccountVault = "gocardless"
+)
+
+// BankAccountType is a string enum.
+// Defaults to checking
+type BankAccountType string
+
+const (
+    BankAccountType_CHECKING BankAccountType = "checking"
+    BankAccountType_SAVINGS  BankAccountType = "savings"
+)
+
+// BankAccountHolderType is a string enum.
+// Defaults to personal
+type BankAccountHolderType string
+
+const (
+    BankAccountHolderType_PERSONAL BankAccountHolderType = "personal"
+    BankAccountHolderType_BUSINESS BankAccountHolderType = "business"
 )
 
 // PricePointType is a string enum.
@@ -401,22 +442,6 @@ type ListEventsDateField string
 
 const (
     ListEventsDateField_CREATEDAT ListEventsDateField = "created_at"
-)
-
-// BankAccountType is a string enum.
-type BankAccountType string
-
-const (
-    BankAccountType_CHECKING BankAccountType = "checking"
-    BankAccountType_SAVINGS  BankAccountType = "savings"
-)
-
-// HolderType is a string enum.
-type HolderType string
-
-const (
-    HolderType_PERSONAL HolderType = "personal"
-    HolderType_BUSINESS HolderType = "business"
 )
 
 // PricingScheme is a string enum.

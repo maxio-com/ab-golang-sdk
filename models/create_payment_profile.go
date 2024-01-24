@@ -7,64 +7,66 @@ import (
 // CreatePaymentProfile represents a CreatePaymentProfile struct.
 type CreatePaymentProfile struct {
     // Token received after sending billing informations using chargify.js.
-    ChargifyToken         *string          `json:"chargify_token,omitempty"`
-    Id                    *int             `json:"id,omitempty"`
-    PaymentType           *PaymentType     `json:"payment_type,omitempty"`
+    ChargifyToken         *string                `json:"chargify_token,omitempty"`
+    Id                    *int                   `json:"id,omitempty"`
+    PaymentType           *PaymentType           `json:"payment_type,omitempty"`
     // First name on card or bank account. If omitted, the first_name from customer attributes will be used.
-    FirstName             *string          `json:"first_name,omitempty"`
+    FirstName             *string                `json:"first_name,omitempty"`
     // Last name on card or bank account. If omitted, the last_name from customer attributes will be used.
-    LastName              *string          `json:"last_name,omitempty"`
-    MaskedCardNumber      *string          `json:"masked_card_number,omitempty"`
+    LastName              *string                `json:"last_name,omitempty"`
+    MaskedCardNumber      *string                `json:"masked_card_number,omitempty"`
     // The full credit card number
-    FullNumber            *string          `json:"full_number,omitempty"`
+    FullNumber            *string                `json:"full_number,omitempty"`
     // The type of card used.
-    CardType              *CardType        `json:"card_type,omitempty"`
+    CardType              *CardType              `json:"card_type,omitempty"`
     // (Optional when performing an Import via vault_token, required otherwise) The 1- or 2-digit credit card expiration month, as an integer or string, i.e. 5
-    ExpirationMonth       *interface{}     `json:"expiration_month,omitempty"`
+    ExpirationMonth       *interface{}           `json:"expiration_month,omitempty"`
     // (Optional when performing a Import via vault_token, required otherwise) The 4-digit credit card expiration year, as an integer or string, i.e. 2012
-    ExpirationYear        *interface{}     `json:"expiration_year,omitempty"`
+    ExpirationYear        *interface{}           `json:"expiration_year,omitempty"`
     // The credit card or bank account billing street address (i.e. 123 Main St.). This value is merely passed through to the payment gateway.
-    BillingAddress        *string          `json:"billing_address,omitempty"`
+    BillingAddress        *string                `json:"billing_address,omitempty"`
     // Second line of the customer’s billing address i.e. Apt. 100
-    BillingAddress2       Optional[string] `json:"billing_address_2"`
+    BillingAddress2       Optional[string]       `json:"billing_address_2"`
     // The credit card or bank account billing address city (i.e. “Boston”). This value is merely passed through to the payment gateway.
-    BillingCity           *string          `json:"billing_city,omitempty"`
+    BillingCity           *string                `json:"billing_city,omitempty"`
     // The credit card or bank account billing address state (i.e. MA). This value is merely passed through to the payment gateway. This must conform to the [ISO_3166-1](https://en.wikipedia.org/wiki/ISO_3166-1#Current_codes) in order to be valid for tax locale purposes.
-    BillingState          *string          `json:"billing_state,omitempty"`
+    BillingState          *string                `json:"billing_state,omitempty"`
     // The credit card or bank account billing address country, required in [ISO_3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) format (i.e. “US”). This value is merely passed through to the payment gateway. Some gateways require country codes in a specific format. Please check your gateway’s documentation. If creating an ACH subscription, only US is supported at this time.
-    BillingCountry        *string          `json:"billing_country,omitempty"`
+    BillingCountry        *string                `json:"billing_country,omitempty"`
     // The credit card or bank account billing address zip code (i.e. 12345). This value is merely passed through to the payment gateway.
-    BillingZip            *string          `json:"billing_zip,omitempty"`
+    BillingZip            *string                `json:"billing_zip,omitempty"`
     // The vault that stores the payment profile with the provided `vault_token`. Use `bogus` for testing.
-    CurrentVault          *CurrentVault    `json:"current_vault,omitempty"`
+    CurrentVault          *CurrentVault          `json:"current_vault,omitempty"`
     // The “token” provided by your vault storage for an already stored payment profile
-    VaultToken            *string          `json:"vault_token,omitempty"`
+    VaultToken            *string                `json:"vault_token,omitempty"`
     // (only for Authorize.Net CIM storage or Square) The customerProfileId for the owner of the customerPaymentProfileId provided as the vault_token
-    CustomerVaultToken    *string          `json:"customer_vault_token,omitempty"`
+    CustomerVaultToken    *string                `json:"customer_vault_token,omitempty"`
     // (Required when creating a new payment profile) The Chargify customer id.
-    CustomerId            *int             `json:"customer_id,omitempty"`
+    CustomerId            *int                   `json:"customer_id,omitempty"`
     // used by merchants that implemented BraintreeBlue javaScript libraries on their own. We recommend using Chargify.js instead.
-    PaypalEmail           *string          `json:"paypal_email,omitempty"`             // Deprecated
+    PaypalEmail           *string                `json:"paypal_email,omitempty"`             // Deprecated
     // used by merchants that implemented BraintreeBlue javaScript libraries on their own. We recommend using Chargify.js instead.
-    PaymentMethodNonce    *string          `json:"payment_method_nonce,omitempty"`     // Deprecated
+    PaymentMethodNonce    *string                `json:"payment_method_nonce,omitempty"`     // Deprecated
     // This attribute is only available if MultiGateway feature is enabled for your Site. This feature is in the Private Beta currently. gateway_handle is used to directly select a gateway where a payment profile will be stored in. Every connected gateway must have a unique gateway handle specified. Read [Multigateway description](https://chargify.zendesk.com/hc/en-us/articles/4407761759643#connecting-with-multiple-gateways) to learn more about new concepts that MultiGateway introduces and the default behavior when this attribute is not passed.
-    GatewayHandle         *string          `json:"gateway_handle,omitempty"`
+    GatewayHandle         *string                `json:"gateway_handle,omitempty"`
     // The 3- or 4-digit Card Verification Value. This value is merely passed through to the payment gateway.
-    Cvv                   *string          `json:"cvv,omitempty"`
+    Cvv                   *string                `json:"cvv,omitempty"`
     // (Required when creating with ACH or GoCardless, optional with Stripe Direct Debit). The name of the bank where the customerʼs account resides
-    BankName              *string          `json:"bank_name,omitempty"`
+    BankName              *string                `json:"bank_name,omitempty"`
     // (Optional when creating with GoCardless, required with Stripe Direct Debit). International Bank Account Number. Alternatively, local bank details can be provided
-    BankIban              *string          `json:"bank_iban,omitempty"`
+    BankIban              *string                `json:"bank_iban,omitempty"`
     // (Required when creating with ACH. Optional when creating a subscription with GoCardless). The routing number of the bank. It becomes bank_code while passing via GoCardless API
-    BankRoutingNumber     *string          `json:"bank_routing_number,omitempty"`
+    BankRoutingNumber     *string                `json:"bank_routing_number,omitempty"`
     // (Required when creating with ACH, GoCardless, Stripe BECS Direct Debit and bank_iban is blank) The customerʼs bank account number
-    BankAccountNumber     *string          `json:"bank_account_number,omitempty"`
+    BankAccountNumber     *string                `json:"bank_account_number,omitempty"`
     // (Optional when creating with GoCardless, required with Stripe BECS Direct Debit) Branch code. Alternatively, an IBAN can be provided
-    BankBranchCode        *string          `json:"bank_branch_code,omitempty"`
-    BankAccountType       *string          `json:"bank_account_type,omitempty"`
-    BankAccountHolderType *string          `json:"bank_account_holder_type,omitempty"`
+    BankBranchCode        *string                `json:"bank_branch_code,omitempty"`
+    // Defaults to checking
+    BankAccountType       *BankAccountType       `json:"bank_account_type,omitempty"`
+    // Defaults to personal
+    BankAccountHolderType *BankAccountHolderType `json:"bank_account_holder_type,omitempty"`
     // (Optional) Used for creating subscription with payment profile imported using vault_token, for proper display in Advanced Billing UI
-    LastFour              *string          `json:"last_four,omitempty"`
+    LastFour              *string                `json:"last_four,omitempty"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreatePaymentProfile.
@@ -181,38 +183,38 @@ func (c *CreatePaymentProfile) toMap() map[string]any {
 // It customizes the JSON unmarshaling process for CreatePaymentProfile objects.
 func (c *CreatePaymentProfile) UnmarshalJSON(input []byte) error {
     temp := &struct {
-        ChargifyToken         *string          `json:"chargify_token,omitempty"`
-        Id                    *int             `json:"id,omitempty"`
-        PaymentType           *PaymentType     `json:"payment_type,omitempty"`
-        FirstName             *string          `json:"first_name,omitempty"`
-        LastName              *string          `json:"last_name,omitempty"`
-        MaskedCardNumber      *string          `json:"masked_card_number,omitempty"`
-        FullNumber            *string          `json:"full_number,omitempty"`
-        CardType              *CardType        `json:"card_type,omitempty"`
-        ExpirationMonth       *interface{}     `json:"expiration_month,omitempty"`
-        ExpirationYear        *interface{}     `json:"expiration_year,omitempty"`
-        BillingAddress        *string          `json:"billing_address,omitempty"`
-        BillingAddress2       Optional[string] `json:"billing_address_2"`
-        BillingCity           *string          `json:"billing_city,omitempty"`
-        BillingState          *string          `json:"billing_state,omitempty"`
-        BillingCountry        *string          `json:"billing_country,omitempty"`
-        BillingZip            *string          `json:"billing_zip,omitempty"`
-        CurrentVault          *CurrentVault    `json:"current_vault,omitempty"`
-        VaultToken            *string          `json:"vault_token,omitempty"`
-        CustomerVaultToken    *string          `json:"customer_vault_token,omitempty"`
-        CustomerId            *int             `json:"customer_id,omitempty"`
-        PaypalEmail           *string          `json:"paypal_email,omitempty"`
-        PaymentMethodNonce    *string          `json:"payment_method_nonce,omitempty"`
-        GatewayHandle         *string          `json:"gateway_handle,omitempty"`
-        Cvv                   *string          `json:"cvv,omitempty"`
-        BankName              *string          `json:"bank_name,omitempty"`
-        BankIban              *string          `json:"bank_iban,omitempty"`
-        BankRoutingNumber     *string          `json:"bank_routing_number,omitempty"`
-        BankAccountNumber     *string          `json:"bank_account_number,omitempty"`
-        BankBranchCode        *string          `json:"bank_branch_code,omitempty"`
-        BankAccountType       *string          `json:"bank_account_type,omitempty"`
-        BankAccountHolderType *string          `json:"bank_account_holder_type,omitempty"`
-        LastFour              *string          `json:"last_four,omitempty"`
+        ChargifyToken         *string                `json:"chargify_token,omitempty"`
+        Id                    *int                   `json:"id,omitempty"`
+        PaymentType           *PaymentType           `json:"payment_type,omitempty"`
+        FirstName             *string                `json:"first_name,omitempty"`
+        LastName              *string                `json:"last_name,omitempty"`
+        MaskedCardNumber      *string                `json:"masked_card_number,omitempty"`
+        FullNumber            *string                `json:"full_number,omitempty"`
+        CardType              *CardType              `json:"card_type,omitempty"`
+        ExpirationMonth       *interface{}           `json:"expiration_month,omitempty"`
+        ExpirationYear        *interface{}           `json:"expiration_year,omitempty"`
+        BillingAddress        *string                `json:"billing_address,omitempty"`
+        BillingAddress2       Optional[string]       `json:"billing_address_2"`
+        BillingCity           *string                `json:"billing_city,omitempty"`
+        BillingState          *string                `json:"billing_state,omitempty"`
+        BillingCountry        *string                `json:"billing_country,omitempty"`
+        BillingZip            *string                `json:"billing_zip,omitempty"`
+        CurrentVault          *CurrentVault          `json:"current_vault,omitempty"`
+        VaultToken            *string                `json:"vault_token,omitempty"`
+        CustomerVaultToken    *string                `json:"customer_vault_token,omitempty"`
+        CustomerId            *int                   `json:"customer_id,omitempty"`
+        PaypalEmail           *string                `json:"paypal_email,omitempty"`
+        PaymentMethodNonce    *string                `json:"payment_method_nonce,omitempty"`
+        GatewayHandle         *string                `json:"gateway_handle,omitempty"`
+        Cvv                   *string                `json:"cvv,omitempty"`
+        BankName              *string                `json:"bank_name,omitempty"`
+        BankIban              *string                `json:"bank_iban,omitempty"`
+        BankRoutingNumber     *string                `json:"bank_routing_number,omitempty"`
+        BankAccountNumber     *string                `json:"bank_account_number,omitempty"`
+        BankBranchCode        *string                `json:"bank_branch_code,omitempty"`
+        BankAccountType       *BankAccountType       `json:"bank_account_type,omitempty"`
+        BankAccountHolderType *BankAccountHolderType `json:"bank_account_holder_type,omitempty"`
+        LastFour              *string                `json:"last_four,omitempty"`
     }{}
     err := json.Unmarshal(input, &temp)
     if err != nil {

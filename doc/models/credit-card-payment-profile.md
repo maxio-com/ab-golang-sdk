@@ -1,9 +1,9 @@
 
-# Payment Profile
+# Credit Card Payment Profile
 
 ## Structure
 
-`PaymentProfile`
+`CreditCardPaymentProfile`
 
 ## Fields
 
@@ -12,7 +12,7 @@
 | `Id` | `*int` | Optional | The Chargify-assigned ID of the stored card. This value can be used as an input to payment_profile_id when creating a subscription, in order to re-use a stored payment profile for the same customer. |
 | `FirstName` | `*string` | Optional | The first name of the card holder. |
 | `LastName` | `*string` | Optional | The last name of the card holder. |
-| `MaskedCardNumber` | `*string` | Optional | A string representation of the credit card number with all but the last 4 digits masked with X’s (i.e. ‘XXXX-XXXX-XXXX-1234’). |
+| `MaskedCardNumber` | `string` | Required | A string representation of the credit card number with all but the last 4 digits masked with X’s (i.e. ‘XXXX-XXXX-XXXX-1234’). |
 | `CardType` | [`*models.CardType`](../../doc/models/card-type.md) | Optional | The type of card used. |
 | `ExpirationMonth` | `*int` | Optional | An integer representing the expiration month of the card(1 – 12). |
 | `ExpirationYear` | `*int` | Optional | An integer representing the 4-digit expiration year of the card(i.e. ‘2012’). |
@@ -28,7 +28,7 @@
 | `BillingAddress2` | `Optional[string]` | Optional | The current billing street address, second line, for the card. |
 | `PaymentType` | [`*models.PaymentType`](../../doc/models/payment-type.md) | Optional | **Default**: `"credit_card"` |
 | `Disabled` | `*bool` | Optional | - |
-| `ChargifyToken` | `*string` | Optional | Token received after sending billing informations using chargify.js. |
+| `ChargifyToken` | `*string` | Optional | Token received after sending billing information using chargify.js. This token will only be received if passed as a sole attribute of credit_card_attributes (i.e. tok_9g6hw85pnpt6knmskpwp4ttt) |
 | `SiteGatewaySettingId` | `Optional[int]` | Optional | - |
 | `GatewayHandle` | `Optional[string]` | Optional | An identifier of connected gateway. |
 

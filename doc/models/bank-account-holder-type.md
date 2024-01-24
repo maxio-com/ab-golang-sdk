@@ -1,9 +1,11 @@
 
-# Holder Type
+# Bank Account Holder Type
+
+Defaults to personal
 
 ## Enumeration
 
-`HolderType`
+`BankAccountHolderType`
 
 ## Fields
 

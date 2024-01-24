@@ -13,6 +13,8 @@ type PricePoint struct {
     Prices                   []Price         `json:"prices,omitempty"`
     // Whether to use the site level exchange rate or define your own prices for each currency if you have multiple currencies defined on the site.
     UseSiteExchangeRate      *bool           `json:"use_site_exchange_rate,omitempty"`
+    // Whether or not the price point includes tax
+    TaxIncluded              *bool           `json:"tax_included,omitempty"`
     // The numerical interval. i.e. an interval of ‘30’ coupled with an interval_unit of day would mean this price point would renew every 30 days. This property is only available for sites with Multifrequency enabled.
     Interval                 *int            `json:"interval,omitempty"`
     // A string representing the interval unit for this price point, either month or day. This property is only available for sites with Multifrequency enabled.
@@ -53,6 +55,9 @@ func (p *PricePoint) toMap() map[string]any {
     if p.UseSiteExchangeRate != nil {
         structMap["use_site_exchange_rate"] = p.UseSiteExchangeRate
     }
+    if p.TaxIncluded != nil {
+        structMap["tax_included"] = p.TaxIncluded
+    }
     if p.Interval != nil {
         structMap["interval"] = p.Interval
     }
@@ -86,6 +91,7 @@ func (p *PricePoint) UnmarshalJSON(input []byte) error {
         PricingScheme            *PricingScheme  `json:"pricing_scheme,omitempty"`
         Prices                   []Price         `json:"prices,omitempty"`
         UseSiteExchangeRate      *bool           `json:"use_site_exchange_rate,omitempty"`
+        TaxIncluded              *bool           `json:"tax_included,omitempty"`
         Interval                 *int            `json:"interval,omitempty"`
         IntervalUnit             *IntervalUnit   `json:"interval_unit,omitempty"`
         OveragePricing           *OveragePricing `json:"overage_pricing,omitempty"`
@@ -104,6 +110,7 @@ func (p *PricePoint) UnmarshalJSON(input []byte) error {
     p.PricingScheme = temp.PricingScheme
     p.Prices = temp.Prices
     p.UseSiteExchangeRate = temp.UseSiteExchangeRate
+    p.TaxIncluded = temp.TaxIncluded
     p.Interval = temp.Interval
     p.IntervalUnit = temp.IntervalUnit
     p.OveragePricing = temp.OveragePricing

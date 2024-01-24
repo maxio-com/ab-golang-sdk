@@ -1232,24 +1232,24 @@ pricePointId := 10
 
 bodyPricePointPrices0 := models.UpdatePrice{
     Id:               models.ToPointer(1),
-    EndingQuantity:   models.ToPointer(100),
-    UnitPrice:        models.ToPointer(5),
+    EndingQuantity:   models.ToPointer(interface{}("[key1, val1][key2, val2]")),
+    UnitPrice:        models.ToPointer(interface{}("[key1, val1][key2, val2]")),
 }
 
 bodyPricePointPrices1 := models.UpdatePrice{
     Id:               models.ToPointer(2),
-    Destroy:          models.ToPointer("true"),
+    Destroy:          models.ToPointer(true),
 }
 
 bodyPricePointPrices2 := models.UpdatePrice{
-    UnitPrice:        models.ToPointer(4),
-    StartingQuantity: models.ToPointer(101),
+    UnitPrice:        models.ToPointer(interface{}("[key1, val1][key2, val2]")),
+    StartingQuantity: models.ToPointer(interface{}("[key1, val1][key2, val2]")),
 }
 
 bodyPricePointPrices := []models.UpdatePrice{bodyPricePointPrices0, bodyPricePointPrices1, bodyPricePointPrices2}
 bodyPricePoint := models.UpdateComponentPricePoint{
-    Name:         models.ToPointer("Default"),
-    Prices:       bodyPricePointPrices,
+    Name:                models.ToPointer("Default"),
+    Prices:              bodyPricePointPrices,
 }
 
 body := models.UpdateComponentPricePointRequest{
@@ -1265,6 +1265,12 @@ if err != nil {
     fmt.Println(apiResponse.Response.StatusCode)
 }
 ```
+
+## Errors
+
+| HTTP Status Code | Error Description | Exception Class |
+|  --- | --- | --- |
+| 422 | Unprocessable Entity (WebDAV) | [`ErrorArrayMapResponseException`](../../doc/models/error-array-map-response-exception.md) |
 
 
 # Archive Component Price Point
@@ -1341,6 +1347,12 @@ if err != nil {
   }
 }
 ```
+
+## Errors
+
+| HTTP Status Code | Error Description | Exception Class |
+|  --- | --- | --- |
+| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../../doc/models/error-list-response-exception.md) |
 
 
 # Unarchive Component Price Point

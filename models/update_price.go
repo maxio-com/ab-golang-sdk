@@ -6,11 +6,12 @@ import (
 
 // UpdatePrice represents a UpdatePrice struct.
 type UpdatePrice struct {
-    Id               *int    `json:"id,omitempty"`
-    EndingQuantity   *int    `json:"ending_quantity,omitempty"`
-    UnitPrice        *int    `json:"unit_price,omitempty"`
-    Destroy          *string `json:"_destroy,omitempty"`
-    StartingQuantity *int    `json:"starting_quantity,omitempty"`
+    Id               *int         `json:"id,omitempty"`
+    EndingQuantity   *interface{} `json:"ending_quantity,omitempty"`
+    // The price can contain up to 8 decimal places. i.e. 1.00 or 0.0012 or 0.00000065
+    UnitPrice        *interface{} `json:"unit_price,omitempty"`
+    Destroy          *bool        `json:"_destroy,omitempty"`
+    StartingQuantity *interface{} `json:"starting_quantity,omitempty"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for UpdatePrice.
@@ -46,11 +47,11 @@ func (u *UpdatePrice) toMap() map[string]any {
 // It customizes the JSON unmarshaling process for UpdatePrice objects.
 func (u *UpdatePrice) UnmarshalJSON(input []byte) error {
     temp := &struct {
-        Id               *int    `json:"id,omitempty"`
-        EndingQuantity   *int    `json:"ending_quantity,omitempty"`
-        UnitPrice        *int    `json:"unit_price,omitempty"`
-        Destroy          *string `json:"_destroy,omitempty"`
-        StartingQuantity *int    `json:"starting_quantity,omitempty"`
+        Id               *int         `json:"id,omitempty"`
+        EndingQuantity   *interface{} `json:"ending_quantity,omitempty"`
+        UnitPrice        *interface{} `json:"unit_price,omitempty"`
+        Destroy          *bool        `json:"_destroy,omitempty"`
+        StartingQuantity *interface{} `json:"starting_quantity,omitempty"`
     }{}
     err := json.Unmarshal(input, &temp)
     if err != nil {

@@ -25,7 +25,7 @@
 | `BillingZip` | `*string` | Optional | - |
 | `BillingCountry` | `*string` | Optional | - |
 | `LastFour` | `*string` | Optional | - |
-| `CardType` | `*string` | Optional | - |
+| `CardType` | [`*models.CardType`](../../doc/models/card-type.md) | Optional | The type of card used. |
 | `CustomerVaultToken` | `*string` | Optional | - |
 | `Cvv` | `*string` | Optional | - |
 | `PaymentType` | `*string` | Optional | - |
@@ -39,7 +39,6 @@
     "key2": "val2"
   },
   "chargify_token": "tok_592nf92ng0sjd4300p",
-  "card_type": "visa",
   "expiration_month": {
     "key1": "val1",
     "key2": "val2"
