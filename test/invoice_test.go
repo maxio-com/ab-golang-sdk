@@ -6,6 +6,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/maxio-com/ab-golang-sdk/errors"
 	"github.com/maxio-com/ab-golang-sdk/models"
 )
 
@@ -94,6 +95,7 @@ func (s *APISuite) TestInvoice() {
 
 				s.NoError(err)
 				s.Equal(http.StatusOK, events.Response.StatusCode)
+				s.Greater(len(events.Data.Events), 0)
 			},
 		},
 		{
@@ -125,8 +127,12 @@ func (s *APISuite) TestInvoice() {
 				},
 			},
 			assert: func(t *testing.T, resp models.ApiResponse[models.InvoiceResponse], invoice models.CreateInvoice, err error) {
-				// s.Equal(err.Error(), errors.NewNestedErrorResponse(422, "Unprocessable Entity (WebDAV)").Error()) // not able to reat nested error messages here
+				s.Equal(err.Error(), errors.NewErrorArrayMapResponse(422, "Unprocessable Entity (WebDAV)").Error())
 				s.Equal(http.StatusUnprocessableEntity, resp.Response.StatusCode)
+
+				_, ok := err.(*errors.ErrorArrayMapResponse)
+				s.True(ok)
+				// cant check list of errors because map is nil
 			},
 		},
 	}
