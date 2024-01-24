@@ -37,7 +37,7 @@ func (s *APISuite) createCustomer(ctx context.Context) models.Customer {
 func (s *APISuite) createProductFamily(ctx context.Context) models.ProductFamily {
 	resp, err := s.client.ProductFamiliesController().CreateProductFamily(ctx, &models.CreateProductFamilyRequest{
 		ProductFamily: models.CreateProductFamily{
-			Name: strPtr(s.fkr.Company().Name()),
+			Name: strPtr(s.fkr.RandomStringWithLength(20)),
 		},
 	})
 
@@ -50,7 +50,7 @@ func (s *APISuite) createProductFamily(ctx context.Context) models.ProductFamily
 func (s *APISuite) createProduct(ctx context.Context, productFamilyID int) models.Product {
 	resp, err := s.client.ProductsController().CreateProduct(ctx, productFamilyID, &models.CreateOrUpdateProductRequest{
 		Product: models.CreateOrUpdateProduct{
-			Name:         s.fkr.RandomStringWithLength(30),
+			Name:         s.fkr.RandomStringWithLength(20),
 			Description:  "Testable product",
 			PriceInCents: 50,
 			Interval:     1,
@@ -155,6 +155,10 @@ func toPtr[T any](v T) *T {
 func newDate() string {
 	t := time.Now().Add(time.Hour)
 
+	return fmt.Sprintf("%d-%d-%d", t.Year(), t.Month(), t.Day())
+}
+
+func dateFromTime(t time.Time) string {
 	return fmt.Sprintf("%d-%d-%d", t.Year(), t.Month(), t.Day())
 }
 
