@@ -19,7 +19,7 @@
 | `ArchivedAt` | `Optional[time.Time]` | Optional | - |
 | `CreatedAt` | `*time.Time` | Optional | - |
 | `UpdatedAt` | `*time.Time` | Optional | - |
-| `Prices` | [`[]models.ComponentPricePointPrice`](../../doc/models/component-price-point-price.md) | Optional | - |
+| `Prices` | [`[]models.ComponentPrice`](../../doc/models/component-price.md) | Optional | - |
 | `UseSiteExchangeRate` | `*bool` | Optional | Whether to use the site level exchange rate or define your own prices for each currency if you have multiple currencies defined on the site.<br>**Default**: `true` |
 | `SubscriptionId` | `*int` | Optional | (only used for Custom Pricing - ie. when the price point's type is `custom`) The id of the subscription that the custom price point is for. |
 | `TaxIncluded` | `*bool` | Optional | - |

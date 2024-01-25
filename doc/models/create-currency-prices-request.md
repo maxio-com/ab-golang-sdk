@@ -18,7 +18,7 @@
   "currency_prices": [
     {
       "currency": "currency8",
-      "price": 78,
+      "price": 233.74,
       "price_id": 116
     }
   ]
