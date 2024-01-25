@@ -7,7 +7,16 @@ import (
 	"testing"
 
 	"github.com/maxio-com/ab-golang-sdk/models"
+	"github.com/stretchr/testify/suite"
 )
+
+type MetafieldsSuite struct {
+	APISuite
+}
+
+func TestMetafieldsSuite(t *testing.T) {
+	suite.Run(t, new(MetafieldsSuite))
+}
 
 // this structure has to be defined at this point since default json
 // marshaller does not work with marshalling enum as optional interface
@@ -21,7 +30,7 @@ type metafield struct {
 	Enum      []string               `json:"enum"`
 }
 
-func (s *APISuite) TestMetafields() {
+func (s *MetafieldsSuite) TestMetafields() {
 	ctx := context.Background()
 
 	customer := s.createCustomer(ctx)

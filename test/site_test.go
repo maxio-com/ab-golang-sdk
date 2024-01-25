@@ -7,9 +7,18 @@ import (
 
 	advancedbilling "github.com/maxio-com/ab-golang-sdk"
 	"github.com/maxio-com/ab-golang-sdk/models"
+	"github.com/stretchr/testify/suite"
 )
 
-func (s *APISuite) TestReadSite() {
+type SiteSuite struct {
+	APISuite
+}
+
+func TestSiteSuite(t *testing.T) {
+	suite.Run(t, new(SiteSuite))
+}
+
+func (s *SiteSuite) TestReadSite() {
 	cases := []struct {
 		name        string
 		client      advancedbilling.ClientInterface

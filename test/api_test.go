@@ -2,7 +2,6 @@ package test
 
 import (
 	"math/rand"
-	"testing"
 	"time"
 
 	"github.com/caarlos0/env/v10"
@@ -44,10 +43,6 @@ type card struct {
 	expirationMonth int
 	expirationYear  int
 	cardType        models.CardType
-}
-
-func TestAPISuite(t *testing.T) {
-	suite.Run(t, new(APISuite))
 }
 
 func (s *APISuite) SetupTest() {
