@@ -20,7 +20,7 @@ The event data is the data that, when combined with the command, results in the 
 | `Memo` | `*string` | Optional | The credit note memo. |
 | `Role` | `*string` | Optional | The role of the credit note (e.g. 'general') |
 | `ConsolidatedInvoice` | `*bool` | Optional | Shows whether it was applied to consolidated invoice or not |
-| `AppliedCreditNotes` | [`[]models.AppliedCreditNote`](../../doc/models/applied-credit-note.md) | Optional | List of credit notes applied to children invoices (if consolidated invoice) |
+| `AppliedCreditNotes` | [`[]models.AppliedCreditNoteData`](../../doc/models/applied-credit-note-data.md) | Optional | List of credit notes applied to children invoices (if consolidated invoice) |
 | `DebitNoteNumber` | `*string` | Optional | A unique, identifying string that appears on the debit note and in places it is referenced. |
 | `DebitNoteUid` | `*string` | Optional | Unique identifier for the debit note. It is generated automatically by Chargify and has the prefix "db_" followed by alphanumeric characters. |
 | `PaymentMethod` | [`*models.PaymentMethodNestedData`](../../doc/models/payment-method-nested-data.md) | Optional | A nested data structure detailing the method of payment |

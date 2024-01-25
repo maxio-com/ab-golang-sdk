@@ -1,22 +1,22 @@
 package advancedbilling
 
 import (
-    "context"
-    "fmt"
-    "github.com/apimatic/go-core-runtime/utilities"
-    "github.com/maxio-com/ab-golang-sdk/models"
+	"context"
+	"fmt"
+	"github.com/apimatic/go-core-runtime/utilities"
+	"github.com/maxio-com/ab-golang-sdk/models"
 )
 
 // SalesCommissionsController represents a controller struct.
 type SalesCommissionsController struct {
-    baseController
+	baseController
 }
 
 // NewSalesCommissionsController creates a new instance of SalesCommissionsController.
 // It takes a baseController as a parameter and returns a pointer to the SalesCommissionsController.
 func NewSalesCommissionsController(baseController baseController) *SalesCommissionsController {
-    salesCommissionsController := SalesCommissionsController{baseController: baseController}
-    return &salesCommissionsController
+	salesCommissionsController := SalesCommissionsController{baseController: baseController}
+	return &salesCommissionsController
 }
 
 // ListSalesCommissionSettings takes context, sellerId, authorization, liveMode, page, perPage as parameters and
@@ -28,49 +28,49 @@ func NewSalesCommissionsController(baseController baseController) *SalesCommissi
 // Access to the Sales Commission API endpoints is available to users with financial access, where the seller has the Advanced Analytics component enabled. For further information on getting access to Advanced Analytics please contact Chargify support.
 // > Note: The request is at seller level, it means `<<subdomain>>` variable will be replaced by `app`
 func (s *SalesCommissionsController) ListSalesCommissionSettings(
-    ctx context.Context,
-    sellerId string,
-    authorization *string,
-    liveMode *bool,
-    page *int,
-    perPage *int) (
-    models.ApiResponse[[]models.SaleRepSettings],
-    error) {
-    req := s.prepareRequest(
-      ctx,
-      "GET",
-      fmt.Sprintf("/sellers/%v/sales_commission_settings.json", sellerId),
-    )
-    req.Authenticate(true)
-    if authorization != nil {
-        req.Header("Authorization", *authorization)
-    }
-    if liveMode != nil {
-        req.QueryParam("live_mode", *liveMode)
-    }
-    if page != nil {
-        req.QueryParam("page", *page)
-    }
-    if perPage != nil {
-        req.QueryParam("per_page", *perPage)
-    }
-    
-    var result []models.SaleRepSettings
-    decoder, resp, err := req.CallAsJson()
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    result, err = utilities.DecodeResults[[]models.SaleRepSettings](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    return models.NewApiResponse(result, resp), err
+	ctx context.Context,
+	sellerId string,
+	authorization *string,
+	liveMode *bool,
+	page *int,
+	perPage *int) (
+	models.ApiResponse[[]models.SaleRepSettings],
+	error) {
+	req := s.prepareRequest(
+		ctx,
+		"GET",
+		fmt.Sprintf("/sellers/%v/sales_commission_settings.json", sellerId),
+	)
+	req.Authenticate(true)
+	if authorization != nil {
+		req.Header("Authorization", *authorization)
+	}
+	if liveMode != nil {
+		req.QueryParam("live_mode", *liveMode)
+	}
+	if page != nil {
+		req.QueryParam("page", *page)
+	}
+	if perPage != nil {
+		req.QueryParam("per_page", *perPage)
+	}
+
+	var result []models.SaleRepSettings
+	decoder, resp, err := req.CallAsJson()
+	if err != nil {
+		return models.NewApiResponse(result, resp), err
+	}
+	err = validateResponse(*resp)
+	if err != nil {
+		return models.NewApiResponse(result, resp), err
+	}
+
+	result, err = utilities.DecodeResults[[]models.SaleRepSettings](decoder)
+	if err != nil {
+		return models.NewApiResponse(result, resp), err
+	}
+
+	return models.NewApiResponse(result, resp), err
 }
 
 // ListSalesReps takes context, sellerId, authorization, liveMode, page, perPage as parameters and
@@ -82,49 +82,49 @@ func (s *SalesCommissionsController) ListSalesCommissionSettings(
 // Access to the Sales Commission API endpoints is available to users with financial access, where the seller has the Advanced Analytics component enabled. For further information on getting access to Advanced Analytics please contact Chargify support.
 // > Note: The request is at seller level, it means `<<subdomain>>` variable will be replaced by `app`
 func (s *SalesCommissionsController) ListSalesReps(
-    ctx context.Context,
-    sellerId string,
-    authorization *string,
-    liveMode *bool,
-    page *int,
-    perPage *int) (
-    models.ApiResponse[[]models.ListSaleRepItem],
-    error) {
-    req := s.prepareRequest(
-      ctx,
-      "GET",
-      fmt.Sprintf("/sellers/%v/sales_reps.json", sellerId),
-    )
-    req.Authenticate(true)
-    if authorization != nil {
-        req.Header("Authorization", *authorization)
-    }
-    if liveMode != nil {
-        req.QueryParam("live_mode", *liveMode)
-    }
-    if page != nil {
-        req.QueryParam("page", *page)
-    }
-    if perPage != nil {
-        req.QueryParam("per_page", *perPage)
-    }
-    
-    var result []models.ListSaleRepItem
-    decoder, resp, err := req.CallAsJson()
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    result, err = utilities.DecodeResults[[]models.ListSaleRepItem](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    return models.NewApiResponse(result, resp), err
+	ctx context.Context,
+	sellerId string,
+	authorization *string,
+	liveMode *bool,
+	page *int,
+	perPage *int) (
+	models.ApiResponse[[]models.ListSaleRepItem],
+	error) {
+	req := s.prepareRequest(
+		ctx,
+		"GET",
+		fmt.Sprintf("/sellers/%v/sales_reps.json", sellerId),
+	)
+	req.Authenticate(true)
+	if authorization != nil {
+		req.Header("Authorization", *authorization)
+	}
+	if liveMode != nil {
+		req.QueryParam("live_mode", *liveMode)
+	}
+	if page != nil {
+		req.QueryParam("page", *page)
+	}
+	if perPage != nil {
+		req.QueryParam("per_page", *perPage)
+	}
+
+	var result []models.ListSaleRepItem
+	decoder, resp, err := req.CallAsJson()
+	if err != nil {
+		return models.NewApiResponse(result, resp), err
+	}
+	err = validateResponse(*resp)
+	if err != nil {
+		return models.NewApiResponse(result, resp), err
+	}
+
+	result, err = utilities.DecodeResults[[]models.ListSaleRepItem](decoder)
+	if err != nil {
+		return models.NewApiResponse(result, resp), err
+	}
+
+	return models.NewApiResponse(result, resp), err
 }
 
 // ReadSalesRep takes context, sellerId, salesRepId, authorization, liveMode, page, perPage as parameters and
@@ -136,48 +136,48 @@ func (s *SalesCommissionsController) ListSalesReps(
 // Access to the Sales Commission API endpoints is available to users with financial access, where the seller has the Advanced Analytics component enabled. For further information on getting access to Advanced Analytics please contact Chargify support.
 // > Note: The request is at seller level, it means `<<subdomain>>` variable will be replaced by `app`
 func (s *SalesCommissionsController) ReadSalesRep(
-    ctx context.Context,
-    sellerId string,
-    salesRepId string,
-    authorization *string,
-    liveMode *bool,
-    page *int,
-    perPage *int) (
-    models.ApiResponse[models.SaleRep],
-    error) {
-    req := s.prepareRequest(
-      ctx,
-      "GET",
-      fmt.Sprintf("/sellers/%v/sales_reps/%v.json", sellerId, salesRepId),
-    )
-    req.Authenticate(true)
-    if authorization != nil {
-        req.Header("Authorization", *authorization)
-    }
-    if liveMode != nil {
-        req.QueryParam("live_mode", *liveMode)
-    }
-    if page != nil {
-        req.QueryParam("page", *page)
-    }
-    if perPage != nil {
-        req.QueryParam("per_page", *perPage)
-    }
-    
-    var result models.SaleRep
-    decoder, resp, err := req.CallAsJson()
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    result, err = utilities.DecodeResults[models.SaleRep](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    return models.NewApiResponse(result, resp), err
+	ctx context.Context,
+	sellerId string,
+	salesRepId string,
+	authorization *string,
+	liveMode *bool,
+	page *int,
+	perPage *int) (
+	models.ApiResponse[models.SaleRep],
+	error) {
+	req := s.prepareRequest(
+		ctx,
+		"GET",
+		fmt.Sprintf("/sellers/%v/sales_reps/%v.json", sellerId, salesRepId),
+	)
+	req.Authenticate(true)
+	if authorization != nil {
+		req.Header("Authorization", *authorization)
+	}
+	if liveMode != nil {
+		req.QueryParam("live_mode", *liveMode)
+	}
+	if page != nil {
+		req.QueryParam("page", *page)
+	}
+	if perPage != nil {
+		req.QueryParam("per_page", *perPage)
+	}
+
+	var result models.SaleRep
+	decoder, resp, err := req.CallAsJson()
+	if err != nil {
+		return models.NewApiResponse(result, resp), err
+	}
+	err = validateResponse(*resp)
+	if err != nil {
+		return models.NewApiResponse(result, resp), err
+	}
+
+	result, err = utilities.DecodeResults[models.SaleRep](decoder)
+	if err != nil {
+		return models.NewApiResponse(result, resp), err
+	}
+
+	return models.NewApiResponse(result, resp), err
 }

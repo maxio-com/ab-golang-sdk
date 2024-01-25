@@ -708,7 +708,7 @@ CreateProductCurrencyPrices(
     ctx context.Context,
     productPricePointId int,
     body *models.CreateProductCurrencyPricesRequest) (
-    models.ApiResponse[models.ProductPricePointCurrencyPrice],
+    models.ApiResponse[models.CurrencyPricesResponse],
     error)
 ```
 
@@ -721,7 +721,7 @@ CreateProductCurrencyPrices(
 
 ## Response Type
 
-[`models.ProductPricePointCurrencyPrice`](../../doc/models/product-price-point-currency-price.md)
+[`models.CurrencyPricesResponse`](../../doc/models/currency-prices-response.md)
 
 ## Example Usage
 
@@ -768,9 +768,9 @@ if err != nil {
 {
   "currency_prices": [
     {
-      "id": 123,
+      "id": 100,
       "currency": "EUR",
-      "price": 100,
+      "price": 123,
       "formatted_price": "€123,00",
       "product_price_point_id": 32669,
       "role": "baseline"
@@ -799,7 +799,7 @@ UpdateProductCurrencyPrices(
     ctx context.Context,
     productPricePointId int,
     body *models.UpdateCurrencyPricesRequest) (
-    models.ApiResponse[models.ProductPricePointCurrencyPrice],
+    models.ApiResponse[models.CurrencyPricesResponse],
     error)
 ```
 
@@ -812,7 +812,7 @@ UpdateProductCurrencyPrices(
 
 ## Response Type
 
-[`models.ProductPricePointCurrencyPrice`](../../doc/models/product-price-point-currency-price.md)
+[`models.CurrencyPricesResponse`](../../doc/models/currency-prices-response.md)
 
 ## Example Usage
 

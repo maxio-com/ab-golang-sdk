@@ -1,24 +1,24 @@
 package advancedbilling
 
 import (
-    "context"
-    "fmt"
-    "github.com/apimatic/go-core-runtime/utilities"
-    "github.com/maxio-com/ab-golang-sdk/errors"
-    "github.com/maxio-com/ab-golang-sdk/models"
-    "net/http"
+	"context"
+	"fmt"
+	"github.com/apimatic/go-core-runtime/utilities"
+	"github.com/maxio-com/ab-golang-sdk/errors"
+	"github.com/maxio-com/ab-golang-sdk/models"
+	"net/http"
 )
 
 // SubscriptionGroupsController represents a controller struct.
 type SubscriptionGroupsController struct {
-    baseController
+	baseController
 }
 
 // NewSubscriptionGroupsController creates a new instance of SubscriptionGroupsController.
 // It takes a baseController as a parameter and returns a pointer to the SubscriptionGroupsController.
 func NewSubscriptionGroupsController(baseController baseController) *SubscriptionGroupsController {
-    subscriptionGroupsController := SubscriptionGroupsController{baseController: baseController}
-    return &subscriptionGroupsController
+	subscriptionGroupsController := SubscriptionGroupsController{baseController: baseController}
+	return &subscriptionGroupsController
 }
 
 // SignupWithSubscriptionGroup takes context, body as parameters and
@@ -30,35 +30,35 @@ func NewSubscriptionGroupsController(baseController baseController) *Subscriptio
 // Only one of the `subscriptions` can have `"primary": true` attribute set.
 // When passing product to a subscription you can use either `product_id` or `product_handle` or `offer_id`. You can also use `custom_price` instead.
 func (s *SubscriptionGroupsController) SignupWithSubscriptionGroup(
-    ctx context.Context,
-    body *models.SubscriptionGroupSignupRequest) (
-    models.ApiResponse[models.SubscriptionGroupSignupResponse],
-    error) {
-    req := s.prepareRequest(ctx, "POST", "/subscription_groups/signup.json")
-    req.Authenticate(true)
-    req.Header("Content-Type", "application/json")
-    if body != nil {
-        req.Json(*body)
-    }
-    var result models.SubscriptionGroupSignupResponse
-    decoder, resp, err := req.CallAsJson()
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    result, err = utilities.DecodeResults[models.SubscriptionGroupSignupResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    if resp.StatusCode == 422 {
-        err = errors.NewSubscriptionGroupSignupErrorResponse(422, "Unprocessable Entity (WebDAV)")
-    }
-    return models.NewApiResponse(result, resp), err
+	ctx context.Context,
+	body *models.SubscriptionGroupSignupRequest) (
+	models.ApiResponse[models.SubscriptionGroupSignupResponse],
+	error) {
+	req := s.prepareRequest(ctx, "POST", "/subscription_groups/signup.json")
+	req.Authenticate(true)
+	req.Header("Content-Type", "application/json")
+	if body != nil {
+		req.Json(*body)
+	}
+	var result models.SubscriptionGroupSignupResponse
+	decoder, resp, err := req.CallAsJson()
+	if err != nil {
+		return models.NewApiResponse(result, resp), err
+	}
+	err = validateResponse(*resp)
+	if err != nil {
+		return models.NewApiResponse(result, resp), err
+	}
+
+	result, err = utilities.DecodeResults[models.SubscriptionGroupSignupResponse](decoder)
+	if err != nil {
+		return models.NewApiResponse(result, resp), err
+	}
+
+	if resp.StatusCode == 422 {
+		err = errors.NewSubscriptionGroupSignupErrorResponse(422, "Unprocessable Entity (WebDAV)")
+	}
+	return models.NewApiResponse(result, resp), err
 }
 
 // CreateSubscriptionGroup takes context, body as parameters and
@@ -66,35 +66,35 @@ func (s *SubscriptionGroupsController) SignupWithSubscriptionGroup(
 // an error if there was an issue with the request or response.
 // Creates a subscription group with given members.
 func (s *SubscriptionGroupsController) CreateSubscriptionGroup(
-    ctx context.Context,
-    body *models.CreateSubscriptionGroupRequest) (
-    models.ApiResponse[models.SubscriptionGroupResponse],
-    error) {
-    req := s.prepareRequest(ctx, "POST", "/subscription_groups.json")
-    req.Authenticate(true)
-    req.Header("Content-Type", "application/json")
-    if body != nil {
-        req.Json(*body)
-    }
-    var result models.SubscriptionGroupResponse
-    decoder, resp, err := req.CallAsJson()
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    result, err = utilities.DecodeResults[models.SubscriptionGroupResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    if resp.StatusCode == 422 {
-        err = errors.NewSingleStringErrorResponse(422, "Unprocessable Entity (WebDAV)")
-    }
-    return models.NewApiResponse(result, resp), err
+	ctx context.Context,
+	body *models.CreateSubscriptionGroupRequest) (
+	models.ApiResponse[models.SubscriptionGroupResponse],
+	error) {
+	req := s.prepareRequest(ctx, "POST", "/subscription_groups.json")
+	req.Authenticate(true)
+	req.Header("Content-Type", "application/json")
+	if body != nil {
+		req.Json(*body)
+	}
+	var result models.SubscriptionGroupResponse
+	decoder, resp, err := req.CallAsJson()
+	if err != nil {
+		return models.NewApiResponse(result, resp), err
+	}
+	err = validateResponse(*resp)
+	if err != nil {
+		return models.NewApiResponse(result, resp), err
+	}
+
+	result, err = utilities.DecodeResults[models.SubscriptionGroupResponse](decoder)
+	if err != nil {
+		return models.NewApiResponse(result, resp), err
+	}
+
+	if resp.StatusCode == 422 {
+		err = errors.NewSingleStringErrorResponse(422, "Unprocessable Entity (WebDAV)")
+	}
+	return models.NewApiResponse(result, resp), err
 }
 
 // ListSubscriptionGroups takes context, page, perPage, include as parameters and
@@ -104,39 +104,39 @@ func (s *SubscriptionGroupsController) CreateSubscriptionGroup(
 // #### Account Balance Information
 // Account balance information for the subscription groups is not returned by default. If this information is desired, the `include[]=account_balances` parameter must be provided with the request.
 func (s *SubscriptionGroupsController) ListSubscriptionGroups(
-    ctx context.Context,
-    page *int,
-    perPage *int,
-    include *string) (
-    models.ApiResponse[models.ListSubscriptionGroupsResponse],
-    error) {
-    req := s.prepareRequest(ctx, "GET", "/subscription_groups.json")
-    req.Authenticate(true)
-    if page != nil {
-        req.QueryParam("page", *page)
-    }
-    if perPage != nil {
-        req.QueryParam("per_page", *perPage)
-    }
-    if include != nil {
-        req.QueryParam("include", *include)
-    }
-    var result models.ListSubscriptionGroupsResponse
-    decoder, resp, err := req.CallAsJson()
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    result, err = utilities.DecodeResults[models.ListSubscriptionGroupsResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    return models.NewApiResponse(result, resp), err
+	ctx context.Context,
+	page *int,
+	perPage *int,
+	include *string) (
+	models.ApiResponse[models.ListSubscriptionGroupsResponse],
+	error) {
+	req := s.prepareRequest(ctx, "GET", "/subscription_groups.json")
+	req.Authenticate(true)
+	if page != nil {
+		req.QueryParam("page", *page)
+	}
+	if perPage != nil {
+		req.QueryParam("per_page", *perPage)
+	}
+	if include != nil {
+		req.QueryParam("include", *include)
+	}
+	var result models.ListSubscriptionGroupsResponse
+	decoder, resp, err := req.CallAsJson()
+	if err != nil {
+		return models.NewApiResponse(result, resp), err
+	}
+	err = validateResponse(*resp)
+	if err != nil {
+		return models.NewApiResponse(result, resp), err
+	}
+
+	result, err = utilities.DecodeResults[models.ListSubscriptionGroupsResponse](decoder)
+	if err != nil {
+		return models.NewApiResponse(result, resp), err
+	}
+
+	return models.NewApiResponse(result, resp), err
 }
 
 // ReadSubscriptionGroup takes context, uid as parameters and
@@ -146,33 +146,33 @@ func (s *SubscriptionGroupsController) ListSubscriptionGroups(
 // #### Current Billing Amount in Cents
 // Current billing amount for the subscription group is not returned by default. If this information is desired, the `include[]=current_billing_amount_in_cents` parameter must be provided with the request.
 func (s *SubscriptionGroupsController) ReadSubscriptionGroup(
-    ctx context.Context,
-    uid string) (
-    models.ApiResponse[models.FullSubscriptionGroupResponse],
-    error) {
-    req := s.prepareRequest(
-      ctx,
-      "GET",
-      fmt.Sprintf("/subscription_groups/%v.json", uid),
-    )
-    req.Authenticate(true)
-    
-    var result models.FullSubscriptionGroupResponse
-    decoder, resp, err := req.CallAsJson()
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    result, err = utilities.DecodeResults[models.FullSubscriptionGroupResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    return models.NewApiResponse(result, resp), err
+	ctx context.Context,
+	uid string) (
+	models.ApiResponse[models.FullSubscriptionGroupResponse],
+	error) {
+	req := s.prepareRequest(
+		ctx,
+		"GET",
+		fmt.Sprintf("/subscription_groups/%v.json", uid),
+	)
+	req.Authenticate(true)
+
+	var result models.FullSubscriptionGroupResponse
+	decoder, resp, err := req.CallAsJson()
+	if err != nil {
+		return models.NewApiResponse(result, resp), err
+	}
+	err = validateResponse(*resp)
+	if err != nil {
+		return models.NewApiResponse(result, resp), err
+	}
+
+	result, err = utilities.DecodeResults[models.FullSubscriptionGroupResponse](decoder)
+	if err != nil {
+		return models.NewApiResponse(result, resp), err
+	}
+
+	return models.NewApiResponse(result, resp), err
 }
 
 // UpdateSubscriptionGroupMembers takes context, uid, body as parameters and
@@ -181,41 +181,41 @@ func (s *SubscriptionGroupsController) ReadSubscriptionGroup(
 // Use this endpoint to update subscription group members.
 // `"member_ids": []` should contain an array of both subscription IDs to set as group members and subscription IDs already present in the groups. Not including them will result in removing them from subscription group. To clean up members, just leave the array empty.
 func (s *SubscriptionGroupsController) UpdateSubscriptionGroupMembers(
-    ctx context.Context,
-    uid string,
-    body *models.UpdateSubscriptionGroupRequest) (
-    models.ApiResponse[models.SubscriptionGroupResponse],
-    error) {
-    req := s.prepareRequest(
-      ctx,
-      "PUT",
-      fmt.Sprintf("/subscription_groups/%v.json", uid),
-    )
-    req.Authenticate(true)
-    req.Header("Content-Type", "application/json")
-    if body != nil {
-        req.Json(*body)
-    }
-    
-    var result models.SubscriptionGroupResponse
-    decoder, resp, err := req.CallAsJson()
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    result, err = utilities.DecodeResults[models.SubscriptionGroupResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    if resp.StatusCode == 422 {
-        err = errors.NewSubscriptionGroupUpdateErrorResponse(422, "Unprocessable Entity (WebDAV)")
-    }
-    return models.NewApiResponse(result, resp), err
+	ctx context.Context,
+	uid string,
+	body *models.UpdateSubscriptionGroupRequest) (
+	models.ApiResponse[models.SubscriptionGroupResponse],
+	error) {
+	req := s.prepareRequest(
+		ctx,
+		"PUT",
+		fmt.Sprintf("/subscription_groups/%v.json", uid),
+	)
+	req.Authenticate(true)
+	req.Header("Content-Type", "application/json")
+	if body != nil {
+		req.Json(*body)
+	}
+
+	var result models.SubscriptionGroupResponse
+	decoder, resp, err := req.CallAsJson()
+	if err != nil {
+		return models.NewApiResponse(result, resp), err
+	}
+	err = validateResponse(*resp)
+	if err != nil {
+		return models.NewApiResponse(result, resp), err
+	}
+
+	result, err = utilities.DecodeResults[models.SubscriptionGroupResponse](decoder)
+	if err != nil {
+		return models.NewApiResponse(result, resp), err
+	}
+
+	if resp.StatusCode == 422 {
+		err = errors.NewSubscriptionGroupUpdateErrorResponse(422, "Unprocessable Entity (WebDAV)")
+	}
+	return models.NewApiResponse(result, resp), err
 }
 
 // DeleteSubscriptionGroup takes context, uid as parameters and
@@ -224,36 +224,36 @@ func (s *SubscriptionGroupsController) UpdateSubscriptionGroupMembers(
 // Use this endpoint to delete subscription group.
 // Only groups without members can be deleted
 func (s *SubscriptionGroupsController) DeleteSubscriptionGroup(
-    ctx context.Context,
-    uid string) (
-    models.ApiResponse[models.DeleteSubscriptionGroupResponse],
-    error) {
-    req := s.prepareRequest(
-      ctx,
-      "DELETE",
-      fmt.Sprintf("/subscription_groups/%v.json", uid),
-    )
-    req.Authenticate(true)
-    
-    var result models.DeleteSubscriptionGroupResponse
-    decoder, resp, err := req.CallAsJson()
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    result, err = utilities.DecodeResults[models.DeleteSubscriptionGroupResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    if resp.StatusCode == 404 {
-        err = errors.NewApiError(404, "Not Found")
-    }
-    return models.NewApiResponse(result, resp), err
+	ctx context.Context,
+	uid string) (
+	models.ApiResponse[models.DeleteSubscriptionGroupResponse],
+	error) {
+	req := s.prepareRequest(
+		ctx,
+		"DELETE",
+		fmt.Sprintf("/subscription_groups/%v.json", uid),
+	)
+	req.Authenticate(true)
+
+	var result models.DeleteSubscriptionGroupResponse
+	decoder, resp, err := req.CallAsJson()
+	if err != nil {
+		return models.NewApiResponse(result, resp), err
+	}
+	err = validateResponse(*resp)
+	if err != nil {
+		return models.NewApiResponse(result, resp), err
+	}
+
+	result, err = utilities.DecodeResults[models.DeleteSubscriptionGroupResponse](decoder)
+	if err != nil {
+		return models.NewApiResponse(result, resp), err
+	}
+
+	if resp.StatusCode == 404 {
+		err = errors.NewApiError(404, "Not Found")
+	}
+	return models.NewApiResponse(result, resp), err
 }
 
 // ReadSubscriptionGroupBySubscriptionId takes context, subscriptionId as parameters and
@@ -262,32 +262,32 @@ func (s *SubscriptionGroupsController) DeleteSubscriptionGroup(
 // Use this endpoint to find subscription group associated with subscription.
 // If the subscription is not in a group endpoint will return 404 code.
 func (s *SubscriptionGroupsController) ReadSubscriptionGroupBySubscriptionId(
-    ctx context.Context,
-    subscriptionId string) (
-    models.ApiResponse[models.FullSubscriptionGroupResponse],
-    error) {
-    req := s.prepareRequest(ctx, "GET", "/subscription_groups/lookup.json")
-    req.Authenticate(true)
-    req.QueryParam("subscription_id", subscriptionId)
-    var result models.FullSubscriptionGroupResponse
-    decoder, resp, err := req.CallAsJson()
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    result, err = utilities.DecodeResults[models.FullSubscriptionGroupResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    if resp.StatusCode == 404 {
-        err = errors.NewApiError(404, "Not Found")
-    }
-    return models.NewApiResponse(result, resp), err
+	ctx context.Context,
+	subscriptionId string) (
+	models.ApiResponse[models.FullSubscriptionGroupResponse],
+	error) {
+	req := s.prepareRequest(ctx, "GET", "/subscription_groups/lookup.json")
+	req.Authenticate(true)
+	req.QueryParam("subscription_id", subscriptionId)
+	var result models.FullSubscriptionGroupResponse
+	decoder, resp, err := req.CallAsJson()
+	if err != nil {
+		return models.NewApiResponse(result, resp), err
+	}
+	err = validateResponse(*resp)
+	if err != nil {
+		return models.NewApiResponse(result, resp), err
+	}
+
+	result, err = utilities.DecodeResults[models.FullSubscriptionGroupResponse](decoder)
+	if err != nil {
+		return models.NewApiResponse(result, resp), err
+	}
+
+	if resp.StatusCode == 404 {
+		err = errors.NewApiError(404, "Not Found")
+	}
+	return models.NewApiResponse(result, resp), err
 }
 
 // CreateSubscriptionGroupHierarchy takes context, subscriptionId, body as parameters and
@@ -303,38 +303,38 @@ func (s *SubscriptionGroupsController) ReadSubscriptionGroupBySubscriptionId(
 // To create a new subscription into a subscription group, please reference the following:
 // [Create Subscription in a Subscription Group](https://developers.chargify.com/docs/api-docs/d571659cf0f24-create-subscription#subscription-in-a-subscription-group)
 func (s *SubscriptionGroupsController) CreateSubscriptionGroupHierarchy(
-    ctx context.Context,
-    subscriptionId int,
-    body *models.AddSubscriptionToAGroup) (
-    models.ApiResponse[models.SubscriptionGroupResponse],
-    error) {
-    req := s.prepareRequest(
-      ctx,
-      "POST",
-      fmt.Sprintf("/subscriptions/%v/group.json", subscriptionId),
-    )
-    req.Authenticate(true)
-    req.Header("Content-Type", "application/json")
-    if body != nil {
-        req.Json(*body)
-    }
-    
-    var result models.SubscriptionGroupResponse
-    decoder, resp, err := req.CallAsJson()
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    result, err = utilities.DecodeResults[models.SubscriptionGroupResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    return models.NewApiResponse(result, resp), err
+	ctx context.Context,
+	subscriptionId int,
+	body *models.AddSubscriptionToAGroup) (
+	models.ApiResponse[models.SubscriptionGroupResponse],
+	error) {
+	req := s.prepareRequest(
+		ctx,
+		"POST",
+		fmt.Sprintf("/subscriptions/%v/group.json", subscriptionId),
+	)
+	req.Authenticate(true)
+	req.Header("Content-Type", "application/json")
+	if body != nil {
+		req.Json(*body)
+	}
+
+	var result models.SubscriptionGroupResponse
+	decoder, resp, err := req.CallAsJson()
+	if err != nil {
+		return models.NewApiResponse(result, resp), err
+	}
+	err = validateResponse(*resp)
+	if err != nil {
+		return models.NewApiResponse(result, resp), err
+	}
+
+	result, err = utilities.DecodeResults[models.SubscriptionGroupResponse](decoder)
+	if err != nil {
+		return models.NewApiResponse(result, resp), err
+	}
+
+	return models.NewApiResponse(result, resp), err
 }
 
 // RemoveSubscriptionFromGroup takes context, subscriptionId as parameters and
@@ -342,30 +342,30 @@ func (s *SubscriptionGroupsController) CreateSubscriptionGroupHierarchy(
 // an error if there was an issue with the request or response.
 // For sites making use of the [Relationship Billing](https://chargify.zendesk.com/hc/en-us/articles/4407737494171) and [Customer Hierarchy](https://chargify.zendesk.com/hc/en-us/articles/4407746683291) features, it is possible to remove existing subscription from subscription group.
 func (s *SubscriptionGroupsController) RemoveSubscriptionFromGroup(
-    ctx context.Context,
-    subscriptionId int) (
-    *http.Response,
-    error) {
-    req := s.prepareRequest(
-      ctx,
-      "DELETE",
-      fmt.Sprintf("/subscriptions/%v/group.json", subscriptionId),
-    )
-    req.Authenticate(true)
-    
-    context, err := req.Call()
-    if err != nil {
-        return context.Response, err
-    }
-    err = validateResponse(*context.Response)
-    if err != nil {
-        return context.Response, err
-    }
-    if context.Response.StatusCode == 404 {
-        err = errors.NewApiError(404, "Not Found")
-    }
-    if context.Response.StatusCode == 422 {
-        err = errors.NewErrorListResponse(422, "Unprocessable Entity (WebDAV)")
-    }
-    return context.Response, err
+	ctx context.Context,
+	subscriptionId int) (
+	*http.Response,
+	error) {
+	req := s.prepareRequest(
+		ctx,
+		"DELETE",
+		fmt.Sprintf("/subscriptions/%v/group.json", subscriptionId),
+	)
+	req.Authenticate(true)
+
+	context, err := req.Call()
+	if err != nil {
+		return context.Response, err
+	}
+	err = validateResponse(*context.Response)
+	if err != nil {
+		return context.Response, err
+	}
+	if context.Response.StatusCode == 404 {
+		err = errors.NewApiError(404, "Not Found")
+	}
+	if context.Response.StatusCode == 422 {
+		err = errors.NewErrorListResponse(422, "Unprocessable Entity (WebDAV)")
+	}
+	return context.Response, err
 }
