@@ -82,24 +82,34 @@ func (s *APISuite) TestMetafields() {
 				s.Equal(textFieldName, *textField.Name)
 				s.Equal("text", *textField.InputType)
 
+				metadata := []models.CreateMetadata{
+					{
+						Name:  dropdownField.Name,
+						Value: strPtr("option 1"),
+					},
+					{
+						Name:  textField.Name,
+						Value: strPtr("something"),
+					},
+				}
+
 				r, err := s.client.CustomFieldsController().CreateMetadata(
 					ctx,
 					models.ResourceType_SUBSCRIPTIONS,
 					fmt.Sprintf("%d", *subs.Id),
 					&models.CreateMetadataRequest{
-						Metadata: []models.CreateMetadata{
-							{
-								Name:  dropdownField.Name,
-								Value: strPtr("option 1"),
-							},
-							{
-								Name:  textField.Name,
-								Value: strPtr("something"),
-							},
-						},
+						Metadata: metadata,
 					})
 				s.NoError(err)
 				s.Equal(http.StatusOK, r.Response.StatusCode)
+
+				s.Equal(subs.Id, r.Data[0].ResourceId)
+				s.Len(r.Data, 2)
+
+				s.Equal(metadata[0].Name, r.Data[0].Name)
+				s.Equal(*metadata[0].Value, *r.Data[0].Value)
+				s.Equal(metadata[1].Name, r.Data[1].Name)
+				s.Equal(*metadata[1].Value, *r.Data[1].Value)
 
 				rSubs, err := s.client.SubscriptionsController().ListSubscriptions(
 					ctx,
