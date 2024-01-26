@@ -8,9 +8,18 @@ import (
 
 	"github.com/maxio-com/ab-golang-sdk/errors"
 	"github.com/maxio-com/ab-golang-sdk/models"
+	"github.com/stretchr/testify/suite"
 )
 
-func (s *APISuite) TestInvoice() {
+type InvoiceSuite struct {
+	APISuite
+}
+
+func TestInvoiceSuite(t *testing.T) {
+	suite.Run(t, new(InvoiceSuite))
+}
+
+func (s *InvoiceSuite) TestInvoice() {
 	ctx := context.Background()
 
 	customer := s.createCustomer(ctx)

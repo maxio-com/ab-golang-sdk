@@ -7,7 +7,16 @@ import (
 	"testing"
 
 	"github.com/maxio-com/ab-golang-sdk/models"
+	"github.com/stretchr/testify/suite"
 )
+
+type MetafieldsSuite struct {
+	APISuite
+}
+
+func TestMetafieldsSuite(t *testing.T) {
+	suite.Run(t, new(MetafieldsSuite))
+}
 
 // this structure has to be defined at this point since default json
 // marshaller does not work with marshalling enum as optional interface
@@ -21,7 +30,7 @@ type metafield struct {
 	Enum      []string               `json:"enum"`
 }
 
-func (s *APISuite) TestMetafields() {
+func (s *MetafieldsSuite) TestMetafields() {
 	ctx := context.Background()
 
 	customer := s.createCustomer(ctx)
@@ -46,6 +55,7 @@ func (s *APISuite) TestMetafields() {
 		resourceType models.ResourceType
 		metafields   interface{}
 		assert       func(t *testing.T, resp models.ApiResponse[[]models.Metafield], err error)
+		afterTest    func(t *testing.T, metafields []models.Metafield)
 	}{
 		{
 			name:         "subscriptions",
@@ -137,6 +147,18 @@ func (s *APISuite) TestMetafields() {
 				s.Len(rSubs.Data, 1)
 				s.Equal(subs.Id, rSubs.Data[0].Subscription.Id)
 			},
+			afterTest: func(t *testing.T, metafields []models.Metafield) {
+				for _, metafield := range metafields {
+					resp, err := s.client.CustomFieldsController().DeleteMetafield(
+						ctx,
+						models.ResourceType_SUBSCRIPTIONS,
+						metafield.Name,
+					)
+
+					s.NoError(err)
+					s.Equal(http.StatusOK, resp.StatusCode)
+				}
+			},
 		},
 		{
 			name:         "customers",
@@ -187,6 +209,18 @@ func (s *APISuite) TestMetafields() {
 				s.Equal(radioField.Name, customerResp.Data[0].Name)
 				s.Equal("option 2", *customerResp.Data[0].Value)
 			},
+			afterTest: func(t *testing.T, metafields []models.Metafield) {
+				for _, metafield := range metafields {
+					resp, err := s.client.CustomFieldsController().DeleteMetafield(
+						ctx,
+						models.ResourceType_CUSTOMERS,
+						metafield.Name,
+					)
+
+					s.NoError(err)
+					s.Equal(http.StatusOK, resp.StatusCode)
+				}
+			},
 		},
 	}
 
@@ -201,6 +235,7 @@ func (s *APISuite) TestMetafields() {
 			)
 
 			c.assert(t, resp, err)
+			c.afterTest(t, resp.Data)
 		})
 	}
 }

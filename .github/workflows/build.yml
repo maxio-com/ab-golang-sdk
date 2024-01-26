@@ -19,9 +19,6 @@ jobs:
       - uses: actions/checkout@v4
       - name: Setup Go
         uses: actions/setup-go@v4
-      - name: Install dependencies
-        run: |
-          go get .
       - name: Build
         run: go build -v ./...
       - name: Test with the Go CLI

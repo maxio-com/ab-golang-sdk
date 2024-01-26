@@ -8,9 +8,18 @@ import (
 
 	advancedbilling "github.com/maxio-com/ab-golang-sdk"
 	"github.com/maxio-com/ab-golang-sdk/models"
+	"github.com/stretchr/testify/suite"
 )
 
-func (s *APISuite) TestSubscriptionCreate() {
+type SubscriptionSuite struct {
+	APISuite
+}
+
+func TestSubscriptionSuite(t *testing.T) {
+	suite.Run(t, new(SubscriptionSuite))
+}
+
+func (s *SubscriptionSuite) TestSubscriptionCreate() {
 	ctx := context.Background()
 
 	customer := s.createCustomer(ctx)
