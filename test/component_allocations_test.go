@@ -20,12 +20,11 @@ func TestComponentSuite(t *testing.T) {
 }
 
 type OnOffComponent struct {
-	Name                      string       `json:"name"`
-	Prices                    []Price      `json:"prices"`
-	PricingScheme             string       `json:"pricing_scheme"`
-	AllowFractionalQuantities bool         `json:"allow_fractional_quantities"`
-	PricePoint                []PricePoint `json:"price_points"`
-	UnitPrice                 string       `json:"unit_price"`
+	Name          string       `json:"name"`
+	Prices        []Price      `json:"prices"`
+	PricingScheme string       `json:"pricing_scheme"`
+	PricePoint    []PricePoint `json:"price_points"`
+	UnitPrice     string       `json:"unit_price"`
 }
 
 type PricePoint struct {
@@ -34,8 +33,8 @@ type PricePoint struct {
 	PricingScheme string  `json:"pricing_scheme,omitempty"`
 }
 
-type OneOfBody struct {
-	OneOfComponent OnOffComponent `json:"on_off_component"`
+type OnOffBody struct {
+	OnOffComponent OnOffComponent `json:"on_off_component"`
 }
 
 type QuantityBasedComponent struct {
@@ -66,10 +65,9 @@ func (s *ComponentAlocationSuite) TestComponentAllocations() {
 		ctx,
 		*pf.Id,
 		models.ComponentKindPath_ONOFFCOMPONENTS,
-		interfacePtr(OneOfBody{
-			OneOfComponent: OnOffComponent{
-				Name:                      "One of component",
-				AllowFractionalQuantities: true,
+		interfacePtr(OnOffBody{
+			OnOffComponent: OnOffComponent{
+				Name: "One of component",
 				Prices: []Price{
 					{
 						StartingQuantity: 1,
@@ -147,7 +145,7 @@ func (s *ComponentAlocationSuite) TestComponentAllocations() {
 				s.Equal(http.StatusOK, response.Response.StatusCode)
 
 				prevAllocations := response.Data.AllocationPreview.Allocations
-				s.Equal(fmt.Sprintf("%.1f", expected[0].Quantity), *prevAllocations[0].Quantity)
+				s.Equal(float64(1), *prevAllocations[0].Quantity)
 				s.Equal(fmt.Sprintf("%.1f", expected[1].Quantity), *prevAllocations[1].Quantity)
 
 				allocationsResp, err := s.client.SubscriptionComponentsController().AllocateComponents(
@@ -161,7 +159,7 @@ func (s *ComponentAlocationSuite) TestComponentAllocations() {
 				s.Equal(http.StatusCreated, allocationsResp.Response.StatusCode)
 
 				responseAllocations := allocationsResp.Data
-				s.Equal(fmt.Sprintf("%.1f", expected[0].Quantity), *responseAllocations[0].Allocation.Quantity)
+				s.Equal(float64(1), *responseAllocations[0].Allocation.Quantity)
 				s.Equal(fmt.Sprintf("%.1f", expected[1].Quantity), *responseAllocations[1].Allocation.Quantity)
 			},
 		},
