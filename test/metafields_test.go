@@ -55,6 +55,7 @@ func (s *MetafieldsSuite) TestMetafields() {
 		resourceType models.ResourceType
 		metafields   interface{}
 		assert       func(t *testing.T, resp models.ApiResponse[[]models.Metafield], err error)
+		afterTest    func(t *testing.T, metafields []models.Metafield)
 	}{
 		{
 			name:         "subscriptions",
@@ -146,6 +147,18 @@ func (s *MetafieldsSuite) TestMetafields() {
 				s.Len(rSubs.Data, 1)
 				s.Equal(subs.Id, rSubs.Data[0].Subscription.Id)
 			},
+			afterTest: func(t *testing.T, metafields []models.Metafield) {
+				for _, metafield := range metafields {
+					resp, err := s.client.CustomFieldsController().DeleteMetafield(
+						ctx,
+						models.ResourceType_SUBSCRIPTIONS,
+						metafield.Name,
+					)
+
+					s.NoError(err)
+					s.Equal(http.StatusOK, resp.StatusCode)
+				}
+			},
 		},
 		{
 			name:         "customers",
@@ -196,6 +209,18 @@ func (s *MetafieldsSuite) TestMetafields() {
 				s.Equal(radioField.Name, customerResp.Data[0].Name)
 				s.Equal("option 2", *customerResp.Data[0].Value)
 			},
+			afterTest: func(t *testing.T, metafields []models.Metafield) {
+				for _, metafield := range metafields {
+					resp, err := s.client.CustomFieldsController().DeleteMetafield(
+						ctx,
+						models.ResourceType_CUSTOMERS,
+						metafield.Name,
+					)
+
+					s.NoError(err)
+					s.Equal(http.StatusOK, resp.StatusCode)
+				}
+			},
 		},
 	}
 
@@ -210,6 +235,7 @@ func (s *MetafieldsSuite) TestMetafields() {
 			)
 
 			c.assert(t, resp, err)
+			c.afterTest(t, resp.Data)
 		})
 	}
 }
