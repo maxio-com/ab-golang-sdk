@@ -22,11 +22,11 @@ func TestSubscriptionSuite(t *testing.T) {
 func (s *SubscriptionSuite) TestSubscriptionCreate() {
 	ctx := context.Background()
 
-	customer := s.createCustomer(ctx)
-	productFamily := s.createProductFamily(ctx)
-	product := s.createProduct(ctx, *productFamily.Id)
-	coupon := s.createCoupon(ctx, *productFamily.Id)
-	component := s.createMeteredComponent(ctx, *productFamily.Id)
+	customer := s.generateCustomer(ctx)
+	productFamily := s.generateProductFamily(ctx)
+	product := s.generateProduct(ctx, *productFamily.Id)
+	coupon := s.generateCoupon(ctx, *productFamily.Id)
+	component := s.generateMeteredComponent(ctx, *productFamily.Id)
 
 	cases := []struct {
 		name         string
@@ -167,17 +167,17 @@ func (s *APISuite) newSubscription(
 		CouponCode:              &couponCode,
 		Components:              components,
 		PaymentProfileAttributes: &models.PaymentProfileAttributes{
-			FirstName:       strPtr("Joe"),
-			LastName:        strPtr("Smith"),
-			FullNumber:      strPtr("4111111111111111"),
+			FirstName:       &s.baseBillingAddress.firstName,
+			LastName:        &s.baseBillingAddress.lastName,
+			FullNumber:      &s.baseBillingAddress.phone,
 			CardType:        toPtr[models.CardType](models.CardType_VISA),
 			ExpirationMonth: interfacePtr(1),
 			ExpirationYear:  interfacePtr(time.Now().Year() + 1),
-			BillingAddress:  strPtr("123 Mass Ave."),
-			BillingCity:     strPtr("Boston"),
-			BillingState:    strPtr("MA"),
-			BillingCountry:  strPtr("US"),
-			BillingZip:      strPtr("02120"),
+			BillingAddress:  &s.baseBillingAddress.address,
+			BillingCity:     &s.baseBillingAddress.city,
+			BillingState:    &s.baseBillingAddress.state,
+			BillingCountry:  &s.baseBillingAddress.country,
+			BillingZip:      &s.baseBillingAddress.zip,
 		},
 	}
 }

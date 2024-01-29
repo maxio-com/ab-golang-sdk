@@ -1,42 +1,42 @@
 package models
 
 import (
-    "encoding/json"
+	"encoding/json"
 )
 
 // RefundPrepaymentBaseRefundError represents a RefundPrepaymentBaseRefundError struct.
 type RefundPrepaymentBaseRefundError struct {
-    Refund *BaseRefundError `json:"refund,omitempty"`
+	Refund *BaseRefundError `json:"refund,omitempty"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for RefundPrepaymentBaseRefundError.
 // It customizes the JSON marshaling process for RefundPrepaymentBaseRefundError objects.
 func (r *RefundPrepaymentBaseRefundError) MarshalJSON() (
-    []byte,
-    error) {
-    return json.Marshal(r.toMap())
+	[]byte,
+	error) {
+	return json.Marshal(r.toMap())
 }
 
 // toMap converts the RefundPrepaymentBaseRefundError object to a map representation for JSON marshaling.
 func (r *RefundPrepaymentBaseRefundError) toMap() map[string]any {
-    structMap := make(map[string]any)
-    if r.Refund != nil {
-        structMap["refund"] = r.Refund
-    }
-    return structMap
+	structMap := make(map[string]any)
+	if r.Refund != nil {
+		structMap["refund"] = r.Refund
+	}
+	return structMap
 }
 
 // UnmarshalJSON implements the json.Unmarshaler interface for RefundPrepaymentBaseRefundError.
 // It customizes the JSON unmarshaling process for RefundPrepaymentBaseRefundError objects.
 func (r *RefundPrepaymentBaseRefundError) UnmarshalJSON(input []byte) error {
-    temp := &struct {
-        Refund *BaseRefundError `json:"refund,omitempty"`
-    }{}
-    err := json.Unmarshal(input, &temp)
-    if err != nil {
-    	return err
-    }
-    
-    r.Refund = temp.Refund
-    return nil
+	temp := &struct {
+		Refund *BaseRefundError `json:"refund,omitempty"`
+	}{}
+	err := json.Unmarshal(input, &temp)
+	if err != nil {
+		return err
+	}
+
+	r.Refund = temp.Refund
+	return nil
 }

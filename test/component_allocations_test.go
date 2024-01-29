@@ -19,104 +19,68 @@ func TestComponentSuite(t *testing.T) {
 	suite.Run(t, new(ComponentAlocationSuite))
 }
 
-type OnOffComponent struct {
-	Name          string       `json:"name"`
-	Prices        []Price      `json:"prices"`
-	PricingScheme string       `json:"pricing_scheme"`
-	PricePoint    []PricePoint `json:"price_points"`
-	UnitPrice     string       `json:"unit_price"`
-}
-
-type PricePoint struct {
-	Name          string  `json:"name"`
-	Prices        []Price `json:"prices"`
-	PricingScheme string  `json:"pricing_scheme,omitempty"`
-}
-
-type OnOffBody struct {
-	OnOffComponent OnOffComponent `json:"on_off_component"`
-}
-
-type QuantityBasedComponent struct {
-	Name                      string       `json:"name"`
-	UnitName                  string       `json:"unit_name"`
-	PricingScheme             string       `json:"pricing_scheme"`
-	AllowFractionalQuantities bool         `json:"allow_fractional_quantities"`
-	PricePoint                []PricePoint `json:"price_points"`
-	UnitPrice                 string       `json:"unit_price"`
-}
-
-type QuantityBody struct {
-	QuantityBasedComponent QuantityBasedComponent `json:"quantity_based_component"`
-}
-
 func (s *ComponentAlocationSuite) TestComponentAllocations() {
 	ctx := context.Background()
 
-	customer := s.createCustomer(ctx)
-	pf := s.createProductFamily(ctx)
-	product := s.createProduct(ctx, *pf.Id)
-	subscription := s.newSubscription(customer, product, "", []models.CreateSubscriptionComponent{})
-	subResp, err := s.client.SubscriptionsController().CreateSubscription(ctx, &models.CreateSubscriptionRequest{Subscription: subscription})
-	s.NoError(err)
-	s.Equal(http.StatusCreated, subResp.Response.StatusCode)
+	customer := s.generateCustomer(ctx)
+	pf := s.generateProductFamily(ctx)
+	product := s.generateProduct(ctx, *pf.Id)
+	subscription := s.generateSubscription(ctx, customer, product, "", []models.CreateSubscriptionComponent{})
 
-	onOffResp, err := s.client.ComponentsController().CreateComponent(
+	onOffResp, err := s.client.ComponentsController().CreateOnOffComponent(
 		ctx,
 		*pf.Id,
-		models.ComponentKindPath_ONOFFCOMPONENTS,
-		interfacePtr(OnOffBody{
-			OnOffComponent: OnOffComponent{
-				Name: "One of component",
-				Prices: []Price{
+		&models.CreateOnOffComponent{
+			OnOffComponent: models.OnOffComponent{
+				Name: "OnOff component",
+				PricePoints: []models.ComponentPricePointItem{
+					{
+						Name: strPtr(s.fkr.RandomStringWithLength(20)),
+						Prices: []models.Price{
+							{
+								StartingQuantity: 1,
+								UnitPrice:        1,
+							},
+						},
+					},
+				},
+				UnitPrice: interfacePtr("100"),
+				Prices: []models.Price{
 					{
 						StartingQuantity: 1,
 						UnitPrice:        1,
 					},
 				},
-				PricePoint: []PricePoint{
-					{
-						Name: "test price point",
-						Prices: []Price{
-							{
-								StartingQuantity: 1,
-								UnitPrice:        1,
-							},
-						},
-					},
-				},
-				UnitPrice: "100",
 			},
-		}),
+		},
 	)
 	s.NoError(err)
 	s.Equal(http.StatusCreated, onOffResp.Response.StatusCode)
 
-	quantityResp, err := s.client.ComponentsController().CreateComponent(
+	quantityResp, err := s.client.ComponentsController().CreateQuantityBasedComponent(
 		ctx,
 		*pf.Id,
-		models.ComponentKindPath_QUANTITYBASEDCOMPONENTS,
-		interfacePtr(QuantityBody{
-			QuantityBasedComponent: QuantityBasedComponent{
-				Name:                      "Quantity based",
-				UnitName:                  "test unit",
-				PricingScheme:             string(models.PricingScheme_PERUNIT),
-				AllowFractionalQuantities: true,
-				PricePoint: []PricePoint{
+		&models.CreateQuantityBasedComponent{
+			QuantityBasedComponent: models.QuantityBasedComponent{
+				Name:                      s.fkr.RandomStringWithLength(20),
+				UnitName:                  s.fkr.RandomStringWithLength(10),
+				PricingScheme:             models.PricingScheme_PERUNIT,
+				AllowFractionalQuantities: boolPtr(true),
+				PricePoints: []models.ComponentPricePointItem{
 					{
-						Name: "Other price point",
-						Prices: []Price{
+						Name:          strPtr(s.fkr.RandomStringWithLength(10)),
+						PricingScheme: toPtr[models.PricingScheme](models.PricingScheme_PERUNIT),
+						Prices: []models.Price{
 							{
 								StartingQuantity: 1,
 								UnitPrice:        1,
 							},
 						},
-						PricingScheme: string(models.PricingScheme_PERUNIT),
 					},
 				},
-				UnitPrice: "100",
+				UnitPrice: interfacePtr("100"),
 			},
-		}),
+		},
 	)
 	s.NoError(err)
 	s.Equal(http.StatusCreated, quantityResp.Response.StatusCode)
@@ -150,7 +114,7 @@ func (s *ComponentAlocationSuite) TestComponentAllocations() {
 
 				allocationsResp, err := s.client.SubscriptionComponentsController().AllocateComponents(
 					ctx,
-					*subResp.Data.Subscription.Id,
+					*subscription.Id,
 					&models.AllocateComponents{
 						Allocations: expected,
 					},
@@ -183,7 +147,7 @@ func (s *ComponentAlocationSuite) TestComponentAllocations() {
 		s.T().Run(c.name, func(t *testing.T) {
 			previewResp, err := s.client.SubscriptionComponentsController().PreviewAllocations(
 				ctx,
-				*subResp.Data.Subscription.Id,
+				*subscription.Id,
 				&models.PreviewAllocationsRequest{
 					Allocations: c.allocations,
 				},

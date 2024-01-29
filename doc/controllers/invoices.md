@@ -86,6 +86,12 @@ if err != nil {
 }
 ```
 
+## Errors
+
+| HTTP Status Code | Error Description | Exception Class |
+|  --- | --- | --- |
+| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../../doc/models/error-list-response-exception.md) |
+
 
 # List Invoices
 
@@ -2992,7 +2998,7 @@ if err != nil {
   "line_items": [
     {
       "description": "qui",
-      "price_point_id": -95020509,
+      "price_point_id": 123,
       "tax_amount": "occaecat deserunt veniam",
       "subtotal_amount": "commodo consequat tempor et Duis"
     },
@@ -3003,15 +3009,15 @@ if err != nil {
     {
       "price_point_id": 94750853,
       "product_id": 79058036,
-      "tax_amount": "Duis",
-      "subtotal_amount": "irure officia ipsum"
+      "tax_amount": "1.0",
+      "subtotal_amount": "128.5"
     },
     {
       "unit_price": "eiusmod consequat ut nostrud",
       "tax_amount": "quis nulla proident"
     },
     {
-      "period_range_end": "ut dolor",
+      "period_range_end": "2022-02-02",
       "product_id": 57352537,
       "description": "minim in dolore Ut Excepteur",
       "uid": "sit qui in ullamco anim"
@@ -3044,7 +3050,7 @@ if err != nil {
   "credits": [
     {
       "uid": "exercitation eiusmod",
-      "transaction_time": "Lorem ea",
+      "transaction_time": "2024-01-23T13:51:27Z",
       "credit_note_number": "qui fugiat labore laborum",
       "credit_note_uid": "ipsum sunt"
     },
@@ -3066,7 +3072,7 @@ if err != nil {
       "memo": "enim Excepteur Lorem magna sit"
     },
     {
-      "transaction_time": "deserunt",
+      "transaction_time": "2024-01-23T13:51:27Z",
       "prepayment": false,
       "payment_method": {
         "details": "labore ut et",
