@@ -22,16 +22,11 @@ func TestInvoiceSuite(t *testing.T) {
 func (s *InvoiceSuite) TestInvoice() {
 	ctx := context.Background()
 
-	customer := s.createCustomer(ctx)
-	productFamily := s.createProductFamily(ctx)
-	product := s.createProduct(ctx, *productFamily.Id)
-	coupon := s.createCoupon(ctx, *productFamily.Id)
-
-	subscription := s.newSubscription(customer, product, "", []models.CreateSubscriptionComponent{})
-
-	sub, err := s.client.SubscriptionsController().CreateSubscription(ctx, &models.CreateSubscriptionRequest{Subscription: subscription})
-	s.NoError(err)
-	s.Equal(http.StatusCreated, sub.Response.StatusCode)
+	customer := s.generateCustomer(ctx)
+	productFamily := s.generateProductFamily(ctx)
+	product := s.generateProduct(ctx, *productFamily.Id)
+	coupon := s.generateCoupon(ctx, *productFamily.Id)
+	subscription := s.generateSubscription(ctx, customer, product, "", []models.CreateSubscriptionComponent{})
 
 	cases := []struct {
 		name    string
@@ -153,7 +148,7 @@ func (s *InvoiceSuite) TestInvoice() {
 		s.T().Run(c.name, func(t *testing.T) {
 			resp, err := s.client.InvoicesController().CreateInvoice(
 				ctx,
-				*sub.Data.Subscription.Id,
+				*subscription.Id,
 				&models.CreateInvoiceRequest{
 					Invoice: c.invoice,
 				})
