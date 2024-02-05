@@ -9,12 +9,12 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `Id` | `*int` | Optional | - |
-| `Value` | `*string` | Optional | - |
-| `ResourceId` | `*int` | Optional | - |
+| `Id` | `Optional[int]` | Optional | - |
+| `Value` | `Optional[string]` | Optional | - |
+| `ResourceId` | `Optional[int]` | Optional | - |
 | `Name` | `*string` | Optional | - |
 | `DeletedAt` | `Optional[string]` | Optional | - |
-| `MetafieldId` | `*int` | Optional | - |
+| `MetafieldId` | `Optional[int]` | Optional | - |
 
 ## Example (as JSON)
 

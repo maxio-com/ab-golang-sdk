@@ -12,8 +12,8 @@ subscriptionGroupInvoiceAccountController := client.SubscriptionGroupInvoiceAcco
 
 * [Create Subscription Group Prepayment](../../doc/controllers/subscription-group-invoice-account.md#create-subscription-group-prepayment)
 * [List Prepayments for Subscription Group](../../doc/controllers/subscription-group-invoice-account.md#list-prepayments-for-subscription-group)
-* [Issue Subscription Group Service Credits](../../doc/controllers/subscription-group-invoice-account.md#issue-subscription-group-service-credits)
-* [Deduct Subscription Group Service Credits](../../doc/controllers/subscription-group-invoice-account.md#deduct-subscription-group-service-credits)
+* [Issue Subscription Group Service Credit](../../doc/controllers/subscription-group-invoice-account.md#issue-subscription-group-service-credit)
+* [Deduct Subscription Group Service Credit](../../doc/controllers/subscription-group-invoice-account.md#deduct-subscription-group-service-credit)
 
 
 # Create Subscription Group Prepayment
@@ -148,12 +148,12 @@ if err != nil {
 | 404 | Not Found | `ApiError` |
 
 
-# Issue Subscription Group Service Credits
+# Issue Subscription Group Service Credit
 
 Credit can be issued for a subscription group identified by the group's `uid`. Credit will be added to the group in the amount specified in the request body. The credit will be applied to group member invoices as they are generated.
 
 ```go
-IssueSubscriptionGroupServiceCredits(
+IssueSubscriptionGroupServiceCredit(
     ctx context.Context,
     uid string,
     body *models.IssueServiceCreditRequest) (
@@ -187,7 +187,7 @@ body := models.IssueServiceCreditRequest{
     ServiceCredit: bodyServiceCredit,
 }
 
-apiResponse, err := subscriptionGroupInvoiceAccountController.IssueSubscriptionGroupServiceCredits(ctx, uid, &body)
+apiResponse, err := subscriptionGroupInvoiceAccountController.IssueSubscriptionGroupServiceCredit(ctx, uid, &body)
 if err != nil {
     log.Fatalln(err)
 } else {
@@ -218,12 +218,12 @@ if err != nil {
 | 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../../doc/models/error-list-response-exception.md) |
 
 
-# Deduct Subscription Group Service Credits
+# Deduct Subscription Group Service Credit
 
 Credit can be deducted for a subscription group identified by the group's `uid`. Credit will be deducted from the group in the amount specified in the request body.
 
 ```go
-DeductSubscriptionGroupServiceCredits(
+DeductSubscriptionGroupServiceCredit(
     ctx context.Context,
     uid string,
     body *models.DeductServiceCreditRequest) (
@@ -257,7 +257,7 @@ body := models.DeductServiceCreditRequest{
     Deduction: bodyDeduction,
 }
 
-apiResponse, err := subscriptionGroupInvoiceAccountController.DeductSubscriptionGroupServiceCredits(ctx, uid, &body)
+apiResponse, err := subscriptionGroupInvoiceAccountController.DeductSubscriptionGroupServiceCredit(ctx, uid, &body)
 if err != nil {
     log.Fatalln(err)
 } else {

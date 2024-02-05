@@ -9,20 +9,24 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `Before` | `*interface{}` | Optional | - |
-| `After` | `*interface{}` | Optional | - |
+| `Before` | [`models.InvoicePayerChange`](../../doc/models/invoice-payer-change.md) | Required | - |
+| `After` | [`models.InvoicePayerChange`](../../doc/models/invoice-payer-change.md) | Required | - |
 
 ## Example (as JSON)
 
 ```json
 {
   "before": {
-    "key1": "val1",
-    "key2": "val2"
+    "first_name": "first_name0",
+    "last_name": "last_name8",
+    "organization": "organization4",
+    "email": "email6"
   },
   "after": {
-    "key1": "val1",
-    "key2": "val2"
+    "first_name": "first_name2",
+    "last_name": "last_name0",
+    "organization": "organization4",
+    "email": "email4"
   }
 }
 ```

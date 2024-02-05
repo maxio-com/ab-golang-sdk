@@ -1,25 +1,25 @@
 package advancedbilling
 
 import (
-	"context"
-	"fmt"
-	"github.com/apimatic/go-core-runtime/utilities"
-	"github.com/maxio-com/ab-golang-sdk/errors"
-	"github.com/maxio-com/ab-golang-sdk/models"
-	"net/http"
-	"time"
+    "context"
+    "fmt"
+    "github.com/apimatic/go-core-runtime/utilities"
+    "github.com/maxio-com/ab-golang-sdk/errors"
+    "github.com/maxio-com/ab-golang-sdk/models"
+    "net/http"
+    "time"
 )
 
 // SubscriptionComponentsController represents a controller struct.
 type SubscriptionComponentsController struct {
-	baseController
+    baseController
 }
 
 // NewSubscriptionComponentsController creates a new instance of SubscriptionComponentsController.
 // It takes a baseController as a parameter and returns a pointer to the SubscriptionComponentsController.
 func NewSubscriptionComponentsController(baseController baseController) *SubscriptionComponentsController {
-	subscriptionComponentsController := SubscriptionComponentsController{baseController: baseController}
-	return &subscriptionComponentsController
+    subscriptionComponentsController := SubscriptionComponentsController{baseController: baseController}
+    return &subscriptionComponentsController
 }
 
 // ReadSubscriptionComponent takes context, subscriptionId, componentId as parameters and
@@ -27,37 +27,37 @@ func NewSubscriptionComponentsController(baseController baseController) *Subscri
 // an error if there was an issue with the request or response.
 // This request will list information regarding a specific component owned by a subscription.
 func (s *SubscriptionComponentsController) ReadSubscriptionComponent(
-	ctx context.Context,
-	subscriptionId int,
-	componentId int) (
-	models.ApiResponse[models.SubscriptionComponentResponse],
-	error) {
-	req := s.prepareRequest(
-		ctx,
-		"GET",
-		fmt.Sprintf("/subscriptions/%v/components/%v.json", subscriptionId, componentId),
-	)
-	req.Authenticate(true)
-
-	var result models.SubscriptionComponentResponse
-	decoder, resp, err := req.CallAsJson()
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-	err = validateResponse(*resp)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	result, err = utilities.DecodeResults[models.SubscriptionComponentResponse](decoder)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	if resp.StatusCode == 404 {
-		err = errors.NewApiError(404, "Not Found")
-	}
-	return models.NewApiResponse(result, resp), err
+    ctx context.Context,
+    subscriptionId int,
+    componentId int) (
+    models.ApiResponse[models.SubscriptionComponentResponse],
+    error) {
+    req := s.prepareRequest(
+      ctx,
+      "GET",
+      fmt.Sprintf("/subscriptions/%v/components/%v.json", subscriptionId, componentId),
+    )
+    req.Authenticate(true)
+    
+    var result models.SubscriptionComponentResponse
+    decoder, resp, err := req.CallAsJson()
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    err = validateResponse(*resp)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    result, err = utilities.DecodeResults[models.SubscriptionComponentResponse](decoder)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    if resp.StatusCode == 404 {
+        err = errors.NewApiError(404, "Not Found")
+    }
+    return models.NewApiResponse(result, resp), err
 }
 
 // ListSubscriptionComponents takes context, subscriptionId, dateField, direction, endDate, endDatetime, pricePointIds, productFamilyIds, sort, startDate, startDatetime, include, filterUseSiteExchangeRate, filterCurrencies as parameters and
@@ -67,84 +67,84 @@ func (s *SubscriptionComponentsController) ReadSubscriptionComponent(
 // ## Archived Components
 // When requesting to list components for a given subscription, if the subscription contains **archived** components they will be listed in the server response.
 func (s *SubscriptionComponentsController) ListSubscriptionComponents(
-	ctx context.Context,
-	subscriptionId int,
-	dateField *models.SubscriptionListDateField,
-	direction *models.SortingDirection,
-	endDate *string,
-	endDatetime *string,
-	pricePointIds *models.IncludeNotNull,
-	productFamilyIds []int,
-	sort *models.ListSubscriptionComponentsSort,
-	startDate *string,
-	startDatetime *string,
-	include *models.ListSubscriptionComponentsInclude,
-	filterUseSiteExchangeRate *bool,
-	filterCurrencies []string) (
-	models.ApiResponse[[]models.SubscriptionComponentResponse],
-	error) {
-	req := s.prepareRequest(
-		ctx,
-		"GET",
-		fmt.Sprintf("/subscriptions/%v/components.json", subscriptionId),
-	)
-	req.Authenticate(true)
-	if dateField != nil {
-		req.QueryParam("date_field", *dateField)
-	}
-	if direction != nil {
-		req.QueryParam("direction", *direction)
-	}
-	if endDate != nil {
-		req.QueryParam("end_date", *endDate)
-	}
-	if endDatetime != nil {
-		req.QueryParam("end_datetime", *endDatetime)
-	}
-	if pricePointIds != nil {
-		req.QueryParam("price_point_ids", *pricePointIds)
-	}
-	if productFamilyIds != nil {
-		req.QueryParam("product_family_ids", productFamilyIds)
-	}
-	if sort != nil {
-		req.QueryParam("sort", *sort)
-	}
-	if startDate != nil {
-		req.QueryParam("start_date", *startDate)
-	}
-	if startDatetime != nil {
-		req.QueryParam("start_datetime", *startDatetime)
-	}
-	if include != nil {
-		req.QueryParam("include", *include)
-	}
-	if filterUseSiteExchangeRate != nil {
-		req.QueryParam("filter[use_site_exchange_rate]", *filterUseSiteExchangeRate)
-	}
-	if filterCurrencies != nil {
-		req.QueryParam("filter[currencies]", filterCurrencies)
-	}
-
-	var result []models.SubscriptionComponentResponse
-	decoder, resp, err := req.CallAsJson()
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-	err = validateResponse(*resp)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	result, err = utilities.DecodeResults[[]models.SubscriptionComponentResponse](decoder)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	return models.NewApiResponse(result, resp), err
+    ctx context.Context,
+    subscriptionId int,
+    dateField *models.SubscriptionListDateField,
+    direction *models.SortingDirection,
+    endDate *string,
+    endDatetime *string,
+    pricePointIds *models.IncludeNotNull,
+    productFamilyIds []int,
+    sort *models.ListSubscriptionComponentsSort,
+    startDate *string,
+    startDatetime *string,
+    include *models.ListSubscriptionComponentsInclude,
+    filterUseSiteExchangeRate *bool,
+    filterCurrencies []string) (
+    models.ApiResponse[[]models.SubscriptionComponentResponse],
+    error) {
+    req := s.prepareRequest(
+      ctx,
+      "GET",
+      fmt.Sprintf("/subscriptions/%v/components.json", subscriptionId),
+    )
+    req.Authenticate(true)
+    if dateField != nil {
+        req.QueryParam("date_field", *dateField)
+    }
+    if direction != nil {
+        req.QueryParam("direction", *direction)
+    }
+    if endDate != nil {
+        req.QueryParam("end_date", *endDate)
+    }
+    if endDatetime != nil {
+        req.QueryParam("end_datetime", *endDatetime)
+    }
+    if pricePointIds != nil {
+        req.QueryParam("price_point_ids", *pricePointIds)
+    }
+    if productFamilyIds != nil {
+        req.QueryParam("product_family_ids", productFamilyIds)
+    }
+    if sort != nil {
+        req.QueryParam("sort", *sort)
+    }
+    if startDate != nil {
+        req.QueryParam("start_date", *startDate)
+    }
+    if startDatetime != nil {
+        req.QueryParam("start_datetime", *startDatetime)
+    }
+    if include != nil {
+        req.QueryParam("include", *include)
+    }
+    if filterUseSiteExchangeRate != nil {
+        req.QueryParam("filter[use_site_exchange_rate]", *filterUseSiteExchangeRate)
+    }
+    if filterCurrencies != nil {
+        req.QueryParam("filter[currencies]", filterCurrencies)
+    }
+    
+    var result []models.SubscriptionComponentResponse
+    decoder, resp, err := req.CallAsJson()
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    err = validateResponse(*resp)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    result, err = utilities.DecodeResults[[]models.SubscriptionComponentResponse](decoder)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    return models.NewApiResponse(result, resp), err
 }
 
-// UpdateSubscriptionComponentsPricePoints takes context, subscriptionId, body as parameters and
+// BulkUpdateSubscriptionComponentsPricePoints takes context, subscriptionId, body as parameters and
 // returns an models.ApiResponse with models.BulkComponentSPricePointAssignment data and
 // an error if there was an issue with the request or response.
 // Updates the price points on one or more of a subscription's components.
@@ -152,77 +152,77 @@ func (s *SubscriptionComponentsController) ListSubscriptionComponents(
 // 1. Price point id (integer)
 // 2. Price point handle (string)
 // 3. `"_default"` string, which will reset the price point to the component's current default price point.
-func (s *SubscriptionComponentsController) UpdateSubscriptionComponentsPricePoints(
-	ctx context.Context,
-	subscriptionId int,
-	body *models.BulkComponentSPricePointAssignment) (
-	models.ApiResponse[models.BulkComponentSPricePointAssignment],
-	error) {
-	req := s.prepareRequest(
-		ctx,
-		"POST",
-		fmt.Sprintf("/subscriptions/%v/price_points.json", subscriptionId),
-	)
-	req.Authenticate(true)
-	req.Header("Content-Type", "application/json")
-	if body != nil {
-		req.Json(*body)
-	}
-
-	var result models.BulkComponentSPricePointAssignment
-	decoder, resp, err := req.CallAsJson()
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-	err = validateResponse(*resp)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	result, err = utilities.DecodeResults[models.BulkComponentSPricePointAssignment](decoder)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	if resp.StatusCode == 422 {
-		err = errors.NewComponentPricePointError(422, "Unprocessable Entity (WebDAV)")
-	}
-	return models.NewApiResponse(result, resp), err
+func (s *SubscriptionComponentsController) BulkUpdateSubscriptionComponentsPricePoints(
+    ctx context.Context,
+    subscriptionId int,
+    body *models.BulkComponentSPricePointAssignment) (
+    models.ApiResponse[models.BulkComponentSPricePointAssignment],
+    error) {
+    req := s.prepareRequest(
+      ctx,
+      "POST",
+      fmt.Sprintf("/subscriptions/%v/price_points.json", subscriptionId),
+    )
+    req.Authenticate(true)
+    req.Header("Content-Type", "application/json")
+    if body != nil {
+        req.Json(*body)
+    }
+    
+    var result models.BulkComponentSPricePointAssignment
+    decoder, resp, err := req.CallAsJson()
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    err = validateResponse(*resp)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    result, err = utilities.DecodeResults[models.BulkComponentSPricePointAssignment](decoder)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    if resp.StatusCode == 422 {
+        err = errors.NewComponentPricePointError(422, "Unprocessable Entity (WebDAV)")
+    }
+    return models.NewApiResponse(result, resp), err
 }
 
-// ResetSubscriptionComponentsPricePoints takes context, subscriptionId as parameters and
+// BulkResetSubscriptionComponentsPricePoints takes context, subscriptionId as parameters and
 // returns an models.ApiResponse with models.SubscriptionResponse data and
 // an error if there was an issue with the request or response.
 // Resets all of a subscription's components to use the current default.
 // **Note**: this will update the price point for all of the subscription's components, even ones that have not been allocated yet.
-func (s *SubscriptionComponentsController) ResetSubscriptionComponentsPricePoints(
-	ctx context.Context,
-	subscriptionId int) (
-	models.ApiResponse[models.SubscriptionResponse],
-	error) {
-	req := s.prepareRequest(
-		ctx,
-		"POST",
-		fmt.Sprintf("/subscriptions/%v/price_points/reset.json", subscriptionId),
-	)
-	req.Authenticate(true)
-
-	var result models.SubscriptionResponse
-	decoder, resp, err := req.CallAsJson()
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-	err = validateResponse(*resp)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	result, err = utilities.DecodeResults[models.SubscriptionResponse](decoder)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	return models.NewApiResponse(result, resp), err
+func (s *SubscriptionComponentsController) BulkResetSubscriptionComponentsPricePoints(
+    ctx context.Context,
+    subscriptionId int) (
+    models.ApiResponse[models.SubscriptionResponse],
+    error) {
+    req := s.prepareRequest(
+      ctx,
+      "POST",
+      fmt.Sprintf("/subscriptions/%v/price_points/reset.json", subscriptionId),
+    )
+    req.Authenticate(true)
+    
+    var result models.SubscriptionResponse
+    decoder, resp, err := req.CallAsJson()
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    err = validateResponse(*resp)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    result, err = utilities.DecodeResults[models.SubscriptionResponse](decoder)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    return models.NewApiResponse(result, resp), err
 }
 
 // AllocateComponent takes context, subscriptionId, componentId, body as parameters and
@@ -262,42 +262,42 @@ func (s *SubscriptionComponentsController) ResetSubscriptionComponentsPricePoint
 // 2. [Site-level default value](https://maxio-chargify.zendesk.com/hc/en-us/articles/5404527849997#proration-schemes)
 // **NOTE: Proration uses the current price of the component as well as the current tax rates. Changes to either may cause the prorated charge/credit to be wrong.**
 func (s *SubscriptionComponentsController) AllocateComponent(
-	ctx context.Context,
-	subscriptionId int,
-	componentId int,
-	body *models.CreateAllocationRequest) (
-	models.ApiResponse[models.AllocationResponse],
-	error) {
-	req := s.prepareRequest(
-		ctx,
-		"POST",
-		fmt.Sprintf("/subscriptions/%v/components/%v/allocations.json", subscriptionId, componentId),
-	)
-	req.Authenticate(true)
-	req.Header("Content-Type", "application/json")
-	if body != nil {
-		req.Json(*body)
-	}
-
-	var result models.AllocationResponse
-	decoder, resp, err := req.CallAsJson()
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-	err = validateResponse(*resp)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	result, err = utilities.DecodeResults[models.AllocationResponse](decoder)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	if resp.StatusCode == 422 {
-		err = errors.NewErrorListResponse(422, "Unprocessable Entity (WebDAV)")
-	}
-	return models.NewApiResponse(result, resp), err
+    ctx context.Context,
+    subscriptionId int,
+    componentId int,
+    body *models.CreateAllocationRequest) (
+    models.ApiResponse[models.AllocationResponse],
+    error) {
+    req := s.prepareRequest(
+      ctx,
+      "POST",
+      fmt.Sprintf("/subscriptions/%v/components/%v/allocations.json", subscriptionId, componentId),
+    )
+    req.Authenticate(true)
+    req.Header("Content-Type", "application/json")
+    if body != nil {
+        req.Json(*body)
+    }
+    
+    var result models.AllocationResponse
+    decoder, resp, err := req.CallAsJson()
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    err = validateResponse(*resp)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    result, err = utilities.DecodeResults[models.AllocationResponse](decoder)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    if resp.StatusCode == 422 {
+        err = errors.NewErrorListResponse(422, "Unprocessable Entity (WebDAV)")
+    }
+    return models.NewApiResponse(result, resp), err
 }
 
 // ListAllocations takes context, subscriptionId, componentId, page as parameters and
@@ -318,44 +318,44 @@ func (s *SubscriptionComponentsController) AllocateComponent(
 // # => 23
 // ```
 func (s *SubscriptionComponentsController) ListAllocations(
-	ctx context.Context,
-	subscriptionId int,
-	componentId int,
-	page *int) (
-	models.ApiResponse[[]models.AllocationResponse],
-	error) {
-	req := s.prepareRequest(
-		ctx,
-		"GET",
-		fmt.Sprintf("/subscriptions/%v/components/%v/allocations.json", subscriptionId, componentId),
-	)
-	req.Authenticate(true)
-	if page != nil {
-		req.QueryParam("page", *page)
-	}
-
-	var result []models.AllocationResponse
-	decoder, resp, err := req.CallAsJson()
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-	err = validateResponse(*resp)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	result, err = utilities.DecodeResults[[]models.AllocationResponse](decoder)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	if resp.StatusCode == 404 {
-		err = errors.NewApiError(404, "Not Found")
-	}
-	if resp.StatusCode == 422 {
-		err = errors.NewErrorListResponse(422, "Unprocessable Entity (WebDAV)")
-	}
-	return models.NewApiResponse(result, resp), err
+    ctx context.Context,
+    subscriptionId int,
+    componentId int,
+    page *int) (
+    models.ApiResponse[[]models.AllocationResponse],
+    error) {
+    req := s.prepareRequest(
+      ctx,
+      "GET",
+      fmt.Sprintf("/subscriptions/%v/components/%v/allocations.json", subscriptionId, componentId),
+    )
+    req.Authenticate(true)
+    if page != nil {
+        req.QueryParam("page", *page)
+    }
+    
+    var result []models.AllocationResponse
+    decoder, resp, err := req.CallAsJson()
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    err = validateResponse(*resp)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    result, err = utilities.DecodeResults[[]models.AllocationResponse](decoder)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    if resp.StatusCode == 404 {
+        err = errors.NewApiError(404, "Not Found")
+    }
+    if resp.StatusCode == 422 {
+        err = errors.NewErrorListResponse(422, "Unprocessable Entity (WebDAV)")
+    }
+    return models.NewApiResponse(result, resp), err
 }
 
 // AllocateComponents takes context, subscriptionId, body as parameters and
@@ -365,44 +365,44 @@ func (s *SubscriptionComponentsController) ListAllocations(
 // A `component_id` is required for each allocation.
 // This endpoint only responds to JSON. It is not available for XML.
 func (s *SubscriptionComponentsController) AllocateComponents(
-	ctx context.Context,
-	subscriptionId int,
-	body *models.AllocateComponents) (
-	models.ApiResponse[[]models.AllocationResponse],
-	error) {
-	req := s.prepareRequest(
-		ctx,
-		"POST",
-		fmt.Sprintf("/subscriptions/%v/allocations.json", subscriptionId),
-	)
-	req.Authenticate(true)
-	req.Header("Content-Type", "application/json")
-	if body != nil {
-		req.Json(*body)
-	}
-
-	var result []models.AllocationResponse
-	decoder, resp, err := req.CallAsJson()
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-	err = validateResponse(*resp)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	result, err = utilities.DecodeResults[[]models.AllocationResponse](decoder)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	if resp.StatusCode == 404 {
-		err = errors.NewApiError(404, "Not Found")
-	}
-	if resp.StatusCode == 422 {
-		err = errors.NewErrorListResponse(422, "Unprocessable Entity (WebDAV)")
-	}
-	return models.NewApiResponse(result, resp), err
+    ctx context.Context,
+    subscriptionId int,
+    body *models.AllocateComponents) (
+    models.ApiResponse[[]models.AllocationResponse],
+    error) {
+    req := s.prepareRequest(
+      ctx,
+      "POST",
+      fmt.Sprintf("/subscriptions/%v/allocations.json", subscriptionId),
+    )
+    req.Authenticate(true)
+    req.Header("Content-Type", "application/json")
+    if body != nil {
+        req.Json(*body)
+    }
+    
+    var result []models.AllocationResponse
+    decoder, resp, err := req.CallAsJson()
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    err = validateResponse(*resp)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    result, err = utilities.DecodeResults[[]models.AllocationResponse](decoder)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    if resp.StatusCode == 404 {
+        err = errors.NewApiError(404, "Not Found")
+    }
+    if resp.StatusCode == 422 {
+        err = errors.NewErrorListResponse(422, "Unprocessable Entity (WebDAV)")
+    }
+    return models.NewApiResponse(result, resp), err
 }
 
 // PreviewAllocations takes context, subscriptionId, body as parameters and
@@ -413,44 +413,44 @@ func (s *SubscriptionComponentsController) AllocateComponents(
 // When the allocation uses multiple different types of `upgrade_charge`s or `downgrade_credit`s, the Allocation is viewed as an Allocation which uses "Fine-Grained Component Control". As a result, the response will not include `direction` and `proration` within the `allocation_preview`, but at the `line_items` and `allocations` level respectfully.
 // See example below for Fine-Grained Component Control response.
 func (s *SubscriptionComponentsController) PreviewAllocations(
-	ctx context.Context,
-	subscriptionId int,
-	body *models.PreviewAllocationsRequest) (
-	models.ApiResponse[models.AllocationPreviewResponse],
-	error) {
-	req := s.prepareRequest(
-		ctx,
-		"POST",
-		fmt.Sprintf("/subscriptions/%v/allocations/preview.json", subscriptionId),
-	)
-	req.Authenticate(true)
-	req.Header("Content-Type", "application/json")
-	if body != nil {
-		req.Json(*body)
-	}
-
-	var result models.AllocationPreviewResponse
-	decoder, resp, err := req.CallAsJson()
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-	err = validateResponse(*resp)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	result, err = utilities.DecodeResults[models.AllocationPreviewResponse](decoder)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	if resp.StatusCode == 422 {
-		err = errors.NewComponentAllocationError(422, "Unprocessable Entity (WebDAV)")
-	}
-	return models.NewApiResponse(result, resp), err
+    ctx context.Context,
+    subscriptionId int,
+    body *models.PreviewAllocationsRequest) (
+    models.ApiResponse[models.AllocationPreviewResponse],
+    error) {
+    req := s.prepareRequest(
+      ctx,
+      "POST",
+      fmt.Sprintf("/subscriptions/%v/allocations/preview.json", subscriptionId),
+    )
+    req.Authenticate(true)
+    req.Header("Content-Type", "application/json")
+    if body != nil {
+        req.Json(*body)
+    }
+    
+    var result models.AllocationPreviewResponse
+    decoder, resp, err := req.CallAsJson()
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    err = validateResponse(*resp)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    result, err = utilities.DecodeResults[models.AllocationPreviewResponse](decoder)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    if resp.StatusCode == 422 {
+        err = errors.NewComponentAllocationError(422, "Unprocessable Entity (WebDAV)")
+    }
+    return models.NewApiResponse(result, resp), err
 }
 
-// UpdatePrepaidUsageAllocation takes context, subscriptionId, componentId, allocationId, body as parameters and
+// UpdatePrepaidUsageAllocationExpirationDate takes context, subscriptionId, componentId, allocationId, body as parameters and
 // returns an models.ApiResponse with  data and
 // an error if there was an issue with the request or response.
 // When the expiration interval options are selected on a prepaid usage component price point, all allocations will be created with an expiration date. This expiration date can be changed after the fact to allow for extending or shortening the allocation's active window.
@@ -460,37 +460,37 @@ func (s *SubscriptionComponentsController) PreviewAllocations(
 // - An expiration date can only be changed for an allocation that belongs to a price point with expiration interval options explicitly set.
 // - An expiration date can be changed towards the future with no limitations.
 // - An expiration date can be changed towards the past (essentially expiring it) up to the subscription's current period beginning date.
-func (s *SubscriptionComponentsController) UpdatePrepaidUsageAllocation(
-	ctx context.Context,
-	subscriptionId int,
-	componentId int,
-	allocationId int,
-	body *models.UpdateAllocationExpirationDate) (
-	*http.Response,
-	error) {
-	req := s.prepareRequest(
-		ctx,
-		"PUT",
-		fmt.Sprintf("/subscriptions/%v/components/%v/allocations/%v.json", subscriptionId, componentId, allocationId),
-	)
-	req.Authenticate(true)
-	req.Header("Content-Type", "application/json")
-	if body != nil {
-		req.Json(*body)
-	}
-
-	context, err := req.Call()
-	if err != nil {
-		return context.Response, err
-	}
-	err = validateResponse(*context.Response)
-	if err != nil {
-		return context.Response, err
-	}
-	if context.Response.StatusCode == 422 {
-		err = errors.NewSubscriptionComponentAllocationError(422, "Unprocessable Entity (WebDAV)")
-	}
-	return context.Response, err
+func (s *SubscriptionComponentsController) UpdatePrepaidUsageAllocationExpirationDate(
+    ctx context.Context,
+    subscriptionId int,
+    componentId int,
+    allocationId int,
+    body *models.UpdateAllocationExpirationDate) (
+    *http.Response,
+    error) {
+    req := s.prepareRequest(
+      ctx,
+      "PUT",
+      fmt.Sprintf("/subscriptions/%v/components/%v/allocations/%v.json", subscriptionId, componentId, allocationId),
+    )
+    req.Authenticate(true)
+    req.Header("Content-Type", "application/json")
+    if body != nil {
+        req.Json(*body)
+    }
+    
+    context, err := req.Call()
+    if err != nil {
+        return context.Response, err
+    }
+    err = validateResponse(*context.Response)
+    if err != nil {
+        return context.Response, err
+    }
+    if context.Response.StatusCode == 422 {
+        err = errors.NewSubscriptionComponentAllocationError(422, "Unprocessable Entity (WebDAV)")
+    }
+    return context.Response, err
 }
 
 // DeletePrepaidUsageAllocation takes context, subscriptionId, componentId, allocationId, body as parameters and
@@ -503,36 +503,36 @@ func (s *SubscriptionComponentsController) UpdatePrepaidUsageAllocation(
 // 2. `credit`: The allocation will be destroyed and the balances will be updated and a service credit will be generated. This is also the default behavior if the `credit_scheme` param is not passed.
 // 3. `refund`: The allocation will be destroyed and the balances will be updated and a refund will be issued along with a Credit Note.
 func (s *SubscriptionComponentsController) DeletePrepaidUsageAllocation(
-	ctx context.Context,
-	subscriptionId int,
-	componentId int,
-	allocationId int,
-	body *models.CreditSchemeRequest) (
-	*http.Response,
-	error) {
-	req := s.prepareRequest(
-		ctx,
-		"DELETE",
-		fmt.Sprintf("/subscriptions/%v/components/%v/allocations/%v.json", subscriptionId, componentId, allocationId),
-	)
-	req.Authenticate(true)
-	req.Header("Content-Type", "application/json")
-	if body != nil {
-		req.Json(*body)
-	}
-
-	context, err := req.Call()
-	if err != nil {
-		return context.Response, err
-	}
-	err = validateResponse(*context.Response)
-	if err != nil {
-		return context.Response, err
-	}
-	if context.Response.StatusCode == 422 {
-		err = errors.NewSubscriptionComponentAllocationError(422, "Unprocessable Entity (WebDAV)")
-	}
-	return context.Response, err
+    ctx context.Context,
+    subscriptionId int,
+    componentId int,
+    allocationId int,
+    body *models.CreditSchemeRequest) (
+    *http.Response,
+    error) {
+    req := s.prepareRequest(
+      ctx,
+      "DELETE",
+      fmt.Sprintf("/subscriptions/%v/components/%v/allocations/%v.json", subscriptionId, componentId, allocationId),
+    )
+    req.Authenticate(true)
+    req.Header("Content-Type", "application/json")
+    if body != nil {
+        req.Json(*body)
+    }
+    
+    context, err := req.Call()
+    if err != nil {
+        return context.Response, err
+    }
+    err = validateResponse(*context.Response)
+    if err != nil {
+        return context.Response, err
+    }
+    if context.Response.StatusCode == 422 {
+        err = errors.NewSubscriptionComponentAllocationError(422, "Unprocessable Entity (WebDAV)")
+    }
+    return context.Response, err
 }
 
 // CreateUsage takes context, subscriptionId, componentId, body as parameters and
@@ -575,42 +575,42 @@ func (s *SubscriptionComponentsController) DeletePrepaidUsageAllocation(
 // Q. Is it possible to record metered usage for more than one component at a time?
 // A. No. Usage should be reported as one API call per component on a single subscription. For example, to record that a subscriber has sent both an SMS Message and an Email, send an API call for each.
 func (s *SubscriptionComponentsController) CreateUsage(
-	ctx context.Context,
-	subscriptionId int,
-	componentId interface{},
-	body *models.CreateUsageRequest) (
-	models.ApiResponse[models.UsageResponse],
-	error) {
-	req := s.prepareRequest(
-		ctx,
-		"POST",
-		fmt.Sprintf("/subscriptions/%v/components/%v/usages.json", subscriptionId, componentId),
-	)
-	req.Authenticate(true)
-	req.Header("Content-Type", "application/json")
-	if body != nil {
-		req.Json(*body)
-	}
-
-	var result models.UsageResponse
-	decoder, resp, err := req.CallAsJson()
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-	err = validateResponse(*resp)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	result, err = utilities.DecodeResults[models.UsageResponse](decoder)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	if resp.StatusCode == 422 {
-		err = errors.NewErrorListResponse(422, "Unprocessable Entity (WebDAV)")
-	}
-	return models.NewApiResponse(result, resp), err
+    ctx context.Context,
+    subscriptionId int,
+    componentId interface{},
+    body *models.CreateUsageRequest) (
+    models.ApiResponse[models.UsageResponse],
+    error) {
+    req := s.prepareRequest(
+      ctx,
+      "POST",
+      fmt.Sprintf("/subscriptions/%v/components/%v/usages.json", subscriptionId, componentId),
+    )
+    req.Authenticate(true)
+    req.Header("Content-Type", "application/json")
+    if body != nil {
+        req.Json(*body)
+    }
+    
+    var result models.UsageResponse
+    decoder, resp, err := req.CallAsJson()
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    err = validateResponse(*resp)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    result, err = utilities.DecodeResults[models.UsageResponse](decoder)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    if resp.StatusCode == 422 {
+        err = errors.NewErrorListResponse(422, "Unprocessable Entity (WebDAV)")
+    }
+    return models.NewApiResponse(result, resp), err
 }
 
 // ListUsages takes context, subscriptionId, componentId, sinceId, maxId, sinceDate, untilDate, page, perPage as parameters and
@@ -626,58 +626,58 @@ func (s *SubscriptionComponentsController) CreateUsage(
 // ## Read Usage by Handle
 // Use this endpoint to read the previously recorded components for a subscription.  You can now specify either the component id (integer) or the component handle prefixed by "handle:" to specify the unique identifier for the component you are working with.
 func (s *SubscriptionComponentsController) ListUsages(
-	ctx context.Context,
-	subscriptionId int,
-	componentId interface{},
-	sinceId *int,
-	maxId *int,
-	sinceDate *time.Time,
-	untilDate *time.Time,
-	page *int,
-	perPage *int) (
-	models.ApiResponse[[]models.UsageResponse],
-	error) {
-	req := s.prepareRequest(
-		ctx,
-		"GET",
-		fmt.Sprintf("/subscriptions/%v/components/%v/usages.json", subscriptionId, componentId),
-	)
-	req.Authenticate(true)
-	if sinceId != nil {
-		req.QueryParam("since_id", *sinceId)
-	}
-	if maxId != nil {
-		req.QueryParam("max_id", *maxId)
-	}
-	if sinceDate != nil {
-		req.QueryParam("since_date", sinceDate.Format(models.DEFAULT_DATE))
-	}
-	if untilDate != nil {
-		req.QueryParam("until_date", untilDate.Format(models.DEFAULT_DATE))
-	}
-	if page != nil {
-		req.QueryParam("page", *page)
-	}
-	if perPage != nil {
-		req.QueryParam("per_page", *perPage)
-	}
-
-	var result []models.UsageResponse
-	decoder, resp, err := req.CallAsJson()
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-	err = validateResponse(*resp)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	result, err = utilities.DecodeResults[[]models.UsageResponse](decoder)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	return models.NewApiResponse(result, resp), err
+    ctx context.Context,
+    subscriptionId int,
+    componentId interface{},
+    sinceId *int,
+    maxId *int,
+    sinceDate *time.Time,
+    untilDate *time.Time,
+    page *int,
+    perPage *int) (
+    models.ApiResponse[[]models.UsageResponse],
+    error) {
+    req := s.prepareRequest(
+      ctx,
+      "GET",
+      fmt.Sprintf("/subscriptions/%v/components/%v/usages.json", subscriptionId, componentId),
+    )
+    req.Authenticate(true)
+    if sinceId != nil {
+        req.QueryParam("since_id", *sinceId)
+    }
+    if maxId != nil {
+        req.QueryParam("max_id", *maxId)
+    }
+    if sinceDate != nil {
+        req.QueryParam("since_date", sinceDate.Format(models.DEFAULT_DATE))
+    }
+    if untilDate != nil {
+        req.QueryParam("until_date", untilDate.Format(models.DEFAULT_DATE))
+    }
+    if page != nil {
+        req.QueryParam("page", *page)
+    }
+    if perPage != nil {
+        req.QueryParam("per_page", *perPage)
+    }
+    
+    var result []models.UsageResponse
+    decoder, resp, err := req.CallAsJson()
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    err = validateResponse(*resp)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    result, err = utilities.DecodeResults[[]models.UsageResponse](decoder)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    return models.NewApiResponse(result, resp), err
 }
 
 // ActivateEventBasedComponent takes context, subscriptionId, componentId as parameters and
@@ -688,27 +688,27 @@ func (s *SubscriptionComponentsController) ListUsages(
 // Use this endpoint to activate an event-based component for a single subscription. Activating an event-based component causes Chargify to bill for events when the subscription is renewed.
 // *Note: it is possible to stream events for a subscription at any time, regardless of component activation status. The activation status only determines if the subscription should be billed for event-based component usage at renewal.*
 func (s *SubscriptionComponentsController) ActivateEventBasedComponent(
-	ctx context.Context,
-	subscriptionId int,
-	componentId int) (
-	*http.Response,
-	error) {
-	req := s.prepareRequest(
-		ctx,
-		"POST",
-		fmt.Sprintf("/event_based_billing/subscriptions/%v/components/%v/activate.json", subscriptionId, componentId),
-	)
-	req.Authenticate(true)
-
-	context, err := req.Call()
-	if err != nil {
-		return context.Response, err
-	}
-	err = validateResponse(*context.Response)
-	if err != nil {
-		return context.Response, err
-	}
-	return context.Response, err
+    ctx context.Context,
+    subscriptionId int,
+    componentId int) (
+    *http.Response,
+    error) {
+    req := s.prepareRequest(
+      ctx,
+      "POST",
+      fmt.Sprintf("/event_based_billing/subscriptions/%v/components/%v/activate.json", subscriptionId, componentId),
+    )
+    req.Authenticate(true)
+    
+    context, err := req.Call()
+    if err != nil {
+        return context.Response, err
+    }
+    err = validateResponse(*context.Response)
+    if err != nil {
+        return context.Response, err
+    }
+    return context.Response, err
 }
 
 // DeactivateEventBasedComponent takes context, subscriptionId, componentId as parameters and
@@ -716,27 +716,27 @@ func (s *SubscriptionComponentsController) ActivateEventBasedComponent(
 // an error if there was an issue with the request or response.
 // Use this endpoint to deactivate an event-based component for a single subscription. Deactivating the event-based component causes Chargify to ignore related events at subscription renewal.
 func (s *SubscriptionComponentsController) DeactivateEventBasedComponent(
-	ctx context.Context,
-	subscriptionId int,
-	componentId int) (
-	*http.Response,
-	error) {
-	req := s.prepareRequest(
-		ctx,
-		"POST",
-		fmt.Sprintf("/event_based_billing/subscriptions/%v/components/%v/deactivate.json", subscriptionId, componentId),
-	)
-	req.Authenticate(true)
-
-	context, err := req.Call()
-	if err != nil {
-		return context.Response, err
-	}
-	err = validateResponse(*context.Response)
-	if err != nil {
-		return context.Response, err
-	}
-	return context.Response, err
+    ctx context.Context,
+    subscriptionId int,
+    componentId int) (
+    *http.Response,
+    error) {
+    req := s.prepareRequest(
+      ctx,
+      "POST",
+      fmt.Sprintf("/event_based_billing/subscriptions/%v/components/%v/deactivate.json", subscriptionId, componentId),
+    )
+    req.Authenticate(true)
+    
+    context, err := req.Call()
+    if err != nil {
+        return context.Response, err
+    }
+    err = validateResponse(*context.Response)
+    if err != nil {
+        return context.Response, err
+    }
+    return context.Response, err
 }
 
 // RecordEvent takes context, subdomain, apiHandle, storeUid, body as parameters and
@@ -754,75 +754,75 @@ func (s *SubscriptionComponentsController) DeactivateEventBasedComponent(
 // https://events.chargify.com/my-site-subdomain/events/my-stream-api-handle
 // ```
 func (s *SubscriptionComponentsController) RecordEvent(
-	ctx context.Context,
-	subdomain string,
-	apiHandle string,
-	storeUid *string,
-	body *models.EBBEvent) (
-	*http.Response,
-	error) {
-	req := s.prepareRequest(
-		ctx,
-		"POST",
-		fmt.Sprintf("/%v/events/%v.json", subdomain, apiHandle),
-	)
-	req.Authenticate(true)
-	req.Header("Content-Type", "application/json")
-	if storeUid != nil {
-		req.QueryParam("store_uid", *storeUid)
-	}
-	if body != nil {
-		req.Json(*body)
-	}
-
-	context, err := req.Call()
-	if err != nil {
-		return context.Response, err
-	}
-	err = validateResponse(*context.Response)
-	if err != nil {
-		return context.Response, err
-	}
-	return context.Response, err
+    ctx context.Context,
+    subdomain string,
+    apiHandle string,
+    storeUid *string,
+    body *models.EBBEvent) (
+    *http.Response,
+    error) {
+    req := s.prepareRequest(
+      ctx,
+      "POST",
+      fmt.Sprintf("/%v/events/%v.json", subdomain, apiHandle),
+    )
+    req.Authenticate(true)
+    req.Header("Content-Type", "application/json")
+    if storeUid != nil {
+        req.QueryParam("store_uid", *storeUid)
+    }
+    if body != nil {
+        req.Json(*body)
+    }
+    
+    context, err := req.Call()
+    if err != nil {
+        return context.Response, err
+    }
+    err = validateResponse(*context.Response)
+    if err != nil {
+        return context.Response, err
+    }
+    return context.Response, err
 }
 
-// RecordEvents takes context, subdomain, apiHandle, storeUid, body as parameters and
+// BulkRecordEvents takes context, subdomain, apiHandle, storeUid, body as parameters and
 // returns an models.ApiResponse with  data and
 // an error if there was an issue with the request or response.
 // Use this endpoint to record a collection of events.
 // *Note: this endpoint differs from the standard Chargify endpoints in that the subdomain will be `events` and your site subdomain will be included in the URL path.*
 // A maximum of 1000 events can be published in a single request. A 422 will be returned if this limit is exceeded.
-func (s *SubscriptionComponentsController) RecordEvents(
-	ctx context.Context,
-	subdomain string,
-	apiHandle string,
-	storeUid *string,
-	body []models.EBBEvent) (
-	*http.Response,
-	error) {
-	req := s.prepareRequest(
-		ctx,
-		"POST",
-		fmt.Sprintf("/%v/events/%v/bulk.json", subdomain, apiHandle),
-	)
-	req.Authenticate(true)
-	req.Header("Content-Type", "application/json")
-	if storeUid != nil {
-		req.QueryParam("store_uid", *storeUid)
-	}
-	if body != nil {
-		req.Json(body)
-	}
-
-	context, err := req.Call()
-	if err != nil {
-		return context.Response, err
-	}
-	err = validateResponse(*context.Response)
-	if err != nil {
-		return context.Response, err
-	}
-	return context.Response, err
+func (s *SubscriptionComponentsController) BulkRecordEvents(
+    ctx context.Context,
+    subdomain string,
+    apiHandle string,
+    storeUid *string,
+    body []models.EBBEvent) (
+    *http.Response,
+    error) {
+    req := s.prepareRequest(
+      ctx,
+      "POST",
+      fmt.Sprintf("/%v/events/%v/bulk.json", subdomain, apiHandle),
+    )
+    req.Authenticate(true)
+    req.Header("Content-Type", "application/json")
+    if storeUid != nil {
+        req.QueryParam("store_uid", *storeUid)
+    }
+    if body != nil {
+        req.Json(body)
+    }
+    
+    context, err := req.Call()
+    if err != nil {
+        return context.Response, err
+    }
+    err = validateResponse(*context.Response)
+    if err != nil {
+        return context.Response, err
+    }
+    return context.Response, err
 }
 
 // ListSubscriptionComponentsForSite takes context, page, perPage, sort, direction, dateField, startDate, startDatetime, endDate, endDatetime, subscriptionIds, pricePointIds, productFamilyIds, include, filterUseSiteExchangeRate, filterCurrencies, filterSubscriptionStates, filterSubscriptionDateField, filterSubscriptionStartDate, filterSubscriptionStartDatetime, filterSubscriptionEndDate, filterSubscriptionEndDatetime as parameters and
@@ -830,109 +830,109 @@ func (s *SubscriptionComponentsController) RecordEvents(
 // an error if there was an issue with the request or response.
 // This request will list components applied to each subscription.
 func (s *SubscriptionComponentsController) ListSubscriptionComponentsForSite(
-	ctx context.Context,
-	page *int,
-	perPage *int,
-	sort *models.ListSubscriptionComponentsSort,
-	direction *models.SortingDirection,
-	dateField *models.SubscriptionListDateField,
-	startDate *string,
-	startDatetime *string,
-	endDate *string,
-	endDatetime *string,
-	subscriptionIds []int,
-	pricePointIds *models.IncludeNotNull,
-	productFamilyIds []int,
-	include *models.ListSubscriptionComponentsInclude,
-	filterUseSiteExchangeRate *bool,
-	filterCurrencies []string,
-	filterSubscriptionStates []models.SubscriptionStateFilter,
-	filterSubscriptionDateField *models.SubscriptionListDateField,
-	filterSubscriptionStartDate *string,
-	filterSubscriptionStartDatetime *string,
-	filterSubscriptionEndDate *string,
-	filterSubscriptionEndDatetime *string) (
-	models.ApiResponse[models.ListSubscriptionComponentsResponse],
-	error) {
-	req := s.prepareRequest(ctx, "GET", "/subscriptions_components.json")
-	req.Authenticate(true)
-	if page != nil {
-		req.QueryParam("page", *page)
-	}
-	if perPage != nil {
-		req.QueryParam("per_page", *perPage)
-	}
-	if sort != nil {
-		req.QueryParam("sort", *sort)
-	}
-	if direction != nil {
-		req.QueryParam("direction", *direction)
-	}
-	if dateField != nil {
-		req.QueryParam("date_field", *dateField)
-	}
-	if startDate != nil {
-		req.QueryParam("start_date", *startDate)
-	}
-	if startDatetime != nil {
-		req.QueryParam("start_datetime", *startDatetime)
-	}
-	if endDate != nil {
-		req.QueryParam("end_date", *endDate)
-	}
-	if endDatetime != nil {
-		req.QueryParam("end_datetime", *endDatetime)
-	}
-	if subscriptionIds != nil {
-		req.QueryParam("subscription_ids", subscriptionIds)
-	}
-	if pricePointIds != nil {
-		req.QueryParam("price_point_ids", *pricePointIds)
-	}
-	if productFamilyIds != nil {
-		req.QueryParam("product_family_ids", productFamilyIds)
-	}
-	if include != nil {
-		req.QueryParam("include", *include)
-	}
-	if filterUseSiteExchangeRate != nil {
-		req.QueryParam("filter[use_site_exchange_rate]", *filterUseSiteExchangeRate)
-	}
-	if filterCurrencies != nil {
-		req.QueryParam("filter[currencies]", filterCurrencies)
-	}
-	if filterSubscriptionStates != nil {
-		req.QueryParam("filter[subscription][states]", filterSubscriptionStates)
-	}
-	if filterSubscriptionDateField != nil {
-		req.QueryParam("filter[subscription][date_field]", *filterSubscriptionDateField)
-	}
-	if filterSubscriptionStartDate != nil {
-		req.QueryParam("filter[subscription][start_date]", *filterSubscriptionStartDate)
-	}
-	if filterSubscriptionStartDatetime != nil {
-		req.QueryParam("filter[subscription][start_datetime]", *filterSubscriptionStartDatetime)
-	}
-	if filterSubscriptionEndDate != nil {
-		req.QueryParam("filter[subscription][end_date]", *filterSubscriptionEndDate)
-	}
-	if filterSubscriptionEndDatetime != nil {
-		req.QueryParam("filter[subscription][end_datetime]", *filterSubscriptionEndDatetime)
-	}
-	var result models.ListSubscriptionComponentsResponse
-	decoder, resp, err := req.CallAsJson()
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-	err = validateResponse(*resp)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	result, err = utilities.DecodeResults[models.ListSubscriptionComponentsResponse](decoder)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	return models.NewApiResponse(result, resp), err
+    ctx context.Context,
+    page *int,
+    perPage *int,
+    sort *models.ListSubscriptionComponentsSort,
+    direction *models.SortingDirection,
+    dateField *models.SubscriptionListDateField,
+    startDate *string,
+    startDatetime *string,
+    endDate *string,
+    endDatetime *string,
+    subscriptionIds []int,
+    pricePointIds *models.IncludeNotNull,
+    productFamilyIds []int,
+    include *models.ListSubscriptionComponentsInclude,
+    filterUseSiteExchangeRate *bool,
+    filterCurrencies []string,
+    filterSubscriptionStates []models.SubscriptionStateFilter,
+    filterSubscriptionDateField *models.SubscriptionListDateField,
+    filterSubscriptionStartDate *string,
+    filterSubscriptionStartDatetime *string,
+    filterSubscriptionEndDate *string,
+    filterSubscriptionEndDatetime *string) (
+    models.ApiResponse[models.ListSubscriptionComponentsResponse],
+    error) {
+    req := s.prepareRequest(ctx, "GET", "/subscriptions_components.json")
+    req.Authenticate(true)
+    if page != nil {
+        req.QueryParam("page", *page)
+    }
+    if perPage != nil {
+        req.QueryParam("per_page", *perPage)
+    }
+    if sort != nil {
+        req.QueryParam("sort", *sort)
+    }
+    if direction != nil {
+        req.QueryParam("direction", *direction)
+    }
+    if dateField != nil {
+        req.QueryParam("date_field", *dateField)
+    }
+    if startDate != nil {
+        req.QueryParam("start_date", *startDate)
+    }
+    if startDatetime != nil {
+        req.QueryParam("start_datetime", *startDatetime)
+    }
+    if endDate != nil {
+        req.QueryParam("end_date", *endDate)
+    }
+    if endDatetime != nil {
+        req.QueryParam("end_datetime", *endDatetime)
+    }
+    if subscriptionIds != nil {
+        req.QueryParam("subscription_ids", subscriptionIds)
+    }
+    if pricePointIds != nil {
+        req.QueryParam("price_point_ids", *pricePointIds)
+    }
+    if productFamilyIds != nil {
+        req.QueryParam("product_family_ids", productFamilyIds)
+    }
+    if include != nil {
+        req.QueryParam("include", *include)
+    }
+    if filterUseSiteExchangeRate != nil {
+        req.QueryParam("filter[use_site_exchange_rate]", *filterUseSiteExchangeRate)
+    }
+    if filterCurrencies != nil {
+        req.QueryParam("filter[currencies]", filterCurrencies)
+    }
+    if filterSubscriptionStates != nil {
+        req.QueryParam("filter[subscription][states]", filterSubscriptionStates)
+    }
+    if filterSubscriptionDateField != nil {
+        req.QueryParam("filter[subscription][date_field]", *filterSubscriptionDateField)
+    }
+    if filterSubscriptionStartDate != nil {
+        req.QueryParam("filter[subscription][start_date]", *filterSubscriptionStartDate)
+    }
+    if filterSubscriptionStartDatetime != nil {
+        req.QueryParam("filter[subscription][start_datetime]", *filterSubscriptionStartDatetime)
+    }
+    if filterSubscriptionEndDate != nil {
+        req.QueryParam("filter[subscription][end_date]", *filterSubscriptionEndDate)
+    }
+    if filterSubscriptionEndDatetime != nil {
+        req.QueryParam("filter[subscription][end_datetime]", *filterSubscriptionEndDatetime)
+    }
+    var result models.ListSubscriptionComponentsResponse
+    decoder, resp, err := req.CallAsJson()
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    err = validateResponse(*resp)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    result, err = utilities.DecodeResults[models.ListSubscriptionComponentsResponse](decoder)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    return models.NewApiResponse(result, resp), err
 }

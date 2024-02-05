@@ -16,7 +16,6 @@
 ```json
 {
   "payment": {
-    "method": "other",
     "amount": {
       "key1": "val1",
       "key2": "val2"
@@ -29,6 +28,7 @@
     ],
     "memo": "memo0",
     "details": "details6",
+    "method": "ach",
     "received_on": "received_on8"
   }
 }

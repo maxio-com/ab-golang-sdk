@@ -1,24 +1,24 @@
 package advancedbilling
 
 import (
-	"context"
-	"fmt"
-	"github.com/apimatic/go-core-runtime/utilities"
-	"github.com/maxio-com/ab-golang-sdk/errors"
-	"github.com/maxio-com/ab-golang-sdk/models"
-	"net/http"
+    "context"
+    "fmt"
+    "github.com/apimatic/go-core-runtime/utilities"
+    "github.com/maxio-com/ab-golang-sdk/errors"
+    "github.com/maxio-com/ab-golang-sdk/models"
+    "net/http"
 )
 
 // PaymentProfilesController represents a controller struct.
 type PaymentProfilesController struct {
-	baseController
+    baseController
 }
 
 // NewPaymentProfilesController creates a new instance of PaymentProfilesController.
 // It takes a baseController as a parameter and returns a pointer to the PaymentProfilesController.
 func NewPaymentProfilesController(baseController baseController) *PaymentProfilesController {
-	paymentProfilesController := PaymentProfilesController{baseController: baseController}
-	return &paymentProfilesController
+    paymentProfilesController := PaymentProfilesController{baseController: baseController}
+    return &paymentProfilesController
 }
 
 // CreatePaymentProfile takes context, body as parameters and
@@ -209,38 +209,38 @@ func NewPaymentProfilesController(baseController baseController) *PaymentProfile
 // 7. After that, we redirect the customer to the `redirect_url`; at this point the result of authentication is known
 // 8. Optionally, you can use the applied "msg" param in the `redirect_url` to determine whether it was successful or not
 func (p *PaymentProfilesController) CreatePaymentProfile(
-	ctx context.Context,
-	body *models.CreatePaymentProfileRequest) (
-	models.ApiResponse[models.PaymentProfileResponse],
-	error) {
-	req := p.prepareRequest(ctx, "POST", "/payment_profiles.json")
-	req.Authenticate(true)
-	req.Header("Content-Type", "application/json")
-	if body != nil {
-		req.Json(*body)
-	}
-	var result models.PaymentProfileResponse
-	decoder, resp, err := req.CallAsJson()
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-	err = validateResponse(*resp)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	result, err = utilities.DecodeResults[models.PaymentProfileResponse](decoder)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	if resp.StatusCode == 404 {
-		err = errors.NewApiError(404, "Not Found")
-	}
-	if resp.StatusCode == 422 {
-		err = errors.NewErrorListResponse(422, "Unprocessable Entity (WebDAV)")
-	}
-	return models.NewApiResponse(result, resp), err
+    ctx context.Context,
+    body *models.CreatePaymentProfileRequest) (
+    models.ApiResponse[models.PaymentProfileResponse],
+    error) {
+    req := p.prepareRequest(ctx, "POST", "/payment_profiles.json")
+    req.Authenticate(true)
+    req.Header("Content-Type", "application/json")
+    if body != nil {
+        req.Json(*body)
+    }
+    var result models.PaymentProfileResponse
+    decoder, resp, err := req.CallAsJson()
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    err = validateResponse(*resp)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    result, err = utilities.DecodeResults[models.PaymentProfileResponse](decoder)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    if resp.StatusCode == 404 {
+        err = errors.NewApiError(404, "Not Found")
+    }
+    if resp.StatusCode == 422 {
+        err = errors.NewErrorListResponse(422, "Unprocessable Entity (WebDAV)")
+    }
+    return models.NewApiResponse(result, resp), err
 }
 
 // ListPaymentProfiles takes context, page, perPage, customerId as parameters and
@@ -248,39 +248,39 @@ func (p *PaymentProfilesController) CreatePaymentProfile(
 // an error if there was an issue with the request or response.
 // This method will return all of the active `payment_profiles` for a Site, or for one Customer within a site.  If no payment profiles are found, this endpoint will return an empty array, not a 404.
 func (p *PaymentProfilesController) ListPaymentProfiles(
-	ctx context.Context,
-	page *int,
-	perPage *int,
-	customerId *int) (
-	models.ApiResponse[[]models.PaymentProfileResponse],
-	error) {
-	req := p.prepareRequest(ctx, "GET", "/payment_profiles.json")
-	req.Authenticate(true)
-	if page != nil {
-		req.QueryParam("page", *page)
-	}
-	if perPage != nil {
-		req.QueryParam("per_page", *perPage)
-	}
-	if customerId != nil {
-		req.QueryParam("customer_id", *customerId)
-	}
-	var result []models.PaymentProfileResponse
-	decoder, resp, err := req.CallAsJson()
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-	err = validateResponse(*resp)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	result, err = utilities.DecodeResults[[]models.PaymentProfileResponse](decoder)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	return models.NewApiResponse(result, resp), err
+    ctx context.Context,
+    page *int,
+    perPage *int,
+    customerId *int) (
+    models.ApiResponse[[]models.PaymentProfileResponse],
+    error) {
+    req := p.prepareRequest(ctx, "GET", "/payment_profiles.json")
+    req.Authenticate(true)
+    if page != nil {
+        req.QueryParam("page", *page)
+    }
+    if perPage != nil {
+        req.QueryParam("per_page", *perPage)
+    }
+    if customerId != nil {
+        req.QueryParam("customer_id", *customerId)
+    }
+    var result []models.PaymentProfileResponse
+    decoder, resp, err := req.CallAsJson()
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    err = validateResponse(*resp)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    result, err = utilities.DecodeResults[[]models.PaymentProfileResponse](decoder)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    return models.NewApiResponse(result, resp), err
 }
 
 // ReadPaymentProfile takes context, paymentProfileId as parameters and
@@ -318,36 +318,36 @@ func (p *PaymentProfilesController) ListPaymentProfiles(
 // }
 // ```
 func (p *PaymentProfilesController) ReadPaymentProfile(
-	ctx context.Context,
-	paymentProfileId int) (
-	models.ApiResponse[models.PaymentProfileResponse],
-	error) {
-	req := p.prepareRequest(
-		ctx,
-		"GET",
-		fmt.Sprintf("/payment_profiles/%v.json", paymentProfileId),
-	)
-	req.Authenticate(true)
-
-	var result models.PaymentProfileResponse
-	decoder, resp, err := req.CallAsJson()
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-	err = validateResponse(*resp)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	result, err = utilities.DecodeResults[models.PaymentProfileResponse](decoder)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	if resp.StatusCode == 404 {
-		err = errors.NewApiError(404, "Not Found")
-	}
-	return models.NewApiResponse(result, resp), err
+    ctx context.Context,
+    paymentProfileId int) (
+    models.ApiResponse[models.PaymentProfileResponse],
+    error) {
+    req := p.prepareRequest(
+      ctx,
+      "GET",
+      fmt.Sprintf("/payment_profiles/%v.json", paymentProfileId),
+    )
+    req.Authenticate(true)
+    
+    var result models.PaymentProfileResponse
+    decoder, resp, err := req.CallAsJson()
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    err = validateResponse(*resp)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    result, err = utilities.DecodeResults[models.PaymentProfileResponse](decoder)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    if resp.StatusCode == 404 {
+        err = errors.NewApiError(404, "Not Found")
+    }
+    return models.NewApiResponse(result, resp), err
 }
 
 // UpdatePaymentProfile takes context, paymentProfileId, body as parameters and
@@ -378,44 +378,44 @@ func (p *PaymentProfilesController) ReadPaymentProfile(
 // - Updating a payment profile directly will not trigger an attempt to capture a past-due balance. If this is the intent, update the card details via the Subscription instead.
 // - If you are using Authorize.net or Stripe, you may elect to manually trigger a retry for a past due subscription after a partial update.
 func (p *PaymentProfilesController) UpdatePaymentProfile(
-	ctx context.Context,
-	paymentProfileId int,
-	body *models.UpdatePaymentProfileRequest) (
-	models.ApiResponse[models.PaymentProfileResponse],
-	error) {
-	req := p.prepareRequest(
-		ctx,
-		"PUT",
-		fmt.Sprintf("/payment_profiles/%v.json", paymentProfileId),
-	)
-	req.Authenticate(true)
-	req.Header("Content-Type", "application/json")
-	if body != nil {
-		req.Json(*body)
-	}
-
-	var result models.PaymentProfileResponse
-	decoder, resp, err := req.CallAsJson()
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-	err = validateResponse(*resp)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	result, err = utilities.DecodeResults[models.PaymentProfileResponse](decoder)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	if resp.StatusCode == 404 {
-		err = errors.NewApiError(404, "Not Found")
-	}
-	if resp.StatusCode == 422 {
-		err = errors.NewErrorStringMapResponse(422, "Unprocessable Entity (WebDAV)")
-	}
-	return models.NewApiResponse(result, resp), err
+    ctx context.Context,
+    paymentProfileId int,
+    body *models.UpdatePaymentProfileRequest) (
+    models.ApiResponse[models.PaymentProfileResponse],
+    error) {
+    req := p.prepareRequest(
+      ctx,
+      "PUT",
+      fmt.Sprintf("/payment_profiles/%v.json", paymentProfileId),
+    )
+    req.Authenticate(true)
+    req.Header("Content-Type", "application/json")
+    if body != nil {
+        req.Json(*body)
+    }
+    
+    var result models.PaymentProfileResponse
+    decoder, resp, err := req.CallAsJson()
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    err = validateResponse(*resp)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    result, err = utilities.DecodeResults[models.PaymentProfileResponse](decoder)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    if resp.StatusCode == 404 {
+        err = errors.NewApiError(404, "Not Found")
+    }
+    if resp.StatusCode == 422 {
+        err = errors.NewErrorStringMapResponse(422, "Unprocessable Entity (WebDAV)")
+    }
+    return models.NewApiResponse(result, resp), err
 }
 
 // DeleteUnusedPaymentProfile takes context, paymentProfileId as parameters and
@@ -424,32 +424,32 @@ func (p *PaymentProfilesController) UpdatePaymentProfile(
 // Deletes an unused payment profile.
 // If the payment profile is in use by one or more subscriptions or groups, a 422 and error message will be returned.
 func (p *PaymentProfilesController) DeleteUnusedPaymentProfile(
-	ctx context.Context,
-	paymentProfileId int) (
-	*http.Response,
-	error) {
-	req := p.prepareRequest(
-		ctx,
-		"DELETE",
-		fmt.Sprintf("/payment_profiles/%v.json", paymentProfileId),
-	)
-	req.Authenticate(true)
-
-	context, err := req.Call()
-	if err != nil {
-		return context.Response, err
-	}
-	err = validateResponse(*context.Response)
-	if err != nil {
-		return context.Response, err
-	}
-	if context.Response.StatusCode == 404 {
-		err = errors.NewApiError(404, "Not Found")
-	}
-	if context.Response.StatusCode == 422 {
-		err = errors.NewErrorListResponse(422, "Unprocessable Entity (WebDAV)")
-	}
-	return context.Response, err
+    ctx context.Context,
+    paymentProfileId int) (
+    *http.Response,
+    error) {
+    req := p.prepareRequest(
+      ctx,
+      "DELETE",
+      fmt.Sprintf("/payment_profiles/%v.json", paymentProfileId),
+    )
+    req.Authenticate(true)
+    
+    context, err := req.Call()
+    if err != nil {
+        return context.Response, err
+    }
+    err = validateResponse(*context.Response)
+    if err != nil {
+        return context.Response, err
+    }
+    if context.Response.StatusCode == 404 {
+        err = errors.NewApiError(404, "Not Found")
+    }
+    if context.Response.StatusCode == 422 {
+        err = errors.NewErrorListResponse(422, "Unprocessable Entity (WebDAV)")
+    }
+    return context.Response, err
 }
 
 // DeleteSubscriptionsPaymentProfile takes context, subscriptionId, paymentProfileId as parameters and
@@ -459,27 +459,27 @@ func (p *PaymentProfilesController) DeleteUnusedPaymentProfile(
 // + If the customer has multiple subscriptions, the payment profile will be removed from all of them.
 // + If you delete the default payment profile for a subscription, you will need to specify another payment profile to be the default through the api, or either prompt the user to enter a card in the billing portal or on the self-service page, or visit the Payment Details tab on the subscription in the Admin UI and use the “Add New Credit Card” or “Make Active Payment Method” link, (depending on whether there are other cards present).
 func (p *PaymentProfilesController) DeleteSubscriptionsPaymentProfile(
-	ctx context.Context,
-	subscriptionId int,
-	paymentProfileId int) (
-	*http.Response,
-	error) {
-	req := p.prepareRequest(
-		ctx,
-		"DELETE",
-		fmt.Sprintf("/subscriptions/%v/payment_profiles/%v.json", subscriptionId, paymentProfileId),
-	)
-	req.Authenticate(true)
-
-	context, err := req.Call()
-	if err != nil {
-		return context.Response, err
-	}
-	err = validateResponse(*context.Response)
-	if err != nil {
-		return context.Response, err
-	}
-	return context.Response, err
+    ctx context.Context,
+    subscriptionId int,
+    paymentProfileId int) (
+    *http.Response,
+    error) {
+    req := p.prepareRequest(
+      ctx,
+      "DELETE",
+      fmt.Sprintf("/subscriptions/%v/payment_profiles/%v.json", subscriptionId, paymentProfileId),
+    )
+    req.Authenticate(true)
+    
+    context, err := req.Call()
+    if err != nil {
+        return context.Response, err
+    }
+    err = validateResponse(*context.Response)
+    if err != nil {
+        return context.Response, err
+    }
+    return context.Response, err
 }
 
 // VerifyBankAccount takes context, bankAccountId, body as parameters and
@@ -487,44 +487,44 @@ func (p *PaymentProfilesController) DeleteSubscriptionsPaymentProfile(
 // an error if there was an issue with the request or response.
 // Submit the two small deposit amounts the customer received in their bank account in order to verify the bank account. (Stripe only)
 func (p *PaymentProfilesController) VerifyBankAccount(
-	ctx context.Context,
-	bankAccountId int,
-	body *models.BankAccountVerificationRequest) (
-	models.ApiResponse[models.BankAccountResponse],
-	error) {
-	req := p.prepareRequest(
-		ctx,
-		"PUT",
-		fmt.Sprintf("/bank_accounts/%v/verification.json", bankAccountId),
-	)
-	req.Authenticate(true)
-	req.Header("Content-Type", "application/json")
-	if body != nil {
-		req.Json(*body)
-	}
-
-	var result models.BankAccountResponse
-	decoder, resp, err := req.CallAsJson()
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-	err = validateResponse(*resp)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	result, err = utilities.DecodeResults[models.BankAccountResponse](decoder)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	if resp.StatusCode == 404 {
-		err = errors.NewApiError(404, "Not Found")
-	}
-	if resp.StatusCode == 422 {
-		err = errors.NewErrorListResponse(422, "Unprocessable Entity (WebDAV)")
-	}
-	return models.NewApiResponse(result, resp), err
+    ctx context.Context,
+    bankAccountId int,
+    body *models.BankAccountVerificationRequest) (
+    models.ApiResponse[models.BankAccountResponse],
+    error) {
+    req := p.prepareRequest(
+      ctx,
+      "PUT",
+      fmt.Sprintf("/bank_accounts/%v/verification.json", bankAccountId),
+    )
+    req.Authenticate(true)
+    req.Header("Content-Type", "application/json")
+    if body != nil {
+        req.Json(*body)
+    }
+    
+    var result models.BankAccountResponse
+    decoder, resp, err := req.CallAsJson()
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    err = validateResponse(*resp)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    result, err = utilities.DecodeResults[models.BankAccountResponse](decoder)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    if resp.StatusCode == 404 {
+        err = errors.NewApiError(404, "Not Found")
+    }
+    if resp.StatusCode == 422 {
+        err = errors.NewErrorListResponse(422, "Unprocessable Entity (WebDAV)")
+    }
+    return models.NewApiResponse(result, resp), err
 }
 
 // DeleteSubscriptionGroupPaymentProfile takes context, uid, paymentProfileId as parameters and
@@ -533,109 +533,109 @@ func (p *PaymentProfilesController) VerifyBankAccount(
 // This will delete a Payment Profile belonging to a Subscription Group.
 // **Note**: If the Payment Profile belongs to multiple Subscription Groups and/or Subscriptions, it will be removed from all of them.
 func (p *PaymentProfilesController) DeleteSubscriptionGroupPaymentProfile(
-	ctx context.Context,
-	uid string,
-	paymentProfileId int) (
-	*http.Response,
-	error) {
-	req := p.prepareRequest(
-		ctx,
-		"DELETE",
-		fmt.Sprintf("/subscription_groups/%v/payment_profiles/%v.json", uid, paymentProfileId),
-	)
-	req.Authenticate(true)
-
-	context, err := req.Call()
-	if err != nil {
-		return context.Response, err
-	}
-	err = validateResponse(*context.Response)
-	if err != nil {
-		return context.Response, err
-	}
-	return context.Response, err
+    ctx context.Context,
+    uid string,
+    paymentProfileId int) (
+    *http.Response,
+    error) {
+    req := p.prepareRequest(
+      ctx,
+      "DELETE",
+      fmt.Sprintf("/subscription_groups/%v/payment_profiles/%v.json", uid, paymentProfileId),
+    )
+    req.Authenticate(true)
+    
+    context, err := req.Call()
+    if err != nil {
+        return context.Response, err
+    }
+    err = validateResponse(*context.Response)
+    if err != nil {
+        return context.Response, err
+    }
+    return context.Response, err
 }
 
-// UpdateSubscriptionDefaultPaymentProfile takes context, subscriptionId, paymentProfileId as parameters and
+// ChangeSubscriptionDefaultPaymentProfile takes context, subscriptionId, paymentProfileId as parameters and
 // returns an models.ApiResponse with models.PaymentProfileResponse data and
 // an error if there was an issue with the request or response.
 // This will change the default payment profile on the subscription to the existing payment profile with the id specified.
 // You must elect to change the existing payment profile to a new payment profile ID in order to receive a satisfactory response from this endpoint.
-func (p *PaymentProfilesController) UpdateSubscriptionDefaultPaymentProfile(
-	ctx context.Context,
-	subscriptionId int,
-	paymentProfileId int) (
-	models.ApiResponse[models.PaymentProfileResponse],
-	error) {
-	req := p.prepareRequest(
-		ctx,
-		"POST",
-		fmt.Sprintf("/subscriptions/%v/payment_profiles/%v/change_payment_profile.json", subscriptionId, paymentProfileId),
-	)
-	req.Authenticate(true)
-
-	var result models.PaymentProfileResponse
-	decoder, resp, err := req.CallAsJson()
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-	err = validateResponse(*resp)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	result, err = utilities.DecodeResults[models.PaymentProfileResponse](decoder)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	if resp.StatusCode == 404 {
-		err = errors.NewApiError(404, "Not Found")
-	}
-	if resp.StatusCode == 422 {
-		err = errors.NewErrorListResponse(422, "Unprocessable Entity (WebDAV)")
-	}
-	return models.NewApiResponse(result, resp), err
+func (p *PaymentProfilesController) ChangeSubscriptionDefaultPaymentProfile(
+    ctx context.Context,
+    subscriptionId int,
+    paymentProfileId int) (
+    models.ApiResponse[models.PaymentProfileResponse],
+    error) {
+    req := p.prepareRequest(
+      ctx,
+      "POST",
+      fmt.Sprintf("/subscriptions/%v/payment_profiles/%v/change_payment_profile.json", subscriptionId, paymentProfileId),
+    )
+    req.Authenticate(true)
+    
+    var result models.PaymentProfileResponse
+    decoder, resp, err := req.CallAsJson()
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    err = validateResponse(*resp)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    result, err = utilities.DecodeResults[models.PaymentProfileResponse](decoder)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    if resp.StatusCode == 404 {
+        err = errors.NewApiError(404, "Not Found")
+    }
+    if resp.StatusCode == 422 {
+        err = errors.NewErrorListResponse(422, "Unprocessable Entity (WebDAV)")
+    }
+    return models.NewApiResponse(result, resp), err
 }
 
-// UpdateSubscriptionGroupDefaultPaymentProfile takes context, uid, paymentProfileId as parameters and
+// ChangeSubscriptionGroupDefaultPaymentProfile takes context, uid, paymentProfileId as parameters and
 // returns an models.ApiResponse with models.PaymentProfileResponse data and
 // an error if there was an issue with the request or response.
 // This will change the default payment profile on the subscription group to the existing payment profile with the id specified.
 // You must elect to change the existing payment profile to a new payment profile ID in order to receive a satisfactory response from this endpoint.
 // The new payment profile must belong to the subscription group's customer, otherwise you will receive an error.
-func (p *PaymentProfilesController) UpdateSubscriptionGroupDefaultPaymentProfile(
-	ctx context.Context,
-	uid string,
-	paymentProfileId int) (
-	models.ApiResponse[models.PaymentProfileResponse],
-	error) {
-	req := p.prepareRequest(
-		ctx,
-		"POST",
-		fmt.Sprintf("/subscription_groups/%v/payment_profiles/%v/change_payment_profile.json", uid, paymentProfileId),
-	)
-	req.Authenticate(true)
-
-	var result models.PaymentProfileResponse
-	decoder, resp, err := req.CallAsJson()
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-	err = validateResponse(*resp)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	result, err = utilities.DecodeResults[models.PaymentProfileResponse](decoder)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	if resp.StatusCode == 422 {
-		err = errors.NewErrorListResponse(422, "Unprocessable Entity (WebDAV)")
-	}
-	return models.NewApiResponse(result, resp), err
+func (p *PaymentProfilesController) ChangeSubscriptionGroupDefaultPaymentProfile(
+    ctx context.Context,
+    uid string,
+    paymentProfileId int) (
+    models.ApiResponse[models.PaymentProfileResponse],
+    error) {
+    req := p.prepareRequest(
+      ctx,
+      "POST",
+      fmt.Sprintf("/subscription_groups/%v/payment_profiles/%v/change_payment_profile.json", uid, paymentProfileId),
+    )
+    req.Authenticate(true)
+    
+    var result models.PaymentProfileResponse
+    decoder, resp, err := req.CallAsJson()
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    err = validateResponse(*resp)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    result, err = utilities.DecodeResults[models.PaymentProfileResponse](decoder)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    if resp.StatusCode == 422 {
+        err = errors.NewErrorListResponse(422, "Unprocessable Entity (WebDAV)")
+    }
+    return models.NewApiResponse(result, resp), err
 }
 
 // ReadOneTimeToken takes context, chargifyToken as parameters and
@@ -645,36 +645,36 @@ func (p *PaymentProfilesController) UpdateSubscriptionGroupDefaultPaymentProfile
 // You can use One Time Tokens while creating a subscription or payment profile instead of passing all bank account or credit card data directly to a given API endpoint.
 // To obtain a One Time Token you have to use [chargify.js](https://developers.chargify.com/docs/developer-docs/ZG9jOjE0NjAzNDI0-overview).
 func (p *PaymentProfilesController) ReadOneTimeToken(
-	ctx context.Context,
-	chargifyToken string) (
-	models.ApiResponse[models.GetOneTimeTokenRequest],
-	error) {
-	req := p.prepareRequest(
-		ctx,
-		"GET",
-		fmt.Sprintf("/one_time_tokens/%v.json", chargifyToken),
-	)
-	req.Authenticate(true)
-
-	var result models.GetOneTimeTokenRequest
-	decoder, resp, err := req.CallAsJson()
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-	err = validateResponse(*resp)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	result, err = utilities.DecodeResults[models.GetOneTimeTokenRequest](decoder)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	if resp.StatusCode == 404 {
-		err = errors.NewErrorListResponse(404, "Not Found")
-	}
-	return models.NewApiResponse(result, resp), err
+    ctx context.Context,
+    chargifyToken string) (
+    models.ApiResponse[models.GetOneTimeTokenRequest],
+    error) {
+    req := p.prepareRequest(
+      ctx,
+      "GET",
+      fmt.Sprintf("/one_time_tokens/%v.json", chargifyToken),
+    )
+    req.Authenticate(true)
+    
+    var result models.GetOneTimeTokenRequest
+    decoder, resp, err := req.CallAsJson()
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    err = validateResponse(*resp)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    result, err = utilities.DecodeResults[models.GetOneTimeTokenRequest](decoder)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    if resp.StatusCode == 404 {
+        err = errors.NewErrorListResponse(404, "Not Found")
+    }
+    return models.NewApiResponse(result, resp), err
 }
 
 // SendRequestUpdatePaymentEmail takes context, subscriptionId as parameters and
@@ -685,30 +685,30 @@ func (p *PaymentProfilesController) ReadOneTimeToken(
 // Additionally, if you attempt to send a "request payment update" email for a subscription that does not exist, you will receive a `404` error response. This error message will indicate that the subscription could not be found, and will provide instructions on how to correct the error and resubmit the request.
 // These error responses are designed to prevent excessive or invalid requests, and to provide clear and helpful information to users who encounter errors during the request process.
 func (p *PaymentProfilesController) SendRequestUpdatePaymentEmail(
-	ctx context.Context,
-	subscriptionId int) (
-	*http.Response,
-	error) {
-	req := p.prepareRequest(
-		ctx,
-		"POST",
-		fmt.Sprintf("/subscriptions/%v/request_payment_profiles_update.json", subscriptionId),
-	)
-	req.Authenticate(true)
-
-	context, err := req.Call()
-	if err != nil {
-		return context.Response, err
-	}
-	err = validateResponse(*context.Response)
-	if err != nil {
-		return context.Response, err
-	}
-	if context.Response.StatusCode == 404 {
-		err = errors.NewApiError(404, "Not Found")
-	}
-	if context.Response.StatusCode == 422 {
-		err = errors.NewErrorListResponse(422, "Unprocessable Entity (WebDAV)")
-	}
-	return context.Response, err
+    ctx context.Context,
+    subscriptionId int) (
+    *http.Response,
+    error) {
+    req := p.prepareRequest(
+      ctx,
+      "POST",
+      fmt.Sprintf("/subscriptions/%v/request_payment_profiles_update.json", subscriptionId),
+    )
+    req.Authenticate(true)
+    
+    context, err := req.Call()
+    if err != nil {
+        return context.Response, err
+    }
+    err = validateResponse(*context.Response)
+    if err != nil {
+        return context.Response, err
+    }
+    if context.Response.StatusCode == 404 {
+        err = errors.NewApiError(404, "Not Found")
+    }
+    if context.Response.StatusCode == 422 {
+        err = errors.NewErrorListResponse(422, "Unprocessable Entity (WebDAV)")
+    }
+    return context.Response, err
 }

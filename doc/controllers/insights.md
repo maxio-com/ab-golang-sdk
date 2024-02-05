@@ -12,7 +12,7 @@ insightsController := client.InsightsController()
 
 * [Read Site Stats](../../doc/controllers/insights.md#read-site-stats)
 * [Read Mrr](../../doc/controllers/insights.md#read-mrr)
-* [Read Mrr Movements](../../doc/controllers/insights.md#read-mrr-movements)
+* [List Mrr Movements](../../doc/controllers/insights.md#list-mrr-movements)
 * [List Mrr Per Subscription](../../doc/controllers/insights.md#list-mrr-per-subscription)
 
 
@@ -135,7 +135,7 @@ if err != nil {
 ```
 
 
-# Read Mrr Movements
+# List Mrr Movements
 
 **This endpoint is deprecated.**
 
@@ -165,8 +165,8 @@ Usage includes revenue from:
 * Prepaid Usage Components
 
 ```go
-ReadMrrMovements(
-    ctx context.Context,input ReadMrrMovementsInput) (
+ListMrrMovements(
+    ctx context.Context,input ListMrrMovementsInput) (
     models.ApiResponse[models.ListMRRResponse],
     error)
 ```
@@ -191,7 +191,7 @@ ctx := context.Background()
 page := 2
 perPage := 20
 
-apiResponse, err := insightsController.ReadMrrMovements(ctx, nil, &page, &perPage, nil)
+apiResponse, err := insightsController.ListMrrMovements(ctx, nil, &page, &perPage, nil)
 if err != nil {
     log.Fatalln(err)
 } else {

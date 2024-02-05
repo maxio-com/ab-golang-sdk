@@ -43,7 +43,7 @@
 | `Taxes` | [`[]models.ProformaInvoiceTax`](../../doc/models/proforma-invoice-tax.md) | Optional | **Constraints**: *Minimum Items*: `1`, *Unique Items Required* |
 | `Credits` | [`[]models.ProformaInvoiceCredit`](../../doc/models/proforma-invoice-credit.md) | Optional | **Constraints**: *Minimum Items*: `1`, *Unique Items Required* |
 | `Payments` | [`[]models.ProformaInvoicePayment`](../../doc/models/proforma-invoice-payment.md) | Optional | **Constraints**: *Minimum Items*: `1`, *Unique Items Required* |
-| `CustomFields` | [`[]models.ProformaCustomField`](../../doc/models/proforma-custom-field.md) | Optional | **Constraints**: *Minimum Items*: `1`, *Unique Items Required* |
+| `CustomFields` | [`[]models.InvoiceCustomField`](../../doc/models/invoice-custom-field.md) | Optional | **Constraints**: *Minimum Items*: `1`, *Unique Items Required* |
 | `PublicUrl` | `*string` | Optional | - |
 
 ## Example (as JSON)

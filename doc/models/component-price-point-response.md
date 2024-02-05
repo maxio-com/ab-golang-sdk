@@ -16,7 +16,6 @@
 ```json
 {
   "price_point": {
-    "use_site_exchange_rate": true,
     "id": 248,
     "type": "default",
     "default": false,

@@ -15,12 +15,12 @@ subscriptionsController := client.SubscriptionsController()
 * [Update Subscription](../../doc/controllers/subscriptions.md#update-subscription)
 * [Read Subscription](../../doc/controllers/subscriptions.md#read-subscription)
 * [Override Subscription](../../doc/controllers/subscriptions.md#override-subscription)
-* [Read Subscription by Reference](../../doc/controllers/subscriptions.md#read-subscription-by-reference)
+* [Find Subscription](../../doc/controllers/subscriptions.md#find-subscription)
 * [Purge Subscription](../../doc/controllers/subscriptions.md#purge-subscription)
-* [Create Prepaid Subscription](../../doc/controllers/subscriptions.md#create-prepaid-subscription)
+* [Update Prepaid Subscription Configuration](../../doc/controllers/subscriptions.md#update-prepaid-subscription-configuration)
 * [Preview Subscription](../../doc/controllers/subscriptions.md#preview-subscription)
-* [Apply Coupon to Subscription](../../doc/controllers/subscriptions.md#apply-coupon-to-subscription)
-* [Delete Coupon From Subscription](../../doc/controllers/subscriptions.md#delete-coupon-from-subscription)
+* [Apply Coupons to Subscription](../../doc/controllers/subscriptions.md#apply-coupons-to-subscription)
+* [Remove Coupon From Subscription](../../doc/controllers/subscriptions.md#remove-coupon-from-subscription)
 * [Activate Subscription](../../doc/controllers/subscriptions.md#activate-subscription)
 
 
@@ -1416,12 +1416,12 @@ if err != nil {
 | 422 | Unprocessable Entity (WebDAV) | [`SingleErrorResponseException`](../../doc/models/single-error-response-exception.md) |
 
 
-# Read Subscription by Reference
+# Find Subscription
 
 Use this endpoint to find a subscription by its reference.
 
 ```go
-ReadSubscriptionByReference(
+FindSubscription(
     ctx context.Context,
     reference *string) (
     models.ApiResponse[models.SubscriptionResponse],
@@ -1443,7 +1443,7 @@ ReadSubscriptionByReference(
 ```go
 ctx := context.Background()
 
-apiResponse, err := subscriptionsController.ReadSubscriptionByReference(ctx, nil)
+apiResponse, err := subscriptionsController.FindSubscription(ctx, nil)
 if err != nil {
     log.Fatalln(err)
 } else {
@@ -1504,12 +1504,12 @@ if err != nil {
 ```
 
 
-# Create Prepaid Subscription
+# Update Prepaid Subscription Configuration
 
 Use this endpoint to update a subscription's prepaid configuration.
 
 ```go
-CreatePrepaidSubscription(
+UpdatePrepaidSubscriptionConfiguration(
     ctx context.Context,
     subscriptionId int,
     body *models.UpsertPrepaidConfigurationRequest) (
@@ -1545,7 +1545,7 @@ body := models.UpsertPrepaidConfigurationRequest{
     PrepaidConfiguration: bodyPrepaidConfiguration,
 }
 
-apiResponse, err := subscriptionsController.CreatePrepaidSubscription(ctx, subscriptionId, &body)
+apiResponse, err := subscriptionsController.UpdatePrepaidSubscriptionConfiguration(ctx, subscriptionId, &body)
 if err != nil {
     log.Fatalln(err)
 } else {
@@ -1760,7 +1760,7 @@ if err != nil {
 ```
 
 
-# Apply Coupon to Subscription
+# Apply Coupons to Subscription
 
 An existing subscription can accommodate multiple discounts/coupon codes. This is only applicable if each coupon is stackable. For more information on stackable coupons, we recommend reviewing our [coupon documentation.](https://chargify.zendesk.com/hc/en-us/articles/4407755909531#stackable-coupons)
 
@@ -1771,7 +1771,7 @@ Passing in a coupon code as a query parameter will add the code to the subscript
 For this reason, using this query parameter on this endpoint has been deprecated in favor of using the request body parameters as described below. When passing in request body parameters, the list of coupon codes will simply be added to any existing list of codes on the subscription.
 
 ```go
-ApplyCouponToSubscription(
+ApplyCouponsToSubscription(
     ctx context.Context,
     subscriptionId int,
     code *string,
@@ -1802,7 +1802,7 @@ body := models.AddCouponsRequest{
     Codes: []string{"COUPON_1", "COUPON_2"},
 }
 
-apiResponse, err := subscriptionsController.ApplyCouponToSubscription(ctx, subscriptionId, nil, &body)
+apiResponse, err := subscriptionsController.ApplyCouponsToSubscription(ctx, subscriptionId, nil, &body)
 if err != nil {
     log.Fatalln(err)
 } else {
@@ -1969,14 +1969,14 @@ if err != nil {
 | 422 | Unprocessable Entity (WebDAV) | [`SubscriptionAddCouponErrorException`](../../doc/models/subscription-add-coupon-error-exception.md) |
 
 
-# Delete Coupon From Subscription
+# Remove Coupon From Subscription
 
 Use this endpoint to remove a coupon from an existing subscription.
 
 For more information on the expected behaviour of removing a coupon from a subscription, please see our documentation [here.](https://chargify.zendesk.com/hc/en-us/articles/4407896488987#removing-a-coupon)
 
 ```go
-DeleteCouponFromSubscription(
+RemoveCouponFromSubscription(
     ctx context.Context,
     subscriptionId int,
     couponCode *string) (
@@ -2001,7 +2001,7 @@ DeleteCouponFromSubscription(
 ctx := context.Background()
 subscriptionId := 222
 
-apiResponse, err := subscriptionsController.DeleteCouponFromSubscription(ctx, subscriptionId, nil)
+apiResponse, err := subscriptionsController.RemoveCouponFromSubscription(ctx, subscriptionId, nil)
 if err != nil {
     log.Fatalln(err)
 } else {

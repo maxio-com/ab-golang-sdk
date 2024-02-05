@@ -17,7 +17,7 @@ subscriptionStatusController := client.SubscriptionStatusController()
 * [Update Automatic Subscription Resumption](../../doc/controllers/subscription-status.md#update-automatic-subscription-resumption)
 * [Reactivate Subscription](../../doc/controllers/subscription-status.md#reactivate-subscription)
 * [Initiate Delayed Cancellation](../../doc/controllers/subscription-status.md#initiate-delayed-cancellation)
-* [Stop Delayed Cancellation](../../doc/controllers/subscription-status.md#stop-delayed-cancellation)
+* [Cancel Delayed Cancellation](../../doc/controllers/subscription-status.md#cancel-delayed-cancellation)
 * [Cancel Dunning](../../doc/controllers/subscription-status.md#cancel-dunning)
 * [Preview Renewal](../../doc/controllers/subscription-status.md#preview-renewal)
 
@@ -1290,14 +1290,14 @@ if err != nil {
 | 404 | Not Found | `ApiError` |
 
 
-# Stop Delayed Cancellation
+# Cancel Delayed Cancellation
 
 Removing the delayed cancellation on a subscription will ensure that it doesn't get canceled at the end of the period that it is in. The request will reset the `cancel_at_end_of_period` flag to `false`.
 
 This endpoint is idempotent. If the subscription was not set to cancel in the future, removing the delayed cancellation has no effect and the call will be successful.
 
 ```go
-StopDelayedCancellation(
+CancelDelayedCancellation(
     ctx context.Context,
     subscriptionId int) (
     models.ApiResponse[models.DelayedCancellationResponse],
@@ -1320,7 +1320,7 @@ StopDelayedCancellation(
 ctx := context.Background()
 subscriptionId := 222
 
-apiResponse, err := subscriptionStatusController.StopDelayedCancellation(ctx, subscriptionId)
+apiResponse, err := subscriptionStatusController.CancelDelayedCancellation(ctx, subscriptionId)
 if err != nil {
     log.Fatalln(err)
 } else {

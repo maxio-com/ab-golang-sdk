@@ -16,8 +16,6 @@
 ```json
 {
   "subscription": {
-    "product_change_delayed": false,
-    "dunning_communication_delay_enabled": false,
     "dunning_communication_delay_time_zone": "\"Eastern Time (US & Canada)\"",
     "credit_card_attributes": {
       "full_number": "full_number2",
@@ -26,6 +24,7 @@
     },
     "product_handle": "product_handle6",
     "product_id": 206,
+    "product_change_delayed": false,
     "next_product_id": "next_product_id6"
   }
 }

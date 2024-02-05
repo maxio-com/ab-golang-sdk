@@ -17,7 +17,6 @@
 {
   "price_points": [
     {
-      "use_site_exchange_rate": true,
       "id": 40,
       "type": "default",
       "default": false,
