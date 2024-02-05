@@ -42,8 +42,8 @@ func (s *MetafieldsSuite) TestMetafields() {
 	textFieldName := s.fkr.RandomStringWithLength(20)
 
 	dropdownInputType := models.MetafieldInput_DROPDOWN
-	radioInputType := "radio"
-	textInputType := "text"
+	radioInputType := models.MetafieldInput_RADIO
+	textInputType := models.MetafieldInput_TEXT
 
 	enums := []string{
 		"option 1",
@@ -110,7 +110,7 @@ func (s *MetafieldsSuite) TestMetafields() {
 				s.NoError(err)
 				s.Equal(http.StatusOK, r.Response.StatusCode)
 
-				s.Equal(subscription.Id, r.Data[0].ResourceId)
+				s.Equal(subscription.Id, r.Data[0].ResourceId.Value())
 				s.Len(r.Data, 2)
 
 				s.Equal(metadata[0].Name, r.Data[0].Name)
@@ -162,7 +162,7 @@ func (s *MetafieldsSuite) TestMetafields() {
 			resourceType: models.ResourceType_CUSTOMERS,
 			metafields: metafield{
 				Name:      &radioFieldName,
-				InputType: &radioInputType,
+				InputType: strPtr("radio"),
 				Enum:      enums,
 				Scope: &models.MetafieldScope{
 					Csv:      toPtr[models.IncludeOption](models.IncludeOption_INCLUDE),
@@ -199,7 +199,7 @@ func (s *MetafieldsSuite) TestMetafields() {
 				s.Equal(http.StatusOK, customerResp.Response.StatusCode)
 
 				s.Len(customerResp.Data, 1)
-				s.Equal(customer.Id, customerResp.Data[0].ResourceId)
+				s.Equal(customer.Id, customerResp.Data[0].ResourceId.Value())
 				s.Equal(radioField.Name, customerResp.Data[0].Name)
 				s.Equal(enums[1], *customerResp.Data[0].Value.Value())
 			},
