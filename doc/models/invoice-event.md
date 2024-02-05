@@ -11,7 +11,7 @@
 |  --- | --- | --- | --- |
 | `Id` | `*int` | Optional | - |
 | `EventType` | [`*models.InvoiceEventType`](../../doc/models/invoice-event-type.md) | Optional | Invoice Event Type |
-| `EventData` | [`*models.InvoiceEvent1`](../../doc/models/invoice-event-1.md) | Optional | The event data is the data that, when combined with the command, results in the output invoice found in the invoice field. |
+| `EventData` | [`*models.InvoiceEventData`](../../doc/models/invoice-event-data.md) | Optional | The event data is the data that, when combined with the command, results in the output invoice found in the invoice field. |
 | `Timestamp` | `*string` | Optional | - |
 | `Invoice` | [`*models.Invoice`](../../doc/models/invoice.md) | Optional | - |
 

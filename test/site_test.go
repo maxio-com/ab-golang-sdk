@@ -43,7 +43,7 @@ func (s *SiteSuite) TestReadSite() {
 				s.False(*respSite.CustomerHierarchyEnabled, "CustomerHierarchyEnabled,")
 				s.False(*respSite.WhopaysEnabled, "WhopaysEnabled")
 				s.Equal("self-ungrouped", *respSite.WhopaysDefaultPayer, "WhopaysDefaultPayer")
-				s.Equal(string(models.PaymentCollectionMethod_AUTOMATIC), *respSite.DefaultPaymentCollectionMethod, "DefaultPaymentCollectionMethod")
+				s.Equal(string(models.CollectionMethod_AUTOMATIC), *respSite.DefaultPaymentCollectionMethod, "DefaultPaymentCollectionMethod")
 
 				allocationSettings := respSite.AllocationSettings
 				s.Equal(models.CreditType_PRORATED, *allocationSettings.UpgradeCharge.Value(), "UpgradeCharge")

@@ -1,7 +1,7 @@
 
 # Invoice Payment Type
 
-The type of payment to be applied to an Invoice.
+The type of payment to be applied to an Invoice. Defaults to external.
 
 ## Enumeration
 

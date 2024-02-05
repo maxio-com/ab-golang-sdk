@@ -12,7 +12,7 @@ offersController := client.OffersController()
 
 * [Create Offer](../../doc/controllers/offers.md#create-offer)
 * [List Offers](../../doc/controllers/offers.md#list-offers)
-* [Read Offers](../../doc/controllers/offers.md#read-offers)
+* [Read Offer](../../doc/controllers/offers.md#read-offer)
 * [Archive Offer](../../doc/controllers/offers.md#archive-offer)
 * [Unarchive Offer](../../doc/controllers/offers.md#unarchive-offer)
 
@@ -233,12 +233,12 @@ if err != nil {
 ```
 
 
-# Read Offers
+# Read Offer
 
 This method allows you to list a specific offer's attributes. This is different than list all offers for a site, as it requires an `offer_id`.
 
 ```go
-ReadOffers(
+ReadOffer(
     ctx context.Context,
     offerId int) (
     models.ApiResponse[models.OfferResponse],
@@ -261,7 +261,7 @@ ReadOffers(
 ctx := context.Background()
 offerId := 130
 
-apiResponse, err := offersController.ReadOffers(ctx, offerId)
+apiResponse, err := offersController.ReadOffer(ctx, offerId)
 if err != nil {
     log.Fatalln(err)
 } else {

@@ -15,9 +15,9 @@
 | `SubscriptionId` | `*int` | Optional | ID of the subscription that generated the credit note. |
 | `Number` | `*string` | Optional | A unique, identifying string that appears on the credit note and in places it is referenced.<br><br>While the UID is long and not appropriate to show to customers, the number is usually shorter and consumable by the customer and the merchant alike. |
 | `SequenceNumber` | `*int` | Optional | A monotonically increasing number assigned to credit notes as they are created.  This number is unique within a site and can be used to sort and order credit notes. |
-| `IssueDate` | `*string` | Optional | Date the credit note was issued to the customer.  This is the date that the credit was made available for application, and may come before it is fully applied.<br><br>The format is `"YYYY-MM-DD"`. |
-| `AppliedDate` | `*string` | Optional | Credit notes are applied to invoices to offset invoiced amounts - they reduce the amount due. This field is the date the credit note became fully applied to invoices.<br><br>If the credit note has been partially applied, this field will not have a value until it has been fully applied.<br><br>The format is `"YYYY-MM-DD"`. |
-| `Status` | `*string` | Optional | Current status of the credit note. Valid values:<br><br>* open<br>* applied |
+| `IssueDate` | `*time.Time` | Optional | Date the credit note was issued to the customer.  This is the date that the credit was made available for application, and may come before it is fully applied.<br><br>The format is `"YYYY-MM-DD"`. |
+| `AppliedDate` | `*time.Time` | Optional | Credit notes are applied to invoices to offset invoiced amounts - they reduce the amount due. This field is the date the credit note became fully applied to invoices.<br><br>If the credit note has been partially applied, this field will not have a value until it has been fully applied.<br><br>The format is `"YYYY-MM-DD"`. |
+| `Status` | [`*models.CreditNoteStatus`](../../doc/models/credit-note-status.md) | Optional | Current status of the credit note. |
 | `Currency` | `*string` | Optional | The ISO 4217 currency code (3 character string) representing the currency of the credit note amount fields. |
 | `Memo` | `*string` | Optional | The memo printed on credit note, which is a description of the reason for the credit. |
 | `Seller` | [`*models.Seller`](../../doc/models/seller.md) | Optional | - |

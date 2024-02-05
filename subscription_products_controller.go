@@ -1,23 +1,23 @@
 package advancedbilling
 
 import (
-	"context"
-	"fmt"
-	"github.com/apimatic/go-core-runtime/utilities"
-	"github.com/maxio-com/ab-golang-sdk/errors"
-	"github.com/maxio-com/ab-golang-sdk/models"
+    "context"
+    "fmt"
+    "github.com/apimatic/go-core-runtime/utilities"
+    "github.com/maxio-com/ab-golang-sdk/errors"
+    "github.com/maxio-com/ab-golang-sdk/models"
 )
 
 // SubscriptionProductsController represents a controller struct.
 type SubscriptionProductsController struct {
-	baseController
+    baseController
 }
 
 // NewSubscriptionProductsController creates a new instance of SubscriptionProductsController.
 // It takes a baseController as a parameter and returns a pointer to the SubscriptionProductsController.
 func NewSubscriptionProductsController(baseController baseController) *SubscriptionProductsController {
-	subscriptionProductsController := SubscriptionProductsController{baseController: baseController}
-	return &subscriptionProductsController
+    subscriptionProductsController := SubscriptionProductsController{baseController: baseController}
+    return &subscriptionProductsController
 }
 
 // MigrateSubscriptionProduct takes context, subscriptionId, body as parameters and
@@ -62,41 +62,41 @@ func NewSubscriptionProductsController(baseController baseController) *Subscript
 // 7. After that, we redirect the customer to the `redirect_url`; at this point the result of authentication is known
 // 8. Optionally, you can use the applied "msg" param in the `redirect_url` to determine whether it was successful or not.
 func (s *SubscriptionProductsController) MigrateSubscriptionProduct(
-	ctx context.Context,
-	subscriptionId int,
-	body *models.SubscriptionProductMigrationRequest) (
-	models.ApiResponse[models.SubscriptionResponse],
-	error) {
-	req := s.prepareRequest(
-		ctx,
-		"POST",
-		fmt.Sprintf("/subscriptions/%v/migrations.json", subscriptionId),
-	)
-	req.Authenticate(true)
-	req.Header("Content-Type", "application/json")
-	if body != nil {
-		req.Json(*body)
-	}
-
-	var result models.SubscriptionResponse
-	decoder, resp, err := req.CallAsJson()
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-	err = validateResponse(*resp)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	result, err = utilities.DecodeResults[models.SubscriptionResponse](decoder)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	if resp.StatusCode == 422 {
-		err = errors.NewErrorListResponse(422, "Unprocessable Entity (WebDAV)")
-	}
-	return models.NewApiResponse(result, resp), err
+    ctx context.Context,
+    subscriptionId int,
+    body *models.SubscriptionProductMigrationRequest) (
+    models.ApiResponse[models.SubscriptionResponse],
+    error) {
+    req := s.prepareRequest(
+      ctx,
+      "POST",
+      fmt.Sprintf("/subscriptions/%v/migrations.json", subscriptionId),
+    )
+    req.Authenticate(true)
+    req.Header("Content-Type", "application/json")
+    if body != nil {
+        req.Json(*body)
+    }
+    
+    var result models.SubscriptionResponse
+    decoder, resp, err := req.CallAsJson()
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    err = validateResponse(*resp)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    result, err = utilities.DecodeResults[models.SubscriptionResponse](decoder)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    if resp.StatusCode == 422 {
+        err = errors.NewErrorListResponse(422, "Unprocessable Entity (WebDAV)")
+    }
+    return models.NewApiResponse(result, resp), err
 }
 
 // PreviewSubscriptionProductMigration takes context, subscriptionId, body as parameters and
@@ -106,39 +106,39 @@ func (s *SubscriptionProductsController) MigrateSubscriptionProduct(
 // It is also possible to preview the migration for a date in the future, as long as it's still within the subscription's current billing period, by passing a `proration_date` along with the request (eg: `"proration_date": "2020-12-18T18:25:43.511Z"`).
 // This will calculate the prorated adjustment, charge, payment and credit applied values assuming the migration is done at that date in the future as opposed to right now.
 func (s *SubscriptionProductsController) PreviewSubscriptionProductMigration(
-	ctx context.Context,
-	subscriptionId int,
-	body *models.SubscriptionMigrationPreviewRequest) (
-	models.ApiResponse[models.SubscriptionMigrationPreviewResponse],
-	error) {
-	req := s.prepareRequest(
-		ctx,
-		"POST",
-		fmt.Sprintf("/subscriptions/%v/migrations/preview.json", subscriptionId),
-	)
-	req.Authenticate(true)
-	req.Header("Content-Type", "application/json")
-	if body != nil {
-		req.Json(*body)
-	}
-
-	var result models.SubscriptionMigrationPreviewResponse
-	decoder, resp, err := req.CallAsJson()
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-	err = validateResponse(*resp)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	result, err = utilities.DecodeResults[models.SubscriptionMigrationPreviewResponse](decoder)
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	if resp.StatusCode == 422 {
-		err = errors.NewErrorListResponse(422, "Unprocessable Entity (WebDAV)")
-	}
-	return models.NewApiResponse(result, resp), err
+    ctx context.Context,
+    subscriptionId int,
+    body *models.SubscriptionMigrationPreviewRequest) (
+    models.ApiResponse[models.SubscriptionMigrationPreviewResponse],
+    error) {
+    req := s.prepareRequest(
+      ctx,
+      "POST",
+      fmt.Sprintf("/subscriptions/%v/migrations/preview.json", subscriptionId),
+    )
+    req.Authenticate(true)
+    req.Header("Content-Type", "application/json")
+    if body != nil {
+        req.Json(*body)
+    }
+    
+    var result models.SubscriptionMigrationPreviewResponse
+    decoder, resp, err := req.CallAsJson()
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    err = validateResponse(*resp)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    result, err = utilities.DecodeResults[models.SubscriptionMigrationPreviewResponse](decoder)
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    if resp.StatusCode == 422 {
+        err = errors.NewErrorListResponse(422, "Unprocessable Entity (WebDAV)")
+    }
+    return models.NewApiResponse(result, resp), err
 }

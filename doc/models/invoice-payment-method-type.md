@@ -1,7 +1,7 @@
 
 # Invoice Payment Method Type
 
-The type of payment method used.
+The type of payment method used. Defaults to other.
 
 ## Enumeration
 

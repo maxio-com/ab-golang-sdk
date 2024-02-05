@@ -34,7 +34,7 @@
 | `DelayedCancelAt` | `Optional[time.Time]` | Optional | Timestamp for when the subscription is currently set to cancel. |
 | `CouponCode` | `Optional[string]` | Optional | (deprecated) The coupon code of the single coupon currently applied to the subscription. See coupon_codes instead as subscriptions can now have more than one coupon. |
 | `SnapDay` | `Optional[string]` | Optional | The day of the month that the subscription will charge according to calendar billing rules, if used. |
-| `PaymentCollectionMethod` | [`*models.PaymentCollectionMethod`](../../doc/models/payment-collection-method.md) | Optional | The type of payment collection to be used in the subscription. For legacy Statements Architecture valid options are - `invoice`, `automatic`. For current Relationship Invoicing Architecture valid options are - `remittance`, `automatic`, `prepaid`.<br>**Default**: `"automatic"` |
+| `PaymentCollectionMethod` | [`*models.CollectionMethod`](../../doc/models/collection-method.md) | Optional | The type of payment collection to be used in the subscription. For legacy Statements Architecture valid options are - `invoice`, `automatic`. For current Relationship Invoicing Architecture valid options are - `remittance`, `automatic`, `prepaid`.<br>**Default**: `"automatic"` |
 | `Customer` | [`*models.Customer`](../../doc/models/customer.md) | Optional | - |
 | `Product` | [`*models.Product`](../../doc/models/product.md) | Optional | - |
 | `CreditCard` | [`*models.CreditCardPaymentProfile`](../../doc/models/credit-card-payment-profile.md) | Optional | - |
@@ -61,7 +61,7 @@
 | `OnHoldAt` | `Optional[time.Time]` | Optional | The timestamp of the most recent on hold action. |
 | `PrepaidDunning` | `*bool` | Optional | Boolean representing whether the subscription is prepaid and currently in dunning. Only returned for Relationship Invoicing sites with the feature enabled |
 | `Coupons` | [`[]models.SubscriptionIncludedCoupon`](../../doc/models/subscription-included-coupon.md) | Optional | Additional coupon data. To use this data you also have to include the following param in the request`include[]=coupons`.<br>Only in Read Subscription Endpoint. |
-| `DunningCommunicationDelayEnabled` | `*bool` | Optional | Enable Communication Delay feature, making sure no communication (email or SMS) is sent to the Customer between 9PM and 8AM in time zone set by the `dunning_communication_delay_time_zone` attribute.<br>**Default**: `false` |
+| `DunningCommunicationDelayEnabled` | `*bool` | Optional | Enable Communication Delay feature, making sure no communication (email or SMS) is sent to the Customer between 9PM and 8AM in time zone set by the `dunning_communication_delay_time_zone` attribute. |
 | `DunningCommunicationDelayTimeZone` | `Optional[string]` | Optional | Time zone for the Dunning Communication Delay feature. |
 | `ReceivesInvoiceEmails` | `Optional[bool]` | Optional | - |
 | `Locale` | `Optional[string]` | Optional | - |
@@ -99,7 +99,6 @@
     "site_gateway_setting_id": 1,
     "gateway_handle": null
   },
-  "dunning_communication_delay_enabled": false,
   "dunning_communication_delay_time_zone": "\"Eastern Time (US & Canada)\"",
   "id": 96,
   "state": "soft_failure",

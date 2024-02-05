@@ -11,7 +11,7 @@
 |  --- | --- | --- | --- |
 | `Memo` | `*string` | Optional | A description to be attached to the payment. |
 | `Details` | `*string` | Optional | Additional information related to the payment method (eg. Check #). |
-| `Method` | [`*models.InvoicePaymentMethodType`](../../doc/models/invoice-payment-method-type.md) | Optional | The type of payment method used.<br>**Default**: `"other"` |
+| `Method` | [`*models.InvoicePaymentMethodType`](../../doc/models/invoice-payment-method-type.md) | Optional | The type of payment method used. Defaults to other. |
 | `Amount` | `interface{}` | Required | Dollar amount of the sum of the invoices payment (eg. "10.50" => $10.50). |
 | `ReceivedOn` | `*string` | Optional | Date reflecting when the payment was received from a customer. Must be in the past. |
 | `Applications` | [`[]models.CreateInvoicePaymentApplication`](../../doc/models/create-invoice-payment-application.md) | Required | - |
@@ -20,7 +20,6 @@
 
 ```json
 {
-  "method": "other",
   "amount": {
     "key1": "val1",
     "key2": "val2"
@@ -33,6 +32,7 @@
   ],
   "memo": "memo8",
   "details": "details4",
+  "method": "credit_card",
   "received_on": "received_on6"
 }
 ```

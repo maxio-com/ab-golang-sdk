@@ -192,7 +192,7 @@ if err != nil {
         "public_edit": "0"
       },
       "data_count": 0,
-      "input_type": "string",
+      "input_type": "text",
       "enum": null
     }
   ]
@@ -239,6 +239,12 @@ if err != nil {
     fmt.Println(apiResponse.Response.StatusCode)
 }
 ```
+
+## Errors
+
+| HTTP Status Code | Error Description | Exception Class |
+|  --- | --- | --- |
+| 422 | Unprocessable Entity (WebDAV) | [`SingleErrorResponseException`](../../doc/models/single-error-response-exception.md) |
 
 
 # Delete Metafield
@@ -317,7 +323,7 @@ Please pay special attention to the resource you use when creating metadata.
 CreateMetadata(
     ctx context.Context,
     resourceType models.ResourceType,
-    resourceId string,
+    resourceId int,
     body *models.CreateMetadataRequest) (
     models.ApiResponse[[]models.Metadata],
     error)
@@ -328,7 +334,7 @@ CreateMetadata(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `resourceType` | [`models.ResourceType`](../../doc/models/resource-type.md) | Template, Required | the resource type to which the metafields belong |
-| `resourceId` | `string` | Template, Required | The Chargify id of the customer or the subscription for which the metadata applies |
+| `resourceId` | `int` | Template, Required | The Chargify id of the customer or the subscription for which the metadata applies |
 | `body` | [`*models.CreateMetadataRequest`](../../doc/models/create-metadata-request.md) | Body, Optional | - |
 
 ## Response Type
@@ -340,7 +346,7 @@ CreateMetadata(
 ```go
 ctx := context.Background()
 resourceType := models.ResourceType("subscriptions")
-resourceId := "resource_id4"
+resourceId := 60
 
 bodyMetadata0 := models.CreateMetadata{
     Name:  models.ToPointer("Color"),
@@ -394,7 +400,7 @@ ListMetadata(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `resourceType` | [`models.ResourceType`](../../doc/models/resource-type.md) | Template, Required | the resource type to which the metafields belong |
-| `resourceId` | `string` | Template, Required | The Chargify id of the customer or the subscription for which the metadata applies |
+| `resourceId` | `int` | Template, Required | The Chargify id of the customer or the subscription for which the metadata applies |
 | `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`. |
 | `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`. |
 
@@ -407,7 +413,7 @@ ListMetadata(
 ```go
 ctx := context.Background()
 resourceType := models.ResourceType("subscriptions")
-resourceId := "resource_id4"
+resourceId := 60
 page := 2
 perPage := 50
 
@@ -430,7 +436,7 @@ This method allows you to update the existing metadata associated with a subscri
 UpdateMetadata(
     ctx context.Context,
     resourceType models.ResourceType,
-    resourceId string,
+    resourceId int,
     body *models.UpdateMetadataRequest) (
     models.ApiResponse[[]models.Metadata],
     error)
@@ -441,7 +447,7 @@ UpdateMetadata(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `resourceType` | [`models.ResourceType`](../../doc/models/resource-type.md) | Template, Required | the resource type to which the metafields belong |
-| `resourceId` | `string` | Template, Required | The Chargify id of the customer or the subscription for which the metadata applies |
+| `resourceId` | `int` | Template, Required | The Chargify id of the customer or the subscription for which the metadata applies |
 | `body` | [`*models.UpdateMetadataRequest`](../../doc/models/update-metadata-request.md) | Body, Optional | - |
 
 ## Response Type
@@ -453,7 +459,7 @@ UpdateMetadata(
 ```go
 ctx := context.Background()
 resourceType := models.ResourceType("subscriptions")
-resourceId := "resource_id4"
+resourceId := 60
 
 apiResponse, err := customFieldsController.UpdateMetadata(ctx, resourceType, resourceId, nil)
 if err != nil {
@@ -464,6 +470,12 @@ if err != nil {
     fmt.Println(apiResponse.Response.StatusCode)
 }
 ```
+
+## Errors
+
+| HTTP Status Code | Error Description | Exception Class |
+|  --- | --- | --- |
+| 422 | Unprocessable Entity (WebDAV) | [`SingleErrorResponseException`](../../doc/models/single-error-response-exception.md) |
 
 
 # Delete Metadata
@@ -496,7 +508,7 @@ When a failed response is encountered, you will receive a `404` response and the
 DeleteMetadata(
     ctx context.Context,
     resourceType models.ResourceType,
-    resourceId string,
+    resourceId int,
     name *string,
     names []string) (
     http.Response,
@@ -508,7 +520,7 @@ DeleteMetadata(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `resourceType` | [`models.ResourceType`](../../doc/models/resource-type.md) | Template, Required | the resource type to which the metafields belong |
-| `resourceId` | `string` | Template, Required | The Chargify id of the customer or the subscription for which the metadata applies |
+| `resourceId` | `int` | Template, Required | The Chargify id of the customer or the subscription for which the metadata applies |
 | `name` | `*string` | Query, Optional | Name of field to be removed. |
 | `names` | `[]string` | Query, Optional | Names of fields to be removed. Use in query: `names[]=field1&names[]=my-field&names[]=another-field`. |
 
@@ -521,7 +533,7 @@ DeleteMetadata(
 ```go
 ctx := context.Background()
 resourceType := models.ResourceType("subscriptions")
-resourceId := "resource_id4"Liquid error: Value cannot be null. (Parameter 'key')
+resourceId := 60Liquid error: Value cannot be null. (Parameter 'key')
 
 resp, err := customFieldsController.DeleteMetadata(ctx, resourceType, resourceId, nil, Liquid error: Value cannot be null. (Parameter 'key'))
 if err != nil {
@@ -569,10 +581,10 @@ ListMetadataForResourceType(
 | `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`. |
 | `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`. |
 | `dateField` | [`*models.BasicDateField`](../../doc/models/basic-date-field.md) | Query, Optional | The type of filter you would like to apply to your search. |
-| `startDate` | `*string` | Query, Optional | The start date (format YYYY-MM-DD) with which to filter the date_field. Returns metadata with a timestamp at or after midnight (12:00:00 AM) in your site’s time zone on the date specified. |
-| `endDate` | `*string` | Query, Optional | The end date (format YYYY-MM-DD) with which to filter the date_field. Returns metadata with a timestamp up to and including 11:59:59PM in your site’s time zone on the date specified. |
-| `startDatetime` | `*string` | Query, Optional | The start date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns metadata with a timestamp at or after exact time provided in query. You can specify timezone in query - otherwise your site's time zone will be used. If provided, this parameter will be used instead of start_date. |
-| `endDatetime` | `*string` | Query, Optional | The end date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns metadata with a timestamp at or before exact time provided in query. You can specify timezone in query - otherwise your site's time zone will be used. If provided, this parameter will be used instead of end_date. |
+| `startDate` | `*time.Time` | Query, Optional | The start date (format YYYY-MM-DD) with which to filter the date_field. Returns metadata with a timestamp at or after midnight (12:00:00 AM) in your site’s time zone on the date specified. |
+| `endDate` | `*time.Time` | Query, Optional | The end date (format YYYY-MM-DD) with which to filter the date_field. Returns metadata with a timestamp up to and including 11:59:59PM in your site’s time zone on the date specified. |
+| `startDatetime` | `*time.Time` | Query, Optional | The start date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns metadata with a timestamp at or after exact time provided in query. You can specify timezone in query - otherwise your site's time zone will be used. If provided, this parameter will be used instead of start_date. |
+| `endDatetime` | `*time.Time` | Query, Optional | The end date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns metadata with a timestamp at or before exact time provided in query. You can specify timezone in query - otherwise your site's time zone will be used. If provided, this parameter will be used instead of end_date. |
 | `withDeleted` | `*bool` | Query, Optional | Allow to fetch deleted metadata. |
 | `resourceIds` | `[]int` | Query, Optional | Allow to fetch metadata for multiple records based on provided ids. Use in query: `resource_ids[]=122&resource_ids[]=123&resource_ids[]=124`. |
 | `direction` | [`*models.SortingDirection`](../../doc/models/sorting-direction.md) | Query, Optional | Controls the order in which results are returned.<br>Use in query `direction=asc`. |

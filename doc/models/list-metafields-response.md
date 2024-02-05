@@ -35,7 +35,7 @@
         "public_show": "0"
       },
       "data_count": 10,
-      "input_type": "input_type4"
+      "input_type": "balance_tracker"
     }
   ]
 }

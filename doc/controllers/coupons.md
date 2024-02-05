@@ -12,14 +12,14 @@ couponsController := client.CouponsController()
 
 * [Create Coupon](../../doc/controllers/coupons.md#create-coupon)
 * [List Coupons for Product Family](../../doc/controllers/coupons.md#list-coupons-for-product-family)
-* [Read Coupon by Code](../../doc/controllers/coupons.md#read-coupon-by-code)
+* [Find Coupon](../../doc/controllers/coupons.md#find-coupon)
 * [Read Coupon](../../doc/controllers/coupons.md#read-coupon)
 * [Update Coupon](../../doc/controllers/coupons.md#update-coupon)
 * [Archive Coupon](../../doc/controllers/coupons.md#archive-coupon)
 * [List Coupons](../../doc/controllers/coupons.md#list-coupons)
 * [Read Coupon Usage](../../doc/controllers/coupons.md#read-coupon-usage)
 * [Validate Coupon](../../doc/controllers/coupons.md#validate-coupon)
-* [Update Coupon Currency Prices](../../doc/controllers/coupons.md#update-coupon-currency-prices)
+* [Create or Update Coupon Currency Prices](../../doc/controllers/coupons.md#create-or-update-coupon-currency-prices)
 * [Create Coupon Subcodes](../../doc/controllers/coupons.md#create-coupon-subcodes)
 * [List Coupon Subcodes](../../doc/controllers/coupons.md#list-coupon-subcodes)
 * [Update Coupon Subcodes](../../doc/controllers/coupons.md#update-coupon-subcodes)
@@ -244,14 +244,14 @@ if err != nil {
 ```
 
 
-# Read Coupon by Code
+# Find Coupon
 
 You can search for a coupon via the API with the find method. By passing a code parameter, the find will attempt to locate a coupon that matches that code. If no coupon is found, a 404 is returned.
 
 If you have more than one product family and if the coupon you are trying to find does not belong to the default product family in your site, then you will need to specify (either in the url or as a query string param) the product family id.
 
 ```go
-ReadCouponByCode(
+FindCoupon(
     ctx context.Context,
     productFamilyId *int,
     code *string) (
@@ -275,7 +275,7 @@ ReadCouponByCode(
 ```go
 ctx := context.Background()
 
-apiResponse, err := couponsController.ReadCouponByCode(ctx, nil, nil)
+apiResponse, err := couponsController.FindCoupon(ctx, nil, nil)
 if err != nil {
     log.Fatalln(err)
 } else {
@@ -818,14 +818,14 @@ if err != nil {
 | 404 | Not Found | [`SingleStringErrorResponseException`](../../doc/models/single-string-error-response-exception.md) |
 
 
-# Update Coupon Currency Prices
+# Create or Update Coupon Currency Prices
 
 This endpoint allows you to create and/or update currency prices for an existing coupon. Multiple prices can be created or updated in a single request but each of the currencies must be defined on the site level already and the coupon must be an amount-based coupon, not percentage.
 
 Currency pricing for coupons must mirror the setup of the primary coupon pricing - if the primary coupon is percentage based, you will not be able to define pricing in non-primary currencies.
 
 ```go
-UpdateCouponCurrencyPrices(
+CreateOrUpdateCouponCurrencyPrices(
     ctx context.Context,
     couponId int,
     body *models.CouponCurrencyRequest) (
@@ -865,7 +865,7 @@ body := models.CouponCurrencyRequest{
     CurrencyPrices: bodyCurrencyPrices,
 }
 
-apiResponse, err := couponsController.UpdateCouponCurrencyPrices(ctx, couponId, &body)
+apiResponse, err := couponsController.CreateOrUpdateCouponCurrencyPrices(ctx, couponId, &body)
 if err != nil {
     log.Fatalln(err)
 } else {

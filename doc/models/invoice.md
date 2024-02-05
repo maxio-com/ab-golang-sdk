@@ -23,9 +23,9 @@
 | `DueDate` | `*time.Time` | Optional | Date the invoice is due.<br><br>The format is `"YYYY-MM-DD"`. |
 | `PaidDate` | `Optional[time.Time]` | Optional | Date the invoice became fully paid.<br><br>If partial payments are applied to the invoice, this date will not be present until payment has been made in full.<br><br>The format is `"YYYY-MM-DD"`. |
 | `Status` | [`*models.InvoiceStatus`](../../doc/models/invoice-status.md) | Optional | The current status of the invoice. See [Invoice Statuses](https://chargify.zendesk.com/hc/en-us/articles/4407737494171#line-item-breakdowns) for more. |
-| `Role` | `*string` | Optional | - |
+| `Role` | [`*models.InvoiceRole`](../../doc/models/invoice-role.md) | Optional | - |
 | `ParentInvoiceId` | `Optional[int]` | Optional | - |
-| `CollectionMethod` | `*string` | Optional | The collection method of the invoice, which is either "automatic" (tried and retried on an existing payment method by Chargify) or "remittance" (payment must be remitted by the customer or keyed in by the merchant). |
+| `CollectionMethod` | [`*models.CollectionMethod`](../../doc/models/collection-method.md) | Optional | The type of payment collection to be used in the subscription. For legacy Statements Architecture valid options are - `invoice`, `automatic`. For current Relationship Invoicing Architecture valid options are - `remittance`, `automatic`, `prepaid`.<br>**Default**: `"automatic"` |
 | `PaymentInstructions` | `*string` | Optional | A message that is printed on the invoice when it is marked for remittance collection. It is intended to describe to the customer how they may make payment, and is configured by the merchant. |
 | `Currency` | `*string` | Optional | The ISO 4217 currency code (3 character string) representing the currency of invoice transaction. |
 | `ConsolidationLevel` | [`*models.InvoiceConsolidationLevel`](../../doc/models/invoice-consolidation-level.md) | Optional | Consolidation level of the invoice, which is applicable to invoice consolidation.  It will hold one of the following values:<br><br>* "none": A normal invoice with no consolidation.<br>* "child": An invoice segment which has been combined into a consolidated invoice.<br>* "parent": A consolidated invoice, whose contents are composed of invoice segments.<br><br>"Parent" invoices do not have lines of their own, but they have subtotals and totals which aggregate the member invoice segments.<br><br>See also the [invoice consolidation documentation](https://chargify.zendesk.com/hc/en-us/articles/4407746391835). |
@@ -69,6 +69,7 @@
   "issue_date": "2024-01-01",
   "due_date": "2024-01-01",
   "paid_date": "2024-01-01",
+  "collection_method": "automatic",
   "id": 252,
   "uid": "uid0",
   "site_id": 178,

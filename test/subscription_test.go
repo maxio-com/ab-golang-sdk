@@ -160,10 +160,10 @@ func (s *APISuite) newSubscription(
 ) models.CreateSubscription {
 	return models.CreateSubscription{
 		ProductId:               product.Id,
-		PaymentCollectionMethod: toPtr[models.PaymentCollectionMethod](models.PaymentCollectionMethod_AUTOMATIC),
+		PaymentCollectionMethod: toPtr[models.CollectionMethod](models.CollectionMethod_AUTOMATIC),
 		CustomerId:              customer.Id,
 		Currency:                strPtr("USD"),
-		InitialBillingAt:        strPtr("2029-08-29T12:00:00-04:00"),
+		InitialBillingAt:        timePtr(time.Date(2029, 8, 29, 12, 0, 0, 0, time.UTC)),
 		CouponCode:              &couponCode,
 		Components:              components,
 		PaymentProfileAttributes: &models.PaymentProfileAttributes{
