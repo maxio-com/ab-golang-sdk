@@ -2,7 +2,6 @@ package test
 
 import (
 	"context"
-	"fmt"
 	"net/http"
 	"testing"
 
@@ -42,7 +41,7 @@ func (s *MetafieldsSuite) TestMetafields() {
 	dropdownFieldName := s.fkr.RandomStringWithLength(20)
 	textFieldName := s.fkr.RandomStringWithLength(20)
 
-	dropdownInputType := "dropdown"
+	dropdownInputType := models.MetafieldInput_DROPDOWN
 	radioInputType := "radio"
 	textInputType := "text"
 
@@ -104,7 +103,7 @@ func (s *MetafieldsSuite) TestMetafields() {
 				r, err := s.client.CustomFieldsController().CreateMetadata(
 					ctx,
 					models.ResourceType_SUBSCRIPTIONS,
-					fmt.Sprintf("%d", *subscription.Id),
+					*subscription.Id,
 					&models.CreateMetadataRequest{
 						Metadata: metadata,
 					})
@@ -115,9 +114,9 @@ func (s *MetafieldsSuite) TestMetafields() {
 				s.Len(r.Data, 2)
 
 				s.Equal(metadata[0].Name, r.Data[0].Name)
-				s.Equal(*metadata[0].Value, *r.Data[0].Value)
+				s.Equal(*metadata[0].Value, *r.Data[0].Value.Value())
 				s.Equal(metadata[1].Name, r.Data[1].Name)
-				s.Equal(*metadata[1].Value, *r.Data[1].Value)
+				s.Equal(*metadata[1].Value, *r.Data[1].Value.Value())
 
 				rSubs, err := s.client.SubscriptionsController().ListSubscriptions(
 					ctx,
@@ -186,7 +185,7 @@ func (s *MetafieldsSuite) TestMetafields() {
 				customerResp, err := s.client.CustomFieldsController().CreateMetadata(
 					ctx,
 					models.ResourceType_CUSTOMERS,
-					fmt.Sprintf("%d", *customer.Id),
+					*customer.Id,
 					&models.CreateMetadataRequest{
 						Metadata: []models.CreateMetadata{
 							{
@@ -202,7 +201,7 @@ func (s *MetafieldsSuite) TestMetafields() {
 				s.Len(customerResp.Data, 1)
 				s.Equal(customer.Id, customerResp.Data[0].ResourceId)
 				s.Equal(radioField.Name, customerResp.Data[0].Name)
-				s.Equal(enums[1], *customerResp.Data[0].Value)
+				s.Equal(enums[1], *customerResp.Data[0].Value.Value())
 			},
 			afterTest: func(t *testing.T, metafields []models.Metafield) {
 				for _, metafield := range metafields {
