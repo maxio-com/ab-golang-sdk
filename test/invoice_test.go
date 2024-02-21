@@ -89,6 +89,9 @@ func (s *InvoiceSuite) TestInvoice() {
 				s.Equal(http.StatusCreated, void.Response.StatusCode)
 				s.Equal(models.InvoiceStatus_VOIDED, *void.Data.Status)
 
+				// sometimes some events are missing
+				time.Sleep(500 * time.Millisecond)
+
 				events, err := s.client.InvoicesController().ListInvoiceEvents(
 					ctx,
 					nil,
