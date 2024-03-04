@@ -3,6 +3,7 @@ package advancedbilling
 import (
     "context"
     "fmt"
+    "github.com/apimatic/go-core-runtime/https"
     "github.com/apimatic/go-core-runtime/utilities"
     "github.com/maxio-com/ab-golang-sdk/errors"
     "github.com/maxio-com/ab-golang-sdk/models"
@@ -35,7 +36,10 @@ func (s *SubscriptionGroupsController) SignupWithSubscriptionGroup(
     models.ApiResponse[models.SubscriptionGroupSignupResponse],
     error) {
     req := s.prepareRequest(ctx, "POST", "/subscription_groups/signup.json")
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewSubscriptionGroupSignupErrorResponse},
+    })
     req.Header("Content-Type", "application/json")
     if body != nil {
         req.Json(*body)
@@ -45,19 +49,8 @@ func (s *SubscriptionGroupsController) SignupWithSubscriptionGroup(
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[models.SubscriptionGroupSignupResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    if resp.StatusCode == 422 {
-        err = errors.NewSubscriptionGroupSignupErrorResponse(422, "Unprocessable Entity (WebDAV)")
-    }
     return models.NewApiResponse(result, resp), err
 }
 
@@ -71,7 +64,10 @@ func (s *SubscriptionGroupsController) CreateSubscriptionGroup(
     models.ApiResponse[models.SubscriptionGroupResponse],
     error) {
     req := s.prepareRequest(ctx, "POST", "/subscription_groups.json")
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewSingleStringErrorResponse},
+    })
     req.Header("Content-Type", "application/json")
     if body != nil {
         req.Json(*body)
@@ -81,19 +77,8 @@ func (s *SubscriptionGroupsController) CreateSubscriptionGroup(
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[models.SubscriptionGroupResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    if resp.StatusCode == 422 {
-        err = errors.NewSingleStringErrorResponse(422, "Unprocessable Entity (WebDAV)")
-    }
     return models.NewApiResponse(result, resp), err
 }
 
@@ -111,7 +96,7 @@ func (s *SubscriptionGroupsController) ListSubscriptionGroups(
     models.ApiResponse[models.ListSubscriptionGroupsResponse],
     error) {
     req := s.prepareRequest(ctx, "GET", "/subscription_groups.json")
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
     if page != nil {
         req.QueryParam("page", *page)
     }
@@ -126,16 +111,8 @@ func (s *SubscriptionGroupsController) ListSubscriptionGroups(
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[models.ListSubscriptionGroupsResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
     return models.NewApiResponse(result, resp), err
 }
 
@@ -155,23 +132,15 @@ func (s *SubscriptionGroupsController) ReadSubscriptionGroup(
       "GET",
       fmt.Sprintf("/subscription_groups/%v.json", uid),
     )
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
     
     var result models.FullSubscriptionGroupResponse
     decoder, resp, err := req.CallAsJson()
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[models.FullSubscriptionGroupResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
     return models.NewApiResponse(result, resp), err
 }
 
@@ -191,7 +160,10 @@ func (s *SubscriptionGroupsController) UpdateSubscriptionGroupMembers(
       "PUT",
       fmt.Sprintf("/subscription_groups/%v.json", uid),
     )
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewSubscriptionGroupUpdateErrorResponse},
+    })
     req.Header("Content-Type", "application/json")
     if body != nil {
         req.Json(*body)
@@ -202,19 +174,8 @@ func (s *SubscriptionGroupsController) UpdateSubscriptionGroupMembers(
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[models.SubscriptionGroupResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    if resp.StatusCode == 422 {
-        err = errors.NewSubscriptionGroupUpdateErrorResponse(422, "Unprocessable Entity (WebDAV)")
-    }
     return models.NewApiResponse(result, resp), err
 }
 
@@ -233,26 +194,18 @@ func (s *SubscriptionGroupsController) DeleteSubscriptionGroup(
       "DELETE",
       fmt.Sprintf("/subscription_groups/%v.json", uid),
     )
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
+    })
     
     var result models.DeleteSubscriptionGroupResponse
     decoder, resp, err := req.CallAsJson()
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[models.DeleteSubscriptionGroupResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    if resp.StatusCode == 404 {
-        err = errors.NewApiError(404, "Not Found")
-    }
     return models.NewApiResponse(result, resp), err
 }
 
@@ -267,26 +220,18 @@ func (s *SubscriptionGroupsController) FindSubscriptionGroup(
     models.ApiResponse[models.FullSubscriptionGroupResponse],
     error) {
     req := s.prepareRequest(ctx, "GET", "/subscription_groups/lookup.json")
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
+    })
     req.QueryParam("subscription_id", subscriptionId)
     var result models.FullSubscriptionGroupResponse
     decoder, resp, err := req.CallAsJson()
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[models.FullSubscriptionGroupResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    if resp.StatusCode == 404 {
-        err = errors.NewApiError(404, "Not Found")
-    }
     return models.NewApiResponse(result, resp), err
 }
 
@@ -313,7 +258,7 @@ func (s *SubscriptionGroupsController) AddSubscriptionToGroup(
       "POST",
       fmt.Sprintf("/subscriptions/%v/group.json", subscriptionId),
     )
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
     req.Header("Content-Type", "application/json")
     if body != nil {
         req.Json(*body)
@@ -324,16 +269,8 @@ func (s *SubscriptionGroupsController) AddSubscriptionToGroup(
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[models.SubscriptionGroupResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
     return models.NewApiResponse(result, resp), err
 }
 
@@ -351,21 +288,15 @@ func (s *SubscriptionGroupsController) RemoveSubscriptionFromGroup(
       "DELETE",
       fmt.Sprintf("/subscriptions/%v/group.json", subscriptionId),
     )
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
+        "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
+    })
     
     context, err := req.Call()
     if err != nil {
         return context.Response, err
-    }
-    err = validateResponse(*context.Response)
-    if err != nil {
-        return context.Response, err
-    }
-    if context.Response.StatusCode == 404 {
-        err = errors.NewApiError(404, "Not Found")
-    }
-    if context.Response.StatusCode == 422 {
-        err = errors.NewErrorListResponse(422, "Unprocessable Entity (WebDAV)")
     }
     return context.Response, err
 }

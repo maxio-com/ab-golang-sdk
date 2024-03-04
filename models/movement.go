@@ -2,11 +2,13 @@ package models
 
 import (
     "encoding/json"
+    "log"
+    "time"
 )
 
 // Movement represents a Movement struct.
 type Movement struct {
-    Timestamp       *string            `json:"timestamp,omitempty"`
+    Timestamp       *time.Time         `json:"timestamp,omitempty"`
     AmountInCents   *int64             `json:"amount_in_cents,omitempty"`
     AmountFormatted *string            `json:"amount_formatted,omitempty"`
     Description     *string            `json:"description,omitempty"`
@@ -29,7 +31,7 @@ func (m *Movement) MarshalJSON() (
 func (m *Movement) toMap() map[string]any {
     structMap := make(map[string]any)
     if m.Timestamp != nil {
-        structMap["timestamp"] = m.Timestamp
+        structMap["timestamp"] = m.Timestamp.Format(time.RFC3339)
     }
     if m.AmountInCents != nil {
         structMap["amount_in_cents"] = m.AmountInCents
@@ -77,7 +79,13 @@ func (m *Movement) UnmarshalJSON(input []byte) error {
     	return err
     }
     
-    m.Timestamp = temp.Timestamp
+    if temp.Timestamp != nil {
+        TimestampVal, err := time.Parse(time.RFC3339, *temp.Timestamp)
+        if err != nil {
+            log.Fatalf("Cannot Parse timestamp as % s format.", time.RFC3339)
+        }
+        m.Timestamp = &TimestampVal
+    }
     m.AmountInCents = temp.AmountInCents
     m.AmountFormatted = temp.AmountFormatted
     m.Description = temp.Description

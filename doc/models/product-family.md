@@ -14,8 +14,8 @@
 | `Handle` | `*string` | Optional | - |
 | `AccountingCode` | `Optional[string]` | Optional | - |
 | `Description` | `Optional[string]` | Optional | - |
-| `CreatedAt` | `*string` | Optional | - |
-| `UpdatedAt` | `*string` | Optional | - |
+| `CreatedAt` | `*time.Time` | Optional | - |
+| `UpdatedAt` | `*time.Time` | Optional | - |
 
 ## Example (as JSON)
 

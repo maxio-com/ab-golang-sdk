@@ -2,16 +2,18 @@ package models
 
 import (
     "encoding/json"
+    "log"
+    "time"
 )
 
 // PortalManagementLink represents a PortalManagementLink struct.
 type PortalManagementLink struct {
-    Url                *string          `json:"url,omitempty"`
-    FetchCount         *int             `json:"fetch_count,omitempty"`
-    CreatedAt          *string          `json:"created_at,omitempty"`
-    NewLinkAvailableAt *string          `json:"new_link_available_at,omitempty"`
-    ExpiresAt          *string          `json:"expires_at,omitempty"`
-    LastInviteSentAt   Optional[string] `json:"last_invite_sent_at"`
+    Url                *string             `json:"url,omitempty"`
+    FetchCount         *int                `json:"fetch_count,omitempty"`
+    CreatedAt          *time.Time          `json:"created_at,omitempty"`
+    NewLinkAvailableAt *time.Time          `json:"new_link_available_at,omitempty"`
+    ExpiresAt          *time.Time          `json:"expires_at,omitempty"`
+    LastInviteSentAt   Optional[time.Time] `json:"last_invite_sent_at"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for PortalManagementLink.
@@ -32,16 +34,21 @@ func (p *PortalManagementLink) toMap() map[string]any {
         structMap["fetch_count"] = p.FetchCount
     }
     if p.CreatedAt != nil {
-        structMap["created_at"] = p.CreatedAt
+        structMap["created_at"] = p.CreatedAt.Format(time.RFC3339)
     }
     if p.NewLinkAvailableAt != nil {
-        structMap["new_link_available_at"] = p.NewLinkAvailableAt
+        structMap["new_link_available_at"] = p.NewLinkAvailableAt.Format(time.RFC3339)
     }
     if p.ExpiresAt != nil {
-        structMap["expires_at"] = p.ExpiresAt
+        structMap["expires_at"] = p.ExpiresAt.Format(time.RFC3339)
     }
     if p.LastInviteSentAt.IsValueSet() {
-        structMap["last_invite_sent_at"] = p.LastInviteSentAt.Value()
+        var LastInviteSentAtVal *string = nil
+        if p.LastInviteSentAt.Value() != nil {
+            val := p.LastInviteSentAt.Value().Format(time.RFC3339)
+            LastInviteSentAtVal = &val
+        }
+        structMap["last_invite_sent_at"] = LastInviteSentAtVal
     }
     return structMap
 }
@@ -64,9 +71,34 @@ func (p *PortalManagementLink) UnmarshalJSON(input []byte) error {
     
     p.Url = temp.Url
     p.FetchCount = temp.FetchCount
-    p.CreatedAt = temp.CreatedAt
-    p.NewLinkAvailableAt = temp.NewLinkAvailableAt
-    p.ExpiresAt = temp.ExpiresAt
-    p.LastInviteSentAt = temp.LastInviteSentAt
+    if temp.CreatedAt != nil {
+        CreatedAtVal, err := time.Parse(time.RFC3339, *temp.CreatedAt)
+        if err != nil {
+            log.Fatalf("Cannot Parse created_at as % s format.", time.RFC3339)
+        }
+        p.CreatedAt = &CreatedAtVal
+    }
+    if temp.NewLinkAvailableAt != nil {
+        NewLinkAvailableAtVal, err := time.Parse(time.RFC3339, *temp.NewLinkAvailableAt)
+        if err != nil {
+            log.Fatalf("Cannot Parse new_link_available_at as % s format.", time.RFC3339)
+        }
+        p.NewLinkAvailableAt = &NewLinkAvailableAtVal
+    }
+    if temp.ExpiresAt != nil {
+        ExpiresAtVal, err := time.Parse(time.RFC3339, *temp.ExpiresAt)
+        if err != nil {
+            log.Fatalf("Cannot Parse expires_at as % s format.", time.RFC3339)
+        }
+        p.ExpiresAt = &ExpiresAtVal
+    }
+    p.LastInviteSentAt.ShouldSetValue(temp.LastInviteSentAt.IsValueSet())
+    if temp.LastInviteSentAt.Value() != nil {
+        LastInviteSentAtVal, err := time.Parse(time.RFC3339, (*temp.LastInviteSentAt.Value()))
+        if err != nil {
+            log.Fatalf("Cannot Parse last_invite_sent_at as % s format.", time.RFC3339)
+        }
+        p.LastInviteSentAt.SetValue(&LastInviteSentAtVal)
+    }
     return nil
 }

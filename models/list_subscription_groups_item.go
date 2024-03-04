@@ -2,6 +2,8 @@ package models
 
 import (
     "encoding/json"
+    "log"
+    "time"
 )
 
 // ListSubscriptionGroupsItem represents a ListSubscriptionGroupsItem struct.
@@ -12,7 +14,7 @@ type ListSubscriptionGroupsItem struct {
     PaymentProfileId      *int                       `json:"payment_profile_id,omitempty"`
     SubscriptionIds       []int                      `json:"subscription_ids,omitempty"`
     PrimarySubscriptionId *int                       `json:"primary_subscription_id,omitempty"`
-    NextAssessmentAt      *string                    `json:"next_assessment_at,omitempty"`
+    NextAssessmentAt      *time.Time                 `json:"next_assessment_at,omitempty"`
     State                 *string                    `json:"state,omitempty"`
     CancelAtEndOfPeriod   *bool                      `json:"cancel_at_end_of_period,omitempty"`
     AccountBalances       *SubscriptionGroupBalances `json:"account_balances,omitempty"`
@@ -48,7 +50,7 @@ func (l *ListSubscriptionGroupsItem) toMap() map[string]any {
         structMap["primary_subscription_id"] = l.PrimarySubscriptionId
     }
     if l.NextAssessmentAt != nil {
-        structMap["next_assessment_at"] = l.NextAssessmentAt
+        structMap["next_assessment_at"] = l.NextAssessmentAt.Format(time.RFC3339)
     }
     if l.State != nil {
         structMap["state"] = l.State
@@ -88,7 +90,13 @@ func (l *ListSubscriptionGroupsItem) UnmarshalJSON(input []byte) error {
     l.PaymentProfileId = temp.PaymentProfileId
     l.SubscriptionIds = temp.SubscriptionIds
     l.PrimarySubscriptionId = temp.PrimarySubscriptionId
-    l.NextAssessmentAt = temp.NextAssessmentAt
+    if temp.NextAssessmentAt != nil {
+        NextAssessmentAtVal, err := time.Parse(time.RFC3339, *temp.NextAssessmentAt)
+        if err != nil {
+            log.Fatalf("Cannot Parse next_assessment_at as % s format.", time.RFC3339)
+        }
+        l.NextAssessmentAt = &NextAssessmentAtVal
+    }
     l.State = temp.State
     l.CancelAtEndOfPeriod = temp.CancelAtEndOfPeriod
     l.AccountBalances = temp.AccountBalances

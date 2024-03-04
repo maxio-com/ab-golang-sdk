@@ -6,13 +6,13 @@ import (
 
 // ProformaInvoiceTax represents a ProformaInvoiceTax struct.
 type ProformaInvoiceTax struct {
-    Uid               *string                      `json:"uid,omitempty"`
-    Title             *string                      `json:"title,omitempty"`
-    SourceType        *string                      `json:"source_type,omitempty"`
-    Percentage        *string                      `json:"percentage,omitempty"`
-    TaxableAmount     *string                      `json:"taxable_amount,omitempty"`
-    TaxAmount         *string                      `json:"tax_amount,omitempty"`
-    LineItemBreakouts []ProformaInvoiceTaxBreakout `json:"line_item_breakouts,omitempty"`
+    Uid               *string                       `json:"uid,omitempty"`
+    Title             *string                       `json:"title,omitempty"`
+    SourceType        *ProformaInvoiceTaxSourceType `json:"source_type,omitempty"`
+    Percentage        *string                       `json:"percentage,omitempty"`
+    TaxableAmount     *string                       `json:"taxable_amount,omitempty"`
+    TaxAmount         *string                       `json:"tax_amount,omitempty"`
+    LineItemBreakouts []InvoiceTaxBreakout          `json:"line_item_breakouts,omitempty"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for ProformaInvoiceTax.
@@ -54,13 +54,13 @@ func (p *ProformaInvoiceTax) toMap() map[string]any {
 // It customizes the JSON unmarshaling process for ProformaInvoiceTax objects.
 func (p *ProformaInvoiceTax) UnmarshalJSON(input []byte) error {
     temp := &struct {
-        Uid               *string                      `json:"uid,omitempty"`
-        Title             *string                      `json:"title,omitempty"`
-        SourceType        *string                      `json:"source_type,omitempty"`
-        Percentage        *string                      `json:"percentage,omitempty"`
-        TaxableAmount     *string                      `json:"taxable_amount,omitempty"`
-        TaxAmount         *string                      `json:"tax_amount,omitempty"`
-        LineItemBreakouts []ProformaInvoiceTaxBreakout `json:"line_item_breakouts,omitempty"`
+        Uid               *string                       `json:"uid,omitempty"`
+        Title             *string                       `json:"title,omitempty"`
+        SourceType        *ProformaInvoiceTaxSourceType `json:"source_type,omitempty"`
+        Percentage        *string                       `json:"percentage,omitempty"`
+        TaxableAmount     *string                       `json:"taxable_amount,omitempty"`
+        TaxAmount         *string                       `json:"tax_amount,omitempty"`
+        LineItemBreakouts []InvoiceTaxBreakout          `json:"line_item_breakouts,omitempty"`
     }{}
     err := json.Unmarshal(input, &temp)
     if err != nil {

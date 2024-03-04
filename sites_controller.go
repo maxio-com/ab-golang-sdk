@@ -36,22 +36,14 @@ func (s *SitesController) ReadSite(ctx context.Context) (
     models.ApiResponse[models.SiteResponse],
     error) {
     req := s.prepareRequest(ctx, "GET", "/site.json")
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
     var result models.SiteResponse
     decoder, resp, err := req.CallAsJson()
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[models.SiteResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
     return models.NewApiResponse(result, resp), err
 }
 
@@ -66,15 +58,11 @@ func (s *SitesController) ClearSite(
     *http.Response,
     error) {
     req := s.prepareRequest(ctx, "POST", "/sites/clear_data.json")
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
     if cleanupScope != nil {
         req.QueryParam("cleanup_scope", *cleanupScope)
     }
     context, err := req.Call()
-    if err != nil {
-        return context.Response, err
-    }
-    err = validateResponse(*context.Response)
     if err != nil {
         return context.Response, err
     }
@@ -92,7 +80,7 @@ func (s *SitesController) ListChargifyJsPublicKeys(
     models.ApiResponse[models.ListPublicKeysResponse],
     error) {
     req := s.prepareRequest(ctx, "GET", "/chargify_js_keys.json")
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
     if page != nil {
         req.QueryParam("page", *page)
     }
@@ -104,15 +92,7 @@ func (s *SitesController) ListChargifyJsPublicKeys(
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[models.ListPublicKeysResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
     return models.NewApiResponse(result, resp), err
 }

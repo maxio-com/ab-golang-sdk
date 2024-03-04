@@ -30,7 +30,7 @@ type SubscriptionComponent struct {
     // The type of credit to be created when upgrading/downgrading. Defaults to the component and then site setting if one is not provided.
     // Available values: `full`, `prorated`, `none`.
     DowngradeCredit           Optional[CreditType]               `json:"downgrade_credit"`
-    ArchivedAt                Optional[string]                   `json:"archived_at"`
+    ArchivedAt                Optional[time.Time]                `json:"archived_at"`
     PricePointId              Optional[int]                      `json:"price_point_id"`
     PricePointHandle          Optional[string]                   `json:"price_point_handle"`
     PricePointType            *interface{}                       `json:"price_point_type,omitempty"`
@@ -108,7 +108,12 @@ func (s *SubscriptionComponent) toMap() map[string]any {
         structMap["downgrade_credit"] = s.DowngradeCredit.Value()
     }
     if s.ArchivedAt.IsValueSet() {
-        structMap["archived_at"] = s.ArchivedAt.Value()
+        var ArchivedAtVal *string = nil
+        if s.ArchivedAt.Value() != nil {
+            val := s.ArchivedAt.Value().Format(time.RFC3339)
+            ArchivedAtVal = &val
+        }
+        structMap["archived_at"] = ArchivedAtVal
     }
     if s.PricePointId.IsValueSet() {
         structMap["price_point_id"] = s.PricePointId.Value()
@@ -214,7 +219,14 @@ func (s *SubscriptionComponent) UnmarshalJSON(input []byte) error {
     s.Recurring = temp.Recurring
     s.UpgradeCharge = temp.UpgradeCharge
     s.DowngradeCredit = temp.DowngradeCredit
-    s.ArchivedAt = temp.ArchivedAt
+    s.ArchivedAt.ShouldSetValue(temp.ArchivedAt.IsValueSet())
+    if temp.ArchivedAt.Value() != nil {
+        ArchivedAtVal, err := time.Parse(time.RFC3339, (*temp.ArchivedAt.Value()))
+        if err != nil {
+            log.Fatalf("Cannot Parse archived_at as % s format.", time.RFC3339)
+        }
+        s.ArchivedAt.SetValue(&ArchivedAtVal)
+    }
     s.PricePointId = temp.PricePointId
     s.PricePointHandle = temp.PricePointHandle
     s.PricePointType = temp.PricePointType

@@ -19,7 +19,7 @@
     "amount": "amount8",
     "memo": "memo0",
     "payment_details": "payment_details6",
-    "payment_method": "payment_method4"
+    "payment_method": "cash"
   }
 }
 ```

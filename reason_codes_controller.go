@@ -3,6 +3,7 @@ package advancedbilling
 import (
     "context"
     "fmt"
+    "github.com/apimatic/go-core-runtime/https"
     "github.com/apimatic/go-core-runtime/utilities"
     "github.com/maxio-com/ab-golang-sdk/errors"
     "github.com/maxio-com/ab-golang-sdk/models"
@@ -37,7 +38,10 @@ func (r *ReasonCodesController) CreateReasonCode(
     models.ApiResponse[models.ReasonCodeResponse],
     error) {
     req := r.prepareRequest(ctx, "POST", "/reason_codes.json")
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
+    })
     req.Header("Content-Type", "application/json")
     if body != nil {
         req.Json(*body)
@@ -47,19 +51,8 @@ func (r *ReasonCodesController) CreateReasonCode(
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[models.ReasonCodeResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    if resp.StatusCode == 422 {
-        err = errors.NewErrorListResponse(422, "Unprocessable Entity (WebDAV)")
-    }
     return models.NewApiResponse(result, resp), err
 }
 
@@ -74,7 +67,7 @@ func (r *ReasonCodesController) ListReasonCodes(
     models.ApiResponse[[]models.ReasonCodeResponse],
     error) {
     req := r.prepareRequest(ctx, "GET", "/reason_codes.json")
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
     if page != nil {
         req.QueryParam("page", *page)
     }
@@ -86,16 +79,8 @@ func (r *ReasonCodesController) ListReasonCodes(
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[[]models.ReasonCodeResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
     return models.NewApiResponse(result, resp), err
 }
 
@@ -113,26 +98,18 @@ func (r *ReasonCodesController) ReadReasonCode(
       "GET",
       fmt.Sprintf("/reason_codes/%v.json", reasonCodeId),
     )
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
+    })
     
     var result models.ReasonCodeResponse
     decoder, resp, err := req.CallAsJson()
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[models.ReasonCodeResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    if resp.StatusCode == 404 {
-        err = errors.NewApiError(404, "Not Found")
-    }
     return models.NewApiResponse(result, resp), err
 }
 
@@ -151,7 +128,10 @@ func (r *ReasonCodesController) UpdateReasonCode(
       "PUT",
       fmt.Sprintf("/reason_codes/%v.json", reasonCodeId),
     )
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
+    })
     req.Header("Content-Type", "application/json")
     if body != nil {
         req.Json(*body)
@@ -162,19 +142,8 @@ func (r *ReasonCodesController) UpdateReasonCode(
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[models.ReasonCodeResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    if resp.StatusCode == 404 {
-        err = errors.NewApiError(404, "Not Found")
-    }
     return models.NewApiResponse(result, resp), err
 }
 
@@ -192,25 +161,17 @@ func (r *ReasonCodesController) DeleteReasonCode(
       "DELETE",
       fmt.Sprintf("/reason_codes/%v.json", reasonCodeId),
     )
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
+    })
     
     var result models.ReasonCodesJsonResponse
     decoder, resp, err := req.CallAsJson()
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[models.ReasonCodesJsonResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    if resp.StatusCode == 404 {
-        err = errors.NewApiError(404, "Not Found")
-    }
     return models.NewApiResponse(result, resp), err
 }

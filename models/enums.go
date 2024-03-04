@@ -187,6 +187,28 @@ const (
     CreateInvoiceStatus_OPEN  CreateInvoiceStatus = "open"
 )
 
+// CreatePrepaymentMethod is a string enum.
+// :- When the `method` specified is `"credit_card_on_file"`, the prepayment amount will be collected using the default credit card payment profile and applied to the prepayment account balance. This is especially useful for manual replenishment of prepaid subscriptions.
+type CreatePrepaymentMethod string
+
+const (
+    CreatePrepaymentMethod_CHECK            CreatePrepaymentMethod = "check"
+    CreatePrepaymentMethod_CASH             CreatePrepaymentMethod = "cash"
+    CreatePrepaymentMethod_MONEYORDER       CreatePrepaymentMethod = "money_order"
+    CreatePrepaymentMethod_ACH              CreatePrepaymentMethod = "ach"
+    CreatePrepaymentMethod_PAYPALACCOUNT    CreatePrepaymentMethod = "paypal_account"
+    CreatePrepaymentMethod_CREDITCARD       CreatePrepaymentMethod = "credit_card"
+    CreatePrepaymentMethod_CREDITCARDONFILE CreatePrepaymentMethod = "credit_card_on_file"
+    CreatePrepaymentMethod_OTHER            CreatePrepaymentMethod = "other"
+)
+
+// CreateSignupProformaPreviewInclude is a string enum.
+type CreateSignupProformaPreviewInclude string
+
+const (
+    CreateSignupProformaPreviewInclude_NEXTPROFORMAINVOICE CreateSignupProformaPreviewInclude = "next_proforma_invoice"
+)
+
 // CreditNoteStatus is a string enum.
 // Current status of the credit note.
 type CreditNoteStatus string
@@ -417,6 +439,24 @@ const (
     InvoiceDateField_PAIDDATE  InvoiceDateField = "paid_date"
 )
 
+// InvoiceDiscountSourceType is a string enum.
+type InvoiceDiscountSourceType string
+
+const (
+    InvoiceDiscountSourceType_COUPON          InvoiceDiscountSourceType = "Coupon"
+    InvoiceDiscountSourceType_REFERRAL        InvoiceDiscountSourceType = "Referral"
+    InvoiceDiscountSourceType_ENUMADHOCCOUPON InvoiceDiscountSourceType = "Ad Hoc Coupon"
+)
+
+// InvoiceDiscountType is a string enum.
+type InvoiceDiscountType string
+
+const (
+    InvoiceDiscountType_PERCENTAGE InvoiceDiscountType = "percentage"
+    InvoiceDiscountType_FLATAMOUNT InvoiceDiscountType = "flat_amount"
+    InvoiceDiscountType_ROLLOVER   InvoiceDiscountType = "rollover"
+)
+
 // InvoiceEventPaymentMethod is a string enum.
 type InvoiceEventPaymentMethod string
 
@@ -631,17 +671,16 @@ const (
 )
 
 // PrepaymentMethod is a string enum.
-// :- When the `method` specified is `"credit_card_on_file"`, the prepayment amount will be collected using the default credit card payment profile and applied to the prepayment account balance. This is especially useful for manual replenishment of prepaid subscriptions.
 type PrepaymentMethod string
 
 const (
-    PrepaymentMethod_CHECK            PrepaymentMethod = "check"
-    PrepaymentMethod_CASH             PrepaymentMethod = "cash"
-    PrepaymentMethod_MONEYORDER       PrepaymentMethod = "money_order"
-    PrepaymentMethod_ACH              PrepaymentMethod = "ach"
-    PrepaymentMethod_PAYPALACCOUNT    PrepaymentMethod = "paypal_account"
-    PrepaymentMethod_CREDITCARDONFILE PrepaymentMethod = "credit_card_on_file"
-    PrepaymentMethod_OTHER            PrepaymentMethod = "other"
+    PrepaymentMethod_CHECK         PrepaymentMethod = "check"
+    PrepaymentMethod_CASH          PrepaymentMethod = "cash"
+    PrepaymentMethod_MONEYORDER    PrepaymentMethod = "money_order"
+    PrepaymentMethod_ACH           PrepaymentMethod = "ach"
+    PrepaymentMethod_PAYPALACCOUNT PrepaymentMethod = "paypal_account"
+    PrepaymentMethod_CREDITCARD    PrepaymentMethod = "credit_card"
+    PrepaymentMethod_OTHER         PrepaymentMethod = "other"
 )
 
 // PricePointType is a string enum.
@@ -666,6 +705,42 @@ const (
     PricingScheme_VOLUME    PricingScheme = "volume"
     PricingScheme_PERUNIT   PricingScheme = "per_unit"
     PricingScheme_TIERED    PricingScheme = "tiered"
+)
+
+// ProformaInvoiceDiscountSourceType is a string enum.
+type ProformaInvoiceDiscountSourceType string
+
+const (
+    ProformaInvoiceDiscountSourceType_COUPON   ProformaInvoiceDiscountSourceType = "Coupon"
+    ProformaInvoiceDiscountSourceType_REFERRAL ProformaInvoiceDiscountSourceType = "Referral"
+)
+
+// ProformaInvoiceRole is a string enum.
+// 'proforma' value is deprecated in favor of proforma_adhoc and proforma_automatic
+type ProformaInvoiceRole string
+
+const (
+    ProformaInvoiceRole_UNSET             ProformaInvoiceRole = "unset"
+    ProformaInvoiceRole_PROFORMA          ProformaInvoiceRole = "proforma"
+    ProformaInvoiceRole_PROFORMAADHOC     ProformaInvoiceRole = "proforma_adhoc"
+    ProformaInvoiceRole_PROFORMAAUTOMATIC ProformaInvoiceRole = "proforma_automatic"
+)
+
+// ProformaInvoiceStatus is a string enum.
+type ProformaInvoiceStatus string
+
+const (
+    ProformaInvoiceStatus_DRAFT    ProformaInvoiceStatus = "draft"
+    ProformaInvoiceStatus_VOIDED   ProformaInvoiceStatus = "voided"
+    ProformaInvoiceStatus_ARCHIVED ProformaInvoiceStatus = "archived"
+)
+
+// ProformaInvoiceTaxSourceType is a string enum.
+type ProformaInvoiceTaxSourceType string
+
+const (
+    ProformaInvoiceTaxSourceType_TAX     ProformaInvoiceTaxSourceType = "Tax"
+    ProformaInvoiceTaxSourceType_AVALARA ProformaInvoiceTaxSourceType = "Avalara"
 )
 
 // ReactivationCharge is a string enum.

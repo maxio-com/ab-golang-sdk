@@ -231,7 +231,7 @@ if err != nil {
         82370782
       ],
       "primary_subscription_id": 69844395,
-      "next_assessment_at": "Sun, 09 Aug 2020 15:59:06 EDT -04:00",
+      "next_assessment_at": "2021-05-05T16:00:21-04:00",
       "state": "active",
       "cancel_at_end_of_period": false,
       "account_balances": {

@@ -3,6 +3,7 @@ package advancedbilling
 import (
     "context"
     "fmt"
+    "github.com/apimatic/go-core-runtime/https"
     "github.com/apimatic/go-core-runtime/utilities"
     "github.com/maxio-com/ab-golang-sdk/errors"
     "github.com/maxio-com/ab-golang-sdk/models"
@@ -43,7 +44,10 @@ func (c *CustomersController) CreateCustomer(
     models.ApiResponse[models.CustomerResponse],
     error) {
     req := c.prepareRequest(ctx, "POST", "/customers.json")
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewCustomerErrorResponse},
+    })
     req.Header("Content-Type", "application/json")
     if body != nil {
         req.Json(*body)
@@ -53,19 +57,8 @@ func (c *CustomersController) CreateCustomer(
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[models.CustomerResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    if resp.StatusCode == 422 {
-        err = errors.NewCustomerErrorResponse(422, "Unprocessable Entity (WebDAV)")
-    }
     return models.NewApiResponse(result, resp), err
 }
 
@@ -96,7 +89,7 @@ func (c *CustomersController) ListCustomers(
     models.ApiResponse[[]models.CustomerResponse],
     error) {
     req := c.prepareRequest(ctx, "GET", "/customers.json")
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
     if direction != nil {
         req.QueryParam("direction", *direction)
     }
@@ -129,16 +122,8 @@ func (c *CustomersController) ListCustomers(
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[[]models.CustomerResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
     return models.NewApiResponse(result, resp), err
 }
 
@@ -152,23 +137,15 @@ func (c *CustomersController) ReadCustomer(
     models.ApiResponse[models.CustomerResponse],
     error) {
     req := c.prepareRequest(ctx, "GET", fmt.Sprintf("/customers/%v.json", id))
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
     
     var result models.CustomerResponse
     decoder, resp, err := req.CallAsJson()
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[models.CustomerResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
     return models.NewApiResponse(result, resp), err
 }
 
@@ -183,7 +160,11 @@ func (c *CustomersController) UpdateCustomer(
     models.ApiResponse[models.CustomerResponse],
     error) {
     req := c.prepareRequest(ctx, "PUT", fmt.Sprintf("/customers/%v.json", id))
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
+        "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewCustomerErrorResponse},
+    })
     req.Header("Content-Type", "application/json")
     if body != nil {
         req.Json(*body)
@@ -194,22 +175,8 @@ func (c *CustomersController) UpdateCustomer(
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[models.CustomerResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    if resp.StatusCode == 404 {
-        err = errors.NewApiError(404, "Not Found")
-    }
-    if resp.StatusCode == 422 {
-        err = errors.NewCustomerErrorResponse(422, "Unprocessable Entity (WebDAV)")
-    }
     return models.NewApiResponse(result, resp), err
 }
 
@@ -223,13 +190,9 @@ func (c *CustomersController) DeleteCustomer(
     *http.Response,
     error) {
     req := c.prepareRequest(ctx, "DELETE", fmt.Sprintf("/customers/%v.json", id))
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
     
     context, err := req.Call()
-    if err != nil {
-        return context.Response, err
-    }
-    err = validateResponse(*context.Response)
     if err != nil {
         return context.Response, err
     }
@@ -246,23 +209,15 @@ func (c *CustomersController) ReadCustomerByReference(
     models.ApiResponse[models.CustomerResponse],
     error) {
     req := c.prepareRequest(ctx, "GET", "/customers/lookup.json")
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
     req.QueryParam("reference", reference)
     var result models.CustomerResponse
     decoder, resp, err := req.CallAsJson()
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[models.CustomerResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
     return models.NewApiResponse(result, resp), err
 }
 
@@ -280,22 +235,14 @@ func (c *CustomersController) ListCustomerSubscriptions(
       "GET",
       fmt.Sprintf("/customers/%v/subscriptions.json", customerId),
     )
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
     
     var result []models.SubscriptionResponse
     decoder, resp, err := req.CallAsJson()
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[[]models.SubscriptionResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
     return models.NewApiResponse(result, resp), err
 }

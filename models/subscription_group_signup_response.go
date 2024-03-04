@@ -2,6 +2,8 @@ package models
 
 import (
     "encoding/json"
+    "log"
+    "time"
 )
 
 // SubscriptionGroupSignupResponse represents a SubscriptionGroupSignupResponse struct.
@@ -12,7 +14,7 @@ type SubscriptionGroupSignupResponse struct {
     PaymentProfileId        *int                    `json:"payment_profile_id,omitempty"`
     SubscriptionIds         []int                   `json:"subscription_ids,omitempty"`
     PrimarySubscriptionId   *int                    `json:"primary_subscription_id,omitempty"`
-    NextAssessmentAt        *string                 `json:"next_assessment_at,omitempty"`
+    NextAssessmentAt        *time.Time              `json:"next_assessment_at,omitempty"`
     State                   *string                 `json:"state,omitempty"`
     CancelAtEndOfPeriod     *bool                   `json:"cancel_at_end_of_period,omitempty"`
     Subscriptions           []SubscriptionGroupItem `json:"subscriptions,omitempty"`
@@ -50,7 +52,7 @@ func (s *SubscriptionGroupSignupResponse) toMap() map[string]any {
         structMap["primary_subscription_id"] = s.PrimarySubscriptionId
     }
     if s.NextAssessmentAt != nil {
-        structMap["next_assessment_at"] = s.NextAssessmentAt
+        structMap["next_assessment_at"] = s.NextAssessmentAt.Format(time.RFC3339)
     }
     if s.State != nil {
         structMap["state"] = s.State
@@ -94,7 +96,13 @@ func (s *SubscriptionGroupSignupResponse) UnmarshalJSON(input []byte) error {
     s.PaymentProfileId = temp.PaymentProfileId
     s.SubscriptionIds = temp.SubscriptionIds
     s.PrimarySubscriptionId = temp.PrimarySubscriptionId
-    s.NextAssessmentAt = temp.NextAssessmentAt
+    if temp.NextAssessmentAt != nil {
+        NextAssessmentAtVal, err := time.Parse(time.RFC3339, *temp.NextAssessmentAt)
+        if err != nil {
+            log.Fatalf("Cannot Parse next_assessment_at as % s format.", time.RFC3339)
+        }
+        s.NextAssessmentAt = &NextAssessmentAtVal
+    }
     s.State = temp.State
     s.CancelAtEndOfPeriod = temp.CancelAtEndOfPeriod
     s.Subscriptions = temp.Subscriptions

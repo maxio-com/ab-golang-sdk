@@ -78,9 +78,8 @@ By default, proforma invoices returned on the index will only include totals, no
 
 ```go
 ListSubscriptionGroupProformaInvoices(
-    ctx context.Context,
-    uid string) (
-    models.ApiResponse[models.ProformaInvoice],
+    ctx context.Context,input ListSubscriptionGroupProformaInvoicesInput) (
+    models.ApiResponse[models.ListProformaInvoicesResponse],
     error)
 ```
 
@@ -89,18 +88,30 @@ ListSubscriptionGroupProformaInvoices(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `uid` | `string` | Template, Required | The uid of the subscription group |
+| `lineItems` | `*bool` | Query, Optional | Include line items data |
+| `discounts` | `*bool` | Query, Optional | Include discounts data |
+| `taxes` | `*bool` | Query, Optional | Include taxes data |
+| `credits` | `*bool` | Query, Optional | Include credits data |
+| `payments` | `*bool` | Query, Optional | Include payments data |
+| `customFields` | `*bool` | Query, Optional | Include custom fields data |
 
 ## Response Type
 
-[`models.ProformaInvoice`](../../doc/models/proforma-invoice.md)
+[`models.ListProformaInvoicesResponse`](../../doc/models/list-proforma-invoices-response.md)
 
 ## Example Usage
 
 ```go
 ctx := context.Background()
 uid := "uid0"
+lineItems := false
+discounts := false
+taxes := false
+credits := false
+payments := false
+customFields := false
 
-apiResponse, err := proformaInvoicesController.ListSubscriptionGroupProformaInvoices(ctx, uid)
+apiResponse, err := proformaInvoicesController.ListSubscriptionGroupProformaInvoices(ctx, uid, &lineItems, &discounts, &taxes, &credits, &payments, &customFields)
 if err != nil {
     log.Fatalln(err)
 } else {
@@ -128,7 +139,7 @@ Proforma invoices are only available on Relationship Invoicing sites.
 ```go
 ReadProformaInvoice(
     ctx context.Context,
-    proformaInvoiceUid int) (
+    proformaInvoiceUid string) (
     models.ApiResponse[models.ProformaInvoice],
     error)
 ```
@@ -137,7 +148,7 @@ ReadProformaInvoice(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `proformaInvoiceUid` | `int` | Template, Required | The uid of the proforma invoice |
+| `proformaInvoiceUid` | `string` | Template, Required | The uid of the proforma invoice |
 
 ## Response Type
 
@@ -147,7 +158,7 @@ ReadProformaInvoice(
 
 ```go
 ctx := context.Background()
-proformaInvoiceUid := 242
+proformaInvoiceUid := "proforma_invoice_uid4"
 
 apiResponse, err := proformaInvoicesController.ReadProformaInvoice(ctx, proformaInvoiceUid)
 if err != nil {
@@ -224,7 +235,7 @@ By default, proforma invoices returned on the index will only include totals, no
 ```go
 ListProformaInvoices(
     ctx context.Context,input ListProformaInvoicesInput) (
-    models.ApiResponse[[]models.ProformaInvoice],
+    models.ApiResponse[models.ListProformaInvoicesResponse],
     error)
 ```
 
@@ -235,7 +246,7 @@ ListProformaInvoices(
 | `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription |
 | `startDate` | `*string` | Query, Optional | The beginning date range for the invoice's Due Date, in the YYYY-MM-DD format. |
 | `endDate` | `*string` | Query, Optional | The ending date range for the invoice's Due Date, in the YYYY-MM-DD format. |
-| `status` | [`*models.InvoiceStatus`](../../doc/models/invoice-status.md) | Query, Optional | The current status of the invoice.  Allowed Values: draft, open, paid, pending, voided |
+| `status` | [`*models.ProformaInvoiceStatus`](../../doc/models/proforma-invoice-status.md) | Query, Optional | The current status of the invoice.  Allowed Values: draft, open, paid, pending, voided |
 | `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`. |
 | `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`. |
 | `direction` | [`*models.Direction`](../../doc/models/direction.md) | Query, Optional | The sort direction of the returned invoices. |
@@ -248,7 +259,7 @@ ListProformaInvoices(
 
 ## Response Type
 
-[`[]models.ProformaInvoice`](../../doc/models/proforma-invoice.md)
+[`models.ListProformaInvoicesResponse`](../../doc/models/list-proforma-invoices-response.md)
 
 ## Example Usage
 
@@ -346,7 +357,7 @@ Alternatively, if you have some proforma invoices already, you may make a previe
 PreviewProformaInvoice(
     ctx context.Context,
     subscriptionId int) (
-    models.ApiResponse[models.ProformaInvoicePreview],
+    models.ApiResponse[models.ProformaInvoice],
     error)
 ```
 
@@ -358,7 +369,7 @@ PreviewProformaInvoice(
 
 ## Response Type
 
-[`models.ProformaInvoicePreview`](../../doc/models/proforma-invoice-preview.md)
+[`models.ProformaInvoice`](../../doc/models/proforma-invoice.md)
 
 ## Example Usage
 
@@ -463,7 +474,7 @@ A product and customer first name, last name, and email are the minimum requirem
 ```go
 PreviewSignupProformaInvoice(
     ctx context.Context,
-    includeNextProformaInvoice *string,
+    include *models.CreateSignupProformaPreviewInclude,
     body *models.CreateSubscriptionRequest) (
     models.ApiResponse[models.SignupProformaPreviewResponse],
     error)
@@ -473,7 +484,7 @@ PreviewSignupProformaInvoice(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `includeNextProformaInvoice` | `*string` | Query, Optional | Choose to include a proforma invoice preview for the first renewal |
+| `include` | [`*models.CreateSignupProformaPreviewInclude`](../../doc/models/create-signup-proforma-preview-include.md) | Query, Optional | Choose to include a proforma invoice preview for the first renewal. Use in query `include=next_proforma_invoice`. |
 | `body` | [`*models.CreateSubscriptionRequest`](../../doc/models/create-subscription-request.md) | Body, Optional | - |
 
 ## Response Type

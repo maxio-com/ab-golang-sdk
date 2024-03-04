@@ -1,15 +1,15 @@
 
-# Bulk Component S Price Point Assignment
+# Bulk Components Price Point Assignment
 
 ## Structure
 
-`BulkComponentSPricePointAssignment`
+`BulkComponentsPricePointAssignment`
 
 ## Fields
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `Components` | [`[]models.ComponentSPricePointAssignment`](../../doc/models/component-s-price-point-assignment.md) | Optional | - |
+| `Components` | [`[]models.ComponentPricePointAssignment`](../../doc/models/component-price-point-assignment.md) | Optional | - |
 
 ## Example (as JSON)
 

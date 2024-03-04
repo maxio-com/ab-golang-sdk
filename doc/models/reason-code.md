@@ -14,8 +14,8 @@
 | `Code` | `*string` | Optional | - |
 | `Description` | `*string` | Optional | - |
 | `Position` | `*int` | Optional | - |
-| `CreatedAt` | `*string` | Optional | - |
-| `UpdatedAt` | `*string` | Optional | - |
+| `CreatedAt` | `*time.Time` | Optional | - |
+| `UpdatedAt` | `*time.Time` | Optional | - |
 
 ## Example (as JSON)
 

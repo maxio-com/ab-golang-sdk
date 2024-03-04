@@ -2,15 +2,17 @@ package models
 
 import (
     "encoding/json"
+    "log"
+    "time"
 )
 
 // CreditNoteApplication represents a CreditNoteApplication struct.
 type CreditNoteApplication struct {
-    Uid             *string `json:"uid,omitempty"`
-    TransactionTime *string `json:"transaction_time,omitempty"`
-    InvoiceUid      *string `json:"invoice_uid,omitempty"`
-    Memo            *string `json:"memo,omitempty"`
-    AppliedAmount   *string `json:"applied_amount,omitempty"`
+    Uid             *string    `json:"uid,omitempty"`
+    TransactionTime *time.Time `json:"transaction_time,omitempty"`
+    InvoiceUid      *string    `json:"invoice_uid,omitempty"`
+    Memo            *string    `json:"memo,omitempty"`
+    AppliedAmount   *string    `json:"applied_amount,omitempty"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreditNoteApplication.
@@ -28,7 +30,7 @@ func (c *CreditNoteApplication) toMap() map[string]any {
         structMap["uid"] = c.Uid
     }
     if c.TransactionTime != nil {
-        structMap["transaction_time"] = c.TransactionTime
+        structMap["transaction_time"] = c.TransactionTime.Format(time.RFC3339)
     }
     if c.InvoiceUid != nil {
         structMap["invoice_uid"] = c.InvoiceUid
@@ -58,7 +60,13 @@ func (c *CreditNoteApplication) UnmarshalJSON(input []byte) error {
     }
     
     c.Uid = temp.Uid
-    c.TransactionTime = temp.TransactionTime
+    if temp.TransactionTime != nil {
+        TransactionTimeVal, err := time.Parse(time.RFC3339, *temp.TransactionTime)
+        if err != nil {
+            log.Fatalf("Cannot Parse transaction_time as % s format.", time.RFC3339)
+        }
+        c.TransactionTime = &TransactionTimeVal
+    }
     c.InvoiceUid = temp.InvoiceUid
     c.Memo = temp.Memo
     c.AppliedAmount = temp.AppliedAmount

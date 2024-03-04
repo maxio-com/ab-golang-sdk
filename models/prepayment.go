@@ -2,6 +2,8 @@ package models
 
 import (
     "encoding/json"
+    "log"
+    "time"
 )
 
 // Prepayment represents a Prepayment struct.
@@ -16,7 +18,7 @@ type Prepayment struct {
     Memo                   string            `json:"memo"`
     // The payment type of the prepayment.
     PaymentType            *PrepaymentMethod `json:"payment_type,omitempty"`
-    CreatedAt              string            `json:"created_at"`
+    CreatedAt              time.Time         `json:"created_at"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for Prepayment.
@@ -45,7 +47,7 @@ func (p *Prepayment) toMap() map[string]any {
     if p.PaymentType != nil {
         structMap["payment_type"] = p.PaymentType
     }
-    structMap["created_at"] = p.CreatedAt
+    structMap["created_at"] = p.CreatedAt.Format(time.RFC3339)
     return structMap
 }
 
@@ -78,6 +80,10 @@ func (p *Prepayment) UnmarshalJSON(input []byte) error {
     p.External = temp.External
     p.Memo = temp.Memo
     p.PaymentType = temp.PaymentType
-    p.CreatedAt = temp.CreatedAt
+    CreatedAtVal, err := time.Parse(time.RFC3339, temp.CreatedAt)
+    if err != nil {
+        log.Fatalf("Cannot Parse created_at as % s format.", time.RFC3339)
+    }
+    p.CreatedAt = CreatedAtVal
     return nil
 }

@@ -9,7 +9,7 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `Ids` | `[]int` | Required | - |
+| `Ids` | `[]int64` | Required | - |
 
 ## Example (as JSON)
 

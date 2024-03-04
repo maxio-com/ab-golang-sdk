@@ -2,6 +2,7 @@ package advancedbilling
 
 import (
     "context"
+    "github.com/apimatic/go-core-runtime/https"
     "github.com/apimatic/go-core-runtime/utilities"
     "github.com/maxio-com/ab-golang-sdk/errors"
     "github.com/maxio-com/ab-golang-sdk/models"
@@ -33,25 +34,17 @@ func (r *ReferralCodesController) ValidateReferralCode(
     models.ApiResponse[models.ReferralValidationResponse],
     error) {
     req := r.prepareRequest(ctx, "GET", "/referral_codes/validate.json")
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "404": {TemplatedMessage: "Invalid referral code.", Unmarshaller: errors.NewSingleStringErrorResponse},
+    })
     req.QueryParam("code", code)
     var result models.ReferralValidationResponse
     decoder, resp, err := req.CallAsJson()
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[models.ReferralValidationResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    if resp.StatusCode == 404 {
-        err = errors.NewSingleStringErrorResponse(404, "Not Found")
-    }
     return models.NewApiResponse(result, resp), err
 }

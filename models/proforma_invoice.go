@@ -2,48 +2,58 @@ package models
 
 import (
     "encoding/json"
+    "log"
+    "time"
 )
 
 // ProformaInvoice represents a ProformaInvoice struct.
 type ProformaInvoice struct {
-    Uid                 *string                   `json:"uid,omitempty"`
-    SiteId              *int                      `json:"site_id,omitempty"`
-    CustomerId          *int                      `json:"customer_id,omitempty"`
-    SubscriptionId      *int                      `json:"subscription_id,omitempty"`
-    Number              *int                      `json:"number,omitempty"`
-    SequenceNumber      *int                      `json:"sequence_number,omitempty"`
-    CreatedAt           *string                   `json:"created_at,omitempty"`
-    DeliveryDate        *string                   `json:"delivery_date,omitempty"`
-    Status              *string                   `json:"status,omitempty"`
-    CollectionMethod    *string                   `json:"collection_method,omitempty"`
-    PaymentInstructions *string                   `json:"payment_instructions,omitempty"`
-    Currency            *string                   `json:"currency,omitempty"`
-    ConsolidationLevel  *string                   `json:"consolidation_level,omitempty"`
-    ProductName         *string                   `json:"product_name,omitempty"`
-    ProductFamilyName   *string                   `json:"product_family_name,omitempty"`
-    Role                *string                   `json:"role,omitempty"`
+    Uid                 *string                    `json:"uid,omitempty"`
+    SiteId              *int                       `json:"site_id,omitempty"`
+    CustomerId          Optional[int]              `json:"customer_id"`
+    SubscriptionId      Optional[int]              `json:"subscription_id"`
+    Number              Optional[int]              `json:"number"`
+    SequenceNumber      Optional[int]              `json:"sequence_number"`
+    CreatedAt           *time.Time                 `json:"created_at,omitempty"`
+    DeliveryDate        *time.Time                 `json:"delivery_date,omitempty"`
+    Status              *ProformaInvoiceStatus     `json:"status,omitempty"`
+    // The type of payment collection to be used in the subscription. For legacy Statements Architecture valid options are - `invoice`, `automatic`. For current Relationship Invoicing Architecture valid options are - `remittance`, `automatic`, `prepaid`.
+    CollectionMethod    *CollectionMethod          `json:"collection_method,omitempty"`
+    PaymentInstructions *string                    `json:"payment_instructions,omitempty"`
+    Currency            *string                    `json:"currency,omitempty"`
+    // Consolidation level of the invoice, which is applicable to invoice consolidation.  It will hold one of the following values:
+    // * "none": A normal invoice with no consolidation.
+    // * "child": An invoice segment which has been combined into a consolidated invoice.
+    // * "parent": A consolidated invoice, whose contents are composed of invoice segments.
+    // "Parent" invoices do not have lines of their own, but they have subtotals and totals which aggregate the member invoice segments.
+    // See also the [invoice consolidation documentation](https://chargify.zendesk.com/hc/en-us/articles/4407746391835).
+    ConsolidationLevel  *InvoiceConsolidationLevel `json:"consolidation_level,omitempty"`
+    ProductName         *string                    `json:"product_name,omitempty"`
+    ProductFamilyName   *string                    `json:"product_family_name,omitempty"`
+    // 'proforma' value is deprecated in favor of proforma_adhoc and proforma_automatic
+    Role                *ProformaInvoiceRole       `json:"role,omitempty"`
     // Information about the seller (merchant) listed on the masthead of the invoice.
-    Seller              *InvoiceSeller            `json:"seller,omitempty"`
+    Seller              *InvoiceSeller             `json:"seller,omitempty"`
     // Information about the customer who is owner or recipient the invoiced subscription.
-    Customer            *InvoiceCustomer          `json:"customer,omitempty"`
-    Memo                *string                   `json:"memo,omitempty"`
-    BillingAddress      *InvoiceAddress           `json:"billing_address,omitempty"`
-    ShippingAddress     *InvoiceAddress           `json:"shipping_address,omitempty"`
-    SubtotalAmount      *string                   `json:"subtotal_amount,omitempty"`
-    DiscountAmount      *string                   `json:"discount_amount,omitempty"`
-    TaxAmount           *string                   `json:"tax_amount,omitempty"`
-    TotalAmount         *string                   `json:"total_amount,omitempty"`
-    CreditAmount        *string                   `json:"credit_amount,omitempty"`
-    PaidAmount          *string                   `json:"paid_amount,omitempty"`
-    RefundAmount        *string                   `json:"refund_amount,omitempty"`
-    DueAmount           *string                   `json:"due_amount,omitempty"`
-    LineItems           []InvoiceLineItem         `json:"line_items,omitempty"`
-    Discounts           []ProformaInvoiceDiscount `json:"discounts,omitempty"`
-    Taxes               []ProformaInvoiceTax      `json:"taxes,omitempty"`
-    Credits             []ProformaInvoiceCredit   `json:"credits,omitempty"`
-    Payments            []ProformaInvoicePayment  `json:"payments,omitempty"`
-    CustomFields        []InvoiceCustomField      `json:"custom_fields,omitempty"`
-    PublicUrl           *string                   `json:"public_url,omitempty"`
+    Customer            *InvoiceCustomer           `json:"customer,omitempty"`
+    Memo                *string                    `json:"memo,omitempty"`
+    BillingAddress      *InvoiceAddress            `json:"billing_address,omitempty"`
+    ShippingAddress     *InvoiceAddress            `json:"shipping_address,omitempty"`
+    SubtotalAmount      *string                    `json:"subtotal_amount,omitempty"`
+    DiscountAmount      *string                    `json:"discount_amount,omitempty"`
+    TaxAmount           *string                    `json:"tax_amount,omitempty"`
+    TotalAmount         *string                    `json:"total_amount,omitempty"`
+    CreditAmount        *string                    `json:"credit_amount,omitempty"`
+    PaidAmount          *string                    `json:"paid_amount,omitempty"`
+    RefundAmount        *string                    `json:"refund_amount,omitempty"`
+    DueAmount           *string                    `json:"due_amount,omitempty"`
+    LineItems           []InvoiceLineItem          `json:"line_items,omitempty"`
+    Discounts           []ProformaInvoiceDiscount  `json:"discounts,omitempty"`
+    Taxes               []ProformaInvoiceTax       `json:"taxes,omitempty"`
+    Credits             []ProformaInvoiceCredit    `json:"credits,omitempty"`
+    Payments            []ProformaInvoicePayment   `json:"payments,omitempty"`
+    CustomFields        []InvoiceCustomField       `json:"custom_fields,omitempty"`
+    PublicUrl           Optional[string]           `json:"public_url"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for ProformaInvoice.
@@ -63,23 +73,23 @@ func (p *ProformaInvoice) toMap() map[string]any {
     if p.SiteId != nil {
         structMap["site_id"] = p.SiteId
     }
-    if p.CustomerId != nil {
-        structMap["customer_id"] = p.CustomerId
+    if p.CustomerId.IsValueSet() {
+        structMap["customer_id"] = p.CustomerId.Value()
     }
-    if p.SubscriptionId != nil {
-        structMap["subscription_id"] = p.SubscriptionId
+    if p.SubscriptionId.IsValueSet() {
+        structMap["subscription_id"] = p.SubscriptionId.Value()
     }
-    if p.Number != nil {
-        structMap["number"] = p.Number
+    if p.Number.IsValueSet() {
+        structMap["number"] = p.Number.Value()
     }
-    if p.SequenceNumber != nil {
-        structMap["sequence_number"] = p.SequenceNumber
+    if p.SequenceNumber.IsValueSet() {
+        structMap["sequence_number"] = p.SequenceNumber.Value()
     }
     if p.CreatedAt != nil {
-        structMap["created_at"] = p.CreatedAt
+        structMap["created_at"] = p.CreatedAt.Format(time.RFC3339)
     }
     if p.DeliveryDate != nil {
-        structMap["delivery_date"] = p.DeliveryDate
+        structMap["delivery_date"] = p.DeliveryDate.Format(DEFAULT_DATE)
     }
     if p.Status != nil {
         structMap["status"] = p.Status
@@ -162,8 +172,8 @@ func (p *ProformaInvoice) toMap() map[string]any {
     if p.CustomFields != nil {
         structMap["custom_fields"] = p.CustomFields
     }
-    if p.PublicUrl != nil {
-        structMap["public_url"] = p.PublicUrl
+    if p.PublicUrl.IsValueSet() {
+        structMap["public_url"] = p.PublicUrl.Value()
     }
     return structMap
 }
@@ -172,42 +182,42 @@ func (p *ProformaInvoice) toMap() map[string]any {
 // It customizes the JSON unmarshaling process for ProformaInvoice objects.
 func (p *ProformaInvoice) UnmarshalJSON(input []byte) error {
     temp := &struct {
-        Uid                 *string                   `json:"uid,omitempty"`
-        SiteId              *int                      `json:"site_id,omitempty"`
-        CustomerId          *int                      `json:"customer_id,omitempty"`
-        SubscriptionId      *int                      `json:"subscription_id,omitempty"`
-        Number              *int                      `json:"number,omitempty"`
-        SequenceNumber      *int                      `json:"sequence_number,omitempty"`
-        CreatedAt           *string                   `json:"created_at,omitempty"`
-        DeliveryDate        *string                   `json:"delivery_date,omitempty"`
-        Status              *string                   `json:"status,omitempty"`
-        CollectionMethod    *string                   `json:"collection_method,omitempty"`
-        PaymentInstructions *string                   `json:"payment_instructions,omitempty"`
-        Currency            *string                   `json:"currency,omitempty"`
-        ConsolidationLevel  *string                   `json:"consolidation_level,omitempty"`
-        ProductName         *string                   `json:"product_name,omitempty"`
-        ProductFamilyName   *string                   `json:"product_family_name,omitempty"`
-        Role                *string                   `json:"role,omitempty"`
-        Seller              *InvoiceSeller            `json:"seller,omitempty"`
-        Customer            *InvoiceCustomer          `json:"customer,omitempty"`
-        Memo                *string                   `json:"memo,omitempty"`
-        BillingAddress      *InvoiceAddress           `json:"billing_address,omitempty"`
-        ShippingAddress     *InvoiceAddress           `json:"shipping_address,omitempty"`
-        SubtotalAmount      *string                   `json:"subtotal_amount,omitempty"`
-        DiscountAmount      *string                   `json:"discount_amount,omitempty"`
-        TaxAmount           *string                   `json:"tax_amount,omitempty"`
-        TotalAmount         *string                   `json:"total_amount,omitempty"`
-        CreditAmount        *string                   `json:"credit_amount,omitempty"`
-        PaidAmount          *string                   `json:"paid_amount,omitempty"`
-        RefundAmount        *string                   `json:"refund_amount,omitempty"`
-        DueAmount           *string                   `json:"due_amount,omitempty"`
-        LineItems           []InvoiceLineItem         `json:"line_items,omitempty"`
-        Discounts           []ProformaInvoiceDiscount `json:"discounts,omitempty"`
-        Taxes               []ProformaInvoiceTax      `json:"taxes,omitempty"`
-        Credits             []ProformaInvoiceCredit   `json:"credits,omitempty"`
-        Payments            []ProformaInvoicePayment  `json:"payments,omitempty"`
-        CustomFields        []InvoiceCustomField      `json:"custom_fields,omitempty"`
-        PublicUrl           *string                   `json:"public_url,omitempty"`
+        Uid                 *string                    `json:"uid,omitempty"`
+        SiteId              *int                       `json:"site_id,omitempty"`
+        CustomerId          Optional[int]              `json:"customer_id"`
+        SubscriptionId      Optional[int]              `json:"subscription_id"`
+        Number              Optional[int]              `json:"number"`
+        SequenceNumber      Optional[int]              `json:"sequence_number"`
+        CreatedAt           *string                    `json:"created_at,omitempty"`
+        DeliveryDate        *string                    `json:"delivery_date,omitempty"`
+        Status              *ProformaInvoiceStatus     `json:"status,omitempty"`
+        CollectionMethod    *CollectionMethod          `json:"collection_method,omitempty"`
+        PaymentInstructions *string                    `json:"payment_instructions,omitempty"`
+        Currency            *string                    `json:"currency,omitempty"`
+        ConsolidationLevel  *InvoiceConsolidationLevel `json:"consolidation_level,omitempty"`
+        ProductName         *string                    `json:"product_name,omitempty"`
+        ProductFamilyName   *string                    `json:"product_family_name,omitempty"`
+        Role                *ProformaInvoiceRole       `json:"role,omitempty"`
+        Seller              *InvoiceSeller             `json:"seller,omitempty"`
+        Customer            *InvoiceCustomer           `json:"customer,omitempty"`
+        Memo                *string                    `json:"memo,omitempty"`
+        BillingAddress      *InvoiceAddress            `json:"billing_address,omitempty"`
+        ShippingAddress     *InvoiceAddress            `json:"shipping_address,omitempty"`
+        SubtotalAmount      *string                    `json:"subtotal_amount,omitempty"`
+        DiscountAmount      *string                    `json:"discount_amount,omitempty"`
+        TaxAmount           *string                    `json:"tax_amount,omitempty"`
+        TotalAmount         *string                    `json:"total_amount,omitempty"`
+        CreditAmount        *string                    `json:"credit_amount,omitempty"`
+        PaidAmount          *string                    `json:"paid_amount,omitempty"`
+        RefundAmount        *string                    `json:"refund_amount,omitempty"`
+        DueAmount           *string                    `json:"due_amount,omitempty"`
+        LineItems           []InvoiceLineItem          `json:"line_items,omitempty"`
+        Discounts           []ProformaInvoiceDiscount  `json:"discounts,omitempty"`
+        Taxes               []ProformaInvoiceTax       `json:"taxes,omitempty"`
+        Credits             []ProformaInvoiceCredit    `json:"credits,omitempty"`
+        Payments            []ProformaInvoicePayment   `json:"payments,omitempty"`
+        CustomFields        []InvoiceCustomField       `json:"custom_fields,omitempty"`
+        PublicUrl           Optional[string]           `json:"public_url"`
     }{}
     err := json.Unmarshal(input, &temp)
     if err != nil {
@@ -220,8 +230,20 @@ func (p *ProformaInvoice) UnmarshalJSON(input []byte) error {
     p.SubscriptionId = temp.SubscriptionId
     p.Number = temp.Number
     p.SequenceNumber = temp.SequenceNumber
-    p.CreatedAt = temp.CreatedAt
-    p.DeliveryDate = temp.DeliveryDate
+    if temp.CreatedAt != nil {
+        CreatedAtVal, err := time.Parse(time.RFC3339, *temp.CreatedAt)
+        if err != nil {
+            log.Fatalf("Cannot Parse created_at as % s format.", time.RFC3339)
+        }
+        p.CreatedAt = &CreatedAtVal
+    }
+    if temp.DeliveryDate != nil {
+        DeliveryDateVal, err := time.Parse(DEFAULT_DATE, *temp.DeliveryDate)
+        if err != nil {
+            log.Fatalf("Cannot Parse delivery_date as % s format.", DEFAULT_DATE)
+        }
+        p.DeliveryDate = &DeliveryDateVal
+    }
     p.Status = temp.Status
     p.CollectionMethod = temp.CollectionMethod
     p.PaymentInstructions = temp.PaymentInstructions

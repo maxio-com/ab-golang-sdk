@@ -2,6 +2,8 @@ package models
 
 import (
     "encoding/json"
+    "log"
+    "time"
 )
 
 // Event represents a Event struct.
@@ -10,8 +12,8 @@ type Event struct {
     Key               string      `json:"key"`
     Message           string      `json:"message"`
     SubscriptionId    *int        `json:"subscription_id"`
-    CustomerId        int         `json:"customer_id"`
-    CreatedAt         string      `json:"created_at"`
+    CustomerId        *int        `json:"customer_id"`
+    CreatedAt         time.Time   `json:"created_at"`
     EventSpecificData interface{} `json:"event_specific_data"`
 }
 
@@ -31,7 +33,7 @@ func (e *Event) toMap() map[string]any {
     structMap["message"] = e.Message
     structMap["subscription_id"] = e.SubscriptionId
     structMap["customer_id"] = e.CustomerId
-    structMap["created_at"] = e.CreatedAt
+    structMap["created_at"] = e.CreatedAt.Format(time.RFC3339)
     structMap["event_specific_data"] = e.EventSpecificData
     return structMap
 }
@@ -44,7 +46,7 @@ func (e *Event) UnmarshalJSON(input []byte) error {
         Key               string      `json:"key"`
         Message           string      `json:"message"`
         SubscriptionId    *int        `json:"subscription_id"`
-        CustomerId        int         `json:"customer_id"`
+        CustomerId        *int        `json:"customer_id"`
         CreatedAt         string      `json:"created_at"`
         EventSpecificData interface{} `json:"event_specific_data"`
     }{}
@@ -58,7 +60,11 @@ func (e *Event) UnmarshalJSON(input []byte) error {
     e.Message = temp.Message
     e.SubscriptionId = temp.SubscriptionId
     e.CustomerId = temp.CustomerId
-    e.CreatedAt = temp.CreatedAt
+    CreatedAtVal, err := time.Parse(time.RFC3339, temp.CreatedAt)
+    if err != nil {
+        log.Fatalf("Cannot Parse created_at as % s format.", time.RFC3339)
+    }
+    e.CreatedAt = CreatedAtVal
     e.EventSpecificData = temp.EventSpecificData
     return nil
 }

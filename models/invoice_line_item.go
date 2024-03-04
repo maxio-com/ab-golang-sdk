@@ -59,6 +59,7 @@ type InvoiceLineItem struct {
     // The price point ID of the line item's product
     ProductPricePointId Optional[int]                              `json:"product_price_point_id"`
     CustomItem          *bool                                      `json:"custom_item,omitempty"`
+    Kind                *string                                    `json:"kind,omitempty"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for InvoiceLineItem.
@@ -135,6 +136,9 @@ func (i *InvoiceLineItem) toMap() map[string]any {
     if i.CustomItem != nil {
         structMap["custom_item"] = i.CustomItem
     }
+    if i.Kind != nil {
+        structMap["kind"] = i.Kind
+    }
     return structMap
 }
 
@@ -163,6 +167,7 @@ func (i *InvoiceLineItem) UnmarshalJSON(input []byte) error {
         ComponentCostData   Optional[InvoiceLineItemComponentCostData] `json:"component_cost_data"`
         ProductPricePointId Optional[int]                              `json:"product_price_point_id"`
         CustomItem          *bool                                      `json:"custom_item,omitempty"`
+        Kind                *string                                    `json:"kind,omitempty"`
     }{}
     err := json.Unmarshal(input, &temp)
     if err != nil {
@@ -202,5 +207,6 @@ func (i *InvoiceLineItem) UnmarshalJSON(input []byte) error {
     i.ComponentCostData = temp.ComponentCostData
     i.ProductPricePointId = temp.ProductPricePointId
     i.CustomItem = temp.CustomItem
+    i.Kind = temp.Kind
     return nil
 }

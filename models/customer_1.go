@@ -6,7 +6,7 @@ import (
 
 // Customer1 represents a Customer1 struct.
 type Customer1 struct {
-    ChargifyId   *int             `json:"chargify_id,omitempty"`
+    ChargifyId   Optional[int]    `json:"chargify_id"`
     FirstName    *string          `json:"first_name,omitempty"`
     LastName     *string          `json:"last_name,omitempty"`
     Organization Optional[string] `json:"organization"`
@@ -26,8 +26,8 @@ func (c *Customer1) MarshalJSON() (
 // toMap converts the Customer1 object to a map representation for JSON marshaling.
 func (c *Customer1) toMap() map[string]any {
     structMap := make(map[string]any)
-    if c.ChargifyId != nil {
-        structMap["chargify_id"] = c.ChargifyId
+    if c.ChargifyId.IsValueSet() {
+        structMap["chargify_id"] = c.ChargifyId.Value()
     }
     if c.FirstName != nil {
         structMap["first_name"] = c.FirstName
@@ -54,7 +54,7 @@ func (c *Customer1) toMap() map[string]any {
 // It customizes the JSON unmarshaling process for Customer1 objects.
 func (c *Customer1) UnmarshalJSON(input []byte) error {
     temp := &struct {
-        ChargifyId   *int             `json:"chargify_id,omitempty"`
+        ChargifyId   Optional[int]    `json:"chargify_id"`
         FirstName    *string          `json:"first_name,omitempty"`
         LastName     *string          `json:"last_name,omitempty"`
         Organization Optional[string] `json:"organization"`

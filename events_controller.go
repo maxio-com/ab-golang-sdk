@@ -86,7 +86,7 @@ func (e *EventsController) ListEvents(
     models.ApiResponse[[]models.EventResponse],
     error) {
     req := e.prepareRequest(ctx, "GET", "/events.json")
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
     if page != nil {
         req.QueryParam("page", *page)
     }
@@ -125,16 +125,8 @@ func (e *EventsController) ListEvents(
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[[]models.EventResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
     return models.NewApiResponse(result, resp), err
 }
 
@@ -159,7 +151,7 @@ func (e *EventsController) ListSubscriptionEvents(
       "GET",
       fmt.Sprintf("/subscriptions/%v/events.json", subscriptionId),
     )
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
     if page != nil {
         req.QueryParam("page", *page)
     }
@@ -184,16 +176,8 @@ func (e *EventsController) ListSubscriptionEvents(
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[[]models.EventResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
     return models.NewApiResponse(result, resp), err
 }
 
@@ -212,7 +196,7 @@ func (e *EventsController) ReadEventsCount(
     models.ApiResponse[models.CountResponse],
     error) {
     req := e.prepareRequest(ctx, "GET", "/events/count.json")
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
     if page != nil {
         req.QueryParam("page", *page)
     }
@@ -236,15 +220,7 @@ func (e *EventsController) ReadEventsCount(
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[models.CountResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
     return models.NewApiResponse(result, resp), err
 }

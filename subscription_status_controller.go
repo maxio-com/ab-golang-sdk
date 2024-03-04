@@ -3,6 +3,7 @@ package advancedbilling
 import (
     "context"
     "fmt"
+    "github.com/apimatic/go-core-runtime/https"
     "github.com/apimatic/go-core-runtime/utilities"
     "github.com/maxio-com/ab-golang-sdk/errors"
     "github.com/maxio-com/ab-golang-sdk/models"
@@ -38,26 +39,18 @@ func (s *SubscriptionStatusController) RetrySubscription(
       "PUT",
       fmt.Sprintf("/subscriptions/%v/retry.json", subscriptionId),
     )
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
+    })
     
     var result models.SubscriptionResponse
     decoder, resp, err := req.CallAsJson()
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[models.SubscriptionResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    if resp.StatusCode == 422 {
-        err = errors.NewErrorListResponse(422, "Unprocessable Entity (WebDAV)")
-    }
     return models.NewApiResponse(result, resp), err
 }
 
@@ -76,7 +69,11 @@ func (s *SubscriptionStatusController) CancelSubscription(
       "DELETE",
       fmt.Sprintf("/subscriptions/%v.json", subscriptionId),
     )
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
+        "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'."},
+    })
     req.Header("Content-Type", "application/json")
     if body != nil {
         req.Json(*body)
@@ -87,22 +84,8 @@ func (s *SubscriptionStatusController) CancelSubscription(
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[models.SubscriptionResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    if resp.StatusCode == 404 {
-        err = errors.NewApiError(404, "Not Found")
-    }
-    if resp.StatusCode == 422 {
-        err = errors.NewApiError(422, "Unprocessable Entity (WebDAV)")
-    }
     return models.NewApiResponse(result, resp), err
 }
 
@@ -121,7 +104,10 @@ func (s *SubscriptionStatusController) ResumeSubscription(
       "POST",
       fmt.Sprintf("/subscriptions/%v/resume.json", subscriptionId),
     )
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
+    })
     if calendarBillingResumptionCharge != nil {
         req.QueryParam("calendar_billing['resumption_charge']", *calendarBillingResumptionCharge)
     }
@@ -131,19 +117,8 @@ func (s *SubscriptionStatusController) ResumeSubscription(
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[models.SubscriptionResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    if resp.StatusCode == 422 {
-        err = errors.NewErrorListResponse(422, "Unprocessable Entity (WebDAV)")
-    }
     return models.NewApiResponse(result, resp), err
 }
 
@@ -164,7 +139,10 @@ func (s *SubscriptionStatusController) PauseSubscription(
       "POST",
       fmt.Sprintf("/subscriptions/%v/hold.json", subscriptionId),
     )
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
+    })
     req.Header("Content-Type", "application/json")
     if body != nil {
         req.Json(*body)
@@ -175,19 +153,8 @@ func (s *SubscriptionStatusController) PauseSubscription(
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[models.SubscriptionResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    if resp.StatusCode == 422 {
-        err = errors.NewErrorListResponse(422, "Unprocessable Entity (WebDAV)")
-    }
     return models.NewApiResponse(result, resp), err
 }
 
@@ -209,7 +176,10 @@ func (s *SubscriptionStatusController) UpdateAutomaticSubscriptionResumption(
       "PUT",
       fmt.Sprintf("/subscriptions/%v/hold.json", subscriptionId),
     )
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
+    })
     req.Header("Content-Type", "application/json")
     if body != nil {
         req.Json(*body)
@@ -220,19 +190,8 @@ func (s *SubscriptionStatusController) UpdateAutomaticSubscriptionResumption(
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[models.SubscriptionResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    if resp.StatusCode == 422 {
-        err = errors.NewErrorListResponse(422, "Unprocessable Entity (WebDAV)")
-    }
     return models.NewApiResponse(result, resp), err
 }
 
@@ -348,7 +307,10 @@ func (s *SubscriptionStatusController) ReactivateSubscription(
       "PUT",
       fmt.Sprintf("/subscriptions/%v/reactivate.json", subscriptionId),
     )
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
+    })
     req.Header("Content-Type", "application/json")
     if body != nil {
         req.Json(*body)
@@ -359,19 +321,8 @@ func (s *SubscriptionStatusController) ReactivateSubscription(
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[models.SubscriptionResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    if resp.StatusCode == 422 {
-        err = errors.NewErrorListResponse(422, "Unprocessable Entity (WebDAV)")
-    }
     return models.NewApiResponse(result, resp), err
 }
 
@@ -392,7 +343,10 @@ func (s *SubscriptionStatusController) InitiateDelayedCancellation(
       "POST",
       fmt.Sprintf("/subscriptions/%v/delayed_cancel.json", subscriptionId),
     )
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
+    })
     req.Header("Content-Type", "application/json")
     if body != nil {
         req.Json(*body)
@@ -403,19 +357,8 @@ func (s *SubscriptionStatusController) InitiateDelayedCancellation(
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[models.DelayedCancellationResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    if resp.StatusCode == 404 {
-        err = errors.NewApiError(404, "Not Found")
-    }
     return models.NewApiResponse(result, resp), err
 }
 
@@ -434,26 +377,18 @@ func (s *SubscriptionStatusController) CancelDelayedCancellation(
       "DELETE",
       fmt.Sprintf("/subscriptions/%v/delayed_cancel.json", subscriptionId),
     )
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
+    })
     
     var result models.DelayedCancellationResponse
     decoder, resp, err := req.CallAsJson()
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[models.DelayedCancellationResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    if resp.StatusCode == 404 {
-        err = errors.NewApiError(404, "Not Found")
-    }
     return models.NewApiResponse(result, resp), err
 }
 
@@ -471,23 +406,15 @@ func (s *SubscriptionStatusController) CancelDunning(
       "POST",
       fmt.Sprintf("/subscriptions/%v/cancel_dunning.json", subscriptionId),
     )
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
     
     var result models.SubscriptionResponse
     decoder, resp, err := req.CallAsJson()
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[models.SubscriptionResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
     return models.NewApiResponse(result, resp), err
 }
 
@@ -518,7 +445,10 @@ func (s *SubscriptionStatusController) PreviewRenewal(
       "POST",
       fmt.Sprintf("/subscriptions/%v/renewals/preview.json", subscriptionId),
     )
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
+    })
     req.Header("Content-Type", "application/json")
     if body != nil {
         req.Json(*body)
@@ -529,18 +459,7 @@ func (s *SubscriptionStatusController) PreviewRenewal(
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[models.RenewalPreviewResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    if resp.StatusCode == 422 {
-        err = errors.NewErrorListResponse(422, "Unprocessable Entity (WebDAV)")
-    }
     return models.NewApiResponse(result, resp), err
 }

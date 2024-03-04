@@ -1,11 +1,11 @@
 
-# Update Endpoint
+# Create or Update Endpoint
 
 Used to Create or Update Endpoint
 
 ## Structure
 
-`UpdateEndpoint`
+`CreateOrUpdateEndpoint`
 
 ## Fields
 

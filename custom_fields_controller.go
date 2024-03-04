@@ -3,6 +3,7 @@ package advancedbilling
 import (
     "context"
     "fmt"
+    "github.com/apimatic/go-core-runtime/https"
     "github.com/apimatic/go-core-runtime/utilities"
     "github.com/maxio-com/ab-golang-sdk/errors"
     "github.com/maxio-com/ab-golang-sdk/models"
@@ -49,7 +50,10 @@ func (c *CustomFieldsController) CreateMetafields(
       "POST",
       fmt.Sprintf("/%v/metafields.json", resourceType),
     )
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewSingleErrorResponse},
+    })
     req.Header("Content-Type", "application/json")
     if body != nil {
         req.Json(*body)
@@ -60,19 +64,8 @@ func (c *CustomFieldsController) CreateMetafields(
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[[]models.Metafield](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    if resp.StatusCode == 422 {
-        err = errors.NewSingleErrorResponse(422, "Unprocessable Entity (WebDAV)")
-    }
     return models.NewApiResponse(result, resp), err
 }
 
@@ -94,7 +87,7 @@ func (c *CustomFieldsController) ListMetafields(
       "GET",
       fmt.Sprintf("/%v/metafields.json", resourceType),
     )
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
     if name != nil {
         req.QueryParam("name", *name)
     }
@@ -113,16 +106,8 @@ func (c *CustomFieldsController) ListMetafields(
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[models.ListMetafieldsResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
     return models.NewApiResponse(result, resp), err
 }
 
@@ -141,7 +126,10 @@ func (c *CustomFieldsController) UpdateMetafield(
       "PUT",
       fmt.Sprintf("/%v/metafields.json", resourceType),
     )
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewSingleErrorResponse},
+    })
     req.Header("Content-Type", "application/json")
     if body != nil {
         req.Json(*body)
@@ -152,19 +140,8 @@ func (c *CustomFieldsController) UpdateMetafield(
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[[]models.Metafield](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    if resp.StatusCode == 422 {
-        err = errors.NewSingleErrorResponse(422, "Unprocessable Entity (WebDAV)")
-    }
     return models.NewApiResponse(result, resp), err
 }
 
@@ -184,7 +161,10 @@ func (c *CustomFieldsController) DeleteMetafield(
       "DELETE",
       fmt.Sprintf("/%v/metafields.json", resourceType),
     )
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
+    })
     if name != nil {
         req.QueryParam("name", *name)
     }
@@ -192,13 +172,6 @@ func (c *CustomFieldsController) DeleteMetafield(
     context, err := req.Call()
     if err != nil {
         return context.Response, err
-    }
-    err = validateResponse(*context.Response)
-    if err != nil {
-        return context.Response, err
-    }
-    if context.Response.StatusCode == 404 {
-        err = errors.NewApiError(404, "Not Found")
     }
     return context.Response, err
 }
@@ -230,7 +203,10 @@ func (c *CustomFieldsController) CreateMetadata(
       "POST",
       fmt.Sprintf("/%v/%v/metadata.json", resourceType, resourceId),
     )
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewSingleErrorResponse},
+    })
     req.Header("Content-Type", "application/json")
     if body != nil {
         req.Json(*body)
@@ -241,19 +217,8 @@ func (c *CustomFieldsController) CreateMetadata(
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[[]models.Metadata](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    if resp.StatusCode == 422 {
-        err = errors.NewSingleErrorResponse(422, "Unprocessable Entity (WebDAV)")
-    }
     return models.NewApiResponse(result, resp), err
 }
 
@@ -276,7 +241,7 @@ func (c *CustomFieldsController) ListMetadata(
       "GET",
       fmt.Sprintf("/%v/%v/metadata.json", resourceType, resourceId),
     )
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
     if page != nil {
         req.QueryParam("page", *page)
     }
@@ -289,16 +254,8 @@ func (c *CustomFieldsController) ListMetadata(
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[models.PaginatedMetadata](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
     return models.NewApiResponse(result, resp), err
 }
 
@@ -318,7 +275,10 @@ func (c *CustomFieldsController) UpdateMetadata(
       "PUT",
       fmt.Sprintf("/%v/%v/metadata.json", resourceType, resourceId),
     )
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewSingleErrorResponse},
+    })
     req.Header("Content-Type", "application/json")
     if body != nil {
         req.Json(*body)
@@ -329,19 +289,8 @@ func (c *CustomFieldsController) UpdateMetadata(
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[[]models.Metadata](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    if resp.StatusCode == 422 {
-        err = errors.NewSingleErrorResponse(422, "Unprocessable Entity (WebDAV)")
-    }
     return models.NewApiResponse(result, resp), err
 }
 
@@ -375,7 +324,10 @@ func (c *CustomFieldsController) DeleteMetadata(
       "DELETE",
       fmt.Sprintf("/%v/%v/metadata.json", resourceType, resourceId),
     )
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
+    })
     if name != nil {
         req.QueryParam("name", *name)
     }
@@ -386,13 +338,6 @@ func (c *CustomFieldsController) DeleteMetadata(
     context, err := req.Call()
     if err != nil {
         return context.Response, err
-    }
-    err = validateResponse(*context.Response)
-    if err != nil {
-        return context.Response, err
-    }
-    if context.Response.StatusCode == 404 {
-        err = errors.NewApiError(404, "Not Found")
     }
     return context.Response, err
 }
@@ -427,7 +372,7 @@ func (c *CustomFieldsController) ListMetadataForResourceType(
       "GET",
       fmt.Sprintf("/%v/metadata.json", resourceType),
     )
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
     if page != nil {
         req.QueryParam("page", *page)
     }
@@ -464,15 +409,7 @@ func (c *CustomFieldsController) ListMetadataForResourceType(
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[models.PaginatedMetadata](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
     return models.NewApiResponse(result, resp), err
 }

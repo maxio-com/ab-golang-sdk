@@ -2,6 +2,8 @@ package models
 
 import (
     "encoding/json"
+    "log"
+    "time"
 )
 
 // BillingManifest represents a BillingManifest struct.
@@ -11,8 +13,8 @@ type BillingManifest struct {
     TotalDiscountInCents   *int64                `json:"total_discount_in_cents,omitempty"`
     TotalTaxInCents        *int64                `json:"total_tax_in_cents,omitempty"`
     SubtotalInCents        *int64                `json:"subtotal_in_cents,omitempty"`
-    StartDate              *string               `json:"start_date,omitempty"`
-    EndDate                *string               `json:"end_date,omitempty"`
+    StartDate              *time.Time            `json:"start_date,omitempty"`
+    EndDate                *time.Time            `json:"end_date,omitempty"`
     PeriodType             *string               `json:"period_type,omitempty"`
     ExistingBalanceInCents *int64                `json:"existing_balance_in_cents,omitempty"`
 }
@@ -44,10 +46,10 @@ func (b *BillingManifest) toMap() map[string]any {
         structMap["subtotal_in_cents"] = b.SubtotalInCents
     }
     if b.StartDate != nil {
-        structMap["start_date"] = b.StartDate
+        structMap["start_date"] = b.StartDate.Format(time.RFC3339)
     }
     if b.EndDate != nil {
-        structMap["end_date"] = b.EndDate
+        structMap["end_date"] = b.EndDate.Format(time.RFC3339)
     }
     if b.PeriodType != nil {
         structMap["period_type"] = b.PeriodType
@@ -82,8 +84,20 @@ func (b *BillingManifest) UnmarshalJSON(input []byte) error {
     b.TotalDiscountInCents = temp.TotalDiscountInCents
     b.TotalTaxInCents = temp.TotalTaxInCents
     b.SubtotalInCents = temp.SubtotalInCents
-    b.StartDate = temp.StartDate
-    b.EndDate = temp.EndDate
+    if temp.StartDate != nil {
+        StartDateVal, err := time.Parse(time.RFC3339, *temp.StartDate)
+        if err != nil {
+            log.Fatalf("Cannot Parse start_date as % s format.", time.RFC3339)
+        }
+        b.StartDate = &StartDateVal
+    }
+    if temp.EndDate != nil {
+        EndDateVal, err := time.Parse(time.RFC3339, *temp.EndDate)
+        if err != nil {
+            log.Fatalf("Cannot Parse end_date as % s format.", time.RFC3339)
+        }
+        b.EndDate = &EndDateVal
+    }
     b.PeriodType = temp.PeriodType
     b.ExistingBalanceInCents = temp.ExistingBalanceInCents
     return nil

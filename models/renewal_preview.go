@@ -2,12 +2,14 @@ package models
 
 import (
     "encoding/json"
+    "log"
+    "time"
 )
 
 // RenewalPreview represents a RenewalPreview struct.
 type RenewalPreview struct {
     // The timestamp for the subscription’s next renewal
-    NextAssessmentAt       *string                  `json:"next_assessment_at,omitempty"`
+    NextAssessmentAt       *time.Time               `json:"next_assessment_at,omitempty"`
     // An integer representing the amount of the total pre-tax, pre-discount charges that will be assessed at the next renewal
     SubtotalInCents        *int64                   `json:"subtotal_in_cents,omitempty"`
     // An integer representing the total tax charges that will be assessed at the next renewal
@@ -38,7 +40,7 @@ func (r *RenewalPreview) MarshalJSON() (
 func (r *RenewalPreview) toMap() map[string]any {
     structMap := make(map[string]any)
     if r.NextAssessmentAt != nil {
-        structMap["next_assessment_at"] = r.NextAssessmentAt
+        structMap["next_assessment_at"] = r.NextAssessmentAt.Format(time.RFC3339)
     }
     if r.SubtotalInCents != nil {
         structMap["subtotal_in_cents"] = r.SubtotalInCents
@@ -86,7 +88,13 @@ func (r *RenewalPreview) UnmarshalJSON(input []byte) error {
     	return err
     }
     
-    r.NextAssessmentAt = temp.NextAssessmentAt
+    if temp.NextAssessmentAt != nil {
+        NextAssessmentAtVal, err := time.Parse(time.RFC3339, *temp.NextAssessmentAt)
+        if err != nil {
+            log.Fatalf("Cannot Parse next_assessment_at as % s format.", time.RFC3339)
+        }
+        r.NextAssessmentAt = &NextAssessmentAtVal
+    }
     r.SubtotalInCents = temp.SubtotalInCents
     r.TotalTaxInCents = temp.TotalTaxInCents
     r.TotalDiscountInCents = temp.TotalDiscountInCents

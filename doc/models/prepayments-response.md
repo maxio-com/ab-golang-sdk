@@ -26,7 +26,7 @@
       "external": false,
       "memo": "memo0",
       "payment_type": "cash",
-      "created_at": "created_at4"
+      "created_at": "2016-03-13T12:52:32.123Z"
     },
     {
       "id": 76,
@@ -38,7 +38,7 @@
       "external": false,
       "memo": "memo0",
       "payment_type": "cash",
-      "created_at": "created_at4"
+      "created_at": "2016-03-13T12:52:32.123Z"
     }
   ]
 }

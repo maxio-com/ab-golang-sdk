@@ -9,7 +9,7 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `ChargifyId` | `*int` | Optional | - |
+| `ChargifyId` | `Optional[int]` | Optional | - |
 | `FirstName` | `*string` | Optional | - |
 | `LastName` | `*string` | Optional | - |
 | `Organization` | `Optional[string]` | Optional | - |

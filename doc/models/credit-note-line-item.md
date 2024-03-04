@@ -19,12 +19,14 @@
 | `TaxAmount` | `*string` | Optional | The approximate tax of just this line.<br><br>The value is approximated in cases where rounding errors make it difficult to apportion exactly a total tax among many lines. Several lines may have been summed prior to applying the tax rate to arrive at `tax_amount` for the invoice - backing that out to the tax on a single line may introduce rounding or precision errors. |
 | `TotalAmount` | `*string` | Optional | The non-canonical total amount for the line.<br><br>`subtotal_amount` is the canonical amount for a line. The invoice `total_amount` is derived from the sum of the line `subtotal_amount`s and discounts or taxes applied thereafter.  Therefore, due to rounding or precision errors, the sum of line `total_amount`s may not equal the invoice `total_amount`. |
 | `TieredUnitPrice` | `*bool` | Optional | When `true`, indicates that the actual pricing scheme for the line was tiered, so the `unit_price` shown is the blended average for all units. |
-| `PeriodRangeStart` | `*string` | Optional | Start date for the period credited by this line. The format is `"YYYY-MM-DD"`. |
-| `PeriodRangeEnd` | `*string` | Optional | End date for the period credited by this line. The format is `"YYYY-MM-DD"`. |
+| `PeriodRangeStart` | `*time.Time` | Optional | Start date for the period credited by this line. The format is `"YYYY-MM-DD"`. |
+| `PeriodRangeEnd` | `*time.Time` | Optional | End date for the period credited by this line. The format is `"YYYY-MM-DD"`. |
 | `ProductId` | `*int` | Optional | The ID of the product being credited.<br><br>This may be set even for component credits, so true product-only (non-component) credits will also have a nil `component_id`. |
 | `ProductVersion` | `*int` | Optional | The version of the product being credited. |
 | `ComponentId` | `Optional[int]` | Optional | The ID of the component being credited. Will be `nil` for non-component credits. |
 | `PricePointId` | `Optional[int]` | Optional | The price point ID of the component being credited. Will be `nil` for non-component credits. |
+| `BillingScheduleItemId` | `Optional[int]` | Optional | - |
+| `CustomItem` | `*bool` | Optional | - |
 
 ## Example (as JSON)
 

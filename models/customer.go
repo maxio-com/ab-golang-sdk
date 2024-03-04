@@ -2,63 +2,65 @@ package models
 
 import (
     "encoding/json"
+    "log"
+    "time"
 )
 
 // Customer represents a Customer struct.
 type Customer struct {
     // The first name of the customer
-    FirstName                   *string          `json:"first_name,omitempty"`
+    FirstName                   *string             `json:"first_name,omitempty"`
     // The last name of the customer
-    LastName                    *string          `json:"last_name,omitempty"`
+    LastName                    *string             `json:"last_name,omitempty"`
     // The email address of the customer
-    Email                       *string          `json:"email,omitempty"`
+    Email                       *string             `json:"email,omitempty"`
     // A comma-separated list of emails that should be cc’d on all customer communications (i.e. “joe@example.com, sue@example.com”)
-    CcEmails                    Optional[string] `json:"cc_emails"`
+    CcEmails                    Optional[string]    `json:"cc_emails"`
     // The organization of the customer
-    Organization                Optional[string] `json:"organization"`
+    Organization                Optional[string]    `json:"organization"`
     // The unique identifier used within your own application for this customer
-    Reference                   Optional[string] `json:"reference"`
+    Reference                   Optional[string]    `json:"reference"`
     // The customer ID in Chargify
-    Id                          *int             `json:"id,omitempty"`
+    Id                          *int                `json:"id,omitempty"`
     // The timestamp in which the customer object was created in Chargify
-    CreatedAt                   *string          `json:"created_at,omitempty"`
+    CreatedAt                   *time.Time          `json:"created_at,omitempty"`
     // The timestamp in which the customer object was last edited
-    UpdatedAt                   *string          `json:"updated_at,omitempty"`
+    UpdatedAt                   *time.Time          `json:"updated_at,omitempty"`
     // The customer’s shipping street address (i.e. “123 Main St.”)
-    Address                     Optional[string] `json:"address"`
+    Address                     Optional[string]    `json:"address"`
     // Second line of the customer’s shipping address i.e. “Apt. 100”
-    Address2                    Optional[string] `json:"address_2"`
+    Address2                    Optional[string]    `json:"address_2"`
     // The customer’s shipping address city (i.e. “Boston”)
-    City                        Optional[string] `json:"city"`
+    City                        Optional[string]    `json:"city"`
     // The customer’s shipping address state (i.e. “MA”)
-    State                       Optional[string] `json:"state"`
+    State                       Optional[string]    `json:"state"`
     // The customer's full name of state
-    StateName                   Optional[string] `json:"state_name"`
+    StateName                   Optional[string]    `json:"state_name"`
     // The customer’s shipping address zip code (i.e. “12345”)
-    Zip                         Optional[string] `json:"zip"`
+    Zip                         Optional[string]    `json:"zip"`
     // The customer shipping address country
-    Country                     Optional[string] `json:"country"`
+    Country                     Optional[string]    `json:"country"`
     // The customer's full name of country
-    CountryName                 Optional[string] `json:"country_name"`
+    CountryName                 Optional[string]    `json:"country_name"`
     // The phone number of the customer
-    Phone                       Optional[string] `json:"phone"`
+    Phone                       Optional[string]    `json:"phone"`
     // Is the customer verified to use ACH as a payment method. Available only on Authorize.Net gateway
-    Verified                    Optional[bool]   `json:"verified"`
+    Verified                    Optional[bool]      `json:"verified"`
     // The timestamp of when the Billing Portal entry was created at for the customer
-    PortalCustomerCreatedAt     Optional[string] `json:"portal_customer_created_at"`
+    PortalCustomerCreatedAt     Optional[time.Time] `json:"portal_customer_created_at"`
     // The timestamp of when the Billing Portal invite was last sent at
-    PortalInviteLastSentAt      Optional[string] `json:"portal_invite_last_sent_at"`
+    PortalInviteLastSentAt      Optional[time.Time] `json:"portal_invite_last_sent_at"`
     // The timestamp of when the Billing Portal invite was last accepted
-    PortalInviteLastAcceptedAt  Optional[string] `json:"portal_invite_last_accepted_at"`
+    PortalInviteLastAcceptedAt  Optional[time.Time] `json:"portal_invite_last_accepted_at"`
     // The tax exempt status for the customer. Acceptable values are true or 1 for true and false or 0 for false.
-    TaxExempt                   *bool            `json:"tax_exempt,omitempty"`
+    TaxExempt                   *bool               `json:"tax_exempt,omitempty"`
     // The VAT business identification number for the customer. This number is used to determine VAT tax opt out rules. It is not validated when added or updated on a customer record. Instead, it is validated via VIES before calculating taxes. Only valid business identification numbers will allow for VAT opt out.
-    VatNumber                   Optional[string] `json:"vat_number"`
+    VatNumber                   Optional[string]    `json:"vat_number"`
     // The parent ID in Chargify if applicable. Parent is another Customer object.
-    ParentId                    Optional[int]    `json:"parent_id"`
+    ParentId                    Optional[int]       `json:"parent_id"`
     // The locale for the customer to identify language-region
-    Locale                      Optional[string] `json:"locale"`
-    DefaultSubscriptionGroupUid Optional[string] `json:"default_subscription_group_uid"`
+    Locale                      Optional[string]    `json:"locale"`
+    DefaultSubscriptionGroupUid Optional[string]    `json:"default_subscription_group_uid"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for Customer.
@@ -94,10 +96,10 @@ func (c *Customer) toMap() map[string]any {
         structMap["id"] = c.Id
     }
     if c.CreatedAt != nil {
-        structMap["created_at"] = c.CreatedAt
+        structMap["created_at"] = c.CreatedAt.Format(time.RFC3339)
     }
     if c.UpdatedAt != nil {
-        structMap["updated_at"] = c.UpdatedAt
+        structMap["updated_at"] = c.UpdatedAt.Format(time.RFC3339)
     }
     if c.Address.IsValueSet() {
         structMap["address"] = c.Address.Value()
@@ -130,13 +132,28 @@ func (c *Customer) toMap() map[string]any {
         structMap["verified"] = c.Verified.Value()
     }
     if c.PortalCustomerCreatedAt.IsValueSet() {
-        structMap["portal_customer_created_at"] = c.PortalCustomerCreatedAt.Value()
+        var PortalCustomerCreatedAtVal *string = nil
+        if c.PortalCustomerCreatedAt.Value() != nil {
+            val := c.PortalCustomerCreatedAt.Value().Format(time.RFC3339)
+            PortalCustomerCreatedAtVal = &val
+        }
+        structMap["portal_customer_created_at"] = PortalCustomerCreatedAtVal
     }
     if c.PortalInviteLastSentAt.IsValueSet() {
-        structMap["portal_invite_last_sent_at"] = c.PortalInviteLastSentAt.Value()
+        var PortalInviteLastSentAtVal *string = nil
+        if c.PortalInviteLastSentAt.Value() != nil {
+            val := c.PortalInviteLastSentAt.Value().Format(time.RFC3339)
+            PortalInviteLastSentAtVal = &val
+        }
+        structMap["portal_invite_last_sent_at"] = PortalInviteLastSentAtVal
     }
     if c.PortalInviteLastAcceptedAt.IsValueSet() {
-        structMap["portal_invite_last_accepted_at"] = c.PortalInviteLastAcceptedAt.Value()
+        var PortalInviteLastAcceptedAtVal *string = nil
+        if c.PortalInviteLastAcceptedAt.Value() != nil {
+            val := c.PortalInviteLastAcceptedAt.Value().Format(time.RFC3339)
+            PortalInviteLastAcceptedAtVal = &val
+        }
+        structMap["portal_invite_last_accepted_at"] = PortalInviteLastAcceptedAtVal
     }
     if c.TaxExempt != nil {
         structMap["tax_exempt"] = c.TaxExempt
@@ -200,8 +217,20 @@ func (c *Customer) UnmarshalJSON(input []byte) error {
     c.Organization = temp.Organization
     c.Reference = temp.Reference
     c.Id = temp.Id
-    c.CreatedAt = temp.CreatedAt
-    c.UpdatedAt = temp.UpdatedAt
+    if temp.CreatedAt != nil {
+        CreatedAtVal, err := time.Parse(time.RFC3339, *temp.CreatedAt)
+        if err != nil {
+            log.Fatalf("Cannot Parse created_at as % s format.", time.RFC3339)
+        }
+        c.CreatedAt = &CreatedAtVal
+    }
+    if temp.UpdatedAt != nil {
+        UpdatedAtVal, err := time.Parse(time.RFC3339, *temp.UpdatedAt)
+        if err != nil {
+            log.Fatalf("Cannot Parse updated_at as % s format.", time.RFC3339)
+        }
+        c.UpdatedAt = &UpdatedAtVal
+    }
     c.Address = temp.Address
     c.Address2 = temp.Address2
     c.City = temp.City
@@ -212,9 +241,30 @@ func (c *Customer) UnmarshalJSON(input []byte) error {
     c.CountryName = temp.CountryName
     c.Phone = temp.Phone
     c.Verified = temp.Verified
-    c.PortalCustomerCreatedAt = temp.PortalCustomerCreatedAt
-    c.PortalInviteLastSentAt = temp.PortalInviteLastSentAt
-    c.PortalInviteLastAcceptedAt = temp.PortalInviteLastAcceptedAt
+    c.PortalCustomerCreatedAt.ShouldSetValue(temp.PortalCustomerCreatedAt.IsValueSet())
+    if temp.PortalCustomerCreatedAt.Value() != nil {
+        PortalCustomerCreatedAtVal, err := time.Parse(time.RFC3339, (*temp.PortalCustomerCreatedAt.Value()))
+        if err != nil {
+            log.Fatalf("Cannot Parse portal_customer_created_at as % s format.", time.RFC3339)
+        }
+        c.PortalCustomerCreatedAt.SetValue(&PortalCustomerCreatedAtVal)
+    }
+    c.PortalInviteLastSentAt.ShouldSetValue(temp.PortalInviteLastSentAt.IsValueSet())
+    if temp.PortalInviteLastSentAt.Value() != nil {
+        PortalInviteLastSentAtVal, err := time.Parse(time.RFC3339, (*temp.PortalInviteLastSentAt.Value()))
+        if err != nil {
+            log.Fatalf("Cannot Parse portal_invite_last_sent_at as % s format.", time.RFC3339)
+        }
+        c.PortalInviteLastSentAt.SetValue(&PortalInviteLastSentAtVal)
+    }
+    c.PortalInviteLastAcceptedAt.ShouldSetValue(temp.PortalInviteLastAcceptedAt.IsValueSet())
+    if temp.PortalInviteLastAcceptedAt.Value() != nil {
+        PortalInviteLastAcceptedAtVal, err := time.Parse(time.RFC3339, (*temp.PortalInviteLastAcceptedAt.Value()))
+        if err != nil {
+            log.Fatalf("Cannot Parse portal_invite_last_accepted_at as % s format.", time.RFC3339)
+        }
+        c.PortalInviteLastAcceptedAt.SetValue(&PortalInviteLastAcceptedAtVal)
+    }
     c.TaxExempt = temp.TaxExempt
     c.VatNumber = temp.VatNumber
     c.ParentId = temp.ParentId

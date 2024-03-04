@@ -18,8 +18,8 @@
 | `SegmentProperty2Value` | `*interface{}` | Optional | - |
 | `SegmentProperty3Value` | `*interface{}` | Optional | - |
 | `SegmentProperty4Value` | `*interface{}` | Optional | - |
-| `CreatedAt` | `*string` | Optional | - |
-| `UpdatedAt` | `*string` | Optional | - |
+| `CreatedAt` | `*time.Time` | Optional | - |
+| `UpdatedAt` | `*time.Time` | Optional | - |
 | `Prices` | [`[]models.SegmentPrice`](../../doc/models/segment-price.md) | Optional | **Constraints**: *Minimum Items*: `1` |
 
 ## Example (as JSON)

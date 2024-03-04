@@ -2,6 +2,8 @@ package models
 
 import (
     "encoding/json"
+    "log"
+    "time"
 )
 
 // Segment represents a Segment struct.
@@ -16,8 +18,8 @@ type Segment struct {
     SegmentProperty2Value     *interface{}   `json:"segment_property_2_value,omitempty"`
     SegmentProperty3Value     *interface{}   `json:"segment_property_3_value,omitempty"`
     SegmentProperty4Value     *interface{}   `json:"segment_property_4_value,omitempty"`
-    CreatedAt                 *string        `json:"created_at,omitempty"`
-    UpdatedAt                 *string        `json:"updated_at,omitempty"`
+    CreatedAt                 *time.Time     `json:"created_at,omitempty"`
+    UpdatedAt                 *time.Time     `json:"updated_at,omitempty"`
     Prices                    []SegmentPrice `json:"prices,omitempty"`
 }
 
@@ -60,10 +62,10 @@ func (s *Segment) toMap() map[string]any {
         structMap["segment_property_4_value"] = s.SegmentProperty4Value
     }
     if s.CreatedAt != nil {
-        structMap["created_at"] = s.CreatedAt
+        structMap["created_at"] = s.CreatedAt.Format(time.RFC3339)
     }
     if s.UpdatedAt != nil {
-        structMap["updated_at"] = s.UpdatedAt
+        structMap["updated_at"] = s.UpdatedAt.Format(time.RFC3339)
     }
     if s.Prices != nil {
         structMap["prices"] = s.Prices
@@ -102,8 +104,20 @@ func (s *Segment) UnmarshalJSON(input []byte) error {
     s.SegmentProperty2Value = temp.SegmentProperty2Value
     s.SegmentProperty3Value = temp.SegmentProperty3Value
     s.SegmentProperty4Value = temp.SegmentProperty4Value
-    s.CreatedAt = temp.CreatedAt
-    s.UpdatedAt = temp.UpdatedAt
+    if temp.CreatedAt != nil {
+        CreatedAtVal, err := time.Parse(time.RFC3339, *temp.CreatedAt)
+        if err != nil {
+            log.Fatalf("Cannot Parse created_at as % s format.", time.RFC3339)
+        }
+        s.CreatedAt = &CreatedAtVal
+    }
+    if temp.UpdatedAt != nil {
+        UpdatedAtVal, err := time.Parse(time.RFC3339, *temp.UpdatedAt)
+        if err != nil {
+            log.Fatalf("Cannot Parse updated_at as % s format.", time.RFC3339)
+        }
+        s.UpdatedAt = &UpdatedAtVal
+    }
     s.Prices = temp.Prices
     return nil
 }

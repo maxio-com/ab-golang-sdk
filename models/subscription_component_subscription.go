@@ -2,6 +2,8 @@ package models
 
 import (
     "encoding/json"
+    "log"
+    "time"
 )
 
 // SubscriptionComponentSubscription represents a SubscriptionComponentSubscription struct.
@@ -28,7 +30,7 @@ type SubscriptionComponentSubscription struct {
     //     * `trial_ended` - A subscription in a trial_ended state is a subscription that completed a no-obligation trial and did not have a card on file at the expiration of the trial period. See [Product Pricing – No Obligation Trials](https://maxio-chargify.zendesk.com/hc/en-us/articles/5405246782221) for more details.
     // See [Subscription States](https://maxio-chargify.zendesk.com/hc/en-us/articles/5404222005773) for more info about subscription states and state transitions.
     State     *SubscriptionState `json:"state,omitempty"`
-    UpdatedAt *string            `json:"updated_at,omitempty"`
+    UpdatedAt *time.Time         `json:"updated_at,omitempty"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for SubscriptionComponentSubscription.
@@ -46,7 +48,7 @@ func (s *SubscriptionComponentSubscription) toMap() map[string]any {
         structMap["state"] = s.State
     }
     if s.UpdatedAt != nil {
-        structMap["updated_at"] = s.UpdatedAt
+        structMap["updated_at"] = s.UpdatedAt.Format(time.RFC3339)
     }
     return structMap
 }
@@ -64,6 +66,12 @@ func (s *SubscriptionComponentSubscription) UnmarshalJSON(input []byte) error {
     }
     
     s.State = temp.State
-    s.UpdatedAt = temp.UpdatedAt
+    if temp.UpdatedAt != nil {
+        UpdatedAtVal, err := time.Parse(time.RFC3339, *temp.UpdatedAt)
+        if err != nil {
+            log.Fatalf("Cannot Parse updated_at as % s format.", time.RFC3339)
+        }
+        s.UpdatedAt = &UpdatedAtVal
+    }
     return nil
 }

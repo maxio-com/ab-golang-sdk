@@ -3,6 +3,7 @@ package advancedbilling
 import (
     "context"
     "fmt"
+    "github.com/apimatic/go-core-runtime/https"
     "github.com/apimatic/go-core-runtime/utilities"
     "github.com/maxio-com/ab-golang-sdk/errors"
     "github.com/maxio-com/ab-golang-sdk/models"
@@ -37,7 +38,10 @@ func (a *APIExportsController) ListExportedProformaInvoices(
       "GET",
       fmt.Sprintf("/api_exports/proforma_invoices/%v/rows.json", batchId),
     )
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
+    })
     if perPage != nil {
         req.QueryParam("per_page", *perPage)
     }
@@ -50,19 +54,8 @@ func (a *APIExportsController) ListExportedProformaInvoices(
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[[]models.ProformaInvoice](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    if resp.StatusCode == 404 {
-        err = errors.NewApiError(404, "Not Found")
-    }
     return models.NewApiResponse(result, resp), err
 }
 
@@ -83,7 +76,10 @@ func (a *APIExportsController) ListExportedInvoices(
       "GET",
       fmt.Sprintf("/api_exports/invoices/%v/rows.json", batchId),
     )
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
+    })
     if perPage != nil {
         req.QueryParam("per_page", *perPage)
     }
@@ -96,19 +92,8 @@ func (a *APIExportsController) ListExportedInvoices(
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[[]models.Invoice](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    if resp.StatusCode == 404 {
-        err = errors.NewApiError(404, "Not Found")
-    }
     return models.NewApiResponse(result, resp), err
 }
 
@@ -129,7 +114,10 @@ func (a *APIExportsController) ListExportedSubscriptions(
       "GET",
       fmt.Sprintf("/api_exports/subscriptions/%v/rows.json", batchId),
     )
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
+    })
     if perPage != nil {
         req.QueryParam("per_page", *perPage)
     }
@@ -142,19 +130,8 @@ func (a *APIExportsController) ListExportedSubscriptions(
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[[]models.Subscription](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    if resp.StatusCode == 404 {
-        err = errors.NewApiError(404, "Not Found")
-    }
     return models.NewApiResponse(result, resp), err
 }
 
@@ -167,28 +144,18 @@ func (a *APIExportsController) ExportProformaInvoices(ctx context.Context) (
     models.ApiResponse[models.BatchJobResponse],
     error) {
     req := a.prepareRequest(ctx, "POST", "/api_exports/proforma_invoices.json")
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
+        "409": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewSingleErrorResponse},
+    })
     var result models.BatchJobResponse
     decoder, resp, err := req.CallAsJson()
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[models.BatchJobResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    if resp.StatusCode == 404 {
-        err = errors.NewApiError(404, "Not Found")
-    }
-    if resp.StatusCode == 409 {
-        err = errors.NewSingleErrorResponse(409, "Conflict")
-    }
     return models.NewApiResponse(result, resp), err
 }
 
@@ -200,28 +167,18 @@ func (a *APIExportsController) ExportInvoices(ctx context.Context) (
     models.ApiResponse[models.BatchJobResponse],
     error) {
     req := a.prepareRequest(ctx, "POST", "/api_exports/invoices.json")
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
+        "409": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewSingleErrorResponse},
+    })
     var result models.BatchJobResponse
     decoder, resp, err := req.CallAsJson()
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[models.BatchJobResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    if resp.StatusCode == 404 {
-        err = errors.NewApiError(404, "Not Found")
-    }
-    if resp.StatusCode == 409 {
-        err = errors.NewSingleErrorResponse(409, "Conflict")
-    }
     return models.NewApiResponse(result, resp), err
 }
 
@@ -233,25 +190,17 @@ func (a *APIExportsController) ExportSubscriptions(ctx context.Context) (
     models.ApiResponse[models.BatchJobResponse],
     error) {
     req := a.prepareRequest(ctx, "POST", "/api_exports/subscriptions.json")
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "409": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewSingleErrorResponse},
+    })
     var result models.BatchJobResponse
     decoder, resp, err := req.CallAsJson()
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[models.BatchJobResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    if resp.StatusCode == 409 {
-        err = errors.NewSingleErrorResponse(409, "Conflict")
-    }
     return models.NewApiResponse(result, resp), err
 }
 
@@ -269,26 +218,18 @@ func (a *APIExportsController) ReadProformaInvoicesExport(
       "GET",
       fmt.Sprintf("/api_exports/proforma_invoices/%v.json", batchId),
     )
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
+    })
     
     var result models.BatchJobResponse
     decoder, resp, err := req.CallAsJson()
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[models.BatchJobResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    if resp.StatusCode == 404 {
-        err = errors.NewApiError(404, "Not Found")
-    }
     return models.NewApiResponse(result, resp), err
 }
 
@@ -306,26 +247,18 @@ func (a *APIExportsController) ReadInvoicesExport(
       "GET",
       fmt.Sprintf("/api_exports/invoices/%v.json", batchId),
     )
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
+    })
     
     var result models.BatchJobResponse
     decoder, resp, err := req.CallAsJson()
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[models.BatchJobResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    if resp.StatusCode == 404 {
-        err = errors.NewApiError(404, "Not Found")
-    }
     return models.NewApiResponse(result, resp), err
 }
 
@@ -343,25 +276,17 @@ func (a *APIExportsController) ReadSubscriptionsExport(
       "GET",
       fmt.Sprintf("/api_exports/subscriptions/%v.json", batchId),
     )
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
+    })
     
     var result models.BatchJobResponse
     decoder, resp, err := req.CallAsJson()
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[models.BatchJobResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    if resp.StatusCode == 404 {
-        err = errors.NewApiError(404, "Not Found")
-    }
     return models.NewApiResponse(result, resp), err
 }

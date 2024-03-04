@@ -3,6 +3,7 @@ package advancedbilling
 import (
     "context"
     "fmt"
+    "github.com/apimatic/go-core-runtime/https"
     "github.com/apimatic/go-core-runtime/utilities"
     "github.com/maxio-com/ab-golang-sdk/errors"
     "github.com/maxio-com/ab-golang-sdk/models"
@@ -38,7 +39,11 @@ func (e *EventsBasedBillingSegmentsController) CreateSegment(
       "POST",
       fmt.Sprintf("/components/%v/price_points/%v/segments.json", componentId, pricePointId),
     )
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
+        "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewEventBasedBillingSegmentErrors},
+    })
     req.Header("Content-Type", "application/json")
     if body != nil {
         req.Json(*body)
@@ -49,22 +54,8 @@ func (e *EventsBasedBillingSegmentsController) CreateSegment(
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[models.SegmentResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    if resp.StatusCode == 404 {
-        err = errors.NewApiError(404, "Not Found")
-    }
-    if resp.StatusCode == 422 {
-        err = errors.NewEventBasedBillingSegmentErrors(422, "Unprocessable Entity (WebDAV)")
-    }
     return models.NewApiResponse(result, resp), err
 }
 
@@ -91,7 +82,11 @@ func (e *EventsBasedBillingSegmentsController) ListSegmentsForPricePoint(
       "GET",
       fmt.Sprintf("/components/%v/price_points/%v/segments.json", componentId, pricePointId),
     )
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
+        "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewEventBasedBillingListSegmentsErrors},
+    })
     if page != nil {
         req.QueryParam("page", *page)
     }
@@ -116,22 +111,8 @@ func (e *EventsBasedBillingSegmentsController) ListSegmentsForPricePoint(
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[models.ListSegmentsResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    if resp.StatusCode == 404 {
-        err = errors.NewApiError(404, "Not Found")
-    }
-    if resp.StatusCode == 422 {
-        err = errors.NewEventBasedBillingListSegmentsErrors(422, "Unprocessable Entity (WebDAV)")
-    }
     return models.NewApiResponse(result, resp), err
 }
 
@@ -153,7 +134,11 @@ func (e *EventsBasedBillingSegmentsController) UpdateSegment(
       "PUT",
       fmt.Sprintf("/components/%v/price_points/%v/segments/%v.json", componentId, pricePointId, id),
     )
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
+        "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewEventBasedBillingSegmentErrors},
+    })
     req.Header("Content-Type", "application/json")
     if body != nil {
         req.Json(*body)
@@ -164,22 +149,8 @@ func (e *EventsBasedBillingSegmentsController) UpdateSegment(
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[models.SegmentResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    if resp.StatusCode == 404 {
-        err = errors.NewApiError(404, "Not Found")
-    }
-    if resp.StatusCode == 422 {
-        err = errors.NewEventBasedBillingSegmentErrors(422, "Unprocessable Entity (WebDAV)")
-    }
     return models.NewApiResponse(result, resp), err
 }
 
@@ -200,21 +171,15 @@ func (e *EventsBasedBillingSegmentsController) DeleteSegment(
       "DELETE",
       fmt.Sprintf("/components/%v/price_points/%v/segments/%v.json", componentId, pricePointId, id),
     )
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
+        "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'."},
+    })
     
     context, err := req.Call()
     if err != nil {
         return context.Response, err
-    }
-    err = validateResponse(*context.Response)
-    if err != nil {
-        return context.Response, err
-    }
-    if context.Response.StatusCode == 404 {
-        err = errors.NewApiError(404, "Not Found")
-    }
-    if context.Response.StatusCode == 422 {
-        err = errors.NewApiError(422, "Unprocessable Entity (WebDAV)")
     }
     return context.Response, err
 }
@@ -237,7 +202,11 @@ func (e *EventsBasedBillingSegmentsController) BulkCreateSegments(
       "POST",
       fmt.Sprintf("/components/%v/price_points/%v/segments/bulk.json", componentId, pricePointId),
     )
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
+        "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewEventBasedBillingSegment},
+    })
     req.Header("Content-Type", "application/json")
     if body != nil {
         req.Json(*body)
@@ -248,22 +217,8 @@ func (e *EventsBasedBillingSegmentsController) BulkCreateSegments(
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[models.ListSegmentsResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    if resp.StatusCode == 404 {
-        err = errors.NewApiError(404, "Not Found")
-    }
-    if resp.StatusCode == 422 {
-        err = errors.NewEventBasedBillingSegment(422, "Unprocessable Entity (WebDAV)")
-    }
     return models.NewApiResponse(result, resp), err
 }
 
@@ -285,7 +240,11 @@ func (e *EventsBasedBillingSegmentsController) BulkUpdateSegments(
       "PUT",
       fmt.Sprintf("/components/%v/price_points/%v/segments/bulk.json", componentId, pricePointId),
     )
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
+        "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewEventBasedBillingSegment},
+    })
     req.Header("Content-Type", "application/json")
     if body != nil {
         req.Json(*body)
@@ -296,21 +255,7 @@ func (e *EventsBasedBillingSegmentsController) BulkUpdateSegments(
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[models.ListSegmentsResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    if resp.StatusCode == 404 {
-        err = errors.NewApiError(404, "Not Found")
-    }
-    if resp.StatusCode == 422 {
-        err = errors.NewEventBasedBillingSegment(422, "Unprocessable Entity (WebDAV)")
-    }
     return models.NewApiResponse(result, resp), err
 }

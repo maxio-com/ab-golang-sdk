@@ -24,8 +24,8 @@
     "price_in_cents": 54,
     "interval": 186,
     "interval_unit": "day",
-    "auto_create_signup_page": false,
-    "tax_code": "tax_code8"
+    "trial_price_in_cents": 34,
+    "trial_interval": 88
   }
 }
 ```

@@ -2,6 +2,8 @@ package models
 
 import (
     "encoding/json"
+    "log"
+    "time"
 )
 
 // ProductFamily represents a ProductFamily struct.
@@ -11,8 +13,8 @@ type ProductFamily struct {
     Handle         *string          `json:"handle,omitempty"`
     AccountingCode Optional[string] `json:"accounting_code"`
     Description    Optional[string] `json:"description"`
-    CreatedAt      *string          `json:"created_at,omitempty"`
-    UpdatedAt      *string          `json:"updated_at,omitempty"`
+    CreatedAt      *time.Time       `json:"created_at,omitempty"`
+    UpdatedAt      *time.Time       `json:"updated_at,omitempty"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for ProductFamily.
@@ -42,10 +44,10 @@ func (p *ProductFamily) toMap() map[string]any {
         structMap["description"] = p.Description.Value()
     }
     if p.CreatedAt != nil {
-        structMap["created_at"] = p.CreatedAt
+        structMap["created_at"] = p.CreatedAt.Format(time.RFC3339)
     }
     if p.UpdatedAt != nil {
-        structMap["updated_at"] = p.UpdatedAt
+        structMap["updated_at"] = p.UpdatedAt.Format(time.RFC3339)
     }
     return structMap
 }
@@ -72,7 +74,19 @@ func (p *ProductFamily) UnmarshalJSON(input []byte) error {
     p.Handle = temp.Handle
     p.AccountingCode = temp.AccountingCode
     p.Description = temp.Description
-    p.CreatedAt = temp.CreatedAt
-    p.UpdatedAt = temp.UpdatedAt
+    if temp.CreatedAt != nil {
+        CreatedAtVal, err := time.Parse(time.RFC3339, *temp.CreatedAt)
+        if err != nil {
+            log.Fatalf("Cannot Parse created_at as % s format.", time.RFC3339)
+        }
+        p.CreatedAt = &CreatedAtVal
+    }
+    if temp.UpdatedAt != nil {
+        UpdatedAtVal, err := time.Parse(time.RFC3339, *temp.UpdatedAt)
+        if err != nil {
+            log.Fatalf("Cannot Parse updated_at as % s format.", time.RFC3339)
+        }
+        p.UpdatedAt = &UpdatedAtVal
+    }
     return nil
 }

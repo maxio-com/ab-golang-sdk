@@ -3,6 +3,7 @@ package advancedbilling
 import (
     "context"
     "fmt"
+    "github.com/apimatic/go-core-runtime/https"
     "github.com/apimatic/go-core-runtime/utilities"
     "github.com/maxio-com/ab-golang-sdk/errors"
     "github.com/maxio-com/ab-golang-sdk/models"
@@ -44,7 +45,10 @@ func (c *CouponsController) CreateCoupon(
       "POST",
       fmt.Sprintf("/product_families/%v/coupons.json", productFamilyId),
     )
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
+    })
     req.Header("Content-Type", "application/json")
     if body != nil {
         req.Json(*body)
@@ -55,19 +59,8 @@ func (c *CouponsController) CreateCoupon(
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[models.CouponResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    if resp.StatusCode == 422 {
-        err = errors.NewErrorListResponse(422, "Unprocessable Entity (WebDAV)")
-    }
     return models.NewApiResponse(result, resp), err
 }
 
@@ -97,7 +90,7 @@ func (c *CouponsController) ListCouponsForProductFamily(
       "GET",
       fmt.Sprintf("/product_families/%v/coupons.json", productFamilyId),
     )
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
     if page != nil {
         req.QueryParam("page", *page)
     }
@@ -137,16 +130,8 @@ func (c *CouponsController) ListCouponsForProductFamily(
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[[]models.CouponResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
     return models.NewApiResponse(result, resp), err
 }
 
@@ -162,7 +147,7 @@ func (c *CouponsController) FindCoupon(
     models.ApiResponse[models.CouponResponse],
     error) {
     req := c.prepareRequest(ctx, "GET", "/coupons/find.json")
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
     if productFamilyId != nil {
         req.QueryParam("product_family_id", *productFamilyId)
     }
@@ -174,16 +159,8 @@ func (c *CouponsController) FindCoupon(
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[models.CouponResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
     return models.NewApiResponse(result, resp), err
 }
 
@@ -205,23 +182,15 @@ func (c *CouponsController) ReadCoupon(
       "GET",
       fmt.Sprintf("/product_families/%v/coupons/%v.json", productFamilyId, couponId),
     )
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
     
     var result models.CouponResponse
     decoder, resp, err := req.CallAsJson()
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[models.CouponResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
     return models.NewApiResponse(result, resp), err
 }
 
@@ -244,7 +213,7 @@ func (c *CouponsController) UpdateCoupon(
       "PUT",
       fmt.Sprintf("/product_families/%v/coupons/%v.json", productFamilyId, couponId),
     )
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
     req.Header("Content-Type", "application/json")
     if body != nil {
         req.Json(*body)
@@ -255,16 +224,8 @@ func (c *CouponsController) UpdateCoupon(
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[models.CouponResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
     return models.NewApiResponse(result, resp), err
 }
 
@@ -285,23 +246,15 @@ func (c *CouponsController) ArchiveCoupon(
       "DELETE",
       fmt.Sprintf("/product_families/%v/coupons/%v.json", productFamilyId, couponId),
     )
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
     
     var result models.CouponResponse
     decoder, resp, err := req.CallAsJson()
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[models.CouponResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
     return models.NewApiResponse(result, resp), err
 }
 
@@ -331,7 +284,7 @@ func (c *CouponsController) ListCoupons(
     models.ApiResponse[[]models.CouponResponse],
     error) {
     req := c.prepareRequest(ctx, "GET", "/coupons.json")
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
     if page != nil {
         req.QueryParam("page", *page)
     }
@@ -385,16 +338,8 @@ func (c *CouponsController) ListCoupons(
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[[]models.CouponResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
     return models.NewApiResponse(result, resp), err
 }
 
@@ -413,23 +358,15 @@ func (c *CouponsController) ReadCouponUsage(
       "GET",
       fmt.Sprintf("/product_families/%v/coupons/%v/usage.json", productFamilyId, couponId),
     )
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
     
     var result []models.CouponUsage
     decoder, resp, err := req.CallAsJson()
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[[]models.CouponUsage](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
     return models.NewApiResponse(result, resp), err
 }
 
@@ -457,7 +394,10 @@ func (c *CouponsController) ValidateCoupon(
     models.ApiResponse[models.CouponResponse],
     error) {
     req := c.prepareRequest(ctx, "GET", "/coupons/validate.json")
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "404": {Message: "Not Found", Unmarshaller: errors.NewSingleStringErrorResponse},
+    })
     req.QueryParam("code", code)
     if productFamilyId != nil {
         req.QueryParam("product_family_id", *productFamilyId)
@@ -467,19 +407,8 @@ func (c *CouponsController) ValidateCoupon(
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[models.CouponResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    if resp.StatusCode == 404 {
-        err = errors.NewSingleStringErrorResponse(404, "Not Found")
-    }
     return models.NewApiResponse(result, resp), err
 }
 
@@ -499,7 +428,7 @@ func (c *CouponsController) CreateOrUpdateCouponCurrencyPrices(
       "PUT",
       fmt.Sprintf("/coupons/%v/currency_prices.json", couponId),
     )
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
     req.Header("Content-Type", "application/json")
     if body != nil {
         req.Json(*body)
@@ -510,16 +439,8 @@ func (c *CouponsController) CreateOrUpdateCouponCurrencyPrices(
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[models.CouponCurrencyResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
     return models.NewApiResponse(result, resp), err
 }
 
@@ -561,7 +482,7 @@ func (c *CouponsController) CreateCouponSubcodes(
       "POST",
       fmt.Sprintf("/coupons/%v/codes.json", couponId),
     )
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
     req.Header("Content-Type", "application/json")
     if body != nil {
         req.Json(*body)
@@ -572,16 +493,8 @@ func (c *CouponsController) CreateCouponSubcodes(
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[models.CouponSubcodesResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
     return models.NewApiResponse(result, resp), err
 }
 
@@ -601,7 +514,7 @@ func (c *CouponsController) ListCouponSubcodes(
       "GET",
       fmt.Sprintf("/coupons/%v/codes.json", couponId),
     )
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
     if page != nil {
         req.QueryParam("page", *page)
     }
@@ -614,16 +527,8 @@ func (c *CouponsController) ListCouponSubcodes(
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[models.CouponSubcodes](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
     return models.NewApiResponse(result, resp), err
 }
 
@@ -648,7 +553,7 @@ func (c *CouponsController) UpdateCouponSubcodes(
       "PUT",
       fmt.Sprintf("/coupons/%v/codes.json", couponId),
     )
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
     req.Header("Content-Type", "application/json")
     if body != nil {
         req.Json(*body)
@@ -659,16 +564,8 @@ func (c *CouponsController) UpdateCouponSubcodes(
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[models.CouponSubcodesResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
     return models.NewApiResponse(result, resp), err
 }
 
@@ -702,18 +599,14 @@ func (c *CouponsController) DeleteCouponSubcode(
       "DELETE",
       fmt.Sprintf("/coupons/%v/codes/%v.json", couponId, subcode),
     )
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
+    })
     
     context, err := req.Call()
     if err != nil {
         return context.Response, err
-    }
-    err = validateResponse(*context.Response)
-    if err != nil {
-        return context.Response, err
-    }
-    if context.Response.StatusCode == 404 {
-        err = errors.NewApiError(404, "Not Found")
     }
     return context.Response, err
 }

@@ -7,13 +7,15 @@ import (
 // CreateInvoicePayment represents a CreateInvoicePayment struct.
 type CreateInvoicePayment struct {
     // A string of the dollar amount to be refunded (eg. "10.50" => $10.50)
-    Amount  *interface{}              `json:"amount,omitempty"`
+    Amount           *interface{}              `json:"amount,omitempty"`
     // A description to be attached to the payment.
-    Memo    *string                   `json:"memo,omitempty"`
+    Memo             *string                   `json:"memo,omitempty"`
     // The type of payment method used. Defaults to other.
-    Method  *InvoicePaymentMethodType `json:"method,omitempty"`
+    Method           *InvoicePaymentMethodType `json:"method,omitempty"`
     // Additional information related to the payment method (eg. Check #)
-    Details *string                   `json:"details,omitempty"`
+    Details          *string                   `json:"details,omitempty"`
+    // The ID of the payment profile to be used for the payment.
+    PaymentProfileId *int                      `json:"payment_profile_id,omitempty"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreateInvoicePayment.
@@ -39,6 +41,9 @@ func (c *CreateInvoicePayment) toMap() map[string]any {
     if c.Details != nil {
         structMap["details"] = c.Details
     }
+    if c.PaymentProfileId != nil {
+        structMap["payment_profile_id"] = c.PaymentProfileId
+    }
     return structMap
 }
 
@@ -46,10 +51,11 @@ func (c *CreateInvoicePayment) toMap() map[string]any {
 // It customizes the JSON unmarshaling process for CreateInvoicePayment objects.
 func (c *CreateInvoicePayment) UnmarshalJSON(input []byte) error {
     temp := &struct {
-        Amount  *interface{}              `json:"amount,omitempty"`
-        Memo    *string                   `json:"memo,omitempty"`
-        Method  *InvoicePaymentMethodType `json:"method,omitempty"`
-        Details *string                   `json:"details,omitempty"`
+        Amount           *interface{}              `json:"amount,omitempty"`
+        Memo             *string                   `json:"memo,omitempty"`
+        Method           *InvoicePaymentMethodType `json:"method,omitempty"`
+        Details          *string                   `json:"details,omitempty"`
+        PaymentProfileId *int                      `json:"payment_profile_id,omitempty"`
     }{}
     err := json.Unmarshal(input, &temp)
     if err != nil {
@@ -60,5 +66,6 @@ func (c *CreateInvoicePayment) UnmarshalJSON(input []byte) error {
     c.Memo = temp.Memo
     c.Method = temp.Method
     c.Details = temp.Details
+    c.PaymentProfileId = temp.PaymentProfileId
     return nil
 }

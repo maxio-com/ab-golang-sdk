@@ -15,7 +15,8 @@ import (
 
 // Client is an interface representing the main client for accessing configuration and controllers.
 type ClientInterface interface {
-    Configuration() *Configuration
+    Configuration() Configuration
+    CloneWithConfiguration(options ...ConfigurationOptions) ClientInterface
     APIExportsController() *APIExportsController
     AdvanceInvoiceController() *AdvanceInvoiceController
     BillingPortalController() *BillingPortalController
@@ -95,7 +96,7 @@ func NewClient(configuration Configuration) ClientInterface {
         configuration: configuration,
     }
     
-    client.userAgent = utilities.UpdateUserAgent("AB SDK Go:0.0.4 on OS {os-info}")
+    client.userAgent = utilities.UpdateUserAgent("AB SDK Go:v1.0.1-alpha.1 on OS {os-info}")
     client.callBuilderFactory = callBuilderHandler(
     	func(server string) string {
     		if server == "" {
@@ -103,10 +104,11 @@ func NewClient(configuration Configuration) ClientInterface {
     		}
     		return getBaseUri(Server(server), client.configuration)
     	},
-    	BasicAuthentication(configuration),
+    	createAuthenticationFromConfig(configuration),
     	https.NewHttpClient(configuration.HttpConfiguration()),
     	configuration.httpConfiguration.RetryConfiguration(),
         withUserAgent(client.userAgent),
+        withGlobalErrors(),
     )
     
     baseController := NewBaseController(client)
@@ -145,8 +147,13 @@ func NewClient(configuration Configuration) ClientInterface {
 }
 
 // Configuration returns the configuration instance of the client.
-func (c *client) Configuration() *Configuration {
-    return &c.configuration
+func (c *client) Configuration() Configuration {
+    return c.configuration
+}
+
+// CloneWithConfiguration returns a new copy with the provided options of the configuration instance of the client.
+func (c *client) CloneWithConfiguration(options ...ConfigurationOptions) ClientInterface {
+    return NewClient(c.configuration.cloneWithOptions(options...))
 }
 
 // APIExportsController returns the apiExportsController instance of the client.
@@ -337,7 +344,7 @@ type clientOptions func(cb https.CallBuilder)
 // callBuilderHandler creates the call builder factory with various options.
 func callBuilderHandler(
     baseUrlProvider func(server string) string,
-    auth https.Authenticator,
+    auth map[string]https.AuthInterface,
     httpClient https.HttpClient,
     retryConfig RetryConfiguration,
     opts ...clientOptions) https.CallBuilderFactory {
@@ -361,10 +368,20 @@ func tap(
 // withUserAgent is an option to add a user agent header to the HTTP request.
 func withUserAgent(userAgent string) clientOptions {
     f := func(request *http.Request) *http.Request {
-    	request.Header.Add("user-agent", userAgent)
+    	request.Header.Set("user-agent", userAgent)
     	return request
     }
     return func(cb https.CallBuilder) {
     	cb.InterceptRequest(f)
+    }
+}
+
+// withGlobalErrors will add all globally defined errors to callBuilder.
+func withGlobalErrors() clientOptions {
+    return func(cb https.CallBuilder) {
+        cb.AppendErrors(map[string]https.ErrorBuilder[error]{
+            "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
+            "0": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'."},
+        })
     }
 }

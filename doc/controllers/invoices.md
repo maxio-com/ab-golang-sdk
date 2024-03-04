@@ -1108,10 +1108,10 @@ ctx := context.Background()
 uid := "uid0"
 
 bodyPayment := models.CreateInvoicePayment{
-    Amount:  models.ToPointer(interface{}("[key1, val1][key2, val2]")),
-    Memo:    models.ToPointer("for John Smith"),
-    Method:  models.ToPointer(models.InvoicePaymentMethodType("check")),
-    Details: models.ToPointer("#0102"),
+    Amount:           models.ToPointer(interface{}("[key1, val1][key2, val2]")),
+    Memo:             models.ToPointer("for John Smith"),
+    Method:           models.ToPointer(models.InvoicePaymentMethodType("check")),
+    Details:          models.ToPointer("#0102"),
 }
 
 body := models.CreateInvoicePaymentRequest{
@@ -1127,6 +1127,12 @@ if err != nil {
     fmt.Println(apiResponse.Response.StatusCode)
 }
 ```
+
+## Errors
+
+| HTTP Status Code | Error Description | Exception Class |
+|  --- | --- | --- |
+| 422 | Unprocessable Entity | [`ErrorListResponseException`](../../doc/models/error-list-response-exception.md) |
 
 
 # Record Payment for Multiple Invoices
@@ -1690,7 +1696,9 @@ if err != nil {
       "product_id": 85,
       "product_version": 1,
       "component_id": 81,
-      "price_point_id": 165
+      "price_point_id": 165,
+      "billing_schedule_item_id": null,
+      "custom_item": false
     },
     {
       "uid": "cnli_8kjttvjcjx8b4",
@@ -1708,7 +1716,9 @@ if err != nil {
       "product_id": 85,
       "product_version": 1,
       "component_id": null,
-      "price_point_id": null
+      "price_point_id": null,
+      "billing_schedule_item_id": null,
+      "custom_item": false
     },
     {
       "uid": "cnli_8kjttvjknzhx7",
@@ -1726,7 +1736,9 @@ if err != nil {
       "product_id": 85,
       "product_version": 1,
       "component_id": 78,
-      "price_point_id": null
+      "price_point_id": null,
+      "billing_schedule_item_id": null,
+      "custom_item": false
     },
     {
       "uid": "cnli_8kjttvjnmh25w",
@@ -1744,7 +1756,9 @@ if err != nil {
       "product_id": 85,
       "product_version": 1,
       "component_id": 79,
-      "price_point_id": null
+      "price_point_id": null,
+      "billing_schedule_item_id": null,
+      "custom_item": false
     },
     {
       "uid": "cnli_8kjttvjqn86kc",
@@ -1762,7 +1776,9 @@ if err != nil {
       "product_id": 85,
       "product_version": 1,
       "component_id": 80,
-      "price_point_id": null
+      "price_point_id": null,
+      "billing_schedule_item_id": null,
+      "custom_item": false
     },
     {
       "uid": "cnli_8kjttvjtxxbdd",
@@ -1780,7 +1796,9 @@ if err != nil {
       "product_id": 85,
       "product_version": 1,
       "component_id": 81,
-      "price_point_id": 165
+      "price_point_id": 165,
+      "billing_schedule_item_id": null,
+      "custom_item": false
     }
   ],
   "discounts": [
@@ -1908,7 +1926,7 @@ RecordPaymentForSubscription(
     ctx context.Context,
     subscriptionId int,
     body *models.RecordPaymentRequest) (
-    models.ApiResponse[models.PaymentResponse],
+    models.ApiResponse[models.RecordPaymentResponse],
     error)
 ```
 
@@ -1921,7 +1939,7 @@ RecordPaymentForSubscription(
 
 ## Response Type
 
-[`models.PaymentResponse`](../../doc/models/payment-response.md)
+[`models.RecordPaymentResponse`](../../doc/models/record-payment-response.md)
 
 ## Example Usage
 
@@ -1933,7 +1951,7 @@ bodyPayment := models.CreatePayment{
     Amount:         "10.0",
     Memo:           "to pay the bills",
     PaymentDetails: "check number 8675309",
-    PaymentMethod:  "check",
+    PaymentMethod:  models.InvoicePaymentMethodType("check"),
 }
 
 body := models.RecordPaymentRequest{
@@ -1956,23 +1974,19 @@ if err != nil {
 {
   "paid_invoices": [
     {
-      "invoice_uid": "xyz_012345678",
+      "invoice_id": "inv_bchyhr6z5grby",
       "status": "paid",
       "due_amount": "0.0",
       "paid_amount": "50.0"
     },
     {
-      "invoice_uid": "xyz_012345678",
+      "invoice_id": "inv_bchyhrgvyb6vm",
       "status": "paid",
       "due_amount": "0.0",
       "paid_amount": "50.0"
     }
   ],
-  "prepayment": {
-    "subscription_id": "123456",
-    "amount_in_cents": "5000",
-    "ending_balance_in_cents": "5000"
-  }
+  "prepayment": null
 }
 ```
 
@@ -3030,7 +3044,7 @@ if err != nil {
   ],
   "taxes": [
     {
-      "source_type": "enim",
+      "source_type": "Tax",
       "line_item_breakouts": [
         {
           "uid": "in ipsum",

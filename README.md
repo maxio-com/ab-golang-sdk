@@ -279,10 +279,10 @@ The following section explains how to use the advancedbilling library in a new p
 To use the package in your application, you can install the package from [pkg.go.dev](https://pkg.go.dev/) using the following command:
 
 ```bash
-$ go get github.com/maxio-com/ab-golang-sdk@v0.0.4
+$ go get github.com/maxio-com/ab-golang-sdk@vv1.0.1-alpha.1
 ```
 
-You can also view the package at: https://pkg.go.dev/github.com/maxio-com/ab-golang-sdk@v0.0.4
+You can also view the package at: https://pkg.go.dev/github.com/maxio-com/ab-golang-sdk@vv1.0.1-alpha.1
 
 ## Initialize the API Client
 
@@ -294,37 +294,29 @@ The following parameters are configurable for the API Client:
 |  --- | --- | --- |
 | `subdomain` | `string` | The subdomain for your Chargify site.<br>*Default*: `"subdomain"` |
 | `domain` | `string` | The Chargify server domain.<br>*Default*: `"chargify.com"` |
-| `environment` | Environment | The API environment. <br> **Default: `Environment.PRODUCTION`** |
+| `environment` | `Environment` | The API environment. <br> **Default: `Environment.PRODUCTION`** |
 | `httpConfiguration` | [`HttpConfiguration`](doc/http-configuration.md) | Configurable http client options like timeout and retries. |
-| `basicAuthUserName` | `string` | The username to use with basic authentication |
-| `basicAuthPassword` | `string` | The password to use with basic authentication |
+| `basicAuthCredentials` | [`BasicAuthCredentials`](doc/auth/basic-authentication.md) | The Credentials Setter for Basic Authentication |
 
 The API client can be initialized as follows:
 
 ```go
-config := advancedbilling.CreateConfiguration(
-    advancedbilling.WithHttpConfiguration(
-        advancedbilling.CreateHttpConfiguration(
-            advancedbilling.WithTimeout(30),
-            advancedbilling.WithTransport(http.DefaultTransport),
-            advancedbilling.WithRetryConfiguration(
-                advancedbilling.CreateRetryConfiguration(
-                    advancedbilling.WithMaxRetryAttempts(0),
-                    advancedbilling.WithRetryOnTimeout(true),
-                    advancedbilling.WithRetryInterval(1),
-                    advancedbilling.WithMaximumRetryWaitTime(0),
-                    advancedbilling.WithBackoffFactor(2),
-                    advancedbilling.WithHttpStatusCodesToRetry([]int64{408, 413, 429, 500, 502, 503, 504, 521, 522, 524, 408, 413, 429, 500, 502, 503, 504, 521, 522, 524}),
-                    advancedbilling.WithHttpMethodsToRetry([]string{"GET", "PUT", "GET", "PUT"}),
-                ),
+client := advancedbilling.NewClient(
+    advancedbilling.CreateConfiguration(
+        advancedbilling.WithHttpConfiguration(
+            advancedbilling.CreateHttpConfiguration(
+                advancedbilling.WithTimeout(30),
+            ),
+        ),
+        advancedbilling.WithEnvironment(advancedbilling.PRODUCTION),
+        advancedbilling.WithBasicAuthCredentials(
+            advancedbilling.NewBasicAuthCredentials(
+                "BasicAuthUserName",
+                "BasicAuthPassword",
             ),
         ),
     ),
-    advancedbilling.WithEnvironment(advancedbilling.PRODUCTION),
-    advancedbilling.WithBasicAuthUserName("BasicAuthUserName"),
-    advancedbilling.WithBasicAuthPassword("BasicAuthPassword"),
 )
-client := advancedbilling.NewClient(config)
 ```
 
 ## Environments
@@ -340,7 +332,9 @@ The SDK can be configured to use a different environment for making API calls. A
 
 ## Authorization
 
-This API uses `Basic Authentication`.
+This API uses the following authentication schemes.
+
+* [`BasicAuth (Basic Authentication)`](doc/auth/basic-authentication.md)
 
 ## List of APIs
 

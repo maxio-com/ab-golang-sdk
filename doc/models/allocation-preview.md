@@ -9,8 +9,8 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `StartDate` | `*string` | Optional | - |
-| `EndDate` | `*string` | Optional | - |
+| `StartDate` | `*time.Time` | Optional | - |
+| `EndDate` | `*time.Time` | Optional | - |
 | `SubtotalInCents` | `*int64` | Optional | - |
 | `TotalTaxInCents` | `*int64` | Optional | - |
 | `TotalDiscountInCents` | `*int64` | Optional | - |
@@ -27,8 +27,8 @@
 
 ```json
 {
-  "start_date": "start_date2",
-  "end_date": "end_date8",
+  "start_date": "2016-03-13T12:52:32.123Z",
+  "end_date": "2016-03-13T12:52:32.123Z",
   "subtotal_in_cents": 4,
   "total_tax_in_cents": 128,
   "total_discount_in_cents": 122

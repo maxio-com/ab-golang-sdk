@@ -3,6 +3,7 @@ package advancedbilling
 import (
     "context"
     "fmt"
+    "github.com/apimatic/go-core-runtime/https"
     "github.com/apimatic/go-core-runtime/utilities"
     "github.com/maxio-com/ab-golang-sdk/errors"
     "github.com/maxio-com/ab-golang-sdk/models"
@@ -214,7 +215,11 @@ func (p *PaymentProfilesController) CreatePaymentProfile(
     models.ApiResponse[models.PaymentProfileResponse],
     error) {
     req := p.prepareRequest(ctx, "POST", "/payment_profiles.json")
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
+        "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
+    })
     req.Header("Content-Type", "application/json")
     if body != nil {
         req.Json(*body)
@@ -224,22 +229,8 @@ func (p *PaymentProfilesController) CreatePaymentProfile(
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[models.PaymentProfileResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    if resp.StatusCode == 404 {
-        err = errors.NewApiError(404, "Not Found")
-    }
-    if resp.StatusCode == 422 {
-        err = errors.NewErrorListResponse(422, "Unprocessable Entity (WebDAV)")
-    }
     return models.NewApiResponse(result, resp), err
 }
 
@@ -255,7 +246,7 @@ func (p *PaymentProfilesController) ListPaymentProfiles(
     models.ApiResponse[[]models.PaymentProfileResponse],
     error) {
     req := p.prepareRequest(ctx, "GET", "/payment_profiles.json")
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
     if page != nil {
         req.QueryParam("page", *page)
     }
@@ -270,16 +261,8 @@ func (p *PaymentProfilesController) ListPaymentProfiles(
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[[]models.PaymentProfileResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
     return models.NewApiResponse(result, resp), err
 }
 
@@ -327,26 +310,18 @@ func (p *PaymentProfilesController) ReadPaymentProfile(
       "GET",
       fmt.Sprintf("/payment_profiles/%v.json", paymentProfileId),
     )
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "404": {Message: "Not Found"},
+    })
     
     var result models.PaymentProfileResponse
     decoder, resp, err := req.CallAsJson()
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[models.PaymentProfileResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    if resp.StatusCode == 404 {
-        err = errors.NewApiError(404, "Not Found")
-    }
     return models.NewApiResponse(result, resp), err
 }
 
@@ -388,7 +363,11 @@ func (p *PaymentProfilesController) UpdatePaymentProfile(
       "PUT",
       fmt.Sprintf("/payment_profiles/%v.json", paymentProfileId),
     )
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "404": {Message: "Not Found"},
+        "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorStringMapResponse},
+    })
     req.Header("Content-Type", "application/json")
     if body != nil {
         req.Json(*body)
@@ -399,22 +378,8 @@ func (p *PaymentProfilesController) UpdatePaymentProfile(
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[models.PaymentProfileResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    if resp.StatusCode == 404 {
-        err = errors.NewApiError(404, "Not Found")
-    }
-    if resp.StatusCode == 422 {
-        err = errors.NewErrorStringMapResponse(422, "Unprocessable Entity (WebDAV)")
-    }
     return models.NewApiResponse(result, resp), err
 }
 
@@ -433,21 +398,15 @@ func (p *PaymentProfilesController) DeleteUnusedPaymentProfile(
       "DELETE",
       fmt.Sprintf("/payment_profiles/%v.json", paymentProfileId),
     )
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "404": {Message: "Not Found"},
+        "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
+    })
     
     context, err := req.Call()
     if err != nil {
         return context.Response, err
-    }
-    err = validateResponse(*context.Response)
-    if err != nil {
-        return context.Response, err
-    }
-    if context.Response.StatusCode == 404 {
-        err = errors.NewApiError(404, "Not Found")
-    }
-    if context.Response.StatusCode == 422 {
-        err = errors.NewErrorListResponse(422, "Unprocessable Entity (WebDAV)")
     }
     return context.Response, err
 }
@@ -469,13 +428,9 @@ func (p *PaymentProfilesController) DeleteSubscriptionsPaymentProfile(
       "DELETE",
       fmt.Sprintf("/subscriptions/%v/payment_profiles/%v.json", subscriptionId, paymentProfileId),
     )
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
     
     context, err := req.Call()
-    if err != nil {
-        return context.Response, err
-    }
-    err = validateResponse(*context.Response)
     if err != nil {
         return context.Response, err
     }
@@ -497,7 +452,11 @@ func (p *PaymentProfilesController) VerifyBankAccount(
       "PUT",
       fmt.Sprintf("/bank_accounts/%v/verification.json", bankAccountId),
     )
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
+        "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
+    })
     req.Header("Content-Type", "application/json")
     if body != nil {
         req.Json(*body)
@@ -508,22 +467,8 @@ func (p *PaymentProfilesController) VerifyBankAccount(
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[models.BankAccountResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    if resp.StatusCode == 404 {
-        err = errors.NewApiError(404, "Not Found")
-    }
-    if resp.StatusCode == 422 {
-        err = errors.NewErrorListResponse(422, "Unprocessable Entity (WebDAV)")
-    }
     return models.NewApiResponse(result, resp), err
 }
 
@@ -543,13 +488,9 @@ func (p *PaymentProfilesController) DeleteSubscriptionGroupPaymentProfile(
       "DELETE",
       fmt.Sprintf("/subscription_groups/%v/payment_profiles/%v.json", uid, paymentProfileId),
     )
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
     
     context, err := req.Call()
-    if err != nil {
-        return context.Response, err
-    }
-    err = validateResponse(*context.Response)
     if err != nil {
         return context.Response, err
     }
@@ -572,29 +513,19 @@ func (p *PaymentProfilesController) ChangeSubscriptionDefaultPaymentProfile(
       "POST",
       fmt.Sprintf("/subscriptions/%v/payment_profiles/%v/change_payment_profile.json", subscriptionId, paymentProfileId),
     )
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "404": {Message: "Not Found"},
+        "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
+    })
     
     var result models.PaymentProfileResponse
     decoder, resp, err := req.CallAsJson()
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[models.PaymentProfileResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    if resp.StatusCode == 404 {
-        err = errors.NewApiError(404, "Not Found")
-    }
-    if resp.StatusCode == 422 {
-        err = errors.NewErrorListResponse(422, "Unprocessable Entity (WebDAV)")
-    }
     return models.NewApiResponse(result, resp), err
 }
 
@@ -615,26 +546,18 @@ func (p *PaymentProfilesController) ChangeSubscriptionGroupDefaultPaymentProfile
       "POST",
       fmt.Sprintf("/subscription_groups/%v/payment_profiles/%v/change_payment_profile.json", uid, paymentProfileId),
     )
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
+    })
     
     var result models.PaymentProfileResponse
     decoder, resp, err := req.CallAsJson()
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[models.PaymentProfileResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    if resp.StatusCode == 422 {
-        err = errors.NewErrorListResponse(422, "Unprocessable Entity (WebDAV)")
-    }
     return models.NewApiResponse(result, resp), err
 }
 
@@ -654,26 +577,18 @@ func (p *PaymentProfilesController) ReadOneTimeToken(
       "GET",
       fmt.Sprintf("/one_time_tokens/%v.json", chargifyToken),
     )
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "404": {TemplatedMessage: "Not Found:'{$response.body}'", Unmarshaller: errors.NewErrorListResponse},
+    })
     
     var result models.GetOneTimeTokenRequest
     decoder, resp, err := req.CallAsJson()
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[models.GetOneTimeTokenRequest](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    if resp.StatusCode == 404 {
-        err = errors.NewErrorListResponse(404, "Not Found")
-    }
     return models.NewApiResponse(result, resp), err
 }
 
@@ -694,21 +609,15 @@ func (p *PaymentProfilesController) SendRequestUpdatePaymentEmail(
       "POST",
       fmt.Sprintf("/subscriptions/%v/request_payment_profiles_update.json", subscriptionId),
     )
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
+        "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
+    })
     
     context, err := req.Call()
     if err != nil {
         return context.Response, err
-    }
-    err = validateResponse(*context.Response)
-    if err != nil {
-        return context.Response, err
-    }
-    if context.Response.StatusCode == 404 {
-        err = errors.NewApiError(404, "Not Found")
-    }
-    if context.Response.StatusCode == 422 {
-        err = errors.NewErrorListResponse(422, "Unprocessable Entity (WebDAV)")
     }
     return context.Response, err
 }

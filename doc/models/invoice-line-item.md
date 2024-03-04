@@ -30,6 +30,7 @@
 | `ComponentCostData` | [`Optional[models.InvoiceLineItemComponentCostData]`](../../doc/models/invoice-line-item-component-cost-data.md) | Optional | - |
 | `ProductPricePointId` | `Optional[int]` | Optional | The price point ID of the line item's product |
 | `CustomItem` | `*bool` | Optional | - |
+| `Kind` | `*string` | Optional | - |
 
 ## Example (as JSON)
 

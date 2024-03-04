@@ -18,9 +18,9 @@
 | `Name` | `*string` | Optional | - |
 | `Handle` | `*string` | Optional | - |
 | `Description` | `Optional[string]` | Optional | - |
-| `CreatedAt` | `*string` | Optional | - |
-| `UpdatedAt` | `*string` | Optional | - |
-| `ArchivedAt` | `Optional[string]` | Optional | - |
+| `CreatedAt` | `*time.Time` | Optional | - |
+| `UpdatedAt` | `*time.Time` | Optional | - |
+| `ArchivedAt` | `Optional[time.Time]` | Optional | - |
 | `OfferItems` | [`[]models.OfferItem`](../../doc/models/offer-item.md) | Optional | - |
 | `OfferDiscounts` | [`[]models.OfferDiscount`](../../doc/models/offer-discount.md) | Optional | - |
 | `ProductFamilyName` | `*string` | Optional | - |

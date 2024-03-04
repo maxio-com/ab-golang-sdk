@@ -2,6 +2,8 @@ package models
 
 import (
     "encoding/json"
+    "log"
+    "time"
 )
 
 // FullSubscriptionGroupResponse represents a FullSubscriptionGroupResponse struct.
@@ -12,7 +14,7 @@ type FullSubscriptionGroupResponse struct {
     PaymentProfileId            *int                       `json:"payment_profile_id,omitempty"`
     SubscriptionIds             []int                      `json:"subscription_ids,omitempty"`
     PrimarySubscriptionId       *int                       `json:"primary_subscription_id,omitempty"`
-    NextAssessmentAt            *string                    `json:"next_assessment_at,omitempty"`
+    NextAssessmentAt            *time.Time                 `json:"next_assessment_at,omitempty"`
     State                       *string                    `json:"state,omitempty"`
     CancelAtEndOfPeriod         *bool                      `json:"cancel_at_end_of_period,omitempty"`
     CurrentBillingAmountInCents *int64                     `json:"current_billing_amount_in_cents,omitempty"`
@@ -50,7 +52,7 @@ func (f *FullSubscriptionGroupResponse) toMap() map[string]any {
         structMap["primary_subscription_id"] = f.PrimarySubscriptionId
     }
     if f.NextAssessmentAt != nil {
-        structMap["next_assessment_at"] = f.NextAssessmentAt
+        structMap["next_assessment_at"] = f.NextAssessmentAt.Format(time.RFC3339)
     }
     if f.State != nil {
         structMap["state"] = f.State
@@ -98,7 +100,13 @@ func (f *FullSubscriptionGroupResponse) UnmarshalJSON(input []byte) error {
     f.PaymentProfileId = temp.PaymentProfileId
     f.SubscriptionIds = temp.SubscriptionIds
     f.PrimarySubscriptionId = temp.PrimarySubscriptionId
-    f.NextAssessmentAt = temp.NextAssessmentAt
+    if temp.NextAssessmentAt != nil {
+        NextAssessmentAtVal, err := time.Parse(time.RFC3339, *temp.NextAssessmentAt)
+        if err != nil {
+            log.Fatalf("Cannot Parse next_assessment_at as % s format.", time.RFC3339)
+        }
+        f.NextAssessmentAt = &NextAssessmentAtVal
+    }
     f.State = temp.State
     f.CancelAtEndOfPeriod = temp.CancelAtEndOfPeriod
     f.CurrentBillingAmountInCents = temp.CurrentBillingAmountInCents

@@ -13,6 +13,8 @@ type InvoiceRefund struct {
     AppliedAmount        *string          `json:"applied_amount,omitempty"`
     // The transaction ID for the refund as returned from the payment gateway
     GatewayTransactionId Optional[string] `json:"gateway_transaction_id"`
+    GatewayUsed          *string          `json:"gateway_used,omitempty"`
+    GatewayHandle        Optional[string] `json:"gateway_handle"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for InvoiceRefund.
@@ -44,6 +46,12 @@ func (i *InvoiceRefund) toMap() map[string]any {
     if i.GatewayTransactionId.IsValueSet() {
         structMap["gateway_transaction_id"] = i.GatewayTransactionId.Value()
     }
+    if i.GatewayUsed != nil {
+        structMap["gateway_used"] = i.GatewayUsed
+    }
+    if i.GatewayHandle.IsValueSet() {
+        structMap["gateway_handle"] = i.GatewayHandle.Value()
+    }
     return structMap
 }
 
@@ -57,6 +65,8 @@ func (i *InvoiceRefund) UnmarshalJSON(input []byte) error {
         OriginalAmount       *string          `json:"original_amount,omitempty"`
         AppliedAmount        *string          `json:"applied_amount,omitempty"`
         GatewayTransactionId Optional[string] `json:"gateway_transaction_id"`
+        GatewayUsed          *string          `json:"gateway_used,omitempty"`
+        GatewayHandle        Optional[string] `json:"gateway_handle"`
     }{}
     err := json.Unmarshal(input, &temp)
     if err != nil {
@@ -69,5 +79,7 @@ func (i *InvoiceRefund) UnmarshalJSON(input []byte) error {
     i.OriginalAmount = temp.OriginalAmount
     i.AppliedAmount = temp.AppliedAmount
     i.GatewayTransactionId = temp.GatewayTransactionId
+    i.GatewayUsed = temp.GatewayUsed
+    i.GatewayHandle = temp.GatewayHandle
     return nil
 }

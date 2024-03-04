@@ -41,7 +41,7 @@ func (s *SalesCommissionsController) ListSalesCommissionSettings(
       "GET",
       fmt.Sprintf("/sellers/%v/sales_commission_settings.json", sellerId),
     )
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
     if authorization != nil {
         req.Header("Authorization", *authorization)
     }
@@ -60,16 +60,8 @@ func (s *SalesCommissionsController) ListSalesCommissionSettings(
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[[]models.SaleRepSettings](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
     return models.NewApiResponse(result, resp), err
 }
 
@@ -95,7 +87,7 @@ func (s *SalesCommissionsController) ListSalesReps(
       "GET",
       fmt.Sprintf("/sellers/%v/sales_reps.json", sellerId),
     )
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
     if authorization != nil {
         req.Header("Authorization", *authorization)
     }
@@ -114,16 +106,8 @@ func (s *SalesCommissionsController) ListSalesReps(
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[[]models.ListSaleRepItem](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
     return models.NewApiResponse(result, resp), err
 }
 
@@ -150,7 +134,7 @@ func (s *SalesCommissionsController) ReadSalesRep(
       "GET",
       fmt.Sprintf("/sellers/%v/sales_reps/%v.json", sellerId, salesRepId),
     )
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
     if authorization != nil {
         req.Header("Authorization", *authorization)
     }
@@ -169,15 +153,7 @@ func (s *SalesCommissionsController) ReadSalesRep(
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[models.SaleRep](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
     return models.NewApiResponse(result, resp), err
 }

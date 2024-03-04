@@ -2,17 +2,19 @@ package models
 
 import (
     "encoding/json"
+    "log"
+    "time"
 )
 
 // CreatedPrepayment represents a CreatedPrepayment struct.
 type CreatedPrepayment struct {
-    Id                     *int    `json:"id,omitempty"`
-    SubscriptionId         *int    `json:"subscription_id,omitempty"`
-    AmountInCents          *int64  `json:"amount_in_cents,omitempty"`
-    Memo                   *string `json:"memo,omitempty"`
-    CreatedAt              *string `json:"created_at,omitempty"`
-    StartingBalanceInCents *int64  `json:"starting_balance_in_cents,omitempty"`
-    EndingBalanceInCents   *int64  `json:"ending_balance_in_cents,omitempty"`
+    Id                     *int       `json:"id,omitempty"`
+    SubscriptionId         *int       `json:"subscription_id,omitempty"`
+    AmountInCents          *int64     `json:"amount_in_cents,omitempty"`
+    Memo                   *string    `json:"memo,omitempty"`
+    CreatedAt              *time.Time `json:"created_at,omitempty"`
+    StartingBalanceInCents *int64     `json:"starting_balance_in_cents,omitempty"`
+    EndingBalanceInCents   *int64     `json:"ending_balance_in_cents,omitempty"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreatedPrepayment.
@@ -39,7 +41,7 @@ func (c *CreatedPrepayment) toMap() map[string]any {
         structMap["memo"] = c.Memo
     }
     if c.CreatedAt != nil {
-        structMap["created_at"] = c.CreatedAt
+        structMap["created_at"] = c.CreatedAt.Format(time.RFC3339)
     }
     if c.StartingBalanceInCents != nil {
         structMap["starting_balance_in_cents"] = c.StartingBalanceInCents
@@ -71,7 +73,13 @@ func (c *CreatedPrepayment) UnmarshalJSON(input []byte) error {
     c.SubscriptionId = temp.SubscriptionId
     c.AmountInCents = temp.AmountInCents
     c.Memo = temp.Memo
-    c.CreatedAt = temp.CreatedAt
+    if temp.CreatedAt != nil {
+        CreatedAtVal, err := time.Parse(time.RFC3339, *temp.CreatedAt)
+        if err != nil {
+            log.Fatalf("Cannot Parse created_at as % s format.", time.RFC3339)
+        }
+        c.CreatedAt = &CreatedAtVal
+    }
     c.StartingBalanceInCents = temp.StartingBalanceInCents
     c.EndingBalanceInCents = temp.EndingBalanceInCents
     return nil

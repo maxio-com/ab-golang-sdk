@@ -6,17 +6,17 @@ import (
 
 // SiteStatistics represents a SiteStatistics struct.
 type SiteStatistics struct {
-    TotalSubscriptions         *int     `json:"total_subscriptions,omitempty"`
-    SubscriptionsToday         *int     `json:"subscriptions_today,omitempty"`
-    TotalRevenue               *string  `json:"total_revenue,omitempty"`
-    RevenueToday               *string  `json:"revenue_today,omitempty"`
-    RevenueThisMonth           *string  `json:"revenue_this_month,omitempty"`
-    RevenueThisYear            *string  `json:"revenue_this_year,omitempty"`
-    TotalCanceledSubscriptions *int     `json:"total_canceled_subscriptions,omitempty"`
-    TotalActiveSubscriptions   *float64 `json:"total_active_subscriptions,omitempty"`
-    TotalPastDueSubscriptions  *float64 `json:"total_past_due_subscriptions,omitempty"`
-    TotalUnpaidSubscriptions   *float64 `json:"total_unpaid_subscriptions,omitempty"`
-    TotalDunningSubscriptions  *float64 `json:"total_dunning_subscriptions,omitempty"`
+    TotalSubscriptions         *int    `json:"total_subscriptions,omitempty"`
+    SubscriptionsToday         *int    `json:"subscriptions_today,omitempty"`
+    TotalRevenue               *string `json:"total_revenue,omitempty"`
+    RevenueToday               *string `json:"revenue_today,omitempty"`
+    RevenueThisMonth           *string `json:"revenue_this_month,omitempty"`
+    RevenueThisYear            *string `json:"revenue_this_year,omitempty"`
+    TotalCanceledSubscriptions *int    `json:"total_canceled_subscriptions,omitempty"`
+    TotalActiveSubscriptions   *int    `json:"total_active_subscriptions,omitempty"`
+    TotalPastDueSubscriptions  *int    `json:"total_past_due_subscriptions,omitempty"`
+    TotalUnpaidSubscriptions   *int    `json:"total_unpaid_subscriptions,omitempty"`
+    TotalDunningSubscriptions  *int    `json:"total_dunning_subscriptions,omitempty"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for SiteStatistics.
@@ -70,17 +70,17 @@ func (s *SiteStatistics) toMap() map[string]any {
 // It customizes the JSON unmarshaling process for SiteStatistics objects.
 func (s *SiteStatistics) UnmarshalJSON(input []byte) error {
     temp := &struct {
-        TotalSubscriptions         *int     `json:"total_subscriptions,omitempty"`
-        SubscriptionsToday         *int     `json:"subscriptions_today,omitempty"`
-        TotalRevenue               *string  `json:"total_revenue,omitempty"`
-        RevenueToday               *string  `json:"revenue_today,omitempty"`
-        RevenueThisMonth           *string  `json:"revenue_this_month,omitempty"`
-        RevenueThisYear            *string  `json:"revenue_this_year,omitempty"`
-        TotalCanceledSubscriptions *int     `json:"total_canceled_subscriptions,omitempty"`
-        TotalActiveSubscriptions   *float64 `json:"total_active_subscriptions,omitempty"`
-        TotalPastDueSubscriptions  *float64 `json:"total_past_due_subscriptions,omitempty"`
-        TotalUnpaidSubscriptions   *float64 `json:"total_unpaid_subscriptions,omitempty"`
-        TotalDunningSubscriptions  *float64 `json:"total_dunning_subscriptions,omitempty"`
+        TotalSubscriptions         *int    `json:"total_subscriptions,omitempty"`
+        SubscriptionsToday         *int    `json:"subscriptions_today,omitempty"`
+        TotalRevenue               *string `json:"total_revenue,omitempty"`
+        RevenueToday               *string `json:"revenue_today,omitempty"`
+        RevenueThisMonth           *string `json:"revenue_this_month,omitempty"`
+        RevenueThisYear            *string `json:"revenue_this_year,omitempty"`
+        TotalCanceledSubscriptions *int    `json:"total_canceled_subscriptions,omitempty"`
+        TotalActiveSubscriptions   *int    `json:"total_active_subscriptions,omitempty"`
+        TotalPastDueSubscriptions  *int    `json:"total_past_due_subscriptions,omitempty"`
+        TotalUnpaidSubscriptions   *int    `json:"total_unpaid_subscriptions,omitempty"`
+        TotalDunningSubscriptions  *int    `json:"total_dunning_subscriptions,omitempty"`
     }{}
     err := json.Unmarshal(input, &temp)
     if err != nil {

@@ -6,12 +6,14 @@ import (
 
 // ProformaInvoiceDiscount represents a ProformaInvoiceDiscount struct.
 type ProformaInvoiceDiscount struct {
-    Title             *string                           `json:"title,omitempty"`
-    SourceType        *string                           `json:"source_type,omitempty"`
-    DiscountType      *string                           `json:"discount_type,omitempty"`
-    EligibleAmount    *string                           `json:"eligible_amount,omitempty"`
-    DiscountAmount    *string                           `json:"discount_amount,omitempty"`
-    LineItemBreakouts []ProformaInvoiceDiscountBreakout `json:"line_item_breakouts,omitempty"`
+    Uid               *string                            `json:"uid,omitempty"`
+    Title             *string                            `json:"title,omitempty"`
+    Code              *string                            `json:"code,omitempty"`
+    SourceType        *ProformaInvoiceDiscountSourceType `json:"source_type,omitempty"`
+    DiscountType      *InvoiceDiscountType               `json:"discount_type,omitempty"`
+    EligibleAmount    *string                            `json:"eligible_amount,omitempty"`
+    DiscountAmount    *string                            `json:"discount_amount,omitempty"`
+    LineItemBreakouts []InvoiceDiscountBreakout          `json:"line_item_breakouts,omitempty"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for ProformaInvoiceDiscount.
@@ -25,8 +27,14 @@ func (p *ProformaInvoiceDiscount) MarshalJSON() (
 // toMap converts the ProformaInvoiceDiscount object to a map representation for JSON marshaling.
 func (p *ProformaInvoiceDiscount) toMap() map[string]any {
     structMap := make(map[string]any)
+    if p.Uid != nil {
+        structMap["uid"] = p.Uid
+    }
     if p.Title != nil {
         structMap["title"] = p.Title
+    }
+    if p.Code != nil {
+        structMap["code"] = p.Code
     }
     if p.SourceType != nil {
         structMap["source_type"] = p.SourceType
@@ -50,19 +58,23 @@ func (p *ProformaInvoiceDiscount) toMap() map[string]any {
 // It customizes the JSON unmarshaling process for ProformaInvoiceDiscount objects.
 func (p *ProformaInvoiceDiscount) UnmarshalJSON(input []byte) error {
     temp := &struct {
-        Title             *string                           `json:"title,omitempty"`
-        SourceType        *string                           `json:"source_type,omitempty"`
-        DiscountType      *string                           `json:"discount_type,omitempty"`
-        EligibleAmount    *string                           `json:"eligible_amount,omitempty"`
-        DiscountAmount    *string                           `json:"discount_amount,omitempty"`
-        LineItemBreakouts []ProformaInvoiceDiscountBreakout `json:"line_item_breakouts,omitempty"`
+        Uid               *string                            `json:"uid,omitempty"`
+        Title             *string                            `json:"title,omitempty"`
+        Code              *string                            `json:"code,omitempty"`
+        SourceType        *ProformaInvoiceDiscountSourceType `json:"source_type,omitempty"`
+        DiscountType      *InvoiceDiscountType               `json:"discount_type,omitempty"`
+        EligibleAmount    *string                            `json:"eligible_amount,omitempty"`
+        DiscountAmount    *string                            `json:"discount_amount,omitempty"`
+        LineItemBreakouts []InvoiceDiscountBreakout          `json:"line_item_breakouts,omitempty"`
     }{}
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
     }
     
+    p.Uid = temp.Uid
     p.Title = temp.Title
+    p.Code = temp.Code
     p.SourceType = temp.SourceType
     p.DiscountType = temp.DiscountType
     p.EligibleAmount = temp.EligibleAmount

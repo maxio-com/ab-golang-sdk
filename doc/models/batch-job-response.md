@@ -17,9 +17,9 @@
 {
   "batchjob": {
     "id": 54,
-    "finished_at": "finished_at4",
+    "finished_at": "2016-03-13T12:52:32.123Z",
     "row_count": 62,
-    "created_at": "created_at0",
+    "created_at": "2016-03-13T12:52:32.123Z",
     "completed": "completed4"
   }
 }
