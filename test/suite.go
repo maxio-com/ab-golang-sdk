@@ -57,13 +57,23 @@ func (s *APISuite) SetupTest() {
 	}
 
 	config := advancedbilling.CreateConfiguration(
-		advancedbilling.WithBasicAuthUserName(cfg.APIKey),
-		advancedbilling.WithBasicAuthPassword(cfg.Password),
+	  advancedbilling.WithBasicAuthCredentials(
+	    advancedbilling.NewBasicAuthCredentials(
+        cfg.APIKey,
+        cfg.Password,
+      ),
+	  ),
 		advancedbilling.WithDomain(cfg.Domain),
 		advancedbilling.WithSubdomain(cfg.Subdomain),
 	)
 
 	configUnauthorized := advancedbilling.CreateConfiguration(
+    advancedbilling.WithBasicAuthCredentials(
+          advancedbilling.NewBasicAuthCredentials(
+            "abc",
+            "abc",
+          ),
+        ),
 		advancedbilling.WithDomain(cfg.Domain),
 		advancedbilling.WithSubdomain(cfg.Subdomain),
 	)
@@ -150,7 +160,7 @@ func (s *APISuite) generateCoupon(ctx context.Context, productFamilyID int) mode
 		Percentage:                  models.NewOptional[string](strPtr("50")),
 		AllowNegativeBalance:        boolPtr(false),
 		Recurring:                   boolPtr(false),
-		EndDate:                     models.NewOptional[string](strPtr(newDate())),
+		EndDate:                     models.NewOptional(timePtr(time.Now().AddDate(1, 0, 0))),
 		ProductFamilyId:             &productFamilyID,
 		Stackable:                   boolPtr(false),
 		ExcludeMidPeriodAllocations: boolPtr(true),
@@ -208,7 +218,7 @@ func (s *APISuite) generateSubscription(
 				PaymentCollectionMethod: toPtr[models.CollectionMethod](models.CollectionMethod_AUTOMATIC),
 				CustomerId:              customer.Id,
 				Currency:                strPtr("USD"),
-				InitialBillingAt:        timePtr(time.Date(2029, 8, 29, 12, 0, 0, 0, time.UTC)),
+				InitialBillingAt:        timePtr(time.Now().AddDate(1, 0, 0)),
 				CouponCode:              &couponCode,
 				Components:              components,
 				PaymentProfileAttributes: &models.PaymentProfileAttributes{

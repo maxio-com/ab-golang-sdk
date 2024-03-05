@@ -137,12 +137,12 @@ func (s *InvoiceSuite) TestInvoice() {
 				},
 			},
 			assert: func(t *testing.T, resp models.ApiResponse[models.InvoiceResponse], invoice models.CreateInvoice, err error) {
-				s.Equal(err.Error(), errors.NewErrorArrayMapResponse(422, "Unprocessable Entity (WebDAV)").Error())
-				s.Equal(http.StatusUnprocessableEntity, resp.Response.StatusCode)
+				s.Equal(err.Error(), "ErrorArrayMapResponse occured: HTTP Response Not OK. Status code: 422. Response: " +
+				  "'{\"errors\":{\"line_items[0].period_range_end\":[\"Must be greater or equal to period_range_start.\"]}}'.")
 
-				_, ok := err.(*errors.ErrorArrayMapResponse)
+				actualErr, ok := err.(*errors.ErrorArrayMapResponse)
+				s.Equal(http.StatusUnprocessableEntity, actualErr.StatusCode)
 				s.True(ok)
-				// cant check list of errors because map is nil
 			},
 		},
 	}

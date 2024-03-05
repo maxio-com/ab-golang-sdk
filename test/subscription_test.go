@@ -7,6 +7,8 @@ import (
 	"time"
 
 	advancedbilling "github.com/maxio-com/ab-golang-sdk"
+  "github.com/apimatic/go-core-runtime/https"
+	"github.com/maxio-com/ab-golang-sdk/errors"
 	"github.com/maxio-com/ab-golang-sdk/models"
 	"github.com/stretchr/testify/suite"
 )
@@ -114,7 +116,13 @@ func (s *SubscriptionSuite) TestSubscriptionCreate() {
 				[]models.CreateSubscriptionComponent{},
 			),
 			assert: func(t *testing.T, ar models.ApiResponse[models.SubscriptionResponse], subscription models.CreateSubscription, err error) {
-				s.Equal(http.StatusUnprocessableEntity, ar.Response.StatusCode)
+        s.Equal(string("ErrorListResponse occured: HTTP Response Not OK. Status code: 422. Response: " +
+            "'{\"errors\":[\"Coupon Code: 'invalid coupon code' - Coupon code could not be found.\"]}'."),
+            err.Error())
+
+        actualErr, ok := err.(*errors.ErrorListResponse)
+        s.Equal(http.StatusUnprocessableEntity, actualErr.StatusCode)
+        s.True(ok)
 			},
 		},
 		{
@@ -133,7 +141,12 @@ func (s *SubscriptionSuite) TestSubscriptionCreate() {
 				},
 			),
 			assert: func(t *testing.T, ar models.ApiResponse[models.SubscriptionResponse], cs models.CreateSubscription, err error) {
-				s.Equal(http.StatusUnauthorized, ar.Response.StatusCode)
+        s.Equal("ApiError occured: HTTP Response Not OK. Status code: 401. Response: 'HTTP Basic: Access denied.\n'.",
+          err.Error())
+
+        actualErr, ok := err.(https.ApiError)
+        s.Equal(http.StatusUnauthorized, actualErr.StatusCode)
+        s.True(ok)
 			},
 		},
 	}
@@ -163,7 +176,7 @@ func (s *APISuite) newSubscription(
 		PaymentCollectionMethod: toPtr[models.CollectionMethod](models.CollectionMethod_AUTOMATIC),
 		CustomerId:              customer.Id,
 		Currency:                strPtr("USD"),
-		InitialBillingAt:        timePtr(time.Date(2029, 8, 29, 12, 0, 0, 0, time.UTC)),
+		InitialBillingAt:        timePtr(time.Now().AddDate(1, 0, 0)),
 		CouponCode:              &couponCode,
 		Components:              components,
 		PaymentProfileAttributes: &models.PaymentProfileAttributes{

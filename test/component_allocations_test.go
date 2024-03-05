@@ -136,9 +136,14 @@ func (s *ComponentAlocationSuite) TestComponentAllocations() {
 				},
 			},
 			assert: func(t *testing.T, response models.ApiResponse[models.AllocationPreviewResponse], input []models.CreateAllocation, err error) {
-				s.Equal(errors.NewComponentAllocationError(422, "Unprocessable Entity (WebDAV)").Error(), err.Error())
-				// cant check errors map here because it comes empty
-				s.Equal(http.StatusUnprocessableEntity, response.Response.StatusCode)
+				s.Equal("ComponentAllocationError occured: HTTP Response Not OK. Status code: 422. Response: " +
+          fmt.Sprintf("'{\"errors\":[{\"kind\":\"allocation\",\"component_id\":%d,\"on\":\"quantity\",", *onOffResp.Data.Component.Id) +
+          "\"message\":\"Quantity: must be either 1 (on) or 0 (off).\"}]}'.",
+          err.Error())
+
+        actualErr, ok := err.(*errors.ComponentAllocationError)
+        s.Equal(http.StatusUnprocessableEntity, actualErr.StatusCode)
+        s.True(ok)
 			},
 		},
 	}
