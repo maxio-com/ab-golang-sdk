@@ -52,16 +52,16 @@ ctx := context.Background()
 productFamilyId := 140
 
 bodyProduct := models.CreateOrUpdateProduct{
-    Name:                 "Gold Plan",
-    Handle:               models.ToPointer("gold"),
-    Description:          "This is our gold plan.",
-    AccountingCode:       models.ToPointer("123"),
-    RequireCreditCard:    models.ToPointer(true),
-    PriceInCents:         int64(1000),
-    Interval:             1,
-    IntervalUnit:         models.IntervalUnit("month"),
-    AutoCreateSignupPage: models.ToPointer(true),
-    TaxCode:              models.ToPointer("D0000000"),
+    Name:                   "Gold Plan",
+    Handle:                 models.ToPointer("gold"),
+    Description:            "This is our gold plan.",
+    AccountingCode:         models.ToPointer("123"),
+    RequireCreditCard:      models.ToPointer(true),
+    PriceInCents:           int64(1000),
+    Interval:               1,
+    IntervalUnit:           models.IntervalUnit("month"),
+    AutoCreateSignupPage:   models.ToPointer(true),
+    TaxCode:                models.ToPointer("D0000000"),
 }
 
 body := models.CreateOrUpdateProductRequest{
@@ -606,8 +606,8 @@ if err != nil {
         "handle": "string",
         "accounting_code": null,
         "description": "string",
-        "created_at": "string",
-        "updated_at": "string"
+        "created_at": "2021-05-05T16:00:21-04:00",
+        "updated_at": "2021-05-05T16:00:21-04:00"
       },
       "public_signup_pages": [
         {

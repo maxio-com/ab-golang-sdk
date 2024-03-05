@@ -16,7 +16,7 @@
 | `NextProductId` | `*string` | Optional | Set to an empty string to cancel a delayed product change. |
 | `NextProductPricePointId` | `*string` | Optional | - |
 | `SnapDay` | `*interface{}` | Optional | Use for subscriptions with product eligible for calendar billing only. Value can be 1-28 or 'end'. |
-| `NextBillingAt` | `*string` | Optional | - |
+| `NextBillingAt` | `*time.Time` | Optional | - |
 | `PaymentCollectionMethod` | `*string` | Optional | - |
 | `ReceivesInvoiceEmails` | `*bool` | Optional | - |
 | `NetTerms` | `*interface{}` | Optional | - |

@@ -19,8 +19,8 @@
     "id": 28,
     "body": "body0",
     "subscription_id": 138,
-    "created_at": "created_at2",
-    "updated_at": "updated_at0"
+    "created_at": "2016-03-13T12:52:32.123Z",
+    "updated_at": "2016-03-13T12:52:32.123Z"
   }
 }
 ```

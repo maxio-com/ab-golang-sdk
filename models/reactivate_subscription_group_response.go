@@ -2,19 +2,21 @@ package models
 
 import (
     "encoding/json"
+    "log"
+    "time"
 )
 
 // ReactivateSubscriptionGroupResponse represents a ReactivateSubscriptionGroupResponse struct.
 type ReactivateSubscriptionGroupResponse struct {
-    Uid                   *string `json:"uid,omitempty"`
-    Scheme                *int    `json:"scheme,omitempty"`
-    CustomerId            *int    `json:"customer_id,omitempty"`
-    PaymentProfileId      *int    `json:"payment_profile_id,omitempty"`
-    SubscriptionIds       []int   `json:"subscription_ids,omitempty"`
-    PrimarySubscriptionId *int    `json:"primary_subscription_id,omitempty"`
-    NextAssessmentAt      *string `json:"next_assessment_at,omitempty"`
-    State                 *string `json:"state,omitempty"`
-    CancelAtEndOfPeriod   *bool   `json:"cancel_at_end_of_period,omitempty"`
+    Uid                   *string    `json:"uid,omitempty"`
+    Scheme                *int       `json:"scheme,omitempty"`
+    CustomerId            *int       `json:"customer_id,omitempty"`
+    PaymentProfileId      *int       `json:"payment_profile_id,omitempty"`
+    SubscriptionIds       []int      `json:"subscription_ids,omitempty"`
+    PrimarySubscriptionId *int       `json:"primary_subscription_id,omitempty"`
+    NextAssessmentAt      *time.Time `json:"next_assessment_at,omitempty"`
+    State                 *string    `json:"state,omitempty"`
+    CancelAtEndOfPeriod   *bool      `json:"cancel_at_end_of_period,omitempty"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for ReactivateSubscriptionGroupResponse.
@@ -47,7 +49,7 @@ func (r *ReactivateSubscriptionGroupResponse) toMap() map[string]any {
         structMap["primary_subscription_id"] = r.PrimarySubscriptionId
     }
     if r.NextAssessmentAt != nil {
-        structMap["next_assessment_at"] = r.NextAssessmentAt
+        structMap["next_assessment_at"] = r.NextAssessmentAt.Format(time.RFC3339)
     }
     if r.State != nil {
         structMap["state"] = r.State
@@ -83,7 +85,13 @@ func (r *ReactivateSubscriptionGroupResponse) UnmarshalJSON(input []byte) error 
     r.PaymentProfileId = temp.PaymentProfileId
     r.SubscriptionIds = temp.SubscriptionIds
     r.PrimarySubscriptionId = temp.PrimarySubscriptionId
-    r.NextAssessmentAt = temp.NextAssessmentAt
+    if temp.NextAssessmentAt != nil {
+        NextAssessmentAtVal, err := time.Parse(time.RFC3339, *temp.NextAssessmentAt)
+        if err != nil {
+            log.Fatalf("Cannot Parse next_assessment_at as % s format.", time.RFC3339)
+        }
+        r.NextAssessmentAt = &NextAssessmentAtVal
+    }
     r.State = temp.State
     r.CancelAtEndOfPeriod = temp.CancelAtEndOfPeriod
     return nil

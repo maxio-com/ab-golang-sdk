@@ -50,6 +50,9 @@ type Allocation struct {
     // Available values: `full`, `prorated`, `none`.
     DowngradeCredit          Optional[CreditType]           `json:"downgrade_credit"`
     Payment                  Optional[PaymentForAllocation] `json:"payment"`
+    ExpiresAt                *time.Time                     `json:"expires_at,omitempty"`
+    UsedQuantity             *int64                         `json:"used_quantity,omitempty"`
+    ChargeId                 *int64                         `json:"charge_id,omitempty"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for Allocation.
@@ -129,6 +132,15 @@ func (a *Allocation) toMap() map[string]any {
     if a.Payment.IsValueSet() {
         structMap["payment"] = a.Payment.Value()
     }
+    if a.ExpiresAt != nil {
+        structMap["expires_at"] = a.ExpiresAt.Format(time.RFC3339)
+    }
+    if a.UsedQuantity != nil {
+        structMap["used_quantity"] = a.UsedQuantity
+    }
+    if a.ChargeId != nil {
+        structMap["charge_id"] = a.ChargeId
+    }
     return structMap
 }
 
@@ -158,6 +170,9 @@ func (a *Allocation) UnmarshalJSON(input []byte) error {
         UpgradeCharge            Optional[CreditType]           `json:"upgrade_charge"`
         DowngradeCredit          Optional[CreditType]           `json:"downgrade_credit"`
         Payment                  Optional[PaymentForAllocation] `json:"payment"`
+        ExpiresAt                *string                        `json:"expires_at,omitempty"`
+        UsedQuantity             *int64                         `json:"used_quantity,omitempty"`
+        ChargeId                 *int64                         `json:"charge_id,omitempty"`
     }{}
     err := json.Unmarshal(input, &temp)
     if err != nil {
@@ -198,5 +213,14 @@ func (a *Allocation) UnmarshalJSON(input []byte) error {
     a.UpgradeCharge = temp.UpgradeCharge
     a.DowngradeCredit = temp.DowngradeCredit
     a.Payment = temp.Payment
+    if temp.ExpiresAt != nil {
+        ExpiresAtVal, err := time.Parse(time.RFC3339, *temp.ExpiresAt)
+        if err != nil {
+            log.Fatalf("Cannot Parse expires_at as % s format.", time.RFC3339)
+        }
+        a.ExpiresAt = &ExpiresAtVal
+    }
+    a.UsedQuantity = temp.UsedQuantity
+    a.ChargeId = temp.ChargeId
     return nil
 }

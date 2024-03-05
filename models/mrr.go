@@ -2,6 +2,8 @@ package models
 
 import (
     "encoding/json"
+    "log"
+    "time"
 )
 
 // MRR represents a MRR struct.
@@ -12,7 +14,7 @@ type MRR struct {
     CurrencySymbol  *string    `json:"currency_symbol,omitempty"`
     Breakouts       *Breakouts `json:"breakouts,omitempty"`
     // ISO8601 timestamp
-    AtTime          *string    `json:"at_time,omitempty"`
+    AtTime          *time.Time `json:"at_time,omitempty"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for MRR.
@@ -42,7 +44,7 @@ func (m *MRR) toMap() map[string]any {
         structMap["breakouts"] = m.Breakouts.toMap()
     }
     if m.AtTime != nil {
-        structMap["at_time"] = m.AtTime
+        structMap["at_time"] = m.AtTime.Format(time.RFC3339)
     }
     return structMap
 }
@@ -68,6 +70,12 @@ func (m *MRR) UnmarshalJSON(input []byte) error {
     m.Currency = temp.Currency
     m.CurrencySymbol = temp.CurrencySymbol
     m.Breakouts = temp.Breakouts
-    m.AtTime = temp.AtTime
+    if temp.AtTime != nil {
+        AtTimeVal, err := time.Parse(time.RFC3339, *temp.AtTime)
+        if err != nil {
+            log.Fatalf("Cannot Parse at_time as % s format.", time.RFC3339)
+        }
+        m.AtTime = &AtTimeVal
+    }
     return nil
 }

@@ -29,7 +29,7 @@
 | `BankAccountHolderType` | [`*models.BankAccountHolderType`](../../doc/models/bank-account-holder-type.md) | Optional | Defaults to personal |
 | `PaymentType` | [`*models.PaymentType`](../../doc/models/payment-type.md) | Optional | - |
 | `Verified` | `*bool` | Optional | denotes whether a bank account has been verified by providing the amounts of two small deposits made into the account<br>**Default**: `false` |
-| `SiteGatewaySettingId` | `*int` | Optional | - |
+| `SiteGatewaySettingId` | `Optional[int]` | Optional | - |
 | `GatewayHandle` | `Optional[string]` | Optional | - |
 
 ## Example (as JSON)

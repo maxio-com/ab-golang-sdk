@@ -3,6 +3,7 @@ package advancedbilling
 import (
     "context"
     "fmt"
+    "github.com/apimatic/go-core-runtime/https"
     "github.com/apimatic/go-core-runtime/utilities"
     "github.com/maxio-com/ab-golang-sdk/errors"
     "github.com/maxio-com/ab-golang-sdk/models"
@@ -37,7 +38,10 @@ func (o *OffersController) CreateOffer(
     models.ApiResponse[models.OfferResponse],
     error) {
     req := o.prepareRequest(ctx, "POST", "/offers.json")
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorArrayMapResponse},
+    })
     req.Header("Content-Type", "application/json")
     if body != nil {
         req.Json(*body)
@@ -47,19 +51,8 @@ func (o *OffersController) CreateOffer(
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[models.OfferResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    if resp.StatusCode == 422 {
-        err = errors.NewErrorArrayMapResponse(422, "Unprocessable Entity (WebDAV)")
-    }
     return models.NewApiResponse(result, resp), err
 }
 
@@ -75,7 +68,7 @@ func (o *OffersController) ListOffers(
     models.ApiResponse[models.ListOffersResponse],
     error) {
     req := o.prepareRequest(ctx, "GET", "/offers.json")
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
     if page != nil {
         req.QueryParam("page", *page)
     }
@@ -90,16 +83,8 @@ func (o *OffersController) ListOffers(
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[models.ListOffersResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
     return models.NewApiResponse(result, resp), err
 }
 
@@ -113,23 +98,15 @@ func (o *OffersController) ReadOffer(
     models.ApiResponse[models.OfferResponse],
     error) {
     req := o.prepareRequest(ctx, "GET", fmt.Sprintf("/offers/%v.json", offerId))
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
     
     var result models.OfferResponse
     decoder, resp, err := req.CallAsJson()
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[models.OfferResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
     return models.NewApiResponse(result, resp), err
 }
 
@@ -147,13 +124,9 @@ func (o *OffersController) ArchiveOffer(
       "PUT",
       fmt.Sprintf("/offers/%v/archive.json", offerId),
     )
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
     
     context, err := req.Call()
-    if err != nil {
-        return context.Response, err
-    }
-    err = validateResponse(*context.Response)
     if err != nil {
         return context.Response, err
     }
@@ -174,13 +147,9 @@ func (o *OffersController) UnarchiveOffer(
       "PUT",
       fmt.Sprintf("/offers/%v/unarchive.json", offerId),
     )
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
     
     context, err := req.Call()
-    if err != nil {
-        return context.Response, err
-    }
-    err = validateResponse(*context.Response)
     if err != nil {
         return context.Response, err
     }

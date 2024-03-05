@@ -2,6 +2,8 @@ package models
 
 import (
     "encoding/json"
+    "log"
+    "time"
 )
 
 // UpdateSubscription represents a UpdateSubscription struct.
@@ -17,7 +19,7 @@ type UpdateSubscription struct {
     NextProductPricePointId           *string                       `json:"next_product_price_point_id,omitempty"`
     // Use for subscriptions with product eligible for calendar billing only. Value can be 1-28 or 'end'.
     SnapDay                           *interface{}                  `json:"snap_day,omitempty"`
-    NextBillingAt                     *string                       `json:"next_billing_at,omitempty"`
+    NextBillingAt                     *time.Time                    `json:"next_billing_at,omitempty"`
     PaymentCollectionMethod           *string                       `json:"payment_collection_method,omitempty"`
     ReceivesInvoiceEmails             *bool                         `json:"receives_invoice_emails,omitempty"`
     NetTerms                          *interface{}                  `json:"net_terms,omitempty"`
@@ -66,7 +68,7 @@ func (u *UpdateSubscription) toMap() map[string]any {
         structMap["snap_day"] = u.SnapDay
     }
     if u.NextBillingAt != nil {
-        structMap["next_billing_at"] = u.NextBillingAt
+        structMap["next_billing_at"] = u.NextBillingAt.Format(time.RFC3339)
     }
     if u.PaymentCollectionMethod != nil {
         structMap["payment_collection_method"] = u.PaymentCollectionMethod
@@ -132,7 +134,13 @@ func (u *UpdateSubscription) UnmarshalJSON(input []byte) error {
     u.NextProductId = temp.NextProductId
     u.NextProductPricePointId = temp.NextProductPricePointId
     u.SnapDay = temp.SnapDay
-    u.NextBillingAt = temp.NextBillingAt
+    if temp.NextBillingAt != nil {
+        NextBillingAtVal, err := time.Parse(time.RFC3339, *temp.NextBillingAt)
+        if err != nil {
+            log.Fatalf("Cannot Parse next_billing_at as % s format.", time.RFC3339)
+        }
+        u.NextBillingAt = &NextBillingAtVal
+    }
     u.PaymentCollectionMethod = temp.PaymentCollectionMethod
     u.ReceivesInvoiceEmails = temp.ReceivesInvoiceEmails
     u.NetTerms = temp.NetTerms

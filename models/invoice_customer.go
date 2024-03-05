@@ -7,7 +7,7 @@ import (
 // InvoiceCustomer represents a InvoiceCustomer struct.
 // Information about the customer who is owner or recipient the invoiced subscription.
 type InvoiceCustomer struct {
-    ChargifyId   *int             `json:"chargify_id,omitempty"`
+    ChargifyId   Optional[int]    `json:"chargify_id"`
     FirstName    *string          `json:"first_name,omitempty"`
     LastName     *string          `json:"last_name,omitempty"`
     Organization Optional[string] `json:"organization"`
@@ -27,8 +27,8 @@ func (i *InvoiceCustomer) MarshalJSON() (
 // toMap converts the InvoiceCustomer object to a map representation for JSON marshaling.
 func (i *InvoiceCustomer) toMap() map[string]any {
     structMap := make(map[string]any)
-    if i.ChargifyId != nil {
-        structMap["chargify_id"] = i.ChargifyId
+    if i.ChargifyId.IsValueSet() {
+        structMap["chargify_id"] = i.ChargifyId.Value()
     }
     if i.FirstName != nil {
         structMap["first_name"] = i.FirstName
@@ -55,7 +55,7 @@ func (i *InvoiceCustomer) toMap() map[string]any {
 // It customizes the JSON unmarshaling process for InvoiceCustomer objects.
 func (i *InvoiceCustomer) UnmarshalJSON(input []byte) error {
     temp := &struct {
-        ChargifyId   *int             `json:"chargify_id,omitempty"`
+        ChargifyId   Optional[int]    `json:"chargify_id"`
         FirstName    *string          `json:"first_name,omitempty"`
         LastName     *string          `json:"last_name,omitempty"`
         Organization Optional[string] `json:"organization"`

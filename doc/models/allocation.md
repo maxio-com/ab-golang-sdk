@@ -31,6 +31,9 @@
 | `UpgradeCharge` | [`Optional[models.CreditType]`](../../doc/models/credit-type.md) | Optional | The type of credit to be created when upgrading/downgrading. Defaults to the component and then site setting if one is not provided.<br>Available values: `full`, `prorated`, `none`. |
 | `DowngradeCredit` | [`Optional[models.CreditType]`](../../doc/models/credit-type.md) | Optional | The type of credit to be created when upgrading/downgrading. Defaults to the component and then site setting if one is not provided.<br>Available values: `full`, `prorated`, `none`. |
 | `Payment` | [`Optional[models.PaymentForAllocation]`](../../doc/models/payment-for-allocation.md) | Optional | - |
+| `ExpiresAt` | `*time.Time` | Optional | - |
+| `UsedQuantity` | `*int64` | Optional | - |
+| `ChargeId` | `*int64` | Optional | - |
 
 ## Example (as JSON)
 

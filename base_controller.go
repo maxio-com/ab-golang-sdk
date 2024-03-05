@@ -2,7 +2,6 @@ package advancedbilling
 
 import (
     "github.com/apimatic/go-core-runtime/https"
-    "net/http"
 )
 
 // callBuilderFactory is an interface that defines a method to get a CallBuilderFactory.
@@ -24,10 +23,4 @@ func NewBaseController(cb callBuilderFactory) *baseController {
 	baseController := baseController{callBuilder: cb}
 	baseController.prepareRequest = baseController.callBuilder.GetCallBuilder()
 	return &baseController
-}
-
-// validateResponse is a function used to validate the HTTP response.
-// It takes an http.Response object as a parameter and returns an error, if any.
-func validateResponse(response http.Response) error {
-	return nil
 }

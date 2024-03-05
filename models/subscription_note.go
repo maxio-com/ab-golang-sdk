@@ -2,16 +2,18 @@ package models
 
 import (
     "encoding/json"
+    "log"
+    "time"
 )
 
 // SubscriptionNote represents a SubscriptionNote struct.
 type SubscriptionNote struct {
-    Id             *int    `json:"id,omitempty"`
-    Body           *string `json:"body,omitempty"`
-    SubscriptionId *int    `json:"subscription_id,omitempty"`
-    CreatedAt      *string `json:"created_at,omitempty"`
-    UpdatedAt      *string `json:"updated_at,omitempty"`
-    Sticky         *bool   `json:"sticky,omitempty"`
+    Id             *int       `json:"id,omitempty"`
+    Body           *string    `json:"body,omitempty"`
+    SubscriptionId *int       `json:"subscription_id,omitempty"`
+    CreatedAt      *time.Time `json:"created_at,omitempty"`
+    UpdatedAt      *time.Time `json:"updated_at,omitempty"`
+    Sticky         *bool      `json:"sticky,omitempty"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for SubscriptionNote.
@@ -35,10 +37,10 @@ func (s *SubscriptionNote) toMap() map[string]any {
         structMap["subscription_id"] = s.SubscriptionId
     }
     if s.CreatedAt != nil {
-        structMap["created_at"] = s.CreatedAt
+        structMap["created_at"] = s.CreatedAt.Format(time.RFC3339)
     }
     if s.UpdatedAt != nil {
-        structMap["updated_at"] = s.UpdatedAt
+        structMap["updated_at"] = s.UpdatedAt.Format(time.RFC3339)
     }
     if s.Sticky != nil {
         structMap["sticky"] = s.Sticky
@@ -65,8 +67,20 @@ func (s *SubscriptionNote) UnmarshalJSON(input []byte) error {
     s.Id = temp.Id
     s.Body = temp.Body
     s.SubscriptionId = temp.SubscriptionId
-    s.CreatedAt = temp.CreatedAt
-    s.UpdatedAt = temp.UpdatedAt
+    if temp.CreatedAt != nil {
+        CreatedAtVal, err := time.Parse(time.RFC3339, *temp.CreatedAt)
+        if err != nil {
+            log.Fatalf("Cannot Parse created_at as % s format.", time.RFC3339)
+        }
+        s.CreatedAt = &CreatedAtVal
+    }
+    if temp.UpdatedAt != nil {
+        UpdatedAtVal, err := time.Parse(time.RFC3339, *temp.UpdatedAt)
+        if err != nil {
+            log.Fatalf("Cannot Parse updated_at as % s format.", time.RFC3339)
+        }
+        s.UpdatedAt = &UpdatedAtVal
+    }
     s.Sticky = temp.Sticky
     return nil
 }

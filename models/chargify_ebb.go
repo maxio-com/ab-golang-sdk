@@ -2,24 +2,26 @@ package models
 
 import (
     "encoding/json"
+    "log"
+    "time"
 )
 
 // ChargifyEBB represents a ChargifyEBB struct.
 type ChargifyEBB struct {
     // This timestamp determines what billing period the event will be billed in. If your request payload does not include it, Chargify will add `chargify.timestamp` to the event payload and set the value to `now`.
-    Timestamp             *string `json:"timestamp,omitempty"`
+    Timestamp             *time.Time `json:"timestamp,omitempty"`
     // A unique ID set by Chargify. Please note that this field is reserved. If `chargify.id` is present in the request payload, it will be overwritten.
-    Id                    *string `json:"id,omitempty"`
+    Id                    *string    `json:"id,omitempty"`
     // An ISO-8601 timestamp, set by Chargify at the time each event is recorded. Please note that this field is reserved. If `chargify.created_at` is present in the request payload, it will be overwritten.
-    CreatedAt             *string `json:"created_at,omitempty"`
+    CreatedAt             *time.Time `json:"created_at,omitempty"`
     // User-defined string scoped per-stream. Duplicate events within a stream will be silently ignored. Tokens expire after 31 days.
-    UniquenessToken       *string `json:"uniqueness_token,omitempty"`
+    UniquenessToken       *string    `json:"uniqueness_token,omitempty"`
     // Id of Maxio Advanced Billing Subscription which is connected to this event. 
     // Provide `subscription_id` if you configured `chargify.subscription_id` as Subscription Identifier in your Event Stream.
-    SubscriptionId        *int    `json:"subscription_id,omitempty"`
+    SubscriptionId        *int       `json:"subscription_id,omitempty"`
     // Reference of Maxio Advanced Billing Subscription which is connected to this event. 
     // Provide `subscription_reference` if you configured `chargify.subscription_reference` as Subscription Identifier in your Event Stream.
-    SubscriptionReference *string `json:"subscription_reference,omitempty"`
+    SubscriptionReference *string    `json:"subscription_reference,omitempty"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for ChargifyEBB.
@@ -34,13 +36,13 @@ func (c *ChargifyEBB) MarshalJSON() (
 func (c *ChargifyEBB) toMap() map[string]any {
     structMap := make(map[string]any)
     if c.Timestamp != nil {
-        structMap["timestamp"] = c.Timestamp
+        structMap["timestamp"] = c.Timestamp.Format(time.RFC3339)
     }
     if c.Id != nil {
         structMap["id"] = c.Id
     }
     if c.CreatedAt != nil {
-        structMap["created_at"] = c.CreatedAt
+        structMap["created_at"] = c.CreatedAt.Format(time.RFC3339)
     }
     if c.UniquenessToken != nil {
         structMap["uniqueness_token"] = c.UniquenessToken
@@ -70,9 +72,21 @@ func (c *ChargifyEBB) UnmarshalJSON(input []byte) error {
     	return err
     }
     
-    c.Timestamp = temp.Timestamp
+    if temp.Timestamp != nil {
+        TimestampVal, err := time.Parse(time.RFC3339, *temp.Timestamp)
+        if err != nil {
+            log.Fatalf("Cannot Parse timestamp as % s format.", time.RFC3339)
+        }
+        c.Timestamp = &TimestampVal
+    }
     c.Id = temp.Id
-    c.CreatedAt = temp.CreatedAt
+    if temp.CreatedAt != nil {
+        CreatedAtVal, err := time.Parse(time.RFC3339, *temp.CreatedAt)
+        if err != nil {
+            log.Fatalf("Cannot Parse created_at as % s format.", time.RFC3339)
+        }
+        c.CreatedAt = &CreatedAtVal
+    }
     c.UniquenessToken = temp.UniquenessToken
     c.SubscriptionId = temp.SubscriptionId
     c.SubscriptionReference = temp.SubscriptionReference

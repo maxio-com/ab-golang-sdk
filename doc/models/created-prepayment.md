@@ -13,7 +13,7 @@
 | `SubscriptionId` | `*int` | Optional | - |
 | `AmountInCents` | `*int64` | Optional | - |
 | `Memo` | `*string` | Optional | - |
-| `CreatedAt` | `*string` | Optional | - |
+| `CreatedAt` | `*time.Time` | Optional | - |
 | `StartingBalanceInCents` | `*int64` | Optional | - |
 | `EndingBalanceInCents` | `*int64` | Optional | - |
 
@@ -25,7 +25,7 @@
   "subscription_id": 220,
   "amount_in_cents": 196,
   "memo": "memo6",
-  "created_at": "created_at0"
+  "created_at": "2016-03-13T12:52:32.123Z"
 }
 ```
 

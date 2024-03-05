@@ -9,7 +9,7 @@ type InvoiceTax struct {
     Uid                   *string                       `json:"uid,omitempty"`
     Title                 *string                       `json:"title,omitempty"`
     Description           Optional[string]              `json:"description"`
-    SourceType            *string                       `json:"source_type,omitempty"`
+    SourceType            *ProformaInvoiceTaxSourceType `json:"source_type,omitempty"`
     SourceId              *int                          `json:"source_id,omitempty"`
     Percentage            *string                       `json:"percentage,omitempty"`
     TaxableAmount         *string                       `json:"taxable_amount,omitempty"`
@@ -73,7 +73,7 @@ func (i *InvoiceTax) UnmarshalJSON(input []byte) error {
         Uid                   *string                       `json:"uid,omitempty"`
         Title                 *string                       `json:"title,omitempty"`
         Description           Optional[string]              `json:"description"`
-        SourceType            *string                       `json:"source_type,omitempty"`
+        SourceType            *ProformaInvoiceTaxSourceType `json:"source_type,omitempty"`
         SourceId              *int                          `json:"source_id,omitempty"`
         Percentage            *string                       `json:"percentage,omitempty"`
         TaxableAmount         *string                       `json:"taxable_amount,omitempty"`

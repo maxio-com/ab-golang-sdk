@@ -4,10 +4,10 @@ import (
     "encoding/json"
 )
 
-// Payment represents a Payment struct.
-type Payment struct {
+// PaidInvoice represents a PaidInvoice struct.
+type PaidInvoice struct {
     // The uid of the paid invoice
-    InvoiceUid *string        `json:"invoice_uid,omitempty"`
+    InvoiceId  *string        `json:"invoice_id,omitempty"`
     // The current status of the invoice. See [Invoice Statuses](https://chargify.zendesk.com/hc/en-us/articles/4407737494171#line-item-breakdowns) for more.
     Status     *InvoiceStatus `json:"status,omitempty"`
     // The remaining due amount on the invoice
@@ -16,19 +16,19 @@ type Payment struct {
     PaidAmount *string        `json:"paid_amount,omitempty"`
 }
 
-// MarshalJSON implements the json.Marshaler interface for Payment.
-// It customizes the JSON marshaling process for Payment objects.
-func (p *Payment) MarshalJSON() (
+// MarshalJSON implements the json.Marshaler interface for PaidInvoice.
+// It customizes the JSON marshaling process for PaidInvoice objects.
+func (p *PaidInvoice) MarshalJSON() (
     []byte,
     error) {
     return json.Marshal(p.toMap())
 }
 
-// toMap converts the Payment object to a map representation for JSON marshaling.
-func (p *Payment) toMap() map[string]any {
+// toMap converts the PaidInvoice object to a map representation for JSON marshaling.
+func (p *PaidInvoice) toMap() map[string]any {
     structMap := make(map[string]any)
-    if p.InvoiceUid != nil {
-        structMap["invoice_uid"] = p.InvoiceUid
+    if p.InvoiceId != nil {
+        structMap["invoice_id"] = p.InvoiceId
     }
     if p.Status != nil {
         structMap["status"] = p.Status
@@ -42,11 +42,11 @@ func (p *Payment) toMap() map[string]any {
     return structMap
 }
 
-// UnmarshalJSON implements the json.Unmarshaler interface for Payment.
-// It customizes the JSON unmarshaling process for Payment objects.
-func (p *Payment) UnmarshalJSON(input []byte) error {
+// UnmarshalJSON implements the json.Unmarshaler interface for PaidInvoice.
+// It customizes the JSON unmarshaling process for PaidInvoice objects.
+func (p *PaidInvoice) UnmarshalJSON(input []byte) error {
     temp := &struct {
-        InvoiceUid *string        `json:"invoice_uid,omitempty"`
+        InvoiceId  *string        `json:"invoice_id,omitempty"`
         Status     *InvoiceStatus `json:"status,omitempty"`
         DueAmount  *string        `json:"due_amount,omitempty"`
         PaidAmount *string        `json:"paid_amount,omitempty"`
@@ -56,7 +56,7 @@ func (p *Payment) UnmarshalJSON(input []byte) error {
     	return err
     }
     
-    p.InvoiceUid = temp.InvoiceUid
+    p.InvoiceId = temp.InvoiceId
     p.Status = temp.Status
     p.DueAmount = temp.DueAmount
     p.PaidAmount = temp.PaidAmount

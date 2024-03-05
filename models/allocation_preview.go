@@ -2,12 +2,14 @@ package models
 
 import (
     "encoding/json"
+    "log"
+    "time"
 )
 
 // AllocationPreview represents a AllocationPreview struct.
 type AllocationPreview struct {
-    StartDate              *string                     `json:"start_date,omitempty"`
-    EndDate                *string                     `json:"end_date,omitempty"`
+    StartDate              *time.Time                  `json:"start_date,omitempty"`
+    EndDate                *time.Time                  `json:"end_date,omitempty"`
     SubtotalInCents        *int64                      `json:"subtotal_in_cents,omitempty"`
     TotalTaxInCents        *int64                      `json:"total_tax_in_cents,omitempty"`
     TotalDiscountInCents   *int64                      `json:"total_discount_in_cents,omitempty"`
@@ -34,10 +36,10 @@ func (a *AllocationPreview) MarshalJSON() (
 func (a *AllocationPreview) toMap() map[string]any {
     structMap := make(map[string]any)
     if a.StartDate != nil {
-        structMap["start_date"] = a.StartDate
+        structMap["start_date"] = a.StartDate.Format(time.RFC3339)
     }
     if a.EndDate != nil {
-        structMap["end_date"] = a.EndDate
+        structMap["end_date"] = a.EndDate.Format(time.RFC3339)
     }
     if a.SubtotalInCents != nil {
         structMap["subtotal_in_cents"] = a.SubtotalInCents
@@ -98,8 +100,20 @@ func (a *AllocationPreview) UnmarshalJSON(input []byte) error {
     	return err
     }
     
-    a.StartDate = temp.StartDate
-    a.EndDate = temp.EndDate
+    if temp.StartDate != nil {
+        StartDateVal, err := time.Parse(time.RFC3339, *temp.StartDate)
+        if err != nil {
+            log.Fatalf("Cannot Parse start_date as % s format.", time.RFC3339)
+        }
+        a.StartDate = &StartDateVal
+    }
+    if temp.EndDate != nil {
+        EndDateVal, err := time.Parse(time.RFC3339, *temp.EndDate)
+        if err != nil {
+            log.Fatalf("Cannot Parse end_date as % s format.", time.RFC3339)
+        }
+        a.EndDate = &EndDateVal
+    }
     a.SubtotalInCents = temp.SubtotalInCents
     a.TotalTaxInCents = temp.TotalTaxInCents
     a.TotalDiscountInCents = temp.TotalDiscountInCents

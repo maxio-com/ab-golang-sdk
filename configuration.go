@@ -9,18 +9,25 @@ type ConfigurationOptions func(*Configuration)
 
 // Configuration holds configuration settings.
 type Configuration struct {
-    environment       Environment
-    subdomain         string
-    domain            string
-    httpConfiguration HttpConfiguration
-    basicAuthUserName string
-    basicAuthPassword string
+    environment          Environment
+    subdomain            string
+    domain               string
+    httpConfiguration    HttpConfiguration
+    basicAuthCredentials BasicAuthCredentials
 }
 
 // newConfiguration creates a new Configuration with the provided options.
 func newConfiguration(options ...ConfigurationOptions) Configuration {
     config := Configuration{}
     
+    for _, option := range options {
+        option(&config)
+    }
+    return config
+}
+
+// cloneWithOptions provides configuration with the provided options.
+func (config Configuration) cloneWithOptions(options ...ConfigurationOptions) Configuration {
     for _, option := range options {
         option(&config)
     }
@@ -55,48 +62,36 @@ func WithHttpConfiguration(httpConfiguration HttpConfiguration) ConfigurationOpt
     }
 }
 
-// WithBasicAuthUserName is an option that sets the BasicAuthUserName in the Configuration.
-func WithBasicAuthUserName(basicAuthUserName string) ConfigurationOptions {
+// WithBasicAuthCredentials is an option that sets the BasicAuthCredentials in the Configuration.
+func WithBasicAuthCredentials(basicAuthCredentials BasicAuthCredentials) ConfigurationOptions {
     return func(c *Configuration) {
-        c.basicAuthUserName = basicAuthUserName
-    }
-}
-
-// WithBasicAuthPassword is an option that sets the BasicAuthPassword in the Configuration.
-func WithBasicAuthPassword(basicAuthPassword string) ConfigurationOptions {
-    return func(c *Configuration) {
-        c.basicAuthPassword = basicAuthPassword
+        c.basicAuthCredentials = basicAuthCredentials
     }
 }
 
 // Environment returns the Environment from the Configuration.
-func (c *Configuration) Environment() Environment {
+func (c Configuration) Environment() Environment {
     return c.environment
 }
 
 // Subdomain returns the Subdomain from the Configuration.
-func (c *Configuration) Subdomain() string {
+func (c Configuration) Subdomain() string {
     return c.subdomain
 }
 
 // Domain returns the Domain from the Configuration.
-func (c *Configuration) Domain() string {
+func (c Configuration) Domain() string {
     return c.domain
 }
 
 // HttpConfiguration returns the HttpConfiguration from the Configuration.
-func (c *Configuration) HttpConfiguration() HttpConfiguration {
+func (c Configuration) HttpConfiguration() HttpConfiguration {
     return c.httpConfiguration
 }
 
-// BasicAuthUserName returns the BasicAuthUserName from the Configuration.
-func (c *Configuration) BasicAuthUserName() string {
-    return c.basicAuthUserName
-}
-
-// BasicAuthPassword returns the BasicAuthPassword from the Configuration.
-func (c *Configuration) BasicAuthPassword() string {
-    return c.basicAuthPassword
+// BasicAuthCredentials returns the BasicAuthCredentials from the Configuration.
+func (c Configuration) BasicAuthCredentials() BasicAuthCredentials {
+    return c.basicAuthCredentials
 }
 
 // CreateConfigurationFromEnvironment creates a new Configuration with default settings.
@@ -118,11 +113,11 @@ func CreateConfigurationFromEnvironment(options ...ConfigurationOptions) Configu
     }
     basicAuthUserName := os.Getenv("ADVANCEDBILLING_BASIC_AUTH_USER_NAME")
     if basicAuthUserName != "" {
-        config.basicAuthUserName = basicAuthUserName
+        config.basicAuthCredentials.username = basicAuthUserName
     }
     basicAuthPassword := os.Getenv("ADVANCEDBILLING_BASIC_AUTH_PASSWORD")
     if basicAuthPassword != "" {
-        config.basicAuthPassword = basicAuthPassword
+        config.basicAuthCredentials.password = basicAuthPassword
     }
     for _, option := range options {
         option(&config)

@@ -177,7 +177,7 @@ if err != nil {
       "created_at": "2022-02-22T14:07:00-05:00",
       "updated_at": "2022-02-22T14:07:00-05:00",
       "component_handle": "string",
-      "archived_at": "string"
+      "archived_at": null
     }
   }
 ]
@@ -198,8 +198,8 @@ The `price_point` key can take either a:
 BulkUpdateSubscriptionComponentsPricePoints(
     ctx context.Context,
     subscriptionId int,
-    body *models.BulkComponentSPricePointAssignment) (
-    models.ApiResponse[models.BulkComponentSPricePointAssignment],
+    body *models.BulkComponentsPricePointAssignment) (
+    models.ApiResponse[models.BulkComponentsPricePointAssignment],
     error)
 ```
 
@@ -208,11 +208,11 @@ BulkUpdateSubscriptionComponentsPricePoints(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription |
-| `body` | [`*models.BulkComponentSPricePointAssignment`](../../doc/models/bulk-component-s-price-point-assignment.md) | Body, Optional | - |
+| `body` | [`*models.BulkComponentsPricePointAssignment`](../../doc/models/bulk-components-price-point-assignment.md) | Body, Optional | - |
 
 ## Response Type
 
-[`models.BulkComponentSPricePointAssignment`](../../doc/models/bulk-component-s-price-point-assignment.md)
+[`models.BulkComponentsPricePointAssignment`](../../doc/models/bulk-components-price-point-assignment.md)
 
 ## Example Usage
 
@@ -220,23 +220,23 @@ BulkUpdateSubscriptionComponentsPricePoints(
 ctx := context.Background()
 subscriptionId := 222
 
-bodyComponents0 := models.ComponentSPricePointAssignment{
+bodyComponents0 := models.ComponentPricePointAssignment{
     ComponentId: models.ToPointer(997),
     PricePoint:  models.ToPointer(interface{}("[key1, val1][key2, val2]")),
 }
 
-bodyComponents1 := models.ComponentSPricePointAssignment{
+bodyComponents1 := models.ComponentPricePointAssignment{
     ComponentId: models.ToPointer(998),
     PricePoint:  models.ToPointer(interface{}("[key1, val1][key2, val2]")),
 }
 
-bodyComponents2 := models.ComponentSPricePointAssignment{
+bodyComponents2 := models.ComponentPricePointAssignment{
     ComponentId: models.ToPointer(999),
     PricePoint:  models.ToPointer(interface{}("[key1, val1][key2, val2]")),
 }
 
-bodyComponents := []models.ComponentSPricePointAssignment{bodyComponents0, bodyComponents1, bodyComponents2}
-body := models.BulkComponentSPricePointAssignment{
+bodyComponents := []models.ComponentPricePointAssignment{bodyComponents0, bodyComponents1, bodyComponents2}
+body := models.BulkComponentsPricePointAssignment{
     Components: bodyComponents,
 }
 
@@ -319,7 +319,7 @@ if err != nil {
 ```json
 {
   "subscription": {
-    "id": -80293620,
+    "id": 80293620,
     "state": "active",
     "trial_started_at": null,
     "trial_ended_at": null,
@@ -359,8 +359,8 @@ if err != nil {
       "last_name": "esse",
       "organization": null,
       "email": "ex eiusmod",
-      "created_at": "ad occaecat cillum",
-      "updated_at": "ut aute proident est",
+      "created_at": "2021-05-05T16:00:21-04:00",
+      "updated_at": "2021-05-05T16:00:21-04:00",
       "reference": "laboris ea cupidatat",
       "address": null,
       "address_2": null,
@@ -370,8 +370,8 @@ if err != nil {
       "country": null,
       "phone": null,
       "portal_invite_last_sent_at": null,
-      "portal_invite_last_accepted_at": "reprehenderit labore voluptate",
-      "portal_customer_created_at": "nisi aute reprehenderit Excepteur Duis",
+      "portal_invite_last_accepted_at": "2021-05-05T20:00:21-04:00",
+      "portal_customer_created_at": "2021-05-05T16:00:21-04:00",
       "cc_emails": "eiusmod sunt",
       "tax_exempt": true
     },
@@ -620,14 +620,28 @@ if err != nil {
 [
   {
     "allocation": {
-      "memo": "moving to 7",
-      "timestamp": "2012-11-20T22:00:37Z",
-      "quantity": 7,
-      "previous_quantity": 3,
-      "component_id": 11960,
-      "subscription_id": 2585595,
-      "proration_upgrade_scheme": "no-prorate",
-      "proration_downgrade_scheme": "no-prorate"
+      "allocation_id": 2370199,
+      "component_id": 41028,
+      "subscription_id": 352827,
+      "quantity": 10,
+      "previous_quantity": 0,
+      "memo": "Recoding component allocation",
+      "timestamp": "2024-02-28T09:31:05Z",
+      "proration_upgrade_scheme": "full-price-attempt-capture",
+      "proration_downgrade_scheme": "no-prorate",
+      "price_point_id": 2957424,
+      "price_point_handle": "uuid:03190e20-b84a-013c-ca77-0286551bb34f",
+      "price_point_name": "Original",
+      "previous_price_point_id": 2957424,
+      "component_handle": "test-prepaid-component-4982065948",
+      "accrue_charge": false,
+      "upgrade_charge": "full",
+      "downgrade_credit": "none",
+      "created_at": "2024-02-28T04:31:05-05:00",
+      "initiate_dunning": false,
+      "expires_at": "2024-08-03T20:00:00-04:00",
+      "used_quantity": 5,
+      "charge_id": 11586076
     }
   },
   {
@@ -988,8 +1002,12 @@ subscriptionId := 222
 componentId := 222
 allocationId := 24
 
+bodyAllocationExpiresAt, err := time.Parse(time.RFC3339, "2021-05-05T16:00:00")
+if err != nil {
+    log.Fatalln(err)
+}
 bodyAllocation := models.AllocationExpirationDate{
-    ExpiresAt: models.ToPointer("05/07/2021"),
+    ExpiresAt: models.ToPointer(bodyAllocationExpiresAt),
 }
 
 body := models.UpdateAllocationExpirationDate{
@@ -1008,6 +1026,7 @@ if err != nil {
 
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
+| 404 | Not Found | `ApiError` |
 | 422 | Unprocessable Entity (WebDAV) | [`SubscriptionComponentAllocationErrorException`](../../doc/models/subscription-component-allocation-error-exception.md) |
 
 
@@ -1071,6 +1090,7 @@ if err != nil {
 
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
+| 404 | Not Found | `ApiError` |
 | 422 | Unprocessable Entity (WebDAV) | [`SubscriptionComponentAllocationErrorException`](../../doc/models/subscription-component-allocation-error-exception.md) |
 
 
@@ -1438,9 +1458,13 @@ ctx := context.Background()
 subdomain := "subdomain4"
 apiHandle := "api_handle6"
 
+bodyChargifyTimestamp, err := time.Parse(time.RFC3339, "2020-02-27T17:45:50-05:00")
+if err != nil {
+    log.Fatalln(err)
+}
 bodyChargify := models.ChargifyEBB{
-    Timestamp:             models.ToPointer("2020-02-27T17:45:50-05:00"),
     SubscriptionId:        models.ToPointer(1),
+    Timestamp:             models.ToPointer(bodyChargifyTimestamp),
 }
 
 body := models.EBBEvent{
@@ -1495,9 +1519,13 @@ ctx := context.Background()
 subdomain := "subdomain4"
 apiHandle := "api_handle6"
 
+body0ChargifyTimestamp, err := time.Parse(time.RFC3339, "2020-02-27T17:45:50-05:00")
+if err != nil {
+    log.Fatalln(err)
+}
 body0Chargify := models.ChargifyEBB{
-    Timestamp:             models.ToPointer("2020-02-27T17:45:50-05:00"),
     SubscriptionId:        models.ToPointer(1),
+    Timestamp:             models.ToPointer(body0ChargifyTimestamp),
 }
 
 body0 := models.EBBEvent{
@@ -1546,10 +1574,10 @@ ListSubscriptionComponentsForSite(
 | `filterCurrencies` | `[]string` | Query, Optional | Allows fetching components allocation with matching currency based on provided values. Use in query `filter[currencies]=USD,EUR`. |
 | `filterSubscriptionStates` | [`[]models.SubscriptionStateFilter`](../../doc/models/subscription-state-filter.md) | Query, Optional | Allows fetching components allocations that belong to the subscription with matching states based on provided values. To use this filter you also have to include the following param in the request `include=subscription`. Use in query `filter[subscription][states]=active,canceled&include=subscription`. |
 | `filterSubscriptionDateField` | [`*models.SubscriptionListDateField`](../../doc/models/subscription-list-date-field.md) | Query, Optional | The type of filter you'd like to apply to your search. To use this filter you also have to include the following param in the request `include=subscription`. |
-| `filterSubscriptionStartDate` | `*string` | Query, Optional | The start date (format YYYY-MM-DD) with which to filter the date_field. Returns components that belong to the subscription with a timestamp at or after midnight (12:00:00 AM) in your site’s time zone on the date specified. To use this filter you also have to include the following param in the request `include=subscription`. |
-| `filterSubscriptionStartDatetime` | `*string` | Query, Optional | The start date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns components that belong to the subscription with a timestamp at or after exact time provided in query. You can specify timezone in query - otherwise your site''s time zone will be used. If provided, this parameter will be used instead of start_date. To use this filter you also have to include the following param in the request `include=subscription`. |
-| `filterSubscriptionEndDate` | `*string` | Query, Optional | The end date (format YYYY-MM-DD) with which to filter the date_field. Returns components that belong to the subscription with a timestamp up to and including 11:59:59PM in your site’s time zone on the date specified. To use this filter you also have to include the following param in the request `include=subscription`. |
-| `filterSubscriptionEndDatetime` | `*string` | Query, Optional | The end date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns components that belong to the subscription with a timestamp at or before exact time provided in query. You can specify timezone in query - otherwise your site''s time zone will be used. If provided, this parameter will be used instead of end_date. To use this filter you also have to include the following param in the request `include=subscription`. |
+| `filterSubscriptionStartDate` | `*time.Time` | Query, Optional | The start date (format YYYY-MM-DD) with which to filter the date_field. Returns components that belong to the subscription with a timestamp at or after midnight (12:00:00 AM) in your site’s time zone on the date specified. To use this filter you also have to include the following param in the request `include=subscription`. |
+| `filterSubscriptionStartDatetime` | `*time.Time` | Query, Optional | The start date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns components that belong to the subscription with a timestamp at or after exact time provided in query. You can specify timezone in query - otherwise your site''s time zone will be used. If provided, this parameter will be used instead of start_date. To use this filter you also have to include the following param in the request `include=subscription`. |
+| `filterSubscriptionEndDate` | `*time.Time` | Query, Optional | The end date (format YYYY-MM-DD) with which to filter the date_field. Returns components that belong to the subscription with a timestamp up to and including 11:59:59PM in your site’s time zone on the date specified. To use this filter you also have to include the following param in the request `include=subscription`. |
+| `filterSubscriptionEndDatetime` | `*time.Time` | Query, Optional | The end date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns components that belong to the subscription with a timestamp at or before exact time provided in query. You can specify timezone in query - otherwise your site''s time zone will be used. If provided, this parameter will be used instead of end_date. To use this filter you also have to include the following param in the request `include=subscription`. |
 
 ## Response Type
 

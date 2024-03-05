@@ -2,29 +2,31 @@ package models
 
 import (
     "encoding/json"
+    "log"
+    "time"
 )
 
 // Offer represents a Offer struct.
 type Offer struct {
-    Id                     *int              `json:"id,omitempty"`
-    SiteId                 *int              `json:"site_id,omitempty"`
-    ProductFamilyId        *int              `json:"product_family_id,omitempty"`
-    ProductId              *int              `json:"product_id,omitempty"`
-    ProductPricePointId    *int              `json:"product_price_point_id,omitempty"`
-    ProductRevisableNumber *int              `json:"product_revisable_number,omitempty"`
-    Name                   *string           `json:"name,omitempty"`
-    Handle                 *string           `json:"handle,omitempty"`
-    Description            Optional[string]  `json:"description"`
-    CreatedAt              *string           `json:"created_at,omitempty"`
-    UpdatedAt              *string           `json:"updated_at,omitempty"`
-    ArchivedAt             Optional[string]  `json:"archived_at"`
-    OfferItems             []OfferItem       `json:"offer_items,omitempty"`
-    OfferDiscounts         []OfferDiscount   `json:"offer_discounts,omitempty"`
-    ProductFamilyName      *string           `json:"product_family_name,omitempty"`
-    ProductName            *string           `json:"product_name,omitempty"`
-    ProductPricePointName  *string           `json:"product_price_point_name,omitempty"`
-    ProductPriceInCents    *int64            `json:"product_price_in_cents,omitempty"`
-    OfferSignupPages       []OfferSignupPage `json:"offer_signup_pages,omitempty"`
+    Id                     *int                `json:"id,omitempty"`
+    SiteId                 *int                `json:"site_id,omitempty"`
+    ProductFamilyId        *int                `json:"product_family_id,omitempty"`
+    ProductId              *int                `json:"product_id,omitempty"`
+    ProductPricePointId    *int                `json:"product_price_point_id,omitempty"`
+    ProductRevisableNumber *int                `json:"product_revisable_number,omitempty"`
+    Name                   *string             `json:"name,omitempty"`
+    Handle                 *string             `json:"handle,omitempty"`
+    Description            Optional[string]    `json:"description"`
+    CreatedAt              *time.Time          `json:"created_at,omitempty"`
+    UpdatedAt              *time.Time          `json:"updated_at,omitempty"`
+    ArchivedAt             Optional[time.Time] `json:"archived_at"`
+    OfferItems             []OfferItem         `json:"offer_items,omitempty"`
+    OfferDiscounts         []OfferDiscount     `json:"offer_discounts,omitempty"`
+    ProductFamilyName      *string             `json:"product_family_name,omitempty"`
+    ProductName            *string             `json:"product_name,omitempty"`
+    ProductPricePointName  *string             `json:"product_price_point_name,omitempty"`
+    ProductPriceInCents    *int64              `json:"product_price_in_cents,omitempty"`
+    OfferSignupPages       []OfferSignupPage   `json:"offer_signup_pages,omitempty"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for Offer.
@@ -66,13 +68,18 @@ func (o *Offer) toMap() map[string]any {
         structMap["description"] = o.Description.Value()
     }
     if o.CreatedAt != nil {
-        structMap["created_at"] = o.CreatedAt
+        structMap["created_at"] = o.CreatedAt.Format(time.RFC3339)
     }
     if o.UpdatedAt != nil {
-        structMap["updated_at"] = o.UpdatedAt
+        structMap["updated_at"] = o.UpdatedAt.Format(time.RFC3339)
     }
     if o.ArchivedAt.IsValueSet() {
-        structMap["archived_at"] = o.ArchivedAt.Value()
+        var ArchivedAtVal *string = nil
+        if o.ArchivedAt.Value() != nil {
+            val := o.ArchivedAt.Value().Format(time.RFC3339)
+            ArchivedAtVal = &val
+        }
+        structMap["archived_at"] = ArchivedAtVal
     }
     if o.OfferItems != nil {
         structMap["offer_items"] = o.OfferItems
@@ -136,9 +143,28 @@ func (o *Offer) UnmarshalJSON(input []byte) error {
     o.Name = temp.Name
     o.Handle = temp.Handle
     o.Description = temp.Description
-    o.CreatedAt = temp.CreatedAt
-    o.UpdatedAt = temp.UpdatedAt
-    o.ArchivedAt = temp.ArchivedAt
+    if temp.CreatedAt != nil {
+        CreatedAtVal, err := time.Parse(time.RFC3339, *temp.CreatedAt)
+        if err != nil {
+            log.Fatalf("Cannot Parse created_at as % s format.", time.RFC3339)
+        }
+        o.CreatedAt = &CreatedAtVal
+    }
+    if temp.UpdatedAt != nil {
+        UpdatedAtVal, err := time.Parse(time.RFC3339, *temp.UpdatedAt)
+        if err != nil {
+            log.Fatalf("Cannot Parse updated_at as % s format.", time.RFC3339)
+        }
+        o.UpdatedAt = &UpdatedAtVal
+    }
+    o.ArchivedAt.ShouldSetValue(temp.ArchivedAt.IsValueSet())
+    if temp.ArchivedAt.Value() != nil {
+        ArchivedAtVal, err := time.Parse(time.RFC3339, (*temp.ArchivedAt.Value()))
+        if err != nil {
+            log.Fatalf("Cannot Parse archived_at as % s format.", time.RFC3339)
+        }
+        o.ArchivedAt.SetValue(&ArchivedAtVal)
+    }
     o.OfferItems = temp.OfferItems
     o.OfferDiscounts = temp.OfferDiscounts
     o.ProductFamilyName = temp.ProductFamilyName

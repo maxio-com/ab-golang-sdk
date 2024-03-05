@@ -1004,6 +1004,10 @@ UpdateSubscription(
 ctx := context.Background()
 subscriptionId := 222
 
+bodySubscriptionNextBillingAt, err := time.Parse(time.RFC3339, "2010-08-06T15:34:00Z")
+if err != nil {
+    log.Fatalln(err)
+}
 bodySubscriptionCreditCardAttributes := models.CreditCardAttributes{
     FullNumber:      models.ToPointer("4111111111111111"),
     ExpirationMonth: models.ToPointer("10"),
@@ -1011,7 +1015,7 @@ bodySubscriptionCreditCardAttributes := models.CreditCardAttributes{
 }
 
 bodySubscription := models.UpdateSubscription{
-    NextBillingAt:                     models.ToPointer("2010-08-06T15:34:00Z"),
+    NextBillingAt:                     models.ToPointer(bodySubscriptionNextBillingAt),
     CreditCardAttributes:              models.ToPointer(bodySubscriptionCreditCardAttributes),
 }
 

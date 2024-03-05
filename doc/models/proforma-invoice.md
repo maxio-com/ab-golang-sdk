@@ -11,20 +11,20 @@
 |  --- | --- | --- | --- |
 | `Uid` | `*string` | Optional | - |
 | `SiteId` | `*int` | Optional | - |
-| `CustomerId` | `*int` | Optional | - |
-| `SubscriptionId` | `*int` | Optional | - |
-| `Number` | `*int` | Optional | - |
-| `SequenceNumber` | `*int` | Optional | - |
-| `CreatedAt` | `*string` | Optional | - |
-| `DeliveryDate` | `*string` | Optional | - |
-| `Status` | `*string` | Optional | - |
-| `CollectionMethod` | `*string` | Optional | - |
+| `CustomerId` | `Optional[int]` | Optional | - |
+| `SubscriptionId` | `Optional[int]` | Optional | - |
+| `Number` | `Optional[int]` | Optional | - |
+| `SequenceNumber` | `Optional[int]` | Optional | - |
+| `CreatedAt` | `*time.Time` | Optional | - |
+| `DeliveryDate` | `*time.Time` | Optional | - |
+| `Status` | [`*models.ProformaInvoiceStatus`](../../doc/models/proforma-invoice-status.md) | Optional | - |
+| `CollectionMethod` | [`*models.CollectionMethod`](../../doc/models/collection-method.md) | Optional | The type of payment collection to be used in the subscription. For legacy Statements Architecture valid options are - `invoice`, `automatic`. For current Relationship Invoicing Architecture valid options are - `remittance`, `automatic`, `prepaid`.<br>**Default**: `"automatic"` |
 | `PaymentInstructions` | `*string` | Optional | - |
 | `Currency` | `*string` | Optional | - |
-| `ConsolidationLevel` | `*string` | Optional | - |
+| `ConsolidationLevel` | [`*models.InvoiceConsolidationLevel`](../../doc/models/invoice-consolidation-level.md) | Optional | Consolidation level of the invoice, which is applicable to invoice consolidation.  It will hold one of the following values:<br><br>* "none": A normal invoice with no consolidation.<br>* "child": An invoice segment which has been combined into a consolidated invoice.<br>* "parent": A consolidated invoice, whose contents are composed of invoice segments.<br><br>"Parent" invoices do not have lines of their own, but they have subtotals and totals which aggregate the member invoice segments.<br><br>See also the [invoice consolidation documentation](https://chargify.zendesk.com/hc/en-us/articles/4407746391835). |
 | `ProductName` | `*string` | Optional | - |
 | `ProductFamilyName` | `*string` | Optional | - |
-| `Role` | `*string` | Optional | - |
+| `Role` | [`*models.ProformaInvoiceRole`](../../doc/models/proforma-invoice-role.md) | Optional | 'proforma' value is deprecated in favor of proforma_adhoc and proforma_automatic |
 | `Seller` | [`*models.InvoiceSeller`](../../doc/models/invoice-seller.md) | Optional | Information about the seller (merchant) listed on the masthead of the invoice. |
 | `Customer` | [`*models.InvoiceCustomer`](../../doc/models/invoice-customer.md) | Optional | Information about the customer who is owner or recipient the invoiced subscription. |
 | `Memo` | `*string` | Optional | - |
@@ -44,12 +44,13 @@
 | `Credits` | [`[]models.ProformaInvoiceCredit`](../../doc/models/proforma-invoice-credit.md) | Optional | - |
 | `Payments` | [`[]models.ProformaInvoicePayment`](../../doc/models/proforma-invoice-payment.md) | Optional | - |
 | `CustomFields` | [`[]models.InvoiceCustomField`](../../doc/models/invoice-custom-field.md) | Optional | - |
-| `PublicUrl` | `*string` | Optional | - |
+| `PublicUrl` | `Optional[string]` | Optional | - |
 
 ## Example (as JSON)
 
 ```json
 {
+  "collection_method": "automatic",
   "uid": "uid6",
   "site_id": 196,
   "customer_id": 52,

@@ -195,7 +195,7 @@ ReplayWebhooks(
 ctx := context.Background()
 
 body := models.ReplayWebhooksRequest{
-    Ids: []int{123456789, 123456788},
+    Ids: []int64{int64(123456789), int64(123456788)},
 }
 
 apiResponse, err := webhooksController.ReplayWebhooks(ctx, &body)
@@ -227,7 +227,7 @@ You can check available events here.
 ```go
 CreateEndpoint(
     ctx context.Context,
-    body *models.UpdateEndpointRequest) (
+    body *models.CreateOrUpdateEndpointRequest) (
     models.ApiResponse[models.EndpointResponse],
     error)
 ```
@@ -236,7 +236,7 @@ CreateEndpoint(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `body` | [`*models.UpdateEndpointRequest`](../../doc/models/update-endpoint-request.md) | Body, Optional | Used to Create or Update Endpoint |
+| `body` | [`*models.CreateOrUpdateEndpointRequest`](../../doc/models/create-or-update-endpoint-request.md) | Body, Optional | Used to Create or Update Endpoint |
 
 ## Response Type
 
@@ -247,12 +247,12 @@ CreateEndpoint(
 ```go
 ctx := context.Background()
 
-bodyEndpoint := models.UpdateEndpoint{
+bodyEndpoint := models.CreateOrUpdateEndpoint{
     Url:                  "https://your.site/webhooks",
     WebhookSubscriptions: []models.WebhookSubscription{models.WebhookSubscription("payment_success"), models.WebhookSubscription("payment_failure")},
 }
 
-body := models.UpdateEndpointRequest{
+body := models.CreateOrUpdateEndpointRequest{
     Endpoint: bodyEndpoint,
 }
 
@@ -364,7 +364,7 @@ If you want unsubscribe from specific event, just send a list of `webhook_subscr
 UpdateEndpoint(
     ctx context.Context,
     endpointId int,
-    body *models.UpdateEndpointRequest) (
+    body *models.CreateOrUpdateEndpointRequest) (
     models.ApiResponse[models.EndpointResponse],
     error)
 ```
@@ -374,7 +374,7 @@ UpdateEndpoint(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `endpointId` | `int` | Template, Required | The Chargify id for the endpoint that should be updated |
-| `body` | [`*models.UpdateEndpointRequest`](../../doc/models/update-endpoint-request.md) | Body, Optional | Used to Create or Update Endpoint |
+| `body` | [`*models.CreateOrUpdateEndpointRequest`](../../doc/models/create-or-update-endpoint-request.md) | Body, Optional | Used to Create or Update Endpoint |
 
 ## Response Type
 
@@ -386,12 +386,12 @@ UpdateEndpoint(
 ctx := context.Background()
 endpointId := 42
 
-bodyEndpoint := models.UpdateEndpoint{
+bodyEndpoint := models.CreateOrUpdateEndpoint{
     Url:                  "https://yout.site/webhooks/1/json.",
     WebhookSubscriptions: []models.WebhookSubscription{models.WebhookSubscription("payment_failure"), models.WebhookSubscription("payment_success"), models.WebhookSubscription("refund_failure")},
 }
 
-body := models.UpdateEndpointRequest{
+body := models.CreateOrUpdateEndpointRequest{
     Endpoint: bodyEndpoint,
 }
 

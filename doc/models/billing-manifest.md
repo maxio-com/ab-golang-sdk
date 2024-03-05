@@ -14,8 +14,8 @@
 | `TotalDiscountInCents` | `*int64` | Optional | - |
 | `TotalTaxInCents` | `*int64` | Optional | - |
 | `SubtotalInCents` | `*int64` | Optional | - |
-| `StartDate` | `*string` | Optional | - |
-| `EndDate` | `*string` | Optional | - |
+| `StartDate` | `*time.Time` | Optional | - |
+| `EndDate` | `*time.Time` | Optional | - |
 | `PeriodType` | `*string` | Optional | - |
 | `ExistingBalanceInCents` | `*int64` | Optional | - |
 

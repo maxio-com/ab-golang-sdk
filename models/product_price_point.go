@@ -21,7 +21,7 @@ type ProductPricePoint struct {
     IntervalUnit            *IntervalUnit       `json:"interval_unit,omitempty"`
     // The product price point trial price, in integer cents
     TrialPriceInCents       *int64              `json:"trial_price_in_cents,omitempty"`
-    // The numerical trial interval. i.e. an interval of ‘30’ coupled with an trial_interval_unit of day would mean this product price point would renew every 30 days
+    // The numerical trial interval. i.e. an interval of ‘30’ coupled with a trial_interval_unit of day would mean this product price point trial would last 30 days
     TrialInterval           *int                `json:"trial_interval,omitempty"`
     // A string representing the trial interval unit for this product price point, either month or day
     TrialIntervalUnit       *IntervalUnit       `json:"trial_interval_unit,omitempty"`
@@ -31,7 +31,7 @@ type ProductPricePoint struct {
     // The product price point initial charge, in integer cents
     InitialChargeInCents    *int64              `json:"initial_charge_in_cents,omitempty"`
     InitialChargeAfterTrial *bool               `json:"initial_charge_after_trial,omitempty"`
-    // The numerical expiration interval. i.e. an expiration_interval of ‘30’ coupled with an expiration_interval_unit of day would mean this product price point would expire every 30 days
+    // The numerical expiration interval. i.e. an expiration_interval of ‘30’ coupled with an expiration_interval_unit of day would mean this product price point would expire after 30 days
     ExpirationInterval      *int                `json:"expiration_interval,omitempty"`
     // A string representing the expiration interval unit for this product price point, either month or day
     ExpirationIntervalUnit  *IntervalUnit       `json:"expiration_interval_unit,omitempty"`

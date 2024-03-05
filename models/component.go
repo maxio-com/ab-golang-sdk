@@ -57,7 +57,7 @@ type Component struct {
     // Timestamp indicating when this component was updated
     UpdatedAt                 *time.Time                 `json:"updated_at,omitempty"`
     // Timestamp indicating when this component was archived
-    ArchivedAt                Optional[string]           `json:"archived_at"`
+    ArchivedAt                Optional[time.Time]        `json:"archived_at"`
     // (Only available on Relationship Invoicing sites) Boolean flag describing if the service date range should show for the component on generated invoices.
     HideDateRangeOnInvoice    *bool                      `json:"hide_date_range_on_invoice,omitempty"`
     AllowFractionalQuantities *bool                      `json:"allow_fractional_quantities,omitempty"`
@@ -161,7 +161,12 @@ func (c *Component) toMap() map[string]any {
         structMap["updated_at"] = c.UpdatedAt.Format(time.RFC3339)
     }
     if c.ArchivedAt.IsValueSet() {
-        structMap["archived_at"] = c.ArchivedAt.Value()
+        var ArchivedAtVal *string = nil
+        if c.ArchivedAt.Value() != nil {
+            val := c.ArchivedAt.Value().Format(time.RFC3339)
+            ArchivedAtVal = &val
+        }
+        structMap["archived_at"] = ArchivedAtVal
     }
     if c.HideDateRangeOnInvoice != nil {
         structMap["hide_date_range_on_invoice"] = c.HideDateRangeOnInvoice
@@ -271,7 +276,14 @@ func (c *Component) UnmarshalJSON(input []byte) error {
         }
         c.UpdatedAt = &UpdatedAtVal
     }
-    c.ArchivedAt = temp.ArchivedAt
+    c.ArchivedAt.ShouldSetValue(temp.ArchivedAt.IsValueSet())
+    if temp.ArchivedAt.Value() != nil {
+        ArchivedAtVal, err := time.Parse(time.RFC3339, (*temp.ArchivedAt.Value()))
+        if err != nil {
+            log.Fatalf("Cannot Parse archived_at as % s format.", time.RFC3339)
+        }
+        c.ArchivedAt.SetValue(&ArchivedAtVal)
+    }
     c.HideDateRangeOnInvoice = temp.HideDateRangeOnInvoice
     c.AllowFractionalQuantities = temp.AllowFractionalQuantities
     c.ItemCategory = temp.ItemCategory

@@ -6,7 +6,7 @@ import (
 
 // ReplayWebhooksRequest represents a ReplayWebhooksRequest struct.
 type ReplayWebhooksRequest struct {
-    Ids []int `json:"ids"`
+    Ids []int64 `json:"ids"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for ReplayWebhooksRequest.
@@ -28,7 +28,7 @@ func (r *ReplayWebhooksRequest) toMap() map[string]any {
 // It customizes the JSON unmarshaling process for ReplayWebhooksRequest objects.
 func (r *ReplayWebhooksRequest) UnmarshalJSON(input []byte) error {
     temp := &struct {
-        Ids []int `json:"ids"`
+        Ids []int64 `json:"ids"`
     }{}
     err := json.Unmarshal(input, &temp)
     if err != nil {

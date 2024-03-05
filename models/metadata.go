@@ -2,16 +2,18 @@ package models
 
 import (
     "encoding/json"
+    "log"
+    "time"
 )
 
 // Metadata represents a Metadata struct.
 type Metadata struct {
-    Id          Optional[int]    `json:"id"`
-    Value       Optional[string] `json:"value"`
-    ResourceId  Optional[int]    `json:"resource_id"`
-    Name        *string          `json:"name,omitempty"`
-    DeletedAt   Optional[string] `json:"deleted_at"`
-    MetafieldId Optional[int]    `json:"metafield_id"`
+    Id          Optional[int]       `json:"id"`
+    Value       Optional[string]    `json:"value"`
+    ResourceId  Optional[int]       `json:"resource_id"`
+    Name        *string             `json:"name,omitempty"`
+    DeletedAt   Optional[time.Time] `json:"deleted_at"`
+    MetafieldId Optional[int]       `json:"metafield_id"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for Metadata.
@@ -38,7 +40,12 @@ func (m *Metadata) toMap() map[string]any {
         structMap["name"] = m.Name
     }
     if m.DeletedAt.IsValueSet() {
-        structMap["deleted_at"] = m.DeletedAt.Value()
+        var DeletedAtVal *string = nil
+        if m.DeletedAt.Value() != nil {
+            val := m.DeletedAt.Value().Format(time.RFC3339)
+            DeletedAtVal = &val
+        }
+        structMap["deleted_at"] = DeletedAtVal
     }
     if m.MetafieldId.IsValueSet() {
         structMap["metafield_id"] = m.MetafieldId.Value()
@@ -66,7 +73,14 @@ func (m *Metadata) UnmarshalJSON(input []byte) error {
     m.Value = temp.Value
     m.ResourceId = temp.ResourceId
     m.Name = temp.Name
-    m.DeletedAt = temp.DeletedAt
+    m.DeletedAt.ShouldSetValue(temp.DeletedAt.IsValueSet())
+    if temp.DeletedAt.Value() != nil {
+        DeletedAtVal, err := time.Parse(time.RFC3339, (*temp.DeletedAt.Value()))
+        if err != nil {
+            log.Fatalf("Cannot Parse deleted_at as % s format.", time.RFC3339)
+        }
+        m.DeletedAt.SetValue(&DeletedAtVal)
+    }
     m.MetafieldId = temp.MetafieldId
     return nil
 }

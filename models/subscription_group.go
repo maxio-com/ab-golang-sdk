@@ -2,6 +2,8 @@ package models
 
 import (
     "encoding/json"
+    "log"
+    "time"
 )
 
 // SubscriptionGroup represents a SubscriptionGroup struct.
@@ -10,7 +12,7 @@ type SubscriptionGroup struct {
     PaymentProfile          *SubscriptionGroupPaymentProfile `json:"payment_profile,omitempty"`
     PaymentCollectionMethod *string                          `json:"payment_collection_method,omitempty"`
     SubscriptionIds         []int                            `json:"subscription_ids,omitempty"`
-    CreatedAt               *string                          `json:"created_at,omitempty"`
+    CreatedAt               *time.Time                       `json:"created_at,omitempty"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for SubscriptionGroup.
@@ -37,7 +39,7 @@ func (s *SubscriptionGroup) toMap() map[string]any {
         structMap["subscription_ids"] = s.SubscriptionIds
     }
     if s.CreatedAt != nil {
-        structMap["created_at"] = s.CreatedAt
+        structMap["created_at"] = s.CreatedAt.Format(time.RFC3339)
     }
     return structMap
 }
@@ -61,6 +63,12 @@ func (s *SubscriptionGroup) UnmarshalJSON(input []byte) error {
     s.PaymentProfile = temp.PaymentProfile
     s.PaymentCollectionMethod = temp.PaymentCollectionMethod
     s.SubscriptionIds = temp.SubscriptionIds
-    s.CreatedAt = temp.CreatedAt
+    if temp.CreatedAt != nil {
+        CreatedAtVal, err := time.Parse(time.RFC3339, *temp.CreatedAt)
+        if err != nil {
+            log.Fatalf("Cannot Parse created_at as % s format.", time.RFC3339)
+        }
+        s.CreatedAt = &CreatedAtVal
+    }
     return nil
 }

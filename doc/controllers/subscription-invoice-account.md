@@ -97,7 +97,7 @@ bodyPrepayment := models.CreatePrepayment{
     Amount:           float64(100),
     Details:          "John Doe signup for $100",
     Memo:             "Signup for $100",
-    Method:           models.PrepaymentMethod("check"),
+    Method:           models.CreatePrepaymentMethod("check"),
 }
 
 body := models.CreatePrepaymentRequest{

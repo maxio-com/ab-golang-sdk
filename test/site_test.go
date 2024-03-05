@@ -6,6 +6,7 @@ import (
 	"testing"
 
 	advancedbilling "github.com/maxio-com/ab-golang-sdk"
+  "github.com/apimatic/go-core-runtime/https"
 	"github.com/maxio-com/ab-golang-sdk/models"
 	"github.com/stretchr/testify/suite"
 )
@@ -22,15 +23,16 @@ func (s *SiteSuite) TestReadSite() {
 	cases := []struct {
 		name        string
 		client      advancedbilling.ClientInterface
-		assert      func(*testing.T, models.ApiResponse[models.SiteResponse])
+		assert      func(*testing.T, models.ApiResponse[models.SiteResponse], error)
 		expectedErr bool
 	}{
 		{
 			name:        "success",
 			client:      s.client,
 			expectedErr: false,
-			assert: func(t *testing.T, resp models.ApiResponse[models.SiteResponse]) {
+			assert: func(t *testing.T, resp models.ApiResponse[models.SiteResponse], err error) {
 				s.Equal(http.StatusOK, resp.Response.StatusCode, "status code")
+        s.NoError(err)
 
 				respSite := resp.Data.Site
 				s.Equal(4718, *respSite.Id, "ID")
@@ -78,8 +80,11 @@ func (s *SiteSuite) TestReadSite() {
 		{
 			name:   "unauthorized",
 			client: s.unauthorizedClient,
-			assert: func(t *testing.T, resp models.ApiResponse[models.SiteResponse]) {
-				s.Equal(http.StatusUnauthorized, resp.Response.StatusCode)
+			assert: func(t *testing.T, resp models.ApiResponse[models.SiteResponse], err error) {
+			  s.Equal(err.Error(), "ApiError occured: HTTP Response Not OK. Status code: 401. Response: 'HTTP Basic: Access denied.\n'.")
+				actualErr, ok := err.(https.ApiError)
+        s.Equal(http.StatusUnauthorized, actualErr.StatusCode)
+        s.True(ok)
 			},
 			expectedErr: true,
 		},
@@ -91,7 +96,7 @@ func (s *SiteSuite) TestReadSite() {
 			if !c.expectedErr {
 				s.NoErrorf(err, "could not read site")
 			}
-			c.assert(t, resp)
+			c.assert(t, resp, err)
 		})
 	}
 

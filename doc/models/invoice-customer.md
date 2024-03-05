@@ -11,7 +11,7 @@ Information about the customer who is owner or recipient the invoiced subscripti
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `ChargifyId` | `*int` | Optional | - |
+| `ChargifyId` | `Optional[int]` | Optional | - |
 | `FirstName` | `*string` | Optional | - |
 | `LastName` | `*string` | Optional | - |
 | `Organization` | `Optional[string]` | Optional | - |

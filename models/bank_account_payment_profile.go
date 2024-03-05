@@ -45,7 +45,7 @@ type BankAccountPaymentProfile struct {
     PaymentType             *PaymentType           `json:"payment_type,omitempty"`
     // denotes whether a bank account has been verified by providing the amounts of two small deposits made into the account
     Verified                *bool                  `json:"verified,omitempty"`
-    SiteGatewaySettingId    *int                   `json:"site_gateway_setting_id,omitempty"`
+    SiteGatewaySettingId    Optional[int]          `json:"site_gateway_setting_id"`
     GatewayHandle           Optional[string]       `json:"gateway_handle"`
 }
 
@@ -116,8 +116,8 @@ func (b *BankAccountPaymentProfile) toMap() map[string]any {
     if b.Verified != nil {
         structMap["verified"] = b.Verified
     }
-    if b.SiteGatewaySettingId != nil {
-        structMap["site_gateway_setting_id"] = b.SiteGatewaySettingId
+    if b.SiteGatewaySettingId.IsValueSet() {
+        structMap["site_gateway_setting_id"] = b.SiteGatewaySettingId.Value()
     }
     if b.GatewayHandle.IsValueSet() {
         structMap["gateway_handle"] = b.GatewayHandle.Value()
@@ -149,7 +149,7 @@ func (b *BankAccountPaymentProfile) UnmarshalJSON(input []byte) error {
         BankAccountHolderType   *BankAccountHolderType `json:"bank_account_holder_type,omitempty"`
         PaymentType             *PaymentType           `json:"payment_type,omitempty"`
         Verified                *bool                  `json:"verified,omitempty"`
-        SiteGatewaySettingId    *int                   `json:"site_gateway_setting_id,omitempty"`
+        SiteGatewaySettingId    Optional[int]          `json:"site_gateway_setting_id"`
         GatewayHandle           Optional[string]       `json:"gateway_handle"`
     }{}
     err := json.Unmarshal(input, &temp)

@@ -2,6 +2,8 @@ package models
 
 import (
     "encoding/json"
+    "log"
+    "time"
 )
 
 // SubscriptionMigrationPreviewOptions represents a SubscriptionMigrationPreviewOptions struct.
@@ -24,7 +26,7 @@ type SubscriptionMigrationPreviewOptions struct {
     ProductPricePointHandle *string    `json:"product_price_point_handle,omitempty"`
     Proration               *Proration `json:"proration,omitempty"`
     // The date that the proration is calculated from for the preview
-    ProrationDate           *string    `json:"proration_date,omitempty"`
+    ProrationDate           *time.Time `json:"proration_date,omitempty"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for SubscriptionMigrationPreviewOptions.
@@ -66,7 +68,7 @@ func (s *SubscriptionMigrationPreviewOptions) toMap() map[string]any {
         structMap["proration"] = s.Proration.toMap()
     }
     if s.ProrationDate != nil {
-        structMap["proration_date"] = s.ProrationDate
+        structMap["proration_date"] = s.ProrationDate.Format(time.RFC3339)
     }
     return structMap
 }
@@ -100,6 +102,12 @@ func (s *SubscriptionMigrationPreviewOptions) UnmarshalJSON(input []byte) error 
     s.ProductHandle = temp.ProductHandle
     s.ProductPricePointHandle = temp.ProductPricePointHandle
     s.Proration = temp.Proration
-    s.ProrationDate = temp.ProrationDate
+    if temp.ProrationDate != nil {
+        ProrationDateVal, err := time.Parse(time.RFC3339, *temp.ProrationDate)
+        if err != nil {
+            log.Fatalf("Cannot Parse proration_date as % s format.", time.RFC3339)
+        }
+        s.ProrationDate = &ProrationDateVal
+    }
     return nil
 }

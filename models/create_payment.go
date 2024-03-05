@@ -6,10 +6,11 @@ import (
 
 // CreatePayment represents a CreatePayment struct.
 type CreatePayment struct {
-    Amount         string `json:"amount"`
-    Memo           string `json:"memo"`
-    PaymentDetails string `json:"payment_details"`
-    PaymentMethod  string `json:"payment_method"`
+    Amount         string                   `json:"amount"`
+    Memo           string                   `json:"memo"`
+    PaymentDetails string                   `json:"payment_details"`
+    // The type of payment method used. Defaults to other.
+    PaymentMethod  InvoicePaymentMethodType `json:"payment_method"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreatePayment.
@@ -34,10 +35,10 @@ func (c *CreatePayment) toMap() map[string]any {
 // It customizes the JSON unmarshaling process for CreatePayment objects.
 func (c *CreatePayment) UnmarshalJSON(input []byte) error {
     temp := &struct {
-        Amount         string `json:"amount"`
-        Memo           string `json:"memo"`
-        PaymentDetails string `json:"payment_details"`
-        PaymentMethod  string `json:"payment_method"`
+        Amount         string                   `json:"amount"`
+        Memo           string                   `json:"memo"`
+        PaymentDetails string                   `json:"payment_details"`
+        PaymentMethod  InvoicePaymentMethodType `json:"payment_method"`
     }{}
     err := json.Unmarshal(input, &temp)
     if err != nil {

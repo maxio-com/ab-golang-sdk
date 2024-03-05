@@ -2,6 +2,7 @@ package advancedbilling
 
 import (
     "context"
+    "github.com/apimatic/go-core-runtime/https"
     "github.com/apimatic/go-core-runtime/utilities"
     "github.com/maxio-com/ab-golang-sdk/errors"
     "github.com/maxio-com/ab-golang-sdk/models"
@@ -33,22 +34,14 @@ func (i *InsightsController) ReadSiteStats(ctx context.Context) (
     models.ApiResponse[models.SiteSummary],
     error) {
     req := i.prepareRequest(ctx, "GET", "/stats.json")
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
     var result models.SiteSummary
     decoder, resp, err := req.CallAsJson()
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[models.SiteSummary](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
     return models.NewApiResponse(result, resp), err
 }
 
@@ -64,7 +57,7 @@ func (i *InsightsController) ReadMrr(
     models.ApiResponse[models.MRRResponse],
     error) {
     req := i.prepareRequest(ctx, "GET", "/mrr.json")
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
     if atTime != nil {
         req.QueryParam("at_time", atTime.Format(time.RFC3339))
     }
@@ -76,16 +69,8 @@ func (i *InsightsController) ReadMrr(
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[models.MRRResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
     return models.NewApiResponse(result, resp), err
 }
 
@@ -116,7 +101,7 @@ func (i *InsightsController) ListMrrMovements(
     models.ApiResponse[models.ListMRRResponse],
     error) {
     req := i.prepareRequest(ctx, "GET", "/mrr_movements.json")
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
     if subscriptionId != nil {
         req.QueryParam("subscription_id", *subscriptionId)
     }
@@ -134,16 +119,8 @@ func (i *InsightsController) ListMrrMovements(
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[models.ListMRRResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
     return models.NewApiResponse(result, resp), err
 }
 
@@ -162,7 +139,10 @@ func (i *InsightsController) ListMrrPerSubscription(
     models.ApiResponse[models.SubscriptionMRRResponse],
     error) {
     req := i.prepareRequest(ctx, "GET", "/subscriptions_mrr.json")
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "400": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewSubscriptionsMrrErrorResponse},
+    })
     if filterSubscriptionIds != nil {
         req.QueryParam("filter[subscription_ids]", filterSubscriptionIds)
     }
@@ -183,18 +163,7 @@ func (i *InsightsController) ListMrrPerSubscription(
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[models.SubscriptionMRRResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    if resp.StatusCode == 400 {
-        err = errors.NewSubscriptionsMrrErrorResponse(400, "Bad Request")
-    }
     return models.NewApiResponse(result, resp), err
 }

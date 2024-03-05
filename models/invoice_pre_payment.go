@@ -7,11 +7,11 @@ import (
 // InvoicePrePayment represents a InvoicePrePayment struct.
 type InvoicePrePayment struct {
     // The subscription id for the prepayment account
-    SubscriptionId       *string `json:"subscription_id,omitempty"`
+    SubscriptionId       *int   `json:"subscription_id,omitempty"`
     // The amount in cents of the prepayment that was created as a result of this payment.
-    AmountInCents        *string `json:"amount_in_cents,omitempty"`
+    AmountInCents        *int64 `json:"amount_in_cents,omitempty"`
     // The total balance of the prepayment account for this subscription including any prior prepayments
-    EndingBalanceInCents *string `json:"ending_balance_in_cents,omitempty"`
+    EndingBalanceInCents *int64 `json:"ending_balance_in_cents,omitempty"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for InvoicePrePayment.
@@ -41,9 +41,9 @@ func (i *InvoicePrePayment) toMap() map[string]any {
 // It customizes the JSON unmarshaling process for InvoicePrePayment objects.
 func (i *InvoicePrePayment) UnmarshalJSON(input []byte) error {
     temp := &struct {
-        SubscriptionId       *string `json:"subscription_id,omitempty"`
-        AmountInCents        *string `json:"amount_in_cents,omitempty"`
-        EndingBalanceInCents *string `json:"ending_balance_in_cents,omitempty"`
+        SubscriptionId       *int   `json:"subscription_id,omitempty"`
+        AmountInCents        *int64 `json:"amount_in_cents,omitempty"`
+        EndingBalanceInCents *int64 `json:"ending_balance_in_cents,omitempty"`
     }{}
     err := json.Unmarshal(input, &temp)
     if err != nil {

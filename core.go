@@ -22,6 +22,15 @@ var NewRetryConfiguration = https.NewRetryConfiguration
 // NewHttpConfiguration creates a new HttpConfiguration.
 var NewHttpConfiguration = https.NewHttpConfiguration 
 
+// NewAndAuth creates a new AndAuth.
+var NewAndAuth = https.NewAndAuth 
+
+// NewOrAuth creates a new OrAuth.
+var NewOrAuth = https.NewOrAuth 
+
+// NewAuth creates a new Auth.
+var NewAuth = https.NewAuth 
+
 // WithMaxRetryAttempts sets the MaxRetryAttempts.
 var WithMaxRetryAttempts = https.WithMaxRetryAttempts 
 

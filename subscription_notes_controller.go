@@ -39,7 +39,7 @@ func (s *SubscriptionNotesController) CreateSubscriptionNote(
       "POST",
       fmt.Sprintf("/subscriptions/%v/notes.json", subscriptionId),
     )
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
     req.Header("Content-Type", "application/json")
     if body != nil {
         req.Json(*body)
@@ -50,16 +50,8 @@ func (s *SubscriptionNotesController) CreateSubscriptionNote(
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[models.SubscriptionNoteResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
     return models.NewApiResponse(result, resp), err
 }
 
@@ -79,7 +71,7 @@ func (s *SubscriptionNotesController) ListSubscriptionNotes(
       "GET",
       fmt.Sprintf("/subscriptions/%v/notes.json", subscriptionId),
     )
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
     if page != nil {
         req.QueryParam("page", *page)
     }
@@ -92,16 +84,8 @@ func (s *SubscriptionNotesController) ListSubscriptionNotes(
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[[]models.SubscriptionNoteResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
     return models.NewApiResponse(result, resp), err
 }
 
@@ -120,23 +104,15 @@ func (s *SubscriptionNotesController) ReadSubscriptionNote(
       "GET",
       fmt.Sprintf("/subscriptions/%v/notes/%v.json", subscriptionId, noteId),
     )
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
     
     var result models.SubscriptionNoteResponse
     decoder, resp, err := req.CallAsJson()
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[models.SubscriptionNoteResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
     return models.NewApiResponse(result, resp), err
 }
 
@@ -156,7 +132,7 @@ func (s *SubscriptionNotesController) UpdateSubscriptionNote(
       "PUT",
       fmt.Sprintf("/subscriptions/%v/notes/%v.json", subscriptionId, noteId),
     )
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
     req.Header("Content-Type", "application/json")
     if body != nil {
         req.Json(*body)
@@ -167,16 +143,8 @@ func (s *SubscriptionNotesController) UpdateSubscriptionNote(
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[models.SubscriptionNoteResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
     return models.NewApiResponse(result, resp), err
 }
 
@@ -195,13 +163,9 @@ func (s *SubscriptionNotesController) DeleteSubscriptionNote(
       "DELETE",
       fmt.Sprintf("/subscriptions/%v/notes/%v.json", subscriptionId, noteId),
     )
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
     
     context, err := req.Call()
-    if err != nil {
-        return context.Response, err
-    }
-    err = validateResponse(*context.Response)
     if err != nil {
         return context.Response, err
     }

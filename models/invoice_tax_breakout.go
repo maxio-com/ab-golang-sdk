@@ -6,9 +6,10 @@ import (
 
 // InvoiceTaxBreakout represents a InvoiceTaxBreakout struct.
 type InvoiceTaxBreakout struct {
-    Uid           *string `json:"uid,omitempty"`
-    TaxableAmount *string `json:"taxable_amount,omitempty"`
-    TaxAmount     *string `json:"tax_amount,omitempty"`
+    Uid             *string `json:"uid,omitempty"`
+    TaxableAmount   *string `json:"taxable_amount,omitempty"`
+    TaxAmount       *string `json:"tax_amount,omitempty"`
+    TaxExemptAmount *string `json:"tax_exempt_amount,omitempty"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for InvoiceTaxBreakout.
@@ -31,6 +32,9 @@ func (i *InvoiceTaxBreakout) toMap() map[string]any {
     if i.TaxAmount != nil {
         structMap["tax_amount"] = i.TaxAmount
     }
+    if i.TaxExemptAmount != nil {
+        structMap["tax_exempt_amount"] = i.TaxExemptAmount
+    }
     return structMap
 }
 
@@ -38,9 +42,10 @@ func (i *InvoiceTaxBreakout) toMap() map[string]any {
 // It customizes the JSON unmarshaling process for InvoiceTaxBreakout objects.
 func (i *InvoiceTaxBreakout) UnmarshalJSON(input []byte) error {
     temp := &struct {
-        Uid           *string `json:"uid,omitempty"`
-        TaxableAmount *string `json:"taxable_amount,omitempty"`
-        TaxAmount     *string `json:"tax_amount,omitempty"`
+        Uid             *string `json:"uid,omitempty"`
+        TaxableAmount   *string `json:"taxable_amount,omitempty"`
+        TaxAmount       *string `json:"tax_amount,omitempty"`
+        TaxExemptAmount *string `json:"tax_exempt_amount,omitempty"`
     }{}
     err := json.Unmarshal(input, &temp)
     if err != nil {
@@ -50,5 +55,6 @@ func (i *InvoiceTaxBreakout) UnmarshalJSON(input []byte) error {
     i.Uid = temp.Uid
     i.TaxableAmount = temp.TaxableAmount
     i.TaxAmount = temp.TaxAmount
+    i.TaxExemptAmount = temp.TaxExemptAmount
     return nil
 }

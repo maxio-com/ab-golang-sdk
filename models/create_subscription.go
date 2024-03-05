@@ -87,7 +87,7 @@ type CreateSubscription struct {
     PreviousBillingAt                 *time.Time                    `json:"previous_billing_at,omitempty"`
     // Setting this attribute to true will cause the subscription's MRR to be added to your MRR analytics immediately. For this value to be honored, a next_billing_at must be present and set to a future date. This key/value will not be returned in the subscription response body.
     ImportMrr                         *bool                         `json:"import_mrr,omitempty"`
-    CanceledAt                        *string                       `json:"canceled_at,omitempty"`
+    CanceledAt                        *time.Time                    `json:"canceled_at,omitempty"`
     ActivatedAt                       *time.Time                    `json:"activated_at,omitempty"`
     // Required when creating a subscription with Maxio Payments.
     AgreementAcceptance               *AgreementAcceptance          `json:"agreement_acceptance,omitempty"`
@@ -239,7 +239,7 @@ func (c *CreateSubscription) toMap() map[string]any {
         structMap["import_mrr"] = c.ImportMrr
     }
     if c.CanceledAt != nil {
-        structMap["canceled_at"] = c.CanceledAt
+        structMap["canceled_at"] = c.CanceledAt.Format(time.RFC3339)
     }
     if c.ActivatedAt != nil {
         structMap["activated_at"] = c.ActivatedAt.Format(time.RFC3339)
@@ -387,7 +387,13 @@ func (c *CreateSubscription) UnmarshalJSON(input []byte) error {
         c.PreviousBillingAt = &PreviousBillingAtVal
     }
     c.ImportMrr = temp.ImportMrr
-    c.CanceledAt = temp.CanceledAt
+    if temp.CanceledAt != nil {
+        CanceledAtVal, err := time.Parse(time.RFC3339, *temp.CanceledAt)
+        if err != nil {
+            log.Fatalf("Cannot Parse canceled_at as % s format.", time.RFC3339)
+        }
+        c.CanceledAt = &CanceledAtVal
+    }
     if temp.ActivatedAt != nil {
         ActivatedAtVal, err := time.Parse(time.RFC3339, *temp.ActivatedAt)
         if err != nil {

@@ -2,17 +2,19 @@ package models
 
 import (
     "encoding/json"
+    "log"
+    "time"
 )
 
 // ReasonCode represents a ReasonCode struct.
 type ReasonCode struct {
-    Id          *int    `json:"id,omitempty"`
-    SiteId      *int    `json:"site_id,omitempty"`
-    Code        *string `json:"code,omitempty"`
-    Description *string `json:"description,omitempty"`
-    Position    *int    `json:"position,omitempty"`
-    CreatedAt   *string `json:"created_at,omitempty"`
-    UpdatedAt   *string `json:"updated_at,omitempty"`
+    Id          *int       `json:"id,omitempty"`
+    SiteId      *int       `json:"site_id,omitempty"`
+    Code        *string    `json:"code,omitempty"`
+    Description *string    `json:"description,omitempty"`
+    Position    *int       `json:"position,omitempty"`
+    CreatedAt   *time.Time `json:"created_at,omitempty"`
+    UpdatedAt   *time.Time `json:"updated_at,omitempty"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for ReasonCode.
@@ -42,10 +44,10 @@ func (r *ReasonCode) toMap() map[string]any {
         structMap["position"] = r.Position
     }
     if r.CreatedAt != nil {
-        structMap["created_at"] = r.CreatedAt
+        structMap["created_at"] = r.CreatedAt.Format(time.RFC3339)
     }
     if r.UpdatedAt != nil {
-        structMap["updated_at"] = r.UpdatedAt
+        structMap["updated_at"] = r.UpdatedAt.Format(time.RFC3339)
     }
     return structMap
 }
@@ -72,7 +74,19 @@ func (r *ReasonCode) UnmarshalJSON(input []byte) error {
     r.Code = temp.Code
     r.Description = temp.Description
     r.Position = temp.Position
-    r.CreatedAt = temp.CreatedAt
-    r.UpdatedAt = temp.UpdatedAt
+    if temp.CreatedAt != nil {
+        CreatedAtVal, err := time.Parse(time.RFC3339, *temp.CreatedAt)
+        if err != nil {
+            log.Fatalf("Cannot Parse created_at as % s format.", time.RFC3339)
+        }
+        r.CreatedAt = &CreatedAtVal
+    }
+    if temp.UpdatedAt != nil {
+        UpdatedAtVal, err := time.Parse(time.RFC3339, *temp.UpdatedAt)
+        if err != nil {
+            log.Fatalf("Cannot Parse updated_at as % s format.", time.RFC3339)
+        }
+        r.UpdatedAt = &UpdatedAtVal
+    }
     return nil
 }

@@ -23,7 +23,8 @@
     },
     "memo": "memo0",
     "method": "ach",
-    "details": "details6"
+    "details": "details6",
+    "payment_profile_id": 42
   },
   "type": "external"
 }

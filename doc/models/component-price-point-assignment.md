@@ -1,9 +1,9 @@
 
-# Component S Price Point Assignment
+# Component Price Point Assignment
 
 ## Structure
 
-`ComponentSPricePointAssignment`
+`ComponentPricePointAssignment`
 
 ## Fields
 
@@ -16,7 +16,7 @@
 
 ```json
 {
-  "component_id": 76,
+  "component_id": 114,
   "price_point": {
     "key1": "val1",
     "key2": "val2"

@@ -18,7 +18,7 @@
 | `ProductHandle` | `*string` | Optional | The handle of the target Product. Either a product_id or product_handle must be present. A Subscription can be migrated to another product for both the current Product Family and another Product Family. Note: Going to another Product Family, components will not be migrated as well. |
 | `ProductPricePointHandle` | `*string` | Optional | The ID or handle of the specified product's price point. This can be passed to migrate to a non-default price point. |
 | `Proration` | [`*models.Proration`](../../doc/models/proration.md) | Optional | - |
-| `ProrationDate` | `*string` | Optional | The date that the proration is calculated from for the preview |
+| `ProrationDate` | `*time.Time` | Optional | The date that the proration is calculated from for the preview |
 
 ## Example (as JSON)
 

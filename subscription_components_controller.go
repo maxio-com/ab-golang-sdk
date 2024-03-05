@@ -3,6 +3,7 @@ package advancedbilling
 import (
     "context"
     "fmt"
+    "github.com/apimatic/go-core-runtime/https"
     "github.com/apimatic/go-core-runtime/utilities"
     "github.com/maxio-com/ab-golang-sdk/errors"
     "github.com/maxio-com/ab-golang-sdk/models"
@@ -37,26 +38,18 @@ func (s *SubscriptionComponentsController) ReadSubscriptionComponent(
       "GET",
       fmt.Sprintf("/subscriptions/%v/components/%v.json", subscriptionId, componentId),
     )
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
+    })
     
     var result models.SubscriptionComponentResponse
     decoder, resp, err := req.CallAsJson()
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[models.SubscriptionComponentResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    if resp.StatusCode == 404 {
-        err = errors.NewApiError(404, "Not Found")
-    }
     return models.NewApiResponse(result, resp), err
 }
 
@@ -88,7 +81,7 @@ func (s *SubscriptionComponentsController) ListSubscriptionComponents(
       "GET",
       fmt.Sprintf("/subscriptions/%v/components.json", subscriptionId),
     )
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
     if dateField != nil {
         req.QueryParam("date_field", *dateField)
     }
@@ -131,21 +124,13 @@ func (s *SubscriptionComponentsController) ListSubscriptionComponents(
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[[]models.SubscriptionComponentResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
     return models.NewApiResponse(result, resp), err
 }
 
 // BulkUpdateSubscriptionComponentsPricePoints takes context, subscriptionId, body as parameters and
-// returns an models.ApiResponse with models.BulkComponentSPricePointAssignment data and
+// returns an models.ApiResponse with models.BulkComponentsPricePointAssignment data and
 // an error if there was an issue with the request or response.
 // Updates the price points on one or more of a subscription's components.
 // The `price_point` key can take either a:
@@ -155,38 +140,30 @@ func (s *SubscriptionComponentsController) ListSubscriptionComponents(
 func (s *SubscriptionComponentsController) BulkUpdateSubscriptionComponentsPricePoints(
     ctx context.Context,
     subscriptionId int,
-    body *models.BulkComponentSPricePointAssignment) (
-    models.ApiResponse[models.BulkComponentSPricePointAssignment],
+    body *models.BulkComponentsPricePointAssignment) (
+    models.ApiResponse[models.BulkComponentsPricePointAssignment],
     error) {
     req := s.prepareRequest(
       ctx,
       "POST",
       fmt.Sprintf("/subscriptions/%v/price_points.json", subscriptionId),
     )
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewComponentPricePointError},
+    })
     req.Header("Content-Type", "application/json")
     if body != nil {
         req.Json(*body)
     }
     
-    var result models.BulkComponentSPricePointAssignment
+    var result models.BulkComponentsPricePointAssignment
     decoder, resp, err := req.CallAsJson()
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
-    result, err = utilities.DecodeResults[models.BulkComponentSPricePointAssignment](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    if resp.StatusCode == 422 {
-        err = errors.NewComponentPricePointError(422, "Unprocessable Entity (WebDAV)")
-    }
+    result, err = utilities.DecodeResults[models.BulkComponentsPricePointAssignment](decoder)
     return models.NewApiResponse(result, resp), err
 }
 
@@ -205,23 +182,15 @@ func (s *SubscriptionComponentsController) BulkResetSubscriptionComponentsPriceP
       "POST",
       fmt.Sprintf("/subscriptions/%v/price_points/reset.json", subscriptionId),
     )
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
     
     var result models.SubscriptionResponse
     decoder, resp, err := req.CallAsJson()
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[models.SubscriptionResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
     return models.NewApiResponse(result, resp), err
 }
 
@@ -273,7 +242,10 @@ func (s *SubscriptionComponentsController) AllocateComponent(
       "POST",
       fmt.Sprintf("/subscriptions/%v/components/%v/allocations.json", subscriptionId, componentId),
     )
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
+    })
     req.Header("Content-Type", "application/json")
     if body != nil {
         req.Json(*body)
@@ -284,19 +256,8 @@ func (s *SubscriptionComponentsController) AllocateComponent(
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[models.AllocationResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    if resp.StatusCode == 422 {
-        err = errors.NewErrorListResponse(422, "Unprocessable Entity (WebDAV)")
-    }
     return models.NewApiResponse(result, resp), err
 }
 
@@ -329,7 +290,11 @@ func (s *SubscriptionComponentsController) ListAllocations(
       "GET",
       fmt.Sprintf("/subscriptions/%v/components/%v/allocations.json", subscriptionId, componentId),
     )
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
+        "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
+    })
     if page != nil {
         req.QueryParam("page", *page)
     }
@@ -339,22 +304,8 @@ func (s *SubscriptionComponentsController) ListAllocations(
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[[]models.AllocationResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    if resp.StatusCode == 404 {
-        err = errors.NewApiError(404, "Not Found")
-    }
-    if resp.StatusCode == 422 {
-        err = errors.NewErrorListResponse(422, "Unprocessable Entity (WebDAV)")
-    }
     return models.NewApiResponse(result, resp), err
 }
 
@@ -375,7 +326,11 @@ func (s *SubscriptionComponentsController) AllocateComponents(
       "POST",
       fmt.Sprintf("/subscriptions/%v/allocations.json", subscriptionId),
     )
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
+        "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
+    })
     req.Header("Content-Type", "application/json")
     if body != nil {
         req.Json(*body)
@@ -386,22 +341,8 @@ func (s *SubscriptionComponentsController) AllocateComponents(
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[[]models.AllocationResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    if resp.StatusCode == 404 {
-        err = errors.NewApiError(404, "Not Found")
-    }
-    if resp.StatusCode == 422 {
-        err = errors.NewErrorListResponse(422, "Unprocessable Entity (WebDAV)")
-    }
     return models.NewApiResponse(result, resp), err
 }
 
@@ -423,7 +364,10 @@ func (s *SubscriptionComponentsController) PreviewAllocations(
       "POST",
       fmt.Sprintf("/subscriptions/%v/allocations/preview.json", subscriptionId),
     )
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewComponentAllocationError},
+    })
     req.Header("Content-Type", "application/json")
     if body != nil {
         req.Json(*body)
@@ -434,19 +378,8 @@ func (s *SubscriptionComponentsController) PreviewAllocations(
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[models.AllocationPreviewResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    if resp.StatusCode == 422 {
-        err = errors.NewComponentAllocationError(422, "Unprocessable Entity (WebDAV)")
-    }
     return models.NewApiResponse(result, resp), err
 }
 
@@ -473,7 +406,11 @@ func (s *SubscriptionComponentsController) UpdatePrepaidUsageAllocationExpiratio
       "PUT",
       fmt.Sprintf("/subscriptions/%v/components/%v/allocations/%v.json", subscriptionId, componentId, allocationId),
     )
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
+        "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewSubscriptionComponentAllocationError},
+    })
     req.Header("Content-Type", "application/json")
     if body != nil {
         req.Json(*body)
@@ -482,13 +419,6 @@ func (s *SubscriptionComponentsController) UpdatePrepaidUsageAllocationExpiratio
     context, err := req.Call()
     if err != nil {
         return context.Response, err
-    }
-    err = validateResponse(*context.Response)
-    if err != nil {
-        return context.Response, err
-    }
-    if context.Response.StatusCode == 422 {
-        err = errors.NewSubscriptionComponentAllocationError(422, "Unprocessable Entity (WebDAV)")
     }
     return context.Response, err
 }
@@ -515,7 +445,11 @@ func (s *SubscriptionComponentsController) DeletePrepaidUsageAllocation(
       "DELETE",
       fmt.Sprintf("/subscriptions/%v/components/%v/allocations/%v.json", subscriptionId, componentId, allocationId),
     )
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
+        "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewSubscriptionComponentAllocationError},
+    })
     req.Header("Content-Type", "application/json")
     if body != nil {
         req.Json(*body)
@@ -524,13 +458,6 @@ func (s *SubscriptionComponentsController) DeletePrepaidUsageAllocation(
     context, err := req.Call()
     if err != nil {
         return context.Response, err
-    }
-    err = validateResponse(*context.Response)
-    if err != nil {
-        return context.Response, err
-    }
-    if context.Response.StatusCode == 422 {
-        err = errors.NewSubscriptionComponentAllocationError(422, "Unprocessable Entity (WebDAV)")
     }
     return context.Response, err
 }
@@ -586,7 +513,10 @@ func (s *SubscriptionComponentsController) CreateUsage(
       "POST",
       fmt.Sprintf("/subscriptions/%v/components/%v/usages.json", subscriptionId, componentId),
     )
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
+    })
     req.Header("Content-Type", "application/json")
     if body != nil {
         req.Json(*body)
@@ -597,19 +527,8 @@ func (s *SubscriptionComponentsController) CreateUsage(
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[models.UsageResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    if resp.StatusCode == 422 {
-        err = errors.NewErrorListResponse(422, "Unprocessable Entity (WebDAV)")
-    }
     return models.NewApiResponse(result, resp), err
 }
 
@@ -642,7 +561,7 @@ func (s *SubscriptionComponentsController) ListUsages(
       "GET",
       fmt.Sprintf("/subscriptions/%v/components/%v/usages.json", subscriptionId, componentId),
     )
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
     if sinceId != nil {
         req.QueryParam("since_id", *sinceId)
     }
@@ -667,16 +586,8 @@ func (s *SubscriptionComponentsController) ListUsages(
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[[]models.UsageResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
     return models.NewApiResponse(result, resp), err
 }
 
@@ -698,13 +609,9 @@ func (s *SubscriptionComponentsController) ActivateEventBasedComponent(
       "POST",
       fmt.Sprintf("/event_based_billing/subscriptions/%v/components/%v/activate.json", subscriptionId, componentId),
     )
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
     
     context, err := req.Call()
-    if err != nil {
-        return context.Response, err
-    }
-    err = validateResponse(*context.Response)
     if err != nil {
         return context.Response, err
     }
@@ -726,13 +633,9 @@ func (s *SubscriptionComponentsController) DeactivateEventBasedComponent(
       "POST",
       fmt.Sprintf("/event_based_billing/subscriptions/%v/components/%v/deactivate.json", subscriptionId, componentId),
     )
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
     
     context, err := req.Call()
-    if err != nil {
-        return context.Response, err
-    }
-    err = validateResponse(*context.Response)
     if err != nil {
         return context.Response, err
     }
@@ -766,7 +669,7 @@ func (s *SubscriptionComponentsController) RecordEvent(
       "POST",
       fmt.Sprintf("/%v/events/%v.json", subdomain, apiHandle),
     )
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
     req.Header("Content-Type", "application/json")
     if storeUid != nil {
         req.QueryParam("store_uid", *storeUid)
@@ -776,10 +679,6 @@ func (s *SubscriptionComponentsController) RecordEvent(
     }
     
     context, err := req.Call()
-    if err != nil {
-        return context.Response, err
-    }
-    err = validateResponse(*context.Response)
     if err != nil {
         return context.Response, err
     }
@@ -805,7 +704,7 @@ func (s *SubscriptionComponentsController) BulkRecordEvents(
       "POST",
       fmt.Sprintf("/%v/events/%v/bulk.json", subdomain, apiHandle),
     )
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
     req.Header("Content-Type", "application/json")
     if storeUid != nil {
         req.QueryParam("store_uid", *storeUid)
@@ -815,10 +714,6 @@ func (s *SubscriptionComponentsController) BulkRecordEvents(
     }
     
     context, err := req.Call()
-    if err != nil {
-        return context.Response, err
-    }
-    err = validateResponse(*context.Response)
     if err != nil {
         return context.Response, err
     }
@@ -848,14 +743,14 @@ func (s *SubscriptionComponentsController) ListSubscriptionComponentsForSite(
     filterCurrencies []string,
     filterSubscriptionStates []models.SubscriptionStateFilter,
     filterSubscriptionDateField *models.SubscriptionListDateField,
-    filterSubscriptionStartDate *string,
-    filterSubscriptionStartDatetime *string,
-    filterSubscriptionEndDate *string,
-    filterSubscriptionEndDatetime *string) (
+    filterSubscriptionStartDate *time.Time,
+    filterSubscriptionStartDatetime *time.Time,
+    filterSubscriptionEndDate *time.Time,
+    filterSubscriptionEndDatetime *time.Time) (
     models.ApiResponse[models.ListSubscriptionComponentsResponse],
     error) {
     req := s.prepareRequest(ctx, "GET", "/subscriptions_components.json")
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
     if page != nil {
         req.QueryParam("page", *page)
     }
@@ -908,31 +803,23 @@ func (s *SubscriptionComponentsController) ListSubscriptionComponentsForSite(
         req.QueryParam("filter[subscription][date_field]", *filterSubscriptionDateField)
     }
     if filterSubscriptionStartDate != nil {
-        req.QueryParam("filter[subscription][start_date]", *filterSubscriptionStartDate)
+        req.QueryParam("filter[subscription][start_date]", filterSubscriptionStartDate.Format(models.DEFAULT_DATE))
     }
     if filterSubscriptionStartDatetime != nil {
-        req.QueryParam("filter[subscription][start_datetime]", *filterSubscriptionStartDatetime)
+        req.QueryParam("filter[subscription][start_datetime]", filterSubscriptionStartDatetime.Format(time.RFC3339))
     }
     if filterSubscriptionEndDate != nil {
-        req.QueryParam("filter[subscription][end_date]", *filterSubscriptionEndDate)
+        req.QueryParam("filter[subscription][end_date]", filterSubscriptionEndDate.Format(models.DEFAULT_DATE))
     }
     if filterSubscriptionEndDatetime != nil {
-        req.QueryParam("filter[subscription][end_datetime]", *filterSubscriptionEndDatetime)
+        req.QueryParam("filter[subscription][end_datetime]", filterSubscriptionEndDatetime.Format(time.RFC3339))
     }
     var result models.ListSubscriptionComponentsResponse
     decoder, resp, err := req.CallAsJson()
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[models.ListSubscriptionComponentsResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
     return models.NewApiResponse(result, resp), err
 }

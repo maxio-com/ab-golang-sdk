@@ -21,7 +21,7 @@ type Product struct {
     RequestCreditCard          *bool                          `json:"request_credit_card,omitempty"`
     // A numerical interval for the length a subscription to this product will run before it expires. See the description of interval for a description of how this value is coupled with an interval unit to calculate the full interval
     ExpirationInterval         Optional[int]                  `json:"expiration_interval"`
-    // A string representing the trial interval unit for this product, either month or day
+    // A string representing the expiration interval unit for this product, either month or day
     ExpirationIntervalUnit     Optional[ExtendedIntervalUnit] `json:"expiration_interval_unit"`
     // Timestamp indicating when this product was created
     CreatedAt                  *time.Time                     `json:"created_at,omitempty"`

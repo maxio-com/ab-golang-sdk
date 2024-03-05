@@ -19,7 +19,7 @@
     "amount": 11.6,
     "details": "details8",
     "memo": "memo2",
-    "method": "cash",
+    "method": "money_order",
     "payment_profile_id": 240
   }
 }

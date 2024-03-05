@@ -6,12 +6,12 @@ import (
 
 // CreatePrepayment represents a CreatePrepayment struct.
 type CreatePrepayment struct {
-    Amount           float64          `json:"amount"`
-    Details          string           `json:"details"`
-    Memo             string           `json:"memo"`
+    Amount           float64                `json:"amount"`
+    Details          string                 `json:"details"`
+    Memo             string                 `json:"memo"`
     // :- When the `method` specified is `"credit_card_on_file"`, the prepayment amount will be collected using the default credit card payment profile and applied to the prepayment account balance. This is especially useful for manual replenishment of prepaid subscriptions.
-    Method           PrepaymentMethod `json:"method"`
-    PaymentProfileId *int             `json:"payment_profile_id,omitempty"`
+    Method           CreatePrepaymentMethod `json:"method"`
+    PaymentProfileId *int                   `json:"payment_profile_id,omitempty"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreatePrepayment.
@@ -39,11 +39,11 @@ func (c *CreatePrepayment) toMap() map[string]any {
 // It customizes the JSON unmarshaling process for CreatePrepayment objects.
 func (c *CreatePrepayment) UnmarshalJSON(input []byte) error {
     temp := &struct {
-        Amount           float64          `json:"amount"`
-        Details          string           `json:"details"`
-        Memo             string           `json:"memo"`
-        Method           PrepaymentMethod `json:"method"`
-        PaymentProfileId *int             `json:"payment_profile_id,omitempty"`
+        Amount           float64                `json:"amount"`
+        Details          string                 `json:"details"`
+        Memo             string                 `json:"memo"`
+        Method           CreatePrepaymentMethod `json:"method"`
+        PaymentProfileId *int                   `json:"payment_profile_id,omitempty"`
     }{}
     err := json.Unmarshal(input, &temp)
     if err != nil {

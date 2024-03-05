@@ -2,6 +2,8 @@ package models
 
 import (
     "encoding/json"
+    "log"
+    "time"
 )
 
 // ListSubcriptionGroupPrepaymentItem represents a ListSubcriptionGroupPrepaymentItem struct.
@@ -13,9 +15,8 @@ type ListSubcriptionGroupPrepaymentItem struct {
     Details                *string           `json:"details,omitempty"`
     External               *bool             `json:"external,omitempty"`
     Memo                   *string           `json:"memo,omitempty"`
-    // :- When the `method` specified is `"credit_card_on_file"`, the prepayment amount will be collected using the default credit card payment profile and applied to the prepayment account balance. This is especially useful for manual replenishment of prepaid subscriptions.
     PaymentType            *PrepaymentMethod `json:"payment_type,omitempty"`
-    CreatedAt              *string           `json:"created_at,omitempty"`
+    CreatedAt              *time.Time        `json:"created_at,omitempty"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for ListSubcriptionGroupPrepaymentItem.
@@ -54,7 +55,7 @@ func (l *ListSubcriptionGroupPrepaymentItem) toMap() map[string]any {
         structMap["payment_type"] = l.PaymentType
     }
     if l.CreatedAt != nil {
-        structMap["created_at"] = l.CreatedAt
+        structMap["created_at"] = l.CreatedAt.Format(time.RFC3339)
     }
     return structMap
 }
@@ -86,6 +87,12 @@ func (l *ListSubcriptionGroupPrepaymentItem) UnmarshalJSON(input []byte) error {
     l.External = temp.External
     l.Memo = temp.Memo
     l.PaymentType = temp.PaymentType
-    l.CreatedAt = temp.CreatedAt
+    if temp.CreatedAt != nil {
+        CreatedAtVal, err := time.Parse(time.RFC3339, *temp.CreatedAt)
+        if err != nil {
+            log.Fatalf("Cannot Parse created_at as % s format.", time.RFC3339)
+        }
+        l.CreatedAt = &CreatedAtVal
+    }
     return nil
 }

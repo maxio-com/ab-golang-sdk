@@ -6,18 +6,18 @@ import (
 
 // InvoiceDiscount represents a InvoiceDiscount struct.
 type InvoiceDiscount struct {
-    Uid               *string                   `json:"uid,omitempty"`
-    Title             *string                   `json:"title,omitempty"`
-    Description       Optional[string]          `json:"description"`
-    Code              *string                   `json:"code,omitempty"`
-    SourceType        *string                   `json:"source_type,omitempty"`
-    SourceId          *int                      `json:"source_id,omitempty"`
-    DiscountType      *string                   `json:"discount_type,omitempty"`
-    Percentage        *string                   `json:"percentage,omitempty"`
-    EligibleAmount    *string                   `json:"eligible_amount,omitempty"`
-    DiscountAmount    *string                   `json:"discount_amount,omitempty"`
-    TransactionId     *int                      `json:"transaction_id,omitempty"`
-    LineItemBreakouts []InvoiceDiscountBreakout `json:"line_item_breakouts,omitempty"`
+    Uid               *string                    `json:"uid,omitempty"`
+    Title             *string                    `json:"title,omitempty"`
+    Description       Optional[string]           `json:"description"`
+    Code              *string                    `json:"code,omitempty"`
+    SourceType        *InvoiceDiscountSourceType `json:"source_type,omitempty"`
+    SourceId          *int                       `json:"source_id,omitempty"`
+    DiscountType      *InvoiceDiscountType       `json:"discount_type,omitempty"`
+    Percentage        *string                    `json:"percentage,omitempty"`
+    EligibleAmount    *string                    `json:"eligible_amount,omitempty"`
+    DiscountAmount    *string                    `json:"discount_amount,omitempty"`
+    TransactionId     *int                       `json:"transaction_id,omitempty"`
+    LineItemBreakouts []InvoiceDiscountBreakout  `json:"line_item_breakouts,omitempty"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for InvoiceDiscount.
@@ -74,18 +74,18 @@ func (i *InvoiceDiscount) toMap() map[string]any {
 // It customizes the JSON unmarshaling process for InvoiceDiscount objects.
 func (i *InvoiceDiscount) UnmarshalJSON(input []byte) error {
     temp := &struct {
-        Uid               *string                   `json:"uid,omitempty"`
-        Title             *string                   `json:"title,omitempty"`
-        Description       Optional[string]          `json:"description"`
-        Code              *string                   `json:"code,omitempty"`
-        SourceType        *string                   `json:"source_type,omitempty"`
-        SourceId          *int                      `json:"source_id,omitempty"`
-        DiscountType      *string                   `json:"discount_type,omitempty"`
-        Percentage        *string                   `json:"percentage,omitempty"`
-        EligibleAmount    *string                   `json:"eligible_amount,omitempty"`
-        DiscountAmount    *string                   `json:"discount_amount,omitempty"`
-        TransactionId     *int                      `json:"transaction_id,omitempty"`
-        LineItemBreakouts []InvoiceDiscountBreakout `json:"line_item_breakouts,omitempty"`
+        Uid               *string                    `json:"uid,omitempty"`
+        Title             *string                    `json:"title,omitempty"`
+        Description       Optional[string]           `json:"description"`
+        Code              *string                    `json:"code,omitempty"`
+        SourceType        *InvoiceDiscountSourceType `json:"source_type,omitempty"`
+        SourceId          *int                       `json:"source_id,omitempty"`
+        DiscountType      *InvoiceDiscountType       `json:"discount_type,omitempty"`
+        Percentage        *string                    `json:"percentage,omitempty"`
+        EligibleAmount    *string                    `json:"eligible_amount,omitempty"`
+        DiscountAmount    *string                    `json:"discount_amount,omitempty"`
+        TransactionId     *int                       `json:"transaction_id,omitempty"`
+        LineItemBreakouts []InvoiceDiscountBreakout  `json:"line_item_breakouts,omitempty"`
     }{}
     err := json.Unmarshal(input, &temp)
     if err != nil {

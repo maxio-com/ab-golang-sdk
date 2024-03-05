@@ -3,6 +3,7 @@ package advancedbilling
 import (
     "context"
     "fmt"
+    "github.com/apimatic/go-core-runtime/https"
     "github.com/apimatic/go-core-runtime/utilities"
     "github.com/maxio-com/ab-golang-sdk/errors"
     "github.com/maxio-com/ab-golang-sdk/models"
@@ -45,7 +46,10 @@ func (p *ProductFamiliesController) ListProductsForProductFamily(
       "GET",
       fmt.Sprintf("/product_families/%v/products.json", productFamilyId),
     )
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "404": {Message: "Not Found"},
+    })
     if page != nil {
         req.QueryParam("page", *page)
     }
@@ -85,19 +89,8 @@ func (p *ProductFamiliesController) ListProductsForProductFamily(
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[[]models.ProductResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    if resp.StatusCode == 404 {
-        err = errors.NewApiError(404, "Not Found")
-    }
     return models.NewApiResponse(result, resp), err
 }
 
@@ -112,7 +105,10 @@ func (p *ProductFamiliesController) CreateProductFamily(
     models.ApiResponse[models.ProductFamilyResponse],
     error) {
     req := p.prepareRequest(ctx, "POST", "/product_families.json")
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
+    })
     req.Header("Content-Type", "application/json")
     if body != nil {
         req.Json(*body)
@@ -122,19 +118,8 @@ func (p *ProductFamiliesController) CreateProductFamily(
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[models.ProductFamilyResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    if resp.StatusCode == 422 {
-        err = errors.NewErrorListResponse(422, "Unprocessable Entity (WebDAV)")
-    }
     return models.NewApiResponse(result, resp), err
 }
 
@@ -152,7 +137,7 @@ func (p *ProductFamiliesController) ListProductFamilies(
     models.ApiResponse[[]models.ProductFamilyResponse],
     error) {
     req := p.prepareRequest(ctx, "GET", "/product_families.json")
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
     if dateField != nil {
         req.QueryParam("date_field", *dateField)
     }
@@ -173,16 +158,8 @@ func (p *ProductFamiliesController) ListProductFamilies(
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[[]models.ProductFamilyResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
     return models.NewApiResponse(result, resp), err
 }
 
@@ -197,22 +174,14 @@ func (p *ProductFamiliesController) ReadProductFamily(
     models.ApiResponse[models.ProductFamilyResponse],
     error) {
     req := p.prepareRequest(ctx, "GET", fmt.Sprintf("/product_families/%v.json", id))
-    req.Authenticate(true)
+    req.Authenticate(NewAuth("BasicAuth"))
     
     var result models.ProductFamilyResponse
     decoder, resp, err := req.CallAsJson()
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
-    err = validateResponse(*resp)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
     
     result, err = utilities.DecodeResults[models.ProductFamilyResponse](decoder)
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
     return models.NewApiResponse(result, resp), err
 }

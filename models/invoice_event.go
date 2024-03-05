@@ -2,6 +2,8 @@ package models
 
 import (
     "encoding/json"
+    "log"
+    "time"
 )
 
 // InvoiceEvent represents a InvoiceEvent struct.
@@ -11,7 +13,7 @@ type InvoiceEvent struct {
     EventType *InvoiceEventType `json:"event_type,omitempty"`
     // The event data is the data that, when combined with the command, results in the output invoice found in the invoice field.
     EventData *InvoiceEventData `json:"event_data,omitempty"`
-    Timestamp *string           `json:"timestamp,omitempty"`
+    Timestamp *time.Time        `json:"timestamp,omitempty"`
     Invoice   *Invoice          `json:"invoice,omitempty"`
 }
 
@@ -36,7 +38,7 @@ func (i *InvoiceEvent) toMap() map[string]any {
         structMap["event_data"] = i.EventData.toMap()
     }
     if i.Timestamp != nil {
-        structMap["timestamp"] = i.Timestamp
+        structMap["timestamp"] = i.Timestamp.Format(time.RFC3339)
     }
     if i.Invoice != nil {
         structMap["invoice"] = i.Invoice.toMap()
@@ -62,7 +64,13 @@ func (i *InvoiceEvent) UnmarshalJSON(input []byte) error {
     i.Id = temp.Id
     i.EventType = temp.EventType
     i.EventData = temp.EventData
-    i.Timestamp = temp.Timestamp
+    if temp.Timestamp != nil {
+        TimestampVal, err := time.Parse(time.RFC3339, *temp.Timestamp)
+        if err != nil {
+            log.Fatalf("Cannot Parse timestamp as % s format.", time.RFC3339)
+        }
+        i.Timestamp = &TimestampVal
+    }
     i.Invoice = temp.Invoice
     return nil
 }
