@@ -6,6 +6,7 @@ import (
 	"testing"
 	"time"
 
+	advancedbilling "github.com/maxio-com/ab-golang-sdk"
 	"github.com/maxio-com/ab-golang-sdk/errors"
 	"github.com/maxio-com/ab-golang-sdk/models"
 	"github.com/stretchr/testify/suite"
@@ -44,8 +45,8 @@ func (s *InvoiceSuite) TestInvoice() {
 				LineItems: []models.CreateInvoiceItem{
 					{
 						Title:     strPtr("A product"),
-						Quantity:  interfacePtr(12),
-						UnitPrice: interfacePtr("150"),
+						Quantity:  models.ToPointer(models.CreateInvoiceItemQuantityContainer.FromPrecision(12)),
+						UnitPrice: models.ToPointer(models.CreateInvoiceItemUnitPriceContainer.FromString("150")),
 					},
 				},
 				IssueDate: timePtr(time.Date(2024, 1, 1, 0, 0, 0, 0, time.UTC)),
@@ -94,13 +95,9 @@ func (s *InvoiceSuite) TestInvoice() {
 
 				events, err := s.client.InvoicesController().ListInvoiceEvents(
 					ctx,
-					nil,
-					nil,
-					nil,
-					nil,
-					resp.Data.Invoice.Uid,
-					nil,
-					nil, // cant pass event types here. Server throws 500
+					advancedbilling.ListInvoiceEventsInput{
+						InvoiceUid: resp.Data.Invoice.Uid, // cant pass event types here. Server throws 500
+					},
 				)
 
 				s.NoError(err)
@@ -119,8 +116,8 @@ func (s *InvoiceSuite) TestInvoice() {
 				LineItems: []models.CreateInvoiceItem{
 					{
 						Title:            strPtr("A product"),
-						Quantity:         interfacePtr(12),
-						UnitPrice:        interfacePtr("150"),
+						Quantity:         models.ToPointer(models.CreateInvoiceItemQuantityContainer.FromPrecision(12)),
+						UnitPrice:        models.ToPointer(models.CreateInvoiceItemUnitPriceContainer.FromString("150")),
 						PeriodRangeStart: strPtr(dateFromTime(time.Now())),
 						PeriodRangeEnd:   strPtr(dateFromTime(time.Now().AddDate(-1, 0, 0))),
 					},
@@ -137,8 +134,8 @@ func (s *InvoiceSuite) TestInvoice() {
 				},
 			},
 			assert: func(t *testing.T, resp models.ApiResponse[models.InvoiceResponse], invoice models.CreateInvoice, err error) {
-				s.Equal(err.Error(), "ErrorArrayMapResponse occured: HTTP Response Not OK. Status code: 422. Response: " +
-				  "'{\"errors\":{\"line_items[0].period_range_end\":[\"Must be greater or equal to period_range_start.\"]}}'.")
+				s.Equal(err.Error(), "ErrorArrayMapResponse occured: HTTP Response Not OK. Status code: 422. Response: "+
+					"'{\"errors\":{\"line_items[0].period_range_end\":[\"Must be greater or equal to period_range_start.\"]}}'.")
 
 				actualErr, ok := err.(*errors.ErrorArrayMapResponse)
 				s.Equal(http.StatusUnprocessableEntity, actualErr.StatusCode)

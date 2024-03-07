@@ -32,7 +32,7 @@ func (s *SiteSuite) TestReadSite() {
 			expectedErr: false,
 			assert: func(t *testing.T, resp models.ApiResponse[models.SiteResponse], err error) {
 				s.Equal(http.StatusOK, resp.Response.StatusCode, "status code")
-        s.NoError(err)
+				s.NoError(err)
 
 				respSite := resp.Data.Site
 				s.Equal(4718, *respSite.Id, "ID")
@@ -81,10 +81,10 @@ func (s *SiteSuite) TestReadSite() {
 			name:   "unauthorized",
 			client: s.unauthorizedClient,
 			assert: func(t *testing.T, resp models.ApiResponse[models.SiteResponse], err error) {
-			  s.Equal(err.Error(), "ApiError occured: HTTP Response Not OK. Status code: 401. Response: 'HTTP Basic: Access denied.\n'.")
+				s.Equal(err.Error(), "ApiError occured: HTTP Response Not OK. Status code: 401. Response: 'HTTP Basic: Access denied.\n'.")
 				actualErr, ok := err.(https.ApiError)
-        s.Equal(http.StatusUnauthorized, actualErr.StatusCode)
-        s.True(ok)
+				s.Equal(http.StatusUnauthorized, actualErr.StatusCode)
+				s.True(ok)
 			},
 			expectedErr: true,
 		},

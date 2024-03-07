@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"testing"
 
+	advancedbilling "github.com/maxio-com/ab-golang-sdk"
 	"github.com/maxio-com/ab-golang-sdk/models"
 	"github.com/stretchr/testify/suite"
 )
@@ -49,18 +50,17 @@ func (s *MetafieldsSuite) TestMetafields() {
 		"option 1",
 		"option 2",
 	}
-
 	cases := []struct {
 		name         string
 		resourceType models.ResourceType
-		metafields   interface{}
+		metafields   models.CreateMetafieldsRequestMetafields
 		assert       func(t *testing.T, resp models.ApiResponse[[]models.Metafield], err error)
 		afterTest    func(t *testing.T, metafields []models.Metafield)
 	}{
 		{
 			name:         "subscriptions",
 			resourceType: models.ResourceType_SUBSCRIPTIONS,
-			metafields: []models.Metafield{
+			metafields: models.CreateMetafieldsRequestMetafieldsContainer.FromArrayOfCreateMetafield([]models.CreateMetafield{
 				{
 					Name:      &dropdownFieldName,
 					InputType: &dropdownInputType,
@@ -68,12 +68,12 @@ func (s *MetafieldsSuite) TestMetafields() {
 						PublicShow: toPtr[models.IncludeOption](models.IncludeOption_INCLUDE),
 						PublicEdit: toPtr[models.IncludeOption](models.IncludeOption_INCLUDE),
 					},
-					Enum: models.NewOptional[interface{}](interfacePtr(enums)),
+					Enum: enums,
 				},
 				{
 					Name: &textFieldName,
 				},
-			},
+			}),
 			assert: func(t *testing.T, resp models.ApiResponse[[]models.Metafield], err error) {
 				s.NoError(err)
 				s.Contains([]int{http.StatusOK, http.StatusCreated}, resp.Response.StatusCode)
@@ -120,23 +120,13 @@ func (s *MetafieldsSuite) TestMetafields() {
 
 				rSubs, err := s.client.SubscriptionsController().ListSubscriptions(
 					ctx,
-					nil,
-					nil,
-					nil,
-					product.Id,
-					nil,
-					nil,
-					nil,
-					nil,
-					nil,
-					nil,
-					nil,
-					map[string]string{
-						dropdownFieldName: enums[0],
+					advancedbilling.ListSubscriptionsInput{
+						ProductPricePointId: product.Id,
+						Metadata: map[string]string{
+							dropdownFieldName: enums[0],
+						},
+						Include: []models.SubscriptionListInclude{},
 					},
-					nil,
-					nil,
-					[]models.SubscriptionListInclude{},
 				)
 				s.NoError(err)
 				s.Equal(http.StatusOK, r.Response.StatusCode)
@@ -160,16 +150,16 @@ func (s *MetafieldsSuite) TestMetafields() {
 		{
 			name:         "customers",
 			resourceType: models.ResourceType_CUSTOMERS,
-			metafields: metafield{
+			metafields: models.CreateMetafieldsRequestMetafieldsContainer.FromCreateMetafield(models.CreateMetafield{
 				Name:      &radioFieldName,
-				InputType: strPtr("radio"),
+				InputType: models.ToPointer(models.MetafieldInput_RADIO),
 				Enum:      enums,
 				Scope: &models.MetafieldScope{
 					Csv:      toPtr[models.IncludeOption](models.IncludeOption_INCLUDE),
 					Invoices: toPtr[models.IncludeOption](models.IncludeOption_INCLUDE),
 					Portal:   toPtr[models.IncludeOption](models.IncludeOption_INCLUDE),
 				},
-			},
+			}),
 			assert: func(t *testing.T, resp models.ApiResponse[[]models.Metafield], err error) {
 				s.NoError(err)
 				s.Contains([]int{http.StatusOK, http.StatusCreated}, resp.Response.StatusCode)

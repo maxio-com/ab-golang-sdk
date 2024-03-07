@@ -57,23 +57,23 @@ func (s *APISuite) SetupTest() {
 	}
 
 	config := advancedbilling.CreateConfiguration(
-	  advancedbilling.WithBasicAuthCredentials(
-	    advancedbilling.NewBasicAuthCredentials(
-        cfg.APIKey,
-        cfg.Password,
-      ),
-	  ),
+		advancedbilling.WithBasicAuthCredentials(
+			advancedbilling.NewBasicAuthCredentials(
+				cfg.APIKey,
+				cfg.Password,
+			),
+		),
 		advancedbilling.WithDomain(cfg.Domain),
 		advancedbilling.WithSubdomain(cfg.Subdomain),
 	)
 
 	configUnauthorized := advancedbilling.CreateConfiguration(
-    advancedbilling.WithBasicAuthCredentials(
-          advancedbilling.NewBasicAuthCredentials(
-            "abc",
-            "abc",
-          ),
-        ),
+		advancedbilling.WithBasicAuthCredentials(
+			advancedbilling.NewBasicAuthCredentials(
+				"abc",
+				"abc",
+			),
+		),
 		advancedbilling.WithDomain(cfg.Domain),
 		advancedbilling.WithSubdomain(cfg.Subdomain),
 	)
@@ -153,22 +153,22 @@ func (s *APISuite) generateProduct(ctx context.Context, productFamilyID int) mod
 }
 
 func (s *APISuite) generateCoupon(ctx context.Context, productFamilyID int) models.Coupon {
-	coupon := &models.Coupon{
-		Name:                        strPtr(s.fkr.RandomStringWithLength(20)),
-		Code:                        strPtr("100OFF" + s.fkr.RandomStringWithLength(30)),
+	coupon := &models.CreateOrUpdatePercentageCoupon{
+		Name:                        s.fkr.RandomStringWithLength(20),
+		Code:                        "100OFF" + s.fkr.RandomStringWithLength(30),
 		Description:                 strPtr(s.fkr.RandomStringWithLength(20)),
-		Percentage:                  models.NewOptional[string](strPtr("50")),
+		Percentage:                  models.CreateOrUpdatePercentageCouponPercentageContainer.FromString("50"),
 		AllowNegativeBalance:        boolPtr(false),
 		Recurring:                   boolPtr(false),
-		EndDate:                     models.NewOptional(timePtr(time.Now().AddDate(1, 0, 0))),
-		ProductFamilyId:             &productFamilyID,
+		EndDate:                     timePtr(time.Now().AddDate(1, 0, 0)),
+		ProductFamilyId:             models.ToPointer(fmt.Sprint(productFamilyID)),
 		Stackable:                   boolPtr(false),
 		ExcludeMidPeriodAllocations: boolPtr(true),
 		ApplyOnCancelAtEndOfPeriod:  boolPtr(true),
 	}
 
 	resp, err := s.client.CouponsController().CreateCoupon(ctx, productFamilyID, &models.CreateOrUpdateCoupon{
-		Coupon: interfacePtr(coupon),
+		Coupon: models.ToPointer(models.CreateOrUpdateCouponCouponContainer.FromCreateOrUpdatePercentageCoupon(*coupon)),
 	})
 
 	s.NoError(err)
@@ -189,8 +189,8 @@ func (s *APISuite) generateMeteredComponent(ctx context.Context, productFamilyID
 				PricingScheme: models.PricingScheme_STAIRSTEP,
 				Prices: []models.Price{
 					{
-						StartingQuantity: 1,
-						UnitPrice:        1,
+						StartingQuantity: models.PriceStartingQuantityContainer.FromNumber(1),
+						UnitPrice:        models.PriceUnitPriceContainer.FromPrecision(1),
 					},
 				},
 			},
@@ -226,8 +226,8 @@ func (s *APISuite) generateSubscription(
 					LastName:        &s.baseBillingAddress.lastName,
 					FullNumber:      &s.baseBillingAddress.phone,
 					CardType:        toPtr[models.CardType](models.CardType_VISA),
-					ExpirationMonth: interfacePtr(1),
-					ExpirationYear:  interfacePtr(time.Now().Year() + 1),
+					ExpirationMonth: models.ToPointer(models.PaymentProfileAttributesExpirationMonthContainer.FromNumber(1)),
+					ExpirationYear:  models.ToPointer(models.PaymentProfileAttributesExpirationYearContainer.FromNumber(time.Now().Year() + 1)),
 					BillingAddress:  &s.baseBillingAddress.address,
 					BillingCity:     &s.baseBillingAddress.city,
 					BillingState:    &s.baseBillingAddress.state,
