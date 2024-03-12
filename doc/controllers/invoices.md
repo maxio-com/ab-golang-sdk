@@ -65,12 +65,14 @@ RefundInvoice(
 ctx := context.Background()
 uid := "uid0"
 
-bodyRefund := models.Refund{
-    Amount:      models.ToPointer("100.00"),
-    Memo:        models.ToPointer("Refund for Basic Plan renewal"),
-    PaymentId:   models.ToPointer(12345),
+bodyRefundRefundInvoice := models.RefundInvoice{
+    Amount:      "100.00",
+    Memo:        "Refund for Basic Plan renewal",
+    PaymentId:   12345,
     VoidInvoice: models.ToPointer(true),
 }
+
+bodyRefund := models.RefundInvoiceRequestRefundContainer.FromRefundInvoice(bodyRefundRefundInvoice)
 
 body := models.RefundInvoiceRequest{
     Refund: bodyRefund,
@@ -99,7 +101,8 @@ By default, invoices returned on the index will only include totals, not detaile
 
 ```go
 ListInvoices(
-    ctx context.Context,input ListInvoicesInput) (
+    ctx context.Context,
+    input ListInvoicesInput) (
     models.ApiResponse[models.ListInvoicesResponse],
     error)
 ```
@@ -139,23 +142,19 @@ ListInvoices(
 
 ```go
 ctx := context.Background()
-page := 2
-perPage := 50
-direction := models.Direction("desc")
-lineItems := false
-discounts := false
-taxes := false
-credits := false
-payments := false
-customFields := false
-refunds := false
-dateField := models.InvoiceDateField("issue_date")
-customerIds := []int{1, 2, 3}
-number := []string{"1234", "1235"}
-productIds := []int{23, 34}
-sort := models.InvoiceSortField("total_amount")
 
-apiResponse, err := invoicesController.ListInvoices(ctx, nil, nil, nil, nil, nil, &page, &perPage, &direction, &lineItems, &discounts, &taxes, &credits, &payments, &customFields, &refunds, &dateField, nil, nil, customerIds, number, productIds, &sort)
+collectedInput := advancedbilling.ListInvoicesInput{
+    Page:                 models.ToPointer(2),
+    PerPage:              models.ToPointer(50),
+    Direction:            models.ToPointer(models.Direction("desc")),
+    DateField:            models.ToPointer(models.InvoiceDateField("issue_date")),
+    CustomerIds:          []int{1, 2, 3},
+    Number:               []string{"1234", "1235"},
+    ProductIds:           []int{23, 34},
+    Sort:                 models.ToPointer(models.InvoiceSortField("total_amount")),
+}
+
+apiResponse, err := invoicesController.ListInvoices(ctx, collectedInput)
 if err != nil {
     log.Fatalln(err)
 } else {
@@ -620,7 +619,8 @@ Note - invoice events that occurred prior to 09/05/2018 __will not__ contain an 
 
 ```go
 ListInvoiceEvents(
-    ctx context.Context,input ListInvoiceEventsInput) (
+    ctx context.Context,
+    input ListInvoiceEventsInput) (
     models.ApiResponse[models.ListInvoiceEventsResponse],
     error)
 ```
@@ -645,10 +645,13 @@ ListInvoiceEvents(
 
 ```go
 ctx := context.Background()
-page := 2
-perPage := 100
 
-apiResponse, err := invoicesController.ListInvoiceEvents(ctx, nil, nil, &page, &perPage, nil, nil, nil)
+collectedInput := advancedbilling.ListInvoiceEventsInput{
+    Page:                    models.ToPointer(2),
+    PerPage:                 models.ToPointer(100),
+}
+
+apiResponse, err := invoicesController.ListInvoiceEvents(ctx, collectedInput)
 if err != nil {
     log.Fatalln(err)
 } else {
@@ -1107,11 +1110,13 @@ RecordPaymentForInvoice(
 ctx := context.Background()
 uid := "uid0"
 
+bodyPaymentAmount := models.CreateInvoicePaymentAmountContainer.FromPrecision(float64(124.33))
+
 bodyPayment := models.CreateInvoicePayment{
-    Amount:           models.ToPointer(interface{}("[key1, val1][key2, val2]")),
     Memo:             models.ToPointer("for John Smith"),
     Method:           models.ToPointer(models.InvoicePaymentMethodType("check")),
     Details:          models.ToPointer("#0102"),
+    Amount:           models.ToPointer(bodyPaymentAmount),
 }
 
 body := models.CreateInvoicePaymentRequest{
@@ -1198,12 +1203,14 @@ bodyPaymentApplications1 := models.CreateInvoicePaymentApplication{
 }
 
 bodyPaymentApplications := []models.CreateInvoicePaymentApplication{bodyPaymentApplications0, bodyPaymentApplications1}
+bodyPaymentAmount := models.CreateMultiInvoicePaymentAmountContainer.FromString("100.00")
+
 bodyPayment := models.CreateMultiInvoicePayment{
     Memo:         models.ToPointer("to pay the bills"),
     Details:      models.ToPointer("check number 8675309"),
     Method:       models.ToPointer(models.InvoicePaymentMethodType("check")),
-    Amount:       interface{}("[key1, val1][key2, val2]"),
     Applications: bodyPaymentApplications,
+    Amount:       bodyPaymentAmount,
 }
 
 body := models.CreateMultiInvoicePaymentRequest{
@@ -1259,7 +1266,8 @@ By default, the credit notes returned by this endpoint will exclude the arrays o
 
 ```go
 ListCreditNotes(
-    ctx context.Context,input ListCreditNotesInput) (
+    ctx context.Context,
+    input ListCreditNotesInput) (
     models.ApiResponse[models.ListCreditNotesResponse],
     error)
 ```
@@ -1285,15 +1293,13 @@ ListCreditNotes(
 
 ```go
 ctx := context.Background()
-page := 2
-perPage := 50
-lineItems := false
-discounts := false
-taxes := false
-refunds := false
-applications := false
 
-apiResponse, err := invoicesController.ListCreditNotes(ctx, nil, &page, &perPage, &lineItems, &discounts, &taxes, &refunds, &applications)
+collectedInput := advancedbilling.ListCreditNotesInput{
+    Page:           models.ToPointer(2),
+    PerPage:        models.ToPointer(50),
+}
+
+apiResponse, err := invoicesController.ListCreditNotes(ctx, collectedInput)
 if err != nil {
     log.Fatalln(err)
 } else {
@@ -2116,7 +2122,8 @@ Invoice segments returned on the index will only include totals, not detailed br
 
 ```go
 ListConsolidatedInvoiceSegments(
-    ctx context.Context,input ListConsolidatedInvoiceSegmentsInput) (
+    ctx context.Context,
+    input ListConsolidatedInvoiceSegmentsInput) (
     models.ApiResponse[models.ConsolidatedInvoice],
     error)
 ```
@@ -2138,12 +2145,15 @@ ListConsolidatedInvoiceSegments(
 
 ```go
 ctx := context.Background()
-invoiceUid := "invoice_uid0"
-page := 2
-perPage := 50
-direction := models.Direction("asc")
 
-apiResponse, err := invoicesController.ListConsolidatedInvoiceSegments(ctx, invoiceUid, &page, &perPage, &direction)
+collectedInput := advancedbilling.ListConsolidatedInvoiceSegmentsInput{
+    InvoiceUid: "invoice_uid0",
+    Page:       models.ToPointer(2),
+    PerPage:    models.ToPointer(50),
+    Direction:  models.ToPointer(models.Direction("asc")),
+}
+
+apiResponse, err := invoicesController.ListConsolidatedInvoiceSegments(ctx, collectedInput)
 if err != nil {
     log.Fatalln(err)
 } else {
@@ -2623,10 +2633,14 @@ CreateInvoice(
 ctx := context.Background()
 subscriptionId := 222
 
+bodyInvoiceLineItems0Quantity := models.CreateInvoiceItemQuantityContainer.FromPrecision(float64(12))
+
+bodyInvoiceLineItems0UnitPrice := models.CreateInvoiceItemUnitPriceContainer.FromString("150.00")
+
 bodyInvoiceLineItems0 := models.CreateInvoiceItem{
     Title:               models.ToPointer("A Product"),
-    Quantity:            models.ToPointer(interface{}("[key1, val1][key2, val2]")),
-    UnitPrice:           models.ToPointer(interface{}("[key1, val1][key2, val2]")),
+    Quantity:            models.ToPointer(bodyInvoiceLineItems0Quantity),
+    UnitPrice:           models.ToPointer(bodyInvoiceLineItems0UnitPrice),
 }
 
 bodyInvoiceLineItems := []models.CreateInvoiceItem{bodyInvoiceLineItems0}

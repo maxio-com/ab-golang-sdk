@@ -12,10 +12,10 @@
 | `Code` | `*string` | Optional | - |
 | `UseCount` | `*int` | Optional | - |
 | `UsesAllowed` | `*int` | Optional | - |
-| `ExpiresAt` | `Optional[string]` | Optional | - |
+| `ExpiresAt` | `models.Optional[string]` | Optional | - |
 | `Recurring` | `*bool` | Optional | - |
-| `AmountInCents` | `Optional[int64]` | Optional | **Constraints**: `>= 0` |
-| `Percentage` | `Optional[string]` | Optional | - |
+| `AmountInCents` | `models.Optional[int64]` | Optional | **Constraints**: `>= 0` |
+| `Percentage` | `models.Optional[string]` | Optional | - |
 
 ## Example (as JSON)
 

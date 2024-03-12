@@ -10,7 +10,7 @@
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `Name` | `*string` | Optional | - |
-| `Description` | `Optional[string]` | Optional | - |
+| `Description` | `models.Optional[string]` | Optional | - |
 
 ## Example (as JSON)
 

@@ -12,9 +12,9 @@
 | `ChargifyId` | `*int` | Optional | - |
 | `FirstName` | `*string` | Optional | - |
 | `LastName` | `*string` | Optional | - |
-| `Organization` | `Optional[string]` | Optional | - |
+| `Organization` | `models.Optional[string]` | Optional | - |
 | `Email` | `*string` | Optional | - |
-| `VatNumber` | `Optional[string]` | Optional | - |
+| `VatNumber` | `models.Optional[string]` | Optional | - |
 
 ## Example (as JSON)
 

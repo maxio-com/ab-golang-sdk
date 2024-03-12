@@ -24,7 +24,7 @@
 | `Phone` | `*string` | Optional | - |
 | `Locale` | `*string` | Optional | - |
 | `VatNumber` | `*string` | Optional | - |
-| `TaxExempt` | `*string` | Optional | - |
+| `TaxExempt` | `*bool` | Optional | - |
 | `TaxExemptReason` | `*string` | Optional | - |
 | `Metafields` | `map[string]string` | Optional | (Optional) A set of key/value pairs representing custom fields and their values. Metafields will be created “on-the-fly” in your site for a given key, if they have not been created yet. |
 

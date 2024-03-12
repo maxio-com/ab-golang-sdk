@@ -16,9 +16,9 @@
 | `PaymentMethod` | [`*models.InvoicePaymentMethod`](../../doc/models/invoice-payment-method.md) | Optional | - |
 | `TransactionId` | `*int` | Optional | - |
 | `Prepayment` | `*bool` | Optional | - |
-| `GatewayHandle` | `Optional[string]` | Optional | - |
+| `GatewayHandle` | `models.Optional[string]` | Optional | - |
 | `GatewayUsed` | `*string` | Optional | - |
-| `GatewayTransactionId` | `Optional[string]` | Optional | The transaction ID for the payment as returned from the payment gateway |
+| `GatewayTransactionId` | `models.Optional[string]` | Optional | The transaction ID for the payment as returned from the payment gateway |
 
 ## Example (as JSON)
 

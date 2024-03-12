@@ -22,7 +22,8 @@ This method allows to retrieve a list of Products belonging to a Product Family.
 
 ```go
 ListProductsForProductFamily(
-    ctx context.Context,input ListProductsForProductFamilyInput) (
+    ctx context.Context,
+    input ListProductsForProductFamilyInput) (
     models.ApiResponse[[]models.ProductResponse],
     error)
 ```
@@ -52,13 +53,16 @@ ListProductsForProductFamily(
 
 ```go
 ctx := context.Background()
-productFamilyId := 140
-page := 2
-perPage := 50
-dateField := models.BasicDateField("updated_at")
-include := models.ListProductsInclude("prepaid_product_price_point")Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')
 
-apiResponse, err := productFamiliesController.ListProductsForProductFamily(ctx, productFamilyId, &page, &perPage, &dateField, nil, nil, nil, nil, nil, &include, Liquid error: Value cannot be null. (Parameter 'key'), Liquid error: Value cannot be null. (Parameter 'key'))
+collectedInput := advancedbilling.ListProductsForProductFamilyInput{
+    ProductFamilyId:                                   140,
+    Page:                                              models.ToPointer(2),
+    PerPage:                                           models.ToPointer(50),
+    DateField:                                         models.ToPointer(models.BasicDateField("updated_at")),
+    Include:                                           models.ToPointer(models.ListProductsInclude("prepaid_product_price_point")),
+Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')}
+
+apiResponse, err := productFamiliesController.ListProductsForProductFamily(ctx, collectedInput)
 if err != nil {
     log.Fatalln(err)
 } else {
@@ -249,7 +253,8 @@ This method allows to retrieve a list of Product Families for a site.
 
 ```go
 ListProductFamilies(
-    ctx context.Context,input ListProductFamiliesInput) (
+    ctx context.Context,
+    input ListProductFamiliesInput) (
     models.ApiResponse[[]models.ProductFamilyResponse],
     error)
 ```
@@ -272,9 +277,12 @@ ListProductFamilies(
 
 ```go
 ctx := context.Background()
-dateField := models.BasicDateField("updated_at")
 
-apiResponse, err := productFamiliesController.ListProductFamilies(ctx, &dateField, nil, nil, nil, nil)
+collectedInput := advancedbilling.ListProductFamiliesInput{
+    DateField:     models.ToPointer(models.BasicDateField("updated_at")),
+}
+
+apiResponse, err := productFamiliesController.ListProductFamilies(ctx, collectedInput)
 if err != nil {
     log.Fatalln(err)
 } else {

@@ -82,7 +82,8 @@ Here’s an example event for the `subscription_state_change` event:
 
 ```go
 ListEvents(
-    ctx context.Context,input ListEventsInput) (
+    ctx context.Context,
+    input ListEventsInput) (
     models.ApiResponse[[]models.EventResponse],
     error)
 ```
@@ -111,13 +112,16 @@ ListEvents(
 
 ```go
 ctx := context.Background()
-page := 2
-perPage := 50
-direction := models.Direction("desc")
-filter := []models.EventType{models.EventType("custom_field_value_change"), models.EventType("payment_success")}
-dateField := models.ListEventsDateField("created_at")
 
-apiResponse, err := eventsController.ListEvents(ctx, &page, &perPage, nil, nil, &direction, filter, &dateField, nil, nil, nil, nil)
+collectedInput := advancedbilling.ListEventsInput{
+    Page:          models.ToPointer(2),
+    PerPage:       models.ToPointer(50),
+    Direction:     models.ToPointer(models.Direction("desc")),
+    Filter:        []models.EventType{models.EventType("custom_field_value_change"), models.EventType("payment_success")},
+    DateField:     models.ToPointer(models.ListEventsDateField("created_at")),
+}
+
+apiResponse, err := eventsController.ListEvents(ctx, collectedInput)
 if err != nil {
     log.Fatalln(err)
 } else {
@@ -198,7 +202,8 @@ Each event type has its own `event_specific_data` specified.
 
 ```go
 ListSubscriptionEvents(
-    ctx context.Context,input ListSubscriptionEventsInput) (
+    ctx context.Context,
+    input ListSubscriptionEventsInput) (
     models.ApiResponse[[]models.EventResponse],
     error)
 ```
@@ -223,13 +228,16 @@ ListSubscriptionEvents(
 
 ```go
 ctx := context.Background()
-subscriptionId := 222
-page := 2
-perPage := 50
-direction := models.Direction("desc")
-filter := []models.EventType{models.EventType("custom_field_value_change"), models.EventType("payment_success")}
 
-apiResponse, err := eventsController.ListSubscriptionEvents(ctx, subscriptionId, &page, &perPage, nil, nil, &direction, filter)
+collectedInput := advancedbilling.ListSubscriptionEventsInput{
+    SubscriptionId: 222,
+    Page:           models.ToPointer(2),
+    PerPage:        models.ToPointer(50),
+    Direction:      models.ToPointer(models.Direction("desc")),
+    Filter:         []models.EventType{models.EventType("custom_field_value_change"), models.EventType("payment_success")},
+}
+
+apiResponse, err := eventsController.ListSubscriptionEvents(ctx, collectedInput)
 if err != nil {
     log.Fatalln(err)
 } else {
@@ -289,7 +297,8 @@ Get a count of all the events for a given site by using this method.
 
 ```go
 ReadEventsCount(
-    ctx context.Context,input ReadEventsCountInput) (
+    ctx context.Context,
+    input ReadEventsCountInput) (
     models.ApiResponse[models.CountResponse],
     error)
 ```
@@ -313,12 +322,15 @@ ReadEventsCount(
 
 ```go
 ctx := context.Background()
-page := 2
-perPage := 50
-direction := models.Direction("desc")
-filter := []models.EventType{models.EventType("custom_field_value_change"), models.EventType("payment_success")}
 
-apiResponse, err := eventsController.ReadEventsCount(ctx, &page, &perPage, nil, nil, &direction, filter)
+collectedInput := advancedbilling.ReadEventsCountInput{
+    Page:      models.ToPointer(2),
+    PerPage:   models.ToPointer(50),
+    Direction: models.ToPointer(models.Direction("desc")),
+    Filter:    []models.EventType{models.EventType("custom_field_value_change"), models.EventType("payment_success")},
+}
+
+apiResponse, err := eventsController.ReadEventsCount(ctx, collectedInput)
 if err != nil {
     log.Fatalln(err)
 } else {

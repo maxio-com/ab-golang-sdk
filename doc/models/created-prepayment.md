@@ -9,12 +9,12 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `Id` | `*int` | Optional | - |
-| `SubscriptionId` | `*int` | Optional | - |
-| `AmountInCents` | `*int64` | Optional | - |
+| `Id` | `*int64` | Optional | **Constraints**: `>= 1` |
+| `SubscriptionId` | `*int` | Optional | **Constraints**: `>= 1` |
+| `AmountInCents` | `*int64` | Optional | **Constraints**: `>= 0.01` |
 | `Memo` | `*string` | Optional | - |
 | `CreatedAt` | `*time.Time` | Optional | - |
-| `StartingBalanceInCents` | `*int64` | Optional | - |
+| `StartingBalanceInCents` | `*int64` | Optional | **Constraints**: `>= 0` |
 | `EndingBalanceInCents` | `*int64` | Optional | - |
 
 ## Example (as JSON)

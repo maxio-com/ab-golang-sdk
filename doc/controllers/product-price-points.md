@@ -30,7 +30,7 @@ productPricePointsController := client.ProductPricePointsController()
 ```go
 CreateProductPricePoint(
     ctx context.Context,
-    productId interface{},
+    productId models.CreateProductPricePointProductId,
     body *models.CreateProductPricePointRequest) (
     models.ApiResponse[models.ProductPricePointResponse],
     error)
@@ -40,7 +40,7 @@ CreateProductPricePoint(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `productId` | `interface{}` | Template, Required | The id or handle of the product. When using the handle, it must be prefixed with `handle:` |
+| `productId` | [`models.CreateProductPricePointProductId`](../../doc/models/containers/create-product-price-point-product-id.md) | Template, Required | This is a container for one-of cases. |
 | `body` | [`*models.CreateProductPricePointRequest`](../../doc/models/create-product-price-point-request.md) | Body, Optional | - |
 
 ## Response Type
@@ -51,7 +51,8 @@ CreateProductPricePoint(
 
 ```go
 ctx := context.Background()
-productId := interface{}("[key1, val1][key2, val2]")
+
+productId := models.CreateProductPricePointProductIdContainer.FromNumber(124)
 
 bodyPricePoint := models.CreateProductPricePoint{
     Name:                    "Educational",
@@ -122,7 +123,8 @@ Use this endpoint to retrieve a list of product price points.
 
 ```go
 ListProductPricePoints(
-    ctx context.Context,input ListProductPricePointsInput) (
+    ctx context.Context,
+    input ListProductPricePointsInput) (
     models.ApiResponse[models.ListProductPricePointsResponse],
     error)
 ```
@@ -131,7 +133,7 @@ ListProductPricePoints(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `productId` | `interface{}` | Template, Required | The id or handle of the product. When using the handle, it must be prefixed with `handle:` |
+| `productId` | [`models.ListProductPricePointsInputProductId`](../../doc/models/containers/list-product-price-points-input-product-id.md) | Template, Required | This is a container for one-of cases. |
 | `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`. |
 | `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 10. The maximum allowed values is 200; any per_page value over 200 will be changed to 200. |
 | `currencyPrices` | `*bool` | Query, Optional | When fetching a product's price points, if you have defined multiple currencies at the site level, you can optionally pass the ?currency_prices=true query param to include an array of currency price data in the response. If the product price point is set to use_site_exchange_rate: true, it will return pricing based on the current exchange rate. If the flag is set to false, it will return all of the defined prices for each currency. |
@@ -145,11 +147,16 @@ ListProductPricePoints(
 
 ```go
 ctx := context.Background()
-productId := interface{}("[key1, val1][key2, val2]")
-page := 2
-perPage := 10Liquid error: Value cannot be null. (Parameter 'key')
 
-apiResponse, err := productPricePointsController.ListProductPricePoints(ctx, productId, &page, &perPage, nil, Liquid error: Value cannot be null. (Parameter 'key'))
+collectedInputProductId := models.ListProductPricePointsInputProductIdContainer.FromNumber(124)
+
+collectedInput := advancedbilling.ListProductPricePointsInput{
+    Page:           models.ToPointer(2),
+    PerPage:        models.ToPointer(10),
+Liquid error: Value cannot be null. (Parameter 'key')    ProductId:      collectedInputProductId,
+}
+
+apiResponse, err := productPricePointsController.ListProductPricePoints(ctx, collectedInput)
 if err != nil {
     log.Fatalln(err)
 } else {
@@ -198,8 +205,8 @@ Note: Custom product price points are not able to be updated.
 ```go
 UpdateProductPricePoint(
     ctx context.Context,
-    productId interface{},
-    pricePointId interface{},
+    productId models.UpdateProductPricePointProductId,
+    pricePointId models.UpdateProductPricePointPricePointId,
     body *models.UpdateProductPricePointRequest) (
     models.ApiResponse[models.ProductPricePointResponse],
     error)
@@ -209,8 +216,8 @@ UpdateProductPricePoint(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `productId` | `interface{}` | Template, Required | The id or handle of the product. When using the handle, it must be prefixed with `handle:` |
-| `pricePointId` | `interface{}` | Template, Required | The id or handle of the price point. When using the handle, it must be prefixed with `handle:` |
+| `productId` | [`models.UpdateProductPricePointProductId`](../../doc/models/containers/update-product-price-point-product-id.md) | Template, Required | This is a container for one-of cases. |
+| `pricePointId` | [`models.UpdateProductPricePointPricePointId`](../../doc/models/containers/update-product-price-point-price-point-id.md) | Template, Required | This is a container for one-of cases. |
 | `body` | [`*models.UpdateProductPricePointRequest`](../../doc/models/update-product-price-point-request.md) | Body, Optional | - |
 
 ## Response Type
@@ -221,8 +228,10 @@ UpdateProductPricePoint(
 
 ```go
 ctx := context.Background()
-productId := interface{}("[key1, val1][key2, val2]")
-pricePointId := interface{}("[key1, val1][key2, val2]")
+
+productId := models.UpdateProductPricePointProductIdContainer.FromNumber(124)
+
+pricePointId := models.UpdateProductPricePointPricePointIdContainer.FromNumber(188)
 
 bodyPricePoint := models.UpdateProductPricePoint{
     Handle:       models.ToPointer("educational"),
@@ -278,8 +287,8 @@ Use this endpoint to retrieve details for a specific product price point.
 ```go
 ReadProductPricePoint(
     ctx context.Context,
-    productId interface{},
-    pricePointId interface{},
+    productId models.ReadProductPricePointProductId,
+    pricePointId models.ReadProductPricePointPricePointId,
     currencyPrices *bool) (
     models.ApiResponse[models.ProductPricePointResponse],
     error)
@@ -289,8 +298,8 @@ ReadProductPricePoint(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `productId` | `interface{}` | Template, Required | The id or handle of the product. When using the handle, it must be prefixed with `handle:` |
-| `pricePointId` | `interface{}` | Template, Required | The id or handle of the price point. When using the handle, it must be prefixed with `handle:` |
+| `productId` | [`models.ReadProductPricePointProductId`](../../doc/models/containers/read-product-price-point-product-id.md) | Template, Required | This is a container for one-of cases. |
+| `pricePointId` | [`models.ReadProductPricePointPricePointId`](../../doc/models/containers/read-product-price-point-price-point-id.md) | Template, Required | This is a container for one-of cases. |
 | `currencyPrices` | `*bool` | Query, Optional | When fetching a product's price points, if you have defined multiple currencies at the site level, you can optionally pass the ?currency_prices=true query param to include an array of currency price data in the response. If the product price point is set to use_site_exchange_rate: true, it will return pricing based on the current exchange rate. If the flag is set to false, it will return all of the defined prices for each currency. |
 
 ## Response Type
@@ -301,8 +310,10 @@ ReadProductPricePoint(
 
 ```go
 ctx := context.Background()
-productId := interface{}("[key1, val1][key2, val2]")
-pricePointId := interface{}("[key1, val1][key2, val2]")
+
+productId := models.ReadProductPricePointProductIdContainer.FromNumber(124)
+
+pricePointId := models.ReadProductPricePointPricePointIdContainer.FromNumber(188)
 
 apiResponse, err := productPricePointsController.ReadProductPricePoint(ctx, productId, pricePointId, nil)
 if err != nil {
@@ -349,8 +360,8 @@ Use this endpoint to archive a product price point.
 ```go
 ArchiveProductPricePoint(
     ctx context.Context,
-    productId interface{},
-    pricePointId interface{}) (
+    productId models.ArchiveProductPricePointProductId,
+    pricePointId models.ArchiveProductPricePointPricePointId) (
     models.ApiResponse[models.ProductPricePointResponse],
     error)
 ```
@@ -359,8 +370,8 @@ ArchiveProductPricePoint(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `productId` | `interface{}` | Template, Required | The id or handle of the product. When using the handle, it must be prefixed with `handle:` |
-| `pricePointId` | `interface{}` | Template, Required | The id or handle of the price point. When using the handle, it must be prefixed with `handle:` |
+| `productId` | [`models.ArchiveProductPricePointProductId`](../../doc/models/containers/archive-product-price-point-product-id.md) | Template, Required | This is a container for one-of cases. |
+| `pricePointId` | [`models.ArchiveProductPricePointPricePointId`](../../doc/models/containers/archive-product-price-point-price-point-id.md) | Template, Required | This is a container for one-of cases. |
 
 ## Response Type
 
@@ -370,8 +381,10 @@ ArchiveProductPricePoint(
 
 ```go
 ctx := context.Background()
-productId := interface{}("[key1, val1][key2, val2]")
-pricePointId := interface{}("[key1, val1][key2, val2]")
+
+productId := models.ArchiveProductPricePointProductIdContainer.FromNumber(124)
+
+pricePointId := models.ArchiveProductPricePointPricePointIdContainer.FromNumber(188)
 
 apiResponse, err := productPricePointsController.ArchiveProductPricePoint(ctx, productId, pricePointId)
 if err != nil {
@@ -875,7 +888,8 @@ This method allows retrieval of a list of Products Price Points belonging to a S
 
 ```go
 ListAllProductPricePoints(
-    ctx context.Context,input ListAllProductPricePointsInput) (
+    ctx context.Context,
+    input ListAllProductPricePointsInput) (
     models.ApiResponse[models.ListProductPricePointsResponse],
     error)
 ```
@@ -904,12 +918,15 @@ ListAllProductPricePoints(
 ## Example Usage
 
 ```go
-ctx := context.Background()Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')
-include := models.ListProductsPricePointsInclude("currency_prices")
-page := 2
-perPage := 50
+ctx := context.Background()
+Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')
+collectedInput := advancedbilling.ListAllProductPricePointsInput{
+Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')    Include:             models.ToPointer(models.ListProductsPricePointsInclude("currency_prices")),
+    Page:                models.ToPointer(2),
+    PerPage:             models.ToPointer(50),
+Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')}
 
-apiResponse, err := productPricePointsController.ListAllProductPricePoints(ctx, nil, Liquid error: Value cannot be null. (Parameter 'key'), Liquid error: Value cannot be null. (Parameter 'key'), Liquid error: Value cannot be null. (Parameter 'key'), Liquid error: Value cannot be null. (Parameter 'key'), Liquid error: Value cannot be null. (Parameter 'key'), Liquid error: Value cannot be null. (Parameter 'key'), Liquid error: Value cannot be null. (Parameter 'key'), Liquid error: Value cannot be null. (Parameter 'key'), &include, &page, &perPage)
+apiResponse, err := productPricePointsController.ListAllProductPricePoints(ctx, collectedInput)
 if err != nil {
     log.Fatalln(err)
 } else {

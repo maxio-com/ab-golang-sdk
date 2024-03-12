@@ -130,6 +130,12 @@ if err != nil {
 }
 ```
 
+## Errors
+
+| HTTP Status Code | Error Description | Exception Class |
+|  --- | --- | --- |
+| 422 | Unprocessable Entity (WebDAV) | `ApiError` |
+
 
 # List Prepayments
 
@@ -137,7 +143,8 @@ This request will list a subscription's prepayments.
 
 ```go
 ListPrepayments(
-    ctx context.Context,input ListPrepaymentsInput) (
+    ctx context.Context,
+    input ListPrepaymentsInput) (
     models.ApiResponse[models.PrepaymentsResponse],
     error)
 ```
@@ -161,11 +168,14 @@ ListPrepayments(
 
 ```go
 ctx := context.Background()
-subscriptionId := 222
-page := 2
-perPage := 50Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')
+Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')
+collectedInput := advancedbilling.ListPrepaymentsInput{
+    SubscriptionId:  222,
+    Page:            models.ToPointer(2),
+    PerPage:         models.ToPointer(50),
+Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')}
 
-apiResponse, err := subscriptionInvoiceAccountController.ListPrepayments(ctx, subscriptionId, &page, &perPage, Liquid error: Value cannot be null. (Parameter 'key'), Liquid error: Value cannot be null. (Parameter 'key'), Liquid error: Value cannot be null. (Parameter 'key'))
+apiResponse, err := subscriptionInvoiceAccountController.ListPrepayments(ctx, collectedInput)
 if err != nil {
     log.Fatalln(err)
 } else {
@@ -233,9 +243,11 @@ IssueServiceCredit(
 ctx := context.Background()
 subscriptionId := 222
 
+bodyServiceCreditAmount := models.IssueServiceCreditAmountContainer.FromString("1")
+
 bodyServiceCredit := models.IssueServiceCredit{
-    Amount: interface{}("[key1, val1][key2, val2]"),
     Memo:   "Courtesy credit",
+    Amount: bodyServiceCreditAmount,
 }
 
 body := models.IssueServiceCreditRequest{
@@ -295,9 +307,11 @@ DeductServiceCredit(
 ctx := context.Background()
 subscriptionId := 222
 
+bodyDeductionAmount := models.DeductServiceCreditAmountContainer.FromString("1")
+
 bodyDeduction := models.DeductServiceCredit{
-    Amount: interface{}("[key1, val1][key2, val2]"),
     Memo:   "Deduction",
+    Amount: bodyDeductionAmount,
 }
 
 body := models.DeductServiceCreditRequest{

@@ -10,7 +10,7 @@
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `StartingQuantity` | `*int` | Optional | - |
-| `EndingQuantity` | `Optional[int]` | Optional | - |
+| `EndingQuantity` | `models.Optional[int]` | Optional | - |
 | `Quantity` | `*string` | Optional | - |
 | `UnitPrice` | `*string` | Optional | - |
 | `Amount` | `*string` | Optional | - |

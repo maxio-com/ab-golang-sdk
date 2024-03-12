@@ -11,13 +11,13 @@
 |  --- | --- | --- | --- |
 | `Handle` | `*string` | Optional | - |
 | `Name` | `*string` | Optional | The name of the Component, suitable for display on statements. i.e. Text Messages. |
-| `Description` | `Optional[string]` | Optional | The description of the component. |
-| `AccountingCode` | `Optional[string]` | Optional | - |
+| `Description` | `models.Optional[string]` | Optional | The description of the component. |
+| `AccountingCode` | `models.Optional[string]` | Optional | - |
 | `Taxable` | `*bool` | Optional | Boolean flag describing whether a component is taxable or not. |
-| `TaxCode` | `Optional[string]` | Optional | A string representing the tax code related to the component type. This is especially important when using the Avalara service to tax based on locale. This attribute has a max length of 10 characters. |
-| `ItemCategory` | [`Optional[models.ItemCategory]`](../../doc/models/item-category.md) | Optional | One of the following: Business Software, Consumer Software, Digital Services, Physical Goods, Other |
+| `TaxCode` | `models.Optional[string]` | Optional | A string representing the tax code related to the component type. This is especially important when using the Avalara service to tax based on locale. This attribute has a max length of 10 characters. |
+| `ItemCategory` | [`models.Optional[models.ItemCategory]`](../../doc/models/item-category.md) | Optional | One of the following: Business Software, Consumer Software, Digital Services, Physical Goods, Other |
 | `DisplayOnHostedPage` | `*bool` | Optional | - |
-| `UpgradeCharge` | [`Optional[models.CreditType]`](../../doc/models/credit-type.md) | Optional | The type of credit to be created when upgrading/downgrading. Defaults to the component and then site setting if one is not provided.<br>Available values: `full`, `prorated`, `none`. |
+| `UpgradeCharge` | [`models.Optional[models.CreditType]`](../../doc/models/credit-type.md) | Optional | The type of credit to be created when upgrading/downgrading. Defaults to the component and then site setting if one is not provided.<br>Available values: `full`, `prorated`, `none`. |
 
 ## Example (as JSON)
 

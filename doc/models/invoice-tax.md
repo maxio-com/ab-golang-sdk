@@ -11,7 +11,7 @@
 |  --- | --- | --- | --- |
 | `Uid` | `*string` | Optional | - |
 | `Title` | `*string` | Optional | - |
-| `Description` | `Optional[string]` | Optional | - |
+| `Description` | `models.Optional[string]` | Optional | - |
 | `SourceType` | [`*models.ProformaInvoiceTaxSourceType`](../../doc/models/proforma-invoice-tax-source-type.md) | Optional | - |
 | `SourceId` | `*int` | Optional | - |
 | `Percentage` | `*string` | Optional | - |

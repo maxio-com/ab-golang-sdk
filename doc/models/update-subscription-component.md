@@ -23,32 +23,14 @@
     "interval_unit": "day",
     "prices": [
       {
-        "starting_quantity": {
-          "key1": "val1",
-          "key2": "val2"
-        },
-        "ending_quantity": {
-          "key1": "val1",
-          "key2": "val2"
-        },
-        "unit_price": {
-          "key1": "val1",
-          "key2": "val2"
-        }
+        "starting_quantity": 242,
+        "ending_quantity": 40,
+        "unit_price": 23.26
       },
       {
-        "starting_quantity": {
-          "key1": "val1",
-          "key2": "val2"
-        },
-        "ending_quantity": {
-          "key1": "val1",
-          "key2": "val2"
-        },
-        "unit_price": {
-          "key1": "val1",
-          "key2": "val2"
-        }
+        "starting_quantity": 242,
+        "ending_quantity": 40,
+        "unit_price": 23.26
       }
     ]
   }

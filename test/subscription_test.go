@@ -6,8 +6,8 @@ import (
 	"testing"
 	"time"
 
+	"github.com/apimatic/go-core-runtime/https"
 	advancedbilling "github.com/maxio-com/ab-golang-sdk"
-  "github.com/apimatic/go-core-runtime/https"
 	"github.com/maxio-com/ab-golang-sdk/errors"
 	"github.com/maxio-com/ab-golang-sdk/models"
 	"github.com/stretchr/testify/suite"
@@ -45,7 +45,7 @@ func (s *SubscriptionSuite) TestSubscriptionCreate() {
 				*coupon.Code,
 				[]models.CreateSubscriptionComponent{
 					{
-						ComponentId: interfacePtr(*component.Id),
+						ComponentId: models.ToPointer(models.CreateSubscriptionComponentComponentIdContainer.FromNumber(*component.Id)),
 						Enabled:     boolPtr(true),
 						UnitBalance: intPtr(1),
 					},
@@ -68,19 +68,9 @@ func (s *SubscriptionSuite) TestSubscriptionCreate() {
 
 				listResp, err := s.client.SubscriptionComponentsController().ListSubscriptionComponents(
 					ctx,
-					*createdSubscription.Id,
-					nil,
-					nil,
-					nil,
-					nil,
-					nil,
-					nil,
-					nil,
-					nil,
-					nil,
-					nil,
-					nil,
-					nil,
+					advancedbilling.ListSubscriptionComponentsInput{
+						SubscriptionId: *createdSubscription.Id,
+					},
 				)
 
 				s.NoError(err)
@@ -116,13 +106,13 @@ func (s *SubscriptionSuite) TestSubscriptionCreate() {
 				[]models.CreateSubscriptionComponent{},
 			),
 			assert: func(t *testing.T, ar models.ApiResponse[models.SubscriptionResponse], subscription models.CreateSubscription, err error) {
-        s.Equal(string("ErrorListResponse occured: HTTP Response Not OK. Status code: 422. Response: " +
-            "'{\"errors\":[\"Coupon Code: 'invalid coupon code' - Coupon code could not be found.\"]}'."),
-            err.Error())
+				s.Equal(string("ErrorListResponse occured: HTTP Response Not OK. Status code: 422. Response: "+
+					"'{\"errors\":[\"Coupon Code: 'invalid coupon code' - Coupon code could not be found.\"]}'."),
+					err.Error())
 
-        actualErr, ok := err.(*errors.ErrorListResponse)
-        s.Equal(http.StatusUnprocessableEntity, actualErr.StatusCode)
-        s.True(ok)
+				actualErr, ok := err.(*errors.ErrorListResponse)
+				s.Equal(http.StatusUnprocessableEntity, actualErr.StatusCode)
+				s.True(ok)
 			},
 		},
 		{
@@ -134,19 +124,19 @@ func (s *SubscriptionSuite) TestSubscriptionCreate() {
 				*coupon.Code,
 				[]models.CreateSubscriptionComponent{
 					{
-						ComponentId: interfacePtr(*component.Id),
+						ComponentId: models.ToPointer(models.CreateSubscriptionComponentComponentIdContainer.FromNumber(*component.Id)),
 						Enabled:     boolPtr(true),
 						UnitBalance: intPtr(1),
 					},
 				},
 			),
 			assert: func(t *testing.T, ar models.ApiResponse[models.SubscriptionResponse], cs models.CreateSubscription, err error) {
-        s.Equal("ApiError occured: HTTP Response Not OK. Status code: 401. Response: 'HTTP Basic: Access denied.\n'.",
-          err.Error())
+				s.Equal("ApiError occured: HTTP Response Not OK. Status code: 401. Response: 'HTTP Basic: Access denied.\n'.",
+					err.Error())
 
-        actualErr, ok := err.(https.ApiError)
-        s.Equal(http.StatusUnauthorized, actualErr.StatusCode)
-        s.True(ok)
+				actualErr, ok := err.(https.ApiError)
+				s.Equal(http.StatusUnauthorized, actualErr.StatusCode)
+				s.True(ok)
 			},
 		},
 	}
@@ -184,8 +174,8 @@ func (s *APISuite) newSubscription(
 			LastName:        &s.baseBillingAddress.lastName,
 			FullNumber:      &s.baseBillingAddress.phone,
 			CardType:        toPtr[models.CardType](models.CardType_VISA),
-			ExpirationMonth: interfacePtr(1),
-			ExpirationYear:  interfacePtr(time.Now().Year() + 1),
+			ExpirationMonth: models.ToPointer(models.PaymentProfileAttributesExpirationMonthContainer.FromNumber(1)),
+			ExpirationYear:  models.ToPointer(models.PaymentProfileAttributesExpirationYearContainer.FromNumber(time.Now().Year() + 1)),
 			BillingAddress:  &s.baseBillingAddress.address,
 			BillingCity:     &s.baseBillingAddress.city,
 			BillingState:    &s.baseBillingAddress.state,

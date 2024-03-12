@@ -155,7 +155,8 @@ This endpoint returns public keys used for Chargify.js.
 
 ```go
 ListChargifyJsPublicKeys(
-    ctx context.Context,input ListChargifyJsPublicKeysInput) (
+    ctx context.Context,
+    input ListChargifyJsPublicKeysInput) (
     models.ApiResponse[models.ListPublicKeysResponse],
     error)
 ```
@@ -175,10 +176,13 @@ ListChargifyJsPublicKeys(
 
 ```go
 ctx := context.Background()
-page := 2
-perPage := 50
 
-apiResponse, err := sitesController.ListChargifyJsPublicKeys(ctx, &page, &perPage)
+collectedInput := advancedbilling.ListChargifyJsPublicKeysInput{
+    Page:    models.ToPointer(2),
+    PerPage: models.ToPointer(50),
+}
+
+apiResponse, err := sitesController.ListChargifyJsPublicKeys(ctx, collectedInput)
 if err != nil {
     log.Fatalln(err)
 } else {

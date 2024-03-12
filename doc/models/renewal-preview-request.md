@@ -17,37 +17,19 @@
 {
   "components": [
     {
-      "component_id": {
-        "key1": "val1",
-        "key2": "val2"
-      },
+      "component_id": "String5",
       "quantity": 210,
-      "price_point_id": {
-        "key1": "val1",
-        "key2": "val2"
-      }
+      "price_point_id": "String3"
     },
     {
-      "component_id": {
-        "key1": "val1",
-        "key2": "val2"
-      },
+      "component_id": "String5",
       "quantity": 210,
-      "price_point_id": {
-        "key1": "val1",
-        "key2": "val2"
-      }
+      "price_point_id": "String3"
     },
     {
-      "component_id": {
-        "key1": "val1",
-        "key2": "val2"
-      },
+      "component_id": "String5",
       "quantity": 210,
-      "price_point_id": {
-        "key1": "val1",
-        "key2": "val2"
-      }
+      "price_point_id": "String3"
     }
   ]
 }

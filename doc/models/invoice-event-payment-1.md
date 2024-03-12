@@ -16,7 +16,7 @@ A nested data structure detailing the method of payment
 | `MaskedRoutingNumber` | `string` | Required | - |
 | `CardBrand` | `string` | Required | - |
 | `CardExpiration` | `*string` | Optional | - |
-| `LastFour` | `Optional[string]` | Optional | - |
+| `LastFour` | `models.Optional[string]` | Optional | - |
 | `MaskedCardNumber` | `string` | Required | - |
 | `Details` | `*string` | Required | - |
 | `Kind` | `string` | Required | - |

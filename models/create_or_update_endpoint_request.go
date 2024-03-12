@@ -1,42 +1,62 @@
 package models
 
 import (
-    "encoding/json"
+	"encoding/json"
+	"errors"
+	"strings"
 )
 
 // CreateOrUpdateEndpointRequest represents a CreateOrUpdateEndpointRequest struct.
 // Used to Create or Update Endpoint
 type CreateOrUpdateEndpointRequest struct {
-    // Used to Create or Update Endpoint
-    Endpoint CreateOrUpdateEndpoint `json:"endpoint"`
+	// Used to Create or Update Endpoint
+	Endpoint CreateOrUpdateEndpoint `json:"endpoint"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreateOrUpdateEndpointRequest.
 // It customizes the JSON marshaling process for CreateOrUpdateEndpointRequest objects.
 func (c *CreateOrUpdateEndpointRequest) MarshalJSON() (
-    []byte,
-    error) {
-    return json.Marshal(c.toMap())
+	[]byte,
+	error) {
+	return json.Marshal(c.toMap())
 }
 
 // toMap converts the CreateOrUpdateEndpointRequest object to a map representation for JSON marshaling.
 func (c *CreateOrUpdateEndpointRequest) toMap() map[string]any {
-    structMap := make(map[string]any)
-    structMap["endpoint"] = c.Endpoint.toMap()
-    return structMap
+	structMap := make(map[string]any)
+	structMap["endpoint"] = c.Endpoint.toMap()
+	return structMap
 }
 
 // UnmarshalJSON implements the json.Unmarshaler interface for CreateOrUpdateEndpointRequest.
 // It customizes the JSON unmarshaling process for CreateOrUpdateEndpointRequest objects.
 func (c *CreateOrUpdateEndpointRequest) UnmarshalJSON(input []byte) error {
-    temp := &struct {
-        Endpoint CreateOrUpdateEndpoint `json:"endpoint"`
-    }{}
-    err := json.Unmarshal(input, &temp)
-    if err != nil {
-    	return err
-    }
-    
-    c.Endpoint = temp.Endpoint
-    return nil
+	var temp createOrUpdateEndpointRequest
+	err := json.Unmarshal(input, &temp)
+	if err != nil {
+		return err
+	}
+	err = temp.validate()
+	if err != nil {
+		return err
+	}
+
+	c.Endpoint = *temp.Endpoint
+	return nil
+}
+
+// TODO
+type createOrUpdateEndpointRequest struct {
+	Endpoint *CreateOrUpdateEndpoint `json:"endpoint"`
+}
+
+func (c *createOrUpdateEndpointRequest) validate() error {
+	var errs []string
+	if c.Endpoint == nil {
+		errs = append(errs, "required field `endpoint` is missing for type `Create or Update Endpoint Request`")
+	}
+	if len(errs) == 0 {
+		return nil
+	}
+	return errors.New(strings.Join(errs, "\n"))
 }

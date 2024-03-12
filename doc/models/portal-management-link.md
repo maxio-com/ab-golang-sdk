@@ -14,7 +14,7 @@
 | `CreatedAt` | `*time.Time` | Optional | - |
 | `NewLinkAvailableAt` | `*time.Time` | Optional | - |
 | `ExpiresAt` | `*time.Time` | Optional | - |
-| `LastInviteSentAt` | `Optional[time.Time]` | Optional | - |
+| `LastInviteSentAt` | `models.Optional[time.Time]` | Optional | - |
 
 ## Example (as JSON)
 

@@ -74,8 +74,22 @@ CreateMetafields(
 ctx := context.Background()
 resourceType := models.ResourceType("subscriptions")
 
+bodyMetafieldsCreateMetafieldScope := models.MetafieldScope{
+    PublicShow: models.ToPointer(models.IncludeOption("1")),
+    PublicEdit: models.ToPointer(models.IncludeOption("1")),
+}
+
+bodyMetafieldsCreateMetafield := models.CreateMetafield{
+    Name:      models.ToPointer("Dropdown field"),
+    InputType: models.ToPointer(models.MetafieldInput("dropdown")),
+    Enum:      []string{"option 1", "option 2"},
+    Scope:     models.ToPointer(bodyMetafieldsCreateMetafieldScope),
+}
+
+bodyMetafields := models.CreateMetafieldsRequestMetafieldsContainer.FromCreateMetafield(bodyMetafieldsCreateMetafield)
+
 body := models.CreateMetafieldsRequest{
-    Metafields: interface{}("[name, Dropdown field][input_type, dropdown][enum, System.Object[]][scope, DotLiquid.Hash]"),
+    Metafields: bodyMetafields,
 }
 
 apiResponse, err := customFieldsController.CreateMetafields(ctx, resourceType, &body)
@@ -134,7 +148,8 @@ This endpoint lists metafields associated with a site. The metafield description
 
 ```go
 ListMetafields(
-    ctx context.Context,input ListMetafieldsInput) (
+    ctx context.Context,
+    input ListMetafieldsInput) (
     models.ApiResponse[models.ListMetafieldsResponse],
     error)
 ```
@@ -157,11 +172,14 @@ ListMetafields(
 
 ```go
 ctx := context.Background()
-resourceType := models.ResourceType("subscriptions")
-page := 2
-perPage := 50
 
-apiResponse, err := customFieldsController.ListMetafields(ctx, resourceType, nil, &page, &perPage, nil)
+collectedInput := advancedbilling.ListMetafieldsInput{
+    ResourceType: models.ResourceType("subscriptions"),
+    Page:         models.ToPointer(2),
+    PerPage:      models.ToPointer(50),
+}
+
+apiResponse, err := customFieldsController.ListMetafields(ctx, collectedInput)
 if err != nil {
     log.Fatalln(err)
 } else {
@@ -390,7 +408,8 @@ This endpoint will also display the current stats of your metadata to use as a t
 
 ```go
 ListMetadata(
-    ctx context.Context,input ListMetadataInput) (
+    ctx context.Context,
+    input ListMetadataInput) (
     models.ApiResponse[models.PaginatedMetadata],
     error)
 ```
@@ -412,12 +431,15 @@ ListMetadata(
 
 ```go
 ctx := context.Background()
-resourceType := models.ResourceType("subscriptions")
-resourceId := 60
-page := 2
-perPage := 50
 
-apiResponse, err := customFieldsController.ListMetadata(ctx, resourceType, resourceId, &page, &perPage)
+collectedInput := advancedbilling.ListMetadataInput{
+    ResourceType: models.ResourceType("subscriptions"),
+    ResourceId:   60,
+    Page:         models.ToPointer(2),
+    PerPage:      models.ToPointer(50),
+}
+
+apiResponse, err := customFieldsController.ListMetadata(ctx, collectedInput)
 if err != nil {
     log.Fatalln(err)
 } else {
@@ -568,7 +590,8 @@ This endpoint will list the number of pages of metadata information that are con
 
 ```go
 ListMetadataForResourceType(
-    ctx context.Context,input ListMetadataForResourceTypeInput) (
+    ctx context.Context,
+    input ListMetadataForResourceTypeInput) (
     models.ApiResponse[models.PaginatedMetadata],
     error)
 ```
@@ -597,12 +620,15 @@ ListMetadataForResourceType(
 
 ```go
 ctx := context.Background()
-resourceType := models.ResourceType("subscriptions")
-page := 2
-perPage := 50
-dateField := models.BasicDateField("updated_at")Liquid error: Value cannot be null. (Parameter 'key')
 
-apiResponse, err := customFieldsController.ListMetadataForResourceType(ctx, resourceType, &page, &perPage, &dateField, nil, nil, nil, nil, nil, Liquid error: Value cannot be null. (Parameter 'key'), nil)
+collectedInput := advancedbilling.ListMetadataForResourceTypeInput{
+    ResourceType:  models.ResourceType("subscriptions"),
+    Page:          models.ToPointer(2),
+    PerPage:       models.ToPointer(50),
+    DateField:     models.ToPointer(models.BasicDateField("updated_at")),
+Liquid error: Value cannot be null. (Parameter 'key')}
+
+apiResponse, err := customFieldsController.ListMetadataForResourceType(ctx, collectedInput)
 if err != nil {
     log.Fatalln(err)
 } else {
