@@ -1,0 +1,118 @@
+package models
+
+import (
+	"encoding/json"
+	"errors"
+	"strings"
+)
+
+// DunningStepData represents a DunningStepData struct.
+type DunningStepData struct {
+	DayThreshold int              `json:"day_threshold"`
+	Action       string           `json:"action"`
+	EmailBody    Optional[string] `json:"email_body"`
+	EmailSubject Optional[string] `json:"email_subject"`
+	SendEmail    bool             `json:"send_email"`
+	SendBccEmail bool             `json:"send_bcc_email"`
+	SendSms      bool             `json:"send_sms"`
+	SmsBody      Optional[string] `json:"sms_body"`
+}
+
+// MarshalJSON implements the json.Marshaler interface for DunningStepData.
+// It customizes the JSON marshaling process for DunningStepData objects.
+func (d *DunningStepData) MarshalJSON() (
+	[]byte,
+	error) {
+	return json.Marshal(d.toMap())
+}
+
+// toMap converts the DunningStepData object to a map representation for JSON marshaling.
+func (d *DunningStepData) toMap() map[string]any {
+	structMap := make(map[string]any)
+	structMap["day_threshold"] = d.DayThreshold
+	structMap["action"] = d.Action
+	if d.EmailBody.IsValueSet() {
+		if d.EmailBody.Value() != nil {
+			structMap["email_body"] = d.EmailBody.Value()
+		} else {
+			structMap["email_body"] = nil
+		}
+	}
+	if d.EmailSubject.IsValueSet() {
+		if d.EmailSubject.Value() != nil {
+			structMap["email_subject"] = d.EmailSubject.Value()
+		} else {
+			structMap["email_subject"] = nil
+		}
+	}
+	structMap["send_email"] = d.SendEmail
+	structMap["send_bcc_email"] = d.SendBccEmail
+	structMap["send_sms"] = d.SendSms
+	if d.SmsBody.IsValueSet() {
+		if d.SmsBody.Value() != nil {
+			structMap["sms_body"] = d.SmsBody.Value()
+		} else {
+			structMap["sms_body"] = nil
+		}
+	}
+	return structMap
+}
+
+// UnmarshalJSON implements the json.Unmarshaler interface for DunningStepData.
+// It customizes the JSON unmarshaling process for DunningStepData objects.
+func (d *DunningStepData) UnmarshalJSON(input []byte) error {
+	var temp dunningStepData
+	err := json.Unmarshal(input, &temp)
+	if err != nil {
+		return err
+	}
+	err = temp.validate()
+	if err != nil {
+		return err
+	}
+
+	d.DayThreshold = *temp.DayThreshold
+	d.Action = *temp.Action
+	d.EmailBody = temp.EmailBody
+	d.EmailSubject = temp.EmailSubject
+	d.SendEmail = *temp.SendEmail
+	d.SendBccEmail = *temp.SendBccEmail
+	d.SendSms = *temp.SendSms
+	d.SmsBody = temp.SmsBody
+	return nil
+}
+
+// TODO
+type dunningStepData struct {
+	DayThreshold *int             `json:"day_threshold"`
+	Action       *string          `json:"action"`
+	EmailBody    Optional[string] `json:"email_body"`
+	EmailSubject Optional[string] `json:"email_subject"`
+	SendEmail    *bool            `json:"send_email"`
+	SendBccEmail *bool            `json:"send_bcc_email"`
+	SendSms      *bool            `json:"send_sms"`
+	SmsBody      Optional[string] `json:"sms_body"`
+}
+
+func (d *dunningStepData) validate() error {
+	var errs []string
+	if d.DayThreshold == nil {
+		errs = append(errs, "required field `day_threshold` is missing for type `Dunning Step Data`")
+	}
+	if d.Action == nil {
+		errs = append(errs, "required field `action` is missing for type `Dunning Step Data`")
+	}
+	if d.SendEmail == nil {
+		errs = append(errs, "required field `send_email` is missing for type `Dunning Step Data`")
+	}
+	if d.SendBccEmail == nil {
+		errs = append(errs, "required field `send_bcc_email` is missing for type `Dunning Step Data`")
+	}
+	if d.SendSms == nil {
+		errs = append(errs, "required field `send_sms` is missing for type `Dunning Step Data`")
+	}
+	if len(errs) == 0 {
+		return nil
+	}
+	return errors.New(strings.Join(errs, "\n"))
+}

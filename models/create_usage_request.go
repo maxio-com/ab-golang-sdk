@@ -1,40 +1,60 @@
 package models
 
 import (
-    "encoding/json"
+	"encoding/json"
+	"errors"
+	"strings"
 )
 
 // CreateUsageRequest represents a CreateUsageRequest struct.
 type CreateUsageRequest struct {
-    Usage CreateUsage `json:"usage"`
+	Usage CreateUsage `json:"usage"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreateUsageRequest.
 // It customizes the JSON marshaling process for CreateUsageRequest objects.
 func (c *CreateUsageRequest) MarshalJSON() (
-    []byte,
-    error) {
-    return json.Marshal(c.toMap())
+	[]byte,
+	error) {
+	return json.Marshal(c.toMap())
 }
 
 // toMap converts the CreateUsageRequest object to a map representation for JSON marshaling.
 func (c *CreateUsageRequest) toMap() map[string]any {
-    structMap := make(map[string]any)
-    structMap["usage"] = c.Usage.toMap()
-    return structMap
+	structMap := make(map[string]any)
+	structMap["usage"] = c.Usage.toMap()
+	return structMap
 }
 
 // UnmarshalJSON implements the json.Unmarshaler interface for CreateUsageRequest.
 // It customizes the JSON unmarshaling process for CreateUsageRequest objects.
 func (c *CreateUsageRequest) UnmarshalJSON(input []byte) error {
-    temp := &struct {
-        Usage CreateUsage `json:"usage"`
-    }{}
-    err := json.Unmarshal(input, &temp)
-    if err != nil {
-    	return err
-    }
-    
-    c.Usage = temp.Usage
-    return nil
+	var temp createUsageRequest
+	err := json.Unmarshal(input, &temp)
+	if err != nil {
+		return err
+	}
+	err = temp.validate()
+	if err != nil {
+		return err
+	}
+
+	c.Usage = *temp.Usage
+	return nil
+}
+
+// TODO
+type createUsageRequest struct {
+	Usage *CreateUsage `json:"usage"`
+}
+
+func (c *createUsageRequest) validate() error {
+	var errs []string
+	if c.Usage == nil {
+		errs = append(errs, "required field `usage` is missing for type `Create Usage Request`")
+	}
+	if len(errs) == 0 {
+		return nil
+	}
+	return errors.New(strings.Join(errs, "\n"))
 }

@@ -38,17 +38,17 @@ func (s *ComponentAlocationSuite) TestComponentAllocations() {
 						Name: strPtr(s.fkr.RandomStringWithLength(20)),
 						Prices: []models.Price{
 							{
-								StartingQuantity: 1,
-								UnitPrice:        1,
+								StartingQuantity: models.PriceStartingQuantityContainer.FromNumber(1),
+								UnitPrice:        models.PriceUnitPriceContainer.FromPrecision(1),
 							},
 						},
 					},
 				},
-				UnitPrice: interfacePtr("100"),
+				UnitPrice: models.ToPointer(models.OnOffComponentUnitPriceContainer.FromString("100")),
 				Prices: []models.Price{
 					{
-						StartingQuantity: 1,
-						UnitPrice:        1,
+						StartingQuantity: models.PriceStartingQuantityContainer.FromNumber(1),
+						UnitPrice:        models.PriceUnitPriceContainer.FromPrecision(1),
 					},
 				},
 			},
@@ -72,13 +72,13 @@ func (s *ComponentAlocationSuite) TestComponentAllocations() {
 						PricingScheme: toPtr[models.PricingScheme](models.PricingScheme_PERUNIT),
 						Prices: []models.Price{
 							{
-								StartingQuantity: 1,
-								UnitPrice:        1,
+								StartingQuantity: models.PriceStartingQuantityContainer.FromNumber(1),
+								UnitPrice:        models.PriceUnitPriceContainer.FromPrecision(1),
 							},
 						},
 					},
 				},
-				UnitPrice: interfacePtr("100"),
+				UnitPrice: models.ToPointer(models.QuantityBasedComponentUnitPriceContainer.FromString("100")),
 			},
 		},
 	)
@@ -109,8 +109,12 @@ func (s *ComponentAlocationSuite) TestComponentAllocations() {
 				s.Equal(http.StatusOK, response.Response.StatusCode)
 
 				prevAllocations := response.Data.AllocationPreview.Allocations
-				s.Equal(float64(1), *prevAllocations[0].Quantity)
-				s.Equal(fmt.Sprintf("%.1f", expected[1].Quantity), *prevAllocations[1].Quantity)
+				q0, ok := prevAllocations[0].Quantity.AsNumber()
+				s.Equal(true, ok)
+				s.Equal(int(1), *q0)
+				q1, ok := prevAllocations[1].Quantity.AsString()
+				s.Equal(true, ok)
+				s.Equal(fmt.Sprintf("%.1f", expected[1].Quantity), *q1)
 
 				allocationsResp, err := s.client.SubscriptionComponentsController().AllocateComponents(
 					ctx,
@@ -123,8 +127,12 @@ func (s *ComponentAlocationSuite) TestComponentAllocations() {
 				s.Equal(http.StatusCreated, allocationsResp.Response.StatusCode)
 
 				responseAllocations := allocationsResp.Data
-				s.Equal(float64(1), *responseAllocations[0].Allocation.Quantity)
-				s.Equal(fmt.Sprintf("%.1f", expected[1].Quantity), *responseAllocations[1].Allocation.Quantity)
+				r0, ok := responseAllocations[0].Allocation.Quantity.AsNumber()
+				s.Equal(true, ok)
+				s.Equal(int(1), *r0)
+				r1, ok := responseAllocations[1].Allocation.Quantity.AsString()
+				s.Equal(true, ok)
+				s.Equal(fmt.Sprintf("%.1f", expected[1].Quantity), *r1)
 			},
 		},
 		{
@@ -136,14 +144,14 @@ func (s *ComponentAlocationSuite) TestComponentAllocations() {
 				},
 			},
 			assert: func(t *testing.T, response models.ApiResponse[models.AllocationPreviewResponse], input []models.CreateAllocation, err error) {
-				s.Equal("ComponentAllocationError occured: HTTP Response Not OK. Status code: 422. Response: " +
-          fmt.Sprintf("'{\"errors\":[{\"kind\":\"allocation\",\"component_id\":%d,\"on\":\"quantity\",", *onOffResp.Data.Component.Id) +
-          "\"message\":\"Quantity: must be either 1 (on) or 0 (off).\"}]}'.",
-          err.Error())
+				s.Equal("ComponentAllocationError occured: HTTP Response Not OK. Status code: 422. Response: "+
+					fmt.Sprintf("'{\"errors\":[{\"kind\":\"allocation\",\"component_id\":%d,\"on\":\"quantity\",", *onOffResp.Data.Component.Id)+
+					"\"message\":\"Quantity: must be either 1 (on) or 0 (off).\"}]}'.",
+					err.Error())
 
-        actualErr, ok := err.(*errors.ComponentAllocationError)
-        s.Equal(http.StatusUnprocessableEntity, actualErr.StatusCode)
-        s.True(ok)
+				actualErr, ok := err.(*errors.ComponentAllocationError)
+				s.Equal(http.StatusUnprocessableEntity, actualErr.StatusCode)
+				s.True(ok)
 			},
 		},
 	}

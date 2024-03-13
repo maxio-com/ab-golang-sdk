@@ -12,8 +12,8 @@
 | `Id` | `*int` | Optional | - |
 | `Name` | `*string` | Optional | - |
 | `Handle` | `*string` | Optional | - |
-| `AccountingCode` | `Optional[string]` | Optional | - |
-| `Description` | `Optional[string]` | Optional | - |
+| `AccountingCode` | `models.Optional[string]` | Optional | - |
+| `Description` | `models.Optional[string]` | Optional | - |
 | `CreatedAt` | `*time.Time` | Optional | - |
 | `UpdatedAt` | `*time.Time` | Optional | - |
 

@@ -162,7 +162,8 @@ To retrieve a single, exact match by reference, please use the [lookup endpoint]
 
 ```go
 ListCustomers(
-    ctx context.Context,input ListCustomersInput) (
+    ctx context.Context,
+    input ListCustomersInput) (
     models.ApiResponse[[]models.CustomerResponse],
     error)
 ```
@@ -189,11 +190,14 @@ ListCustomers(
 
 ```go
 ctx := context.Background()
-page := 2
-perPage := 30
-dateField := models.BasicDateField("updated_at")
 
-apiResponse, err := customersController.ListCustomers(ctx, nil, &page, &perPage, &dateField, nil, nil, nil, nil, nil)
+collectedInput := advancedbilling.ListCustomersInput{
+    Page:          models.ToPointer(2),
+    PerPage:       models.ToPointer(30),
+    DateField:     models.ToPointer(models.BasicDateField("updated_at")),
+}
+
+apiResponse, err := customersController.ListCustomers(ctx, collectedInput)
 if err != nil {
     log.Fatalln(err)
 } else {

@@ -16,11 +16,11 @@ A nested data structure detailing the method of payment
 | `MaskedRoutingNumber` | `*string` | Optional | - |
 | `CardBrand` | `*string` | Optional | - |
 | `CardExpiration` | `*string` | Optional | - |
-| `LastFour` | `Optional[string]` | Optional | - |
+| `LastFour` | `models.Optional[string]` | Optional | - |
 | `MaskedCardNumber` | `*string` | Optional | - |
-| `Details` | `Optional[string]` | Optional | - |
+| `Details` | `models.Optional[string]` | Optional | - |
 | `Kind` | `*string` | Optional | - |
-| `Memo` | `Optional[string]` | Optional | - |
+| `Memo` | `models.Optional[string]` | Optional | - |
 | `Email` | `*string` | Optional | - |
 
 ## Example (as JSON)

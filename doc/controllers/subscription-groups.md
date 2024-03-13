@@ -125,7 +125,7 @@ CreateSubscriptionGroup(
 ctx := context.Background()
 
 bodySubscriptionGroup := models.CreateSubscriptionGroup{
-    SubscriptionId: interface{}("[key1, val1][key2, val2]"),
+    SubscriptionId: 1,
     MemberIds:      []int{2, 3, 4},
 }
 
@@ -169,7 +169,7 @@ if err != nil {
 
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
-| 422 | Unprocessable Entity (WebDAV) | [`SingleStringErrorResponseException`](../../doc/models/single-string-error-response-exception.md) |
+| 422 | Unprocessable Entity (WebDAV) | [`SubscriptionGroupCreateErrorResponseException`](../../doc/models/subscription-group-create-error-response-exception.md) |
 
 
 # List Subscription Groups
@@ -182,7 +182,8 @@ Account balance information for the subscription groups is not returned by defau
 
 ```go
 ListSubscriptionGroups(
-    ctx context.Context,input ListSubscriptionGroupsInput) (
+    ctx context.Context,
+    input ListSubscriptionGroupsInput) (
     models.ApiResponse[models.ListSubscriptionGroupsResponse],
     error)
 ```
@@ -193,7 +194,7 @@ ListSubscriptionGroups(
 |  --- | --- | --- | --- |
 | `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`. |
 | `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`. |
-| `include` | `*string` | Query, Optional | A list of additional information to include in the response. The following values are supported:<br><br>- `account_balances`: Account balance information for the subscription groups. Use in query: `include[]=account_balances` |
+| `include` | [`[]models.SubscriptionGroupsListInclude`](../../doc/models/subscription-groups-list-include.md) | Query, Optional | A list of additional information to include in the response. The following values are supported:<br><br>- `account_balances`: Account balance information for the subscription groups. Use in query: `include[]=account_balances` |
 
 ## Response Type
 
@@ -203,10 +204,13 @@ ListSubscriptionGroups(
 
 ```go
 ctx := context.Background()
-page := 2
-perPage := 50
 
-apiResponse, err := subscriptionGroupsController.ListSubscriptionGroups(ctx, &page, &perPage, nil)
+collectedInput := advancedbilling.ListSubscriptionGroupsInput{
+    Page:    models.ToPointer(2),
+    PerPage: models.ToPointer(50),
+Liquid error: Value cannot be null. (Parameter 'key')}
+
+apiResponse, err := subscriptionGroupsController.ListSubscriptionGroups(ctx, collectedInput)
 if err != nil {
     log.Fatalln(err)
 } else {
@@ -266,7 +270,8 @@ Current billing amount for the subscription group is not returned by default. If
 ```go
 ReadSubscriptionGroup(
     ctx context.Context,
-    uid string) (
+    uid string,
+    include []models.SubscriptionGroupInclude) (
     models.ApiResponse[models.FullSubscriptionGroupResponse],
     error)
 ```
@@ -276,6 +281,7 @@ ReadSubscriptionGroup(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `uid` | `string` | Template, Required | The uid of the subscription group |
+| `include` | [`[]models.SubscriptionGroupInclude`](../../doc/models/subscription-group-include.md) | Query, Optional | Allows including additional data in the response. Use in query: `include[]=current_billing_amount_in_cents`. |
 
 ## Response Type
 
@@ -285,9 +291,9 @@ ReadSubscriptionGroup(
 
 ```go
 ctx := context.Background()
-uid := "uid0"
+uid := "uid0"Liquid error: Value cannot be null. (Parameter 'key')
 
-apiResponse, err := subscriptionGroupsController.ReadSubscriptionGroup(ctx, uid)
+apiResponse, err := subscriptionGroupsController.ReadSubscriptionGroup(ctx, uid, Liquid error: Value cannot be null. (Parameter 'key'))
 if err != nil {
     log.Fatalln(err)
 } else {
@@ -603,8 +609,26 @@ AddSubscriptionToGroup(
 ctx := context.Background()
 subscriptionId := 222
 
+bodyGroupGroupSettingsTarget := models.GroupTarget{
+    Type: models.GroupTargetType("subscription"),
+    Id:   models.ToPointer(32987),
+}
+
+bodyGroupGroupSettingsBilling := models.GroupBilling{
+    Accrue:    models.ToPointer(true),
+    AlignDate: models.ToPointer(true),
+    Prorate:   models.ToPointer(true),
+}
+
+bodyGroupGroupSettings := models.GroupSettings{
+    Target:  bodyGroupGroupSettingsTarget,
+    Billing: models.ToPointer(bodyGroupGroupSettingsBilling),
+}
+
+bodyGroup := models.AddSubscriptionToAGroupGroupContainer.FromGroupSettings(bodyGroupGroupSettings)
+
 body := models.AddSubscriptionToAGroup{
-    Group: models.ToPointer(interface{}("[target, DotLiquid.Hash][billing, DotLiquid.Hash]")),
+    Group: models.ToPointer(bodyGroup),
 }
 
 apiResponse, err := subscriptionGroupsController.AddSubscriptionToGroup(ctx, subscriptionId, &body)

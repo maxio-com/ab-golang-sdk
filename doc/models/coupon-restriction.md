@@ -13,7 +13,7 @@
 | `ItemType` | [`*models.RestrictionType`](../../doc/models/restriction-type.md) | Optional | - |
 | `ItemId` | `*int` | Optional | - |
 | `Name` | `*string` | Optional | - |
-| `Handle` | `Optional[string]` | Optional | - |
+| `Handle` | `models.Optional[string]` | Optional | - |
 
 ## Example (as JSON)
 

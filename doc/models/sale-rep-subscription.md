@@ -18,7 +18,7 @@
 | `Usage` | `*string` | Optional | - |
 | `Recurring` | `*string` | Optional | - |
 | `LastPayment` | `*string` | Optional | - |
-| `ChurnDate` | `Optional[string]` | Optional | - |
+| `ChurnDate` | `models.Optional[string]` | Optional | - |
 
 ## Example (as JSON)
 

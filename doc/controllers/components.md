@@ -70,9 +70,13 @@ CreateMeteredComponent(
 ctx := context.Background()
 productFamilyId := 140
 
+bodyMeteredComponentPrices0StartingQuantity := models.PriceStartingQuantityContainer.FromNumber(1)
+
+bodyMeteredComponentPrices0UnitPrice := models.PriceUnitPriceContainer.FromPrecision(float64(1))
+
 bodyMeteredComponentPrices0 := models.Price{
-    StartingQuantity: interface{}("[key1, val1][key2, val2]"),
-    UnitPrice:        interface{}("[key1, val1][key2, val2]"),
+    StartingQuantity: bodyMeteredComponentPrices0StartingQuantity,
+    UnitPrice:        bodyMeteredComponentPrices0UnitPrice,
 }
 
 bodyMeteredComponentPrices := []models.Price{bodyMeteredComponentPrices0}
@@ -199,16 +203,18 @@ CreateQuantityBasedComponent(
 ctx := context.Background()
 productFamilyId := 140
 
+bodyQuantityBasedComponentUnitPrice := models.QuantityBasedComponentUnitPriceContainer.FromString("10")
+
 bodyQuantityBasedComponent := models.QuantityBasedComponent{
     Name:                      "Quantity Based Component",
     UnitName:                  "Component",
     Description:               models.ToPointer("Example of JSON per-unit component example"),
     Taxable:                   models.ToPointer(true),
     PricingScheme:             models.PricingScheme("per_unit"),
-    UnitPrice:                 models.ToPointer(interface{}("[key1, val1][key2, val2]")),
     DisplayOnHostedPage:       models.ToPointer(true),
     AllowFractionalQuantities: models.ToPointer(true),
     PublicSignupPageIds:       []int{323397},
+    UnitPrice:                 models.ToPointer(bodyQuantityBasedComponentUnitPrice),
 }
 
 body := models.CreateQuantityBasedComponent{
@@ -317,9 +323,13 @@ CreateOnOffComponent(
 ctx := context.Background()
 productFamilyId := 140
 
+bodyOnOffComponentPrices0StartingQuantity := models.PriceStartingQuantityContainer.FromString("0")
+
+bodyOnOffComponentPrices0UnitPrice := models.PriceUnitPriceContainer.FromString("100.00")
+
 bodyOnOffComponentPrices0 := models.Price{
-    StartingQuantity: interface{}("[key1, val1][key2, val2]"),
-    UnitPrice:        interface{}("[key1, val1][key2, val2]"),
+    StartingQuantity: bodyOnOffComponentPrices0StartingQuantity,
+    UnitPrice:        bodyOnOffComponentPrices0UnitPrice,
 }
 
 bodyOnOffComponentPrices := []models.Price{bodyOnOffComponentPrices0}
@@ -426,15 +436,25 @@ CreatePrepaidUsageComponent(
 ctx := context.Background()
 productFamilyId := 140
 
+bodyPrepaidUsageComponentOveragePricingPrices0StartingQuantity := models.PriceStartingQuantityContainer.FromNumber(1)
+
+bodyPrepaidUsageComponentOveragePricingPrices0EndingQuantity := models.PriceEndingQuantityContainer.FromNumber(100)
+
+bodyPrepaidUsageComponentOveragePricingPrices0UnitPrice := models.PriceUnitPriceContainer.FromPrecision(float64(3))
+
 bodyPrepaidUsageComponentOveragePricingPrices0 := models.Price{
-    StartingQuantity: interface{}("[key1, val1][key2, val2]"),
-    EndingQuantity:   models.NewOptional(models.ToPointer(interface{}("[key1, val1][key2, val2]"))),
-    UnitPrice:        interface{}("[key1, val1][key2, val2]"),
+    StartingQuantity: bodyPrepaidUsageComponentOveragePricingPrices0StartingQuantity,
+    EndingQuantity:   models.NewOptional(models.ToPointer(bodyPrepaidUsageComponentOveragePricingPrices0EndingQuantity)),
+    UnitPrice:        bodyPrepaidUsageComponentOveragePricingPrices0UnitPrice,
 }
 
+bodyPrepaidUsageComponentOveragePricingPrices1StartingQuantity := models.PriceStartingQuantityContainer.FromNumber(101)
+
+bodyPrepaidUsageComponentOveragePricingPrices1UnitPrice := models.PriceUnitPriceContainer.FromPrecision(float64(5))
+
 bodyPrepaidUsageComponentOveragePricingPrices1 := models.Price{
-    StartingQuantity: interface{}("[key1, val1][key2, val2]"),
-    UnitPrice:        interface{}("[key1, val1][key2, val2]"),
+    StartingQuantity: bodyPrepaidUsageComponentOveragePricingPrices1StartingQuantity,
+    UnitPrice:        bodyPrepaidUsageComponentOveragePricingPrices1UnitPrice,
 }
 
 bodyPrepaidUsageComponentOveragePricingPrices := []models.Price{bodyPrepaidUsageComponentOveragePricingPrices0, bodyPrepaidUsageComponentOveragePricingPrices1}
@@ -443,16 +463,18 @@ bodyPrepaidUsageComponentOveragePricing := models.OveragePricing{
     Prices:        bodyPrepaidUsageComponentOveragePricingPrices,
 }
 
+bodyPrepaidUsageComponentUnitPrice := models.PrepaidUsageComponentUnitPriceContainer.FromPrecision(float64(2))
+
 bodyPrepaidUsageComponent := models.PrepaidUsageComponent{
     Name:                      "Minutes",
     UnitName:                  models.ToPointer("minutes"),
     PricingScheme:             models.ToPointer(models.PricingScheme("per_unit")),
-    UnitPrice:                 models.ToPointer(interface{}("[key1, val1][key2, val2]")),
     RolloverPrepaidRemainder:  models.ToPointer(true),
     RenewPrepaidAllocation:    models.ToPointer(true),
     ExpirationInterval:        models.ToPointer(float64(15)),
     ExpirationIntervalUnit:    models.ToPointer(models.IntervalUnit("day")),
     OveragePricing:            models.ToPointer(bodyPrepaidUsageComponentOveragePricing),
+    UnitPrice:                 models.ToPointer(bodyPrepaidUsageComponentUnitPrice),
 }
 
 body := models.CreatePrepaidComponent{
@@ -575,9 +597,13 @@ CreateEventBasedComponent(
 ctx := context.Background()
 productFamilyId := 140
 
+bodyEventBasedComponentPrices0StartingQuantity := models.PriceStartingQuantityContainer.FromNumber(1)
+
+bodyEventBasedComponentPrices0UnitPrice := models.PriceUnitPriceContainer.FromString("0.49")
+
 bodyEventBasedComponentPrices0 := models.Price{
-    StartingQuantity: interface{}("[key1, val1][key2, val2]"),
-    UnitPrice:        interface{}("[key1, val1][key2, val2]"),
+    StartingQuantity: bodyEventBasedComponentPrices0StartingQuantity,
+    UnitPrice:        bodyEventBasedComponentPrices0UnitPrice,
 }
 
 bodyEventBasedComponentPrices := []models.Price{bodyEventBasedComponentPrices0}
@@ -967,7 +993,8 @@ This request will return a list of components for a site.
 
 ```go
 ListComponents(
-    ctx context.Context,input ListComponentsInput) (
+    ctx context.Context,
+    input ListComponentsInput) (
     models.ApiResponse[[]models.ComponentResponse],
     error)
 ```
@@ -995,11 +1022,14 @@ ListComponents(
 
 ```go
 ctx := context.Background()
-dateField := models.BasicDateField("updated_at")
-page := 2
-perPage := 50Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')
 
-apiResponse, err := componentsController.ListComponents(ctx, &dateField, nil, nil, nil, nil, nil, &page, &perPage, Liquid error: Value cannot be null. (Parameter 'key'), Liquid error: Value cannot be null. (Parameter 'key'))
+collectedInput := advancedbilling.ListComponentsInput{
+    DateField:                 models.ToPointer(models.BasicDateField("updated_at")),
+    Page:                      models.ToPointer(2),
+    PerPage:                   models.ToPointer(50),
+Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')}
+
+apiResponse, err := componentsController.ListComponents(ctx, collectedInput)
 if err != nil {
     log.Fatalln(err)
 } else {
@@ -1278,7 +1308,8 @@ This request will return a list of components for a particular product family.
 
 ```go
 ListComponentsForProductFamily(
-    ctx context.Context,input ListComponentsForProductFamilyInput) (
+    ctx context.Context,
+    input ListComponentsForProductFamilyInput) (
     models.ApiResponse[[]models.ComponentResponse],
     error)
 ```
@@ -1307,12 +1338,15 @@ ListComponentsForProductFamily(
 
 ```go
 ctx := context.Background()
-productFamilyId := 140Liquid error: Value cannot be null. (Parameter 'key')
-page := 2
-perPage := 50
-dateField := models.BasicDateField("updated_at")Liquid error: Value cannot be null. (Parameter 'key')
 
-apiResponse, err := componentsController.ListComponentsForProductFamily(ctx, productFamilyId, nil, Liquid error: Value cannot be null. (Parameter 'key'), &page, &perPage, &dateField, nil, nil, nil, nil, Liquid error: Value cannot be null. (Parameter 'key'))
+collectedInput := advancedbilling.ListComponentsForProductFamilyInput{
+    ProductFamilyId:           140,
+Liquid error: Value cannot be null. (Parameter 'key')    Page:                      models.ToPointer(2),
+    PerPage:                   models.ToPointer(50),
+    DateField:                 models.ToPointer(models.BasicDateField("updated_at")),
+Liquid error: Value cannot be null. (Parameter 'key')}
+
+apiResponse, err := componentsController.ListComponentsForProductFamily(ctx, collectedInput)
 if err != nil {
     log.Fatalln(err)
 } else {
@@ -1449,24 +1483,36 @@ CreateComponentPricePoint(
 ctx := context.Background()
 componentId := 222
 
-bodyPricePointPrices0 := models.Price{
-    StartingQuantity: interface{}("[key1, val1][key2, val2]"),
-    EndingQuantity:   models.NewOptional(models.ToPointer(interface{}("[key1, val1][key2, val2]"))),
-    UnitPrice:        interface{}("[key1, val1][key2, val2]"),
+bodyPricePointCreateComponentPricePointPrices0StartingQuantity := models.PriceStartingQuantityContainer.FromString("1")
+
+bodyPricePointCreateComponentPricePointPrices0EndingQuantity := models.PriceEndingQuantityContainer.FromString("100")
+
+bodyPricePointCreateComponentPricePointPrices0UnitPrice := models.PriceUnitPriceContainer.FromString("5.00")
+
+bodyPricePointCreateComponentPricePointPrices0 := models.Price{
+    StartingQuantity: bodyPricePointCreateComponentPricePointPrices0StartingQuantity,
+    EndingQuantity:   models.NewOptional(models.ToPointer(bodyPricePointCreateComponentPricePointPrices0EndingQuantity)),
+    UnitPrice:        bodyPricePointCreateComponentPricePointPrices0UnitPrice,
 }
 
-bodyPricePointPrices1 := models.Price{
-    StartingQuantity: interface{}("[key1, val1][key2, val2]"),
-    UnitPrice:        interface{}("[key1, val1][key2, val2]"),
+bodyPricePointCreateComponentPricePointPrices1StartingQuantity := models.PriceStartingQuantityContainer.FromString("101")
+
+bodyPricePointCreateComponentPricePointPrices1UnitPrice := models.PriceUnitPriceContainer.FromString("4.00")
+
+bodyPricePointCreateComponentPricePointPrices1 := models.Price{
+    StartingQuantity: bodyPricePointCreateComponentPricePointPrices1StartingQuantity,
+    UnitPrice:        bodyPricePointCreateComponentPricePointPrices1UnitPrice,
 }
 
-bodyPricePointPrices := []models.Price{bodyPricePointPrices0, bodyPricePointPrices1}
-bodyPricePoint := models.PricePoint{
-    Name:                     models.ToPointer("Wholesale"),
-    Handle:                   models.ToPointer("wholesale-handle"),
-    PricingScheme:            models.ToPointer(models.PricingScheme("stairstep")),
-    Prices:                   bodyPricePointPrices,
+bodyPricePointCreateComponentPricePointPrices := []models.Price{bodyPricePointCreateComponentPricePointPrices0, bodyPricePointCreateComponentPricePointPrices1}
+bodyPricePointCreateComponentPricePoint := models.CreateComponentPricePoint{
+    Name:                "Wholesale",
+    Handle:              models.ToPointer("wholesale-handle"),
+    PricingScheme:       models.PricingScheme("stairstep"),
+    Prices:              bodyPricePointCreateComponentPricePointPrices,
 }
+
+bodyPricePoint := models.CreateComponentPricePointRequestPricePointContainer.FromCreateComponentPricePoint(bodyPricePointCreateComponentPricePoint)
 
 body := models.CreateComponentPricePointRequest{
     PricePoint: bodyPricePoint,
@@ -1495,7 +1541,8 @@ If the price point is set to `use_site_exchange_rate: true`, it will return pric
 
 ```go
 ListComponentPricePoints(
-    ctx context.Context,input ListComponentPricePointsInput) (
+    ctx context.Context,
+    input ListComponentPricePointsInput) (
     models.ApiResponse[models.ComponentPricePointsResponse],
     error)
 ```
@@ -1518,11 +1565,14 @@ ListComponentPricePoints(
 
 ```go
 ctx := context.Background()
-componentId := 222
-page := 2
-perPage := 50Liquid error: Value cannot be null. (Parameter 'key')
 
-apiResponse, err := componentsController.ListComponentPricePoints(ctx, componentId, nil, &page, &perPage, Liquid error: Value cannot be null. (Parameter 'key'))
+collectedInput := advancedbilling.ListComponentPricePointsInput{
+    ComponentId:    222,
+    Page:           models.ToPointer(2),
+    PerPage:        models.ToPointer(50),
+Liquid error: Value cannot be null. (Parameter 'key')}
+
+apiResponse, err := componentsController.ListComponentPricePoints(ctx, collectedInput)
 if err != nil {
     log.Fatalln(err)
 } else {
@@ -1612,46 +1662,64 @@ BulkCreateComponentPricePoints(
 ctx := context.Background()
 componentId := "component_id8"
 
-bodyPricePoints0Prices0 := models.Price{
-    StartingQuantity: interface{}("[key1, val1][key2, val2]"),
-    UnitPrice:        interface{}("[key1, val1][key2, val2]"),
+bodyPricePoints0CreateComponentPricePointPrices0StartingQuantity := models.PriceStartingQuantityContainer.FromNumber(1)
+
+bodyPricePoints0CreateComponentPricePointPrices0UnitPrice := models.PriceUnitPriceContainer.FromPrecision(float64(5))
+
+bodyPricePoints0CreateComponentPricePointPrices0 := models.Price{
+    StartingQuantity: bodyPricePoints0CreateComponentPricePointPrices0StartingQuantity,
+    UnitPrice:        bodyPricePoints0CreateComponentPricePointPrices0UnitPrice,
 }
 
-bodyPricePoints0Prices := []models.Price{bodyPricePoints0Prices0}
-bodyPricePoints0 := models.PricePoint{
-    Name:                     models.ToPointer("Wholesale"),
-    Handle:                   models.ToPointer("wholesale"),
-    PricingScheme:            models.ToPointer(models.PricingScheme("per_unit")),
-    Prices:                   bodyPricePoints0Prices,
+bodyPricePoints0CreateComponentPricePointPrices := []models.Price{bodyPricePoints0CreateComponentPricePointPrices0}
+bodyPricePoints0CreateComponentPricePoint := models.CreateComponentPricePoint{
+    Name:                "Wholesale",
+    Handle:              models.ToPointer("wholesale"),
+    PricingScheme:       models.PricingScheme("per_unit"),
+    Prices:              bodyPricePoints0CreateComponentPricePointPrices,
 }
 
-bodyPricePoints1Prices0 := models.Price{
-    StartingQuantity: interface{}("[key1, val1][key2, val2]"),
-    UnitPrice:        interface{}("[key1, val1][key2, val2]"),
+bodyPricePoints0 := models.CreateComponentPricePointsRequestPricePointsContainer.FromCreateComponentPricePoint(bodyPricePoints0CreateComponentPricePoint)
+
+bodyPricePoints1CreateComponentPricePointPrices0StartingQuantity := models.PriceStartingQuantityContainer.FromNumber(1)
+
+bodyPricePoints1CreateComponentPricePointPrices0UnitPrice := models.PriceUnitPriceContainer.FromPrecision(float64(4))
+
+bodyPricePoints1CreateComponentPricePointPrices0 := models.Price{
+    StartingQuantity: bodyPricePoints1CreateComponentPricePointPrices0StartingQuantity,
+    UnitPrice:        bodyPricePoints1CreateComponentPricePointPrices0UnitPrice,
 }
 
-bodyPricePoints1Prices := []models.Price{bodyPricePoints1Prices0}
-bodyPricePoints1 := models.PricePoint{
-    Name:                     models.ToPointer("MSRP"),
-    Handle:                   models.ToPointer("msrp"),
-    PricingScheme:            models.ToPointer(models.PricingScheme("per_unit")),
-    Prices:                   bodyPricePoints1Prices,
+bodyPricePoints1CreateComponentPricePointPrices := []models.Price{bodyPricePoints1CreateComponentPricePointPrices0}
+bodyPricePoints1CreateComponentPricePoint := models.CreateComponentPricePoint{
+    Name:                "MSRP",
+    Handle:              models.ToPointer("msrp"),
+    PricingScheme:       models.PricingScheme("per_unit"),
+    Prices:              bodyPricePoints1CreateComponentPricePointPrices,
 }
 
-bodyPricePoints2Prices0 := models.Price{
-    StartingQuantity: interface{}("[key1, val1][key2, val2]"),
-    UnitPrice:        interface{}("[key1, val1][key2, val2]"),
+bodyPricePoints1 := models.CreateComponentPricePointsRequestPricePointsContainer.FromCreateComponentPricePoint(bodyPricePoints1CreateComponentPricePoint)
+
+bodyPricePoints2CreateComponentPricePointPrices0StartingQuantity := models.PriceStartingQuantityContainer.FromNumber(1)
+
+bodyPricePoints2CreateComponentPricePointPrices0UnitPrice := models.PriceUnitPriceContainer.FromPrecision(float64(5))
+
+bodyPricePoints2CreateComponentPricePointPrices0 := models.Price{
+    StartingQuantity: bodyPricePoints2CreateComponentPricePointPrices0StartingQuantity,
+    UnitPrice:        bodyPricePoints2CreateComponentPricePointPrices0UnitPrice,
 }
 
-bodyPricePoints2Prices := []models.Price{bodyPricePoints2Prices0}
-bodyPricePoints2 := models.PricePoint{
-    Name:                     models.ToPointer("Special Pricing"),
-    Handle:                   models.ToPointer("special"),
-    PricingScheme:            models.ToPointer(models.PricingScheme("per_unit")),
-    Prices:                   bodyPricePoints2Prices,
+bodyPricePoints2CreateComponentPricePointPrices := []models.Price{bodyPricePoints2CreateComponentPricePointPrices0}
+bodyPricePoints2CreateComponentPricePoint := models.CreateComponentPricePoint{
+    Name:                "Special Pricing",
+    Handle:              models.ToPointer("special"),
+    PricingScheme:       models.PricingScheme("per_unit"),
+    Prices:              bodyPricePoints2CreateComponentPricePointPrices,
 }
 
-bodyPricePoints := []models.PricePoint{bodyPricePoints0, bodyPricePoints1, bodyPricePoints2}
+bodyPricePoints2 := models.CreateComponentPricePointsRequestPricePointsContainer.FromCreateComponentPricePoint(bodyPricePoints2CreateComponentPricePoint)
+
+bodyPricePoints := []models.CreateComponentPricePointsRequestPricePoints{bodyPricePoints0, bodyPricePoints1, bodyPricePoints2}
 body := models.CreateComponentPricePointsRequest{
     PricePoints: bodyPricePoints,
 }
@@ -1755,10 +1823,14 @@ ctx := context.Background()
 componentId := 222
 pricePointId := 10
 
+bodyPricePointPrices0EndingQuantity := models.UpdatePriceEndingQuantityContainer.FromNumber(100)
+
+bodyPricePointPrices0UnitPrice := models.UpdatePriceUnitPriceContainer.FromPrecision(float64(5))
+
 bodyPricePointPrices0 := models.UpdatePrice{
     Id:               models.ToPointer(1),
-    EndingQuantity:   models.ToPointer(interface{}("[key1, val1][key2, val2]")),
-    UnitPrice:        models.ToPointer(interface{}("[key1, val1][key2, val2]")),
+    EndingQuantity:   models.ToPointer(bodyPricePointPrices0EndingQuantity),
+    UnitPrice:        models.ToPointer(bodyPricePointPrices0UnitPrice),
 }
 
 bodyPricePointPrices1 := models.UpdatePrice{
@@ -1766,9 +1838,13 @@ bodyPricePointPrices1 := models.UpdatePrice{
     Destroy:          models.ToPointer(true),
 }
 
+bodyPricePointPrices2UnitPrice := models.UpdatePriceUnitPriceContainer.FromPrecision(float64(4))
+
+bodyPricePointPrices2StartingQuantity := models.UpdatePriceStartingQuantityContainer.FromNumber(101)
+
 bodyPricePointPrices2 := models.UpdatePrice{
-    UnitPrice:        models.ToPointer(interface{}("[key1, val1][key2, val2]")),
-    StartingQuantity: models.ToPointer(interface{}("[key1, val1][key2, val2]")),
+    UnitPrice:        models.ToPointer(bodyPricePointPrices2UnitPrice),
+    StartingQuantity: models.ToPointer(bodyPricePointPrices2StartingQuantity),
 }
 
 bodyPricePointPrices := []models.UpdatePrice{bodyPricePointPrices0, bodyPricePointPrices1, bodyPricePointPrices2}
@@ -2128,7 +2204,8 @@ This method allows to retrieve a list of Components Price Points belonging to a 
 
 ```go
 ListAllComponentPricePoints(
-    ctx context.Context,input ListAllComponentPricePointsInput) (
+    ctx context.Context,
+    input ListAllComponentPricePointsInput) (
     models.ApiResponse[models.ListComponentsPricePointsResponse],
     error)
 ```
@@ -2157,12 +2234,15 @@ ListAllComponentPricePoints(
 ## Example Usage
 
 ```go
-ctx := context.Background()Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')
-include := models.ListComponentsPricePointsInclude("currency_prices")
-page := 2
-perPage := 50Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')
+ctx := context.Background()
+Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')
+collectedInput := advancedbilling.ListAllComponentPricePointsInput{
+Liquid error: Value cannot be null. (Parameter 'key')    Include:             models.ToPointer(models.ListComponentsPricePointsInclude("currency_prices")),
+    Page:                models.ToPointer(2),
+    PerPage:             models.ToPointer(50),
+Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')}
 
-apiResponse, err := componentsController.ListAllComponentPricePoints(ctx, Liquid error: Value cannot be null. (Parameter 'key'), Liquid error: Value cannot be null. (Parameter 'key'), Liquid error: Value cannot be null. (Parameter 'key'), &include, &page, &perPage, Liquid error: Value cannot be null. (Parameter 'key'), Liquid error: Value cannot be null. (Parameter 'key'), Liquid error: Value cannot be null. (Parameter 'key'), nil, Liquid error: Value cannot be null. (Parameter 'key'), Liquid error: Value cannot be null. (Parameter 'key'))
+apiResponse, err := componentsController.ListAllComponentPricePoints(ctx, collectedInput)
 if err != nil {
     log.Fatalln(err)
 } else {

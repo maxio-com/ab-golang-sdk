@@ -22,18 +22,9 @@ Used in place of `price_point_id` to define a custom price point unique to the s
   "pricing_scheme": "per_unit",
   "prices": [
     {
-      "starting_quantity": {
-        "key1": "val1",
-        "key2": "val2"
-      },
-      "ending_quantity": {
-        "key1": "val1",
-        "key2": "val2"
-      },
-      "unit_price": {
-        "key1": "val1",
-        "key2": "val2"
-      }
+      "starting_quantity": 242,
+      "ending_quantity": 40,
+      "unit_price": 23.26
     }
   ],
   "overage_pricing": [
@@ -43,18 +34,9 @@ Used in place of `price_point_id` to define a custom price point unique to the s
       "interval_unit": "day",
       "prices": [
         {
-          "starting_quantity": {
-            "key1": "val1",
-            "key2": "val2"
-          },
-          "ending_quantity": {
-            "key1": "val1",
-            "key2": "val2"
-          },
-          "unit_price": {
-            "key1": "val1",
-            "key2": "val2"
-          }
+          "starting_quantity": 242,
+          "ending_quantity": 40,
+          "unit_price": 23.26
         }
       ]
     }

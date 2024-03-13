@@ -29,7 +29,8 @@ Example: `GET https://{subdomain}.chargify.com/api_exports/proforma_invoices/123
 
 ```go
 ListExportedProformaInvoices(
-    ctx context.Context,input ListExportedProformaInvoicesInput) (
+    ctx context.Context,
+    input ListExportedProformaInvoicesInput) (
     models.ApiResponse[[]models.ProformaInvoice],
     error)
 ```
@@ -50,11 +51,14 @@ ListExportedProformaInvoices(
 
 ```go
 ctx := context.Background()
-batchId := "batch_id8"
-perPage := 100
-page := 2
 
-apiResponse, err := APIExportsController.ListExportedProformaInvoices(ctx, batchId, &perPage, &page)
+collectedInput := advancedbilling.ListExportedProformaInvoicesInput{
+    BatchId: "batch_id8",
+    PerPage: models.ToPointer(100),
+    Page:    models.ToPointer(2),
+}
+
+apiResponse, err := APIExportsController.ListExportedProformaInvoices(ctx, collectedInput)
 if err != nil {
     log.Fatalln(err)
 } else {
@@ -79,7 +83,8 @@ Example: `GET https://{subdomain}.chargify.com/api_exports/invoices/123/rows?per
 
 ```go
 ListExportedInvoices(
-    ctx context.Context,input ListExportedInvoicesInput) (
+    ctx context.Context,
+    input ListExportedInvoicesInput) (
     models.ApiResponse[[]models.Invoice],
     error)
 ```
@@ -100,11 +105,14 @@ ListExportedInvoices(
 
 ```go
 ctx := context.Background()
-batchId := "batch_id8"
-perPage := 100
-page := 2
 
-apiResponse, err := APIExportsController.ListExportedInvoices(ctx, batchId, &perPage, &page)
+collectedInput := advancedbilling.ListExportedInvoicesInput{
+    BatchId: "batch_id8",
+    PerPage: models.ToPointer(100),
+    Page:    models.ToPointer(2),
+}
+
+apiResponse, err := APIExportsController.ListExportedInvoices(ctx, collectedInput)
 if err != nil {
     log.Fatalln(err)
 } else {
@@ -129,7 +137,8 @@ Example: `GET https://{subdomain}.chargify.com/api_exports/subscriptions/123/row
 
 ```go
 ListExportedSubscriptions(
-    ctx context.Context,input ListExportedSubscriptionsInput) (
+    ctx context.Context,
+    input ListExportedSubscriptionsInput) (
     models.ApiResponse[[]models.Subscription],
     error)
 ```
@@ -150,11 +159,14 @@ ListExportedSubscriptions(
 
 ```go
 ctx := context.Background()
-batchId := "batch_id8"
-perPage := 100
-page := 2
 
-apiResponse, err := APIExportsController.ListExportedSubscriptions(ctx, batchId, &perPage, &page)
+collectedInput := advancedbilling.ListExportedSubscriptionsInput{
+    BatchId: "batch_id8",
+    PerPage: models.ToPointer(100),
+    Page:    models.ToPointer(2),
+}
+
+apiResponse, err := APIExportsController.ListExportedSubscriptions(ctx, collectedInput)
 if err != nil {
     log.Fatalln(err)
 } else {

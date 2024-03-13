@@ -14,10 +14,10 @@
 | `Handle` | `*string` | Optional | A unique identifier for your use that can be used to retrieve this component is subsequent requests.  Must start with a letter or number and may only contain lowercase letters, numbers, or the characters '.', ':', '-', or '_'.<br>**Constraints**: *Pattern*: `^[a-z0-9][a-z0-9\-_:.]*$` |
 | `Taxable` | `*bool` | Optional | Boolean flag describing whether a component is taxable or not. |
 | `Prices` | [`[]models.Price`](../../doc/models/price.md) | Optional | (Not required for ‘per_unit’ pricing schemes) One or more price brackets. See [Price Bracket Rules](https://chargify.zendesk.com/hc/en-us/articles/4407755865883#price-bracket-rules) for an overview of how price brackets work for different pricing schemes. |
-| `UpgradeCharge` | [`Optional[models.CreditType]`](../../doc/models/credit-type.md) | Optional | The type of credit to be created when upgrading/downgrading. Defaults to the component and then site setting if one is not provided.<br>Available values: `full`, `prorated`, `none`. |
-| `DowngradeCredit` | [`Optional[models.CreditType]`](../../doc/models/credit-type.md) | Optional | The type of credit to be created when upgrading/downgrading. Defaults to the component and then site setting if one is not provided.<br>Available values: `full`, `prorated`, `none`. |
+| `UpgradeCharge` | [`models.Optional[models.CreditType]`](../../doc/models/credit-type.md) | Optional | The type of credit to be created when upgrading/downgrading. Defaults to the component and then site setting if one is not provided.<br>Available values: `full`, `prorated`, `none`. |
+| `DowngradeCredit` | [`models.Optional[models.CreditType]`](../../doc/models/credit-type.md) | Optional | The type of credit to be created when upgrading/downgrading. Defaults to the component and then site setting if one is not provided.<br>Available values: `full`, `prorated`, `none`. |
 | `PricePoints` | [`[]models.ComponentPricePointItem`](../../doc/models/component-price-point-item.md) | Optional | - |
-| `UnitPrice` | `*interface{}` | Optional | The amount the customer will be charged per unit when the pricing scheme is “per_unit”. For On/Off Components, this is the amount that the customer will be charged when they turn the component on for the subscription. The price can contain up to 8 decimal places. i.e. 1.00 or 0.0012 or 0.00000065 |
+| `UnitPrice` | [`*models.OnOffComponentUnitPrice`](../../doc/models/containers/on-off-component-unit-price.md) | Optional | This is a container for one-of cases. |
 | `TaxCode` | `*string` | Optional | A string representing the tax code related to the component type. This is especially important when using the Avalara service to tax based on locale. This attribute has a max length of 10 characters. |
 | `HideDateRangeOnInvoice` | `*bool` | Optional | (Only available on Relationship Invoicing sites) Boolean flag describing if the service date range should show for the component on generated invoices. |
 | `PriceInCents` | `*string` | Optional | deprecated May 2011 - use unit_price instead |
@@ -37,46 +37,19 @@
   "taxable": false,
   "prices": [
     {
-      "starting_quantity": {
-        "key1": "val1",
-        "key2": "val2"
-      },
-      "ending_quantity": {
-        "key1": "val1",
-        "key2": "val2"
-      },
-      "unit_price": {
-        "key1": "val1",
-        "key2": "val2"
-      }
+      "starting_quantity": 242,
+      "ending_quantity": 40,
+      "unit_price": 23.26
     },
     {
-      "starting_quantity": {
-        "key1": "val1",
-        "key2": "val2"
-      },
-      "ending_quantity": {
-        "key1": "val1",
-        "key2": "val2"
-      },
-      "unit_price": {
-        "key1": "val1",
-        "key2": "val2"
-      }
+      "starting_quantity": 242,
+      "ending_quantity": 40,
+      "unit_price": 23.26
     },
     {
-      "starting_quantity": {
-        "key1": "val1",
-        "key2": "val2"
-      },
-      "ending_quantity": {
-        "key1": "val1",
-        "key2": "val2"
-      },
-      "unit_price": {
-        "key1": "val1",
-        "key2": "val2"
-      }
+      "starting_quantity": 242,
+      "ending_quantity": 40,
+      "unit_price": 23.26
     }
   ],
   "upgrade_charge": "prorated"

@@ -10,13 +10,13 @@
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `Id` | `*int` | Optional | - |
-| `Reference` | `Optional[string]` | Optional | - |
+| `Reference` | `models.Optional[string]` | Optional | - |
 | `ProductId` | `*int` | Optional | - |
-| `ProductHandle` | `Optional[string]` | Optional | - |
+| `ProductHandle` | `models.Optional[string]` | Optional | - |
 | `ProductPricePointId` | `*int` | Optional | - |
 | `ProductPricePointHandle` | `*string` | Optional | - |
 | `Currency` | `*string` | Optional | - |
-| `CouponCode` | `Optional[string]` | Optional | - |
+| `CouponCode` | `models.Optional[string]` | Optional | - |
 | `TotalRevenueInCents` | `*int64` | Optional | - |
 | `BalanceInCents` | `*int64` | Optional | - |
 

@@ -361,7 +361,8 @@ This method will return all of the active `payment_profiles` for a Site, or for 
 
 ```go
 ListPaymentProfiles(
-    ctx context.Context,input ListPaymentProfilesInput) (
+    ctx context.Context,
+    input ListPaymentProfilesInput) (
     models.ApiResponse[[]models.PaymentProfileResponse],
     error)
 ```
@@ -382,10 +383,13 @@ ListPaymentProfiles(
 
 ```go
 ctx := context.Background()
-page := 2
-perPage := 50
 
-apiResponse, err := paymentProfilesController.ListPaymentProfiles(ctx, &page, &perPage, nil)
+collectedInput := advancedbilling.ListPaymentProfilesInput{
+    Page:       models.ToPointer(2),
+    PerPage:    models.ToPointer(50),
+}
+
+apiResponse, err := paymentProfilesController.ListPaymentProfiles(ctx, collectedInput)
 if err != nil {
     log.Fatalln(err)
 } else {

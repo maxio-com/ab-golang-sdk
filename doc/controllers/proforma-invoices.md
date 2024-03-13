@@ -78,7 +78,8 @@ By default, proforma invoices returned on the index will only include totals, no
 
 ```go
 ListSubscriptionGroupProformaInvoices(
-    ctx context.Context,input ListSubscriptionGroupProformaInvoicesInput) (
+    ctx context.Context,
+    input ListSubscriptionGroupProformaInvoicesInput) (
     models.ApiResponse[models.ListProformaInvoicesResponse],
     error)
 ```
@@ -103,15 +104,12 @@ ListSubscriptionGroupProformaInvoices(
 
 ```go
 ctx := context.Background()
-uid := "uid0"
-lineItems := false
-discounts := false
-taxes := false
-credits := false
-payments := false
-customFields := false
 
-apiResponse, err := proformaInvoicesController.ListSubscriptionGroupProformaInvoices(ctx, uid, &lineItems, &discounts, &taxes, &credits, &payments, &customFields)
+collectedInput := advancedbilling.ListSubscriptionGroupProformaInvoicesInput{
+    Uid:          "uid0",
+}
+
+apiResponse, err := proformaInvoicesController.ListSubscriptionGroupProformaInvoices(ctx, collectedInput)
 if err != nil {
     log.Fatalln(err)
 } else {
@@ -234,7 +232,8 @@ By default, proforma invoices returned on the index will only include totals, no
 
 ```go
 ListProformaInvoices(
-    ctx context.Context,input ListProformaInvoicesInput) (
+    ctx context.Context,
+    input ListProformaInvoicesInput) (
     models.ApiResponse[models.ListProformaInvoicesResponse],
     error)
 ```
@@ -265,18 +264,15 @@ ListProformaInvoices(
 
 ```go
 ctx := context.Background()
-subscriptionId := 222
-page := 2
-perPage := 50
-direction := models.Direction("desc")
-lineItems := false
-discounts := false
-taxes := false
-credits := false
-payments := false
-customFields := false
 
-apiResponse, err := proformaInvoicesController.ListProformaInvoices(ctx, subscriptionId, nil, nil, nil, &page, &perPage, &direction, &lineItems, &discounts, &taxes, &credits, &payments, &customFields)
+collectedInput := advancedbilling.ListProformaInvoicesInput{
+    SubscriptionId: 222,
+    Page:           models.ToPointer(2),
+    PerPage:        models.ToPointer(50),
+    Direction:      models.ToPointer(models.Direction("desc")),
+}
+
+apiResponse, err := proformaInvoicesController.ListProformaInvoices(ctx, collectedInput)
 if err != nil {
     log.Fatalln(err)
 } else {

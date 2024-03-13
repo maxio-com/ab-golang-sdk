@@ -18,10 +18,7 @@
   "components": [
     {
       "component_id": 108,
-      "price_point": {
-        "key1": "val1",
-        "key2": "val2"
-      }
+      "price_point": "String5"
     }
   ]
 }

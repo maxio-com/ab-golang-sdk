@@ -22,13 +22,13 @@
 | `PeriodRangeStart` | `*time.Time` | Optional | Start date for the period covered by this line. The format is `"YYYY-MM-DD"`.<br><br>* For periodic charges paid in advance, this date will match the billing date, and the end date will be in the future.<br>* For periodic charges paid in arrears (e.g. metered charges), this date will be the date of the previous billing, and the end date will be the current billing date.<br>* For non-periodic charges, this date and the end date will match. |
 | `PeriodRangeEnd` | `*time.Time` | Optional | End date for the period covered by this line. The format is `"YYYY-MM-DD"`.<br><br>* For periodic charges paid in advance, this date will match the next (future) billing date.<br>* For periodic charges paid in arrears (e.g. metered charges), this date will be the date of the current billing date.<br>* For non-periodic charges, this date and the start date will match. |
 | `TransactionId` | `*int` | Optional | - |
-| `ProductId` | `Optional[int]` | Optional | The ID of the product subscribed when the charge was made.<br><br>This may be set even for component charges, so true product-only (non-component) charges will also have a nil `component_id`. |
-| `ProductVersion` | `Optional[int]` | Optional | The version of the product subscribed when the charge was made. |
-| `ComponentId` | `Optional[int]` | Optional | The ID of the component being billed. Will be `nil` for non-component charges. |
-| `PricePointId` | `Optional[int]` | Optional | The price point ID of the component being billed. Will be `nil` for non-component charges. |
+| `ProductId` | `models.Optional[int]` | Optional | The ID of the product subscribed when the charge was made.<br><br>This may be set even for component charges, so true product-only (non-component) charges will also have a nil `component_id`. |
+| `ProductVersion` | `models.Optional[int]` | Optional | The version of the product subscribed when the charge was made. |
+| `ComponentId` | `models.Optional[int]` | Optional | The ID of the component being billed. Will be `nil` for non-component charges. |
+| `PricePointId` | `models.Optional[int]` | Optional | The price point ID of the component being billed. Will be `nil` for non-component charges. |
 | `Hide` | `*bool` | Optional | - |
-| `ComponentCostData` | [`Optional[models.InvoiceLineItemComponentCostData]`](../../doc/models/invoice-line-item-component-cost-data.md) | Optional | - |
-| `ProductPricePointId` | `Optional[int]` | Optional | The price point ID of the line item's product |
+| `ComponentCostData` | [`models.Optional[models.InvoiceLineItemComponentCostData2]`](../../doc/models/containers/invoice-line-item-component-cost-data-2.md) | Optional | This is a container for one-of cases. |
+| `ProductPricePointId` | `models.Optional[int]` | Optional | The price point ID of the line item's product |
 | `CustomItem` | `*bool` | Optional | - |
 | `Kind` | `*string` | Optional | - |
 

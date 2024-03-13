@@ -17,56 +17,56 @@
 | `ProductVersionNumber` | `*int` | Optional | The version of the product for the subscription. Note that this is a deprecated field kept for backwards-compatibility. |
 | `CurrentPeriodEndsAt` | `*time.Time` | Optional | Timestamp relating to the end of the current (recurring) period (i.e.,when the next regularly scheduled attempted charge will occur) |
 | `NextAssessmentAt` | `*time.Time` | Optional | Timestamp that indicates when capture of payment will be tried or,retried. This value will usually track the current_period_ends_at, but,will diverge if a renewal payment fails and must be retried. In that,case, the current_period_ends_at will advance to the end of the next,period (time doesn’t stop because a payment was missed) but the,next_assessment_at will be scheduled for the auto-retry time (i.e. 24,hours in the future, in some cases) |
-| `TrialStartedAt` | `Optional[time.Time]` | Optional | Timestamp for when the trial period (if any) began |
-| `TrialEndedAt` | `Optional[time.Time]` | Optional | Timestamp for when the trial period (if any) ended |
+| `TrialStartedAt` | `models.Optional[time.Time]` | Optional | Timestamp for when the trial period (if any) began |
+| `TrialEndedAt` | `models.Optional[time.Time]` | Optional | Timestamp for when the trial period (if any) ended |
 | `ActivatedAt` | `*time.Time` | Optional | Timestamp for when the subscription began (i.e. when it came out of trial, or when it began in the case of no trial) |
-| `ExpiresAt` | `Optional[time.Time]` | Optional | Timestamp giving the expiration date of this subscription (if any) |
+| `ExpiresAt` | `models.Optional[time.Time]` | Optional | Timestamp giving the expiration date of this subscription (if any) |
 | `CreatedAt` | `*time.Time` | Optional | The creation date for this subscription |
 | `UpdatedAt` | `*time.Time` | Optional | The date of last update for this subscription |
-| `CancellationMessage` | `Optional[string]` | Optional | Seller-provided reason for, or note about, the cancellation. |
-| `CancellationMethod` | [`Optional[models.CancellationMethod]`](../../doc/models/cancellation-method.md) | Optional | The process used to cancel the subscription, if the subscription has been canceled. It is nil if the subscription's state is not canceled. |
-| `CancelAtEndOfPeriod` | `Optional[bool]` | Optional | Whether or not the subscription will (or has) canceled at the end of the period. |
-| `CanceledAt` | `Optional[time.Time]` | Optional | The timestamp of the most recent cancellation |
+| `CancellationMessage` | `models.Optional[string]` | Optional | Seller-provided reason for, or note about, the cancellation. |
+| `CancellationMethod` | [`models.Optional[models.CancellationMethod]`](../../doc/models/cancellation-method.md) | Optional | The process used to cancel the subscription, if the subscription has been canceled. It is nil if the subscription's state is not canceled. |
+| `CancelAtEndOfPeriod` | `models.Optional[bool]` | Optional | Whether or not the subscription will (or has) canceled at the end of the period. |
+| `CanceledAt` | `models.Optional[time.Time]` | Optional | The timestamp of the most recent cancellation |
 | `CurrentPeriodStartedAt` | `*time.Time` | Optional | Timestamp relating to the start of the current (recurring) period |
 | `PreviousState` | [`*models.SubscriptionState`](../../doc/models/subscription-state.md) | Optional | Only valid for webhook payloads The previous state for webhooks that have indicated a change in state. For normal API calls, this will always be the same as the state (current state) |
 | `SignupPaymentId` | `*int` | Optional | The ID of the transaction that generated the revenue |
 | `SignupRevenue` | `*string` | Optional | The revenue, formatted as a string of decimal separated dollars and,cents, from the subscription signup ($50.00 would be formatted as,50.00) |
-| `DelayedCancelAt` | `Optional[time.Time]` | Optional | Timestamp for when the subscription is currently set to cancel. |
-| `CouponCode` | `Optional[string]` | Optional | (deprecated) The coupon code of the single coupon currently applied to the subscription. See coupon_codes instead as subscriptions can now have more than one coupon. |
-| `SnapDay` | `Optional[string]` | Optional | The day of the month that the subscription will charge according to calendar billing rules, if used. |
+| `DelayedCancelAt` | `models.Optional[time.Time]` | Optional | Timestamp for when the subscription is currently set to cancel. |
+| `CouponCode` | `models.Optional[string]` | Optional | (deprecated) The coupon code of the single coupon currently applied to the subscription. See coupon_codes instead as subscriptions can now have more than one coupon. |
+| `SnapDay` | `models.Optional[string]` | Optional | The day of the month that the subscription will charge according to calendar billing rules, if used. |
 | `PaymentCollectionMethod` | [`*models.CollectionMethod`](../../doc/models/collection-method.md) | Optional | The type of payment collection to be used in the subscription. For legacy Statements Architecture valid options are - `invoice`, `automatic`. For current Relationship Invoicing Architecture valid options are - `remittance`, `automatic`, `prepaid`.<br>**Default**: `"automatic"` |
 | `Customer` | [`*models.Customer`](../../doc/models/customer.md) | Optional | - |
 | `Product` | [`*models.Product`](../../doc/models/product.md) | Optional | - |
 | `CreditCard` | [`*models.CreditCardPaymentProfile`](../../doc/models/credit-card-payment-profile.md) | Optional | - |
-| `Group` | [`Optional[models.NestedSubscriptionGroup]`](../../doc/models/nested-subscription-group.md) | Optional | - |
+| `Group` | [`models.Optional[models.SubscriptionGroup2]`](../../doc/models/containers/subscription-group-2.md) | Optional | This is a container for one-of cases. |
 | `BankAccount` | [`*models.BankAccountPaymentProfile`](../../doc/models/bank-account-payment-profile.md) | Optional | - |
-| `PaymentType` | `Optional[string]` | Optional | The payment profile type for the active profile on file. |
-| `ReferralCode` | `Optional[string]` | Optional | The subscription's unique code that can be given to referrals. |
-| `NextProductId` | `Optional[int]` | Optional | If a delayed product change is scheduled, the ID of the product that the subscription will be changed to at the next renewal. |
-| `NextProductHandle` | `Optional[string]` | Optional | If a delayed product change is scheduled, the handle of the product that the subscription will be changed to at the next renewal. |
-| `CouponUseCount` | `Optional[int]` | Optional | (deprecated) How many times the subscription's single coupon has been used. This field has no replacement for multiple coupons. |
-| `CouponUsesAllowed` | `Optional[int]` | Optional | (deprecated) How many times the subscription's single coupon may be used. This field has no replacement for multiple coupons. |
-| `ReasonCode` | `Optional[string]` | Optional | If the subscription is canceled, this is their churn code. |
-| `AutomaticallyResumeAt` | `Optional[time.Time]` | Optional | The date the subscription is scheduled to automatically resume from the on_hold state. |
+| `PaymentType` | `models.Optional[string]` | Optional | The payment profile type for the active profile on file. |
+| `ReferralCode` | `models.Optional[string]` | Optional | The subscription's unique code that can be given to referrals. |
+| `NextProductId` | `models.Optional[int]` | Optional | If a delayed product change is scheduled, the ID of the product that the subscription will be changed to at the next renewal. |
+| `NextProductHandle` | `models.Optional[string]` | Optional | If a delayed product change is scheduled, the handle of the product that the subscription will be changed to at the next renewal. |
+| `CouponUseCount` | `models.Optional[int]` | Optional | (deprecated) How many times the subscription's single coupon has been used. This field has no replacement for multiple coupons. |
+| `CouponUsesAllowed` | `models.Optional[int]` | Optional | (deprecated) How many times the subscription's single coupon may be used. This field has no replacement for multiple coupons. |
+| `ReasonCode` | `models.Optional[string]` | Optional | If the subscription is canceled, this is their churn code. |
+| `AutomaticallyResumeAt` | `models.Optional[time.Time]` | Optional | The date the subscription is scheduled to automatically resume from the on_hold state. |
 | `CouponCodes` | `[]string` | Optional | An array for all the coupons attached to the subscription. |
-| `OfferId` | `Optional[int]` | Optional | The ID of the offer associated with the subscription. |
-| `PayerId` | `Optional[int]` | Optional | On Relationship Invoicing, the ID of the individual paying for the subscription. Defaults to the Customer ID unless the 'Customer Hierarchies & WhoPays' feature is enabled. |
+| `OfferId` | `models.Optional[int]` | Optional | The ID of the offer associated with the subscription. |
+| `PayerId` | `models.Optional[int]` | Optional | On Relationship Invoicing, the ID of the individual paying for the subscription. Defaults to the Customer ID unless the 'Customer Hierarchies & WhoPays' feature is enabled. |
 | `CurrentBillingAmountInCents` | `*int64` | Optional | The balance in cents plus the estimated renewal amount in cents. |
 | `ProductPricePointId` | `*int` | Optional | The product price point currently subscribed to. |
 | `ProductPricePointType` | [`*models.PricePointType`](../../doc/models/price-point-type.md) | Optional | Price point type. We expose the following types:<br><br>1. **default**: a price point that is marked as a default price for a certain product.<br>2. **custom**: a custom price point.<br>3. **catalog**: a price point that is **not** marked as a default price for a certain product and is **not** a custom one. |
-| `NextProductPricePointId` | `Optional[int]` | Optional | If a delayed product change is scheduled, the ID of the product price point that the subscription will be changed to at the next renewal. |
-| `NetTerms` | `Optional[int]` | Optional | On Relationship Invoicing, the number of days before a renewal invoice is due. |
-| `StoredCredentialTransactionId` | `Optional[int]` | Optional | For European sites subject to PSD2 and using 3D Secure, this can be used to reference a previous transaction for the customer. This will ensure the card will be charged successfully at renewal. |
-| `Reference` | `Optional[string]` | Optional | The reference value (provided by your app) for the subscription itelf. |
-| `OnHoldAt` | `Optional[time.Time]` | Optional | The timestamp of the most recent on hold action. |
+| `NextProductPricePointId` | `models.Optional[int]` | Optional | If a delayed product change is scheduled, the ID of the product price point that the subscription will be changed to at the next renewal. |
+| `NetTerms` | `models.Optional[int]` | Optional | On Relationship Invoicing, the number of days before a renewal invoice is due. |
+| `StoredCredentialTransactionId` | `models.Optional[int]` | Optional | For European sites subject to PSD2 and using 3D Secure, this can be used to reference a previous transaction for the customer. This will ensure the card will be charged successfully at renewal. |
+| `Reference` | `models.Optional[string]` | Optional | The reference value (provided by your app) for the subscription itelf. |
+| `OnHoldAt` | `models.Optional[time.Time]` | Optional | The timestamp of the most recent on hold action. |
 | `PrepaidDunning` | `*bool` | Optional | Boolean representing whether the subscription is prepaid and currently in dunning. Only returned for Relationship Invoicing sites with the feature enabled |
 | `Coupons` | [`[]models.SubscriptionIncludedCoupon`](../../doc/models/subscription-included-coupon.md) | Optional | Additional coupon data. To use this data you also have to include the following param in the request`include[]=coupons`.<br>Only in Read Subscription Endpoint. |
 | `DunningCommunicationDelayEnabled` | `*bool` | Optional | Enable Communication Delay feature, making sure no communication (email or SMS) is sent to the Customer between 9PM and 8AM in time zone set by the `dunning_communication_delay_time_zone` attribute. |
-| `DunningCommunicationDelayTimeZone` | `Optional[string]` | Optional | Time zone for the Dunning Communication Delay feature. |
-| `ReceivesInvoiceEmails` | `Optional[bool]` | Optional | - |
-| `Locale` | `Optional[string]` | Optional | - |
+| `DunningCommunicationDelayTimeZone` | `models.Optional[string]` | Optional | Time zone for the Dunning Communication Delay feature. |
+| `ReceivesInvoiceEmails` | `models.Optional[bool]` | Optional | - |
+| `Locale` | `models.Optional[string]` | Optional | - |
 | `Currency` | `*string` | Optional | - |
-| `ScheduledCancellationAt` | `Optional[time.Time]` | Optional | - |
+| `ScheduledCancellationAt` | `models.Optional[time.Time]` | Optional | - |
 | `CreditBalanceInCents` | `*int64` | Optional | - |
 | `PrepaymentBalanceInCents` | `*int64` | Optional | - |
 | `PrepaidConfiguration` | [`*models.PrepaidConfiguration`](../../doc/models/prepaid-configuration.md) | Optional | - |

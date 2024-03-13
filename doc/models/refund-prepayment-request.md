@@ -17,10 +17,7 @@
 {
   "refund": {
     "amount_in_cents": 132,
-    "amount": {
-      "key1": "val1",
-      "key2": "val2"
-    },
+    "amount": "String1",
     "memo": "memo2",
     "external": false
   }

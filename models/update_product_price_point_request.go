@@ -1,40 +1,60 @@
 package models
 
 import (
-    "encoding/json"
+	"encoding/json"
+	"errors"
+	"strings"
 )
 
 // UpdateProductPricePointRequest represents a UpdateProductPricePointRequest struct.
 type UpdateProductPricePointRequest struct {
-    PricePoint UpdateProductPricePoint `json:"price_point"`
+	PricePoint UpdateProductPricePoint `json:"price_point"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for UpdateProductPricePointRequest.
 // It customizes the JSON marshaling process for UpdateProductPricePointRequest objects.
 func (u *UpdateProductPricePointRequest) MarshalJSON() (
-    []byte,
-    error) {
-    return json.Marshal(u.toMap())
+	[]byte,
+	error) {
+	return json.Marshal(u.toMap())
 }
 
 // toMap converts the UpdateProductPricePointRequest object to a map representation for JSON marshaling.
 func (u *UpdateProductPricePointRequest) toMap() map[string]any {
-    structMap := make(map[string]any)
-    structMap["price_point"] = u.PricePoint.toMap()
-    return structMap
+	structMap := make(map[string]any)
+	structMap["price_point"] = u.PricePoint.toMap()
+	return structMap
 }
 
 // UnmarshalJSON implements the json.Unmarshaler interface for UpdateProductPricePointRequest.
 // It customizes the JSON unmarshaling process for UpdateProductPricePointRequest objects.
 func (u *UpdateProductPricePointRequest) UnmarshalJSON(input []byte) error {
-    temp := &struct {
-        PricePoint UpdateProductPricePoint `json:"price_point"`
-    }{}
-    err := json.Unmarshal(input, &temp)
-    if err != nil {
-    	return err
-    }
-    
-    u.PricePoint = temp.PricePoint
-    return nil
+	var temp updateProductPricePointRequest
+	err := json.Unmarshal(input, &temp)
+	if err != nil {
+		return err
+	}
+	err = temp.validate()
+	if err != nil {
+		return err
+	}
+
+	u.PricePoint = *temp.PricePoint
+	return nil
+}
+
+// TODO
+type updateProductPricePointRequest struct {
+	PricePoint *UpdateProductPricePoint `json:"price_point"`
+}
+
+func (u *updateProductPricePointRequest) validate() error {
+	var errs []string
+	if u.PricePoint == nil {
+		errs = append(errs, "required field `price_point` is missing for type `Update Product Price Point Request`")
+	}
+	if len(errs) == 0 {
+		return nil
+	}
+	return errors.New(strings.Join(errs, "\n"))
 }

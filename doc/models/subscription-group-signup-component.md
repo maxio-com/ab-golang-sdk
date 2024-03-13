@@ -9,62 +9,32 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `ComponentId` | `*interface{}` | Optional | Required if passing any component to `components` attribute. |
-| `AllocatedQuantity` | `*interface{}` | Optional | - |
-| `UnitBalance` | `*interface{}` | Optional | - |
-| `PricePointId` | `*interface{}` | Optional | - |
+| `ComponentId` | [`*models.SubscriptionGroupSignupComponentComponentId`](../../doc/models/containers/subscription-group-signup-component-component-id.md) | Optional | This is a container for one-of cases. |
+| `AllocatedQuantity` | [`*models.SubscriptionGroupSignupComponentAllocatedQuantity`](../../doc/models/containers/subscription-group-signup-component-allocated-quantity.md) | Optional | This is a container for one-of cases. |
+| `UnitBalance` | [`*models.SubscriptionGroupSignupComponentUnitBalance`](../../doc/models/containers/subscription-group-signup-component-unit-balance.md) | Optional | This is a container for one-of cases. |
+| `PricePointId` | [`*models.SubscriptionGroupSignupComponentPricePointId`](../../doc/models/containers/subscription-group-signup-component-price-point-id.md) | Optional | This is a container for one-of cases. |
 | `CustomPrice` | [`*models.SubscriptionGroupComponentCustomPrice`](../../doc/models/subscription-group-component-custom-price.md) | Optional | Used in place of `price_point_id` to define a custom price point unique to the subscription. You still need to provide `component_id`. |
 
 ## Example (as JSON)
 
 ```json
 {
-  "component_id": {
-    "key1": "val1",
-    "key2": "val2"
-  },
-  "allocated_quantity": {
-    "key1": "val1",
-    "key2": "val2"
-  },
-  "unit_balance": {
-    "key1": "val1",
-    "key2": "val2"
-  },
-  "price_point_id": {
-    "key1": "val1",
-    "key2": "val2"
-  },
+  "component_id": "String1",
+  "allocated_quantity": "String5",
+  "unit_balance": "String9",
+  "price_point_id": "String5",
   "custom_price": {
     "pricing_scheme": "stairstep",
     "prices": [
       {
-        "starting_quantity": {
-          "key1": "val1",
-          "key2": "val2"
-        },
-        "ending_quantity": {
-          "key1": "val1",
-          "key2": "val2"
-        },
-        "unit_price": {
-          "key1": "val1",
-          "key2": "val2"
-        }
+        "starting_quantity": 242,
+        "ending_quantity": 40,
+        "unit_price": 23.26
       },
       {
-        "starting_quantity": {
-          "key1": "val1",
-          "key2": "val2"
-        },
-        "ending_quantity": {
-          "key1": "val1",
-          "key2": "val2"
-        },
-        "unit_price": {
-          "key1": "val1",
-          "key2": "val2"
-        }
+        "starting_quantity": 242,
+        "ending_quantity": 40,
+        "unit_price": 23.26
       }
     ],
     "overage_pricing": [
@@ -74,18 +44,9 @@
         "interval_unit": "day",
         "prices": [
           {
-            "starting_quantity": {
-              "key1": "val1",
-              "key2": "val2"
-            },
-            "ending_quantity": {
-              "key1": "val1",
-              "key2": "val2"
-            },
-            "unit_price": {
-              "key1": "val1",
-              "key2": "val2"
-            }
+            "starting_quantity": 242,
+            "ending_quantity": 40,
+            "unit_price": 23.26
           }
         ]
       },
@@ -95,18 +56,9 @@
         "interval_unit": "day",
         "prices": [
           {
-            "starting_quantity": {
-              "key1": "val1",
-              "key2": "val2"
-            },
-            "ending_quantity": {
-              "key1": "val1",
-              "key2": "val2"
-            },
-            "unit_price": {
-              "key1": "val1",
-              "key2": "val2"
-            }
+            "starting_quantity": 242,
+            "ending_quantity": 40,
+            "unit_price": 23.26
           }
         ]
       },
@@ -116,18 +68,9 @@
         "interval_unit": "day",
         "prices": [
           {
-            "starting_quantity": {
-              "key1": "val1",
-              "key2": "val2"
-            },
-            "ending_quantity": {
-              "key1": "val1",
-              "key2": "val2"
-            },
-            "unit_price": {
-              "key1": "val1",
-              "key2": "val2"
-            }
+            "starting_quantity": 242,
+            "ending_quantity": 40,
+            "unit_price": 23.26
           }
         ]
       }

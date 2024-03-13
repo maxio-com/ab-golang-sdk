@@ -524,7 +524,8 @@ This method allows to retrieve a list of Products belonging to a Site.
 
 ```go
 ListProducts(
-    ctx context.Context,input ListProductsInput) (
+    ctx context.Context,
+    input ListProductsInput) (
     models.ApiResponse[[]models.ProductResponse],
     error)
 ```
@@ -553,13 +554,16 @@ ListProducts(
 
 ```go
 ctx := context.Background()
-dateField := models.BasicDateField("updated_at")
-page := 2
-perPage := 50
-includeArchived := true
-include := models.ListProductsInclude("prepaid_product_price_point")Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')
 
-apiResponse, err := productsController.ListProducts(ctx, &dateField, nil, nil, nil, nil, &page, &perPage, &includeArchived, &include, Liquid error: Value cannot be null. (Parameter 'key'), Liquid error: Value cannot be null. (Parameter 'key'))
+collectedInput := advancedbilling.ListProductsInput{
+    DateField:                                         models.ToPointer(models.BasicDateField("updated_at")),
+    Page:                                              models.ToPointer(2),
+    PerPage:                                           models.ToPointer(50),
+    IncludeArchived:                                   models.ToPointer(true),
+    Include:                                           models.ToPointer(models.ListProductsInclude("prepaid_product_price_point")),
+Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')}
+
+apiResponse, err := productsController.ListProducts(ctx, collectedInput)
 if err != nil {
     log.Fatalln(err)
 } else {

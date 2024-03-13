@@ -22,10 +22,22 @@
           "Chargify token not found"
         ],
         "product": [
-          "must be among the Products for this Site"
+          "Product must be among the Products for this Site"
         ],
         "product_price_point_id": [
           "Product price point must belong to product."
+        ],
+        "base": [
+          "No payment method was on file for the $30.00 balance'"
+        ],
+        "payment_profile.expiration_month": [
+          "Credit card expiration month: cannot be blank."
+        ],
+        "payment_profile.expiration_year": [
+          "Credit card expiration year: cannot be blank."
+        ],
+        "payment_profile.full_number": [
+          "Credit card number: cannot be blank."
         ],
         "payment_profile": [
           "payment_profile2"

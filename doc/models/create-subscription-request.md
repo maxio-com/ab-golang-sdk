@@ -31,23 +31,11 @@
     "custom_price": {
       "name": "name4",
       "handle": "handle0",
-      "price_in_cents": {
-        "key1": "val1",
-        "key2": "val2"
-      },
-      "interval": {
-        "key1": "val1",
-        "key2": "val2"
-      },
+      "price_in_cents": "String3",
+      "interval": "String3",
       "interval_unit": "day",
-      "trial_price_in_cents": {
-        "key1": "val1",
-        "key2": "val2"
-      },
-      "trial_interval": {
-        "key1": "val1",
-        "key2": "val2"
-      },
+      "trial_price_in_cents": "String3",
+      "trial_interval": "String5",
       "trial_interval_unit": "day"
     }
   }

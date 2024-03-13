@@ -23,9 +23,9 @@
 | `PeriodRangeEnd` | `*time.Time` | Optional | End date for the period credited by this line. The format is `"YYYY-MM-DD"`. |
 | `ProductId` | `*int` | Optional | The ID of the product being credited.<br><br>This may be set even for component credits, so true product-only (non-component) credits will also have a nil `component_id`. |
 | `ProductVersion` | `*int` | Optional | The version of the product being credited. |
-| `ComponentId` | `Optional[int]` | Optional | The ID of the component being credited. Will be `nil` for non-component credits. |
-| `PricePointId` | `Optional[int]` | Optional | The price point ID of the component being credited. Will be `nil` for non-component credits. |
-| `BillingScheduleItemId` | `Optional[int]` | Optional | - |
+| `ComponentId` | `models.Optional[int]` | Optional | The ID of the component being credited. Will be `nil` for non-component credits. |
+| `PricePointId` | `models.Optional[int]` | Optional | The price point ID of the component being credited. Will be `nil` for non-component credits. |
+| `BillingScheduleItemId` | `models.Optional[int]` | Optional | - |
 | `CustomItem` | `*bool` | Optional | - |
 
 ## Example (as JSON)

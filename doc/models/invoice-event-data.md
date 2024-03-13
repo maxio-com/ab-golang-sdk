@@ -23,10 +23,10 @@ The event data is the data that, when combined with the command, results in the 
 | `AppliedCreditNotes` | [`[]models.AppliedCreditNoteData`](../../doc/models/applied-credit-note-data.md) | Optional | List of credit notes applied to children invoices (if consolidated invoice) |
 | `DebitNoteNumber` | `*string` | Optional | A unique, identifying string that appears on the debit note and in places it is referenced. |
 | `DebitNoteUid` | `*string` | Optional | Unique identifier for the debit note. It is generated automatically by Chargify and has the prefix "db_" followed by alphanumeric characters. |
-| `PaymentMethod` | [`*models.InvoiceEventPayment1`](../../doc/models/invoice-event-payment-1.md) | Optional | A nested data structure detailing the method of payment |
+| `PaymentMethod` | [`*models.InvoiceEventDataPaymentMethod`](../../doc/models/containers/invoice-event-data-payment-method.md) | Optional | This is a container for any-of cases. |
 | `TransactionId` | `*int` | Optional | The Chargify id of the original payment |
-| `ParentInvoiceNumber` | `Optional[int]` | Optional | - |
-| `RemainingPrepaymentAmount` | `Optional[string]` | Optional | - |
+| `ParentInvoiceNumber` | `models.Optional[int]` | Optional | - |
+| `RemainingPrepaymentAmount` | `models.Optional[string]` | Optional | - |
 | `Prepayment` | `*bool` | Optional | The flag that shows whether the original payment was a prepayment or not |
 | `External` | `*bool` | Optional | - |
 | `FromCollectionMethod` | `*string` | Optional | The previous collection method of the invoice. |

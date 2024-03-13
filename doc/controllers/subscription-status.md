@@ -1103,13 +1103,15 @@ bodyCalendarBilling := models.ReactivationBilling{
     ReactivationCharge: models.ToPointer(models.ReactivationCharge("prorated")),
 }
 
+bodyResume := models.ReactivateSubscriptionRequestResumeContainer.FromBoolean(true)
+
 body := models.ReactivateSubscriptionRequest{
     IncludeTrial:             models.ToPointer(true),
     PreserveBalance:          models.ToPointer(true),
     CouponCode:               models.ToPointer("10OFF"),
     UseCreditsAndPrepayments: models.ToPointer(true),
-    Resume:                   models.ToPointer(interface{}("[key1, val1][key2, val2]")),
     CalendarBilling:          models.ToPointer(bodyCalendarBilling),
+    Resume:                   models.ToPointer(bodyResume),
 }
 
 apiResponse, err := subscriptionStatusController.ReactivateSubscription(ctx, subscriptionId, &body)
@@ -1435,21 +1437,31 @@ PreviewRenewal(
 ctx := context.Background()
 subscriptionId := 222
 
+bodyComponents0ComponentId := models.RenewalPreviewComponentComponentIdContainer.FromNumber(10708)
+
 bodyComponents0 := models.RenewalPreviewComponent{
-    ComponentId:  models.ToPointer(interface{}("[key1, val1][key2, val2]")),
     Quantity:     models.ToPointer(10000),
+    ComponentId:  models.ToPointer(bodyComponents0ComponentId),
 }
+
+bodyComponents1ComponentId := models.RenewalPreviewComponentComponentIdContainer.FromString("handle:small-instance-hours")
+
+bodyComponents1PricePointId := models.RenewalPreviewComponentPricePointIdContainer.FromNumber(8712)
 
 bodyComponents1 := models.RenewalPreviewComponent{
-    ComponentId:  models.ToPointer(interface{}("[key1, val1][key2, val2]")),
     Quantity:     models.ToPointer(10000),
-    PricePointId: models.ToPointer(interface{}("[key1, val1][key2, val2]")),
+    ComponentId:  models.ToPointer(bodyComponents1ComponentId),
+    PricePointId: models.ToPointer(bodyComponents1PricePointId),
 }
 
+bodyComponents2ComponentId := models.RenewalPreviewComponentComponentIdContainer.FromString("handle:large-instance-hours")
+
+bodyComponents2PricePointId := models.RenewalPreviewComponentPricePointIdContainer.FromString("handle:startup-pricing")
+
 bodyComponents2 := models.RenewalPreviewComponent{
-    ComponentId:  models.ToPointer(interface{}("[key1, val1][key2, val2]")),
     Quantity:     models.ToPointer(100),
-    PricePointId: models.ToPointer(interface{}("[key1, val1][key2, val2]")),
+    ComponentId:  models.ToPointer(bodyComponents2ComponentId),
+    PricePointId: models.ToPointer(bodyComponents2PricePointId),
 }
 
 bodyComponents := []models.RenewalPreviewComponent{bodyComponents0, bodyComponents1, bodyComponents2}

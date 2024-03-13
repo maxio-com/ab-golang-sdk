@@ -10,29 +10,20 @@
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `Id` | `*int` | Optional | - |
-| `EndingQuantity` | `*interface{}` | Optional | - |
-| `UnitPrice` | `*interface{}` | Optional | The price can contain up to 8 decimal places. i.e. 1.00 or 0.0012 or 0.00000065 |
+| `EndingQuantity` | [`*models.UpdatePriceEndingQuantity`](../../doc/models/containers/update-price-ending-quantity.md) | Optional | This is a container for one-of cases. |
+| `UnitPrice` | [`*models.UpdatePriceUnitPrice`](../../doc/models/containers/update-price-unit-price.md) | Optional | This is a container for one-of cases. |
 | `Destroy` | `*bool` | Optional | - |
-| `StartingQuantity` | `*interface{}` | Optional | - |
+| `StartingQuantity` | [`*models.UpdatePriceStartingQuantity`](../../doc/models/containers/update-price-starting-quantity.md) | Optional | This is a container for one-of cases. |
 
 ## Example (as JSON)
 
 ```json
 {
   "id": 18,
-  "ending_quantity": {
-    "key1": "val1",
-    "key2": "val2"
-  },
-  "unit_price": {
-    "key1": "val1",
-    "key2": "val2"
-  },
+  "ending_quantity": 216,
+  "unit_price": 166.62,
   "_destroy": false,
-  "starting_quantity": {
-    "key1": "val1",
-    "key2": "val2"
-  }
+  "starting_quantity": 242
 }
 ```
 

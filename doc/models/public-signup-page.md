@@ -10,8 +10,8 @@
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `Id` | `*int` | Optional | The id of the signup page (public_signup_pages only) |
-| `ReturnUrl` | `Optional[string]` | Optional | The url to which a customer will be returned after a successful signup (public_signup_pages only) |
-| `ReturnParams` | `Optional[string]` | Optional | The params to be appended to the return_url (public_signup_pages only) |
+| `ReturnUrl` | `models.Optional[string]` | Optional | The url to which a customer will be returned after a successful signup (public_signup_pages only) |
+| `ReturnParams` | `models.Optional[string]` | Optional | The params to be appended to the return_url (public_signup_pages only) |
 | `Url` | `*string` | Optional | The url where the signup page can be viewed (public_signup_pages only) |
 
 ## Example (as JSON)
