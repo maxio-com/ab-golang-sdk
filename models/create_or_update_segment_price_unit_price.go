@@ -85,10 +85,12 @@ type internalCreateOrUpdateSegmentPriceUnitPrice struct{}
 
 var CreateOrUpdateSegmentPriceUnitPriceContainer internalCreateOrUpdateSegmentPriceUnitPrice
 
+// The internalCreateOrUpdateSegmentPriceUnitPrice instance, wrapping the provided string value.
 func (c *internalCreateOrUpdateSegmentPriceUnitPrice) FromString(val string) CreateOrUpdateSegmentPriceUnitPrice {
 	return CreateOrUpdateSegmentPriceUnitPrice{value: &val}
 }
 
+// The internalCreateOrUpdateSegmentPriceUnitPrice instance, wrapping the provided float64 value.
 func (c *internalCreateOrUpdateSegmentPriceUnitPrice) FromPrecision(val float64) CreateOrUpdateSegmentPriceUnitPrice {
 	return CreateOrUpdateSegmentPriceUnitPrice{value: &val}
 }

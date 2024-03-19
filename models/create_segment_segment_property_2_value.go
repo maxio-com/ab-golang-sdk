@@ -111,18 +111,22 @@ type internalCreateSegmentSegmentProperty2Value struct{}
 
 var CreateSegmentSegmentProperty2ValueContainer internalCreateSegmentSegmentProperty2Value
 
+// The internalCreateSegmentSegmentProperty2Value instance, wrapping the provided string value.
 func (c *internalCreateSegmentSegmentProperty2Value) FromString(val string) CreateSegmentSegmentProperty2Value {
 	return CreateSegmentSegmentProperty2Value{value: &val}
 }
 
+// The internalCreateSegmentSegmentProperty2Value instance, wrapping the provided float64 value.
 func (c *internalCreateSegmentSegmentProperty2Value) FromPrecision(val float64) CreateSegmentSegmentProperty2Value {
 	return CreateSegmentSegmentProperty2Value{value: &val}
 }
 
+// The internalCreateSegmentSegmentProperty2Value instance, wrapping the provided int value.
 func (c *internalCreateSegmentSegmentProperty2Value) FromNumber(val int) CreateSegmentSegmentProperty2Value {
 	return CreateSegmentSegmentProperty2Value{value: &val}
 }
 
+// The internalCreateSegmentSegmentProperty2Value instance, wrapping the provided bool value.
 func (c *internalCreateSegmentSegmentProperty2Value) FromBoolean(val bool) CreateSegmentSegmentProperty2Value {
 	return CreateSegmentSegmentProperty2Value{value: &val}
 }

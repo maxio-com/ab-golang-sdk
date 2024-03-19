@@ -85,10 +85,12 @@ type internalIssueServiceCreditAmount struct{}
 
 var IssueServiceCreditAmountContainer internalIssueServiceCreditAmount
 
+// The internalIssueServiceCreditAmount instance, wrapping the provided float64 value.
 func (i *internalIssueServiceCreditAmount) FromPrecision(val float64) IssueServiceCreditAmount {
 	return IssueServiceCreditAmount{value: &val}
 }
 
+// The internalIssueServiceCreditAmount instance, wrapping the provided string value.
 func (i *internalIssueServiceCreditAmount) FromString(val string) IssueServiceCreditAmount {
 	return IssueServiceCreditAmount{value: &val}
 }

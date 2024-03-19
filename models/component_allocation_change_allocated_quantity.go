@@ -85,10 +85,12 @@ type internalComponentAllocationChangeAllocatedQuantity struct{}
 
 var ComponentAllocationChangeAllocatedQuantityContainer internalComponentAllocationChangeAllocatedQuantity
 
+// The internalComponentAllocationChangeAllocatedQuantity instance, wrapping the provided int value.
 func (c *internalComponentAllocationChangeAllocatedQuantity) FromNumber(val int) ComponentAllocationChangeAllocatedQuantity {
 	return ComponentAllocationChangeAllocatedQuantity{value: &val}
 }
 
+// The internalComponentAllocationChangeAllocatedQuantity instance, wrapping the provided string value.
 func (c *internalComponentAllocationChangeAllocatedQuantity) FromString(val string) ComponentAllocationChangeAllocatedQuantity {
 	return ComponentAllocationChangeAllocatedQuantity{value: &val}
 }

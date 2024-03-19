@@ -85,10 +85,12 @@ type internalCreateSubscriptionComponentComponentId struct{}
 
 var CreateSubscriptionComponentComponentIdContainer internalCreateSubscriptionComponentComponentId
 
+// The internalCreateSubscriptionComponentComponentId instance, wrapping the provided int value.
 func (c *internalCreateSubscriptionComponentComponentId) FromNumber(val int) CreateSubscriptionComponentComponentId {
 	return CreateSubscriptionComponentComponentId{value: &val}
 }
 
+// The internalCreateSubscriptionComponentComponentId instance, wrapping the provided string value.
 func (c *internalCreateSubscriptionComponentComponentId) FromString(val string) CreateSubscriptionComponentComponentId {
 	return CreateSubscriptionComponentComponentId{value: &val}
 }

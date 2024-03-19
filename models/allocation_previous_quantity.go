@@ -85,10 +85,12 @@ type internalAllocationPreviousQuantity struct{}
 
 var AllocationPreviousQuantityContainer internalAllocationPreviousQuantity
 
+// The internalAllocationPreviousQuantity instance, wrapping the provided int value.
 func (a *internalAllocationPreviousQuantity) FromNumber(val int) AllocationPreviousQuantity {
 	return AllocationPreviousQuantity{value: &val}
 }
 
+// The internalAllocationPreviousQuantity instance, wrapping the provided string value.
 func (a *internalAllocationPreviousQuantity) FromString(val string) AllocationPreviousQuantity {
 	return AllocationPreviousQuantity{value: &val}
 }

@@ -85,10 +85,12 @@ type internalRefundInvoiceRequestRefund struct{}
 
 var RefundInvoiceRequestRefundContainer internalRefundInvoiceRequestRefund
 
+// The internalRefundInvoiceRequestRefund instance, wrapping the provided RefundInvoice value.
 func (r *internalRefundInvoiceRequestRefund) FromRefundInvoice(val RefundInvoice) RefundInvoiceRequestRefund {
 	return RefundInvoiceRequestRefund{value: &val}
 }
 
+// The internalRefundInvoiceRequestRefund instance, wrapping the provided RefundConsolidatedInvoice value.
 func (r *internalRefundInvoiceRequestRefund) FromRefundConsolidatedInvoice(val RefundConsolidatedInvoice) RefundInvoiceRequestRefund {
 	return RefundInvoiceRequestRefund{value: &val}
 }

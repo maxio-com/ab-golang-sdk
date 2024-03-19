@@ -85,10 +85,12 @@ type internalArchiveProductPricePointPricePointId struct{}
 
 var ArchiveProductPricePointPricePointIdContainer internalArchiveProductPricePointPricePointId
 
+// The internalArchiveProductPricePointPricePointId instance, wrapping the provided int value.
 func (a *internalArchiveProductPricePointPricePointId) FromNumber(val int) ArchiveProductPricePointPricePointId {
 	return ArchiveProductPricePointPricePointId{value: &val}
 }
 
+// The internalArchiveProductPricePointPricePointId instance, wrapping the provided string value.
 func (a *internalArchiveProductPricePointPricePointId) FromString(val string) ArchiveProductPricePointPricePointId {
 	return ArchiveProductPricePointPricePointId{value: &val}
 }

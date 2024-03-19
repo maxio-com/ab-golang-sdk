@@ -85,10 +85,12 @@ type internalPriceStartingQuantity struct{}
 
 var PriceStartingQuantityContainer internalPriceStartingQuantity
 
+// The internalPriceStartingQuantity instance, wrapping the provided int value.
 func (p *internalPriceStartingQuantity) FromNumber(val int) PriceStartingQuantity {
 	return PriceStartingQuantity{value: &val}
 }
 
+// The internalPriceStartingQuantity instance, wrapping the provided string value.
 func (p *internalPriceStartingQuantity) FromString(val string) PriceStartingQuantity {
 	return PriceStartingQuantity{value: &val}
 }

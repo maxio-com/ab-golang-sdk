@@ -306,78 +306,97 @@ type internalEventEventSpecificData struct{}
 
 var EventEventSpecificDataContainer internalEventEventSpecificData
 
+// The internalEventEventSpecificData instance, wrapping the provided SubscriptionProductChange value.
 func (e *internalEventEventSpecificData) FromSubscriptionProductChange(val SubscriptionProductChange) EventEventSpecificData {
 	return EventEventSpecificData{value: &val}
 }
 
+// The internalEventEventSpecificData instance, wrapping the provided SubscriptionStateChange value.
 func (e *internalEventEventSpecificData) FromSubscriptionStateChange(val SubscriptionStateChange) EventEventSpecificData {
 	return EventEventSpecificData{value: &val}
 }
 
+// The internalEventEventSpecificData instance, wrapping the provided PaymentRelatedEvents value.
 func (e *internalEventEventSpecificData) FromPaymentRelatedEvents(val PaymentRelatedEvents) EventEventSpecificData {
 	return EventEventSpecificData{value: &val}
 }
 
+// The internalEventEventSpecificData instance, wrapping the provided RefundSuccess value.
 func (e *internalEventEventSpecificData) FromRefundSuccess(val RefundSuccess) EventEventSpecificData {
 	return EventEventSpecificData{value: &val}
 }
 
+// The internalEventEventSpecificData instance, wrapping the provided ComponentAllocationChange value.
 func (e *internalEventEventSpecificData) FromComponentAllocationChange(val ComponentAllocationChange) EventEventSpecificData {
 	return EventEventSpecificData{value: &val}
 }
 
+// The internalEventEventSpecificData instance, wrapping the provided MeteredUsage value.
 func (e *internalEventEventSpecificData) FromMeteredUsage(val MeteredUsage) EventEventSpecificData {
 	return EventEventSpecificData{value: &val}
 }
 
+// The internalEventEventSpecificData instance, wrapping the provided PrepaidUsage value.
 func (e *internalEventEventSpecificData) FromPrepaidUsage(val PrepaidUsage) EventEventSpecificData {
 	return EventEventSpecificData{value: &val}
 }
 
+// The internalEventEventSpecificData instance, wrapping the provided DunningStepReached value.
 func (e *internalEventEventSpecificData) FromDunningStepReached(val DunningStepReached) EventEventSpecificData {
 	return EventEventSpecificData{value: &val}
 }
 
+// The internalEventEventSpecificData instance, wrapping the provided InvoiceIssued value.
 func (e *internalEventEventSpecificData) FromInvoiceIssued(val InvoiceIssued) EventEventSpecificData {
 	return EventEventSpecificData{value: &val}
 }
 
+// The internalEventEventSpecificData instance, wrapping the provided PendingCancellationChange value.
 func (e *internalEventEventSpecificData) FromPendingCancellationChange(val PendingCancellationChange) EventEventSpecificData {
 	return EventEventSpecificData{value: &val}
 }
 
+// The internalEventEventSpecificData instance, wrapping the provided PrepaidSubscriptionBalanceChanged value.
 func (e *internalEventEventSpecificData) FromPrepaidSubscriptionBalanceChanged(val PrepaidSubscriptionBalanceChanged) EventEventSpecificData {
 	return EventEventSpecificData{value: &val}
 }
 
+// The internalEventEventSpecificData instance, wrapping the provided ProformaInvoiceIssued value.
 func (e *internalEventEventSpecificData) FromProformaInvoiceIssued(val ProformaInvoiceIssued) EventEventSpecificData {
 	return EventEventSpecificData{value: &val}
 }
 
+// The internalEventEventSpecificData instance, wrapping the provided SubscriptionGroupSignupSuccess value.
 func (e *internalEventEventSpecificData) FromSubscriptionGroupSignupSuccess(val SubscriptionGroupSignupSuccess) EventEventSpecificData {
 	return EventEventSpecificData{value: &val}
 }
 
+// The internalEventEventSpecificData instance, wrapping the provided SubscriptionGroupSignupFailure value.
 func (e *internalEventEventSpecificData) FromSubscriptionGroupSignupFailure(val SubscriptionGroupSignupFailure) EventEventSpecificData {
 	return EventEventSpecificData{value: &val}
 }
 
+// The internalEventEventSpecificData instance, wrapping the provided CreditAccountBalanceChanged value.
 func (e *internalEventEventSpecificData) FromCreditAccountBalanceChanged(val CreditAccountBalanceChanged) EventEventSpecificData {
 	return EventEventSpecificData{value: &val}
 }
 
+// The internalEventEventSpecificData instance, wrapping the provided PrepaymentAccountBalanceChanged value.
 func (e *internalEventEventSpecificData) FromPrepaymentAccountBalanceChanged(val PrepaymentAccountBalanceChanged) EventEventSpecificData {
 	return EventEventSpecificData{value: &val}
 }
 
+// The internalEventEventSpecificData instance, wrapping the provided PaymentCollectionMethodChanged value.
 func (e *internalEventEventSpecificData) FromPaymentCollectionMethodChanged(val PaymentCollectionMethodChanged) EventEventSpecificData {
 	return EventEventSpecificData{value: &val}
 }
 
+// The internalEventEventSpecificData instance, wrapping the provided ItemPricePointChanged value.
 func (e *internalEventEventSpecificData) FromItemPricePointChanged(val ItemPricePointChanged) EventEventSpecificData {
 	return EventEventSpecificData{value: &val}
 }
 
+// The internalEventEventSpecificData instance, wrapping the provided CustomFieldValueChange value.
 func (e *internalEventEventSpecificData) FromCustomFieldValueChange(val CustomFieldValueChange) EventEventSpecificData {
 	return EventEventSpecificData{value: &val}
 }

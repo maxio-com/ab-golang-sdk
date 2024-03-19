@@ -72,6 +72,7 @@ type internalProductTrialIntervalUnit struct{}
 
 var ProductTrialIntervalUnitContainer internalProductTrialIntervalUnit
 
+// The internalProductTrialIntervalUnit instance, wrapping the provided IntervalUnit value.
 func (p *internalProductTrialIntervalUnit) FromIntervalUnit(val IntervalUnit) ProductTrialIntervalUnit {
 	return ProductTrialIntervalUnit{value: &val}
 }

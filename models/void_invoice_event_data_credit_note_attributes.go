@@ -72,6 +72,7 @@ type internalVoidInvoiceEventDataCreditNoteAttributes struct{}
 
 var VoidInvoiceEventDataCreditNoteAttributesContainer internalVoidInvoiceEventDataCreditNoteAttributes
 
+// The internalVoidInvoiceEventDataCreditNoteAttributes instance, wrapping the provided CreditNote value.
 func (v *internalVoidInvoiceEventDataCreditNoteAttributes) FromCreditNote(val CreditNote) VoidInvoiceEventDataCreditNoteAttributes {
 	return VoidInvoiceEventDataCreditNoteAttributes{value: &val}
 }

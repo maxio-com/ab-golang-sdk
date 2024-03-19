@@ -85,10 +85,12 @@ type internalUpdateProductPricePointProductId struct{}
 
 var UpdateProductPricePointProductIdContainer internalUpdateProductPricePointProductId
 
+// The internalUpdateProductPricePointProductId instance, wrapping the provided int value.
 func (u *internalUpdateProductPricePointProductId) FromNumber(val int) UpdateProductPricePointProductId {
 	return UpdateProductPricePointProductId{value: &val}
 }
 
+// The internalUpdateProductPricePointProductId instance, wrapping the provided string value.
 func (u *internalUpdateProductPricePointProductId) FromString(val string) UpdateProductPricePointProductId {
 	return UpdateProductPricePointProductId{value: &val}
 }

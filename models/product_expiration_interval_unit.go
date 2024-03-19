@@ -72,6 +72,7 @@ type internalProductExpirationIntervalUnit struct{}
 
 var ProductExpirationIntervalUnitContainer internalProductExpirationIntervalUnit
 
+// The internalProductExpirationIntervalUnit instance, wrapping the provided ExtendedIntervalUnit value.
 func (p *internalProductExpirationIntervalUnit) FromExtendedIntervalUnit(val ExtendedIntervalUnit) ProductExpirationIntervalUnit {
 	return ProductExpirationIntervalUnit{value: &val}
 }

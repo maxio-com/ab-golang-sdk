@@ -72,6 +72,7 @@ type internalAllocationPayment struct{}
 
 var AllocationPaymentContainer internalAllocationPayment
 
+// The internalAllocationPayment instance, wrapping the provided PaymentForAllocation value.
 func (a *internalAllocationPayment) FromPaymentForAllocation(val PaymentForAllocation) AllocationPayment {
 	return AllocationPayment{value: &val}
 }

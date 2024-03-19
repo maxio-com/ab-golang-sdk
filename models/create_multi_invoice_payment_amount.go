@@ -85,10 +85,12 @@ type internalCreateMultiInvoicePaymentAmount struct{}
 
 var CreateMultiInvoicePaymentAmountContainer internalCreateMultiInvoicePaymentAmount
 
+// The internalCreateMultiInvoicePaymentAmount instance, wrapping the provided string value.
 func (c *internalCreateMultiInvoicePaymentAmount) FromString(val string) CreateMultiInvoicePaymentAmount {
 	return CreateMultiInvoicePaymentAmount{value: &val}
 }
 
+// The internalCreateMultiInvoicePaymentAmount instance, wrapping the provided float64 value.
 func (c *internalCreateMultiInvoicePaymentAmount) FromPrecision(val float64) CreateMultiInvoicePaymentAmount {
 	return CreateMultiInvoicePaymentAmount{value: &val}
 }

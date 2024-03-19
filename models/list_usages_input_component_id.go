@@ -85,10 +85,12 @@ type internalListUsagesInputComponentId struct{}
 
 var ListUsagesInputComponentIdContainer internalListUsagesInputComponentId
 
+// The internalListUsagesInputComponentId instance, wrapping the provided int value.
 func (l *internalListUsagesInputComponentId) FromNumber(val int) ListUsagesInputComponentId {
 	return ListUsagesInputComponentId{value: &val}
 }
 
+// The internalListUsagesInputComponentId instance, wrapping the provided string value.
 func (l *internalListUsagesInputComponentId) FromString(val string) ListUsagesInputComponentId {
 	return ListUsagesInputComponentId{value: &val}
 }

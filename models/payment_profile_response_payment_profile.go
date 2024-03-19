@@ -85,10 +85,12 @@ type internalPaymentProfileResponsePaymentProfile struct{}
 
 var PaymentProfileResponsePaymentProfileContainer internalPaymentProfileResponsePaymentProfile
 
+// The internalPaymentProfileResponsePaymentProfile instance, wrapping the provided BankAccountPaymentProfile value.
 func (p *internalPaymentProfileResponsePaymentProfile) FromBankAccountPaymentProfile(val BankAccountPaymentProfile) PaymentProfileResponsePaymentProfile {
 	return PaymentProfileResponsePaymentProfile{value: &val}
 }
 
+// The internalPaymentProfileResponsePaymentProfile instance, wrapping the provided CreditCardPaymentProfile value.
 func (p *internalPaymentProfileResponsePaymentProfile) FromCreditCardPaymentProfile(val CreditCardPaymentProfile) PaymentProfileResponsePaymentProfile {
 	return PaymentProfileResponsePaymentProfile{value: &val}
 }

@@ -85,10 +85,12 @@ type internalPriceEndingQuantity struct{}
 
 var PriceEndingQuantityContainer internalPriceEndingQuantity
 
+// The internalPriceEndingQuantity instance, wrapping the provided int value.
 func (p *internalPriceEndingQuantity) FromNumber(val int) PriceEndingQuantity {
 	return PriceEndingQuantity{value: &val}
 }
 
+// The internalPriceEndingQuantity instance, wrapping the provided string value.
 func (p *internalPriceEndingQuantity) FromString(val string) PriceEndingQuantity {
 	return PriceEndingQuantity{value: &val}
 }

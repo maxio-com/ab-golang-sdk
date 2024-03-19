@@ -85,10 +85,12 @@ type internalAllocationPreviewItemPreviousQuantity struct{}
 
 var AllocationPreviewItemPreviousQuantityContainer internalAllocationPreviewItemPreviousQuantity
 
+// The internalAllocationPreviewItemPreviousQuantity instance, wrapping the provided int value.
 func (a *internalAllocationPreviewItemPreviousQuantity) FromNumber(val int) AllocationPreviewItemPreviousQuantity {
 	return AllocationPreviewItemPreviousQuantity{value: &val}
 }
 
+// The internalAllocationPreviewItemPreviousQuantity instance, wrapping the provided string value.
 func (a *internalAllocationPreviewItemPreviousQuantity) FromString(val string) AllocationPreviewItemPreviousQuantity {
 	return AllocationPreviewItemPreviousQuantity{value: &val}
 }

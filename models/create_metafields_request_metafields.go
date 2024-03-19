@@ -85,10 +85,12 @@ type internalCreateMetafieldsRequestMetafields struct{}
 
 var CreateMetafieldsRequestMetafieldsContainer internalCreateMetafieldsRequestMetafields
 
+// The internalCreateMetafieldsRequestMetafields instance, wrapping the provided CreateMetafield value.
 func (c *internalCreateMetafieldsRequestMetafields) FromCreateMetafield(val CreateMetafield) CreateMetafieldsRequestMetafields {
 	return CreateMetafieldsRequestMetafields{value: &val}
 }
 
+// The internalCreateMetafieldsRequestMetafields instance, wrapping the provided []CreateMetafield value.
 func (c *internalCreateMetafieldsRequestMetafields) FromArrayOfCreateMetafield(val []CreateMetafield) CreateMetafieldsRequestMetafields {
 	return CreateMetafieldsRequestMetafields{value: &val}
 }

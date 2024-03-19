@@ -85,10 +85,12 @@ type internalUpdateMetafieldsRequestMetafields struct{}
 
 var UpdateMetafieldsRequestMetafieldsContainer internalUpdateMetafieldsRequestMetafields
 
+// The internalUpdateMetafieldsRequestMetafields instance, wrapping the provided UpdateMetafield value.
 func (u *internalUpdateMetafieldsRequestMetafields) FromUpdateMetafield(val UpdateMetafield) UpdateMetafieldsRequestMetafields {
 	return UpdateMetafieldsRequestMetafields{value: &val}
 }
 
+// The internalUpdateMetafieldsRequestMetafields instance, wrapping the provided []UpdateMetafield value.
 func (u *internalUpdateMetafieldsRequestMetafields) FromArrayOfUpdateMetafield(val []UpdateMetafield) UpdateMetafieldsRequestMetafields {
 	return UpdateMetafieldsRequestMetafields{value: &val}
 }

@@ -85,10 +85,12 @@ type internalPrepaidUsageComponentUnitPrice struct{}
 
 var PrepaidUsageComponentUnitPriceContainer internalPrepaidUsageComponentUnitPrice
 
+// The internalPrepaidUsageComponentUnitPrice instance, wrapping the provided string value.
 func (p *internalPrepaidUsageComponentUnitPrice) FromString(val string) PrepaidUsageComponentUnitPrice {
 	return PrepaidUsageComponentUnitPrice{value: &val}
 }
 
+// The internalPrepaidUsageComponentUnitPrice instance, wrapping the provided float64 value.
 func (p *internalPrepaidUsageComponentUnitPrice) FromPrecision(val float64) PrepaidUsageComponentUnitPrice {
 	return PrepaidUsageComponentUnitPrice{value: &val}
 }

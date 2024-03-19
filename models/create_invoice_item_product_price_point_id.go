@@ -85,10 +85,12 @@ type internalCreateInvoiceItemProductPricePointId struct{}
 
 var CreateInvoiceItemProductPricePointIdContainer internalCreateInvoiceItemProductPricePointId
 
+// The internalCreateInvoiceItemProductPricePointId instance, wrapping the provided string value.
 func (c *internalCreateInvoiceItemProductPricePointId) FromString(val string) CreateInvoiceItemProductPricePointId {
 	return CreateInvoiceItemProductPricePointId{value: &val}
 }
 
+// The internalCreateInvoiceItemProductPricePointId instance, wrapping the provided int value.
 func (c *internalCreateInvoiceItemProductPricePointId) FromNumber(val int) CreateInvoiceItemProductPricePointId {
 	return CreateInvoiceItemProductPricePointId{value: &val}
 }

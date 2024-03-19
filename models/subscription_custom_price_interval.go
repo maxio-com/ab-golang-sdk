@@ -85,10 +85,12 @@ type internalSubscriptionCustomPriceInterval struct{}
 
 var SubscriptionCustomPriceIntervalContainer internalSubscriptionCustomPriceInterval
 
+// The internalSubscriptionCustomPriceInterval instance, wrapping the provided string value.
 func (s *internalSubscriptionCustomPriceInterval) FromString(val string) SubscriptionCustomPriceInterval {
 	return SubscriptionCustomPriceInterval{value: &val}
 }
 
+// The internalSubscriptionCustomPriceInterval instance, wrapping the provided int value.
 func (s *internalSubscriptionCustomPriceInterval) FromNumber(val int) SubscriptionCustomPriceInterval {
 	return SubscriptionCustomPriceInterval{value: &val}
 }

@@ -85,10 +85,12 @@ type internalCreateInvoicePaymentAmount struct{}
 
 var CreateInvoicePaymentAmountContainer internalCreateInvoicePaymentAmount
 
+// The internalCreateInvoicePaymentAmount instance, wrapping the provided string value.
 func (c *internalCreateInvoicePaymentAmount) FromString(val string) CreateInvoicePaymentAmount {
 	return CreateInvoicePaymentAmount{value: &val}
 }
 
+// The internalCreateInvoicePaymentAmount instance, wrapping the provided float64 value.
 func (c *internalCreateInvoicePaymentAmount) FromPrecision(val float64) CreateInvoicePaymentAmount {
 	return CreateInvoicePaymentAmount{value: &val}
 }

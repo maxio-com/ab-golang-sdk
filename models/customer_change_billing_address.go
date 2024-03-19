@@ -72,6 +72,7 @@ type internalCustomerChangeBillingAddress struct{}
 
 var CustomerChangeBillingAddressContainer internalCustomerChangeBillingAddress
 
+// The internalCustomerChangeBillingAddress instance, wrapping the provided AddressChange value.
 func (c *internalCustomerChangeBillingAddress) FromAddressChange(val AddressChange) CustomerChangeBillingAddress {
 	return CustomerChangeBillingAddress{value: &val}
 }

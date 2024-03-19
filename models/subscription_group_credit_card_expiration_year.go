@@ -85,10 +85,12 @@ type internalSubscriptionGroupCreditCardExpirationYear struct{}
 
 var SubscriptionGroupCreditCardExpirationYearContainer internalSubscriptionGroupCreditCardExpirationYear
 
+// The internalSubscriptionGroupCreditCardExpirationYear instance, wrapping the provided string value.
 func (s *internalSubscriptionGroupCreditCardExpirationYear) FromString(val string) SubscriptionGroupCreditCardExpirationYear {
 	return SubscriptionGroupCreditCardExpirationYear{value: &val}
 }
 
+// The internalSubscriptionGroupCreditCardExpirationYear instance, wrapping the provided int value.
 func (s *internalSubscriptionGroupCreditCardExpirationYear) FromNumber(val int) SubscriptionGroupCreditCardExpirationYear {
 	return SubscriptionGroupCreditCardExpirationYear{value: &val}
 }

@@ -85,10 +85,12 @@ type internalCreatePaymentProfileExpirationYear struct{}
 
 var CreatePaymentProfileExpirationYearContainer internalCreatePaymentProfileExpirationYear
 
+// The internalCreatePaymentProfileExpirationYear instance, wrapping the provided int value.
 func (c *internalCreatePaymentProfileExpirationYear) FromNumber(val int) CreatePaymentProfileExpirationYear {
 	return CreatePaymentProfileExpirationYear{value: &val}
 }
 
+// The internalCreatePaymentProfileExpirationYear instance, wrapping the provided string value.
 func (c *internalCreatePaymentProfileExpirationYear) FromString(val string) CreatePaymentProfileExpirationYear {
 	return CreatePaymentProfileExpirationYear{value: &val}
 }

@@ -85,10 +85,12 @@ type internalSubscriptionGroupCreditCardFullNumber struct{}
 
 var SubscriptionGroupCreditCardFullNumberContainer internalSubscriptionGroupCreditCardFullNumber
 
+// The internalSubscriptionGroupCreditCardFullNumber instance, wrapping the provided string value.
 func (s *internalSubscriptionGroupCreditCardFullNumber) FromString(val string) SubscriptionGroupCreditCardFullNumber {
 	return SubscriptionGroupCreditCardFullNumber{value: &val}
 }
 
+// The internalSubscriptionGroupCreditCardFullNumber instance, wrapping the provided int value.
 func (s *internalSubscriptionGroupCreditCardFullNumber) FromNumber(val int) SubscriptionGroupCreditCardFullNumber {
 	return SubscriptionGroupCreditCardFullNumber{value: &val}
 }

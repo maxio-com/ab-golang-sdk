@@ -85,10 +85,12 @@ type internalListProductPricePointsInputProductId struct{}
 
 var ListProductPricePointsInputProductIdContainer internalListProductPricePointsInputProductId
 
+// The internalListProductPricePointsInputProductId instance, wrapping the provided int value.
 func (l *internalListProductPricePointsInputProductId) FromNumber(val int) ListProductPricePointsInputProductId {
 	return ListProductPricePointsInputProductId{value: &val}
 }
 
+// The internalListProductPricePointsInputProductId instance, wrapping the provided string value.
 func (l *internalListProductPricePointsInputProductId) FromString(val string) ListProductPricePointsInputProductId {
 	return ListProductPricePointsInputProductId{value: &val}
 }

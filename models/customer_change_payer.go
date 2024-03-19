@@ -72,6 +72,7 @@ type internalCustomerChangePayer struct{}
 
 var CustomerChangePayerContainer internalCustomerChangePayer
 
+// The internalCustomerChangePayer instance, wrapping the provided CustomerPayerChange value.
 func (c *internalCustomerChangePayer) FromCustomerPayerChange(val CustomerPayerChange) CustomerChangePayer {
 	return CustomerChangePayer{value: &val}
 }

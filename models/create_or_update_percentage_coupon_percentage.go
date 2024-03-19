@@ -85,10 +85,12 @@ type internalCreateOrUpdatePercentageCouponPercentage struct{}
 
 var CreateOrUpdatePercentageCouponPercentageContainer internalCreateOrUpdatePercentageCouponPercentage
 
+// The internalCreateOrUpdatePercentageCouponPercentage instance, wrapping the provided string value.
 func (c *internalCreateOrUpdatePercentageCouponPercentage) FromString(val string) CreateOrUpdatePercentageCouponPercentage {
 	return CreateOrUpdatePercentageCouponPercentage{value: &val}
 }
 
+// The internalCreateOrUpdatePercentageCouponPercentage instance, wrapping the provided float64 value.
 func (c *internalCreateOrUpdatePercentageCouponPercentage) FromPrecision(val float64) CreateOrUpdatePercentageCouponPercentage {
 	return CreateOrUpdatePercentageCouponPercentage{value: &val}
 }

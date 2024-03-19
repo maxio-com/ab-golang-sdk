@@ -72,6 +72,7 @@ type internalCustomerChangeCustomFields struct{}
 
 var CustomerChangeCustomFieldsContainer internalCustomerChangeCustomFields
 
+// The internalCustomerChangeCustomFields instance, wrapping the provided CustomerCustomFieldsChange value.
 func (c *internalCustomerChangeCustomFields) FromCustomerCustomFieldsChange(val CustomerCustomFieldsChange) CustomerChangeCustomFields {
 	return CustomerChangeCustomFields{value: &val}
 }

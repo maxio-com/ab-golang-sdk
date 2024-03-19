@@ -85,10 +85,12 @@ type internalDeductServiceCreditAmount struct{}
 
 var DeductServiceCreditAmountContainer internalDeductServiceCreditAmount
 
+// The internalDeductServiceCreditAmount instance, wrapping the provided string value.
 func (d *internalDeductServiceCreditAmount) FromString(val string) DeductServiceCreditAmount {
 	return DeductServiceCreditAmount{value: &val}
 }
 
+// The internalDeductServiceCreditAmount instance, wrapping the provided float64 value.
 func (d *internalDeductServiceCreditAmount) FromPrecision(val float64) DeductServiceCreditAmount {
 	return DeductServiceCreditAmount{value: &val}
 }
