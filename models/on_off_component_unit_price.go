@@ -85,10 +85,12 @@ type internalOnOffComponentUnitPrice struct{}
 
 var OnOffComponentUnitPriceContainer internalOnOffComponentUnitPrice
 
+// The internalOnOffComponentUnitPrice instance, wrapping the provided string value.
 func (o *internalOnOffComponentUnitPrice) FromString(val string) OnOffComponentUnitPrice {
 	return OnOffComponentUnitPrice{value: &val}
 }
 
+// The internalOnOffComponentUnitPrice instance, wrapping the provided float64 value.
 func (o *internalOnOffComponentUnitPrice) FromPrecision(val float64) OnOffComponentUnitPrice {
 	return OnOffComponentUnitPrice{value: &val}
 }

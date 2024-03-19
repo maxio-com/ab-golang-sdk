@@ -10,7 +10,7 @@ import (
 
 // Event represents a Event struct.
 type Event struct {
-	Id                int                     `json:"id"`
+	Id                int64                   `json:"id"`
 	Key               string                  `json:"key"`
 	Message           string                  `json:"message"`
 	SubscriptionId    *int                    `json:"subscription_id"`
@@ -81,7 +81,7 @@ func (e *Event) UnmarshalJSON(input []byte) error {
 
 // TODO
 type event struct {
-	Id                *int                    `json:"id"`
+	Id                *int64                  `json:"id"`
 	Key               *string                 `json:"key"`
 	Message           *string                 `json:"message"`
 	SubscriptionId    *int                    `json:"subscription_id"`

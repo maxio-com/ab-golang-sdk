@@ -85,10 +85,12 @@ type internalAddSubscriptionToAGroupGroup struct{}
 
 var AddSubscriptionToAGroupGroupContainer internalAddSubscriptionToAGroupGroup
 
+// The internalAddSubscriptionToAGroupGroup instance, wrapping the provided GroupSettings value.
 func (a *internalAddSubscriptionToAGroupGroup) FromGroupSettings(val GroupSettings) AddSubscriptionToAGroupGroup {
 	return AddSubscriptionToAGroupGroup{value: &val}
 }
 
+// The internalAddSubscriptionToAGroupGroup instance, wrapping the provided bool value.
 func (a *internalAddSubscriptionToAGroupGroup) FromBoolean(val bool) AddSubscriptionToAGroupGroup {
 	return AddSubscriptionToAGroupGroup{value: &val}
 }

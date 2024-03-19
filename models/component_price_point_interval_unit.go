@@ -72,6 +72,7 @@ type internalComponentPricePointIntervalUnit struct{}
 
 var ComponentPricePointIntervalUnitContainer internalComponentPricePointIntervalUnit
 
+// The internalComponentPricePointIntervalUnit instance, wrapping the provided IntervalUnit value.
 func (c *internalComponentPricePointIntervalUnit) FromIntervalUnit(val IntervalUnit) ComponentPricePointIntervalUnit {
 	return ComponentPricePointIntervalUnit{value: &val}
 }

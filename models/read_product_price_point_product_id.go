@@ -85,10 +85,12 @@ type internalReadProductPricePointProductId struct{}
 
 var ReadProductPricePointProductIdContainer internalReadProductPricePointProductId
 
+// The internalReadProductPricePointProductId instance, wrapping the provided int value.
 func (r *internalReadProductPricePointProductId) FromNumber(val int) ReadProductPricePointProductId {
 	return ReadProductPricePointProductId{value: &val}
 }
 
+// The internalReadProductPricePointProductId instance, wrapping the provided string value.
 func (r *internalReadProductPricePointProductId) FromString(val string) ReadProductPricePointProductId {
 	return ReadProductPricePointProductId{value: &val}
 }

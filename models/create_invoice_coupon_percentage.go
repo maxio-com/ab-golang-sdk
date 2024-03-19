@@ -85,10 +85,12 @@ type internalCreateInvoiceCouponPercentage struct{}
 
 var CreateInvoiceCouponPercentageContainer internalCreateInvoiceCouponPercentage
 
+// The internalCreateInvoiceCouponPercentage instance, wrapping the provided string value.
 func (c *internalCreateInvoiceCouponPercentage) FromString(val string) CreateInvoiceCouponPercentage {
 	return CreateInvoiceCouponPercentage{value: &val}
 }
 
+// The internalCreateInvoiceCouponPercentage instance, wrapping the provided float64 value.
 func (c *internalCreateInvoiceCouponPercentage) FromPrecision(val float64) CreateInvoiceCouponPercentage {
 	return CreateInvoiceCouponPercentage{value: &val}
 }

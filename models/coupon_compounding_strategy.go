@@ -72,6 +72,7 @@ type internalCouponCompoundingStrategy struct{}
 
 var CouponCompoundingStrategyContainer internalCouponCompoundingStrategy
 
+// The internalCouponCompoundingStrategy instance, wrapping the provided CompoundingStrategy value.
 func (c *internalCouponCompoundingStrategy) FromCompoundingStrategy(val CompoundingStrategy) CouponCompoundingStrategy {
 	return CouponCompoundingStrategy{value: &val}
 }

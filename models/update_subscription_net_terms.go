@@ -85,10 +85,12 @@ type internalUpdateSubscriptionNetTerms struct{}
 
 var UpdateSubscriptionNetTermsContainer internalUpdateSubscriptionNetTerms
 
+// The internalUpdateSubscriptionNetTerms instance, wrapping the provided string value.
 func (u *internalUpdateSubscriptionNetTerms) FromString(val string) UpdateSubscriptionNetTerms {
 	return UpdateSubscriptionNetTerms{value: &val}
 }
 
+// The internalUpdateSubscriptionNetTerms instance, wrapping the provided int value.
 func (u *internalUpdateSubscriptionNetTerms) FromNumber(val int) UpdateSubscriptionNetTerms {
 	return UpdateSubscriptionNetTerms{value: &val}
 }

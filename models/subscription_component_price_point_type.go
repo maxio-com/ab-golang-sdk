@@ -72,6 +72,7 @@ type internalSubscriptionComponentPricePointType struct{}
 
 var SubscriptionComponentPricePointTypeContainer internalSubscriptionComponentPricePointType
 
+// The internalSubscriptionComponentPricePointType instance, wrapping the provided PricePointType value.
 func (s *internalSubscriptionComponentPricePointType) FromPricePointType(val PricePointType) SubscriptionComponentPricePointType {
 	return SubscriptionComponentPricePointType{value: &val}
 }

@@ -85,10 +85,12 @@ type internalAllocationPreviewItemQuantity struct{}
 
 var AllocationPreviewItemQuantityContainer internalAllocationPreviewItemQuantity
 
+// The internalAllocationPreviewItemQuantity instance, wrapping the provided int value.
 func (a *internalAllocationPreviewItemQuantity) FromNumber(val int) AllocationPreviewItemQuantity {
 	return AllocationPreviewItemQuantity{value: &val}
 }
 
+// The internalAllocationPreviewItemQuantity instance, wrapping the provided string value.
 func (a *internalAllocationPreviewItemQuantity) FromString(val string) AllocationPreviewItemQuantity {
 	return AllocationPreviewItemQuantity{value: &val}
 }

@@ -98,14 +98,17 @@ type internalSubscriptionGroupCreateErrorResponseErrors struct{}
 
 var SubscriptionGroupCreateErrorResponseErrorsContainer internalSubscriptionGroupCreateErrorResponseErrors
 
+// The internalSubscriptionGroupCreateErrorResponseErrors instance, wrapping the provided SubscriptionGroupMembersArrayError value.
 func (s *internalSubscriptionGroupCreateErrorResponseErrors) FromSubscriptionGroupMembersArrayError(val SubscriptionGroupMembersArrayError) SubscriptionGroupCreateErrorResponseErrors {
 	return SubscriptionGroupCreateErrorResponseErrors{value: &val}
 }
 
+// The internalSubscriptionGroupCreateErrorResponseErrors instance, wrapping the provided SubscriptionGroupSingleError value.
 func (s *internalSubscriptionGroupCreateErrorResponseErrors) FromSubscriptionGroupSingleError(val SubscriptionGroupSingleError) SubscriptionGroupCreateErrorResponseErrors {
 	return SubscriptionGroupCreateErrorResponseErrors{value: &val}
 }
 
+// The internalSubscriptionGroupCreateErrorResponseErrors instance, wrapping the provided string value.
 func (s *internalSubscriptionGroupCreateErrorResponseErrors) FromString(val string) SubscriptionGroupCreateErrorResponseErrors {
 	return SubscriptionGroupCreateErrorResponseErrors{value: &val}
 }

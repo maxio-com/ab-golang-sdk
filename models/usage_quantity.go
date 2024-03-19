@@ -85,10 +85,12 @@ type internalUsageQuantity struct{}
 
 var UsageQuantityContainer internalUsageQuantity
 
+// The internalUsageQuantity instance, wrapping the provided int value.
 func (u *internalUsageQuantity) FromNumber(val int) UsageQuantity {
 	return UsageQuantity{value: &val}
 }
 
+// The internalUsageQuantity instance, wrapping the provided string value.
 func (u *internalUsageQuantity) FromString(val string) UsageQuantity {
 	return UsageQuantity{value: &val}
 }

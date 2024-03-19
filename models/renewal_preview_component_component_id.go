@@ -85,10 +85,12 @@ type internalRenewalPreviewComponentComponentId struct{}
 
 var RenewalPreviewComponentComponentIdContainer internalRenewalPreviewComponentComponentId
 
+// The internalRenewalPreviewComponentComponentId instance, wrapping the provided string value.
 func (r *internalRenewalPreviewComponentComponentId) FromString(val string) RenewalPreviewComponentComponentId {
 	return RenewalPreviewComponentComponentId{value: &val}
 }
 
+// The internalRenewalPreviewComponentComponentId instance, wrapping the provided int value.
 func (r *internalRenewalPreviewComponentComponentId) FromNumber(val int) RenewalPreviewComponentComponentId {
 	return RenewalPreviewComponentComponentId{value: &val}
 }

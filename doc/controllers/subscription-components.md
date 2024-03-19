@@ -1552,7 +1552,7 @@ body0 := models.EBBEvent{
 }
 body := []models.EBBEvent{body0}
 
-resp, err := subscriptionComponentsController.BulkRecordEvents(ctx, subdomain, apiHandle, nil, &body)
+resp, err := subscriptionComponentsController.BulkRecordEvents(ctx, subdomain, apiHandle, nil, body)
 if err != nil {
     log.Fatalln(err)
 } else {

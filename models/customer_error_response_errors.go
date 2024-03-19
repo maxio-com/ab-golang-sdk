@@ -85,10 +85,12 @@ type internalCustomerErrorResponseErrors struct{}
 
 var CustomerErrorResponseErrorsContainer internalCustomerErrorResponseErrors
 
+// The internalCustomerErrorResponseErrors instance, wrapping the provided CustomerError value.
 func (c *internalCustomerErrorResponseErrors) FromCustomerError(val CustomerError) CustomerErrorResponseErrors {
 	return CustomerErrorResponseErrors{value: &val}
 }
 
+// The internalCustomerErrorResponseErrors instance, wrapping the provided []string value.
 func (c *internalCustomerErrorResponseErrors) FromArrayOfString(val []string) CustomerErrorResponseErrors {
 	return CustomerErrorResponseErrors{value: &val}
 }

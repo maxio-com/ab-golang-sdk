@@ -72,6 +72,7 @@ type internalRecordPaymentResponsePrepayment struct{}
 
 var RecordPaymentResponsePrepaymentContainer internalRecordPaymentResponsePrepayment
 
+// The internalRecordPaymentResponsePrepayment instance, wrapping the provided InvoicePrePayment value.
 func (r *internalRecordPaymentResponsePrepayment) FromInvoicePrePayment(val InvoicePrePayment) RecordPaymentResponsePrepayment {
 	return RecordPaymentResponsePrepayment{value: &val}
 }

@@ -72,6 +72,7 @@ type internalSubscriptionComponentPricingScheme struct{}
 
 var SubscriptionComponentPricingSchemeContainer internalSubscriptionComponentPricingScheme
 
+// The internalSubscriptionComponentPricingScheme instance, wrapping the provided PricingScheme value.
 func (s *internalSubscriptionComponentPricingScheme) FromPricingScheme(val PricingScheme) SubscriptionComponentPricingScheme {
 	return SubscriptionComponentPricingScheme{value: &val}
 }

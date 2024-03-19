@@ -85,10 +85,12 @@ type internalEBBComponentUnitPrice struct{}
 
 var EBBComponentUnitPriceContainer internalEBBComponentUnitPrice
 
+// The internalEBBComponentUnitPrice instance, wrapping the provided string value.
 func (e *internalEBBComponentUnitPrice) FromString(val string) EBBComponentUnitPrice {
 	return EBBComponentUnitPrice{value: &val}
 }
 
+// The internalEBBComponentUnitPrice instance, wrapping the provided float64 value.
 func (e *internalEBBComponentUnitPrice) FromPrecision(val float64) EBBComponentUnitPrice {
 	return EBBComponentUnitPrice{value: &val}
 }

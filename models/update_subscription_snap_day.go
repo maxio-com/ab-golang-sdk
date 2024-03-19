@@ -85,10 +85,12 @@ type internalUpdateSubscriptionSnapDay struct{}
 
 var UpdateSubscriptionSnapDayContainer internalUpdateSubscriptionSnapDay
 
+// The internalUpdateSubscriptionSnapDay instance, wrapping the provided SnapDay value.
 func (u *internalUpdateSubscriptionSnapDay) FromSnapDay(val SnapDay) UpdateSubscriptionSnapDay {
 	return UpdateSubscriptionSnapDay{value: &val}
 }
 
+// The internalUpdateSubscriptionSnapDay instance, wrapping the provided int value.
 func (u *internalUpdateSubscriptionSnapDay) FromNumber(val int) UpdateSubscriptionSnapDay {
 	return UpdateSubscriptionSnapDay{value: &val}
 }

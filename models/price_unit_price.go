@@ -85,10 +85,12 @@ type internalPriceUnitPrice struct{}
 
 var PriceUnitPriceContainer internalPriceUnitPrice
 
+// The internalPriceUnitPrice instance, wrapping the provided float64 value.
 func (p *internalPriceUnitPrice) FromPrecision(val float64) PriceUnitPrice {
 	return PriceUnitPrice{value: &val}
 }
 
+// The internalPriceUnitPrice instance, wrapping the provided string value.
 func (p *internalPriceUnitPrice) FromString(val string) PriceUnitPrice {
 	return PriceUnitPrice{value: &val}
 }

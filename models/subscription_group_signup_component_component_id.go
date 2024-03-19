@@ -85,10 +85,12 @@ type internalSubscriptionGroupSignupComponentComponentId struct{}
 
 var SubscriptionGroupSignupComponentComponentIdContainer internalSubscriptionGroupSignupComponentComponentId
 
+// The internalSubscriptionGroupSignupComponentComponentId instance, wrapping the provided string value.
 func (s *internalSubscriptionGroupSignupComponentComponentId) FromString(val string) SubscriptionGroupSignupComponentComponentId {
 	return SubscriptionGroupSignupComponentComponentId{value: &val}
 }
 
+// The internalSubscriptionGroupSignupComponentComponentId instance, wrapping the provided int value.
 func (s *internalSubscriptionGroupSignupComponentComponentId) FromNumber(val int) SubscriptionGroupSignupComponentComponentId {
 	return SubscriptionGroupSignupComponentComponentId{value: &val}
 }

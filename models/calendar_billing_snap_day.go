@@ -85,10 +85,12 @@ type internalCalendarBillingSnapDay struct{}
 
 var CalendarBillingSnapDayContainer internalCalendarBillingSnapDay
 
+// The internalCalendarBillingSnapDay instance, wrapping the provided int value.
 func (c *internalCalendarBillingSnapDay) FromNumber(val int) CalendarBillingSnapDay {
 	return CalendarBillingSnapDay{value: &val}
 }
 
+// The internalCalendarBillingSnapDay instance, wrapping the provided string value.
 func (c *internalCalendarBillingSnapDay) FromString(val string) CalendarBillingSnapDay {
 	return CalendarBillingSnapDay{value: &val}
 }

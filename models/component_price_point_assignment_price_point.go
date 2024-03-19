@@ -85,10 +85,12 @@ type internalComponentPricePointAssignmentPricePoint struct{}
 
 var ComponentPricePointAssignmentPricePointContainer internalComponentPricePointAssignmentPricePoint
 
+// The internalComponentPricePointAssignmentPricePoint instance, wrapping the provided string value.
 func (c *internalComponentPricePointAssignmentPricePoint) FromString(val string) ComponentPricePointAssignmentPricePoint {
 	return ComponentPricePointAssignmentPricePoint{value: &val}
 }
 
+// The internalComponentPricePointAssignmentPricePoint instance, wrapping the provided int value.
 func (c *internalComponentPricePointAssignmentPricePoint) FromNumber(val int) ComponentPricePointAssignmentPricePoint {
 	return ComponentPricePointAssignmentPricePoint{value: &val}
 }

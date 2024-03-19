@@ -85,10 +85,12 @@ type internalSubscriptionGroupSignupComponentUnitBalance struct{}
 
 var SubscriptionGroupSignupComponentUnitBalanceContainer internalSubscriptionGroupSignupComponentUnitBalance
 
+// The internalSubscriptionGroupSignupComponentUnitBalance instance, wrapping the provided string value.
 func (s *internalSubscriptionGroupSignupComponentUnitBalance) FromString(val string) SubscriptionGroupSignupComponentUnitBalance {
 	return SubscriptionGroupSignupComponentUnitBalance{value: &val}
 }
 
+// The internalSubscriptionGroupSignupComponentUnitBalance instance, wrapping the provided int value.
 func (s *internalSubscriptionGroupSignupComponentUnitBalance) FromNumber(val int) SubscriptionGroupSignupComponentUnitBalance {
 	return SubscriptionGroupSignupComponentUnitBalance{value: &val}
 }

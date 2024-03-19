@@ -124,22 +124,27 @@ type internalInvoiceEventDataPaymentMethod struct{}
 
 var InvoiceEventDataPaymentMethodContainer internalInvoiceEventDataPaymentMethod
 
+// The internalInvoiceEventDataPaymentMethod instance, wrapping the provided PaymentMethodApplePay value.
 func (i *internalInvoiceEventDataPaymentMethod) FromPaymentMethodApplePay(val PaymentMethodApplePay) InvoiceEventDataPaymentMethod {
 	return InvoiceEventDataPaymentMethod{value: &val}
 }
 
+// The internalInvoiceEventDataPaymentMethod instance, wrapping the provided PaymentMethodBankAccount value.
 func (i *internalInvoiceEventDataPaymentMethod) FromPaymentMethodBankAccount(val PaymentMethodBankAccount) InvoiceEventDataPaymentMethod {
 	return InvoiceEventDataPaymentMethod{value: &val}
 }
 
+// The internalInvoiceEventDataPaymentMethod instance, wrapping the provided PaymentMethodCreditCard value.
 func (i *internalInvoiceEventDataPaymentMethod) FromPaymentMethodCreditCard(val PaymentMethodCreditCard) InvoiceEventDataPaymentMethod {
 	return InvoiceEventDataPaymentMethod{value: &val}
 }
 
+// The internalInvoiceEventDataPaymentMethod instance, wrapping the provided PaymentMethodExternal value.
 func (i *internalInvoiceEventDataPaymentMethod) FromPaymentMethodExternal(val PaymentMethodExternal) InvoiceEventDataPaymentMethod {
 	return InvoiceEventDataPaymentMethod{value: &val}
 }
 
+// The internalInvoiceEventDataPaymentMethod instance, wrapping the provided PaymentMethodPaypal value.
 func (i *internalInvoiceEventDataPaymentMethod) FromPaymentMethodPaypal(val PaymentMethodPaypal) InvoiceEventDataPaymentMethod {
 	return InvoiceEventDataPaymentMethod{value: &val}
 }

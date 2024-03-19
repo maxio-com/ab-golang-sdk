@@ -85,10 +85,12 @@ type internalMetafieldEnum struct{}
 
 var MetafieldEnumContainer internalMetafieldEnum
 
+// The internalMetafieldEnum instance, wrapping the provided string value.
 func (m *internalMetafieldEnum) FromString(val string) MetafieldEnum {
 	return MetafieldEnum{value: &val}
 }
 
+// The internalMetafieldEnum instance, wrapping the provided []string value.
 func (m *internalMetafieldEnum) FromArrayOfString(val []string) MetafieldEnum {
 	return MetafieldEnum{value: &val}
 }

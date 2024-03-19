@@ -85,10 +85,12 @@ type internalCreateOrUpdateCouponCoupon struct{}
 
 var CreateOrUpdateCouponCouponContainer internalCreateOrUpdateCouponCoupon
 
+// The internalCreateOrUpdateCouponCoupon instance, wrapping the provided CreateOrUpdatePercentageCoupon value.
 func (c *internalCreateOrUpdateCouponCoupon) FromCreateOrUpdatePercentageCoupon(val CreateOrUpdatePercentageCoupon) CreateOrUpdateCouponCoupon {
 	return CreateOrUpdateCouponCoupon{value: &val}
 }
 
+// The internalCreateOrUpdateCouponCoupon instance, wrapping the provided CreateOrUpdateFlatAmountCoupon value.
 func (c *internalCreateOrUpdateCouponCoupon) FromCreateOrUpdateFlatAmountCoupon(val CreateOrUpdateFlatAmountCoupon) CreateOrUpdateCouponCoupon {
 	return CreateOrUpdateCouponCoupon{value: &val}
 }

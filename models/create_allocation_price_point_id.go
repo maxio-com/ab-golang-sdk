@@ -85,10 +85,12 @@ type internalCreateAllocationPricePointId struct{}
 
 var CreateAllocationPricePointIdContainer internalCreateAllocationPricePointId
 
+// The internalCreateAllocationPricePointId instance, wrapping the provided string value.
 func (c *internalCreateAllocationPricePointId) FromString(val string) CreateAllocationPricePointId {
 	return CreateAllocationPricePointId{value: &val}
 }
 
+// The internalCreateAllocationPricePointId instance, wrapping the provided int value.
 func (c *internalCreateAllocationPricePointId) FromNumber(val int) CreateAllocationPricePointId {
 	return CreateAllocationPricePointId{value: &val}
 }

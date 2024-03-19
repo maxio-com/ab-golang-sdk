@@ -72,6 +72,7 @@ type internalSubscriptionGroup2 struct{}
 
 var SubscriptionGroup2Container internalSubscriptionGroup2
 
+// The internalSubscriptionGroup2 instance, wrapping the provided NestedSubscriptionGroup value.
 func (s *internalSubscriptionGroup2) FromNestedSubscriptionGroup(val NestedSubscriptionGroup) SubscriptionGroup2 {
 	return SubscriptionGroup2{value: &val}
 }

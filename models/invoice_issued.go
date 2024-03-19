@@ -10,12 +10,14 @@ import (
 
 // InvoiceIssued represents a InvoiceIssued struct.
 type InvoiceIssued struct {
-	Uid                string                     `json:"uid"`
-	Number             string                     `json:"number"`
-	Role               string                     `json:"role"`
-	DueDate            time.Time                  `json:"due_date"`
-	IssueDate          time.Time                  `json:"issue_date"`
-	PaidDate           time.Time                  `json:"paid_date"`
+	Uid     string     `json:"uid"`
+	Number  string     `json:"number"`
+	Role    string     `json:"role"`
+	DueDate *time.Time `json:"due_date"`
+	// Invoice issue date. Can be an empty string if value is missing.
+	IssueDate string `json:"issue_date"`
+	// Paid date. Can be an empty string if value is missing.
+	PaidDate           string                     `json:"paid_date"`
 	DueAmount          string                     `json:"due_amount"`
 	PaidAmount         string                     `json:"paid_amount"`
 	TaxAmount          string                     `json:"tax_amount"`
@@ -41,9 +43,13 @@ func (i *InvoiceIssued) toMap() map[string]any {
 	structMap["uid"] = i.Uid
 	structMap["number"] = i.Number
 	structMap["role"] = i.Role
-	structMap["due_date"] = i.DueDate.Format(DEFAULT_DATE)
-	structMap["issue_date"] = i.IssueDate.Format(DEFAULT_DATE)
-	structMap["paid_date"] = i.PaidDate.Format(DEFAULT_DATE)
+	if i.DueDate != nil {
+		structMap["due_date"] = i.DueDate.Format(DEFAULT_DATE)
+	} else {
+		structMap["due_date"] = nil
+	}
+	structMap["issue_date"] = i.IssueDate
+	structMap["paid_date"] = i.PaidDate
 	structMap["due_amount"] = i.DueAmount
 	structMap["paid_amount"] = i.PaidAmount
 	structMap["tax_amount"] = i.TaxAmount
@@ -72,21 +78,15 @@ func (i *InvoiceIssued) UnmarshalJSON(input []byte) error {
 	i.Uid = *temp.Uid
 	i.Number = *temp.Number
 	i.Role = *temp.Role
-	DueDateVal, err := time.Parse(DEFAULT_DATE, *temp.DueDate)
-	if err != nil {
-		log.Fatalf("Cannot Parse due_date as % s format.", DEFAULT_DATE)
+	if temp.DueDate != nil {
+		DueDateVal, err := time.Parse(DEFAULT_DATE, *temp.DueDate)
+		if err != nil {
+			log.Fatalf("Cannot Parse due_date as % s format.", DEFAULT_DATE)
+		}
+		i.DueDate = &DueDateVal
 	}
-	i.DueDate = DueDateVal
-	IssueDateVal, err := time.Parse(DEFAULT_DATE, *temp.IssueDate)
-	if err != nil {
-		log.Fatalf("Cannot Parse issue_date as % s format.", DEFAULT_DATE)
-	}
-	i.IssueDate = IssueDateVal
-	PaidDateVal, err := time.Parse(DEFAULT_DATE, *temp.PaidDate)
-	if err != nil {
-		log.Fatalf("Cannot Parse paid_date as % s format.", DEFAULT_DATE)
-	}
-	i.PaidDate = PaidDateVal
+	i.IssueDate = *temp.IssueDate
+	i.PaidDate = *temp.PaidDate
 	i.DueAmount = *temp.DueAmount
 	i.PaidAmount = *temp.PaidAmount
 	i.TaxAmount = *temp.TaxAmount
@@ -128,9 +128,6 @@ func (i *invoiceIssued) validate() error {
 	}
 	if i.Role == nil {
 		errs = append(errs, "required field `role` is missing for type `Invoice Issued`")
-	}
-	if i.DueDate == nil {
-		errs = append(errs, "required field `due_date` is missing for type `Invoice Issued`")
 	}
 	if i.IssueDate == nil {
 		errs = append(errs, "required field `issue_date` is missing for type `Invoice Issued`")

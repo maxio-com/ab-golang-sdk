@@ -176,38 +176,47 @@ type internalInvoiceEventEventData struct{}
 
 var InvoiceEventEventDataContainer internalInvoiceEventEventData
 
+// The internalInvoiceEventEventData instance, wrapping the provided ApplyCreditNoteEventData value.
 func (i *internalInvoiceEventEventData) FromApplyCreditNoteEventData(val ApplyCreditNoteEventData) InvoiceEventEventData {
 	return InvoiceEventEventData{value: &val}
 }
 
+// The internalInvoiceEventEventData instance, wrapping the provided ApplyDebitNoteEventData value.
 func (i *internalInvoiceEventEventData) FromApplyDebitNoteEventData(val ApplyDebitNoteEventData) InvoiceEventEventData {
 	return InvoiceEventEventData{value: &val}
 }
 
+// The internalInvoiceEventEventData instance, wrapping the provided ApplyPaymentEventData value.
 func (i *internalInvoiceEventEventData) FromApplyPaymentEventData(val ApplyPaymentEventData) InvoiceEventEventData {
 	return InvoiceEventEventData{value: &val}
 }
 
+// The internalInvoiceEventEventData instance, wrapping the provided ChangeInvoiceCollectionMethodEventData value.
 func (i *internalInvoiceEventEventData) FromChangeInvoiceCollectionMethodEventData(val ChangeInvoiceCollectionMethodEventData) InvoiceEventEventData {
 	return InvoiceEventEventData{value: &val}
 }
 
+// The internalInvoiceEventEventData instance, wrapping the provided IssueInvoiceEventData value.
 func (i *internalInvoiceEventEventData) FromIssueInvoiceEventData(val IssueInvoiceEventData) InvoiceEventEventData {
 	return InvoiceEventEventData{value: &val}
 }
 
+// The internalInvoiceEventEventData instance, wrapping the provided RefundInvoiceEventData value.
 func (i *internalInvoiceEventEventData) FromRefundInvoiceEventData(val RefundInvoiceEventData) InvoiceEventEventData {
 	return InvoiceEventEventData{value: &val}
 }
 
+// The internalInvoiceEventEventData instance, wrapping the provided RemovePaymentEventData value.
 func (i *internalInvoiceEventEventData) FromRemovePaymentEventData(val RemovePaymentEventData) InvoiceEventEventData {
 	return InvoiceEventEventData{value: &val}
 }
 
+// The internalInvoiceEventEventData instance, wrapping the provided VoidInvoiceEventData value.
 func (i *internalInvoiceEventEventData) FromVoidInvoiceEventData(val VoidInvoiceEventData) InvoiceEventEventData {
 	return InvoiceEventEventData{value: &val}
 }
 
+// The internalInvoiceEventEventData instance, wrapping the provided VoidRemainderEventData value.
 func (i *internalInvoiceEventEventData) FromVoidRemainderEventData(val VoidRemainderEventData) InvoiceEventEventData {
 	return InvoiceEventEventData{value: &val}
 }

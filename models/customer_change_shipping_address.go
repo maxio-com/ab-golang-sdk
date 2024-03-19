@@ -72,6 +72,7 @@ type internalCustomerChangeShippingAddress struct{}
 
 var CustomerChangeShippingAddressContainer internalCustomerChangeShippingAddress
 
+// The internalCustomerChangeShippingAddress instance, wrapping the provided AddressChange value.
 func (c *internalCustomerChangeShippingAddress) FromAddressChange(val AddressChange) CustomerChangeShippingAddress {
 	return CustomerChangeShippingAddress{value: &val}
 }

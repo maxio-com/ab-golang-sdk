@@ -85,10 +85,12 @@ type internalSubscriptionCustomPriceInitialChargeInCents struct{}
 
 var SubscriptionCustomPriceInitialChargeInCentsContainer internalSubscriptionCustomPriceInitialChargeInCents
 
+// The internalSubscriptionCustomPriceInitialChargeInCents instance, wrapping the provided string value.
 func (s *internalSubscriptionCustomPriceInitialChargeInCents) FromString(val string) SubscriptionCustomPriceInitialChargeInCents {
 	return SubscriptionCustomPriceInitialChargeInCents{value: &val}
 }
 
+// The internalSubscriptionCustomPriceInitialChargeInCents instance, wrapping the provided int64 value.
 func (s *internalSubscriptionCustomPriceInitialChargeInCents) FromLong(val int64) SubscriptionCustomPriceInitialChargeInCents {
 	return SubscriptionCustomPriceInitialChargeInCents{value: &val}
 }

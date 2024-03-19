@@ -85,10 +85,12 @@ type internalRefundPrepaymentAmount struct{}
 
 var RefundPrepaymentAmountContainer internalRefundPrepaymentAmount
 
+// The internalRefundPrepaymentAmount instance, wrapping the provided string value.
 func (r *internalRefundPrepaymentAmount) FromString(val string) RefundPrepaymentAmount {
 	return RefundPrepaymentAmount{value: &val}
 }
 
+// The internalRefundPrepaymentAmount instance, wrapping the provided float64 value.
 func (r *internalRefundPrepaymentAmount) FromPrecision(val float64) RefundPrepaymentAmount {
 	return RefundPrepaymentAmount{value: &val}
 }

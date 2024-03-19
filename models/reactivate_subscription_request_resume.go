@@ -85,10 +85,12 @@ type internalReactivateSubscriptionRequestResume struct{}
 
 var ReactivateSubscriptionRequestResumeContainer internalReactivateSubscriptionRequestResume
 
+// The internalReactivateSubscriptionRequestResume instance, wrapping the provided bool value.
 func (r *internalReactivateSubscriptionRequestResume) FromBoolean(val bool) ReactivateSubscriptionRequestResume {
 	return ReactivateSubscriptionRequestResume{value: &val}
 }
 
+// The internalReactivateSubscriptionRequestResume instance, wrapping the provided ResumeOptions value.
 func (r *internalReactivateSubscriptionRequestResume) FromResumeOptions(val ResumeOptions) ReactivateSubscriptionRequestResume {
 	return ReactivateSubscriptionRequestResume{value: &val}
 }

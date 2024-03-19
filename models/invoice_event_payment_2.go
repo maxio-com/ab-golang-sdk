@@ -124,22 +124,27 @@ type internalInvoiceEventPayment2 struct{}
 
 var InvoiceEventPaymentContainer internalInvoiceEventPayment2
 
+// The internalInvoiceEventPayment2 instance, wrapping the provided PaymentMethodApplePay value.
 func (i *internalInvoiceEventPayment2) FromPaymentMethodApplePay(val PaymentMethodApplePay) InvoiceEventPayment2 {
 	return InvoiceEventPayment2{value: &val}
 }
 
+// The internalInvoiceEventPayment2 instance, wrapping the provided PaymentMethodBankAccount value.
 func (i *internalInvoiceEventPayment2) FromPaymentMethodBankAccount(val PaymentMethodBankAccount) InvoiceEventPayment2 {
 	return InvoiceEventPayment2{value: &val}
 }
 
+// The internalInvoiceEventPayment2 instance, wrapping the provided PaymentMethodCreditCard value.
 func (i *internalInvoiceEventPayment2) FromPaymentMethodCreditCard(val PaymentMethodCreditCard) InvoiceEventPayment2 {
 	return InvoiceEventPayment2{value: &val}
 }
 
+// The internalInvoiceEventPayment2 instance, wrapping the provided PaymentMethodExternal value.
 func (i *internalInvoiceEventPayment2) FromPaymentMethodExternal(val PaymentMethodExternal) InvoiceEventPayment2 {
 	return InvoiceEventPayment2{value: &val}
 }
 
+// The internalInvoiceEventPayment2 instance, wrapping the provided PaymentMethodPaypal value.
 func (i *internalInvoiceEventPayment2) FromPaymentMethodPaypal(val PaymentMethodPaypal) InvoiceEventPayment2 {
 	return InvoiceEventPayment2{value: &val}
 }

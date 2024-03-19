@@ -72,6 +72,7 @@ type internalInvoiceLineItemComponentCostData2 struct{}
 
 var InvoiceLineItemComponentCostData2Container internalInvoiceLineItemComponentCostData2
 
+// The internalInvoiceLineItemComponentCostData2 instance, wrapping the provided InvoiceLineItemComponentCostData value.
 func (i *internalInvoiceLineItemComponentCostData2) FromInvoiceLineItemComponentCostData(val InvoiceLineItemComponentCostData) InvoiceLineItemComponentCostData2 {
 	return InvoiceLineItemComponentCostData2{value: &val}
 }

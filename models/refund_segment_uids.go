@@ -85,10 +85,12 @@ type internalRefundSegmentUids struct{}
 
 var RefundSegmentUidsContainer internalRefundSegmentUids
 
+// The internalRefundSegmentUids instance, wrapping the provided []string value.
 func (r *internalRefundSegmentUids) FromArrayOfString(val []string) RefundSegmentUids {
 	return RefundSegmentUids{value: &val}
 }
 
+// The internalRefundSegmentUids instance, wrapping the provided string value.
 func (r *internalRefundSegmentUids) FromString(val string) RefundSegmentUids {
 	return RefundSegmentUids{value: &val}
 }

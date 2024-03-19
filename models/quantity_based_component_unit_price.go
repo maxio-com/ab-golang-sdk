@@ -85,10 +85,12 @@ type internalQuantityBasedComponentUnitPrice struct{}
 
 var QuantityBasedComponentUnitPriceContainer internalQuantityBasedComponentUnitPrice
 
+// The internalQuantityBasedComponentUnitPrice instance, wrapping the provided string value.
 func (q *internalQuantityBasedComponentUnitPrice) FromString(val string) QuantityBasedComponentUnitPrice {
 	return QuantityBasedComponentUnitPrice{value: &val}
 }
 
+// The internalQuantityBasedComponentUnitPrice instance, wrapping the provided float64 value.
 func (q *internalQuantityBasedComponentUnitPrice) FromPrecision(val float64) QuantityBasedComponentUnitPrice {
 	return QuantityBasedComponentUnitPrice{value: &val}
 }

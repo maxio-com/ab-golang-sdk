@@ -85,10 +85,12 @@ type internalCreateSubscriptionComponentAllocatedQuantity struct{}
 
 var CreateSubscriptionComponentAllocatedQuantityContainer internalCreateSubscriptionComponentAllocatedQuantity
 
+// The internalCreateSubscriptionComponentAllocatedQuantity instance, wrapping the provided int value.
 func (c *internalCreateSubscriptionComponentAllocatedQuantity) FromNumber(val int) CreateSubscriptionComponentAllocatedQuantity {
 	return CreateSubscriptionComponentAllocatedQuantity{value: &val}
 }
 
+// The internalCreateSubscriptionComponentAllocatedQuantity instance, wrapping the provided string value.
 func (c *internalCreateSubscriptionComponentAllocatedQuantity) FromString(val string) CreateSubscriptionComponentAllocatedQuantity {
 	return CreateSubscriptionComponentAllocatedQuantity{value: &val}
 }

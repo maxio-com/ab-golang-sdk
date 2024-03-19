@@ -85,10 +85,12 @@ type internalMeteredComponentUnitPrice struct{}
 
 var MeteredComponentUnitPriceContainer internalMeteredComponentUnitPrice
 
+// The internalMeteredComponentUnitPrice instance, wrapping the provided string value.
 func (m *internalMeteredComponentUnitPrice) FromString(val string) MeteredComponentUnitPrice {
 	return MeteredComponentUnitPrice{value: &val}
 }
 
+// The internalMeteredComponentUnitPrice instance, wrapping the provided float64 value.
 func (m *internalMeteredComponentUnitPrice) FromPrecision(val float64) MeteredComponentUnitPrice {
 	return MeteredComponentUnitPrice{value: &val}
 }

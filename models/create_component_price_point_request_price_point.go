@@ -85,10 +85,12 @@ type internalCreateComponentPricePointRequestPricePoint struct{}
 
 var CreateComponentPricePointRequestPricePointContainer internalCreateComponentPricePointRequestPricePoint
 
+// The internalCreateComponentPricePointRequestPricePoint instance, wrapping the provided CreateComponentPricePoint value.
 func (c *internalCreateComponentPricePointRequestPricePoint) FromCreateComponentPricePoint(val CreateComponentPricePoint) CreateComponentPricePointRequestPricePoint {
 	return CreateComponentPricePointRequestPricePoint{value: &val}
 }
 
+// The internalCreateComponentPricePointRequestPricePoint instance, wrapping the provided CreatePrepaidUsageComponentPricePoint value.
 func (c *internalCreateComponentPricePointRequestPricePoint) FromCreatePrepaidUsageComponentPricePoint(val CreatePrepaidUsageComponentPricePoint) CreateComponentPricePointRequestPricePoint {
 	return CreateComponentPricePointRequestPricePoint{value: &val}
 }
