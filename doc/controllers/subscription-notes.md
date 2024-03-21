@@ -81,7 +81,8 @@ Use this method to retrieve a list of Notes associated with a Subscription. The 
 
 ```go
 ListSubscriptionNotes(
-    ctx context.Context,input ListSubscriptionNotesInput) (
+    ctx context.Context,
+    input ListSubscriptionNotesInput) (
     models.ApiResponse[[]models.SubscriptionNoteResponse],
     error)
 ```
@@ -102,11 +103,14 @@ ListSubscriptionNotes(
 
 ```go
 ctx := context.Background()
-subscriptionId := 222
-page := 2
-perPage := 50
 
-apiResponse, err := subscriptionNotesController.ListSubscriptionNotes(ctx, subscriptionId, &page, &perPage)
+collectedInput := advancedbilling.ListSubscriptionNotesInput{
+    SubscriptionId: 222,
+    Page:           models.ToPointer(2),
+    PerPage:        models.ToPointer(50),
+}
+
+apiResponse, err := subscriptionNotesController.ListSubscriptionNotes(ctx, collectedInput)
 if err != nil {
     log.Fatalln(err)
 } else {

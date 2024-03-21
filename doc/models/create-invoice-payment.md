@@ -9,7 +9,7 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `Amount` | `*interface{}` | Optional | A string of the dollar amount to be refunded (eg. "10.50" => $10.50) |
+| `Amount` | [`*models.CreateInvoicePaymentAmount`](../../doc/models/containers/create-invoice-payment-amount.md) | Optional | This is a container for one-of cases. |
 | `Memo` | `*string` | Optional | A description to be attached to the payment. |
 | `Method` | [`*models.InvoicePaymentMethodType`](../../doc/models/invoice-payment-method-type.md) | Optional | The type of payment method used. Defaults to other. |
 | `Details` | `*string` | Optional | Additional information related to the payment method (eg. Check #) |
@@ -19,10 +19,7 @@
 
 ```json
 {
-  "amount": {
-    "key1": "val1",
-    "key2": "val2"
-  },
+  "amount": "String9",
   "memo": "memo0",
   "method": "cash",
   "details": "details6",

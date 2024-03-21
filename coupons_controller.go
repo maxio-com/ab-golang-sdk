@@ -1,26 +1,26 @@
 package advancedbilling
 
 import (
-    "context"
-    "fmt"
-    "github.com/apimatic/go-core-runtime/https"
-    "github.com/apimatic/go-core-runtime/utilities"
-    "github.com/maxio-com/ab-golang-sdk/errors"
-    "github.com/maxio-com/ab-golang-sdk/models"
-    "net/http"
-    "time"
+	"context"
+	"fmt"
+	"github.com/apimatic/go-core-runtime/https"
+	"github.com/apimatic/go-core-runtime/utilities"
+	"github.com/maxio-com/ab-golang-sdk/errors"
+	"github.com/maxio-com/ab-golang-sdk/models"
+	"net/http"
+	"time"
 )
 
 // CouponsController represents a controller struct.
 type CouponsController struct {
-    baseController
+	baseController
 }
 
 // NewCouponsController creates a new instance of CouponsController.
 // It takes a baseController as a parameter and returns a pointer to the CouponsController.
 func NewCouponsController(baseController baseController) *CouponsController {
-    couponsController := CouponsController{baseController: baseController}
-    return &couponsController
+	couponsController := CouponsController{baseController: baseController}
+	return &couponsController
 }
 
 // CreateCoupon takes context, productFamilyId, body as parameters and
@@ -35,33 +35,63 @@ func NewCouponsController(baseController baseController) *CouponsController {
 // You can restrict a coupon to only apply to specific products / components by optionally passing in hashes of `restricted_products` and/or `restricted_components` in the format:
 // `{ "<product/component_id>": boolean_value }`
 func (c *CouponsController) CreateCoupon(
-    ctx context.Context,
-    productFamilyId int,
-    body *models.CreateOrUpdateCoupon) (
-    models.ApiResponse[models.CouponResponse],
-    error) {
-    req := c.prepareRequest(
-      ctx,
-      "POST",
-      fmt.Sprintf("/product_families/%v/coupons.json", productFamilyId),
-    )
-    req.Authenticate(NewAuth("BasicAuth"))
-    req.AppendErrors(map[string]https.ErrorBuilder[error]{
-        "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
-    })
-    req.Header("Content-Type", "application/json")
-    if body != nil {
-        req.Json(*body)
-    }
-    
-    var result models.CouponResponse
-    decoder, resp, err := req.CallAsJson()
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    result, err = utilities.DecodeResults[models.CouponResponse](decoder)
-    return models.NewApiResponse(result, resp), err
+	ctx context.Context,
+	productFamilyId int,
+	body *models.CreateOrUpdateCoupon) (
+	models.ApiResponse[models.CouponResponse],
+	error) {
+	req := c.prepareRequest(
+		ctx,
+		"POST",
+		fmt.Sprintf("/product_families/%v/coupons.json", productFamilyId),
+	)
+	req.Authenticate(NewAuth("BasicAuth"))
+	req.AppendErrors(map[string]https.ErrorBuilder[error]{
+		"422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
+	})
+	req.Header("Content-Type", "application/json")
+	if body != nil {
+		req.Json(body)
+	}
+
+	var result models.CouponResponse
+	decoder, resp, err := req.CallAsJson()
+	if err != nil {
+		return models.NewApiResponse(result, resp), err
+	}
+
+	result, err = utilities.DecodeResults[models.CouponResponse](decoder)
+	return models.NewApiResponse(result, resp), err
+}
+
+// ListCouponsForProductFamilyInput represents the input of the ListCouponsForProductFamily endpoint.
+type ListCouponsForProductFamilyInput struct {
+	// The Chargify id of the product family to which the coupon belongs
+	ProductFamilyId int
+	// Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.
+	// Use in query `page=1`.
+	Page *int
+	// This parameter indicates how many records to fetch in each request. Default value is 30. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.
+	// Use in query `per_page=200`.
+	PerPage *int
+	// The type of filter you would like to apply to your search. Use in query `filter[date_field]=created_at`.
+	FilterDateField *models.BasicDateField
+	// The end date (format YYYY-MM-DD) with which to filter the date_field. Returns coupons with a timestamp up to and including 11:59:59PM in your site’s time zone on the date specified. Use in query `filter[date_field]=2011-12-15`.
+	FilterEndDate *time.Time
+	// The end date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns coupons with a timestamp at or before exact time provided in query. You can specify timezone in query - otherwise your site's time zone will be used. If provided, this parameter will be used instead of end_date. Use in query `?filter[end_datetime]=2011-12-1T10:15:30+01:00`.
+	FilterEndDatetime *time.Time
+	// The start date (format YYYY-MM-DD) with which to filter the date_field. Returns coupons with a timestamp at or after midnight (12:00:00 AM) in your site’s time zone on the date specified. Use in query `filter[start_date]=2011-12-17`.
+	FilterStartDate *time.Time
+	// The start date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns coupons with a timestamp at or after exact time provided in query. You can specify timezone in query - otherwise your site's time zone will be used. If provided, this parameter will be used instead of start_date. Use in query `filter[start_datetime]=2011-12-19T10:15:30+01:00`.
+	FilterStartDatetime *time.Time
+	// Allows fetching coupons with matching id based on provided values. Use in query `filter[ids]=1,2,3`.
+	FilterIds []int
+	// Allows fetching coupons with matching codes based on provided values. Use in query `filter[codes]=free,free_trial`.
+	FilterCodes []string
+	// When fetching coupons, if you have defined multiple currencies at the site level, you can optionally pass the `?currency_prices=true` query param to include an array of currency price data in the response. Use in query `currency_prices=true`.
+	CurrencyPrices *bool
+	// Allows fetching coupons with matching use_site_exchange_rate based on provided value. Use in query `filter[use_site_exchange_rate]=true`.
+	FilterUseSiteExchangeRate *bool
 }
 
 // ListCouponsForProductFamily takes context, productFamilyId, page, perPage, filterDateField, filterEndDate, filterEndDatetime, filterStartDate, filterStartDatetime, filterIds, filterCodes, currencyPrices, filterUseSiteExchangeRate as parameters and
@@ -70,69 +100,58 @@ func (c *CouponsController) CreateCoupon(
 // List coupons for a specific Product Family in a Site.
 // If the coupon is set to `use_site_exchange_rate: true`, it will return pricing based on the current exchange rate. If the flag is set to false, it will return all of the defined prices for each currency.
 func (c *CouponsController) ListCouponsForProductFamily(
-    ctx context.Context,
-    productFamilyId int,
-    page *int,
-    perPage *int,
-    filterDateField *models.BasicDateField,
-    filterEndDate *time.Time,
-    filterEndDatetime *time.Time,
-    filterStartDate *time.Time,
-    filterStartDatetime *time.Time,
-    filterIds []int,
-    filterCodes []string,
-    currencyPrices *bool,
-    filterUseSiteExchangeRate *bool) (
-    models.ApiResponse[[]models.CouponResponse],
-    error) {
-    req := c.prepareRequest(
-      ctx,
-      "GET",
-      fmt.Sprintf("/product_families/%v/coupons.json", productFamilyId),
-    )
-    req.Authenticate(NewAuth("BasicAuth"))
-    if page != nil {
-        req.QueryParam("page", *page)
-    }
-    if perPage != nil {
-        req.QueryParam("per_page", *perPage)
-    }
-    if filterDateField != nil {
-        req.QueryParam("filter[date_field]", *filterDateField)
-    }
-    if filterEndDate != nil {
-        req.QueryParam("filter[end_date]", filterEndDate.Format(models.DEFAULT_DATE))
-    }
-    if filterEndDatetime != nil {
-        req.QueryParam("filter[end_datetime]", filterEndDatetime.Format(time.RFC3339))
-    }
-    if filterStartDate != nil {
-        req.QueryParam("filter[start_date]", filterStartDate.Format(models.DEFAULT_DATE))
-    }
-    if filterStartDatetime != nil {
-        req.QueryParam("filter[start_datetime]", filterStartDatetime.Format(time.RFC3339))
-    }
-    if filterIds != nil {
-        req.QueryParam("filter[ids]", filterIds)
-    }
-    if filterCodes != nil {
-        req.QueryParam("filter[codes]", filterCodes)
-    }
-    if currencyPrices != nil {
-        req.QueryParam("currency_prices", *currencyPrices)
-    }
-    if filterUseSiteExchangeRate != nil {
-        req.QueryParam("filter[use_site_exchange_rate]", *filterUseSiteExchangeRate)
-    }
-    
-    var result []models.CouponResponse
-    decoder, resp, err := req.CallAsJson()
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    result, err = utilities.DecodeResults[[]models.CouponResponse](decoder)
-    return models.NewApiResponse(result, resp), err
+	ctx context.Context,
+	input ListCouponsForProductFamilyInput) (
+	models.ApiResponse[[]models.CouponResponse],
+	error) {
+	req := c.prepareRequest(
+		ctx,
+		"GET",
+		fmt.Sprintf("/product_families/%v/coupons.json", input.ProductFamilyId),
+	)
+	req.Authenticate(NewAuth("BasicAuth"))
+	if input.Page != nil {
+		req.QueryParam("page", *input.Page)
+	}
+	if input.PerPage != nil {
+		req.QueryParam("per_page", *input.PerPage)
+	}
+	if input.FilterDateField != nil {
+		req.QueryParam("filter[date_field]", *input.FilterDateField)
+	}
+	if input.FilterEndDate != nil {
+		req.QueryParam("filter[end_date]", input.FilterEndDate.Format(models.DEFAULT_DATE))
+	}
+	if input.FilterEndDatetime != nil {
+		req.QueryParam("filter[end_datetime]", input.FilterEndDatetime.Format(time.RFC3339))
+	}
+	if input.FilterStartDate != nil {
+		req.QueryParam("filter[start_date]", input.FilterStartDate.Format(models.DEFAULT_DATE))
+	}
+	if input.FilterStartDatetime != nil {
+		req.QueryParam("filter[start_datetime]", input.FilterStartDatetime.Format(time.RFC3339))
+	}
+	if input.FilterIds != nil {
+		req.QueryParam("filter[ids]", input.FilterIds)
+	}
+	if input.FilterCodes != nil {
+		req.QueryParam("filter[codes]", input.FilterCodes)
+	}
+	if input.CurrencyPrices != nil {
+		req.QueryParam("currency_prices", *input.CurrencyPrices)
+	}
+	if input.FilterUseSiteExchangeRate != nil {
+		req.QueryParam("filter[use_site_exchange_rate]", *input.FilterUseSiteExchangeRate)
+	}
+
+	var result []models.CouponResponse
+	decoder, resp, err := req.CallAsJson()
+	if err != nil {
+		return models.NewApiResponse(result, resp), err
+	}
+
+	result, err = utilities.DecodeResults[[]models.CouponResponse](decoder)
+	return models.NewApiResponse(result, resp), err
 }
 
 // FindCoupon takes context, productFamilyId, code as parameters and
@@ -141,27 +160,27 @@ func (c *CouponsController) ListCouponsForProductFamily(
 // You can search for a coupon via the API with the find method. By passing a code parameter, the find will attempt to locate a coupon that matches that code. If no coupon is found, a 404 is returned.
 // If you have more than one product family and if the coupon you are trying to find does not belong to the default product family in your site, then you will need to specify (either in the url or as a query string param) the product family id.
 func (c *CouponsController) FindCoupon(
-    ctx context.Context,
-    productFamilyId *int,
-    code *string) (
-    models.ApiResponse[models.CouponResponse],
-    error) {
-    req := c.prepareRequest(ctx, "GET", "/coupons/find.json")
-    req.Authenticate(NewAuth("BasicAuth"))
-    if productFamilyId != nil {
-        req.QueryParam("product_family_id", *productFamilyId)
-    }
-    if code != nil {
-        req.QueryParam("code", *code)
-    }
-    var result models.CouponResponse
-    decoder, resp, err := req.CallAsJson()
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    result, err = utilities.DecodeResults[models.CouponResponse](decoder)
-    return models.NewApiResponse(result, resp), err
+	ctx context.Context,
+	productFamilyId *int,
+	code *string) (
+	models.ApiResponse[models.CouponResponse],
+	error) {
+	req := c.prepareRequest(ctx, "GET", "/coupons/find.json")
+	req.Authenticate(NewAuth("BasicAuth"))
+	if productFamilyId != nil {
+		req.QueryParam("product_family_id", *productFamilyId)
+	}
+	if code != nil {
+		req.QueryParam("code", *code)
+	}
+	var result models.CouponResponse
+	decoder, resp, err := req.CallAsJson()
+	if err != nil {
+		return models.NewApiResponse(result, resp), err
+	}
+
+	result, err = utilities.DecodeResults[models.CouponResponse](decoder)
+	return models.NewApiResponse(result, resp), err
 }
 
 // ReadCoupon takes context, productFamilyId, couponId as parameters and
@@ -172,26 +191,26 @@ func (c *CouponsController) FindCoupon(
 // When fetching a coupon, if you have defined multiple currencies at the site level, you can optionally pass the `?currency_prices=true` query param to include an array of currency price data in the response.
 // If the coupon is set to `use_site_exchange_rate: true`, it will return pricing based on the current exchange rate. If the flag is set to false, it will return all of the defined prices for each currency.
 func (c *CouponsController) ReadCoupon(
-    ctx context.Context,
-    productFamilyId int,
-    couponId int) (
-    models.ApiResponse[models.CouponResponse],
-    error) {
-    req := c.prepareRequest(
-      ctx,
-      "GET",
-      fmt.Sprintf("/product_families/%v/coupons/%v.json", productFamilyId, couponId),
-    )
-    req.Authenticate(NewAuth("BasicAuth"))
-    
-    var result models.CouponResponse
-    decoder, resp, err := req.CallAsJson()
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    result, err = utilities.DecodeResults[models.CouponResponse](decoder)
-    return models.NewApiResponse(result, resp), err
+	ctx context.Context,
+	productFamilyId int,
+	couponId int) (
+	models.ApiResponse[models.CouponResponse],
+	error) {
+	req := c.prepareRequest(
+		ctx,
+		"GET",
+		fmt.Sprintf("/product_families/%v/coupons/%v.json", productFamilyId, couponId),
+	)
+	req.Authenticate(NewAuth("BasicAuth"))
+
+	var result models.CouponResponse
+	decoder, resp, err := req.CallAsJson()
+	if err != nil {
+		return models.NewApiResponse(result, resp), err
+	}
+
+	result, err = utilities.DecodeResults[models.CouponResponse](decoder)
+	return models.NewApiResponse(result, resp), err
 }
 
 // UpdateCoupon takes context, productFamilyId, couponId, body as parameters and
@@ -202,31 +221,31 @@ func (c *CouponsController) ReadCoupon(
 // You can restrict a coupon to only apply to specific products / components by optionally passing in hashes of `restricted_products` and/or `restricted_components` in the format:
 // `{ "<product/component_id>": boolean_value }`
 func (c *CouponsController) UpdateCoupon(
-    ctx context.Context,
-    productFamilyId int,
-    couponId int,
-    body *models.CreateOrUpdateCoupon) (
-    models.ApiResponse[models.CouponResponse],
-    error) {
-    req := c.prepareRequest(
-      ctx,
-      "PUT",
-      fmt.Sprintf("/product_families/%v/coupons/%v.json", productFamilyId, couponId),
-    )
-    req.Authenticate(NewAuth("BasicAuth"))
-    req.Header("Content-Type", "application/json")
-    if body != nil {
-        req.Json(*body)
-    }
-    
-    var result models.CouponResponse
-    decoder, resp, err := req.CallAsJson()
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    result, err = utilities.DecodeResults[models.CouponResponse](decoder)
-    return models.NewApiResponse(result, resp), err
+	ctx context.Context,
+	productFamilyId int,
+	couponId int,
+	body *models.CreateOrUpdateCoupon) (
+	models.ApiResponse[models.CouponResponse],
+	error) {
+	req := c.prepareRequest(
+		ctx,
+		"PUT",
+		fmt.Sprintf("/product_families/%v/coupons/%v.json", productFamilyId, couponId),
+	)
+	req.Authenticate(NewAuth("BasicAuth"))
+	req.Header("Content-Type", "application/json")
+	if body != nil {
+		req.Json(body)
+	}
+
+	var result models.CouponResponse
+	decoder, resp, err := req.CallAsJson()
+	if err != nil {
+		return models.NewApiResponse(result, resp), err
+	}
+
+	result, err = utilities.DecodeResults[models.CouponResponse](decoder)
+	return models.NewApiResponse(result, resp), err
 }
 
 // ArchiveCoupon takes context, productFamilyId, couponId as parameters and
@@ -236,26 +255,64 @@ func (c *CouponsController) UpdateCoupon(
 // Archiving makes that Coupon unavailable for future use, but allows it to remain attached and functional on existing Subscriptions that are using it.
 // The `archived_at` date and time will be assigned.
 func (c *CouponsController) ArchiveCoupon(
-    ctx context.Context,
-    productFamilyId int,
-    couponId int) (
-    models.ApiResponse[models.CouponResponse],
-    error) {
-    req := c.prepareRequest(
-      ctx,
-      "DELETE",
-      fmt.Sprintf("/product_families/%v/coupons/%v.json", productFamilyId, couponId),
-    )
-    req.Authenticate(NewAuth("BasicAuth"))
-    
-    var result models.CouponResponse
-    decoder, resp, err := req.CallAsJson()
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    result, err = utilities.DecodeResults[models.CouponResponse](decoder)
-    return models.NewApiResponse(result, resp), err
+	ctx context.Context,
+	productFamilyId int,
+	couponId int) (
+	models.ApiResponse[models.CouponResponse],
+	error) {
+	req := c.prepareRequest(
+		ctx,
+		"DELETE",
+		fmt.Sprintf("/product_families/%v/coupons/%v.json", productFamilyId, couponId),
+	)
+	req.Authenticate(NewAuth("BasicAuth"))
+
+	var result models.CouponResponse
+	decoder, resp, err := req.CallAsJson()
+	if err != nil {
+		return models.NewApiResponse(result, resp), err
+	}
+
+	result, err = utilities.DecodeResults[models.CouponResponse](decoder)
+	return models.NewApiResponse(result, resp), err
+}
+
+// ListCouponsInput represents the input of the ListCoupons endpoint.
+type ListCouponsInput struct {
+	// Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.
+	// Use in query `page=1`.
+	Page *int
+	// This parameter indicates how many records to fetch in each request. Default value is 30. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.
+	// Use in query `per_page=200`.
+	PerPage *int
+	// The field was deprecated: on January 20, 2022. We recommend using filter[date_field] instead to achieve the same result. The type of filter you would like to apply to your search.
+	DateField *models.BasicDateField // Deprecated
+	// The field was deprecated: on January 20, 2022. We recommend using filter[start_date] instead to achieve the same result. The start date (format YYYY-MM-DD) with which to filter the date_field. Returns coupons with a timestamp at or after midnight (12:00:00 AM) in your site’s time zone on the date specified.
+	StartDate *time.Time // Deprecated
+	// The field was deprecated: on January 20, 2022. We recommend using filter[end_date] instead to achieve the same result. The end date (format YYYY-MM-DD) with which to filter the date_field. Returns coupons with a timestamp up to and including 11:59:59PM in your site’s time zone on the date specified.
+	EndDate *time.Time // Deprecated
+	// The field was deprecated: on January 20, 2022. We recommend using filter[start_datetime] instead to achieve the same result. The start date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns coupons with a timestamp at or after exact time provided in query. You can specify timezone in query - otherwise your site's time zone will be used. If provided, this parameter will be used instead of start_date.
+	StartDatetime *time.Time // Deprecated
+	// The field was deprecated: on January 20, 2022. We recommend using filter[end_datetime] instead to achieve the same result. The end date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns coupons with a timestamp at or before exact time provided in query. You can specify timezone in query - otherwise your site's time zone will be used. If provided, this parameter will be used instead of end_date.
+	EndDatetime *time.Time // Deprecated
+	// Allows fetching coupons with matching id based on provided values. Use in query `filter[ids]=1,2,3`.
+	FilterIds []int
+	// Allows fetching coupons with matching code based on provided values. Use in query `filter[ids]=1,2,3`.
+	FilterCodes []string
+	// When fetching coupons, if you have defined multiple currencies at the site level, you can optionally pass the `?currency_prices=true` query param to include an array of currency price data in the response. Use in query `currency_prices=true`.
+	CurrencyPrices *bool
+	// The end date (format YYYY-MM-DD) with which to filter the date_field. Returns coupons with a timestamp up to and including 11:59:59PM in your site’s time zone on the date specified. Use in query `filter[end_date]=2011-12-17`.
+	FilterEndDate *time.Time
+	// The end date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns coupons with a timestamp at or before exact time provided in query. You can specify timezone in query - otherwise your site's time zone will be used. If provided, this parameter will be used instead of end_date. Use in query `filter[end_datetime]=2011-12-19T10:15:30+01:00`.
+	FilterEndDatetime *time.Time
+	// The start date (format YYYY-MM-DD) with which to filter the date_field. Returns coupons with a timestamp at or after midnight (12:00:00 AM) in your site’s time zone on the date specified. Use in query `filter[start_date]=2011-12-19`.
+	FilterStartDate *time.Time
+	// The start date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns coupons with a timestamp at or after exact time provided in query. You can specify timezone in query - otherwise your site's time zone will be used. If provided, this parameter will be used instead of start_date. Use in query `filter[start_datetime]=2011-12-19T10:15:30+01:00`.
+	FilterStartDatetime *time.Time
+	// The type of filter you would like to apply to your search. Use in query `filter[date_field]=updated_at`.
+	FilterDateField *models.BasicDateField
+	// Allows fetching coupons with matching use_site_exchange_rate based on provided value. Use in query `filter[use_site_exchange_rate]=true`.
+	FilterUseSiteExchangeRate *bool
 }
 
 // ListCoupons takes context, page, perPage, dateField, startDate, endDate, startDatetime, endDatetime, filterIds, filterCodes, currencyPrices, filterEndDate, filterEndDatetime, filterStartDate, filterStartDatetime, filterDateField, filterUseSiteExchangeRate as parameters and
@@ -264,83 +321,68 @@ func (c *CouponsController) ArchiveCoupon(
 // You can retrieve a list of coupons.
 // If the coupon is set to `use_site_exchange_rate: true`, it will return pricing based on the current exchange rate. If the flag is set to false, it will return all of the defined prices for each currency.
 func (c *CouponsController) ListCoupons(
-    ctx context.Context,
-    page *int,
-    perPage *int,
-    dateField *models.BasicDateField,
-    startDate *time.Time,
-    endDate *time.Time,
-    startDatetime *time.Time,
-    endDatetime *time.Time,
-    filterIds []int,
-    filterCodes []string,
-    currencyPrices *bool,
-    filterEndDate *time.Time,
-    filterEndDatetime *time.Time,
-    filterStartDate *time.Time,
-    filterStartDatetime *time.Time,
-    filterDateField *models.BasicDateField,
-    filterUseSiteExchangeRate *bool) (
-    models.ApiResponse[[]models.CouponResponse],
-    error) {
-    req := c.prepareRequest(ctx, "GET", "/coupons.json")
-    req.Authenticate(NewAuth("BasicAuth"))
-    if page != nil {
-        req.QueryParam("page", *page)
-    }
-    if perPage != nil {
-        req.QueryParam("per_page", *perPage)
-    }
-    if dateField != nil {
-        req.QueryParam("date_field", *dateField)
-    }
-    if startDate != nil {
-        req.QueryParam("start_date", startDate.Format(models.DEFAULT_DATE))
-    }
-    if endDate != nil {
-        req.QueryParam("end_date", endDate.Format(models.DEFAULT_DATE))
-    }
-    if startDatetime != nil {
-        req.QueryParam("start_datetime", startDatetime.Format(time.RFC3339))
-    }
-    if endDatetime != nil {
-        req.QueryParam("end_datetime", endDatetime.Format(time.RFC3339))
-    }
-    if filterIds != nil {
-        req.QueryParam("filter[ids]", filterIds)
-    }
-    if filterCodes != nil {
-        req.QueryParam("filter[codes]", filterCodes)
-    }
-    if currencyPrices != nil {
-        req.QueryParam("currency_prices", *currencyPrices)
-    }
-    if filterEndDate != nil {
-        req.QueryParam("filter[end_date]", filterEndDate.Format(models.DEFAULT_DATE))
-    }
-    if filterEndDatetime != nil {
-        req.QueryParam("filter[end_datetime]", filterEndDatetime.Format(time.RFC3339))
-    }
-    if filterStartDate != nil {
-        req.QueryParam("filter[start_date]", filterStartDate.Format(models.DEFAULT_DATE))
-    }
-    if filterStartDatetime != nil {
-        req.QueryParam("filter[start_datetime]", filterStartDatetime.Format(time.RFC3339))
-    }
-    if filterDateField != nil {
-        req.QueryParam("filter[date_field]", *filterDateField)
-    }
-    if filterUseSiteExchangeRate != nil {
-        req.QueryParam("filter[use_site_exchange_rate]", *filterUseSiteExchangeRate)
-    }
-    var result []models.CouponResponse
-    decoder, resp, err := req.CallAsJson()
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    result, err = utilities.DecodeResults[[]models.CouponResponse](decoder)
-    return models.NewApiResponse(result, resp), err
+	ctx context.Context,
+	input ListCouponsInput) (
+	models.ApiResponse[[]models.CouponResponse],
+	error) {
+	req := c.prepareRequest(ctx, "GET", "/coupons.json")
+	req.Authenticate(NewAuth("BasicAuth"))
+	if input.Page != nil {
+		req.QueryParam("page", *input.Page)
+	}
+	if input.PerPage != nil {
+		req.QueryParam("per_page", *input.PerPage)
+	}
+	if input.DateField != nil {
+		req.QueryParam("date_field", *input.DateField)
+	}
+	if input.StartDate != nil {
+		req.QueryParam("start_date", input.StartDate.Format(models.DEFAULT_DATE))
+	}
+	if input.EndDate != nil {
+		req.QueryParam("end_date", input.EndDate.Format(models.DEFAULT_DATE))
+	}
+	if input.StartDatetime != nil {
+		req.QueryParam("start_datetime", input.StartDatetime.Format(time.RFC3339))
+	}
+	if input.EndDatetime != nil {
+		req.QueryParam("end_datetime", input.EndDatetime.Format(time.RFC3339))
+	}
+	if input.FilterIds != nil {
+		req.QueryParam("filter[ids]", input.FilterIds)
+	}
+	if input.FilterCodes != nil {
+		req.QueryParam("filter[codes]", input.FilterCodes)
+	}
+	if input.CurrencyPrices != nil {
+		req.QueryParam("currency_prices", *input.CurrencyPrices)
+	}
+	if input.FilterEndDate != nil {
+		req.QueryParam("filter[end_date]", input.FilterEndDate.Format(models.DEFAULT_DATE))
+	}
+	if input.FilterEndDatetime != nil {
+		req.QueryParam("filter[end_datetime]", input.FilterEndDatetime.Format(time.RFC3339))
+	}
+	if input.FilterStartDate != nil {
+		req.QueryParam("filter[start_date]", input.FilterStartDate.Format(models.DEFAULT_DATE))
+	}
+	if input.FilterStartDatetime != nil {
+		req.QueryParam("filter[start_datetime]", input.FilterStartDatetime.Format(time.RFC3339))
+	}
+	if input.FilterDateField != nil {
+		req.QueryParam("filter[date_field]", *input.FilterDateField)
+	}
+	if input.FilterUseSiteExchangeRate != nil {
+		req.QueryParam("filter[use_site_exchange_rate]", *input.FilterUseSiteExchangeRate)
+	}
+	var result []models.CouponResponse
+	decoder, resp, err := req.CallAsJson()
+	if err != nil {
+		return models.NewApiResponse(result, resp), err
+	}
+
+	result, err = utilities.DecodeResults[[]models.CouponResponse](decoder)
+	return models.NewApiResponse(result, resp), err
 }
 
 // ReadCouponUsage takes context, productFamilyId, couponId as parameters and
@@ -348,26 +390,26 @@ func (c *CouponsController) ListCoupons(
 // an error if there was an issue with the request or response.
 // This request will provide details about the coupon usage as an array of data hashes, one per product.
 func (c *CouponsController) ReadCouponUsage(
-    ctx context.Context,
-    productFamilyId int,
-    couponId int) (
-    models.ApiResponse[[]models.CouponUsage],
-    error) {
-    req := c.prepareRequest(
-      ctx,
-      "GET",
-      fmt.Sprintf("/product_families/%v/coupons/%v/usage.json", productFamilyId, couponId),
-    )
-    req.Authenticate(NewAuth("BasicAuth"))
-    
-    var result []models.CouponUsage
-    decoder, resp, err := req.CallAsJson()
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    result, err = utilities.DecodeResults[[]models.CouponUsage](decoder)
-    return models.NewApiResponse(result, resp), err
+	ctx context.Context,
+	productFamilyId int,
+	couponId int) (
+	models.ApiResponse[[]models.CouponUsage],
+	error) {
+	req := c.prepareRequest(
+		ctx,
+		"GET",
+		fmt.Sprintf("/product_families/%v/coupons/%v/usage.json", productFamilyId, couponId),
+	)
+	req.Authenticate(NewAuth("BasicAuth"))
+
+	var result []models.CouponUsage
+	decoder, resp, err := req.CallAsJson()
+	if err != nil {
+		return models.NewApiResponse(result, resp), err
+	}
+
+	result, err = utilities.DecodeResults[[]models.CouponUsage](decoder)
+	return models.NewApiResponse(result, resp), err
 }
 
 // ValidateCoupon takes context, code, productFamilyId as parameters and
@@ -388,28 +430,28 @@ func (c *CouponsController) ReadCouponUsage(
 // https://<subdomain>.chargify.com/coupons/validate.<format>?code=<coupon_code>&product_family_id=<id>
 // ```
 func (c *CouponsController) ValidateCoupon(
-    ctx context.Context,
-    code string,
-    productFamilyId *int) (
-    models.ApiResponse[models.CouponResponse],
-    error) {
-    req := c.prepareRequest(ctx, "GET", "/coupons/validate.json")
-    req.Authenticate(NewAuth("BasicAuth"))
-    req.AppendErrors(map[string]https.ErrorBuilder[error]{
-        "404": {Message: "Not Found", Unmarshaller: errors.NewSingleStringErrorResponse},
-    })
-    req.QueryParam("code", code)
-    if productFamilyId != nil {
-        req.QueryParam("product_family_id", *productFamilyId)
-    }
-    var result models.CouponResponse
-    decoder, resp, err := req.CallAsJson()
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    result, err = utilities.DecodeResults[models.CouponResponse](decoder)
-    return models.NewApiResponse(result, resp), err
+	ctx context.Context,
+	code string,
+	productFamilyId *int) (
+	models.ApiResponse[models.CouponResponse],
+	error) {
+	req := c.prepareRequest(ctx, "GET", "/coupons/validate.json")
+	req.Authenticate(NewAuth("BasicAuth"))
+	req.AppendErrors(map[string]https.ErrorBuilder[error]{
+		"404": {Message: "Not Found", Unmarshaller: errors.NewSingleStringErrorResponse},
+	})
+	req.QueryParam("code", code)
+	if productFamilyId != nil {
+		req.QueryParam("product_family_id", *productFamilyId)
+	}
+	var result models.CouponResponse
+	decoder, resp, err := req.CallAsJson()
+	if err != nil {
+		return models.NewApiResponse(result, resp), err
+	}
+
+	result, err = utilities.DecodeResults[models.CouponResponse](decoder)
+	return models.NewApiResponse(result, resp), err
 }
 
 // CreateOrUpdateCouponCurrencyPrices takes context, couponId, body as parameters and
@@ -418,30 +460,30 @@ func (c *CouponsController) ValidateCoupon(
 // This endpoint allows you to create and/or update currency prices for an existing coupon. Multiple prices can be created or updated in a single request but each of the currencies must be defined on the site level already and the coupon must be an amount-based coupon, not percentage.
 // Currency pricing for coupons must mirror the setup of the primary coupon pricing - if the primary coupon is percentage based, you will not be able to define pricing in non-primary currencies.
 func (c *CouponsController) CreateOrUpdateCouponCurrencyPrices(
-    ctx context.Context,
-    couponId int,
-    body *models.CouponCurrencyRequest) (
-    models.ApiResponse[models.CouponCurrencyResponse],
-    error) {
-    req := c.prepareRequest(
-      ctx,
-      "PUT",
-      fmt.Sprintf("/coupons/%v/currency_prices.json", couponId),
-    )
-    req.Authenticate(NewAuth("BasicAuth"))
-    req.Header("Content-Type", "application/json")
-    if body != nil {
-        req.Json(*body)
-    }
-    
-    var result models.CouponCurrencyResponse
-    decoder, resp, err := req.CallAsJson()
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    result, err = utilities.DecodeResults[models.CouponCurrencyResponse](decoder)
-    return models.NewApiResponse(result, resp), err
+	ctx context.Context,
+	couponId int,
+	body *models.CouponCurrencyRequest) (
+	models.ApiResponse[models.CouponCurrencyResponse],
+	error) {
+	req := c.prepareRequest(
+		ctx,
+		"PUT",
+		fmt.Sprintf("/coupons/%v/currency_prices.json", couponId),
+	)
+	req.Authenticate(NewAuth("BasicAuth"))
+	req.Header("Content-Type", "application/json")
+	if body != nil {
+		req.Json(body)
+	}
+
+	var result models.CouponCurrencyResponse
+	decoder, resp, err := req.CallAsJson()
+	if err != nil {
+		return models.NewApiResponse(result, resp), err
+	}
+
+	result, err = utilities.DecodeResults[models.CouponCurrencyResponse](decoder)
+	return models.NewApiResponse(result, resp), err
 }
 
 // CreateCouponSubcodes takes context, couponId, body as parameters and
@@ -472,30 +514,42 @@ func (c *CouponsController) CreateOrUpdateCouponCurrencyPrices(
 // . to %2E
 // So, if the coupon subcode is `20%OFF`, the URL to delete this coupon subcode would be: `https://<subdomain>.chargify.com/coupons/567/codes/20%25OFF.<format>`
 func (c *CouponsController) CreateCouponSubcodes(
-    ctx context.Context,
-    couponId int,
-    body *models.CouponSubcodes) (
-    models.ApiResponse[models.CouponSubcodesResponse],
-    error) {
-    req := c.prepareRequest(
-      ctx,
-      "POST",
-      fmt.Sprintf("/coupons/%v/codes.json", couponId),
-    )
-    req.Authenticate(NewAuth("BasicAuth"))
-    req.Header("Content-Type", "application/json")
-    if body != nil {
-        req.Json(*body)
-    }
-    
-    var result models.CouponSubcodesResponse
-    decoder, resp, err := req.CallAsJson()
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    result, err = utilities.DecodeResults[models.CouponSubcodesResponse](decoder)
-    return models.NewApiResponse(result, resp), err
+	ctx context.Context,
+	couponId int,
+	body *models.CouponSubcodes) (
+	models.ApiResponse[models.CouponSubcodesResponse],
+	error) {
+	req := c.prepareRequest(
+		ctx,
+		"POST",
+		fmt.Sprintf("/coupons/%v/codes.json", couponId),
+	)
+	req.Authenticate(NewAuth("BasicAuth"))
+	req.Header("Content-Type", "application/json")
+	if body != nil {
+		req.Json(body)
+	}
+
+	var result models.CouponSubcodesResponse
+	decoder, resp, err := req.CallAsJson()
+	if err != nil {
+		return models.NewApiResponse(result, resp), err
+	}
+
+	result, err = utilities.DecodeResults[models.CouponSubcodesResponse](decoder)
+	return models.NewApiResponse(result, resp), err
+}
+
+// ListCouponSubcodesInput represents the input of the ListCouponSubcodes endpoint.
+type ListCouponSubcodesInput struct {
+	// The Chargify id of the coupon
+	CouponId int
+	// Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.
+	// Use in query `page=1`.
+	Page *int
+	// This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.
+	// Use in query `per_page=200`.
+	PerPage *int
 }
 
 // ListCouponSubcodes takes context, couponId, page, perPage as parameters and
@@ -503,33 +557,31 @@ func (c *CouponsController) CreateCouponSubcodes(
 // an error if there was an issue with the request or response.
 // This request allows you to request the subcodes that are attached to a coupon.
 func (c *CouponsController) ListCouponSubcodes(
-    ctx context.Context,
-    couponId int,
-    page *int,
-    perPage *int) (
-    models.ApiResponse[models.CouponSubcodes],
-    error) {
-    req := c.prepareRequest(
-      ctx,
-      "GET",
-      fmt.Sprintf("/coupons/%v/codes.json", couponId),
-    )
-    req.Authenticate(NewAuth("BasicAuth"))
-    if page != nil {
-        req.QueryParam("page", *page)
-    }
-    if perPage != nil {
-        req.QueryParam("per_page", *perPage)
-    }
-    
-    var result models.CouponSubcodes
-    decoder, resp, err := req.CallAsJson()
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    result, err = utilities.DecodeResults[models.CouponSubcodes](decoder)
-    return models.NewApiResponse(result, resp), err
+	ctx context.Context,
+	input ListCouponSubcodesInput) (
+	models.ApiResponse[models.CouponSubcodes],
+	error) {
+	req := c.prepareRequest(
+		ctx,
+		"GET",
+		fmt.Sprintf("/coupons/%v/codes.json", input.CouponId),
+	)
+	req.Authenticate(NewAuth("BasicAuth"))
+	if input.Page != nil {
+		req.QueryParam("page", *input.Page)
+	}
+	if input.PerPage != nil {
+		req.QueryParam("per_page", *input.PerPage)
+	}
+
+	var result models.CouponSubcodes
+	decoder, resp, err := req.CallAsJson()
+	if err != nil {
+		return models.NewApiResponse(result, resp), err
+	}
+
+	result, err = utilities.DecodeResults[models.CouponSubcodes](decoder)
+	return models.NewApiResponse(result, resp), err
 }
 
 // UpdateCouponSubcodes takes context, couponId, body as parameters and
@@ -543,30 +595,30 @@ func (c *CouponsController) ListCouponSubcodes(
 // + Subcodes that were not created because they already exist,
 // + Any subcodes not created because they are invalid.
 func (c *CouponsController) UpdateCouponSubcodes(
-    ctx context.Context,
-    couponId int,
-    body *models.CouponSubcodes) (
-    models.ApiResponse[models.CouponSubcodesResponse],
-    error) {
-    req := c.prepareRequest(
-      ctx,
-      "PUT",
-      fmt.Sprintf("/coupons/%v/codes.json", couponId),
-    )
-    req.Authenticate(NewAuth("BasicAuth"))
-    req.Header("Content-Type", "application/json")
-    if body != nil {
-        req.Json(*body)
-    }
-    
-    var result models.CouponSubcodesResponse
-    decoder, resp, err := req.CallAsJson()
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    result, err = utilities.DecodeResults[models.CouponSubcodesResponse](decoder)
-    return models.NewApiResponse(result, resp), err
+	ctx context.Context,
+	couponId int,
+	body *models.CouponSubcodes) (
+	models.ApiResponse[models.CouponSubcodesResponse],
+	error) {
+	req := c.prepareRequest(
+		ctx,
+		"PUT",
+		fmt.Sprintf("/coupons/%v/codes.json", couponId),
+	)
+	req.Authenticate(NewAuth("BasicAuth"))
+	req.Header("Content-Type", "application/json")
+	if body != nil {
+		req.Json(body)
+	}
+
+	var result models.CouponSubcodesResponse
+	decoder, resp, err := req.CallAsJson()
+	if err != nil {
+		return models.NewApiResponse(result, resp), err
+	}
+
+	result, err = utilities.DecodeResults[models.CouponSubcodesResponse](decoder)
+	return models.NewApiResponse(result, resp), err
 }
 
 // DeleteCouponSubcode takes context, couponId, subcode as parameters and
@@ -589,24 +641,24 @@ func (c *CouponsController) UpdateCouponSubcodes(
 // ## Percent Encoding Example
 // Or if the coupon subcode is 20%OFF, the URL to delete this coupon subcode would be: @https://<subdomain>.chargify.com/coupons/567/codes/20%25OFF.<format>
 func (c *CouponsController) DeleteCouponSubcode(
-    ctx context.Context,
-    couponId int,
-    subcode string) (
-    *http.Response,
-    error) {
-    req := c.prepareRequest(
-      ctx,
-      "DELETE",
-      fmt.Sprintf("/coupons/%v/codes/%v.json", couponId, subcode),
-    )
-    req.Authenticate(NewAuth("BasicAuth"))
-    req.AppendErrors(map[string]https.ErrorBuilder[error]{
-        "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
-    })
-    
-    context, err := req.Call()
-    if err != nil {
-        return context.Response, err
-    }
-    return context.Response, err
+	ctx context.Context,
+	couponId int,
+	subcode string) (
+	*http.Response,
+	error) {
+	req := c.prepareRequest(
+		ctx,
+		"DELETE",
+		fmt.Sprintf("/coupons/%v/codes/%v.json", couponId, subcode),
+	)
+	req.Authenticate(NewAuth("BasicAuth"))
+	req.AppendErrors(map[string]https.ErrorBuilder[error]{
+		"404": {TemplatedMessage: "Not Found:'{$response.body}'"},
+	})
+
+	context, err := req.Call()
+	if err != nil {
+		return context.Response, err
+	}
+	return context.Response, err
 }

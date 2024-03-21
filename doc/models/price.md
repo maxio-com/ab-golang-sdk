@@ -9,26 +9,17 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `StartingQuantity` | `interface{}` | Required | - |
-| `EndingQuantity` | `Optional[interface{}]` | Optional | - |
-| `UnitPrice` | `interface{}` | Required | The price can contain up to 8 decimal places. i.e. 1.00 or 0.0012 or 0.00000065 |
+| `StartingQuantity` | [`models.PriceStartingQuantity`](../../doc/models/containers/price-starting-quantity.md) | Required | This is a container for one-of cases. |
+| `EndingQuantity` | [`models.Optional[models.PriceEndingQuantity]`](../../doc/models/containers/price-ending-quantity.md) | Optional | This is a container for one-of cases. |
+| `UnitPrice` | [`models.PriceUnitPrice`](../../doc/models/containers/price-unit-price.md) | Required | This is a container for one-of cases. |
 
 ## Example (as JSON)
 
 ```json
 {
-  "starting_quantity": {
-    "key1": "val1",
-    "key2": "val2"
-  },
-  "ending_quantity": {
-    "key1": "val1",
-    "key2": "val2"
-  },
-  "unit_price": {
-    "key1": "val1",
-    "key2": "val2"
-  }
+  "starting_quantity": 40,
+  "ending_quantity": 14,
+  "unit_price": 125.12
 }
 ```
 

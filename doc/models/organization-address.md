@@ -9,14 +9,14 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `Street` | `Optional[string]` | Optional | - |
-| `Line2` | `Optional[string]` | Optional | - |
-| `City` | `Optional[string]` | Optional | - |
-| `State` | `Optional[string]` | Optional | - |
-| `Zip` | `Optional[string]` | Optional | - |
-| `Country` | `Optional[string]` | Optional | - |
-| `Name` | `Optional[string]` | Optional | - |
-| `Phone` | `Optional[string]` | Optional | - |
+| `Street` | `models.Optional[string]` | Optional | - |
+| `Line2` | `models.Optional[string]` | Optional | - |
+| `City` | `models.Optional[string]` | Optional | - |
+| `State` | `models.Optional[string]` | Optional | - |
+| `Zip` | `models.Optional[string]` | Optional | - |
+| `Country` | `models.Optional[string]` | Optional | - |
+| `Name` | `models.Optional[string]` | Optional | - |
+| `Phone` | `models.Optional[string]` | Optional | - |
 
 ## Example (as JSON)
 

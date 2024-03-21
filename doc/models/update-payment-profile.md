@@ -21,7 +21,7 @@
 | `BillingState` | `*string` | Optional | The credit card or bank account billing address state (i.e. MA). This value is merely passed through to the payment gateway. This must conform to the [ISO_3166-1](https://en.wikipedia.org/wiki/ISO_3166-1#Current_codes) in order to be valid for tax locale purposes. |
 | `BillingZip` | `*string` | Optional | The credit card or bank account billing address zip code (i.e. 12345). This value is merely passed through to the payment gateway. |
 | `BillingCountry` | `*string` | Optional | The credit card or bank account billing address country, required in [ISO_3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) format (i.e. “US”). This value is merely passed through to the payment gateway. Some gateways require country codes in a specific format. Please check your gateway’s documentation. If creating an ACH subscription, only US is supported at this time. |
-| `BillingAddress2` | `Optional[string]` | Optional | Second line of the customer’s billing address i.e. Apt. 100 |
+| `BillingAddress2` | `models.Optional[string]` | Optional | Second line of the customer’s billing address i.e. Apt. 100 |
 
 ## Example (as JSON)
 

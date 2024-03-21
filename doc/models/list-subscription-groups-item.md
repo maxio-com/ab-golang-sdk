@@ -19,6 +19,7 @@
 | `State` | `*string` | Optional | - |
 | `CancelAtEndOfPeriod` | `*bool` | Optional | - |
 | `AccountBalances` | [`*models.SubscriptionGroupBalances`](../../doc/models/subscription-group-balances.md) | Optional | - |
+| `GroupType` | [`*models.GroupType`](../../doc/models/group-type.md) | Optional | - |
 
 ## Example (as JSON)
 

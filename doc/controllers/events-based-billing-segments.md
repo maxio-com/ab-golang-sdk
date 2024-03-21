@@ -53,23 +53,31 @@ ctx := context.Background()
 componentId := "component_id8"
 pricePointId := "price_point_id8"
 
+bodySegmentPrices0UnitPrice := models.CreateOrUpdateSegmentPriceUnitPriceContainer.FromPrecision(float64(0.19))
+
 bodySegmentPrices0 := models.CreateOrUpdateSegmentPrice{
     StartingQuantity: models.ToPointer(1),
     EndingQuantity:   models.ToPointer(10000),
-    UnitPrice:        interface{}("[key1, val1][key2, val2]"),
+    UnitPrice:        bodySegmentPrices0UnitPrice,
 }
+
+bodySegmentPrices1UnitPrice := models.CreateOrUpdateSegmentPriceUnitPriceContainer.FromPrecision(float64(0.09))
 
 bodySegmentPrices1 := models.CreateOrUpdateSegmentPrice{
     StartingQuantity: models.ToPointer(10001),
-    UnitPrice:        interface{}("[key1, val1][key2, val2]"),
+    UnitPrice:        bodySegmentPrices1UnitPrice,
 }
 
 bodySegmentPrices := []models.CreateOrUpdateSegmentPrice{bodySegmentPrices0, bodySegmentPrices1}
+bodySegmentSegmentProperty1Value := models.CreateSegmentSegmentProperty1ValueContainer.FromString("France")
+
+bodySegmentSegmentProperty2Value := models.CreateSegmentSegmentProperty2ValueContainer.FromString("Spain")
+
 bodySegment := models.CreateSegment{
-    SegmentProperty1Value: models.ToPointer(interface{}("[key1, val1][key2, val2]")),
-    SegmentProperty2Value: models.ToPointer(interface{}("[key1, val1][key2, val2]")),
     PricingScheme:         models.PricingScheme("volume"),
     Prices:                bodySegmentPrices,
+    SegmentProperty1Value: models.ToPointer(bodySegmentSegmentProperty1Value),
+    SegmentProperty2Value: models.ToPointer(bodySegmentSegmentProperty2Value),
 }
 
 body := models.CreateSegmentRequest{
@@ -104,7 +112,8 @@ You may specify component and/or price point by using either the numeric ID or t
 
 ```go
 ListSegmentsForPricePoint(
-    ctx context.Context,input ListSegmentsForPricePointInput) (
+    ctx context.Context,
+    input ListSegmentsForPricePointInput) (
     models.ApiResponse[models.ListSegmentsResponse],
     error)
 ```
@@ -130,12 +139,15 @@ ListSegmentsForPricePoint(
 
 ```go
 ctx := context.Background()
-componentId := "component_id8"
-pricePointId := "price_point_id8"
-page := 2
-perPage := 50Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')
 
-apiResponse, err := eventsBasedBillingSegmentsController.ListSegmentsForPricePoint(ctx, componentId, pricePointId, &page, &perPage, Liquid error: Value cannot be null. (Parameter 'key'), Liquid error: Value cannot be null. (Parameter 'key'), Liquid error: Value cannot be null. (Parameter 'key'), Liquid error: Value cannot be null. (Parameter 'key'))
+collectedInput := advancedbilling.ListSegmentsForPricePointInput{
+    ComponentId:                 "component_id8",
+    PricePointId:                "price_point_id8",
+    Page:                        models.ToPointer(2),
+    PerPage:                     models.ToPointer(50),
+Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')}
+
+apiResponse, err := eventsBasedBillingSegmentsController.ListSegmentsForPricePoint(ctx, collectedInput)
 if err != nil {
     log.Fatalln(err)
 } else {

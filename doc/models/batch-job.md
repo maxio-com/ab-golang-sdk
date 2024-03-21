@@ -10,9 +10,9 @@
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `Id` | `*int` | Optional | - |
-| `FinishedAt` | `Optional[time.Time]` | Optional | - |
-| `RowCount` | `Optional[int]` | Optional | - |
-| `CreatedAt` | `Optional[time.Time]` | Optional | - |
+| `FinishedAt` | `models.Optional[time.Time]` | Optional | - |
+| `RowCount` | `models.Optional[int]` | Optional | - |
+| `CreatedAt` | `models.Optional[time.Time]` | Optional | - |
 | `Completed` | `*string` | Optional | - |
 
 ## Example (as JSON)

@@ -16,7 +16,7 @@
 | `Organization` | `*string` | Optional | The organization/company of the customer. Optional. |
 | `Reference` | `*string` | Optional | A customer “reference”, or unique identifier from your app, stored in Chargify. Can be used so that you may reference your customer’s within Chargify using the same unique value you use in your application. Optional. |
 | `Address` | `*string` | Optional | (Optional) The customer’s shipping street address (i.e. “123 Main St.”). |
-| `Address2` | `Optional[string]` | Optional | (Optional) Second line of the customer’s shipping address i.e. “Apt. 100” |
+| `Address2` | `models.Optional[string]` | Optional | (Optional) Second line of the customer’s shipping address i.e. “Apt. 100” |
 | `City` | `*string` | Optional | (Optional) The customer’s shipping address city (i.e. “Boston”). |
 | `State` | `*string` | Optional | (Optional) The customer’s shipping address state (i.e. “MA”). This must conform to the [ISO_3166-1](https://en.wikipedia.org/wiki/ISO_3166-1#Current_codes) in order to be valid for tax locale purposes. |
 | `Zip` | `*string` | Optional | (Optional) The customer’s shipping address zip code (i.e. “12345”). |
@@ -26,7 +26,7 @@
 | `TaxExempt` | `*bool` | Optional | (Optional) The tax_exempt status of the customer. Acceptable values are true or 1 for true and false or 0 for false. |
 | `VatNumber` | `*string` | Optional | (Optional) Supplying the VAT number allows EU customer’s to opt-out of the Value Added Tax assuming the merchant address and customer billing address are not within the same EU country. It’s important to omit the country code from the VAT number upon entry. Otherwise, taxes will be assessed upon the purchase. |
 | `Metafields` | `map[string]string` | Optional | (Optional) A set of key/value pairs representing custom fields and their values. Metafields will be created “on-the-fly” in your site for a given key, if they have not been created yet. |
-| `ParentId` | `Optional[int]` | Optional | The parent ID in Chargify if applicable. Parent is another Customer object. |
+| `ParentId` | `models.Optional[int]` | Optional | The parent ID in Chargify if applicable. Parent is another Customer object. |
 
 ## Example (as JSON)
 

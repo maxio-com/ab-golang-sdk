@@ -12,7 +12,7 @@
 | `Name` | `*string` | Optional | - |
 | `Address` | [`*models.InvoiceAddress`](../../doc/models/invoice-address.md) | Optional | - |
 | `Phone` | `*string` | Optional | - |
-| `LogoUrl` | `Optional[string]` | Optional | - |
+| `LogoUrl` | `models.Optional[string]` | Optional | - |
 
 ## Example (as JSON)
 

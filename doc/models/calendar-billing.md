@@ -11,17 +11,14 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `SnapDay` | `*interface{}` | Optional | A day of month that subscription will be processed on. Can be 1 up to 28 or 'end'. |
+| `SnapDay` | [`*models.CalendarBillingSnapDay`](../../doc/models/containers/calendar-billing-snap-day.md) | Optional | This is a container for one-of cases. |
 | `CalendarBillingFirstCharge` | [`*models.FirstChargeType`](../../doc/models/first-charge-type.md) | Optional | - |
 
 ## Example (as JSON)
 
 ```json
 {
-  "snap_day": {
-    "key1": "val1",
-    "key2": "val2"
-  },
+  "snap_day": 210,
   "calendar_billing_first_charge": "prorated"
 }
 ```

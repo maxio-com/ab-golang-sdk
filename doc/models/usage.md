@@ -13,7 +13,7 @@
 | `Memo` | `*string` | Optional | - |
 | `CreatedAt` | `*time.Time` | Optional | - |
 | `PricePointId` | `*int` | Optional | - |
-| `Quantity` | `*interface{}` | Optional | - |
+| `Quantity` | [`*models.UsageQuantity`](../../doc/models/containers/usage-quantity.md) | Optional | This is a container for one-of cases. |
 | `OverageQuantity` | `*int` | Optional | - |
 | `ComponentId` | `*int` | Optional | - |
 | `ComponentHandle` | `*string` | Optional | - |
@@ -27,10 +27,7 @@
   "memo": "memo8",
   "created_at": "2016-03-13T12:52:32.123Z",
   "price_point_id": 126,
-  "quantity": {
-    "key1": "val1",
-    "key2": "val2"
-  }
+  "quantity": 130
 }
 ```
 

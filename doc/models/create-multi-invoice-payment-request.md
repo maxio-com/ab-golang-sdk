@@ -16,10 +16,7 @@
 ```json
 {
   "payment": {
-    "amount": {
-      "key1": "val1",
-      "key2": "val2"
-    },
+    "amount": "String9",
     "applications": [
       {
         "invoice_uid": "invoice_uid8",

@@ -18,19 +18,19 @@
 | `ExpirationYear` | `*int` | Optional | An integer representing the 4-digit expiration year of the card(i.e. ‘2012’). |
 | `CustomerId` | `*int` | Optional | The Chargify-assigned id for the customer record to which the card belongs. |
 | `CurrentVault` | [`*models.CurrentVault`](../../doc/models/current-vault.md) | Optional | The vault that stores the payment profile with the provided `vault_token`. Use `bogus` for testing. |
-| `VaultToken` | `Optional[string]` | Optional | The “token” provided by your vault storage for an already stored payment profile. |
-| `BillingAddress` | `Optional[string]` | Optional | The current billing street address for the card. |
-| `BillingCity` | `Optional[string]` | Optional | The current billing address city for the card. |
-| `BillingState` | `Optional[string]` | Optional | The current billing address state for the card. |
-| `BillingZip` | `Optional[string]` | Optional | The current billing address zip code for the card. |
-| `BillingCountry` | `Optional[string]` | Optional | The current billing address country for the card. |
-| `CustomerVaultToken` | `Optional[string]` | Optional | (only for Authorize.Net CIM storage): the customerProfileId for the owner of the customerPaymentProfileId provided as the vault_token. |
-| `BillingAddress2` | `Optional[string]` | Optional | The current billing street address, second line, for the card. |
+| `VaultToken` | `models.Optional[string]` | Optional | The “token” provided by your vault storage for an already stored payment profile. |
+| `BillingAddress` | `models.Optional[string]` | Optional | The current billing street address for the card. |
+| `BillingCity` | `models.Optional[string]` | Optional | The current billing address city for the card. |
+| `BillingState` | `models.Optional[string]` | Optional | The current billing address state for the card. |
+| `BillingZip` | `models.Optional[string]` | Optional | The current billing address zip code for the card. |
+| `BillingCountry` | `models.Optional[string]` | Optional | The current billing address country for the card. |
+| `CustomerVaultToken` | `models.Optional[string]` | Optional | (only for Authorize.Net CIM storage): the customerProfileId for the owner of the customerPaymentProfileId provided as the vault_token. |
+| `BillingAddress2` | `models.Optional[string]` | Optional | The current billing street address, second line, for the card. |
 | `PaymentType` | [`*models.PaymentType`](../../doc/models/payment-type.md) | Optional | - |
 | `Disabled` | `*bool` | Optional | - |
 | `ChargifyToken` | `*string` | Optional | Token received after sending billing information using chargify.js. This token will only be received if passed as a sole attribute of credit_card_attributes (i.e. tok_9g6hw85pnpt6knmskpwp4ttt) |
-| `SiteGatewaySettingId` | `Optional[int]` | Optional | - |
-| `GatewayHandle` | `Optional[string]` | Optional | An identifier of connected gateway. |
+| `SiteGatewaySettingId` | `models.Optional[int]` | Optional | - |
+| `GatewayHandle` | `models.Optional[string]` | Optional | An identifier of connected gateway. |
 
 ## Example (as JSON)
 

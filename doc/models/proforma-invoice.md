@@ -11,10 +11,10 @@
 |  --- | --- | --- | --- |
 | `Uid` | `*string` | Optional | - |
 | `SiteId` | `*int` | Optional | - |
-| `CustomerId` | `Optional[int]` | Optional | - |
-| `SubscriptionId` | `Optional[int]` | Optional | - |
-| `Number` | `Optional[int]` | Optional | - |
-| `SequenceNumber` | `Optional[int]` | Optional | - |
+| `CustomerId` | `models.Optional[int]` | Optional | - |
+| `SubscriptionId` | `models.Optional[int]` | Optional | - |
+| `Number` | `models.Optional[int]` | Optional | - |
+| `SequenceNumber` | `models.Optional[int]` | Optional | - |
 | `CreatedAt` | `*time.Time` | Optional | - |
 | `DeliveryDate` | `*time.Time` | Optional | - |
 | `Status` | [`*models.ProformaInvoiceStatus`](../../doc/models/proforma-invoice-status.md) | Optional | - |
@@ -44,7 +44,7 @@
 | `Credits` | [`[]models.ProformaInvoiceCredit`](../../doc/models/proforma-invoice-credit.md) | Optional | - |
 | `Payments` | [`[]models.ProformaInvoicePayment`](../../doc/models/proforma-invoice-payment.md) | Optional | - |
 | `CustomFields` | [`[]models.InvoiceCustomField`](../../doc/models/invoice-custom-field.md) | Optional | - |
-| `PublicUrl` | `Optional[string]` | Optional | - |
+| `PublicUrl` | `models.Optional[string]` | Optional | - |
 
 ## Example (as JSON)
 

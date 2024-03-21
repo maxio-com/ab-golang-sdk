@@ -26,7 +26,7 @@
 | `VatNumber` | `*string` | Optional | - |
 | `TaxExempt` | `*bool` | Optional | - |
 | `TaxExemptReason` | `*string` | Optional | - |
-| `ParentId` | `Optional[int]` | Optional | - |
+| `ParentId` | `models.Optional[int]` | Optional | - |
 
 ## Example (as JSON)
 

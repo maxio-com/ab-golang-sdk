@@ -29,7 +29,8 @@ Access to the Sales Commission API endpoints is available to users with financia
 
 ```go
 ListSalesCommissionSettings(
-    ctx context.Context,input ListSalesCommissionSettingsInput) (
+    ctx context.Context,
+    input ListSalesCommissionSettingsInput) (
     models.ApiResponse[[]models.SaleRepSettings],
     error)
 ```
@@ -52,12 +53,15 @@ ListSalesCommissionSettings(
 
 ```go
 ctx := context.Background()
-sellerId := "seller_id8"
-authorization := "Bearer <<apiKey>>"
-page := 2
-perPage := 100
 
-apiResponse, err := salesCommissionsController.ListSalesCommissionSettings(ctx, sellerId, &authorization, nil, &page, &perPage)
+collectedInput := advancedbilling.ListSalesCommissionSettingsInput{
+    SellerId:      "seller_id8",
+    Authorization: models.ToPointer("Bearer <<apiKey>>"),
+    Page:          models.ToPointer(2),
+    PerPage:       models.ToPointer(100),
+}
+
+apiResponse, err := salesCommissionsController.ListSalesCommissionSettings(ctx, collectedInput)
 if err != nil {
     log.Fatalln(err)
 } else {
@@ -116,7 +120,8 @@ Access to the Sales Commission API endpoints is available to users with financia
 
 ```go
 ListSalesReps(
-    ctx context.Context,input ListSalesRepsInput) (
+    ctx context.Context,
+    input ListSalesRepsInput) (
     models.ApiResponse[[]models.ListSaleRepItem],
     error)
 ```
@@ -139,12 +144,15 @@ ListSalesReps(
 
 ```go
 ctx := context.Background()
-sellerId := "seller_id8"
-authorization := "Bearer <<apiKey>>"
-page := 2
-perPage := 100
 
-apiResponse, err := salesCommissionsController.ListSalesReps(ctx, sellerId, &authorization, nil, &page, &perPage)
+collectedInput := advancedbilling.ListSalesRepsInput{
+    SellerId:      "seller_id8",
+    Authorization: models.ToPointer("Bearer <<apiKey>>"),
+    Page:          models.ToPointer(2),
+    PerPage:       models.ToPointer(100),
+}
+
+apiResponse, err := salesCommissionsController.ListSalesReps(ctx, collectedInput)
 if err != nil {
     log.Fatalln(err)
 } else {

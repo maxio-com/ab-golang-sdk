@@ -16,25 +16,25 @@
 | `Enabled` | `*bool` | Optional | (for on/off components) indicates if the component is enabled for the subscription |
 | `UnitBalance` | `*int` | Optional | - |
 | `Currency` | `*string` | Optional | - |
-| `AllocatedQuantity` | `*interface{}` | Optional | For Quantity-based components: The current allocation for the component on the given subscription. For On/Off components: Use 1 for on. Use 0 for off. |
-| `PricingScheme` | [`Optional[models.PricingScheme]`](../../doc/models/pricing-scheme.md) | Optional | - |
+| `AllocatedQuantity` | [`*models.SubscriptionComponentAllocatedQuantity`](../../doc/models/containers/subscription-component-allocated-quantity.md) | Optional | This is a container for one-of cases. |
+| `PricingScheme` | [`models.Optional[models.SubscriptionComponentPricingScheme]`](../../doc/models/containers/subscription-component-pricing-scheme.md) | Optional | This is a container for one-of cases. |
 | `ComponentId` | `*int` | Optional | - |
-| `ComponentHandle` | `Optional[string]` | Optional | - |
+| `ComponentHandle` | `models.Optional[string]` | Optional | - |
 | `SubscriptionId` | `*int` | Optional | - |
 | `Recurring` | `*bool` | Optional | - |
-| `UpgradeCharge` | [`Optional[models.CreditType]`](../../doc/models/credit-type.md) | Optional | The type of credit to be created when upgrading/downgrading. Defaults to the component and then site setting if one is not provided.<br>Available values: `full`, `prorated`, `none`. |
-| `DowngradeCredit` | [`Optional[models.CreditType]`](../../doc/models/credit-type.md) | Optional | The type of credit to be created when upgrading/downgrading. Defaults to the component and then site setting if one is not provided.<br>Available values: `full`, `prorated`, `none`. |
-| `ArchivedAt` | `Optional[time.Time]` | Optional | - |
-| `PricePointId` | `Optional[int]` | Optional | - |
-| `PricePointHandle` | `Optional[string]` | Optional | - |
-| `PricePointType` | `*interface{}` | Optional | - |
-| `PricePointName` | `Optional[string]` | Optional | - |
+| `UpgradeCharge` | [`models.Optional[models.CreditType]`](../../doc/models/credit-type.md) | Optional | The type of credit to be created when upgrading/downgrading. Defaults to the component and then site setting if one is not provided.<br>Available values: `full`, `prorated`, `none`. |
+| `DowngradeCredit` | [`models.Optional[models.CreditType]`](../../doc/models/credit-type.md) | Optional | The type of credit to be created when upgrading/downgrading. Defaults to the component and then site setting if one is not provided.<br>Available values: `full`, `prorated`, `none`. |
+| `ArchivedAt` | `models.Optional[time.Time]` | Optional | - |
+| `PricePointId` | `models.Optional[int]` | Optional | - |
+| `PricePointHandle` | `models.Optional[string]` | Optional | - |
+| `PricePointType` | [`*models.SubscriptionComponentPricePointType`](../../doc/models/containers/subscription-component-price-point-type.md) | Optional | This is a container for one-of cases. |
+| `PricePointName` | `models.Optional[string]` | Optional | - |
 | `ProductFamilyId` | `*int` | Optional | - |
 | `ProductFamilyHandle` | `*string` | Optional | - |
 | `CreatedAt` | `*time.Time` | Optional | - |
 | `UpdatedAt` | `*time.Time` | Optional | - |
-| `UseSiteExchangeRate` | `Optional[bool]` | Optional | - |
-| `Description` | `Optional[string]` | Optional | - |
+| `UseSiteExchangeRate` | `models.Optional[bool]` | Optional | - |
+| `Description` | `models.Optional[string]` | Optional | - |
 | `AllowFractionalQuantities` | `*bool` | Optional | - |
 | `Subscription` | [`*models.SubscriptionComponentSubscription`](../../doc/models/subscription-component-subscription.md) | Optional | An optional object, will be returned if provided `include=subscription` query param. |
 | `DisplayOnHostedPage` | `*bool` | Optional | - |

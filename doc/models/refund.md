@@ -15,7 +15,7 @@
 | `External` | `*bool` | Optional | Flag that marks refund as external (no money is returned to the customer). Defaults to `false`. |
 | `ApplyCredit` | `*bool` | Optional | If set to true, creates credit and applies it to an invoice. Defaults to `false`. |
 | `VoidInvoice` | `*bool` | Optional | If `apply_credit` set to false and refunding full amount, if `void_invoice` set to true, invoice will be voided after refund. Defaults to `false`. |
-| `SegmentUids` | `*interface{}` | Optional | An array of segment uids to refund or the string 'all' to indicate that all segments should be refunded |
+| `SegmentUids` | [`*models.RefundSegmentUids`](../../doc/models/containers/refund-segment-uids.md) | Optional | This is a container for one-of cases. |
 
 ## Example (as JSON)
 

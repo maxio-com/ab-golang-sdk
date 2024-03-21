@@ -81,7 +81,8 @@ This request will list a subscription group's prepayments.
 
 ```go
 ListPrepaymentsForSubscriptionGroup(
-    ctx context.Context,input ListPrepaymentsForSubscriptionGroupInput) (
+    ctx context.Context,
+    input ListPrepaymentsForSubscriptionGroupInput) (
     models.ApiResponse[models.ListSubscriptionGroupPrepaymentResponse],
     error)
 ```
@@ -105,11 +106,14 @@ ListPrepaymentsForSubscriptionGroup(
 
 ```go
 ctx := context.Background()
-uid := "uid0"Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')
-page := 2
-perPage := 50
+Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')
+collectedInput := advancedbilling.ListPrepaymentsForSubscriptionGroupInput{
+    Uid:             "uid0",
+Liquid error: Value cannot be null. (Parameter 'key')    Page:            models.ToPointer(2),
+    PerPage:         models.ToPointer(50),
+Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')}
 
-apiResponse, err := subscriptionGroupInvoiceAccountController.ListPrepaymentsForSubscriptionGroup(ctx, uid, Liquid error: Value cannot be null. (Parameter 'key'), Liquid error: Value cannot be null. (Parameter 'key'), Liquid error: Value cannot be null. (Parameter 'key'), &page, &perPage)
+apiResponse, err := subscriptionGroupInvoiceAccountController.ListPrepaymentsForSubscriptionGroup(ctx, collectedInput)
 if err != nil {
     log.Fatalln(err)
 } else {
@@ -178,9 +182,11 @@ IssueSubscriptionGroupServiceCredit(
 ctx := context.Background()
 uid := "uid0"
 
+bodyServiceCreditAmount := models.IssueServiceCreditAmountContainer.FromPrecision(float64(10))
+
 bodyServiceCredit := models.IssueServiceCredit{
-    Amount: interface{}("[key1, val1][key2, val2]"),
     Memo:   "Credit the group account",
+    Amount: bodyServiceCreditAmount,
 }
 
 body := models.IssueServiceCreditRequest{
@@ -248,9 +254,11 @@ DeductSubscriptionGroupServiceCredit(
 ctx := context.Background()
 uid := "uid0"
 
+bodyDeductionAmount := models.DeductServiceCreditAmountContainer.FromPrecision(float64(10))
+
 bodyDeduction := models.DeductServiceCredit{
-    Amount: interface{}("[key1, val1][key2, val2]"),
     Memo:   "Deduct from group account",
+    Amount: bodyDeductionAmount,
 }
 
 body := models.DeductServiceCreditRequest{

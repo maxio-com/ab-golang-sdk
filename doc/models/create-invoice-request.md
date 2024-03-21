@@ -21,40 +21,22 @@
     "line_items": [
       {
         "title": "title4",
-        "quantity": {
-          "key1": "val1",
-          "key2": "val2"
-        },
-        "unit_price": {
-          "key1": "val1",
-          "key2": "val2"
-        },
+        "quantity": 56.68,
+        "unit_price": 39.9,
         "taxable": false,
         "tax_code": "tax_code6"
       },
       {
         "title": "title4",
-        "quantity": {
-          "key1": "val1",
-          "key2": "val2"
-        },
-        "unit_price": {
-          "key1": "val1",
-          "key2": "val2"
-        },
+        "quantity": 56.68,
+        "unit_price": 39.9,
         "taxable": false,
         "tax_code": "tax_code6"
       },
       {
         "title": "title4",
-        "quantity": {
-          "key1": "val1",
-          "key2": "val2"
-        },
-        "unit_price": {
-          "key1": "val1",
-          "key2": "val2"
-        },
+        "quantity": 56.68,
+        "unit_price": 39.9,
         "taxable": false,
         "tax_code": "tax_code6"
       }

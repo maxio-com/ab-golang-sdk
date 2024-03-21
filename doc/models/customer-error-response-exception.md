@@ -9,15 +9,14 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `Errors` | `*interface{}` | Optional | - |
+| `Errors` | [`*models.CustomerErrorResponseErrors`](../../doc/models/containers/customer-error-response-errors.md) | Optional | This is a container for one-of cases. |
 
 ## Example (as JSON)
 
 ```json
 {
   "errors": {
-    "key1": "val1",
-    "key2": "val2"
+    "customer": "customer8"
   }
 }
 ```

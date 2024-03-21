@@ -21,10 +21,7 @@
     {
       "starting_quantity": 64,
       "ending_quantity": 38,
-      "unit_price": {
-        "key1": "val1",
-        "key2": "val2"
-      }
+      "unit_price": "String3"
     }
   ]
 }

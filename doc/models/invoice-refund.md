@@ -14,9 +14,9 @@
 | `Memo` | `*string` | Optional | - |
 | `OriginalAmount` | `*string` | Optional | - |
 | `AppliedAmount` | `*string` | Optional | - |
-| `GatewayTransactionId` | `Optional[string]` | Optional | The transaction ID for the refund as returned from the payment gateway |
+| `GatewayTransactionId` | `models.Optional[string]` | Optional | The transaction ID for the refund as returned from the payment gateway |
 | `GatewayUsed` | `*string` | Optional | - |
-| `GatewayHandle` | `Optional[string]` | Optional | - |
+| `GatewayHandle` | `models.Optional[string]` | Optional | - |
 
 ## Example (as JSON)
 

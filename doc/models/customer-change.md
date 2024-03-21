@@ -9,10 +9,10 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `Payer` | [`Optional[models.CustomerPayerChange]`](../../doc/models/customer-payer-change.md) | Optional | - |
-| `ShippingAddress` | [`Optional[models.AddressChange]`](../../doc/models/address-change.md) | Optional | - |
-| `BillingAddress` | [`Optional[models.AddressChange]`](../../doc/models/address-change.md) | Optional | - |
-| `CustomFields` | [`Optional[models.CustomerCustomFieldsChange]`](../../doc/models/customer-custom-fields-change.md) | Optional | - |
+| `Payer` | [`models.Optional[models.CustomerChangePayer]`](../../doc/models/containers/customer-change-payer.md) | Optional | This is a container for one-of cases. |
+| `ShippingAddress` | [`models.Optional[models.CustomerChangeShippingAddress]`](../../doc/models/containers/customer-change-shipping-address.md) | Optional | This is a container for one-of cases. |
+| `BillingAddress` | [`models.Optional[models.CustomerChangeBillingAddress]`](../../doc/models/containers/customer-change-billing-address.md) | Optional | This is a container for one-of cases. |
+| `CustomFields` | [`models.Optional[models.CustomerChangeCustomFields]`](../../doc/models/containers/customer-change-custom-fields.md) | Optional | This is a container for one-of cases. |
 
 ## Example (as JSON)
 
@@ -72,23 +72,9 @@
         "name": "name0",
         "value": "value2",
         "metadatum_id": 26
-      },
-      {
-        "owner_id": 26,
-        "owner_type": "Customer",
-        "name": "name0",
-        "value": "value2",
-        "metadatum_id": 26
       }
     ],
     "after": [
-      {
-        "owner_id": 130,
-        "owner_type": "Customer",
-        "name": "name2",
-        "value": "value4",
-        "metadatum_id": 130
-      },
       {
         "owner_id": 130,
         "owner_type": "Customer",

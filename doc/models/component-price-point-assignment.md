@@ -10,17 +10,14 @@
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `ComponentId` | `*int` | Optional | - |
-| `PricePoint` | `*interface{}` | Optional | - |
+| `PricePoint` | [`*models.ComponentPricePointAssignmentPricePoint`](../../doc/models/containers/component-price-point-assignment-price-point.md) | Optional | This is a container for one-of cases. |
 
 ## Example (as JSON)
 
 ```json
 {
   "component_id": 114,
-  "price_point": {
-    "key1": "val1",
-    "key2": "val2"
-  }
+  "price_point": "String9"
 }
 ```
 

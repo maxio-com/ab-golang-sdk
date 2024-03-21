@@ -9,7 +9,7 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `ComponentCodeId` | `Optional[int]` | Optional | - |
+| `ComponentCodeId` | `models.Optional[int]` | Optional | - |
 | `PricePointId` | `*int` | Optional | - |
 | `ProductId` | `*int` | Optional | - |
 | `Quantity` | `*string` | Optional | - |

@@ -20,10 +20,7 @@
     "component_id": 8,
     "component_handle": "component_handle8",
     "subscription_id": 8,
-    "quantity": {
-      "key1": "val1",
-      "key2": "val2"
-    }
+    "quantity": 32
   }
 }
 ```

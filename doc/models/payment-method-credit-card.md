@@ -11,7 +11,7 @@
 |  --- | --- | --- | --- |
 | `CardBrand` | `string` | Required | - |
 | `CardExpiration` | `*string` | Optional | - |
-| `LastFour` | `Optional[string]` | Optional | - |
+| `LastFour` | `models.Optional[string]` | Optional | - |
 | `MaskedCardNumber` | `string` | Required | - |
 | `Type` | [`models.InvoiceEventPaymentMethod`](../../doc/models/invoice-event-payment-method.md) | Required | - |
 

@@ -26,7 +26,7 @@
 | `VatNumber` | `*string` | Optional | - |
 | `TaxExempt` | `*bool` | Optional | - |
 | `TaxExemptReason` | `*string` | Optional | - |
-| `ParentId` | `Optional[int]` | Optional | The parent ID in Chargify if applicable. Parent is another Customer object. |
+| `ParentId` | `models.Optional[int]` | Optional | The parent ID in Chargify if applicable. Parent is another Customer object. |
 
 ## Example (as JSON)
 
