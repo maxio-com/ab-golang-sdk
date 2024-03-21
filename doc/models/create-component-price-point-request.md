@@ -9,61 +9,27 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `PricePoint` | [`models.PricePoint`](../../doc/models/price-point.md) | Required | - |
+| `PricePoint` | [`models.CreateComponentPricePointRequestPricePoint`](../../doc/models/containers/create-component-price-point-request-price-point.md) | Required | This is a container for any-of cases. |
 
 ## Example (as JSON)
 
 ```json
 {
   "price_point": {
-    "use_site_exchange_rate": true,
     "name": "name0",
-    "handle": "handle6",
     "pricing_scheme": "per_unit",
     "prices": [
       {
-        "starting_quantity": {
-          "key1": "val1",
-          "key2": "val2"
-        },
-        "ending_quantity": {
-          "key1": "val1",
-          "key2": "val2"
-        },
-        "unit_price": {
-          "key1": "val1",
-          "key2": "val2"
-        }
-      },
-      {
-        "starting_quantity": {
-          "key1": "val1",
-          "key2": "val2"
-        },
-        "ending_quantity": {
-          "key1": "val1",
-          "key2": "val2"
-        },
-        "unit_price": {
-          "key1": "val1",
-          "key2": "val2"
-        }
-      },
-      {
-        "starting_quantity": {
-          "key1": "val1",
-          "key2": "val2"
-        },
-        "ending_quantity": {
-          "key1": "val1",
-          "key2": "val2"
-        },
-        "unit_price": {
-          "key1": "val1",
-          "key2": "val2"
-        }
+        "starting_quantity": 242,
+        "ending_quantity": 40,
+        "unit_price": 23.26
       }
-    ]
+    ],
+    "use_site_exchange_rate": true,
+    "handle": "handle6",
+    "tax_included": false,
+    "interval": 24,
+    "interval_unit": "day"
   }
 }
 ```

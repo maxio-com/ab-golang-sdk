@@ -9,7 +9,7 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `AutomaticallyResumeAt` | `Optional[time.Time]` | Optional | - |
+| `AutomaticallyResumeAt` | `models.Optional[time.Time]` | Optional | - |
 
 ## Example (as JSON)
 

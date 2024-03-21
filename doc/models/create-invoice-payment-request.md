@@ -17,10 +17,7 @@
 ```json
 {
   "payment": {
-    "amount": {
-      "key1": "val1",
-      "key2": "val2"
-    },
+    "amount": "String9",
     "memo": "memo0",
     "method": "ach",
     "details": "details6",

@@ -12,11 +12,11 @@
 | `Id` | `*int` | Optional | - |
 | `ComponentId` | `*int` | Optional | - |
 | `StartingQuantity` | `*int` | Optional | - |
-| `EndingQuantity` | `Optional[int]` | Optional | - |
+| `EndingQuantity` | `models.Optional[int]` | Optional | - |
 | `UnitPrice` | `*string` | Optional | - |
 | `PricePointId` | `*int` | Optional | - |
 | `FormattedUnitPrice` | `*string` | Optional | - |
-| `SegmentId` | `Optional[int]` | Optional | - |
+| `SegmentId` | `models.Optional[int]` | Optional | - |
 
 ## Example (as JSON)
 

@@ -9,12 +9,12 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `Id` | `Optional[int]` | Optional | - |
-| `Value` | `Optional[string]` | Optional | - |
-| `ResourceId` | `Optional[int]` | Optional | - |
+| `Id` | `models.Optional[int]` | Optional | - |
+| `Value` | `models.Optional[string]` | Optional | - |
+| `ResourceId` | `models.Optional[int]` | Optional | - |
 | `Name` | `*string` | Optional | - |
-| `DeletedAt` | `Optional[time.Time]` | Optional | - |
-| `MetafieldId` | `Optional[int]` | Optional | - |
+| `DeletedAt` | `models.Optional[time.Time]` | Optional | - |
+| `MetafieldId` | `models.Optional[int]` | Optional | - |
 
 ## Example (as JSON)
 

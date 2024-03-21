@@ -47,7 +47,7 @@
 | `CalendarBillingFirstCharge` | `*string` | Optional | (Optional) One of “prorated” (the default – the prorated product price will be charged immediately), “immediate” (the full product price will be charged immediately), or “delayed” (the full product price will be charged with the first scheduled renewal). |
 | `ReasonCode` | `*string` | Optional | (Optional) Can be used when canceling a subscription (via the HTTP DELETE method) to indicate why a subscription was canceled. |
 | `ProductChangeDelayed` | `*bool` | Optional | (Optional, used only for Delayed Product Change When set to true, indicates that a changed value for product_handle should schedule the product change to the next subscription renewal. |
-| `OfferId` | `*interface{}` | Optional | Use in place of passing product and component information to set up the subscription with an existing offer. May be either the Chargify id of the offer or its handle prefixed with `handle:`.er |
+| `OfferId` | [`*models.CreateSubscriptionOfferId`](../../doc/models/containers/create-subscription-offer-id.md) | Optional | This is a container for one-of cases. |
 | `PrepaidConfiguration` | [`*models.UpsertPrepaidConfiguration`](../../doc/models/upsert-prepaid-configuration.md) | Optional | - |
 | `PreviousBillingAt` | `*time.Time` | Optional | Providing a previous_billing_at that is in the past will set the current_period_starts_at when the subscription is created. It will also set activated_at if not explicitly passed during the subscription import. Can only be used if next_billing_at is also passed. Using this option will allow you to set the period start for the subscription so mid period component allocations have the correct prorated amount. |
 | `ImportMrr` | `*bool` | Optional | Setting this attribute to true will cause the subscription's MRR to be added to your MRR analytics immediately. For this value to be honored, a next_billing_at must be present and set to a future date. This key/value will not be returned in the subscription response body. |
@@ -55,8 +55,8 @@
 | `ActivatedAt` | `*time.Time` | Optional | - |
 | `AgreementAcceptance` | [`*models.AgreementAcceptance`](../../doc/models/agreement-acceptance.md) | Optional | Required when creating a subscription with Maxio Payments. |
 | `AchAgreement` | [`*models.ACHAgreement`](../../doc/models/ach-agreement.md) | Optional | (Optional) If passed, the proof of the authorized ACH agreement terms will be persisted. |
-| `DunningCommunicationDelayEnabled` | `Optional[bool]` | Optional | Enable Communication Delay feature, making sure no communication (email or SMS) is sent to the Customer between 9PM and 8AM in time zone set by the `dunning_communication_delay_time_zone` attribute.<br>**Default**: `false` |
-| `DunningCommunicationDelayTimeZone` | `Optional[string]` | Optional | Time zone for the Dunning Communication Delay feature. |
+| `DunningCommunicationDelayEnabled` | `models.Optional[bool]` | Optional | Enable Communication Delay feature, making sure no communication (email or SMS) is sent to the Customer between 9PM and 8AM in time zone set by the `dunning_communication_delay_time_zone` attribute.<br>**Default**: `false` |
+| `DunningCommunicationDelayTimeZone` | `models.Optional[string]` | Optional | Time zone for the Dunning Communication Delay feature. |
 | `SkipBillingManifestTaxes` | `*bool` | Optional | Valid only for the Subscription Preview endpoint. When set to `true` it skips calculating taxes for the current and next billing manifests.<br>**Default**: `false` |
 
 ## Example (as JSON)
@@ -78,23 +78,11 @@
   "custom_price": {
     "name": "name4",
     "handle": "handle0",
-    "price_in_cents": {
-      "key1": "val1",
-      "key2": "val2"
-    },
-    "interval": {
-      "key1": "val1",
-      "key2": "val2"
-    },
+    "price_in_cents": "String3",
+    "interval": "String3",
     "interval_unit": "day",
-    "trial_price_in_cents": {
-      "key1": "val1",
-      "key2": "val2"
-    },
-    "trial_interval": {
-      "key1": "val1",
-      "key2": "val2"
-    },
+    "trial_price_in_cents": "String3",
+    "trial_interval": "String5",
     "trial_interval_unit": "day"
   }
 }

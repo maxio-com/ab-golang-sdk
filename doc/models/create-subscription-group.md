@@ -9,17 +9,14 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `SubscriptionId` | `interface{}` | Required | - |
+| `SubscriptionId` | `int` | Required | - |
 | `MemberIds` | `[]int` | Optional | - |
 
 ## Example (as JSON)
 
 ```json
 {
-  "subscription_id": {
-    "key1": "val1",
-    "key2": "val2"
-  },
+  "subscription_id": 38,
   "member_ids": [
     162
   ]

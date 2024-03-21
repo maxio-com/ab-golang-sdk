@@ -91,7 +91,8 @@ This method gives a merchant the option to retrieve a list of all of the current
 
 ```go
 ListReasonCodes(
-    ctx context.Context,input ListReasonCodesInput) (
+    ctx context.Context,
+    input ListReasonCodesInput) (
     models.ApiResponse[[]models.ReasonCodeResponse],
     error)
 ```
@@ -111,10 +112,13 @@ ListReasonCodes(
 
 ```go
 ctx := context.Background()
-page := 2
-perPage := 50
 
-apiResponse, err := reasonCodesController.ListReasonCodes(ctx, &page, &perPage)
+collectedInput := advancedbilling.ListReasonCodesInput{
+    Page:    models.ToPointer(2),
+    PerPage: models.ToPointer(50),
+}
+
+apiResponse, err := reasonCodesController.ListReasonCodes(ctx, collectedInput)
 if err != nil {
     log.Fatalln(err)
 } else {

@@ -16,10 +16,7 @@
 ```json
 {
   "service_credit": {
-    "amount": {
-      "key1": "val1",
-      "key2": "val2"
-    },
+    "amount": 31.42,
     "memo": "memo0"
   }
 }

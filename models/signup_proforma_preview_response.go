@@ -1,40 +1,60 @@
 package models
 
 import (
-    "encoding/json"
+	"encoding/json"
+	"errors"
+	"strings"
 )
 
 // SignupProformaPreviewResponse represents a SignupProformaPreviewResponse struct.
 type SignupProformaPreviewResponse struct {
-    ProformaInvoicePreview SignupProformaPreview `json:"proforma_invoice_preview"`
+	ProformaInvoicePreview SignupProformaPreview `json:"proforma_invoice_preview"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for SignupProformaPreviewResponse.
 // It customizes the JSON marshaling process for SignupProformaPreviewResponse objects.
 func (s *SignupProformaPreviewResponse) MarshalJSON() (
-    []byte,
-    error) {
-    return json.Marshal(s.toMap())
+	[]byte,
+	error) {
+	return json.Marshal(s.toMap())
 }
 
 // toMap converts the SignupProformaPreviewResponse object to a map representation for JSON marshaling.
 func (s *SignupProformaPreviewResponse) toMap() map[string]any {
-    structMap := make(map[string]any)
-    structMap["proforma_invoice_preview"] = s.ProformaInvoicePreview.toMap()
-    return structMap
+	structMap := make(map[string]any)
+	structMap["proforma_invoice_preview"] = s.ProformaInvoicePreview.toMap()
+	return structMap
 }
 
 // UnmarshalJSON implements the json.Unmarshaler interface for SignupProformaPreviewResponse.
 // It customizes the JSON unmarshaling process for SignupProformaPreviewResponse objects.
 func (s *SignupProformaPreviewResponse) UnmarshalJSON(input []byte) error {
-    temp := &struct {
-        ProformaInvoicePreview SignupProformaPreview `json:"proforma_invoice_preview"`
-    }{}
-    err := json.Unmarshal(input, &temp)
-    if err != nil {
-    	return err
-    }
-    
-    s.ProformaInvoicePreview = temp.ProformaInvoicePreview
-    return nil
+	var temp signupProformaPreviewResponse
+	err := json.Unmarshal(input, &temp)
+	if err != nil {
+		return err
+	}
+	err = temp.validate()
+	if err != nil {
+		return err
+	}
+
+	s.ProformaInvoicePreview = *temp.ProformaInvoicePreview
+	return nil
+}
+
+// TODO
+type signupProformaPreviewResponse struct {
+	ProformaInvoicePreview *SignupProformaPreview `json:"proforma_invoice_preview"`
+}
+
+func (s *signupProformaPreviewResponse) validate() error {
+	var errs []string
+	if s.ProformaInvoicePreview == nil {
+		errs = append(errs, "required field `proforma_invoice_preview` is missing for type `Signup Proforma Preview Response`")
+	}
+	if len(errs) == 0 {
+		return nil
+	}
+	return errors.New(strings.Join(errs, "\n"))
 }

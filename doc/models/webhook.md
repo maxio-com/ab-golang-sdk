@@ -14,7 +14,7 @@
 | `CreatedAt` | `*time.Time` | Optional | Timestamp indicating when the webhook was created |
 | `LastError` | `*string` | Optional | Text describing the status code and/or error from the last failed attempt to send the Webhook. When a webhook is retried and accepted, this field will be cleared. |
 | `LastErrorAt` | `*time.Time` | Optional | Timestamp indicating when the last non-acceptance occurred. If a webhook is later resent and accepted, this field will be cleared. |
-| `AcceptedAt` | `Optional[time.Time]` | Optional | Timestamp indicating when the webhook was accepted by the merchant endpoint. When a webhook is explicitly replayed by the merchant, this value will be cleared until it is accepted again. |
+| `AcceptedAt` | `models.Optional[time.Time]` | Optional | Timestamp indicating when the webhook was accepted by the merchant endpoint. When a webhook is explicitly replayed by the merchant, this value will be cleared until it is accepted again. |
 | `LastSentAt` | `*time.Time` | Optional | Timestamp indicating when the most recent attempt was made to send the webhook |
 | `LastSentUrl` | `*string` | Optional | The url that the endpoint was last sent to. |
 | `Successful` | `*bool` | Optional | A boolean flag describing whether the webhook was accepted by the webhook endpoint for the most recent attempt. (Acceptance is defined by receiving a “200 OK” HTTP response within a reasonable timeframe, i.e. 15 seconds) |

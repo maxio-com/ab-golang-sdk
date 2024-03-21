@@ -9,14 +9,14 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `Id` | `Optional[string]` | Optional | - |
+| `Id` | `models.Optional[string]` | Optional | - |
 | `FirstName` | `string` | Required | **Constraints**: *Minimum Length*: `1` |
 | `LastName` | `string` | Required | **Constraints**: *Minimum Length*: `1` |
 | `MaskedCardNumber` | `string` | Required | **Constraints**: *Minimum Length*: `1` |
 | `CardType` | [`models.CardType`](../../doc/models/card-type.md) | Required | The type of card used. |
 | `ExpirationMonth` | `float64` | Required | - |
 | `ExpirationYear` | `float64` | Required | - |
-| `CustomerId` | `Optional[string]` | Optional | - |
+| `CustomerId` | `models.Optional[string]` | Optional | - |
 | `CurrentVault` | [`models.CurrentVault`](../../doc/models/current-vault.md) | Required | The vault that stores the payment profile with the provided `vault_token`. Use `bogus` for testing. |
 | `VaultToken` | `string` | Required | **Constraints**: *Minimum Length*: `1` |
 | `BillingAddress` | `string` | Required | **Constraints**: *Minimum Length*: `1` |
@@ -28,8 +28,8 @@
 | `PaymentType` | `string` | Required | **Constraints**: *Minimum Length*: `1` |
 | `Disabled` | `bool` | Required | - |
 | `SiteGatewaySettingId` | `int` | Required | - |
-| `CustomerVaultToken` | `Optional[string]` | Optional | - |
-| `GatewayHandle` | `Optional[string]` | Optional | - |
+| `CustomerVaultToken` | `models.Optional[string]` | Optional | - |
+| `GatewayHandle` | `models.Optional[string]` | Optional | - |
 
 ## Example (as JSON)
 

@@ -69,15 +69,36 @@ CreateCoupon(
 ctx := context.Background()
 productFamilyId := 140
 
+bodyCouponCreateOrUpdatePercentageCouponEndDate, err := time.Parse(time.RFC3339, "2012-08-29T12:00:00-04:00")
+if err != nil {
+    log.Fatalln(err)
+}
+bodyCouponCreateOrUpdatePercentageCouponPercentage := models.CreateOrUpdatePercentageCouponPercentageContainer.FromPrecision(float64(15))
+
+bodyCouponCreateOrUpdatePercentageCoupon := models.CreateOrUpdatePercentageCoupon{
+    Name:                          "15% off",
+    Code:                          "15OFF",
+    Description:                   models.ToPointer("15% off for life"),
+    ProductFamilyId:               models.ToPointer("2"),
+    Stackable:                     models.ToPointer(true),
+    CompoundingStrategy:           models.ToPointer(models.CompoundingStrategy("compound")),
+    ExcludeMidPeriodAllocations:   models.ToPointer(true),
+    ApplyOnCancelAtEndOfPeriod:    models.ToPointer(true),
+    EndDate:                       models.ToPointer(bodyCouponCreateOrUpdatePercentageCouponEndDate),
+    Percentage:                    bodyCouponCreateOrUpdatePercentageCouponPercentage,
+}
+
+bodyCoupon := models.CreateOrUpdateCouponCouponContainer.FromCreateOrUpdatePercentageCoupon(bodyCouponCreateOrUpdatePercentageCoupon)
+
 body := models.CreateOrUpdateCoupon{
-    Coupon:               models.ToPointer(interface{}("[name, 15% off][code, 15OFF][description, 15% off for life][percentage, 15][allow_negative_balance, False][recurring, False][end_date, 2012-08-29T12:00:00-04:00][product_family_id, 2][stackable, True][compounding_strategy, compound][exclude_mid_period_allocations, True][apply_on_cancel_at_end_of_period, True]")),
     RestrictedProducts:   map[string]bool{
-"1" : true,
+        "1" : true,
 },
     RestrictedComponents: map[string]bool{
-"1" : true,
-"2" : false,
+        "1" : true,
+        "2" : false,
 },
+    Coupon:               models.ToPointer(bodyCoupon),
 }
 
 apiResponse, err := couponsController.CreateCoupon(ctx, productFamilyId, &body)
@@ -105,7 +126,8 @@ If the coupon is set to `use_site_exchange_rate: true`, it will return pricing b
 
 ```go
 ListCouponsForProductFamily(
-    ctx context.Context,input ListCouponsForProductFamilyInput) (
+    ctx context.Context,
+    input ListCouponsForProductFamilyInput) (
     models.ApiResponse[[]models.CouponResponse],
     error)
 ```
@@ -135,12 +157,15 @@ ListCouponsForProductFamily(
 
 ```go
 ctx := context.Background()
-productFamilyId := 140
-page := 2
-perPage := 50Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')
-currencyPrices := trueLiquid error: Value cannot be null. (Parameter 'key')
+Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')
+collectedInput := advancedbilling.ListCouponsForProductFamilyInput{
+    ProductFamilyId:           140,
+    Page:                      models.ToPointer(2),
+    PerPage:                   models.ToPointer(50),
+Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')    CurrencyPrices:            models.ToPointer(true),
+Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')}
 
-apiResponse, err := couponsController.ListCouponsForProductFamily(ctx, productFamilyId, &page, &perPage, Liquid error: Value cannot be null. (Parameter 'key'), Liquid error: Value cannot be null. (Parameter 'key'), Liquid error: Value cannot be null. (Parameter 'key'), Liquid error: Value cannot be null. (Parameter 'key'), Liquid error: Value cannot be null. (Parameter 'key'), Liquid error: Value cannot be null. (Parameter 'key'), Liquid error: Value cannot be null. (Parameter 'key'), &currencyPrices, Liquid error: Value cannot be null. (Parameter 'key'))
+apiResponse, err := couponsController.ListCouponsForProductFamily(ctx, collectedInput)
 if err != nil {
     log.Fatalln(err)
 } else {
@@ -401,15 +426,34 @@ ctx := context.Background()
 productFamilyId := 140
 couponId := 162
 
+bodyCouponCreateOrUpdatePercentageCouponEndDate, err := time.Parse(time.RFC3339, "2012-08-29T12:00:00-04:00")
+if err != nil {
+    log.Fatalln(err)
+}
+bodyCouponCreateOrUpdatePercentageCouponPercentage := models.CreateOrUpdatePercentageCouponPercentageContainer.FromPrecision(float64(15))
+
+bodyCouponCreateOrUpdatePercentageCoupon := models.CreateOrUpdatePercentageCoupon{
+    Name:                          "15% off",
+    Code:                          "15OFF",
+    Description:                   models.ToPointer("15% off for life"),
+    ProductFamilyId:               models.ToPointer("2"),
+    Stackable:                     models.ToPointer(true),
+    CompoundingStrategy:           models.ToPointer(models.CompoundingStrategy("compound")),
+    EndDate:                       models.ToPointer(bodyCouponCreateOrUpdatePercentageCouponEndDate),
+    Percentage:                    bodyCouponCreateOrUpdatePercentageCouponPercentage,
+}
+
+bodyCoupon := models.CreateOrUpdateCouponCouponContainer.FromCreateOrUpdatePercentageCoupon(bodyCouponCreateOrUpdatePercentageCoupon)
+
 body := models.CreateOrUpdateCoupon{
-    Coupon:               models.ToPointer(interface{}("[name, 15% off][code, 15OFF][description, 15% off for life][percentage, 15][allow_negative_balance, False][recurring, False][end_date, 2012-08-29T12:00:00-04:00][product_family_id, 2][stackable, True][compounding_strategy, compound]")),
     RestrictedProducts:   map[string]bool{
-"1" : true,
+        "1" : true,
 },
     RestrictedComponents: map[string]bool{
-"1" : true,
-"2" : false,
+        "1" : true,
+        "2" : false,
 },
+    Coupon:               models.ToPointer(bodyCoupon),
 }
 
 apiResponse, err := couponsController.UpdateCoupon(ctx, productFamilyId, couponId, &body)
@@ -535,7 +579,8 @@ If the coupon is set to `use_site_exchange_rate: true`, it will return pricing b
 
 ```go
 ListCoupons(
-    ctx context.Context,input ListCouponsInput) (
+    ctx context.Context,
+    input ListCouponsInput) (
     models.ApiResponse[[]models.CouponResponse],
     error)
 ```
@@ -569,24 +614,30 @@ ListCoupons(
 
 ```go
 ctx := context.Background()
-page := 2
-perPage := 50
-dateField := models.BasicDateField("updated_at")
-startDate, err := time.Parse(time.RFC3339, "2011-12-17")
-if err != nil {
-    log.Fatalln(err)
-}
-startDatetime, err := time.Parse(time.RFC3339, "06/07/2019 17:20:06")
-if err != nil {
-    log.Fatalln(err)
-}
-endDatetime, err := time.Parse(time.RFC3339, "06/07/2019 17:20:06")
-if err != nil {
-    log.Fatalln(err)
-}Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')
-currencyPrices := trueLiquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')
 
-apiResponse, err := couponsController.ListCoupons(ctx, &page, &perPage, &dateField, &startDate, nil, &startDatetime, &endDatetime, Liquid error: Value cannot be null. (Parameter 'key'), Liquid error: Value cannot be null. (Parameter 'key'), &currencyPrices, Liquid error: Value cannot be null. (Parameter 'key'), Liquid error: Value cannot be null. (Parameter 'key'), Liquid error: Value cannot be null. (Parameter 'key'), Liquid error: Value cannot be null. (Parameter 'key'), Liquid error: Value cannot be null. (Parameter 'key'), Liquid error: Value cannot be null. (Parameter 'key'))
+collectedInputStartDate, err := time.Parse(time.RFC3339, "2011-12-17")
+if err != nil {
+    log.Fatalln(err)
+}
+collectedInputStartDatetime, err := time.Parse(time.RFC3339, "06/07/2019 17:20:06")
+if err != nil {
+    log.Fatalln(err)
+}
+collectedInputEndDatetime, err := time.Parse(time.RFC3339, "06/07/2019 17:20:06")
+if err != nil {
+    log.Fatalln(err)
+}Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')
+collectedInput := advancedbilling.ListCouponsInput{
+    Page:                      models.ToPointer(2),
+    PerPage:                   models.ToPointer(50),
+    DateField:                 models.ToPointer(models.BasicDateField("updated_at")),
+Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')    CurrencyPrices:            models.ToPointer(true),
+Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')    StartDate:                 models.ToPointer(collectedInputStartDate),
+    StartDatetime:             models.ToPointer(collectedInputStartDatetime),
+    EndDatetime:               models.ToPointer(collectedInputEndDatetime),
+Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')}
+
+apiResponse, err := couponsController.ListCoupons(ctx, collectedInput)
 if err != nil {
     log.Fatalln(err)
 } else {
@@ -980,7 +1031,8 @@ This request allows you to request the subcodes that are attached to a coupon.
 
 ```go
 ListCouponSubcodes(
-    ctx context.Context,input ListCouponSubcodesInput) (
+    ctx context.Context,
+    input ListCouponSubcodesInput) (
     models.ApiResponse[models.CouponSubcodes],
     error)
 ```
@@ -1001,11 +1053,14 @@ ListCouponSubcodes(
 
 ```go
 ctx := context.Background()
-couponId := 162
-page := 2
-perPage := 50
 
-apiResponse, err := couponsController.ListCouponSubcodes(ctx, couponId, &page, &perPage)
+collectedInput := advancedbilling.ListCouponSubcodesInput{
+    CouponId: 162,
+    Page:     models.ToPointer(2),
+    PerPage:  models.ToPointer(50),
+}
+
+apiResponse, err := couponsController.ListCouponSubcodes(ctx, collectedInput)
 if err != nil {
     log.Fatalln(err)
 } else {

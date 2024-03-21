@@ -16,10 +16,7 @@
 ```json
 {
   "subscription_group": {
-    "subscription_id": {
-      "key1": "val1",
-      "key2": "val2"
-    },
+    "subscription_id": 36,
     "member_ids": [
       164,
       165

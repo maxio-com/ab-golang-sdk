@@ -9,17 +9,14 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `Amount` | `interface{}` | Required | - |
+| `Amount` | [`models.IssueServiceCreditAmount`](../../doc/models/containers/issue-service-credit-amount.md) | Required | This is a container for one-of cases. |
 | `Memo` | `string` | Required | - |
 
 ## Example (as JSON)
 
 ```json
 {
-  "amount": {
-    "key1": "val1",
-    "key2": "val2"
-  },
+  "amount": 5.82,
   "memo": "memo4"
 }
 ```

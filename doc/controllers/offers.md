@@ -141,7 +141,8 @@ This endpoint will list offers for a site.
 
 ```go
 ListOffers(
-    ctx context.Context,input ListOffersInput) (
+    ctx context.Context,
+    input ListOffersInput) (
     models.ApiResponse[models.ListOffersResponse],
     error)
 ```
@@ -162,11 +163,14 @@ ListOffers(
 
 ```go
 ctx := context.Background()
-page := 2
-perPage := 50
-includeArchived := true
 
-apiResponse, err := offersController.ListOffers(ctx, &page, &perPage, &includeArchived)
+collectedInput := advancedbilling.ListOffersInput{
+    Page:            models.ToPointer(2),
+    PerPage:         models.ToPointer(50),
+    IncludeArchived: models.ToPointer(true),
+}
+
+apiResponse, err := offersController.ListOffers(ctx, collectedInput)
 if err != nil {
     log.Fatalln(err)
 } else {

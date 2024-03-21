@@ -33,6 +33,10 @@
       ],
       "payment_profile.chargify_token": [
         "payment_profile.chargify_token6"
+      ],
+      "base": [
+        "base5",
+        "base6"
       ]
     },
     "key1": {
@@ -47,6 +51,10 @@
       ],
       "payment_profile.chargify_token": [
         "payment_profile.chargify_token6"
+      ],
+      "base": [
+        "base5",
+        "base6"
       ]
     }
   },

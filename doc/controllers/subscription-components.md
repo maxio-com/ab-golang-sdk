@@ -106,7 +106,8 @@ When requesting to list components for a given subscription, if the subscription
 
 ```go
 ListSubscriptionComponents(
-    ctx context.Context,input ListSubscriptionComponentsInput) (
+    ctx context.Context,
+    input ListSubscriptionComponentsInput) (
     models.ApiResponse[[]models.SubscriptionComponentResponse],
     error)
 ```
@@ -137,14 +138,17 @@ ListSubscriptionComponents(
 
 ```go
 ctx := context.Background()
-subscriptionId := 222
-dateField := models.SubscriptionListDateField("updated_at")
-pricePointIds := models.IncludeNotNull("not_null")
-productFamilyIds := []int{1, 2, 3}
-sort := models.ListSubscriptionComponentsSort("updated_at")
-include := models.ListSubscriptionComponentsInclude("subscription")Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')
 
-apiResponse, err := subscriptionComponentsController.ListSubscriptionComponents(ctx, subscriptionId, &dateField, nil, nil, nil, &pricePointIds, productFamilyIds, &sort, nil, nil, &include, Liquid error: Value cannot be null. (Parameter 'key'), Liquid error: Value cannot be null. (Parameter 'key'))
+collectedInput := advancedbilling.ListSubscriptionComponentsInput{
+    SubscriptionId:            222,
+    DateField:                 models.ToPointer(models.SubscriptionListDateField("updated_at")),
+    PricePointIds:             models.ToPointer(models.IncludeNotNull("not_null")),
+    ProductFamilyIds:          []int{1, 2, 3},
+    Sort:                      models.ToPointer(models.ListSubscriptionComponentsSort("updated_at")),
+    Include:                   models.ToPointer(models.ListSubscriptionComponentsInclude("subscription")),
+Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')}
+
+apiResponse, err := subscriptionComponentsController.ListSubscriptionComponents(ctx, collectedInput)
 if err != nil {
     log.Fatalln(err)
 } else {
@@ -220,19 +224,25 @@ BulkUpdateSubscriptionComponentsPricePoints(
 ctx := context.Background()
 subscriptionId := 222
 
+bodyComponents0PricePoint := models.ComponentPricePointAssignmentPricePointContainer.FromNumber(1022)
+
 bodyComponents0 := models.ComponentPricePointAssignment{
     ComponentId: models.ToPointer(997),
-    PricePoint:  models.ToPointer(interface{}("[key1, val1][key2, val2]")),
+    PricePoint:  models.ToPointer(bodyComponents0PricePoint),
 }
+
+bodyComponents1PricePoint := models.ComponentPricePointAssignmentPricePointContainer.FromString("wholesale-handle")
 
 bodyComponents1 := models.ComponentPricePointAssignment{
     ComponentId: models.ToPointer(998),
-    PricePoint:  models.ToPointer(interface{}("[key1, val1][key2, val2]")),
+    PricePoint:  models.ToPointer(bodyComponents1PricePoint),
 }
+
+bodyComponents2PricePoint := models.ComponentPricePointAssignmentPricePointContainer.FromString("_default")
 
 bodyComponents2 := models.ComponentPricePointAssignment{
     ComponentId: models.ToPointer(999),
-    PricePoint:  models.ToPointer(interface{}("[key1, val1][key2, val2]")),
+    PricePoint:  models.ToPointer(bodyComponents2PricePoint),
 }
 
 bodyComponents := []models.ComponentPricePointAssignment{bodyComponents0, bodyComponents1, bodyComponents2}
@@ -821,13 +831,15 @@ bodyEffectiveProrationDate, err := time.Parse(models.DEFAULT_DATE, "2023-11-01")
 if err != nil {
     log.Fatalln(err)
 }
+bodyAllocations0PricePointId := models.CreateAllocationPricePointIdContainer.FromNumber(325826)
+
 bodyAllocations0 := models.CreateAllocation{
     Quantity:                 float64(10),
     ComponentId:              models.ToPointer(554108),
     Memo:                     models.ToPointer("NOW"),
     ProrationDowngradeScheme: models.ToPointer("prorate"),
     ProrationUpgradeScheme:   models.ToPointer("prorate-attempt-capture"),
-    PricePointId:             models.NewOptional(models.ToPointer(interface{}("[key1, val1][key2, val2]"))),
+    PricePointId:             models.NewOptional(models.ToPointer(bodyAllocations0PricePointId)),
 }
 
 bodyAllocations := []models.CreateAllocation{bodyAllocations0}
@@ -1157,7 +1169,7 @@ A. No. Usage should be reported as one API call per component on a single subscr
 CreateUsage(
     ctx context.Context,
     subscriptionId int,
-    componentId interface{},
+    componentId models.CreateUsageComponentId,
     body *models.CreateUsageRequest) (
     models.ApiResponse[models.UsageResponse],
     error)
@@ -1168,7 +1180,7 @@ CreateUsage(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription |
-| `componentId` | `interface{}` | Template, Required | Either the Chargify id for the component or the component's handle prefixed by `handle:` |
+| `componentId` | [`models.CreateUsageComponentId`](../../doc/models/containers/create-usage-component-id.md) | Template, Required | This is a container for one-of cases. |
 | `body` | [`*models.CreateUsageRequest`](../../doc/models/create-usage-request.md) | Body, Optional | - |
 
 ## Response Type
@@ -1180,7 +1192,8 @@ CreateUsage(
 ```go
 ctx := context.Background()
 subscriptionId := 222
-componentId := interface{}("[key1, val1][key2, val2]")
+
+componentId := models.CreateUsageComponentIdContainer.FromNumber(144)
 
 bodyUsage := models.CreateUsage{
     Quantity:        models.ToPointer(float64(1000)),
@@ -1246,7 +1259,8 @@ Use this endpoint to read the previously recorded components for a subscription.
 
 ```go
 ListUsages(
-    ctx context.Context,input ListUsagesInput) (
+    ctx context.Context,
+    input ListUsagesInput) (
     models.ApiResponse[[]models.UsageResponse],
     error)
 ```
@@ -1256,7 +1270,7 @@ ListUsages(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription |
-| `componentId` | `interface{}` | Template, Required | Either the Chargify id for the component or the component's handle prefixed by `handle:` |
+| `componentId` | [`models.ListUsagesInputComponentId`](../../doc/models/containers/list-usages-input-component-id.md) | Template, Required | This is a container for one-of cases. |
 | `sinceId` | `*int` | Query, Optional | Returns usages with an id greater than or equal to the one specified |
 | `maxId` | `*int` | Query, Optional | Returns usages with an id less than or equal to the one specified |
 | `sinceDate` | `*time.Time` | Query, Optional | Returns usages with a created_at date greater than or equal to midnight (12:00 AM) on the date specified. |
@@ -1272,12 +1286,17 @@ ListUsages(
 
 ```go
 ctx := context.Background()
-subscriptionId := 222
-componentId := interface{}("[key1, val1][key2, val2]")
-page := 2
-perPage := 50
 
-apiResponse, err := subscriptionComponentsController.ListUsages(ctx, subscriptionId, componentId, nil, nil, nil, nil, &page, &perPage)
+collectedInputComponentId := models.ListUsagesInputComponentIdContainer.FromNumber(144)
+
+collectedInput := advancedbilling.ListUsagesInput{
+    SubscriptionId: 222,
+    Page:           models.ToPointer(2),
+    PerPage:        models.ToPointer(50),
+    ComponentId:    collectedInputComponentId,
+}
+
+apiResponse, err := subscriptionComponentsController.ListUsages(ctx, collectedInput)
 if err != nil {
     log.Fatalln(err)
 } else {
@@ -1548,7 +1567,8 @@ This request will list components applied to each subscription.
 
 ```go
 ListSubscriptionComponentsForSite(
-    ctx context.Context,input ListSubscriptionComponentsForSiteInput) (
+    ctx context.Context,
+    input ListSubscriptionComponentsForSiteInput) (
     models.ApiResponse[models.ListSubscriptionComponentsResponse],
     error)
 ```
@@ -1587,16 +1607,19 @@ ListSubscriptionComponentsForSite(
 
 ```go
 ctx := context.Background()
-page := 2
-perPage := 50
-sort := models.ListSubscriptionComponentsSort("updated_at")
-dateField := models.SubscriptionListDateField("updated_at")
-subscriptionIds := []int{1, 2, 3}
-pricePointIds := models.IncludeNotNull("not_null")
-productFamilyIds := []int{1, 2, 3}
-include := models.ListSubscriptionComponentsInclude("subscription")Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')
+Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')
+collectedInput := advancedbilling.ListSubscriptionComponentsForSiteInput{
+    Page:                            models.ToPointer(2),
+    PerPage:                         models.ToPointer(50),
+    Sort:                            models.ToPointer(models.ListSubscriptionComponentsSort("updated_at")),
+    DateField:                       models.ToPointer(models.SubscriptionListDateField("updated_at")),
+    SubscriptionIds:                 []int{1, 2, 3},
+    PricePointIds:                   models.ToPointer(models.IncludeNotNull("not_null")),
+    ProductFamilyIds:                []int{1, 2, 3},
+    Include:                         models.ToPointer(models.ListSubscriptionComponentsInclude("subscription")),
+Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')}
 
-apiResponse, err := subscriptionComponentsController.ListSubscriptionComponentsForSite(ctx, &page, &perPage, &sort, nil, &dateField, nil, nil, nil, nil, subscriptionIds, &pricePointIds, productFamilyIds, &include, Liquid error: Value cannot be null. (Parameter 'key'), Liquid error: Value cannot be null. (Parameter 'key'), Liquid error: Value cannot be null. (Parameter 'key'), Liquid error: Value cannot be null. (Parameter 'key'), Liquid error: Value cannot be null. (Parameter 'key'), Liquid error: Value cannot be null. (Parameter 'key'), Liquid error: Value cannot be null. (Parameter 'key'), Liquid error: Value cannot be null. (Parameter 'key'))
+apiResponse, err := subscriptionComponentsController.ListSubscriptionComponentsForSite(ctx, collectedInput)
 if err != nil {
     log.Fatalln(err)
 } else {

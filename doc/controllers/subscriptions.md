@@ -675,19 +675,23 @@ bodySubscriptionCustomerAttributes := models.CustomerAttributes{
     Phone:        models.ToPointer("(617) 111 - 0000"),
 }
 
+bodySubscriptionCreditCardAttributesExpirationMonth := models.PaymentProfileAttributesExpirationMonthContainer.FromString("1")
+
+bodySubscriptionCreditCardAttributesExpirationYear := models.PaymentProfileAttributesExpirationYearContainer.FromString("2021")
+
 bodySubscriptionCreditCardAttributes := models.PaymentProfileAttributes{
     FirstName:          models.ToPointer("Joe"),
     LastName:           models.ToPointer("Smith"),
     FullNumber:         models.ToPointer("4111111111111111"),
     CardType:           models.ToPointer(models.CardType("visa")),
-    ExpirationMonth:    models.ToPointer(interface{}("[key1, val1][key2, val2]")),
-    ExpirationYear:     models.ToPointer(interface{}("[key1, val1][key2, val2]")),
     BillingAddress:     models.ToPointer("123 Mass Ave."),
     BillingAddress2:    models.NewOptional(models.ToPointer("billing_address_22")),
     BillingCity:        models.ToPointer("Boston"),
     BillingState:       models.ToPointer("MA"),
     BillingCountry:     models.ToPointer("US"),
     BillingZip:         models.ToPointer("02120"),
+    ExpirationMonth:    models.ToPointer(bodySubscriptionCreditCardAttributesExpirationMonth),
+    ExpirationYear:     models.ToPointer(bodySubscriptionCreditCardAttributesExpirationYear),
 }
 
 bodySubscription := models.CreateSubscription{
@@ -870,7 +874,8 @@ Self-Service Page token for the subscriptions is not returned by default. If thi
 
 ```go
 ListSubscriptions(
-    ctx context.Context,input ListSubscriptionsInput) (
+    ctx context.Context,
+    input ListSubscriptionsInput) (
     models.ApiResponse[[]models.SubscriptionResponse],
     error)
 ```
@@ -903,27 +908,34 @@ ListSubscriptions(
 
 ```go
 ctx := context.Background()
-page := 2
-perPage := 50
-startDate, err := time.Parse(time.RFC3339, "2022-07-01")
-if err != nil {
-    log.Fatalln(err)
-}
-endDate, err := time.Parse(time.RFC3339, "2022-08-01")
-if err != nil {
-    log.Fatalln(err)
-}
-startDatetime, err := time.Parse(time.RFC3339, "2022-07-01 09:00:05")
-if err != nil {
-    log.Fatalln(err)
-}
-endDatetime, err := time.Parse(time.RFC3339, "2022-08-01 10:00:05")
-if err != nil {
-    log.Fatalln(err)
-}
-sort := models.SubscriptionSort("signup_date")Liquid error: Value cannot be null. (Parameter 'key')
 
-apiResponse, err := subscriptionsController.ListSubscriptions(ctx, &page, &perPage, nil, nil, nil, nil, nil, &startDate, &endDate, &startDatetime, &endDatetime, nil, nil, &sort, Liquid error: Value cannot be null. (Parameter 'key'))
+collectedInputStartDate, err := time.Parse(time.RFC3339, "2022-07-01")
+if err != nil {
+    log.Fatalln(err)
+}
+collectedInputEndDate, err := time.Parse(time.RFC3339, "2022-08-01")
+if err != nil {
+    log.Fatalln(err)
+}
+collectedInputStartDatetime, err := time.Parse(time.RFC3339, "2022-07-01 09:00:05")
+if err != nil {
+    log.Fatalln(err)
+}
+collectedInputEndDatetime, err := time.Parse(time.RFC3339, "2022-08-01 10:00:05")
+if err != nil {
+    log.Fatalln(err)
+}
+collectedInput := advancedbilling.ListSubscriptionsInput{
+    Page:                models.ToPointer(2),
+    PerPage:             models.ToPointer(50),
+    Sort:                models.ToPointer(models.SubscriptionSort("signup_date")),
+Liquid error: Value cannot be null. (Parameter 'key')    StartDate:           models.ToPointer(collectedInputStartDate),
+    EndDate:             models.ToPointer(collectedInputEndDate),
+    StartDatetime:       models.ToPointer(collectedInputStartDatetime),
+    EndDatetime:         models.ToPointer(collectedInputEndDatetime),
+}
+
+apiResponse, err := subscriptionsController.ListSubscriptions(ctx, collectedInput)
 if err != nil {
     log.Fatalln(err)
 } else {

@@ -37,7 +37,8 @@ This method allows you to fetch data about webhooks. You can pass query paramete
 
 ```go
 ListWebhooks(
-    ctx context.Context,input ListWebhooksInput) (
+    ctx context.Context,
+    input ListWebhooksInput) (
     models.ApiResponse[[]models.WebhookResponse],
     error)
 ```
@@ -62,10 +63,13 @@ ListWebhooks(
 
 ```go
 ctx := context.Background()
-page := 2
-perPage := 50
 
-apiResponse, err := webhooksController.ListWebhooks(ctx, nil, nil, nil, &page, &perPage, nil, nil)
+collectedInput := advancedbilling.ListWebhooksInput{
+    Page:         models.ToPointer(2),
+    PerPage:      models.ToPointer(50),
+}
+
+apiResponse, err := webhooksController.ListWebhooks(ctx, collectedInput)
 if err != nil {
     log.Fatalln(err)
 } else {

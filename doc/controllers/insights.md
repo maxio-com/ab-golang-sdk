@@ -166,7 +166,8 @@ Usage includes revenue from:
 
 ```go
 ListMrrMovements(
-    ctx context.Context,input ListMrrMovementsInput) (
+    ctx context.Context,
+    input ListMrrMovementsInput) (
     models.ApiResponse[models.ListMRRResponse],
     error)
 ```
@@ -188,10 +189,13 @@ ListMrrMovements(
 
 ```go
 ctx := context.Background()
-page := 2
-perPage := 20
 
-apiResponse, err := insightsController.ListMrrMovements(ctx, nil, &page, &perPage, nil)
+collectedInput := advancedbilling.ListMrrMovementsInput{
+    Page:           models.ToPointer(2),
+    PerPage:        models.ToPointer(20),
+}
+
+apiResponse, err := insightsController.ListMrrMovements(ctx, collectedInput)
 if err != nil {
     log.Fatalln(err)
 } else {
@@ -262,7 +266,8 @@ This endpoint returns your site's current MRR, including plan and usage breakout
 
 ```go
 ListMrrPerSubscription(
-    ctx context.Context,input ListMrrPerSubscriptionInput) (
+    ctx context.Context,
+    input ListMrrPerSubscriptionInput) (
     models.ApiResponse[models.SubscriptionMRRResponse],
     error)
 ```
@@ -284,13 +289,16 @@ ListMrrPerSubscription(
 ## Example Usage
 
 ```go
-ctx := context.Background()Liquid error: Value cannot be null. (Parameter 'key')
-atTime := "at_time=2022-01-10T10:00:00-05:00"
-page := 2
-perPage := 50
-direction := models.Direction("desc")
+ctx := context.Background()
 
-apiResponse, err := insightsController.ListMrrPerSubscription(ctx, Liquid error: Value cannot be null. (Parameter 'key'), &atTime, &page, &perPage, &direction)
+collectedInput := advancedbilling.ListMrrPerSubscriptionInput{
+Liquid error: Value cannot be null. (Parameter 'key')    AtTime:                models.ToPointer("at_time=2022-01-10T10:00:00-05:00"),
+    Page:                  models.ToPointer(2),
+    PerPage:               models.ToPointer(50),
+    Direction:             models.ToPointer(models.Direction("desc")),
+}
+
+apiResponse, err := insightsController.ListMrrPerSubscription(ctx, collectedInput)
 if err != nil {
     log.Fatalln(err)
 } else {

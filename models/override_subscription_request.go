@@ -1,40 +1,60 @@
 package models
 
 import (
-    "encoding/json"
+	"encoding/json"
+	"errors"
+	"strings"
 )
 
 // OverrideSubscriptionRequest represents a OverrideSubscriptionRequest struct.
 type OverrideSubscriptionRequest struct {
-    Subscription OverrideSubscription `json:"subscription"`
+	Subscription OverrideSubscription `json:"subscription"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for OverrideSubscriptionRequest.
 // It customizes the JSON marshaling process for OverrideSubscriptionRequest objects.
 func (o *OverrideSubscriptionRequest) MarshalJSON() (
-    []byte,
-    error) {
-    return json.Marshal(o.toMap())
+	[]byte,
+	error) {
+	return json.Marshal(o.toMap())
 }
 
 // toMap converts the OverrideSubscriptionRequest object to a map representation for JSON marshaling.
 func (o *OverrideSubscriptionRequest) toMap() map[string]any {
-    structMap := make(map[string]any)
-    structMap["subscription"] = o.Subscription.toMap()
-    return structMap
+	structMap := make(map[string]any)
+	structMap["subscription"] = o.Subscription.toMap()
+	return structMap
 }
 
 // UnmarshalJSON implements the json.Unmarshaler interface for OverrideSubscriptionRequest.
 // It customizes the JSON unmarshaling process for OverrideSubscriptionRequest objects.
 func (o *OverrideSubscriptionRequest) UnmarshalJSON(input []byte) error {
-    temp := &struct {
-        Subscription OverrideSubscription `json:"subscription"`
-    }{}
-    err := json.Unmarshal(input, &temp)
-    if err != nil {
-    	return err
-    }
-    
-    o.Subscription = temp.Subscription
-    return nil
+	var temp overrideSubscriptionRequest
+	err := json.Unmarshal(input, &temp)
+	if err != nil {
+		return err
+	}
+	err = temp.validate()
+	if err != nil {
+		return err
+	}
+
+	o.Subscription = *temp.Subscription
+	return nil
+}
+
+// TODO
+type overrideSubscriptionRequest struct {
+	Subscription *OverrideSubscription `json:"subscription"`
+}
+
+func (o *overrideSubscriptionRequest) validate() error {
+	var errs []string
+	if o.Subscription == nil {
+		errs = append(errs, "required field `subscription` is missing for type `Override Subscription Request`")
+	}
+	if len(errs) == 0 {
+		return nil
+	}
+	return errors.New(strings.Join(errs, "\n"))
 }

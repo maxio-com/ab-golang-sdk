@@ -17,10 +17,10 @@
 | `MaskedCardNumber` | `*string` | Optional | - |
 | `FullNumber` | `*string` | Optional | The full credit card number |
 | `CardType` | [`*models.CardType`](../../doc/models/card-type.md) | Optional | The type of card used. |
-| `ExpirationMonth` | `*interface{}` | Optional | (Optional when performing an Import via vault_token, required otherwise) The 1- or 2-digit credit card expiration month, as an integer or string, i.e. 5 |
-| `ExpirationYear` | `*interface{}` | Optional | (Optional when performing a Import via vault_token, required otherwise) The 4-digit credit card expiration year, as an integer or string, i.e. 2012 |
+| `ExpirationMonth` | [`*models.CreatePaymentProfileExpirationMonth`](../../doc/models/containers/create-payment-profile-expiration-month.md) | Optional | This is a container for one-of cases. |
+| `ExpirationYear` | [`*models.CreatePaymentProfileExpirationYear`](../../doc/models/containers/create-payment-profile-expiration-year.md) | Optional | This is a container for one-of cases. |
 | `BillingAddress` | `*string` | Optional | The credit card or bank account billing street address (i.e. 123 Main St.). This value is merely passed through to the payment gateway. |
-| `BillingAddress2` | `Optional[string]` | Optional | Second line of the customer’s billing address i.e. Apt. 100 |
+| `BillingAddress2` | `models.Optional[string]` | Optional | Second line of the customer’s billing address i.e. Apt. 100 |
 | `BillingCity` | `*string` | Optional | The credit card or bank account billing address city (i.e. “Boston”). This value is merely passed through to the payment gateway. |
 | `BillingState` | `*string` | Optional | The credit card or bank account billing address state (i.e. MA). This value is merely passed through to the payment gateway. This must conform to the [ISO_3166-1](https://en.wikipedia.org/wiki/ISO_3166-1#Current_codes) in order to be valid for tax locale purposes. |
 | `BillingCountry` | `*string` | Optional | The credit card or bank account billing address country, required in [ISO_3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) format (i.e. “US”). This value is merely passed through to the payment gateway. Some gateways require country codes in a specific format. Please check your gateway’s documentation. If creating an ACH subscription, only US is supported at this time. |

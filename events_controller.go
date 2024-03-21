@@ -1,22 +1,51 @@
 package advancedbilling
 
 import (
-    "context"
-    "fmt"
-    "github.com/apimatic/go-core-runtime/utilities"
-    "github.com/maxio-com/ab-golang-sdk/models"
+	"context"
+	"fmt"
+	"github.com/apimatic/go-core-runtime/utilities"
+	"github.com/maxio-com/ab-golang-sdk/models"
 )
 
 // EventsController represents a controller struct.
 type EventsController struct {
-    baseController
+	baseController
 }
 
 // NewEventsController creates a new instance of EventsController.
 // It takes a baseController as a parameter and returns a pointer to the EventsController.
 func NewEventsController(baseController baseController) *EventsController {
-    eventsController := EventsController{baseController: baseController}
-    return &eventsController
+	eventsController := EventsController{baseController: baseController}
+	return &eventsController
+}
+
+// ListEventsInput represents the input of the ListEvents endpoint.
+type ListEventsInput struct {
+	// Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.
+	// Use in query `page=1`.
+	Page *int
+	// This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.
+	// Use in query `per_page=200`.
+	PerPage *int
+	// Returns events with an id greater than or equal to the one specified
+	SinceId *int
+	// Returns events with an id less than or equal to the one specified
+	MaxId *int
+	// The sort direction of the returned events.
+	Direction *models.Direction
+	// You can pass multiple event keys after comma.
+	// Use in query `filter=signup_success,payment_success`.
+	Filter []models.EventType
+	// The type of filter you would like to apply to your search.
+	DateField *models.ListEventsDateField
+	// The start date (format YYYY-MM-DD) with which to filter the date_field. Returns components with a timestamp at or after midnight (12:00:00 AM) in your site’s time zone on the date specified.
+	StartDate *string
+	// The end date (format YYYY-MM-DD) with which to filter the date_field. Returns components with a timestamp up to and including 11:59:59PM in your site’s time zone on the date specified.
+	EndDate *string
+	// The start date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns components with a timestamp at or after exact time provided in query. You can specify timezone in query - otherwise your site's time zone will be used. If provided, this parameter will be used instead of start_date.
+	StartDatetime *string
+	// The end date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns components with a timestamp at or before exact time provided in query. You can specify timezone in query - otherwise your site's time zone will be used. If provided, this parameter will be used instead of end_date.
+	EndDatetime *string
 }
 
 // ListEvents takes context, page, perPage, sinceId, maxId, direction, filter, dateField, startDate, endDate, startDatetime, endDatetime as parameters and
@@ -71,63 +100,74 @@ func NewEventsController(baseController baseController) *EventsController {
 // }
 // ```
 func (e *EventsController) ListEvents(
-    ctx context.Context,
-    page *int,
-    perPage *int,
-    sinceId *int,
-    maxId *int,
-    direction *models.Direction,
-    filter []models.EventType,
-    dateField *models.ListEventsDateField,
-    startDate *string,
-    endDate *string,
-    startDatetime *string,
-    endDatetime *string) (
-    models.ApiResponse[[]models.EventResponse],
-    error) {
-    req := e.prepareRequest(ctx, "GET", "/events.json")
-    req.Authenticate(NewAuth("BasicAuth"))
-    if page != nil {
-        req.QueryParam("page", *page)
-    }
-    if perPage != nil {
-        req.QueryParam("per_page", *perPage)
-    }
-    if sinceId != nil {
-        req.QueryParam("since_id", *sinceId)
-    }
-    if maxId != nil {
-        req.QueryParam("max_id", *maxId)
-    }
-    if direction != nil {
-        req.QueryParam("direction", *direction)
-    }
-    if filter != nil {
-        req.QueryParam("filter", filter)
-    }
-    if dateField != nil {
-        req.QueryParam("date_field", *dateField)
-    }
-    if startDate != nil {
-        req.QueryParam("start_date", *startDate)
-    }
-    if endDate != nil {
-        req.QueryParam("end_date", *endDate)
-    }
-    if startDatetime != nil {
-        req.QueryParam("start_datetime", *startDatetime)
-    }
-    if endDatetime != nil {
-        req.QueryParam("end_datetime", *endDatetime)
-    }
-    var result []models.EventResponse
-    decoder, resp, err := req.CallAsJson()
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    result, err = utilities.DecodeResults[[]models.EventResponse](decoder)
-    return models.NewApiResponse(result, resp), err
+	ctx context.Context,
+	input ListEventsInput) (
+	models.ApiResponse[[]models.EventResponse],
+	error) {
+	req := e.prepareRequest(ctx, "GET", "/events.json")
+	req.Authenticate(NewAuth("BasicAuth"))
+	if input.Page != nil {
+		req.QueryParam("page", *input.Page)
+	}
+	if input.PerPage != nil {
+		req.QueryParam("per_page", *input.PerPage)
+	}
+	if input.SinceId != nil {
+		req.QueryParam("since_id", *input.SinceId)
+	}
+	if input.MaxId != nil {
+		req.QueryParam("max_id", *input.MaxId)
+	}
+	if input.Direction != nil {
+		req.QueryParam("direction", *input.Direction)
+	}
+	if input.Filter != nil {
+		req.QueryParam("filter", input.Filter)
+	}
+	if input.DateField != nil {
+		req.QueryParam("date_field", *input.DateField)
+	}
+	if input.StartDate != nil {
+		req.QueryParam("start_date", *input.StartDate)
+	}
+	if input.EndDate != nil {
+		req.QueryParam("end_date", *input.EndDate)
+	}
+	if input.StartDatetime != nil {
+		req.QueryParam("start_datetime", *input.StartDatetime)
+	}
+	if input.EndDatetime != nil {
+		req.QueryParam("end_datetime", *input.EndDatetime)
+	}
+	var result []models.EventResponse
+	decoder, resp, err := req.CallAsJson()
+	if err != nil {
+		return models.NewApiResponse(result, resp), err
+	}
+
+	result, err = utilities.DecodeResults[[]models.EventResponse](decoder)
+	return models.NewApiResponse(result, resp), err
+}
+
+// ListSubscriptionEventsInput represents the input of the ListSubscriptionEvents endpoint.
+type ListSubscriptionEventsInput struct {
+	// The Chargify id of the subscription
+	SubscriptionId int
+	// Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.
+	// Use in query `page=1`.
+	Page *int
+	// This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.
+	// Use in query `per_page=200`.
+	PerPage *int
+	// Returns events with an id greater than or equal to the one specified
+	SinceId *int
+	// Returns events with an id less than or equal to the one specified
+	MaxId *int
+	// The sort direction of the returned events.
+	Direction *models.Direction
+	// You can pass multiple event keys after comma.
+	// Use in query `filter=signup_success,payment_success`.
+	Filter []models.EventType
 }
 
 // ListSubscriptionEvents takes context, subscriptionId, page, perPage, sinceId, maxId, direction, filter as parameters and
@@ -136,49 +176,62 @@ func (e *EventsController) ListEvents(
 // The following request will return a list of events for a subscription.
 // Each event type has its own `event_specific_data` specified.
 func (e *EventsController) ListSubscriptionEvents(
-    ctx context.Context,
-    subscriptionId int,
-    page *int,
-    perPage *int,
-    sinceId *int,
-    maxId *int,
-    direction *models.Direction,
-    filter []models.EventType) (
-    models.ApiResponse[[]models.EventResponse],
-    error) {
-    req := e.prepareRequest(
-      ctx,
-      "GET",
-      fmt.Sprintf("/subscriptions/%v/events.json", subscriptionId),
-    )
-    req.Authenticate(NewAuth("BasicAuth"))
-    if page != nil {
-        req.QueryParam("page", *page)
-    }
-    if perPage != nil {
-        req.QueryParam("per_page", *perPage)
-    }
-    if sinceId != nil {
-        req.QueryParam("since_id", *sinceId)
-    }
-    if maxId != nil {
-        req.QueryParam("max_id", *maxId)
-    }
-    if direction != nil {
-        req.QueryParam("direction", *direction)
-    }
-    if filter != nil {
-        req.QueryParam("filter", filter)
-    }
-    
-    var result []models.EventResponse
-    decoder, resp, err := req.CallAsJson()
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    result, err = utilities.DecodeResults[[]models.EventResponse](decoder)
-    return models.NewApiResponse(result, resp), err
+	ctx context.Context,
+	input ListSubscriptionEventsInput) (
+	models.ApiResponse[[]models.EventResponse],
+	error) {
+	req := e.prepareRequest(
+		ctx,
+		"GET",
+		fmt.Sprintf("/subscriptions/%v/events.json", input.SubscriptionId),
+	)
+	req.Authenticate(NewAuth("BasicAuth"))
+	if input.Page != nil {
+		req.QueryParam("page", *input.Page)
+	}
+	if input.PerPage != nil {
+		req.QueryParam("per_page", *input.PerPage)
+	}
+	if input.SinceId != nil {
+		req.QueryParam("since_id", *input.SinceId)
+	}
+	if input.MaxId != nil {
+		req.QueryParam("max_id", *input.MaxId)
+	}
+	if input.Direction != nil {
+		req.QueryParam("direction", *input.Direction)
+	}
+	if input.Filter != nil {
+		req.QueryParam("filter", input.Filter)
+	}
+
+	var result []models.EventResponse
+	decoder, resp, err := req.CallAsJson()
+	if err != nil {
+		return models.NewApiResponse(result, resp), err
+	}
+
+	result, err = utilities.DecodeResults[[]models.EventResponse](decoder)
+	return models.NewApiResponse(result, resp), err
+}
+
+// ReadEventsCountInput represents the input of the ReadEventsCount endpoint.
+type ReadEventsCountInput struct {
+	// Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.
+	// Use in query `page=1`.
+	Page *int
+	// This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.
+	// Use in query `per_page=200`.
+	PerPage *int
+	// Returns events with an id greater than or equal to the one specified
+	SinceId *int
+	// Returns events with an id less than or equal to the one specified
+	MaxId *int
+	// The sort direction of the returned events.
+	Direction *models.Direction
+	// You can pass multiple event keys after comma.
+	// Use in query `filter=signup_success,payment_success`.
+	Filter []models.EventType
 }
 
 // ReadEventsCount takes context, page, perPage, sinceId, maxId, direction, filter as parameters and
@@ -186,41 +239,36 @@ func (e *EventsController) ListSubscriptionEvents(
 // an error if there was an issue with the request or response.
 // Get a count of all the events for a given site by using this method.
 func (e *EventsController) ReadEventsCount(
-    ctx context.Context,
-    page *int,
-    perPage *int,
-    sinceId *int,
-    maxId *int,
-    direction *models.Direction,
-    filter []models.EventType) (
-    models.ApiResponse[models.CountResponse],
-    error) {
-    req := e.prepareRequest(ctx, "GET", "/events/count.json")
-    req.Authenticate(NewAuth("BasicAuth"))
-    if page != nil {
-        req.QueryParam("page", *page)
-    }
-    if perPage != nil {
-        req.QueryParam("per_page", *perPage)
-    }
-    if sinceId != nil {
-        req.QueryParam("since_id", *sinceId)
-    }
-    if maxId != nil {
-        req.QueryParam("max_id", *maxId)
-    }
-    if direction != nil {
-        req.QueryParam("direction", *direction)
-    }
-    if filter != nil {
-        req.QueryParam("filter", filter)
-    }
-    var result models.CountResponse
-    decoder, resp, err := req.CallAsJson()
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    result, err = utilities.DecodeResults[models.CountResponse](decoder)
-    return models.NewApiResponse(result, resp), err
+	ctx context.Context,
+	input ReadEventsCountInput) (
+	models.ApiResponse[models.CountResponse],
+	error) {
+	req := e.prepareRequest(ctx, "GET", "/events/count.json")
+	req.Authenticate(NewAuth("BasicAuth"))
+	if input.Page != nil {
+		req.QueryParam("page", *input.Page)
+	}
+	if input.PerPage != nil {
+		req.QueryParam("per_page", *input.PerPage)
+	}
+	if input.SinceId != nil {
+		req.QueryParam("since_id", *input.SinceId)
+	}
+	if input.MaxId != nil {
+		req.QueryParam("max_id", *input.MaxId)
+	}
+	if input.Direction != nil {
+		req.QueryParam("direction", *input.Direction)
+	}
+	if input.Filter != nil {
+		req.QueryParam("filter", input.Filter)
+	}
+	var result models.CountResponse
+	decoder, resp, err := req.CallAsJson()
+	if err != nil {
+		return models.NewApiResponse(result, resp), err
+	}
+
+	result, err = utilities.DecodeResults[models.CountResponse](decoder)
+	return models.NewApiResponse(result, resp), err
 }

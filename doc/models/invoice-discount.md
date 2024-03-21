@@ -11,7 +11,7 @@
 |  --- | --- | --- | --- |
 | `Uid` | `*string` | Optional | - |
 | `Title` | `*string` | Optional | - |
-| `Description` | `Optional[string]` | Optional | - |
+| `Description` | `models.Optional[string]` | Optional | - |
 | `Code` | `*string` | Optional | - |
 | `SourceType` | [`*models.InvoiceDiscountSourceType`](../../doc/models/invoice-discount-source-type.md) | Optional | - |
 | `SourceId` | `*int` | Optional | - |

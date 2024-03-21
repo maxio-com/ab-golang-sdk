@@ -9,15 +9,26 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `Metafields` | `interface{}` | Required | - |
+| `Metafields` | [`models.CreateMetafieldsRequestMetafields`](../../doc/models/containers/create-metafields-request-metafields.md) | Required | This is a container for one-of cases. |
 
 ## Example (as JSON)
 
 ```json
 {
   "metafields": {
-    "key1": "val1",
-    "key2": "val2"
+    "name": "my_field",
+    "scope": {
+      "csv": "0",
+      "invoices": "0",
+      "statements": "0",
+      "portal": "0",
+      "public_show": "0",
+      "public_edit": "0"
+    },
+    "input_type": "text",
+    "enum": [
+      "string"
+    ]
   }
 }
 ```

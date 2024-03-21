@@ -9,15 +9,22 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `Group` | `*interface{}` | Optional | - |
+| `Group` | [`*models.AddSubscriptionToAGroupGroup`](../../doc/models/containers/add-subscription-to-a-group-group.md) | Optional | This is a container for one-of cases. |
 
 ## Example (as JSON)
 
 ```json
 {
   "group": {
-    "key1": "val1",
-    "key2": "val2"
+    "target": {
+      "type": "parent",
+      "id": 236
+    },
+    "billing": {
+      "accrue": false,
+      "align_date": false,
+      "prorate": false
+    }
   }
 }
 ```

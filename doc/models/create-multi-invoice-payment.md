@@ -12,7 +12,7 @@
 | `Memo` | `*string` | Optional | A description to be attached to the payment. |
 | `Details` | `*string` | Optional | Additional information related to the payment method (eg. Check #). |
 | `Method` | [`*models.InvoicePaymentMethodType`](../../doc/models/invoice-payment-method-type.md) | Optional | The type of payment method used. Defaults to other. |
-| `Amount` | `interface{}` | Required | Dollar amount of the sum of the invoices payment (eg. "10.50" => $10.50). |
+| `Amount` | [`models.CreateMultiInvoicePaymentAmount`](../../doc/models/containers/create-multi-invoice-payment-amount.md) | Required | This is a container for one-of cases. |
 | `ReceivedOn` | `*string` | Optional | Date reflecting when the payment was received from a customer. Must be in the past. |
 | `Applications` | [`[]models.CreateInvoicePaymentApplication`](../../doc/models/create-invoice-payment-application.md) | Required | - |
 
@@ -20,10 +20,7 @@
 
 ```json
 {
-  "amount": {
-    "key1": "val1",
-    "key2": "val2"
-  },
+  "amount": "String7",
   "applications": [
     {
       "invoice_uid": "invoice_uid8",
