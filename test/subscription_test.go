@@ -94,6 +94,43 @@ func (s *SubscriptionSuite) TestSubscriptionCreate() {
 				s.Equal(http.StatusOK, readSubResp.Response.StatusCode)
 				s.Len(readSubResp.Data.Subscription.CouponCodes, 1)
 				s.Equal(*coupon.Code, readSubResp.Data.Subscription.CouponCodes[0])
+
+				listComponentsFilteredResp1, err := s.client.SubscriptionComponentsController().ListSubscriptionComponentsForSite(
+					ctx,
+					advancedbilling.ListSubscriptionComponentsForSiteInput{
+						SubscriptionIds: []int{*createdSubscription.Id},
+						Include: models.ToPointer(models.ListSubscriptionComponentsInclude_SUBSCRIPTION),
+						Filter: models.ToPointer(models.ListSubscriptionComponentsForSiteFilter{
+						    Subscription: models.ToPointer(models.SubscriptionFilter{
+                                DateField: models.ToPointer(models.SubscriptionListDateField_UPDATEDAT),
+                                StartDate: timePtr(time.Now().AddDate(-1, 0, 0)),
+						    }),
+						}),
+					},
+				)
+
+				s.NoError(err)
+                s.Equal(http.StatusOK, listComponentsFilteredResp1.Response.StatusCode)
+                s.Len(listComponentsFilteredResp1.Data.SubscriptionsComponents, 1)
+                s.Equal(component.Id, listComponentsFilteredResp1.Data.SubscriptionsComponents[0].ComponentId)
+
+                listComponentsFilteredResp2, err := s.client.SubscriptionComponentsController().ListSubscriptionComponentsForSite(
+					ctx,
+					advancedbilling.ListSubscriptionComponentsForSiteInput{
+						SubscriptionIds: []int{*createdSubscription.Id},
+						Include: models.ToPointer(models.ListSubscriptionComponentsInclude_SUBSCRIPTION),
+						Filter: models.ToPointer(models.ListSubscriptionComponentsForSiteFilter{
+						    Subscription: models.ToPointer(models.SubscriptionFilter{
+                                DateField: models.ToPointer(models.SubscriptionListDateField_UPDATEDAT),
+                                EndDate: timePtr(time.Now().AddDate(-1, 0, 0)),
+						    }),
+						}),
+					},
+				)
+
+				s.NoError(err)
+                s.Equal(http.StatusOK, listComponentsFilteredResp2.Response.StatusCode)
+                s.Len(listComponentsFilteredResp2.Data.SubscriptionsComponents, 0)
 			},
 		},
 		{
