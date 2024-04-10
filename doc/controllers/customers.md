@@ -69,25 +69,23 @@ CreateCustomer(
 ```go
 ctx := context.Background()
 
-bodyCustomer := models.CreateCustomer{
-    FirstName:       "Martha",
-    LastName:        "Washington",
-    Email:           "martha@example.com",
-    CcEmails:        models.ToPointer("george@example.com"),
-    Organization:    models.ToPointer("ABC, Inc."),
-    Reference:       models.ToPointer("1234567890"),
-    Address:         models.ToPointer("123 Main Street"),
-    Address2:        models.ToPointer("Unit 10"),
-    City:            models.ToPointer("Anytown"),
-    State:           models.ToPointer("MA"),
-    Zip:             models.ToPointer("02120"),
-    Country:         models.ToPointer("US"),
-    Phone:           models.ToPointer("555-555-1212"),
-    Locale:          models.ToPointer("es-MX"),
-}
-
 body := models.CreateCustomerRequest{
-    Customer: bodyCustomer,
+    Customer: models.CreateCustomer{
+        FirstName:       "Martha",
+        LastName:        "Washington",
+        Email:           "martha@example.com",
+        CcEmails:        models.ToPointer("george@example.com"),
+        Organization:    models.ToPointer("ABC, Inc."),
+        Reference:       models.ToPointer("1234567890"),
+        Address:         models.ToPointer("123 Main Street"),
+        Address2:        models.ToPointer("Unit 10"),
+        City:            models.ToPointer("Anytown"),
+        State:           models.ToPointer("MA"),
+        Zip:             models.ToPointer("02120"),
+        Country:         models.ToPointer("US"),
+        Phone:           models.ToPointer("555-555-1212"),
+        Locale:          models.ToPointer("es-MX"),
+    },
 }
 
 apiResponse, err := customersController.CreateCustomer(ctx, &body)
@@ -318,6 +316,7 @@ ReadCustomer(
 
 ```go
 ctx := context.Background()
+
 id := 112
 
 apiResponse, err := customersController.ReadCustomer(ctx, id)
@@ -359,16 +358,15 @@ UpdateCustomer(
 
 ```go
 ctx := context.Background()
+
 id := 112
 
-bodyCustomer := models.UpdateCustomer{
-    FirstName:       models.ToPointer("Martha"),
-    LastName:        models.ToPointer("Washington"),
-    Email:           models.ToPointer("martha.washington@example.com"),
-}
-
 body := models.UpdateCustomerRequest{
-    Customer: bodyCustomer,
+    Customer: models.UpdateCustomer{
+        FirstName:       models.ToPointer("Martha"),
+        LastName:        models.ToPointer("Washington"),
+        Email:           models.ToPointer("martha.washington@example.com"),
+    },
 }
 
 apiResponse, err := customersController.UpdateCustomer(ctx, id, &body)
@@ -446,6 +444,7 @@ DeleteCustomer(
 
 ```go
 ctx := context.Background()
+
 id := 112
 
 resp, err := customersController.DeleteCustomer(ctx, id)
@@ -483,6 +482,7 @@ ReadCustomerByReference(
 
 ```go
 ctx := context.Background()
+
 reference := "reference4"
 
 apiResponse, err := customersController.ReadCustomerByReference(ctx, reference)
@@ -522,6 +522,7 @@ ListCustomerSubscriptions(
 
 ```go
 ctx := context.Background()
+
 customerId := 150
 
 apiResponse, err := customersController.ListCustomerSubscriptions(ctx, customerId)

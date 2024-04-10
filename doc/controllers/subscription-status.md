@@ -56,6 +56,7 @@ RetrySubscription(
 
 ```go
 ctx := context.Background()
+
 subscriptionId := 222
 
 apiResponse, err := subscriptionStatusController.RetrySubscription(ctx, subscriptionId)
@@ -114,7 +115,6 @@ if err != nil {
     "coupon_uses_allowed": null,
     "reason_code": null,
     "automatically_resume_at": null,
-    "coupon_codes": [],
     "offer_id": null,
     "credit_balance_in_cents": 0,
     "prepayment_balance_in_cents": 0,
@@ -240,7 +240,10 @@ CancelSubscription(
 
 ```go
 ctx := context.Background()
+
 subscriptionId := 222
+
+
 
 apiResponse, err := subscriptionStatusController.CancelSubscription(ctx, subscriptionId, nil)
 if err != nil {
@@ -424,7 +427,10 @@ ResumeSubscription(
 
 ```go
 ctx := context.Background()
-subscriptionId := 222Liquid error: Value cannot be null. (Parameter 'key')
+
+subscriptionId := 222
+
+Liquid error: Value cannot be null. (Parameter 'key')
 
 apiResponse, err := subscriptionStatusController.ResumeSubscription(ctx, subscriptionId, Liquid error: Value cannot be null. (Parameter 'key'))
 if err != nil {
@@ -584,18 +590,13 @@ PauseSubscription(
 
 ```go
 ctx := context.Background()
+
 subscriptionId := 222
 
-bodyHoldAutomaticallyResumeAt, err := time.Parse(time.RFC3339, "2017-05-25T11:25:00Z")
-if err != nil {
-    log.Fatalln(err)
-}
-bodyHold := models.AutoResume{
-    AutomaticallyResumeAt: models.NewOptional(models.ToPointer(bodyHoldAutomaticallyResumeAt)),
-}
-
 body := models.PauseRequest{
-    Hold: models.ToPointer(bodyHold),
+    Hold: models.ToPointer(models.AutoResume{
+        AutomaticallyResumeAt: models.NewOptional(models.ToPointer(parseTime(time.RFC3339, "2017-05-25T11:25:00Z", func(err error) { log.Fatalln(err) }))),
+    }),
 }
 
 apiResponse, err := subscriptionStatusController.PauseSubscription(ctx, subscriptionId, &body)
@@ -758,18 +759,13 @@ UpdateAutomaticSubscriptionResumption(
 
 ```go
 ctx := context.Background()
+
 subscriptionId := 222
 
-bodyHoldAutomaticallyResumeAt, err := time.Parse(time.RFC3339, "2019-01-20T00:00:00")
-if err != nil {
-    log.Fatalln(err)
-}
-bodyHold := models.AutoResume{
-    AutomaticallyResumeAt: models.NewOptional(models.ToPointer(bodyHoldAutomaticallyResumeAt)),
-}
-
 body := models.PauseRequest{
-    Hold: models.ToPointer(bodyHold),
+    Hold: models.ToPointer(models.AutoResume{
+        AutomaticallyResumeAt: models.NewOptional(models.ToPointer(parseTime(time.RFC3339, "2019-01-20T00:00:00", func(err error) { log.Fatalln(err) }))),
+    }),
 }
 
 apiResponse, err := subscriptionStatusController.UpdateAutomaticSubscriptionResumption(ctx, subscriptionId, &body)
@@ -820,7 +816,6 @@ if err != nil {
     "coupon_uses_allowed": null,
     "reason_code": null,
     "automatically_resume_at": "2019-01-20T00:00:00-06:00",
-    "coupon_codes": [],
     "customer": {
       "id": 19948683,
       "first_name": "Vanessa",
@@ -877,8 +872,7 @@ if err != nil {
         "description": "",
         "handle": "acme-products",
         "accounting_code": null
-      },
-      "public_signup_pages": []
+      }
     },
     "credit_card": {
       "id": 13826563,
@@ -1097,21 +1091,18 @@ ReactivateSubscription(
 
 ```go
 ctx := context.Background()
+
 subscriptionId := 222
 
-bodyCalendarBilling := models.ReactivationBilling{
-    ReactivationCharge: models.ToPointer(models.ReactivationCharge("prorated")),
-}
-
-bodyResume := models.ReactivateSubscriptionRequestResumeContainer.FromBoolean(true)
-
 body := models.ReactivateSubscriptionRequest{
+    CalendarBilling:          models.ToPointer(models.ReactivationBilling{
+        ReactivationCharge: models.ToPointer(models.ReactivationCharge("prorated")),
+    }),
     IncludeTrial:             models.ToPointer(true),
     PreserveBalance:          models.ToPointer(true),
     CouponCode:               models.ToPointer("10OFF"),
     UseCreditsAndPrepayments: models.ToPointer(true),
-    CalendarBilling:          models.ToPointer(bodyCalendarBilling),
-    Resume:                   models.ToPointer(bodyResume),
+    Resume:                   models.ToPointer(models.ReactivateSubscriptionRequestResumeContainer.FromBoolean(true)),
 }
 
 apiResponse, err := subscriptionStatusController.ReactivateSubscription(ctx, subscriptionId, &body)
@@ -1273,7 +1264,10 @@ InitiateDelayedCancellation(
 
 ```go
 ctx := context.Background()
+
 subscriptionId := 222
+
+
 
 apiResponse, err := subscriptionStatusController.InitiateDelayedCancellation(ctx, subscriptionId, nil)
 if err != nil {
@@ -1320,6 +1314,7 @@ CancelDelayedCancellation(
 
 ```go
 ctx := context.Background()
+
 subscriptionId := 222
 
 apiResponse, err := subscriptionStatusController.CancelDelayedCancellation(ctx, subscriptionId)
@@ -1373,6 +1368,7 @@ CancelDunning(
 
 ```go
 ctx := context.Background()
+
 subscriptionId := 222
 
 apiResponse, err := subscriptionStatusController.CancelDunning(ctx, subscriptionId)
@@ -1435,38 +1431,26 @@ PreviewRenewal(
 
 ```go
 ctx := context.Background()
+
 subscriptionId := 222
 
-bodyComponents0ComponentId := models.RenewalPreviewComponentComponentIdContainer.FromNumber(10708)
-
-bodyComponents0 := models.RenewalPreviewComponent{
-    Quantity:     models.ToPointer(10000),
-    ComponentId:  models.ToPointer(bodyComponents0ComponentId),
-}
-
-bodyComponents1ComponentId := models.RenewalPreviewComponentComponentIdContainer.FromString("handle:small-instance-hours")
-
-bodyComponents1PricePointId := models.RenewalPreviewComponentPricePointIdContainer.FromNumber(8712)
-
-bodyComponents1 := models.RenewalPreviewComponent{
-    Quantity:     models.ToPointer(10000),
-    ComponentId:  models.ToPointer(bodyComponents1ComponentId),
-    PricePointId: models.ToPointer(bodyComponents1PricePointId),
-}
-
-bodyComponents2ComponentId := models.RenewalPreviewComponentComponentIdContainer.FromString("handle:large-instance-hours")
-
-bodyComponents2PricePointId := models.RenewalPreviewComponentPricePointIdContainer.FromString("handle:startup-pricing")
-
-bodyComponents2 := models.RenewalPreviewComponent{
-    Quantity:     models.ToPointer(100),
-    ComponentId:  models.ToPointer(bodyComponents2ComponentId),
-    PricePointId: models.ToPointer(bodyComponents2PricePointId),
-}
-
-bodyComponents := []models.RenewalPreviewComponent{bodyComponents0, bodyComponents1, bodyComponents2}
 body := models.RenewalPreviewRequest{
-    Components: bodyComponents,
+    Components: []models.RenewalPreviewComponent{
+        models.RenewalPreviewComponent{
+            ComponentId:  models.ToPointer(models.RenewalPreviewComponentComponentIdContainer.FromNumber(10708)),
+            Quantity:     models.ToPointer(10000),
+        },
+        models.RenewalPreviewComponent{
+            ComponentId:  models.ToPointer(models.RenewalPreviewComponentComponentIdContainer.FromString("handle:small-instance-hours")),
+            Quantity:     models.ToPointer(10000),
+            PricePointId: models.ToPointer(models.RenewalPreviewComponentPricePointIdContainer.FromNumber(8712)),
+        },
+        models.RenewalPreviewComponent{
+            ComponentId:  models.ToPointer(models.RenewalPreviewComponentComponentIdContainer.FromString("handle:large-instance-hours")),
+            Quantity:     models.ToPointer(100),
+            PricePointId: models.ToPointer(models.RenewalPreviewComponentPricePointIdContainer.FromString("handle:startup-pricing")),
+        },
+    },
 }
 
 apiResponse, err := subscriptionStatusController.PreviewRenewal(ctx, subscriptionId, &body)

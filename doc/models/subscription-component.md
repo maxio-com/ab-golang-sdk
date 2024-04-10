@@ -17,7 +17,7 @@
 | `UnitBalance` | `*int` | Optional | - |
 | `Currency` | `*string` | Optional | - |
 | `AllocatedQuantity` | [`*models.SubscriptionComponentAllocatedQuantity`](../../doc/models/containers/subscription-component-allocated-quantity.md) | Optional | This is a container for one-of cases. |
-| `PricingScheme` | [`models.Optional[models.SubscriptionComponentPricingScheme]`](../../doc/models/containers/subscription-component-pricing-scheme.md) | Optional | This is a container for one-of cases. |
+| `PricingScheme` | [`models.Optional[models.PricingScheme]`](../../doc/models/pricing-scheme.md) | Optional | - |
 | `ComponentId` | `*int` | Optional | - |
 | `ComponentHandle` | `models.Optional[string]` | Optional | - |
 | `SubscriptionId` | `*int` | Optional | - |

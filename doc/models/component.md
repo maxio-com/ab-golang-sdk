@@ -12,7 +12,7 @@
 | `Id` | `*int` | Optional | The unique ID assigned to the component by Chargify. This ID can be used to fetch the component from the API. |
 | `Name` | `*string` | Optional | The name of the Component, suitable for display on statements. i.e. Text Messages. |
 | `Handle` | `models.Optional[string]` | Optional | The component API handle |
-| `PricingScheme` | [`models.Optional[models.ComponentPricingScheme]`](../../doc/models/containers/component-pricing-scheme.md) | Optional | This is a container for one-of cases. |
+| `PricingScheme` | [`models.Optional[models.PricingScheme]`](../../doc/models/pricing-scheme.md) | Optional | - |
 | `UnitName` | `*string` | Optional | The name of the unit that the component’s usage is measured in. i.e. message |
 | `UnitPrice` | `models.Optional[string]` | Optional | The amount the customer will be charged per unit. This field is only populated for ‘per_unit’ pricing schemes, otherwise it may be null. |
 | `ProductFamilyId` | `*int` | Optional | The id of the Product Family to which the Component belongs |
@@ -52,7 +52,7 @@
   "id": 24,
   "name": "name2",
   "handle": "handle8",
-  "pricing_scheme": "tiered",
+  "pricing_scheme": "per_unit",
   "unit_name": "unit_name4"
 }
 ```

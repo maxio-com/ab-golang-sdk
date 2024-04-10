@@ -199,7 +199,10 @@ ReplayWebhooks(
 ctx := context.Background()
 
 body := models.ReplayWebhooksRequest{
-    Ids: []int64{int64(123456789), int64(123456788)},
+    Ids: []int64{
+        int64(123456789),
+        int64(123456788),
+    },
 }
 
 apiResponse, err := webhooksController.ReplayWebhooks(ctx, &body)
@@ -251,13 +254,14 @@ CreateEndpoint(
 ```go
 ctx := context.Background()
 
-bodyEndpoint := models.CreateOrUpdateEndpoint{
-    Url:                  "https://your.site/webhooks",
-    WebhookSubscriptions: []models.WebhookSubscription{models.WebhookSubscription("payment_success"), models.WebhookSubscription("payment_failure")},
-}
-
 body := models.CreateOrUpdateEndpointRequest{
-    Endpoint: bodyEndpoint,
+    Endpoint: models.CreateOrUpdateEndpoint{
+        Url:                  "https://your.site/webhooks",
+        WebhookSubscriptions: []models.WebhookSubscription{
+            models.WebhookSubscription("payment_success"),
+            models.WebhookSubscription("payment_failure"),
+        },
+    },
 }
 
 apiResponse, err := webhooksController.CreateEndpoint(ctx, &body)
@@ -313,6 +317,7 @@ ListEndpoints(
 
 ```go
 ctx := context.Background()
+
 apiResponse, err := webhooksController.ListEndpoints(ctx)
 if err != nil {
     log.Fatalln(err)
@@ -388,15 +393,18 @@ UpdateEndpoint(
 
 ```go
 ctx := context.Background()
+
 endpointId := 42
 
-bodyEndpoint := models.CreateOrUpdateEndpoint{
-    Url:                  "https://yout.site/webhooks/1/json.",
-    WebhookSubscriptions: []models.WebhookSubscription{models.WebhookSubscription("payment_failure"), models.WebhookSubscription("payment_success"), models.WebhookSubscription("refund_failure")},
-}
-
 body := models.CreateOrUpdateEndpointRequest{
-    Endpoint: bodyEndpoint,
+    Endpoint: models.CreateOrUpdateEndpoint{
+        Url:                  "https://yout.site/webhooks/1/json.",
+        WebhookSubscriptions: []models.WebhookSubscription{
+            models.WebhookSubscription("payment_failure"),
+            models.WebhookSubscription("payment_success"),
+            models.WebhookSubscription("refund_failure"),
+        },
+    },
 }
 
 apiResponse, err := webhooksController.UpdateEndpoint(ctx, endpointId, &body)

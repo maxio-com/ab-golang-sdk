@@ -43,6 +43,7 @@ ReadSiteStats(
 
 ```go
 ctx := context.Background()
+
 apiResponse, err := insightsController.ReadSiteStats(ctx)
 if err != nil {
     log.Fatalln(err)
@@ -103,6 +104,10 @@ ReadMrr(
 
 ```go
 ctx := context.Background()
+
+
+
+
 
 apiResponse, err := insightsController.ReadMrr(ctx, nil, nil)
 if err != nil {
@@ -276,7 +281,7 @@ ListMrrPerSubscription(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `filterSubscriptionIds` | `[]int` | Query, Optional | Submit ids in order to limit results. Use in query: `filter[subscription_ids]=1,2,3`. |
+| `filter` | [`*models.ListMrrFilter`](../../doc/models/list-mrr-filter.md) | Query, Optional | Filter to use for List MRR per subscription operation |
 | `atTime` | `*string` | Query, Optional | Submit a timestamp in ISO8601 format to request MRR for a historic time. Use in query: `at_time=2022-01-10T10:00:00-05:00`. |
 | `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`. |
 | `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`. |
@@ -292,10 +297,17 @@ ListMrrPerSubscription(
 ctx := context.Background()
 
 collectedInput := advancedbilling.ListMrrPerSubscriptionInput{
-Liquid error: Value cannot be null. (Parameter 'key')    AtTime:                models.ToPointer("at_time=2022-01-10T10:00:00-05:00"),
-    Page:                  models.ToPointer(2),
-    PerPage:               models.ToPointer(50),
-    Direction:             models.ToPointer(models.Direction("desc")),
+    Filter:    models.ToPointer(models.ListMrrFilter{
+        SubscriptionIds: []int{
+            1,
+            2,
+            3,
+        },
+    }),
+    AtTime:    models.ToPointer("at_time=2022-01-10T10:00:00-05:00"),
+    Page:      models.ToPointer(2),
+    PerPage:   models.ToPointer(50),
+    Direction: models.ToPointer(models.Direction("desc")),
 }
 
 apiResponse, err := insightsController.ListMrrPerSubscription(ctx, collectedInput)

@@ -294,18 +294,16 @@ CreatePaymentProfile(
 ```go
 ctx := context.Background()
 
-bodyPaymentProfile := models.CreatePaymentProfile{
-    PaymentType:           models.ToPointer(models.PaymentType("bank_account")),
-    CustomerId:            models.ToPointer(123),
-    BankName:              models.ToPointer("Best Bank"),
-    BankRoutingNumber:     models.ToPointer("021000089"),
-    BankAccountNumber:     models.ToPointer("111111111111"),
-    BankAccountType:       models.ToPointer(models.BankAccountType("checking")),
-    BankAccountHolderType: models.ToPointer(models.BankAccountHolderType("business")),
-}
-
 body := models.CreatePaymentProfileRequest{
-    PaymentProfile: bodyPaymentProfile,
+    PaymentProfile: models.CreatePaymentProfile{
+        PaymentType:           models.ToPointer(models.PaymentType("bank_account")),
+        CustomerId:            models.ToPointer(123),
+        BankName:              models.ToPointer("Best Bank"),
+        BankRoutingNumber:     models.ToPointer("021000089"),
+        BankAccountNumber:     models.ToPointer("111111111111"),
+        BankAccountType:       models.ToPointer(models.BankAccountType("checking")),
+        BankAccountHolderType: models.ToPointer(models.BankAccountHolderType("business")),
+    },
 }
 
 apiResponse, err := paymentProfilesController.CreatePaymentProfile(ctx, &body)
@@ -519,6 +517,7 @@ ReadPaymentProfile(
 
 ```go
 ctx := context.Background()
+
 paymentProfileId := 198
 
 apiResponse, err := paymentProfilesController.ReadPaymentProfile(ctx, paymentProfileId)
@@ -628,26 +627,25 @@ UpdatePaymentProfile(
 
 ```go
 ctx := context.Background()
+
 paymentProfileId := 198
 
-bodyPaymentProfile := models.UpdatePaymentProfile{
-    FirstName:       models.ToPointer("Graham"),
-    LastName:        models.ToPointer("Test"),
-    FullNumber:      models.ToPointer("4111111111111111"),
-    CardType:        models.ToPointer(models.CardType("master")),
-    ExpirationMonth: models.ToPointer("04"),
-    ExpirationYear:  models.ToPointer("2030"),
-    CurrentVault:    models.ToPointer(models.CurrentVault("bogus")),
-    BillingAddress:  models.ToPointer("456 Juniper Court"),
-    BillingCity:     models.ToPointer("Boulder"),
-    BillingState:    models.ToPointer("CO"),
-    BillingZip:      models.ToPointer("80302"),
-    BillingCountry:  models.ToPointer("US"),
-    BillingAddress2: models.NewOptional(models.ToPointer("billing_address_22")),
-}
-
 body := models.UpdatePaymentProfileRequest{
-    PaymentProfile: bodyPaymentProfile,
+    PaymentProfile: models.UpdatePaymentProfile{
+        FirstName:       models.ToPointer("Graham"),
+        LastName:        models.ToPointer("Test"),
+        FullNumber:      models.ToPointer("4111111111111111"),
+        CardType:        models.ToPointer(models.CardType("master")),
+        ExpirationMonth: models.ToPointer("04"),
+        ExpirationYear:  models.ToPointer("2030"),
+        CurrentVault:    models.ToPointer(models.CurrentVault("bogus")),
+        BillingAddress:  models.ToPointer("456 Juniper Court"),
+        BillingCity:     models.ToPointer("Boulder"),
+        BillingState:    models.ToPointer("CO"),
+        BillingZip:      models.ToPointer("80302"),
+        BillingCountry:  models.ToPointer("US"),
+        BillingAddress2: models.NewOptional(models.ToPointer("billing_address_22")),
+    },
 }
 
 apiResponse, err := paymentProfilesController.UpdatePaymentProfile(ctx, paymentProfileId, &body)
@@ -725,6 +723,7 @@ DeleteUnusedPaymentProfile(
 
 ```go
 ctx := context.Background()
+
 paymentProfileId := 198
 
 resp, err := paymentProfilesController.DeleteUnusedPaymentProfile(ctx, paymentProfileId)
@@ -775,7 +774,9 @@ DeleteSubscriptionsPaymentProfile(
 
 ```go
 ctx := context.Background()
+
 subscriptionId := 222
+
 paymentProfileId := 198
 
 resp, err := paymentProfilesController.DeleteSubscriptionsPaymentProfile(ctx, subscriptionId, paymentProfileId)
@@ -815,15 +816,14 @@ VerifyBankAccount(
 
 ```go
 ctx := context.Background()
+
 bankAccountId := 252
 
-bodyBankAccountVerification := models.BankAccountVerification{
-    Deposit1InCents: models.ToPointer(int64(32)),
-    Deposit2InCents: models.ToPointer(int64(45)),
-}
-
 body := models.BankAccountVerificationRequest{
-    BankAccountVerification: bodyBankAccountVerification,
+    BankAccountVerification: models.BankAccountVerification{
+        Deposit1InCents: models.ToPointer(int64(32)),
+        Deposit2InCents: models.ToPointer(int64(45)),
+    },
 }
 
 apiResponse, err := paymentProfilesController.VerifyBankAccount(ctx, bankAccountId, &body)
@@ -902,7 +902,9 @@ DeleteSubscriptionGroupPaymentProfile(
 
 ```go
 ctx := context.Background()
+
 uid := "uid0"
+
 paymentProfileId := 198
 
 resp, err := paymentProfilesController.DeleteSubscriptionGroupPaymentProfile(ctx, uid, paymentProfileId)
@@ -944,7 +946,9 @@ ChangeSubscriptionDefaultPaymentProfile(
 
 ```go
 ctx := context.Background()
+
 subscriptionId := 222
+
 paymentProfileId := 198
 
 apiResponse, err := paymentProfilesController.ChangeSubscriptionDefaultPaymentProfile(ctx, subscriptionId, paymentProfileId)
@@ -1026,7 +1030,9 @@ ChangeSubscriptionGroupDefaultPaymentProfile(
 
 ```go
 ctx := context.Background()
+
 uid := "uid0"
+
 paymentProfileId := 198
 
 apiResponse, err := paymentProfilesController.ChangeSubscriptionGroupDefaultPaymentProfile(ctx, uid, paymentProfileId)
@@ -1105,6 +1111,7 @@ ReadOneTimeToken(
 
 ```go
 ctx := context.Background()
+
 chargifyToken := "chargify_token8"
 
 apiResponse, err := paymentProfilesController.ReadOneTimeToken(ctx, chargifyToken)
@@ -1156,6 +1163,7 @@ SendRequestUpdatePaymentEmail(
 
 ```go
 ctx := context.Background()
+
 subscriptionId := 222
 
 resp, err := paymentProfilesController.SendRequestUpdatePaymentEmail(ctx, subscriptionId)

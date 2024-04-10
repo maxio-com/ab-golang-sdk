@@ -53,15 +53,14 @@ CreateSubscriptionNote(
 
 ```go
 ctx := context.Background()
+
 subscriptionId := 222
 
-bodyNote := models.UpdateSubscriptionNote{
-    Body:   "New test note.",
-    Sticky: true,
-}
-
 body := models.UpdateSubscriptionNoteRequest{
-    Note: bodyNote,
+    Note: models.UpdateSubscriptionNote{
+        Body:   "New test note.",
+        Sticky: true,
+    },
 }
 
 apiResponse, err := subscriptionNotesController.CreateSubscriptionNote(ctx, subscriptionId, &body)
@@ -176,7 +175,9 @@ ReadSubscriptionNote(
 
 ```go
 ctx := context.Background()
+
 subscriptionId := 222
+
 noteId := 66
 
 apiResponse, err := subscriptionNotesController.ReadSubscriptionNote(ctx, subscriptionId, noteId)
@@ -235,16 +236,16 @@ UpdateSubscriptionNote(
 
 ```go
 ctx := context.Background()
+
 subscriptionId := 222
+
 noteId := 66
 
-bodyNote := models.UpdateSubscriptionNote{
-    Body:   "Modified test note.",
-    Sticky: true,
-}
-
 body := models.UpdateSubscriptionNoteRequest{
-    Note: bodyNote,
+    Note: models.UpdateSubscriptionNote{
+        Body:   "Modified test note.",
+        Sticky: true,
+    },
 }
 
 apiResponse, err := subscriptionNotesController.UpdateSubscriptionNote(ctx, subscriptionId, noteId, &body)
@@ -286,7 +287,9 @@ DeleteSubscriptionNote(
 
 ```go
 ctx := context.Background()
+
 subscriptionId := 222
+
 noteId := 66
 
 resp, err := subscriptionNotesController.DeleteSubscriptionNote(ctx, subscriptionId, noteId)

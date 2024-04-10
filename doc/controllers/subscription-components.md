@@ -57,7 +57,9 @@ ReadSubscriptionComponent(
 
 ```go
 ctx := context.Background()
+
 subscriptionId := 222
+
 componentId := 222
 
 apiResponse, err := subscriptionComponentsController.ReadSubscriptionComponent(ctx, subscriptionId, componentId)
@@ -119,6 +121,7 @@ ListSubscriptionComponents(
 | `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription |
 | `dateField` | [`*models.SubscriptionListDateField`](../../doc/models/subscription-list-date-field.md) | Query, Optional | The type of filter you'd like to apply to your search. Use in query `date_field=updated_at`. |
 | `direction` | [`*models.SortingDirection`](../../doc/models/sorting-direction.md) | Query, Optional | Controls the order in which results are returned.<br>Use in query `direction=asc`. |
+| `filter` | [`*models.ListSubscriptionComponentsFilter`](../../doc/models/list-subscription-components-filter.md) | Query, Optional | Filter to use for List Subscription Components operation |
 | `endDate` | `*string` | Query, Optional | The end date (format YYYY-MM-DD) with which to filter the date_field. Returns components with a timestamp up to and including 11:59:59PM in your site’s time zone on the date specified. |
 | `endDatetime` | `*string` | Query, Optional | The end date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns components with a timestamp at or before exact time provided in query. You can specify timezone in query - otherwise your site''s time zone will be used. If provided, this parameter will be used instead of end_date. |
 | `pricePointIds` | [`*models.IncludeNotNull`](../../doc/models/include-not-null.md) | Query, Optional | Allows fetching components allocation only if price point id is present. Use in query `price_point_ids=not_null`. |
@@ -127,8 +130,6 @@ ListSubscriptionComponents(
 | `startDate` | `*string` | Query, Optional | The start date (format YYYY-MM-DD) with which to filter the date_field. Returns components with a timestamp at or after midnight (12:00:00 AM) in your site’s time zone on the date specified. |
 | `startDatetime` | `*string` | Query, Optional | The start date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns components with a timestamp at or after exact time provided in query. You can specify timezone in query - otherwise your site''s time zone will be used. If provided, this parameter will be used instead of start_date. |
 | `include` | [`*models.ListSubscriptionComponentsInclude`](../../doc/models/list-subscription-components-include.md) | Query, Optional | Allows including additional data in the response. Use in query `include=subscription`. |
-| `filterUseSiteExchangeRate` | `*bool` | Query, Optional | Allows fetching components allocation with matching use_site_exchange_rate based on provided value. Use in query `filter[use_site_exchange_rate]=true`. |
-| `filterCurrencies` | `[]string` | Query, Optional | Allows fetching components allocation with matching currency based on provided values. Use in query `filter[currencies]=EUR,USD`. |
 
 ## Response Type
 
@@ -140,13 +141,23 @@ ListSubscriptionComponents(
 ctx := context.Background()
 
 collectedInput := advancedbilling.ListSubscriptionComponentsInput{
-    SubscriptionId:            222,
-    DateField:                 models.ToPointer(models.SubscriptionListDateField("updated_at")),
-    PricePointIds:             models.ToPointer(models.IncludeNotNull("not_null")),
-    ProductFamilyIds:          []int{1, 2, 3},
-    Sort:                      models.ToPointer(models.ListSubscriptionComponentsSort("updated_at")),
-    Include:                   models.ToPointer(models.ListSubscriptionComponentsInclude("subscription")),
-Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')}
+    SubscriptionId:   222,
+    DateField:        models.ToPointer(models.SubscriptionListDateField("updated_at")),
+    Filter:           models.ToPointer(models.ListSubscriptionComponentsFilter{
+        Currencies:          []string{
+            "EUR",
+            "USD",
+        },
+    }),
+    PricePointIds:    models.ToPointer(models.IncludeNotNull("not_null")),
+    ProductFamilyIds: []int{
+        1,
+        2,
+        3,
+    },
+    Sort:             models.ToPointer(models.ListSubscriptionComponentsSort("updated_at")),
+    Include:          models.ToPointer(models.ListSubscriptionComponentsInclude("subscription")),
+}
 
 apiResponse, err := subscriptionComponentsController.ListSubscriptionComponents(ctx, collectedInput)
 if err != nil {
@@ -222,32 +233,24 @@ BulkUpdateSubscriptionComponentsPricePoints(
 
 ```go
 ctx := context.Background()
+
 subscriptionId := 222
 
-bodyComponents0PricePoint := models.ComponentPricePointAssignmentPricePointContainer.FromNumber(1022)
-
-bodyComponents0 := models.ComponentPricePointAssignment{
-    ComponentId: models.ToPointer(997),
-    PricePoint:  models.ToPointer(bodyComponents0PricePoint),
-}
-
-bodyComponents1PricePoint := models.ComponentPricePointAssignmentPricePointContainer.FromString("wholesale-handle")
-
-bodyComponents1 := models.ComponentPricePointAssignment{
-    ComponentId: models.ToPointer(998),
-    PricePoint:  models.ToPointer(bodyComponents1PricePoint),
-}
-
-bodyComponents2PricePoint := models.ComponentPricePointAssignmentPricePointContainer.FromString("_default")
-
-bodyComponents2 := models.ComponentPricePointAssignment{
-    ComponentId: models.ToPointer(999),
-    PricePoint:  models.ToPointer(bodyComponents2PricePoint),
-}
-
-bodyComponents := []models.ComponentPricePointAssignment{bodyComponents0, bodyComponents1, bodyComponents2}
 body := models.BulkComponentsPricePointAssignment{
-    Components: bodyComponents,
+    Components: []models.ComponentPricePointAssignment{
+        models.ComponentPricePointAssignment{
+            ComponentId: models.ToPointer(997),
+            PricePoint:  models.ToPointer(models.ComponentPricePointAssignmentPricePointContainer.FromNumber(1022)),
+        },
+        models.ComponentPricePointAssignment{
+            ComponentId: models.ToPointer(998),
+            PricePoint:  models.ToPointer(models.ComponentPricePointAssignmentPricePointContainer.FromString("wholesale-handle")),
+        },
+        models.ComponentPricePointAssignment{
+            ComponentId: models.ToPointer(999),
+            PricePoint:  models.ToPointer(models.ComponentPricePointAssignmentPricePointContainer.FromString("_default")),
+        },
+    },
 }
 
 apiResponse, err := subscriptionComponentsController.BulkUpdateSubscriptionComponentsPricePoints(ctx, subscriptionId, &body)
@@ -312,6 +315,7 @@ BulkResetSubscriptionComponentsPricePoints(
 
 ```go
 ctx := context.Background()
+
 subscriptionId := 222
 
 apiResponse, err := subscriptionComponentsController.BulkResetSubscriptionComponentsPricePoints(ctx, subscriptionId)
@@ -418,8 +422,7 @@ if err != nil {
         "description": "Duis",
         "handle": "ea dolore dolore sunt",
         "accounting_code": null
-      },
-      "public_signup_pages": []
+      }
     }
   }
 }
@@ -504,16 +507,16 @@ AllocateComponent(
 
 ```go
 ctx := context.Background()
+
 subscriptionId := 222
+
 componentId := 222
 
-bodyAllocation := models.CreateAllocation{
-    Quantity:                 float64(5),
-    Memo:                     models.ToPointer("Recoding component purchase of Acme Support"),
-}
-
 body := models.CreateAllocationRequest{
-    Allocation: bodyAllocation,
+    Allocation: models.CreateAllocation{
+        Quantity:                 float64(5),
+        Memo:                     models.ToPointer("Recoding component purchase of Acme Support"),
+    },
 }
 
 apiResponse, err := subscriptionComponentsController.AllocateComponent(ctx, subscriptionId, componentId, &body)
@@ -610,8 +613,11 @@ ListAllocations(
 
 ```go
 ctx := context.Background()
+
 subscriptionId := 222
+
 componentId := 222
+
 page := 2
 
 apiResponse, err := subscriptionComponentsController.ListAllocations(ctx, subscriptionId, componentId, &page)
@@ -709,25 +715,24 @@ AllocateComponents(
 
 ```go
 ctx := context.Background()
+
 subscriptionId := 222
 
-bodyAllocations0 := models.CreateAllocation{
-    Quantity:                 float64(10),
-    ComponentId:              models.ToPointer(123),
-    Memo:                     models.ToPointer("foo"),
-}
-
-bodyAllocations1 := models.CreateAllocation{
-    Quantity:                 float64(5),
-    ComponentId:              models.ToPointer(456),
-    Memo:                     models.ToPointer("bar"),
-}
-
-bodyAllocations := []models.CreateAllocation{bodyAllocations0, bodyAllocations1}
 body := models.AllocateComponents{
     ProrationUpgradeScheme:   models.ToPointer("prorate-attempt-capture"),
     ProrationDowngradeScheme: models.ToPointer("no-prorate"),
-    Allocations:              bodyAllocations,
+    Allocations:              []models.CreateAllocation{
+        models.CreateAllocation{
+            Quantity:                 float64(10),
+            ComponentId:              models.ToPointer(123),
+            Memo:                     models.ToPointer("foo"),
+        },
+        models.CreateAllocation{
+            Quantity:                 float64(5),
+            ComponentId:              models.ToPointer(456),
+            Memo:                     models.ToPointer("bar"),
+        },
+    },
 }
 
 apiResponse, err := subscriptionComponentsController.AllocateComponents(ctx, subscriptionId, &body)
@@ -825,27 +830,21 @@ PreviewAllocations(
 
 ```go
 ctx := context.Background()
+
 subscriptionId := 222
 
-bodyEffectiveProrationDate, err := time.Parse(models.DEFAULT_DATE, "2023-11-01")
-if err != nil {
-    log.Fatalln(err)
-}
-bodyAllocations0PricePointId := models.CreateAllocationPricePointIdContainer.FromNumber(325826)
-
-bodyAllocations0 := models.CreateAllocation{
-    Quantity:                 float64(10),
-    ComponentId:              models.ToPointer(554108),
-    Memo:                     models.ToPointer("NOW"),
-    ProrationDowngradeScheme: models.ToPointer("prorate"),
-    ProrationUpgradeScheme:   models.ToPointer("prorate-attempt-capture"),
-    PricePointId:             models.NewOptional(models.ToPointer(bodyAllocations0PricePointId)),
-}
-
-bodyAllocations := []models.CreateAllocation{bodyAllocations0}
 body := models.PreviewAllocationsRequest{
-    EffectiveProrationDate: models.ToPointer(bodyEffectiveProrationDate),
-    Allocations:            bodyAllocations,
+    Allocations:            []models.CreateAllocation{
+        models.CreateAllocation{
+            Quantity:                 float64(10),
+            ComponentId:              models.ToPointer(554108),
+            Memo:                     models.ToPointer("NOW"),
+            ProrationDowngradeScheme: models.ToPointer("prorate"),
+            ProrationUpgradeScheme:   models.ToPointer("prorate-attempt-capture"),
+            PricePointId:             models.NewOptional(models.ToPointer(models.CreateAllocationPricePointIdContainer.FromNumber(325826))),
+        },
+    },
+    EffectiveProrationDate: models.ToPointer(parseTime(models.DEFAULT_DATE, "2023-11-01", func(err error) { log.Fatalln(err) })),
 }
 
 apiResponse, err := subscriptionComponentsController.PreviewAllocations(ctx, subscriptionId, &body)
@@ -1010,20 +1009,17 @@ UpdatePrepaidUsageAllocationExpirationDate(
 
 ```go
 ctx := context.Background()
+
 subscriptionId := 222
+
 componentId := 222
+
 allocationId := 24
 
-bodyAllocationExpiresAt, err := time.Parse(time.RFC3339, "2021-05-05T16:00:00")
-if err != nil {
-    log.Fatalln(err)
-}
-bodyAllocation := models.AllocationExpirationDate{
-    ExpiresAt: models.ToPointer(bodyAllocationExpiresAt),
-}
-
 body := models.UpdateAllocationExpirationDate{
-    Allocation: models.ToPointer(bodyAllocation),
+    Allocation: models.ToPointer(models.AllocationExpirationDate{
+        ExpiresAt: models.ToPointer(parseTime(time.RFC3339, "2021-05-05T16:00:00", func(err error) { log.Fatalln(err) })),
+    }),
 }
 
 resp, err := subscriptionComponentsController.UpdatePrepaidUsageAllocationExpirationDate(ctx, subscriptionId, componentId, allocationId, &body)
@@ -1082,8 +1078,11 @@ DeletePrepaidUsageAllocation(
 
 ```go
 ctx := context.Background()
+
 subscriptionId := 222
+
 componentId := 222
+
 allocationId := 24
 
 body := models.CreditSchemeRequest{
@@ -1191,18 +1190,17 @@ CreateUsage(
 
 ```go
 ctx := context.Background()
+
 subscriptionId := 222
 
 componentId := models.CreateUsageComponentIdContainer.FromNumber(144)
 
-bodyUsage := models.CreateUsage{
-    Quantity:        models.ToPointer(float64(1000)),
-    PricePointId:    models.ToPointer("149416"),
-    Memo:            models.ToPointer("My memo"),
-}
-
 body := models.CreateUsageRequest{
-    Usage: bodyUsage,
+    Usage: models.CreateUsage{
+        Quantity:        models.ToPointer(float64(1000)),
+        PricePointId:    models.ToPointer("149416"),
+        Memo:            models.ToPointer("My memo"),
+    },
 }
 
 apiResponse, err := subscriptionComponentsController.CreateUsage(ctx, subscriptionId, componentId, &body)
@@ -1287,13 +1285,11 @@ ListUsages(
 ```go
 ctx := context.Background()
 
-collectedInputComponentId := models.ListUsagesInputComponentIdContainer.FromNumber(144)
-
 collectedInput := advancedbilling.ListUsagesInput{
     SubscriptionId: 222,
+    ComponentId:    models.ListUsagesInputComponentIdContainer.FromNumber(144),
     Page:           models.ToPointer(2),
     PerPage:        models.ToPointer(50),
-    ComponentId:    collectedInputComponentId,
 }
 
 apiResponse, err := subscriptionComponentsController.ListUsages(ctx, collectedInput)
@@ -1372,7 +1368,9 @@ ActivateEventBasedComponent(
 
 ```go
 ctx := context.Background()
+
 subscriptionId := 222
+
 componentId := 222
 
 resp, err := subscriptionComponentsController.ActivateEventBasedComponent(ctx, subscriptionId, componentId)
@@ -1412,7 +1410,9 @@ DeactivateEventBasedComponent(
 
 ```go
 ctx := context.Background()
+
 subscriptionId := 222
+
 componentId := 222
 
 resp, err := subscriptionComponentsController.DeactivateEventBasedComponent(ctx, subscriptionId, componentId)
@@ -1474,20 +1474,18 @@ RecordEvent(
 
 ```go
 ctx := context.Background()
+
 subdomain := "subdomain4"
+
 apiHandle := "api_handle6"
 
-bodyChargifyTimestamp, err := time.Parse(time.RFC3339, "2020-02-27T17:45:50-05:00")
-if err != nil {
-    log.Fatalln(err)
-}
-bodyChargify := models.ChargifyEBB{
-    SubscriptionId:        models.ToPointer(1),
-    Timestamp:             models.ToPointer(bodyChargifyTimestamp),
-}
+
 
 body := models.EBBEvent{
-    Chargify: models.ToPointer(bodyChargify),
+    Chargify: models.ToPointer(models.ChargifyEBB{
+        Timestamp:             models.ToPointer(parseTime(time.RFC3339, "2020-02-27T17:45:50-05:00", func(err error) { log.Fatalln(err) })),
+        SubscriptionId:        models.ToPointer(1),
+    }),
 }
 
 resp, err := subscriptionComponentsController.RecordEvent(ctx, subdomain, apiHandle, nil, &body)
@@ -1535,22 +1533,21 @@ BulkRecordEvents(
 
 ```go
 ctx := context.Background()
+
 subdomain := "subdomain4"
+
 apiHandle := "api_handle6"
 
-body0ChargifyTimestamp, err := time.Parse(time.RFC3339, "2020-02-27T17:45:50-05:00")
-if err != nil {
-    log.Fatalln(err)
-}
-body0Chargify := models.ChargifyEBB{
-    SubscriptionId:        models.ToPointer(1),
-    Timestamp:             models.ToPointer(body0ChargifyTimestamp),
-}
 
-body0 := models.EBBEvent{
-    Chargify: models.ToPointer(body0Chargify),
+
+body := []models.EBBEvent{
+    models.EBBEvent{
+        Chargify: models.ToPointer(models.ChargifyEBB{
+            Timestamp:             models.ToPointer(parseTime(time.RFC3339, "2020-02-27T17:45:50-05:00", func(err error) { log.Fatalln(err) })),
+            SubscriptionId:        models.ToPointer(1),
+        }),
+    },
 }
-body := []models.EBBEvent{body0}
 
 resp, err := subscriptionComponentsController.BulkRecordEvents(ctx, subdomain, apiHandle, nil, body)
 if err != nil {
@@ -1581,6 +1578,7 @@ ListSubscriptionComponentsForSite(
 | `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`. |
 | `sort` | [`*models.ListSubscriptionComponentsSort`](../../doc/models/list-subscription-components-sort.md) | Query, Optional | The attribute by which to sort. Use in query: `sort=updated_at`. |
 | `direction` | [`*models.SortingDirection`](../../doc/models/sorting-direction.md) | Query, Optional | Controls the order in which results are returned.<br>Use in query `direction=asc`. |
+| `filter` | [`*models.ListSubscriptionComponentsForSiteFilter`](../../doc/models/list-subscription-components-for-site-filter.md) | Query, Optional | Filter to use for List Subscription Components For Site operation |
 | `dateField` | [`*models.SubscriptionListDateField`](../../doc/models/subscription-list-date-field.md) | Query, Optional | The type of filter you'd like to apply to your search. Use in query: `date_field=updated_at`. |
 | `startDate` | `*string` | Query, Optional | The start date (format YYYY-MM-DD) with which to filter the date_field. Returns components with a timestamp at or after midnight (12:00:00 AM) in your site’s time zone on the date specified. Use in query `start_date=2011-12-15`. |
 | `startDatetime` | `*string` | Query, Optional | The start date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns components with a timestamp at or after exact time provided in query. You can specify timezone in query - otherwise your site''s time zone will be used. If provided, this parameter will be used instead of start_date. Use in query `start_datetime=2022-07-01 09:00:05`. |
@@ -1590,14 +1588,6 @@ ListSubscriptionComponentsForSite(
 | `pricePointIds` | [`*models.IncludeNotNull`](../../doc/models/include-not-null.md) | Query, Optional | Allows fetching components allocation only if price point id is present. Use in query `price_point_ids=not_null`. |
 | `productFamilyIds` | `[]int` | Query, Optional | Allows fetching components allocation with matching product family id based on provided ids. Use in query `product_family_ids=1,2,3`. |
 | `include` | [`*models.ListSubscriptionComponentsInclude`](../../doc/models/list-subscription-components-include.md) | Query, Optional | Allows including additional data in the response. Use in query `include=subscription`. |
-| `filterUseSiteExchangeRate` | `*bool` | Query, Optional | Allows fetching components allocation with matching use_site_exchange_rate based on provided value. Use in query `filter[use_site_exchange_rate]=true`. |
-| `filterCurrencies` | `[]string` | Query, Optional | Allows fetching components allocation with matching currency based on provided values. Use in query `filter[currencies]=USD,EUR`. |
-| `filterSubscriptionStates` | [`[]models.SubscriptionStateFilter`](../../doc/models/subscription-state-filter.md) | Query, Optional | Allows fetching components allocations that belong to the subscription with matching states based on provided values. To use this filter you also have to include the following param in the request `include=subscription`. Use in query `filter[subscription][states]=active,canceled&include=subscription`. |
-| `filterSubscriptionDateField` | [`*models.SubscriptionListDateField`](../../doc/models/subscription-list-date-field.md) | Query, Optional | The type of filter you'd like to apply to your search. To use this filter you also have to include the following param in the request `include=subscription`. |
-| `filterSubscriptionStartDate` | `*time.Time` | Query, Optional | The start date (format YYYY-MM-DD) with which to filter the date_field. Returns components that belong to the subscription with a timestamp at or after midnight (12:00:00 AM) in your site’s time zone on the date specified. To use this filter you also have to include the following param in the request `include=subscription`. |
-| `filterSubscriptionStartDatetime` | `*time.Time` | Query, Optional | The start date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns components that belong to the subscription with a timestamp at or after exact time provided in query. You can specify timezone in query - otherwise your site''s time zone will be used. If provided, this parameter will be used instead of start_date. To use this filter you also have to include the following param in the request `include=subscription`. |
-| `filterSubscriptionEndDate` | `*time.Time` | Query, Optional | The end date (format YYYY-MM-DD) with which to filter the date_field. Returns components that belong to the subscription with a timestamp up to and including 11:59:59PM in your site’s time zone on the date specified. To use this filter you also have to include the following param in the request `include=subscription`. |
-| `filterSubscriptionEndDatetime` | `*time.Time` | Query, Optional | The end date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns components that belong to the subscription with a timestamp at or before exact time provided in query. You can specify timezone in query - otherwise your site''s time zone will be used. If provided, this parameter will be used instead of end_date. To use this filter you also have to include the following param in the request `include=subscription`. |
 
 ## Response Type
 
@@ -1607,17 +1597,31 @@ ListSubscriptionComponentsForSite(
 
 ```go
 ctx := context.Background()
-Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')
+
 collectedInput := advancedbilling.ListSubscriptionComponentsForSiteInput{
-    Page:                            models.ToPointer(2),
-    PerPage:                         models.ToPointer(50),
-    Sort:                            models.ToPointer(models.ListSubscriptionComponentsSort("updated_at")),
-    DateField:                       models.ToPointer(models.SubscriptionListDateField("updated_at")),
-    SubscriptionIds:                 []int{1, 2, 3},
-    PricePointIds:                   models.ToPointer(models.IncludeNotNull("not_null")),
-    ProductFamilyIds:                []int{1, 2, 3},
-    Include:                         models.ToPointer(models.ListSubscriptionComponentsInclude("subscription")),
-Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')}
+    Page:             models.ToPointer(2),
+    PerPage:          models.ToPointer(50),
+    Sort:             models.ToPointer(models.ListSubscriptionComponentsSort("updated_at")),
+    Filter:           models.ToPointer(models.ListSubscriptionComponentsForSiteFilter{
+        Currencies:          []string{
+            "EUR",
+            "USD",
+        },
+    }),
+    DateField:        models.ToPointer(models.SubscriptionListDateField("updated_at")),
+    SubscriptionIds:  []int{
+        1,
+        2,
+        3,
+    },
+    PricePointIds:    models.ToPointer(models.IncludeNotNull("not_null")),
+    ProductFamilyIds: []int{
+        1,
+        2,
+        3,
+    },
+    Include:          models.ToPointer(models.ListSubscriptionComponentsInclude("subscription")),
+}
 
 apiResponse, err := subscriptionComponentsController.ListSubscriptionComponentsForSite(ctx, collectedInput)
 if err != nil {

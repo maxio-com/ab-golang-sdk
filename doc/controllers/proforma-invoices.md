@@ -53,6 +53,7 @@ CreateConsolidatedProformaInvoice(
 
 ```go
 ctx := context.Background()
+
 uid := "uid0"
 
 resp, err := proformaInvoicesController.CreateConsolidatedProformaInvoice(ctx, uid)
@@ -107,6 +108,12 @@ ctx := context.Background()
 
 collectedInput := advancedbilling.ListSubscriptionGroupProformaInvoicesInput{
     Uid:          "uid0",
+    LineItems:    models.ToPointer(false),
+    Discounts:    models.ToPointer(false),
+    Taxes:        models.ToPointer(false),
+    Credits:      models.ToPointer(false),
+    Payments:     models.ToPointer(false),
+    CustomFields: models.ToPointer(false),
 }
 
 apiResponse, err := proformaInvoicesController.ListSubscriptionGroupProformaInvoices(ctx, collectedInput)
@@ -156,6 +163,7 @@ ReadProformaInvoice(
 
 ```go
 ctx := context.Background()
+
 proformaInvoiceUid := "proforma_invoice_uid4"
 
 apiResponse, err := proformaInvoicesController.ReadProformaInvoice(ctx, proformaInvoiceUid)
@@ -207,6 +215,7 @@ CreateProformaInvoice(
 
 ```go
 ctx := context.Background()
+
 subscriptionId := 222
 
 apiResponse, err := proformaInvoicesController.CreateProformaInvoice(ctx, subscriptionId)
@@ -270,6 +279,12 @@ collectedInput := advancedbilling.ListProformaInvoicesInput{
     Page:           models.ToPointer(2),
     PerPage:        models.ToPointer(50),
     Direction:      models.ToPointer(models.Direction("desc")),
+    LineItems:      models.ToPointer(false),
+    Discounts:      models.ToPointer(false),
+    Taxes:          models.ToPointer(false),
+    Credits:        models.ToPointer(false),
+    Payments:       models.ToPointer(false),
+    CustomFields:   models.ToPointer(false),
 }
 
 apiResponse, err := proformaInvoicesController.ListProformaInvoices(ctx, collectedInput)
@@ -319,7 +334,10 @@ VoidProformaInvoice(
 
 ```go
 ctx := context.Background()
+
 proformaInvoiceUid := "proforma_invoice_uid4"
+
+
 
 apiResponse, err := proformaInvoicesController.VoidProformaInvoice(ctx, proformaInvoiceUid, nil)
 if err != nil {
@@ -371,6 +389,7 @@ PreviewProformaInvoice(
 
 ```go
 ctx := context.Background()
+
 subscriptionId := 222
 
 apiResponse, err := proformaInvoicesController.PreviewProformaInvoice(ctx, subscriptionId)
@@ -424,19 +443,15 @@ CreateSignupProformaInvoice(
 ```go
 ctx := context.Background()
 
-bodySubscriptionCustomerAttributes := models.CustomerAttributes{
-    FirstName:    models.ToPointer("Myra"),
-    LastName:     models.ToPointer("Maisel"),
-    Email:        models.ToPointer("mmaisel@example.com"),
-}
-
-bodySubscription := models.CreateSubscription{
-    ProductHandle:                     models.ToPointer("gold-product"),
-    CustomerAttributes:                models.ToPointer(bodySubscriptionCustomerAttributes),
-}
-
 body := models.CreateSubscriptionRequest{
-    Subscription: bodySubscription,
+    Subscription: models.CreateSubscription{
+        ProductHandle:                     models.ToPointer("gold-product"),
+        CustomerAttributes:                models.ToPointer(models.CustomerAttributes{
+            FirstName:    models.ToPointer("Myra"),
+            LastName:     models.ToPointer("Maisel"),
+            Email:        models.ToPointer("mmaisel@example.com"),
+        }),
+    },
 }
 
 apiResponse, err := proformaInvoicesController.CreateSignupProformaInvoice(ctx, &body)
@@ -492,19 +507,17 @@ PreviewSignupProformaInvoice(
 ```go
 ctx := context.Background()
 
-bodySubscriptionCustomerAttributes := models.CustomerAttributes{
-    FirstName:    models.ToPointer("first"),
-    LastName:     models.ToPointer("last"),
-    Email:        models.ToPointer("flast@example.com"),
-}
 
-bodySubscription := models.CreateSubscription{
-    ProductHandle:                     models.ToPointer("gold-plan"),
-    CustomerAttributes:                models.ToPointer(bodySubscriptionCustomerAttributes),
-}
 
 body := models.CreateSubscriptionRequest{
-    Subscription: bodySubscription,
+    Subscription: models.CreateSubscription{
+        ProductHandle:                     models.ToPointer("gold-plan"),
+        CustomerAttributes:                models.ToPointer(models.CustomerAttributes{
+            FirstName:    models.ToPointer("first"),
+            LastName:     models.ToPointer("last"),
+            Email:        models.ToPointer("flast@example.com"),
+        }),
+    },
 }
 
 apiResponse, err := proformaInvoicesController.PreviewSignupProformaInvoice(ctx, nil, &body)

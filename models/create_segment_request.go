@@ -1,60 +1,67 @@
 package models
 
 import (
-	"encoding/json"
-	"errors"
-	"strings"
+    "encoding/json"
+    "errors"
+    "strings"
 )
 
 // CreateSegmentRequest represents a CreateSegmentRequest struct.
 type CreateSegmentRequest struct {
-	Segment CreateSegment `json:"segment"`
+    Segment              CreateSegment  `json:"segment"`
+    AdditionalProperties map[string]any `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreateSegmentRequest.
 // It customizes the JSON marshaling process for CreateSegmentRequest objects.
-func (c *CreateSegmentRequest) MarshalJSON() (
-	[]byte,
-	error) {
-	return json.Marshal(c.toMap())
+func (c CreateSegmentRequest) MarshalJSON() (
+    []byte,
+    error) {
+    return json.Marshal(c.toMap())
 }
 
 // toMap converts the CreateSegmentRequest object to a map representation for JSON marshaling.
-func (c *CreateSegmentRequest) toMap() map[string]any {
-	structMap := make(map[string]any)
-	structMap["segment"] = c.Segment.toMap()
-	return structMap
+func (c CreateSegmentRequest) toMap() map[string]any {
+    structMap := make(map[string]any)
+    MapAdditionalProperties(structMap, c.AdditionalProperties)
+    structMap["segment"] = c.Segment.toMap()
+    return structMap
 }
 
 // UnmarshalJSON implements the json.Unmarshaler interface for CreateSegmentRequest.
 // It customizes the JSON unmarshaling process for CreateSegmentRequest objects.
 func (c *CreateSegmentRequest) UnmarshalJSON(input []byte) error {
-	var temp createSegmentRequest
-	err := json.Unmarshal(input, &temp)
-	if err != nil {
-		return err
-	}
-	err = temp.validate()
-	if err != nil {
-		return err
-	}
-
-	c.Segment = *temp.Segment
-	return nil
+    var temp createSegmentRequest
+    err := json.Unmarshal(input, &temp)
+    if err != nil {
+    	return err
+    }
+    err = temp.validate()
+    if err != nil {
+    	return err
+    }
+    additionalProperties, err := UnmarshalAdditionalProperties(input, "segment")
+    if err != nil {
+    	return err
+    }
+    
+    c.AdditionalProperties = additionalProperties
+    c.Segment = *temp.Segment
+    return nil
 }
 
 // TODO
-type createSegmentRequest struct {
-	Segment *CreateSegment `json:"segment"`
+type createSegmentRequest  struct {
+    Segment *CreateSegment `json:"segment"`
 }
 
 func (c *createSegmentRequest) validate() error {
-	var errs []string
-	if c.Segment == nil {
-		errs = append(errs, "required field `segment` is missing for type `Create Segment Request`")
-	}
-	if len(errs) == 0 {
-		return nil
-	}
-	return errors.New(strings.Join(errs, "\n"))
+    var errs []string
+    if c.Segment == nil {
+        errs = append(errs, "required field `segment` is missing for type `Create Segment Request`")
+    }
+    if len(errs) == 0 {
+        return nil
+    }
+    return errors.New(strings.Join(errs, "\n"))
 }

@@ -117,7 +117,10 @@ collectedInput := advancedbilling.ListEventsInput{
     Page:          models.ToPointer(2),
     PerPage:       models.ToPointer(50),
     Direction:     models.ToPointer(models.Direction("desc")),
-    Filter:        []models.EventType{models.EventType("custom_field_value_change"), models.EventType("payment_success")},
+    Filter:        []models.EventType{
+        models.EventType("custom_field_value_change"),
+        models.EventType("payment_success"),
+    },
     DateField:     models.ToPointer(models.ListEventsDateField("created_at")),
 }
 
@@ -234,7 +237,10 @@ collectedInput := advancedbilling.ListSubscriptionEventsInput{
     Page:           models.ToPointer(2),
     PerPage:        models.ToPointer(50),
     Direction:      models.ToPointer(models.Direction("desc")),
-    Filter:         []models.EventType{models.EventType("custom_field_value_change"), models.EventType("payment_success")},
+    Filter:         []models.EventType{
+        models.EventType("custom_field_value_change"),
+        models.EventType("payment_success"),
+    },
 }
 
 apiResponse, err := eventsController.ListSubscriptionEvents(ctx, collectedInput)
@@ -327,7 +333,10 @@ collectedInput := advancedbilling.ReadEventsCountInput{
     Page:      models.ToPointer(2),
     PerPage:   models.ToPointer(50),
     Direction: models.ToPointer(models.Direction("desc")),
-    Filter:    []models.EventType{models.EventType("custom_field_value_change"), models.EventType("payment_success")},
+    Filter:    []models.EventType{
+        models.EventType("custom_field_value_change"),
+        models.EventType("payment_success"),
+    },
 }
 
 apiResponse, err := eventsController.ReadEventsCount(ctx, collectedInput)

@@ -290,10 +290,17 @@ ReadSalesRep(
 
 ```go
 ctx := context.Background()
+
 sellerId := "seller_id8"
+
 salesRepId := "sales_rep_id4"
+
 authorization := "Bearer <<apiKey>>"
+
+
+
 page := 2
+
 perPage := 100
 
 apiResponse, err := salesCommissionsController.ReadSalesRep(ctx, sellerId, salesRepId, &authorization, nil, &page, &perPage)

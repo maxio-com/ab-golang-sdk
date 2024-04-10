@@ -1,95 +1,102 @@
 package models
 
 import (
-	"encoding/json"
-	"errors"
-	"strings"
+    "encoding/json"
+    "errors"
+    "strings"
 )
 
 // MeteredUsage represents a MeteredUsage struct.
 type MeteredUsage struct {
-	PreviousUnitBalance string `json:"previous_unit_balance"`
-	NewUnitBalance      int    `json:"new_unit_balance"`
-	UsageQuantity       int    `json:"usage_quantity"`
-	ComponentId         int    `json:"component_id"`
-	ComponentHandle     string `json:"component_handle"`
-	Memo                string `json:"memo"`
+    PreviousUnitBalance  string         `json:"previous_unit_balance"`
+    NewUnitBalance       int            `json:"new_unit_balance"`
+    UsageQuantity        int            `json:"usage_quantity"`
+    ComponentId          int            `json:"component_id"`
+    ComponentHandle      string         `json:"component_handle"`
+    Memo                 string         `json:"memo"`
+    AdditionalProperties map[string]any `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for MeteredUsage.
 // It customizes the JSON marshaling process for MeteredUsage objects.
-func (m *MeteredUsage) MarshalJSON() (
-	[]byte,
-	error) {
-	return json.Marshal(m.toMap())
+func (m MeteredUsage) MarshalJSON() (
+    []byte,
+    error) {
+    return json.Marshal(m.toMap())
 }
 
 // toMap converts the MeteredUsage object to a map representation for JSON marshaling.
-func (m *MeteredUsage) toMap() map[string]any {
-	structMap := make(map[string]any)
-	structMap["previous_unit_balance"] = m.PreviousUnitBalance
-	structMap["new_unit_balance"] = m.NewUnitBalance
-	structMap["usage_quantity"] = m.UsageQuantity
-	structMap["component_id"] = m.ComponentId
-	structMap["component_handle"] = m.ComponentHandle
-	structMap["memo"] = m.Memo
-	return structMap
+func (m MeteredUsage) toMap() map[string]any {
+    structMap := make(map[string]any)
+    MapAdditionalProperties(structMap, m.AdditionalProperties)
+    structMap["previous_unit_balance"] = m.PreviousUnitBalance
+    structMap["new_unit_balance"] = m.NewUnitBalance
+    structMap["usage_quantity"] = m.UsageQuantity
+    structMap["component_id"] = m.ComponentId
+    structMap["component_handle"] = m.ComponentHandle
+    structMap["memo"] = m.Memo
+    return structMap
 }
 
 // UnmarshalJSON implements the json.Unmarshaler interface for MeteredUsage.
 // It customizes the JSON unmarshaling process for MeteredUsage objects.
 func (m *MeteredUsage) UnmarshalJSON(input []byte) error {
-	var temp meteredUsage
-	err := json.Unmarshal(input, &temp)
-	if err != nil {
-		return err
-	}
-	err = temp.validate()
-	if err != nil {
-		return err
-	}
-
-	m.PreviousUnitBalance = *temp.PreviousUnitBalance
-	m.NewUnitBalance = *temp.NewUnitBalance
-	m.UsageQuantity = *temp.UsageQuantity
-	m.ComponentId = *temp.ComponentId
-	m.ComponentHandle = *temp.ComponentHandle
-	m.Memo = *temp.Memo
-	return nil
+    var temp meteredUsage
+    err := json.Unmarshal(input, &temp)
+    if err != nil {
+    	return err
+    }
+    err = temp.validate()
+    if err != nil {
+    	return err
+    }
+    additionalProperties, err := UnmarshalAdditionalProperties(input, "previous_unit_balance", "new_unit_balance", "usage_quantity", "component_id", "component_handle", "memo")
+    if err != nil {
+    	return err
+    }
+    
+    m.AdditionalProperties = additionalProperties
+    m.PreviousUnitBalance = *temp.PreviousUnitBalance
+    m.NewUnitBalance = *temp.NewUnitBalance
+    m.UsageQuantity = *temp.UsageQuantity
+    m.ComponentId = *temp.ComponentId
+    m.ComponentHandle = *temp.ComponentHandle
+    m.Memo = *temp.Memo
+    return nil
 }
 
 // TODO
-type meteredUsage struct {
-	PreviousUnitBalance *string `json:"previous_unit_balance"`
-	NewUnitBalance      *int    `json:"new_unit_balance"`
-	UsageQuantity       *int    `json:"usage_quantity"`
-	ComponentId         *int    `json:"component_id"`
-	ComponentHandle     *string `json:"component_handle"`
-	Memo                *string `json:"memo"`
+type meteredUsage  struct {
+    PreviousUnitBalance *string `json:"previous_unit_balance"`
+    NewUnitBalance      *int    `json:"new_unit_balance"`
+    UsageQuantity       *int    `json:"usage_quantity"`
+    ComponentId         *int    `json:"component_id"`
+    ComponentHandle     *string `json:"component_handle"`
+    Memo                *string `json:"memo"`
 }
 
 func (m *meteredUsage) validate() error {
-	var errs []string
-	if m.PreviousUnitBalance == nil {
-		errs = append(errs, "required field `previous_unit_balance` is missing for type `Metered Usage`")
-	}
-	if m.NewUnitBalance == nil {
-		errs = append(errs, "required field `new_unit_balance` is missing for type `Metered Usage`")
-	}
-	if m.UsageQuantity == nil {
-		errs = append(errs, "required field `usage_quantity` is missing for type `Metered Usage`")
-	}
-	if m.ComponentId == nil {
-		errs = append(errs, "required field `component_id` is missing for type `Metered Usage`")
-	}
-	if m.ComponentHandle == nil {
-		errs = append(errs, "required field `component_handle` is missing for type `Metered Usage`")
-	}
-	if m.Memo == nil {
-		errs = append(errs, "required field `memo` is missing for type `Metered Usage`")
-	}
-	if len(errs) == 0 {
-		return nil
-	}
-	return errors.New(strings.Join(errs, "\n"))
+    var errs []string
+    if m.PreviousUnitBalance == nil {
+        errs = append(errs, "required field `previous_unit_balance` is missing for type `Metered Usage`")
+    }
+    if m.NewUnitBalance == nil {
+        errs = append(errs, "required field `new_unit_balance` is missing for type `Metered Usage`")
+    }
+    if m.UsageQuantity == nil {
+        errs = append(errs, "required field `usage_quantity` is missing for type `Metered Usage`")
+    }
+    if m.ComponentId == nil {
+        errs = append(errs, "required field `component_id` is missing for type `Metered Usage`")
+    }
+    if m.ComponentHandle == nil {
+        errs = append(errs, "required field `component_handle` is missing for type `Metered Usage`")
+    }
+    if m.Memo == nil {
+        errs = append(errs, "required field `memo` is missing for type `Metered Usage`")
+    }
+    if len(errs) == 0 {
+        return nil
+    }
+    return errors.New(strings.Join(errs, "\n"))
 }

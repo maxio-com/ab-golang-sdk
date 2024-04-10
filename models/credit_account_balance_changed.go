@@ -1,94 +1,101 @@
 package models
 
 import (
-	"encoding/json"
-	"errors"
-	"log"
-	"strings"
-	"time"
+    "encoding/json"
+    "errors"
+    "log"
+    "strings"
+    "time"
 )
 
 // CreditAccountBalanceChanged represents a CreditAccountBalanceChanged struct.
 type CreditAccountBalanceChanged struct {
-	Reason                             string    `json:"reason"`
-	ServiceCreditAccountBalanceInCents int64     `json:"service_credit_account_balance_in_cents"`
-	ServiceCreditBalanceChangeInCents  int64     `json:"service_credit_balance_change_in_cents"`
-	CurrencyCode                       string    `json:"currency_code"`
-	AtTime                             time.Time `json:"at_time"`
+    Reason                             string         `json:"reason"`
+    ServiceCreditAccountBalanceInCents int64          `json:"service_credit_account_balance_in_cents"`
+    ServiceCreditBalanceChangeInCents  int64          `json:"service_credit_balance_change_in_cents"`
+    CurrencyCode                       string         `json:"currency_code"`
+    AtTime                             time.Time      `json:"at_time"`
+    AdditionalProperties               map[string]any `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreditAccountBalanceChanged.
 // It customizes the JSON marshaling process for CreditAccountBalanceChanged objects.
-func (c *CreditAccountBalanceChanged) MarshalJSON() (
-	[]byte,
-	error) {
-	return json.Marshal(c.toMap())
+func (c CreditAccountBalanceChanged) MarshalJSON() (
+    []byte,
+    error) {
+    return json.Marshal(c.toMap())
 }
 
 // toMap converts the CreditAccountBalanceChanged object to a map representation for JSON marshaling.
-func (c *CreditAccountBalanceChanged) toMap() map[string]any {
-	structMap := make(map[string]any)
-	structMap["reason"] = c.Reason
-	structMap["service_credit_account_balance_in_cents"] = c.ServiceCreditAccountBalanceInCents
-	structMap["service_credit_balance_change_in_cents"] = c.ServiceCreditBalanceChangeInCents
-	structMap["currency_code"] = c.CurrencyCode
-	structMap["at_time"] = c.AtTime.Format(time.RFC3339)
-	return structMap
+func (c CreditAccountBalanceChanged) toMap() map[string]any {
+    structMap := make(map[string]any)
+    MapAdditionalProperties(structMap, c.AdditionalProperties)
+    structMap["reason"] = c.Reason
+    structMap["service_credit_account_balance_in_cents"] = c.ServiceCreditAccountBalanceInCents
+    structMap["service_credit_balance_change_in_cents"] = c.ServiceCreditBalanceChangeInCents
+    structMap["currency_code"] = c.CurrencyCode
+    structMap["at_time"] = c.AtTime.Format(time.RFC3339)
+    return structMap
 }
 
 // UnmarshalJSON implements the json.Unmarshaler interface for CreditAccountBalanceChanged.
 // It customizes the JSON unmarshaling process for CreditAccountBalanceChanged objects.
 func (c *CreditAccountBalanceChanged) UnmarshalJSON(input []byte) error {
-	var temp creditAccountBalanceChanged
-	err := json.Unmarshal(input, &temp)
-	if err != nil {
-		return err
-	}
-	err = temp.validate()
-	if err != nil {
-		return err
-	}
-
-	c.Reason = *temp.Reason
-	c.ServiceCreditAccountBalanceInCents = *temp.ServiceCreditAccountBalanceInCents
-	c.ServiceCreditBalanceChangeInCents = *temp.ServiceCreditBalanceChangeInCents
-	c.CurrencyCode = *temp.CurrencyCode
-	AtTimeVal, err := time.Parse(time.RFC3339, *temp.AtTime)
-	if err != nil {
-		log.Fatalf("Cannot Parse at_time as % s format.", time.RFC3339)
-	}
-	c.AtTime = AtTimeVal
-	return nil
+    var temp creditAccountBalanceChanged
+    err := json.Unmarshal(input, &temp)
+    if err != nil {
+    	return err
+    }
+    err = temp.validate()
+    if err != nil {
+    	return err
+    }
+    additionalProperties, err := UnmarshalAdditionalProperties(input, "reason", "service_credit_account_balance_in_cents", "service_credit_balance_change_in_cents", "currency_code", "at_time")
+    if err != nil {
+    	return err
+    }
+    
+    c.AdditionalProperties = additionalProperties
+    c.Reason = *temp.Reason
+    c.ServiceCreditAccountBalanceInCents = *temp.ServiceCreditAccountBalanceInCents
+    c.ServiceCreditBalanceChangeInCents = *temp.ServiceCreditBalanceChangeInCents
+    c.CurrencyCode = *temp.CurrencyCode
+    AtTimeVal, err := time.Parse(time.RFC3339, *temp.AtTime)
+    if err != nil {
+        log.Fatalf("Cannot Parse at_time as % s format.", time.RFC3339)
+    }
+    c.AtTime = AtTimeVal
+    return nil
 }
 
 // TODO
-type creditAccountBalanceChanged struct {
-	Reason                             *string `json:"reason"`
-	ServiceCreditAccountBalanceInCents *int64  `json:"service_credit_account_balance_in_cents"`
-	ServiceCreditBalanceChangeInCents  *int64  `json:"service_credit_balance_change_in_cents"`
-	CurrencyCode                       *string `json:"currency_code"`
-	AtTime                             *string `json:"at_time"`
+type creditAccountBalanceChanged  struct {
+    Reason                             *string `json:"reason"`
+    ServiceCreditAccountBalanceInCents *int64  `json:"service_credit_account_balance_in_cents"`
+    ServiceCreditBalanceChangeInCents  *int64  `json:"service_credit_balance_change_in_cents"`
+    CurrencyCode                       *string `json:"currency_code"`
+    AtTime                             *string `json:"at_time"`
 }
 
 func (c *creditAccountBalanceChanged) validate() error {
-	var errs []string
-	if c.Reason == nil {
-		errs = append(errs, "required field `reason` is missing for type `Credit Account Balance Changed`")
-	}
-	if c.ServiceCreditAccountBalanceInCents == nil {
-		errs = append(errs, "required field `service_credit_account_balance_in_cents` is missing for type `Credit Account Balance Changed`")
-	}
-	if c.ServiceCreditBalanceChangeInCents == nil {
-		errs = append(errs, "required field `service_credit_balance_change_in_cents` is missing for type `Credit Account Balance Changed`")
-	}
-	if c.CurrencyCode == nil {
-		errs = append(errs, "required field `currency_code` is missing for type `Credit Account Balance Changed`")
-	}
-	if c.AtTime == nil {
-		errs = append(errs, "required field `at_time` is missing for type `Credit Account Balance Changed`")
-	}
-	if len(errs) == 0 {
-		return nil
-	}
-	return errors.New(strings.Join(errs, "\n"))
+    var errs []string
+    if c.Reason == nil {
+        errs = append(errs, "required field `reason` is missing for type `Credit Account Balance Changed`")
+    }
+    if c.ServiceCreditAccountBalanceInCents == nil {
+        errs = append(errs, "required field `service_credit_account_balance_in_cents` is missing for type `Credit Account Balance Changed`")
+    }
+    if c.ServiceCreditBalanceChangeInCents == nil {
+        errs = append(errs, "required field `service_credit_balance_change_in_cents` is missing for type `Credit Account Balance Changed`")
+    }
+    if c.CurrencyCode == nil {
+        errs = append(errs, "required field `currency_code` is missing for type `Credit Account Balance Changed`")
+    }
+    if c.AtTime == nil {
+        errs = append(errs, "required field `at_time` is missing for type `Credit Account Balance Changed`")
+    }
+    if len(errs) == 0 {
+        return nil
+    }
+    return errors.New(strings.Join(errs, "\n"))
 }

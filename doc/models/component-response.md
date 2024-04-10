@@ -20,7 +20,7 @@
     "id": 80,
     "name": "name8",
     "handle": "handle4",
-    "pricing_scheme": "tiered",
+    "pricing_scheme": "per_unit",
     "unit_name": "unit_name0"
   }
 }

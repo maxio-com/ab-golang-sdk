@@ -58,14 +58,12 @@ CreateReasonCode(
 ```go
 ctx := context.Background()
 
-bodyReasonCode := models.CreateReasonCode{
-    Code:        "NOTHANKYOU",
-    Description: "No thank you!",
-    Position:    models.ToPointer(5),
-}
-
 body := models.CreateReasonCodeRequest{
-    ReasonCode: bodyReasonCode,
+    ReasonCode: models.CreateReasonCode{
+        Code:        "NOTHANKYOU",
+        Description: "No thank you!",
+        Position:    models.ToPointer(5),
+    },
 }
 
 apiResponse, err := reasonCodesController.CreateReasonCode(ctx, &body)
@@ -195,6 +193,7 @@ ReadReasonCode(
 
 ```go
 ctx := context.Background()
+
 reasonCodeId := 32
 
 apiResponse, err := reasonCodesController.ReadReasonCode(ctx, reasonCodeId)
@@ -242,7 +241,10 @@ UpdateReasonCode(
 
 ```go
 ctx := context.Background()
+
 reasonCodeId := 32
+
+
 
 apiResponse, err := reasonCodesController.UpdateReasonCode(ctx, reasonCodeId, nil)
 if err != nil {
@@ -287,6 +289,7 @@ DeleteReasonCode(
 
 ```go
 ctx := context.Background()
+
 reasonCodeId := 32
 
 apiResponse, err := reasonCodesController.DeleteReasonCode(ctx, reasonCodeId)

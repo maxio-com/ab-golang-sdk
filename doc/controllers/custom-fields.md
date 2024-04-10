@@ -72,24 +72,22 @@ CreateMetafields(
 
 ```go
 ctx := context.Background()
+
 resourceType := models.ResourceType("subscriptions")
 
-bodyMetafieldsCreateMetafieldScope := models.MetafieldScope{
-    PublicShow: models.ToPointer(models.IncludeOption("1")),
-    PublicEdit: models.ToPointer(models.IncludeOption("1")),
-}
-
-bodyMetafieldsCreateMetafield := models.CreateMetafield{
-    Name:      models.ToPointer("Dropdown field"),
-    InputType: models.ToPointer(models.MetafieldInput("dropdown")),
-    Enum:      []string{"option 1", "option 2"},
-    Scope:     models.ToPointer(bodyMetafieldsCreateMetafieldScope),
-}
-
-bodyMetafields := models.CreateMetafieldsRequestMetafieldsContainer.FromCreateMetafield(bodyMetafieldsCreateMetafield)
-
 body := models.CreateMetafieldsRequest{
-    Metafields: bodyMetafields,
+    Metafields: models.CreateMetafieldsRequestMetafieldsContainer.FromCreateMetafield(models.CreateMetafield{
+        Name:      models.ToPointer("Dropdown field"),
+        Scope:     models.ToPointer(models.MetafieldScope{
+            PublicShow: models.ToPointer(models.IncludeOption("1")),
+            PublicEdit: models.ToPointer(models.IncludeOption("1")),
+        }),
+        InputType: models.ToPointer(models.MetafieldInput("dropdown")),
+        Enum:      []string{
+            "option 1",
+            "option 2",
+        },
+    }),
 }
 
 apiResponse, err := customFieldsController.CreateMetafields(ctx, resourceType, &body)
@@ -109,7 +107,6 @@ if err != nil {
   {
     "name": "Color",
     "scope": {
-      "hosted": [],
       "csv": "0",
       "statements": "0",
       "invoices": "0",
@@ -122,7 +119,6 @@ if err != nil {
   {
     "name": "Brand",
     "scope": {
-      "hosted": [],
       "csv": "0",
       "statements": "0",
       "invoices": "0",
@@ -246,7 +242,10 @@ UpdateMetafield(
 
 ```go
 ctx := context.Background()
+
 resourceType := models.ResourceType("subscriptions")
+
+
 
 apiResponse, err := customFieldsController.UpdateMetafield(ctx, resourceType, nil)
 if err != nil {
@@ -295,7 +294,10 @@ DeleteMetafield(
 
 ```go
 ctx := context.Background()
+
 resourceType := models.ResourceType("subscriptions")
+
+
 
 resp, err := customFieldsController.DeleteMetafield(ctx, resourceType, nil)
 if err != nil {
@@ -363,22 +365,22 @@ CreateMetadata(
 
 ```go
 ctx := context.Background()
+
 resourceType := models.ResourceType("subscriptions")
+
 resourceId := 60
 
-bodyMetadata0 := models.CreateMetadata{
-    Name:  models.ToPointer("Color"),
-    Value: models.ToPointer("Blue"),
-}
-
-bodyMetadata1 := models.CreateMetadata{
-    Name:  models.ToPointer("Something"),
-    Value: models.ToPointer("Useful"),
-}
-
-bodyMetadata := []models.CreateMetadata{bodyMetadata0, bodyMetadata1}
 body := models.CreateMetadataRequest{
-    Metadata: bodyMetadata,
+    Metadata: []models.CreateMetadata{
+        models.CreateMetadata{
+            Name:  models.ToPointer("Color"),
+            Value: models.ToPointer("Blue"),
+        },
+        models.CreateMetadata{
+            Name:  models.ToPointer("Something"),
+            Value: models.ToPointer("Useful"),
+        },
+    },
 }
 
 apiResponse, err := customFieldsController.CreateMetadata(ctx, resourceType, resourceId, &body)
@@ -480,8 +482,12 @@ UpdateMetadata(
 
 ```go
 ctx := context.Background()
+
 resourceType := models.ResourceType("subscriptions")
+
 resourceId := 60
+
+
 
 apiResponse, err := customFieldsController.UpdateMetadata(ctx, resourceType, resourceId, nil)
 if err != nil {
@@ -554,10 +560,16 @@ DeleteMetadata(
 
 ```go
 ctx := context.Background()
-resourceType := models.ResourceType("subscriptions")
-resourceId := 60Liquid error: Value cannot be null. (Parameter 'key')
 
-resp, err := customFieldsController.DeleteMetadata(ctx, resourceType, resourceId, nil, Liquid error: Value cannot be null. (Parameter 'key'))
+resourceType := models.ResourceType("subscriptions")
+
+resourceId := 60
+
+
+
+
+
+resp, err := customFieldsController.DeleteMetadata(ctx, resourceType, resourceId, nil, nil)
 if err != nil {
     log.Fatalln(err)
 } else {
@@ -626,7 +638,7 @@ collectedInput := advancedbilling.ListMetadataForResourceTypeInput{
     Page:          models.ToPointer(2),
     PerPage:       models.ToPointer(50),
     DateField:     models.ToPointer(models.BasicDateField("updated_at")),
-Liquid error: Value cannot be null. (Parameter 'key')}
+}
 
 apiResponse, err := customFieldsController.ListMetadataForResourceType(ctx, collectedInput)
 if err != nil {
