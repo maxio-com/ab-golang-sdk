@@ -50,38 +50,28 @@ CreateSegment(
 
 ```go
 ctx := context.Background()
+
 componentId := "component_id8"
+
 pricePointId := "price_point_id8"
 
-bodySegmentPrices0UnitPrice := models.CreateOrUpdateSegmentPriceUnitPriceContainer.FromPrecision(float64(0.19))
-
-bodySegmentPrices0 := models.CreateOrUpdateSegmentPrice{
-    StartingQuantity: models.ToPointer(1),
-    EndingQuantity:   models.ToPointer(10000),
-    UnitPrice:        bodySegmentPrices0UnitPrice,
-}
-
-bodySegmentPrices1UnitPrice := models.CreateOrUpdateSegmentPriceUnitPriceContainer.FromPrecision(float64(0.09))
-
-bodySegmentPrices1 := models.CreateOrUpdateSegmentPrice{
-    StartingQuantity: models.ToPointer(10001),
-    UnitPrice:        bodySegmentPrices1UnitPrice,
-}
-
-bodySegmentPrices := []models.CreateOrUpdateSegmentPrice{bodySegmentPrices0, bodySegmentPrices1}
-bodySegmentSegmentProperty1Value := models.CreateSegmentSegmentProperty1ValueContainer.FromString("France")
-
-bodySegmentSegmentProperty2Value := models.CreateSegmentSegmentProperty2ValueContainer.FromString("Spain")
-
-bodySegment := models.CreateSegment{
-    PricingScheme:         models.PricingScheme("volume"),
-    Prices:                bodySegmentPrices,
-    SegmentProperty1Value: models.ToPointer(bodySegmentSegmentProperty1Value),
-    SegmentProperty2Value: models.ToPointer(bodySegmentSegmentProperty2Value),
-}
-
 body := models.CreateSegmentRequest{
-    Segment: bodySegment,
+    Segment: models.CreateSegment{
+        SegmentProperty1Value: models.ToPointer(models.CreateSegmentSegmentProperty1ValueContainer.FromString("France")),
+        SegmentProperty2Value: models.ToPointer(models.CreateSegmentSegmentProperty2ValueContainer.FromString("Spain")),
+        PricingScheme:         models.PricingScheme("volume"),
+        Prices:                []models.CreateOrUpdateSegmentPrice{
+            models.CreateOrUpdateSegmentPrice{
+                StartingQuantity: models.ToPointer(1),
+                EndingQuantity:   models.ToPointer(10000),
+                UnitPrice:        models.CreateOrUpdateSegmentPriceUnitPriceContainer.FromPrecision(float64(0.19)),
+            },
+            models.CreateOrUpdateSegmentPrice{
+                StartingQuantity: models.ToPointer(10001),
+                UnitPrice:        models.CreateOrUpdateSegmentPriceUnitPriceContainer.FromPrecision(float64(0.09)),
+            },
+        },
+    },
 }
 
 apiResponse, err := eventsBasedBillingSegmentsController.CreateSegment(ctx, componentId, pricePointId, &body)
@@ -126,10 +116,7 @@ ListSegmentsForPricePoint(
 | `pricePointId` | `string` | Template, Required | ID or Handle for the Price Point belonging to the Component |
 | `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`. |
 | `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 30. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`. |
-| `filterSegmentProperty1Value` | `*string` | Query, Optional | The value passed here would be used to filter segments. Pass a value related to `segment_property_1` on attached Metric. If empty string is passed, this filter would be rejected. Use in query `filter[segment_property_1_value]=EU`. |
-| `filterSegmentProperty2Value` | `*string` | Query, Optional | The value passed here would be used to filter segments. Pass a value related to `segment_property_2` on attached Metric. If empty string is passed, this filter would be rejected. |
-| `filterSegmentProperty3Value` | `*string` | Query, Optional | The value passed here would be used to filter segments. Pass a value related to `segment_property_3` on attached Metric. If empty string is passed, this filter would be rejected. |
-| `filterSegmentProperty4Value` | `*string` | Query, Optional | The value passed here would be used to filter segments. Pass a value related to `segment_property_4` on attached Metric. If empty string is passed, this filter would be rejected. |
+| `filter` | [`*models.ListSegmentsFilter`](../../doc/models/list-segments-filter.md) | Query, Optional | Filter to use for List Segments for a Price Point operation |
 
 ## Response Type
 
@@ -141,11 +128,14 @@ ListSegmentsForPricePoint(
 ctx := context.Background()
 
 collectedInput := advancedbilling.ListSegmentsForPricePointInput{
-    ComponentId:                 "component_id8",
-    PricePointId:                "price_point_id8",
-    Page:                        models.ToPointer(2),
-    PerPage:                     models.ToPointer(50),
-Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')}
+    ComponentId:  "component_id8",
+    PricePointId: "price_point_id8",
+    Page:         models.ToPointer(2),
+    PerPage:      models.ToPointer(50),
+    Filter:       models.ToPointer(models.ListSegmentsFilter{
+        SegmentProperty1Value: models.ToPointer("EU"),
+    }),
+}
 
 apiResponse, err := eventsBasedBillingSegmentsController.ListSegmentsForPricePoint(ctx, collectedInput)
 if err != nil {
@@ -199,9 +189,14 @@ UpdateSegment(
 
 ```go
 ctx := context.Background()
+
 componentId := "component_id8"
+
 pricePointId := "price_point_id8"
+
 id := float64(60)
+
+
 
 apiResponse, err := eventsBasedBillingSegmentsController.UpdateSegment(ctx, componentId, pricePointId, id, nil)
 if err != nil {
@@ -253,8 +248,11 @@ DeleteSegment(
 
 ```go
 ctx := context.Background()
+
 componentId := "component_id8"
+
 pricePointId := "price_point_id8"
+
 id := float64(60)
 
 resp, err := eventsBasedBillingSegmentsController.DeleteSegment(ctx, componentId, pricePointId, id)
@@ -307,8 +305,12 @@ BulkCreateSegments(
 
 ```go
 ctx := context.Background()
+
 componentId := "component_id8"
+
 pricePointId := "price_point_id8"
+
+
 
 apiResponse, err := eventsBasedBillingSegmentsController.BulkCreateSegments(ctx, componentId, pricePointId, nil)
 if err != nil {
@@ -362,8 +364,12 @@ BulkUpdateSegments(
 
 ```go
 ctx := context.Background()
+
 componentId := "component_id8"
+
 pricePointId := "price_point_id8"
+
+
 
 apiResponse, err := eventsBasedBillingSegmentsController.BulkUpdateSegments(ctx, componentId, pricePointId, nil)
 if err != nil {

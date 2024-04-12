@@ -49,6 +49,7 @@ ReadSite(
 
 ```go
 ctx := context.Background()
+
 apiResponse, err := sitesController.ReadSite(ctx)
 if err != nil {
     log.Fatalln(err)
@@ -138,6 +139,7 @@ ClearSite(
 
 ```go
 ctx := context.Background()
+
 cleanupScope := models.CleanupScope("all")
 
 resp, err := sitesController.ClearSite(ctx, &cleanupScope)

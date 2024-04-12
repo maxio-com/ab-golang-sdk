@@ -38,7 +38,7 @@
 | `Customer` | [`*models.Customer`](../../doc/models/customer.md) | Optional | - |
 | `Product` | [`*models.Product`](../../doc/models/product.md) | Optional | - |
 | `CreditCard` | [`*models.CreditCardPaymentProfile`](../../doc/models/credit-card-payment-profile.md) | Optional | - |
-| `Group` | [`models.Optional[models.SubscriptionGroup2]`](../../doc/models/containers/subscription-group-2.md) | Optional | This is a container for one-of cases. |
+| `Group` | [`models.Optional[models.NestedSubscriptionGroup]`](../../doc/models/nested-subscription-group.md) | Optional | - |
 | `BankAccount` | [`*models.BankAccountPaymentProfile`](../../doc/models/bank-account-payment-profile.md) | Optional | - |
 | `PaymentType` | `models.Optional[string]` | Optional | The payment profile type for the active profile on file. |
 | `ReferralCode` | `models.Optional[string]` | Optional | The subscription's unique code that can be given to referrals. |
@@ -51,7 +51,7 @@
 | `CouponCodes` | `[]string` | Optional | An array for all the coupons attached to the subscription. |
 | `OfferId` | `models.Optional[int]` | Optional | The ID of the offer associated with the subscription. |
 | `PayerId` | `models.Optional[int]` | Optional | On Relationship Invoicing, the ID of the individual paying for the subscription. Defaults to the Customer ID unless the 'Customer Hierarchies & WhoPays' feature is enabled. |
-| `CurrentBillingAmountInCents` | `*int64` | Optional | The balance in cents plus the estimated renewal amount in cents. |
+| `CurrentBillingAmountInCents` | `*int64` | Optional | The balance in cents plus the estimated renewal amount in cents. Returned ONLY for readSubscription operation as it's compute intensive operation. |
 | `ProductPricePointId` | `*int` | Optional | The product price point currently subscribed to. |
 | `ProductPricePointType` | [`*models.PricePointType`](../../doc/models/price-point-type.md) | Optional | Price point type. We expose the following types:<br><br>1. **default**: a price point that is marked as a default price for a certain product.<br>2. **custom**: a custom price point.<br>3. **catalog**: a price point that is **not** marked as a default price for a certain product and is **not** a custom one. |
 | `NextProductPricePointId` | `models.Optional[int]` | Optional | If a delayed product change is scheduled, the ID of the product price point that the subscription will be changed to at the next renewal. |

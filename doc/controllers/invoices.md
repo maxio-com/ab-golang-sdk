@@ -63,19 +63,18 @@ RefundInvoice(
 
 ```go
 ctx := context.Background()
+
 uid := "uid0"
 
-bodyRefundRefundInvoice := models.RefundInvoice{
-    Amount:      "100.00",
-    Memo:        "Refund for Basic Plan renewal",
-    PaymentId:   12345,
-    VoidInvoice: models.ToPointer(true),
-}
-
-bodyRefund := models.RefundInvoiceRequestRefundContainer.FromRefundInvoice(bodyRefundRefundInvoice)
-
 body := models.RefundInvoiceRequest{
-    Refund: bodyRefund,
+    Refund: models.RefundInvoiceRequestRefundContainer.FromRefundInvoice(models.RefundInvoice{
+        Amount:      "100.00",
+        Memo:        "Refund for Basic Plan renewal",
+        PaymentId:   12345,
+        External:    models.ToPointer(false),
+        ApplyCredit: models.ToPointer(false),
+        VoidInvoice: models.ToPointer(true),
+    }),
 }
 
 apiResponse, err := invoicesController.RefundInvoice(ctx, uid, &body)
@@ -147,10 +146,27 @@ collectedInput := advancedbilling.ListInvoicesInput{
     Page:                 models.ToPointer(2),
     PerPage:              models.ToPointer(50),
     Direction:            models.ToPointer(models.Direction("desc")),
+    LineItems:            models.ToPointer(false),
+    Discounts:            models.ToPointer(false),
+    Taxes:                models.ToPointer(false),
+    Credits:              models.ToPointer(false),
+    Payments:             models.ToPointer(false),
+    CustomFields:         models.ToPointer(false),
+    Refunds:              models.ToPointer(false),
     DateField:            models.ToPointer(models.InvoiceDateField("issue_date")),
-    CustomerIds:          []int{1, 2, 3},
-    Number:               []string{"1234", "1235"},
-    ProductIds:           []int{23, 34},
+    CustomerIds:          []int{
+        1,
+        2,
+        3,
+    },
+    Number:               []string{
+        "1234",
+        "1235",
+    },
+    ProductIds:           []int{
+        23,
+        34,
+    },
     Sort:                 models.ToPointer(models.InvoiceSortField("total_amount")),
 }
 
@@ -464,6 +480,7 @@ ReadInvoice(
 
 ```go
 ctx := context.Background()
+
 uid := "uid0"
 
 apiResponse, err := invoicesController.ReadInvoice(ctx, uid)
@@ -563,9 +580,6 @@ if err != nil {
       "price_point_id": null
     }
   ],
-  "discounts": [],
-  "taxes": [],
-  "credits": [],
   "payments": [
     {
       "transaction_time": "2018-07-26T15:22:02Z",
@@ -583,8 +597,6 @@ if err != nil {
       "prepayment": false
     }
   ],
-  "refunds": [],
-  "custom_fields": [],
   "public_url": "https://www.chargifypay.com/invoice/inv_8jzrw74xq8kxr?token=fb6kpjz5rcr2vttyjs4rcv6y"
 }
 ```
@@ -736,7 +748,6 @@ if err != nil {
           "organization": null,
           "email": "evan4@example.com"
         },
-        "recipient_emails": [],
         "net_terms": 0,
         "memo": "Thanks for your business! If you have any questions, please contact your account manager.",
         "billing_address": {
@@ -1002,8 +1013,6 @@ if err != nil {
         "total_amount": "168.61",
         "paid_amount": "168.61",
         "due_amount": "0.0",
-        "credits": [],
-        "refunds": [],
         "payments": [
           {
             "memo": "Non-Resumable Canceled On Purpose - Standard Plan: Renewal payment",
@@ -1021,7 +1030,6 @@ if err != nil {
             "prepayment": false
           }
         ],
-        "custom_fields": [],
         "display_settings": {
           "hide_zero_subtotal_lines": false,
           "include_discounts_on_lines": false
@@ -1108,19 +1116,16 @@ RecordPaymentForInvoice(
 
 ```go
 ctx := context.Background()
+
 uid := "uid0"
 
-bodyPaymentAmount := models.CreateInvoicePaymentAmountContainer.FromPrecision(float64(124.33))
-
-bodyPayment := models.CreateInvoicePayment{
-    Memo:             models.ToPointer("for John Smith"),
-    Method:           models.ToPointer(models.InvoicePaymentMethodType("check")),
-    Details:          models.ToPointer("#0102"),
-    Amount:           models.ToPointer(bodyPaymentAmount),
-}
-
 body := models.CreateInvoicePaymentRequest{
-    Payment: bodyPayment,
+    Payment: models.CreateInvoicePayment{
+        Amount:           models.ToPointer(models.CreateInvoicePaymentAmountContainer.FromPrecision(float64(124.33))),
+        Memo:             models.ToPointer("for John Smith"),
+        Method:           models.ToPointer(models.InvoicePaymentMethodType("check")),
+        Details:          models.ToPointer("#0102"),
+    },
 }
 
 apiResponse, err := invoicesController.RecordPaymentForInvoice(ctx, uid, &body)
@@ -1192,29 +1197,23 @@ RecordPaymentForMultipleInvoices(
 ```go
 ctx := context.Background()
 
-bodyPaymentApplications0 := models.CreateInvoicePaymentApplication{
-    InvoiceUid: "inv_8gk5bwkct3gqt",
-    Amount:     "50.00",
-}
-
-bodyPaymentApplications1 := models.CreateInvoicePaymentApplication{
-    InvoiceUid: "inv_7bc6bwkct3lyt",
-    Amount:     "50.00",
-}
-
-bodyPaymentApplications := []models.CreateInvoicePaymentApplication{bodyPaymentApplications0, bodyPaymentApplications1}
-bodyPaymentAmount := models.CreateMultiInvoicePaymentAmountContainer.FromString("100.00")
-
-bodyPayment := models.CreateMultiInvoicePayment{
-    Memo:         models.ToPointer("to pay the bills"),
-    Details:      models.ToPointer("check number 8675309"),
-    Method:       models.ToPointer(models.InvoicePaymentMethodType("check")),
-    Applications: bodyPaymentApplications,
-    Amount:       bodyPaymentAmount,
-}
-
 body := models.CreateMultiInvoicePaymentRequest{
-    Payment: bodyPayment,
+    Payment: models.CreateMultiInvoicePayment{
+        Memo:         models.ToPointer("to pay the bills"),
+        Details:      models.ToPointer("check number 8675309"),
+        Method:       models.ToPointer(models.InvoicePaymentMethodType("check")),
+        Amount:       models.CreateMultiInvoicePaymentAmountContainer.FromString("100.00"),
+        Applications: []models.CreateInvoicePaymentApplication{
+            models.CreateInvoicePaymentApplication{
+                InvoiceUid: "inv_8gk5bwkct3gqt",
+                Amount:     "50.00",
+            },
+            models.CreateInvoicePaymentApplication{
+                InvoiceUid: "inv_7bc6bwkct3lyt",
+                Amount:     "50.00",
+            },
+        },
+    },
 }
 
 apiResponse, err := invoicesController.RecordPaymentForMultipleInvoices(ctx, &body)
@@ -1297,6 +1296,11 @@ ctx := context.Background()
 collectedInput := advancedbilling.ListCreditNotesInput{
     Page:           models.ToPointer(2),
     PerPage:        models.ToPointer(50),
+    LineItems:      models.ToPointer(false),
+    Discounts:      models.ToPointer(false),
+    Taxes:          models.ToPointer(false),
+    Refunds:        models.ToPointer(false),
+    Applications:   models.ToPointer(false),
 }
 
 apiResponse, err := invoicesController.ListCreditNotes(ctx, collectedInput)
@@ -1616,6 +1620,7 @@ ReadCreditNote(
 
 ```go
 ctx := context.Background()
+
 uid := "uid0"
 
 apiResponse, err := invoicesController.ReadCreditNote(ctx, uid)
@@ -1951,17 +1956,16 @@ RecordPaymentForSubscription(
 
 ```go
 ctx := context.Background()
+
 subscriptionId := 222
 
-bodyPayment := models.CreatePayment{
-    Amount:         "10.0",
-    Memo:           "to pay the bills",
-    PaymentDetails: "check number 8675309",
-    PaymentMethod:  models.InvoicePaymentMethodType("check"),
-}
-
 body := models.RecordPaymentRequest{
-    Payment: bodyPayment,
+    Payment: models.CreatePayment{
+        Amount:         "10.0",
+        Memo:           "to pay the bills",
+        PaymentDetails: "check number 8675309",
+        PaymentMethod:  models.InvoicePaymentMethodType("check"),
+    },
 }
 
 apiResponse, err := invoicesController.RecordPaymentForSubscription(ctx, subscriptionId, &body)
@@ -2040,6 +2044,7 @@ ReopenInvoice(
 
 ```go
 ctx := context.Background()
+
 uid := "uid0"
 
 apiResponse, err := invoicesController.ReopenInvoice(ctx, uid)
@@ -2088,14 +2093,13 @@ VoidInvoice(
 
 ```go
 ctx := context.Background()
+
 uid := "uid0"
 
-bodyVoid := models.VoidInvoice{
-    Reason: "Duplicate invoice",
-}
-
 body := models.VoidInvoiceRequest{
-    Void: bodyVoid,
+    Void: models.VoidInvoice{
+        Reason: "Duplicate invoice",
+    },
 }
 
 apiResponse, err := invoicesController.VoidInvoice(ctx, uid, &body)
@@ -2631,25 +2635,19 @@ CreateInvoice(
 
 ```go
 ctx := context.Background()
+
 subscriptionId := 222
 
-bodyInvoiceLineItems0Quantity := models.CreateInvoiceItemQuantityContainer.FromPrecision(float64(12))
-
-bodyInvoiceLineItems0UnitPrice := models.CreateInvoiceItemUnitPriceContainer.FromString("150.00")
-
-bodyInvoiceLineItems0 := models.CreateInvoiceItem{
-    Title:               models.ToPointer("A Product"),
-    Quantity:            models.ToPointer(bodyInvoiceLineItems0Quantity),
-    UnitPrice:           models.ToPointer(bodyInvoiceLineItems0UnitPrice),
-}
-
-bodyInvoiceLineItems := []models.CreateInvoiceItem{bodyInvoiceLineItems0}
-bodyInvoice := models.CreateInvoice{
-    LineItems:           bodyInvoiceLineItems,
-}
-
 body := models.CreateInvoiceRequest{
-    Invoice: bodyInvoice,
+    Invoice: models.CreateInvoice{
+        LineItems:           []models.CreateInvoiceItem{
+            models.CreateInvoiceItem{
+                Title:               models.ToPointer("A Product"),
+                Quantity:            models.ToPointer(models.CreateInvoiceItemQuantityContainer.FromPrecision(float64(12))),
+                UnitPrice:           models.ToPointer(models.CreateInvoiceItemUnitPriceContainer.FromString("150.00")),
+            },
+        },
+    },
 }
 
 apiResponse, err := invoicesController.CreateInvoice(ctx, subscriptionId, &body)
@@ -2754,12 +2752,6 @@ if err != nil {
         "price_point_id": null
       }
     ],
-    "discounts": [],
-    "taxes": [],
-    "credits": [],
-    "payments": [],
-    "refunds": [],
-    "custom_fields": [],
     "public_url": "https://www.test-chargifypay.com/invoice/inv_98nbmb93gxjz8?token=rmfmwvbdy4xmyw5f29j5gc6x"
   }
 }
@@ -2804,12 +2796,19 @@ SendInvoice(
 
 ```go
 ctx := context.Background()
+
 uid := "uid0"
 
 body := models.SendInvoiceRequest{
-    RecipientEmails:    []string{"user0@example.com"},
-    CcRecipientEmails:  []string{"user1@example.com"},
-    BccRecipientEmails: []string{"user2@example.com"},
+    RecipientEmails:    []string{
+        "user0@example.com",
+    },
+    CcRecipientEmails:  []string{
+        "user1@example.com",
+    },
+    BccRecipientEmails: []string{
+        "user2@example.com",
+    },
 }
 
 resp, err := invoicesController.SendInvoice(ctx, uid, &body)
@@ -2855,6 +2854,7 @@ PreviewCustomerInformationChanges(
 
 ```go
 ctx := context.Background()
+
 uid := "uid0"
 
 apiResponse, err := invoicesController.PreviewCustomerInformationChanges(ctx, uid)
@@ -2956,6 +2956,7 @@ UpdateCustomerInformation(
 
 ```go
 ctx := context.Background()
+
 uid := "uid0"
 
 apiResponse, err := invoicesController.UpdateCustomerInformation(ctx, uid)
@@ -3201,6 +3202,7 @@ IssueInvoice(
 
 ```go
 ctx := context.Background()
+
 uid := "uid0"
 
 body := models.IssueInvoiceRequest{

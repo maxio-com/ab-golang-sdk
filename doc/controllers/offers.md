@@ -56,24 +56,23 @@ CreateOffer(
 ```go
 ctx := context.Background()
 
-bodyOfferComponents0 := models.CreateOfferComponent{
-    ComponentId:      models.ToPointer(24),
-    StartingQuantity: models.ToPointer(1),
-}
-
-bodyOfferComponents := []models.CreateOfferComponent{bodyOfferComponents0}
-bodyOffer := models.CreateOffer{
-    Name:                "Solo",
-    Handle:              "han_shot_first",
-    Description:         models.ToPointer("A Star Wars Story"),
-    ProductId:           31,
-    ProductPricePointId: models.ToPointer(102),
-    Coupons:             []string{"DEF456"},
-    Components:          bodyOfferComponents,
-}
-
 body := models.CreateOfferRequest{
-    Offer: bodyOffer,
+    Offer: models.CreateOffer{
+        Name:                "Solo",
+        Handle:              "han_shot_first",
+        Description:         models.ToPointer("A Star Wars Story"),
+        ProductId:           31,
+        ProductPricePointId: models.ToPointer(102),
+        Components:          []models.CreateOfferComponent{
+            models.CreateOfferComponent{
+                ComponentId:      models.ToPointer(24),
+                StartingQuantity: models.ToPointer(1),
+            },
+        },
+        Coupons:             []string{
+            "DEF456",
+        },
+    },
 }
 
 apiResponse, err := offersController.CreateOffer(ctx, &body)
@@ -210,8 +209,7 @@ if err != nil {
           "price_point_id": 149438,
           "price_point_name": "Auto-created",
           "starting_quantity": "0.0",
-          "editable": false,
-          "currency_prices": []
+          "editable": false
         }
       ],
       "offer_discounts": [
@@ -263,6 +261,7 @@ ReadOffer(
 
 ```go
 ctx := context.Background()
+
 offerId := 130
 
 apiResponse, err := offersController.ReadOffer(ctx, offerId)
@@ -302,6 +301,7 @@ ArchiveOffer(
 
 ```go
 ctx := context.Background()
+
 offerId := 130
 
 resp, err := offersController.ArchiveOffer(ctx, offerId)
@@ -339,6 +339,7 @@ UnarchiveOffer(
 
 ```go
 ctx := context.Background()
+
 offerId := 130
 
 resp, err := offersController.UnarchiveOffer(ctx, offerId)

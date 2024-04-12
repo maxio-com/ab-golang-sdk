@@ -43,6 +43,7 @@ ValidateReferralCode(
 
 ```go
 ctx := context.Background()
+
 code := "code8"
 
 apiResponse, err := referralCodesController.ValidateReferralCode(ctx, code)

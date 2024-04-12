@@ -204,6 +204,7 @@ ExportProformaInvoices(
 
 ```go
 ctx := context.Background()
+
 apiResponse, err := APIExportsController.ExportProformaInvoices(ctx)
 if err != nil {
     log.Fatalln(err)
@@ -241,6 +242,7 @@ ExportInvoices(
 
 ```go
 ctx := context.Background()
+
 apiResponse, err := APIExportsController.ExportInvoices(ctx)
 if err != nil {
     log.Fatalln(err)
@@ -278,6 +280,7 @@ ExportSubscriptions(
 
 ```go
 ctx := context.Background()
+
 apiResponse, err := APIExportsController.ExportSubscriptions(ctx)
 if err != nil {
     log.Fatalln(err)
@@ -321,6 +324,7 @@ ReadProformaInvoicesExport(
 
 ```go
 ctx := context.Background()
+
 batchId := "batch_id8"
 
 apiResponse, err := APIExportsController.ReadProformaInvoicesExport(ctx, batchId)
@@ -366,6 +370,7 @@ ReadInvoicesExport(
 
 ```go
 ctx := context.Background()
+
 batchId := "batch_id8"
 
 apiResponse, err := APIExportsController.ReadInvoicesExport(ctx, batchId)
@@ -411,6 +416,7 @@ ReadSubscriptionsExport(
 
 ```go
 ctx := context.Background()
+
 batchId := "batch_id8"
 
 apiResponse, err := APIExportsController.ReadSubscriptionsExport(ctx, batchId)

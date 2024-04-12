@@ -16,7 +16,7 @@
 | `AccountingCode` | `models.Optional[string]` | Optional | E.g. Internal ID or SKU Number |
 | `RequestCreditCard` | `*bool` | Optional | Deprecated value that can be ignored unless you have legacy hosted pages. For Public Signup Page users, please read this attribute from under the signup page. |
 | `ExpirationInterval` | `models.Optional[int]` | Optional | A numerical interval for the length a subscription to this product will run before it expires. See the description of interval for a description of how this value is coupled with an interval unit to calculate the full interval |
-| `ExpirationIntervalUnit` | [`models.Optional[models.ProductExpirationIntervalUnit]`](../../doc/models/containers/product-expiration-interval-unit.md) | Optional | This is a container for one-of cases. |
+| `ExpirationIntervalUnit` | [`models.Optional[models.ExtendedIntervalUnit]`](../../doc/models/extended-interval-unit.md) | Optional | A string representing the expiration interval unit for this product, either month or day |
 | `CreatedAt` | `*time.Time` | Optional | Timestamp indicating when this product was created |
 | `UpdatedAt` | `*time.Time` | Optional | Timestamp indicating when this product was last updated |
 | `PriceInCents` | `*int64` | Optional | The product price, in integer cents |
@@ -25,7 +25,7 @@
 | `InitialChargeInCents` | `models.Optional[int64]` | Optional | The up front charge you have specified. |
 | `TrialPriceInCents` | `models.Optional[int64]` | Optional | The price of the trial period for a subscription to this product, in integer cents. |
 | `TrialInterval` | `models.Optional[int]` | Optional | A numerical interval for the length of the trial period of a subscription to this product. See the description of interval for a description of how this value is coupled with an interval unit to calculate the full interval |
-| `TrialIntervalUnit` | [`models.Optional[models.ProductTrialIntervalUnit]`](../../doc/models/containers/product-trial-interval-unit.md) | Optional | This is a container for one-of cases. |
+| `TrialIntervalUnit` | [`models.Optional[models.IntervalUnit]`](../../doc/models/interval-unit.md) | Optional | A string representing the trial interval unit for this product, either month or day |
 | `ArchivedAt` | `models.Optional[time.Time]` | Optional | Timestamp indicating when this product was archived |
 | `RequireCreditCard` | `*bool` | Optional | Boolean that controls whether a payment profile is required to be entered for customers wishing to sign up on this product. |
 | `ReturnParams` | `models.Optional[string]` | Optional | - |

@@ -46,6 +46,7 @@ CancelSubscriptionsInGroup(
 
 ```go
 ctx := context.Background()
+
 uid := "uid0"
 
 body := models.CancelGroupedSubscriptionsRequest{
@@ -95,6 +96,7 @@ InitiateDelayedCancellationForGroup(
 
 ```go
 ctx := context.Background()
+
 uid := "uid0"
 
 resp, err := subscriptionGroupStatusController.InitiateDelayedCancellationForGroup(ctx, uid)
@@ -138,6 +140,7 @@ CancelDelayedCancellationForGroup(
 
 ```go
 ctx := context.Background()
+
 uid := "uid0"
 
 resp, err := subscriptionGroupStatusController.CancelDelayedCancellationForGroup(ctx, uid)
@@ -201,6 +204,7 @@ ReactivateSubscriptionGroup(
 
 ```go
 ctx := context.Background()
+
 uid := "uid0"
 
 body := models.ReactivateSubscriptionGroupRequest{

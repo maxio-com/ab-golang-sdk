@@ -44,7 +44,10 @@ CreateSubscriptionGroupPrepayment(
 
 ```go
 ctx := context.Background()
+
 uid := "uid0"
+
+
 
 apiResponse, err := subscriptionGroupInvoiceAccountController.CreateSubscriptionGroupPrepayment(ctx, uid, nil)
 if err != nil {
@@ -92,11 +95,9 @@ ListPrepaymentsForSubscriptionGroup(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `uid` | `string` | Template, Required | The uid of the subscription group |
-| `filterDateField` | [`*models.ListSubscriptionGroupPrepaymentDateField`](../../doc/models/list-subscription-group-prepayment-date-field.md) | Query, Optional | The type of filter you would like to apply to your search.<br>Use in query: `filter[date_field]=created_at`. |
-| `filterEndDate` | `*time.Time` | Query, Optional | The end date (format YYYY-MM-DD) with which to filter the date_field.<br>Returns prepayments with a timestamp up to and including 11:59:59PM in your site's time zone on the date specified.<br>Use in query: `filter[end_date]=2011-12-15`. |
-| `filterStartDate` | `*time.Time` | Query, Optional | The start date (format YYYY-MM-DD) with which to filter the date_field.<br>Returns prepayments with a timestamp at or after midnight (12:00:00 AM) in your site's time zone on the date specified.<br>Use in query: `filter[start_date]=2011-12-15`. |
 | `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`. |
 | `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`. |
+| `filter` | [`*models.ListPrepaymentsFilter`](../../doc/models/list-prepayments-filter.md) | Query, Optional | Filter to use for List Prepayments operations |
 
 ## Response Type
 
@@ -106,12 +107,17 @@ ListPrepaymentsForSubscriptionGroup(
 
 ```go
 ctx := context.Background()
-Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')
+
 collectedInput := advancedbilling.ListPrepaymentsForSubscriptionGroupInput{
-    Uid:             "uid0",
-Liquid error: Value cannot be null. (Parameter 'key')    Page:            models.ToPointer(2),
-    PerPage:         models.ToPointer(50),
-Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')}
+    Uid:     "uid0",
+    Page:    models.ToPointer(2),
+    PerPage: models.ToPointer(50),
+    Filter:  models.ToPointer(models.ListPrepaymentsFilter{
+        DateField: models.ToPointer(models.ListPrepaymentDateField("created_at")),
+        StartDate: models.ToPointer(parseTime(models.DEFAULT_DATE, "2024-01-01", func(err error) { log.Fatalln(err) })),
+        EndDate:   models.ToPointer(parseTime(models.DEFAULT_DATE, "2024-01-31", func(err error) { log.Fatalln(err) })),
+    }),
+}
 
 apiResponse, err := subscriptionGroupInvoiceAccountController.ListPrepaymentsForSubscriptionGroup(ctx, collectedInput)
 if err != nil {
@@ -180,17 +186,14 @@ IssueSubscriptionGroupServiceCredit(
 
 ```go
 ctx := context.Background()
+
 uid := "uid0"
 
-bodyServiceCreditAmount := models.IssueServiceCreditAmountContainer.FromPrecision(float64(10))
-
-bodyServiceCredit := models.IssueServiceCredit{
-    Memo:   "Credit the group account",
-    Amount: bodyServiceCreditAmount,
-}
-
 body := models.IssueServiceCreditRequest{
-    ServiceCredit: bodyServiceCredit,
+    ServiceCredit: models.IssueServiceCredit{
+        Amount: models.IssueServiceCreditAmountContainer.FromPrecision(float64(10)),
+        Memo:   "Credit the group account",
+    },
 }
 
 apiResponse, err := subscriptionGroupInvoiceAccountController.IssueSubscriptionGroupServiceCredit(ctx, uid, &body)
@@ -252,17 +255,14 @@ DeductSubscriptionGroupServiceCredit(
 
 ```go
 ctx := context.Background()
+
 uid := "uid0"
 
-bodyDeductionAmount := models.DeductServiceCreditAmountContainer.FromPrecision(float64(10))
-
-bodyDeduction := models.DeductServiceCredit{
-    Memo:   "Deduct from group account",
-    Amount: bodyDeductionAmount,
-}
-
 body := models.DeductServiceCreditRequest{
-    Deduction: bodyDeduction,
+    Deduction: models.DeductServiceCredit{
+        Amount: models.DeductServiceCreditAmountContainer.FromPrecision(float64(10)),
+        Memo:   "Deduct from group account",
+    },
 }
 
 apiResponse, err := subscriptionGroupInvoiceAccountController.DeductSubscriptionGroupServiceCredit(ctx, uid, &body)

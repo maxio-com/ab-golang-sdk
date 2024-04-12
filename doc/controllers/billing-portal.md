@@ -58,7 +58,10 @@ EnableBillingPortalForCustomer(
 
 ```go
 ctx := context.Background()
+
 customerId := 150
+
+
 
 apiResponse, err := billingPortalController.EnableBillingPortalForCustomer(ctx, customerId, nil)
 if err != nil {
@@ -111,6 +114,7 @@ ReadBillingPortalLink(
 
 ```go
 ctx := context.Background()
+
 customerId := 150
 
 apiResponse, err := billingPortalController.ReadBillingPortalLink(ctx, customerId)
@@ -182,6 +186,7 @@ ResendBillingPortalInvitation(
 
 ```go
 ctx := context.Background()
+
 customerId := 150
 
 apiResponse, err := billingPortalController.ResendBillingPortalInvitation(ctx, customerId)
@@ -245,6 +250,7 @@ RevokeBillingPortalAccess(
 
 ```go
 ctx := context.Background()
+
 customerId := 150
 
 apiResponse, err := billingPortalController.RevokeBillingPortalAccess(ctx, customerId)

@@ -27,6 +27,7 @@
 | `TaxExempt` | `*bool` | Optional | - |
 | `TaxExemptReason` | `*string` | Optional | - |
 | `ParentId` | `models.Optional[int]` | Optional | - |
+| `Verified` | `models.Optional[bool]` | Optional | Is the customer verified to use ACH as a payment method. Available only on Authorize.Net gateway |
 
 ## Example (as JSON)
 

@@ -36,14 +36,13 @@ ListProductsForProductFamily(
 | `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`. |
 | `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`. |
 | `dateField` | [`*models.BasicDateField`](../../doc/models/basic-date-field.md) | Query, Optional | The type of filter you would like to apply to your search.<br>Use in query: `date_field=created_at`. |
+| `filter` | [`*models.ListProductsFilter`](../../doc/models/list-products-filter.md) | Query, Optional | Filter to use for List Products operations |
 | `startDate` | `*string` | Query, Optional | The start date (format YYYY-MM-DD) with which to filter the date_field. Returns products with a timestamp at or after midnight (12:00:00 AM) in your site’s time zone on the date specified. |
 | `endDate` | `*string` | Query, Optional | The end date (format YYYY-MM-DD) with which to filter the date_field. Returns products with a timestamp up to and including 11:59:59PM in your site’s time zone on the date specified. |
 | `startDatetime` | `*string` | Query, Optional | The start date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns products with a timestamp at or after exact time provided in query. You can specify timezone in query - otherwise your site's time zone will be used. If provided, this parameter will be used instead of start_date. |
 | `endDatetime` | `*string` | Query, Optional | The end date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns products with a timestamp at or before exact time provided in query. You can specify timezone in query - otherwise your site's time zone will be used. If provided, this parameter will be used instead of end_date. |
 | `includeArchived` | `*bool` | Query, Optional | Include archived products |
 | `include` | [`*models.ListProductsInclude`](../../doc/models/list-products-include.md) | Query, Optional | Allows including additional data in the response. Use in query `include=prepaid_product_price_point`. |
-| `filterPrepaidProductPricePointProductPricePointId` | [`*models.IncludeNotNull`](../../doc/models/include-not-null.md) | Query, Optional | Allows fetching products only if a prepaid product price point is present or not. To use this filter you also have to include the following param in the request `include=prepaid_product_price_point`. Use in query `filter[prepaid_product_price_point][product_price_point_id]=not_null`. |
-| `filterUseSiteExchangeRate` | `*bool` | Query, Optional | Allows fetching products with matching use_site_exchange_rate based on provided value (refers to default price point). Use in query `filter[use_site_exchange_rate]=true`. |
 
 ## Response Type
 
@@ -55,12 +54,12 @@ ListProductsForProductFamily(
 ctx := context.Background()
 
 collectedInput := advancedbilling.ListProductsForProductFamilyInput{
-    ProductFamilyId:                                   140,
-    Page:                                              models.ToPointer(2),
-    PerPage:                                           models.ToPointer(50),
-    DateField:                                         models.ToPointer(models.BasicDateField("updated_at")),
-    Include:                                           models.ToPointer(models.ListProductsInclude("prepaid_product_price_point")),
-Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')}
+    ProductFamilyId: 140,
+    Page:            models.ToPointer(2),
+    PerPage:         models.ToPointer(50),
+    DateField:       models.ToPointer(models.BasicDateField("updated_at")),
+    Include:         models.ToPointer(models.ListProductsInclude("prepaid_product_price_point")),
+}
 
 apiResponse, err := productFamiliesController.ListProductsForProductFamily(ctx, collectedInput)
 if err != nil {
@@ -207,13 +206,11 @@ CreateProductFamily(
 ```go
 ctx := context.Background()
 
-bodyProductFamily := models.CreateProductFamily{
-    Name:        models.ToPointer("Acme Projects"),
-    Description: models.NewOptional(models.ToPointer("Amazing project management tool")),
-}
-
 body := models.CreateProductFamilyRequest{
-    ProductFamily: bodyProductFamily,
+    ProductFamily: models.CreateProductFamily{
+        Name:        models.ToPointer("Acme Projects"),
+        Description: models.NewOptional(models.ToPointer("Amazing project management tool")),
+    },
 }
 
 apiResponse, err := productFamiliesController.CreateProductFamily(ctx, &body)
@@ -350,6 +347,7 @@ ReadProductFamily(
 
 ```go
 ctx := context.Background()
+
 id := 112
 
 apiResponse, err := productFamiliesController.ReadProductFamily(ctx, id)

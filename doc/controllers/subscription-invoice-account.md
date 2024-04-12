@@ -44,6 +44,7 @@ ReadAccountBalances(
 
 ```go
 ctx := context.Background()
+
 subscriptionId := 222
 
 apiResponse, err := subscriptionInvoiceAccountController.ReadAccountBalances(ctx, subscriptionId)
@@ -91,17 +92,16 @@ CreatePrepayment(
 
 ```go
 ctx := context.Background()
+
 subscriptionId := 222
 
-bodyPrepayment := models.CreatePrepayment{
-    Amount:           float64(100),
-    Details:          "John Doe signup for $100",
-    Memo:             "Signup for $100",
-    Method:           models.CreatePrepaymentMethod("check"),
-}
-
 body := models.CreatePrepaymentRequest{
-    Prepayment: bodyPrepayment,
+    Prepayment: models.CreatePrepayment{
+        Amount:           float64(100),
+        Details:          "John Doe signup for $100",
+        Memo:             "Signup for $100",
+        Method:           models.CreatePrepaymentMethod("check"),
+    },
 }
 
 apiResponse, err := subscriptionInvoiceAccountController.CreatePrepayment(ctx, subscriptionId, &body)
@@ -156,9 +156,7 @@ ListPrepayments(
 | `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription |
 | `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`. |
 | `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`. |
-| `filterDateField` | [`*models.BasicDateField`](../../doc/models/basic-date-field.md) | Query, Optional | The type of filter you would like to apply to your search. created_at - Time when prepayment was created. application_at - Time when prepayment was applied to invoice. Use in query `filter[date_field]=created_at`. |
-| `filterStartDate` | `*time.Time` | Query, Optional | The start date (format YYYY-MM-DD) with which to filter the date_field. Returns prepayments with a timestamp at or after midnight (12:00:00 AM) in your site’s time zone on the date specified. Use in query `filter[start_date]=2011-12-15`. |
-| `filterEndDate` | `*time.Time` | Query, Optional | The end date (format YYYY-MM-DD) with which to filter the date_field. Returns prepayments with a timestamp up to and including 11:59:59PM in your site’s time zone on the date specified. Use in query `filter[end_date]=2011-12-15`. |
+| `filter` | [`*models.ListPrepaymentsFilter`](../../doc/models/list-prepayments-filter.md) | Query, Optional | Filter to use for List Prepayments operations |
 
 ## Response Type
 
@@ -168,12 +166,17 @@ ListPrepayments(
 
 ```go
 ctx := context.Background()
-Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')
+
 collectedInput := advancedbilling.ListPrepaymentsInput{
-    SubscriptionId:  222,
-    Page:            models.ToPointer(2),
-    PerPage:         models.ToPointer(50),
-Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')}
+    SubscriptionId: 222,
+    Page:           models.ToPointer(2),
+    PerPage:        models.ToPointer(50),
+    Filter:         models.ToPointer(models.ListPrepaymentsFilter{
+        DateField: models.ToPointer(models.ListPrepaymentDateField("created_at")),
+        StartDate: models.ToPointer(parseTime(models.DEFAULT_DATE, "2024-01-01", func(err error) { log.Fatalln(err) })),
+        EndDate:   models.ToPointer(parseTime(models.DEFAULT_DATE, "2024-01-31", func(err error) { log.Fatalln(err) })),
+    }),
+}
 
 apiResponse, err := subscriptionInvoiceAccountController.ListPrepayments(ctx, collectedInput)
 if err != nil {
@@ -241,17 +244,14 @@ IssueServiceCredit(
 
 ```go
 ctx := context.Background()
+
 subscriptionId := 222
 
-bodyServiceCreditAmount := models.IssueServiceCreditAmountContainer.FromString("1")
-
-bodyServiceCredit := models.IssueServiceCredit{
-    Memo:   "Courtesy credit",
-    Amount: bodyServiceCreditAmount,
-}
-
 body := models.IssueServiceCreditRequest{
-    ServiceCredit: bodyServiceCredit,
+    ServiceCredit: models.IssueServiceCredit{
+        Amount: models.IssueServiceCreditAmountContainer.FromString("1"),
+        Memo:   "Courtesy credit",
+    },
 }
 
 apiResponse, err := subscriptionInvoiceAccountController.IssueServiceCredit(ctx, subscriptionId, &body)
@@ -305,17 +305,14 @@ DeductServiceCredit(
 
 ```go
 ctx := context.Background()
+
 subscriptionId := 222
 
-bodyDeductionAmount := models.DeductServiceCreditAmountContainer.FromString("1")
-
-bodyDeduction := models.DeductServiceCredit{
-    Memo:   "Deduction",
-    Amount: bodyDeductionAmount,
-}
-
 body := models.DeductServiceCreditRequest{
-    Deduction: bodyDeduction,
+    Deduction: models.DeductServiceCredit{
+        Amount: models.DeductServiceCreditAmountContainer.FromString("1"),
+        Memo:   "Deduction",
+    },
 }
 
 resp, err := subscriptionInvoiceAccountController.DeductServiceCredit(ctx, subscriptionId, &body)
@@ -365,8 +362,12 @@ RefundPrepayment(
 
 ```go
 ctx := context.Background()
+
 subscriptionId := 222
+
 prepaymentId := "prepayment_id8"
+
+
 
 apiResponse, err := subscriptionInvoiceAccountController.RefundPrepayment(ctx, subscriptionId, prepaymentId, nil)
 if err != nil {

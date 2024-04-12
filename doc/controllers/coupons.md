@@ -67,38 +67,31 @@ CreateCoupon(
 
 ```go
 ctx := context.Background()
+
 productFamilyId := 140
 
-bodyCouponCreateOrUpdatePercentageCouponEndDate, err := time.Parse(time.RFC3339, "2012-08-29T12:00:00-04:00")
-if err != nil {
-    log.Fatalln(err)
-}
-bodyCouponCreateOrUpdatePercentageCouponPercentage := models.CreateOrUpdatePercentageCouponPercentageContainer.FromPrecision(float64(15))
-
-bodyCouponCreateOrUpdatePercentageCoupon := models.CreateOrUpdatePercentageCoupon{
-    Name:                          "15% off",
-    Code:                          "15OFF",
-    Description:                   models.ToPointer("15% off for life"),
-    ProductFamilyId:               models.ToPointer("2"),
-    Stackable:                     models.ToPointer(true),
-    CompoundingStrategy:           models.ToPointer(models.CompoundingStrategy("compound")),
-    ExcludeMidPeriodAllocations:   models.ToPointer(true),
-    ApplyOnCancelAtEndOfPeriod:    models.ToPointer(true),
-    EndDate:                       models.ToPointer(bodyCouponCreateOrUpdatePercentageCouponEndDate),
-    Percentage:                    bodyCouponCreateOrUpdatePercentageCouponPercentage,
-}
-
-bodyCoupon := models.CreateOrUpdateCouponCouponContainer.FromCreateOrUpdatePercentageCoupon(bodyCouponCreateOrUpdatePercentageCoupon)
-
 body := models.CreateOrUpdateCoupon{
+    Coupon:               models.ToPointer(models.CreateOrUpdateCouponCouponContainer.FromCreateOrUpdatePercentageCoupon(models.CreateOrUpdatePercentageCoupon{
+        Name:                          "15% off",
+        Code:                          "15OFF",
+        Description:                   models.ToPointer("15% off for life"),
+        Percentage:                    models.CreateOrUpdatePercentageCouponPercentageContainer.FromPrecision(float64(15)),
+        AllowNegativeBalance:          models.ToPointer(false),
+        Recurring:                     models.ToPointer(false),
+        EndDate:                       models.ToPointer(parseTime(time.RFC3339, "2012-08-29T12:00:00-04:00", func(err error) { log.Fatalln(err) })),
+        ProductFamilyId:               models.ToPointer("2"),
+        Stackable:                     models.ToPointer(true),
+        CompoundingStrategy:           models.ToPointer(models.CompoundingStrategy("compound")),
+        ExcludeMidPeriodAllocations:   models.ToPointer(true),
+        ApplyOnCancelAtEndOfPeriod:    models.ToPointer(true),
+    })),
     RestrictedProducts:   map[string]bool{
-        "1" : true,
-},
+        "1": true,
+    },
     RestrictedComponents: map[string]bool{
-        "1" : true,
-        "2" : false,
-},
-    Coupon:               models.ToPointer(bodyCoupon),
+        "1": true,
+        "2": false,
+    },
 }
 
 apiResponse, err := couponsController.CreateCoupon(ctx, productFamilyId, &body)
@@ -139,15 +132,8 @@ ListCouponsForProductFamily(
 | `productFamilyId` | `int` | Template, Required | The Chargify id of the product family to which the coupon belongs |
 | `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`. |
 | `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 30. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`. |
-| `filterDateField` | [`*models.BasicDateField`](../../doc/models/basic-date-field.md) | Query, Optional | The type of filter you would like to apply to your search. Use in query `filter[date_field]=created_at`. |
-| `filterEndDate` | `*time.Time` | Query, Optional | The end date (format YYYY-MM-DD) with which to filter the date_field. Returns coupons with a timestamp up to and including 11:59:59PM in your site’s time zone on the date specified. Use in query `filter[date_field]=2011-12-15`. |
-| `filterEndDatetime` | `*time.Time` | Query, Optional | The end date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns coupons with a timestamp at or before exact time provided in query. You can specify timezone in query - otherwise your site's time zone will be used. If provided, this parameter will be used instead of end_date. Use in query `?filter[end_datetime]=2011-12-1T10:15:30+01:00`. |
-| `filterStartDate` | `*time.Time` | Query, Optional | The start date (format YYYY-MM-DD) with which to filter the date_field. Returns coupons with a timestamp at or after midnight (12:00:00 AM) in your site’s time zone on the date specified. Use in query `filter[start_date]=2011-12-17`. |
-| `filterStartDatetime` | `*time.Time` | Query, Optional | The start date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns coupons with a timestamp at or after exact time provided in query. You can specify timezone in query - otherwise your site's time zone will be used. If provided, this parameter will be used instead of start_date. Use in query `filter[start_datetime]=2011-12-19T10:15:30+01:00`. |
-| `filterIds` | `[]int` | Query, Optional | Allows fetching coupons with matching id based on provided values. Use in query `filter[ids]=1,2,3`. |
-| `filterCodes` | `[]string` | Query, Optional | Allows fetching coupons with matching codes based on provided values. Use in query `filter[codes]=free,free_trial`. |
+| `filter` | [`*models.ListCouponsFilter`](../../doc/models/list-coupons-filter.md) | Query, Optional | Filter to use for List Coupons operations |
 | `currencyPrices` | `*bool` | Query, Optional | When fetching coupons, if you have defined multiple currencies at the site level, you can optionally pass the `?currency_prices=true` query param to include an array of currency price data in the response. Use in query `currency_prices=true`. |
-| `filterUseSiteExchangeRate` | `*bool` | Query, Optional | Allows fetching coupons with matching use_site_exchange_rate based on provided value. Use in query `filter[use_site_exchange_rate]=true`. |
 
 ## Response Type
 
@@ -157,13 +143,28 @@ ListCouponsForProductFamily(
 
 ```go
 ctx := context.Background()
-Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')
+
 collectedInput := advancedbilling.ListCouponsForProductFamilyInput{
-    ProductFamilyId:           140,
-    Page:                      models.ToPointer(2),
-    PerPage:                   models.ToPointer(50),
-Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')    CurrencyPrices:            models.ToPointer(true),
-Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')}
+    ProductFamilyId: 140,
+    Page:            models.ToPointer(2),
+    PerPage:         models.ToPointer(50),
+    Filter:          models.ToPointer(models.ListCouponsFilter{
+        StartDate:           models.ToPointer(parseTime(models.DEFAULT_DATE, "2011-12-17", func(err error) { log.Fatalln(err) })),
+        EndDate:             models.ToPointer(parseTime(models.DEFAULT_DATE, "2011-12-15", func(err error) { log.Fatalln(err) })),
+        StartDatetime:       models.ToPointer(parseTime(time.RFC3339, "12/19/2011 09:15:30", func(err error) { log.Fatalln(err) })),
+        EndDatetime:         models.ToPointer(parseTime(time.RFC3339, "06/07/2019 17:20:06", func(err error) { log.Fatalln(err) })),
+        Ids:                 []int{
+            1,
+            2,
+            3,
+        },
+        Codes:               []string{
+            "free",
+            "free_trial",
+        },
+    }),
+    CurrencyPrices:  models.ToPointer(true),
+}
 
 apiResponse, err := couponsController.ListCouponsForProductFamily(ctx, collectedInput)
 if err != nil {
@@ -201,7 +202,6 @@ if err != nil {
       "conversion_limit": "100",
       "stackable": false,
       "compounding_strategy": "compound",
-      "coupon_restrictions": [],
       "use_site_exchange_rate": true
     }
   },
@@ -227,7 +227,6 @@ if err != nil {
       "conversion_limit": "100",
       "stackable": false,
       "compounding_strategy": "compound",
-      "coupon_restrictions": [],
       "use_site_exchange_rate": true
     }
   },
@@ -300,6 +299,10 @@ FindCoupon(
 ```go
 ctx := context.Background()
 
+
+
+
+
 apiResponse, err := couponsController.FindCoupon(ctx, nil, nil)
 if err != nil {
     log.Fatalln(err)
@@ -344,7 +347,9 @@ ReadCoupon(
 
 ```go
 ctx := context.Background()
+
 productFamilyId := 140
+
 couponId := 162
 
 apiResponse, err := couponsController.ReadCoupon(ctx, productFamilyId, couponId)
@@ -381,8 +386,7 @@ if err != nil {
     "archived_at": null,
     "conversion_limit": null,
     "stackable": true,
-    "compounding_strategy": "compound",
-    "coupon_restrictions": []
+    "compounding_strategy": "compound"
   }
 }
 ```
@@ -423,37 +427,31 @@ UpdateCoupon(
 
 ```go
 ctx := context.Background()
+
 productFamilyId := 140
+
 couponId := 162
 
-bodyCouponCreateOrUpdatePercentageCouponEndDate, err := time.Parse(time.RFC3339, "2012-08-29T12:00:00-04:00")
-if err != nil {
-    log.Fatalln(err)
-}
-bodyCouponCreateOrUpdatePercentageCouponPercentage := models.CreateOrUpdatePercentageCouponPercentageContainer.FromPrecision(float64(15))
-
-bodyCouponCreateOrUpdatePercentageCoupon := models.CreateOrUpdatePercentageCoupon{
-    Name:                          "15% off",
-    Code:                          "15OFF",
-    Description:                   models.ToPointer("15% off for life"),
-    ProductFamilyId:               models.ToPointer("2"),
-    Stackable:                     models.ToPointer(true),
-    CompoundingStrategy:           models.ToPointer(models.CompoundingStrategy("compound")),
-    EndDate:                       models.ToPointer(bodyCouponCreateOrUpdatePercentageCouponEndDate),
-    Percentage:                    bodyCouponCreateOrUpdatePercentageCouponPercentage,
-}
-
-bodyCoupon := models.CreateOrUpdateCouponCouponContainer.FromCreateOrUpdatePercentageCoupon(bodyCouponCreateOrUpdatePercentageCoupon)
-
 body := models.CreateOrUpdateCoupon{
+    Coupon:               models.ToPointer(models.CreateOrUpdateCouponCouponContainer.FromCreateOrUpdatePercentageCoupon(models.CreateOrUpdatePercentageCoupon{
+        Name:                          "15% off",
+        Code:                          "15OFF",
+        Description:                   models.ToPointer("15% off for life"),
+        Percentage:                    models.CreateOrUpdatePercentageCouponPercentageContainer.FromPrecision(float64(15)),
+        AllowNegativeBalance:          models.ToPointer(false),
+        Recurring:                     models.ToPointer(false),
+        EndDate:                       models.ToPointer(parseTime(time.RFC3339, "2012-08-29T12:00:00-04:00", func(err error) { log.Fatalln(err) })),
+        ProductFamilyId:               models.ToPointer("2"),
+        Stackable:                     models.ToPointer(true),
+        CompoundingStrategy:           models.ToPointer(models.CompoundingStrategy("compound")),
+    })),
     RestrictedProducts:   map[string]bool{
-        "1" : true,
-},
+        "1": true,
+    },
     RestrictedComponents: map[string]bool{
-        "1" : true,
-        "2" : false,
-},
-    Coupon:               models.ToPointer(bodyCoupon),
+        "1": true,
+        "2": false,
+    },
 }
 
 apiResponse, err := couponsController.UpdateCoupon(ctx, productFamilyId, couponId, &body)
@@ -490,8 +488,7 @@ if err != nil {
     "archived_at": null,
     "conversion_limit": null,
     "stackable": true,
-    "compounding_strategy": "compound",
-    "coupon_restrictions": []
+    "compounding_strategy": "compound"
   }
 }
 ```
@@ -527,7 +524,9 @@ ArchiveCoupon(
 
 ```go
 ctx := context.Background()
+
 productFamilyId := 140
+
 couponId := 162
 
 apiResponse, err := couponsController.ArchiveCoupon(ctx, productFamilyId, couponId)
@@ -564,8 +563,7 @@ if err != nil {
     "archived_at": "2016-12-02T13:09:33-05:00",
     "conversion_limit": null,
     "stackable": true,
-    "compounding_strategy": "compound",
-    "coupon_restrictions": []
+    "compounding_strategy": "compound"
   }
 }
 ```
@@ -591,20 +589,8 @@ ListCoupons(
 |  --- | --- | --- | --- |
 | `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`. |
 | `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 30. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`. |
-| `dateField` | [`*models.BasicDateField`](../../doc/models/basic-date-field.md) | Query, Optional | The field was deprecated: on January 20, 2022. We recommend using filter[date_field] instead to achieve the same result. The type of filter you would like to apply to your search. |
-| `startDate` | `*time.Time` | Query, Optional | The field was deprecated: on January 20, 2022. We recommend using filter[start_date] instead to achieve the same result. The start date (format YYYY-MM-DD) with which to filter the date_field. Returns coupons with a timestamp at or after midnight (12:00:00 AM) in your site’s time zone on the date specified. |
-| `endDate` | `*time.Time` | Query, Optional | The field was deprecated: on January 20, 2022. We recommend using filter[end_date] instead to achieve the same result. The end date (format YYYY-MM-DD) with which to filter the date_field. Returns coupons with a timestamp up to and including 11:59:59PM in your site’s time zone on the date specified. |
-| `startDatetime` | `*time.Time` | Query, Optional | The field was deprecated: on January 20, 2022. We recommend using filter[start_datetime] instead to achieve the same result. The start date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns coupons with a timestamp at or after exact time provided in query. You can specify timezone in query - otherwise your site's time zone will be used. If provided, this parameter will be used instead of start_date. |
-| `endDatetime` | `*time.Time` | Query, Optional | The field was deprecated: on January 20, 2022. We recommend using filter[end_datetime] instead to achieve the same result. The end date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns coupons with a timestamp at or before exact time provided in query. You can specify timezone in query - otherwise your site's time zone will be used. If provided, this parameter will be used instead of end_date. |
-| `filterIds` | `[]int` | Query, Optional | Allows fetching coupons with matching id based on provided values. Use in query `filter[ids]=1,2,3`. |
-| `filterCodes` | `[]string` | Query, Optional | Allows fetching coupons with matching code based on provided values. Use in query `filter[ids]=1,2,3`. |
+| `filter` | [`*models.ListCouponsFilter`](../../doc/models/list-coupons-filter.md) | Query, Optional | Filter to use for List Coupons operations |
 | `currencyPrices` | `*bool` | Query, Optional | When fetching coupons, if you have defined multiple currencies at the site level, you can optionally pass the `?currency_prices=true` query param to include an array of currency price data in the response. Use in query `currency_prices=true`. |
-| `filterEndDate` | `*time.Time` | Query, Optional | The end date (format YYYY-MM-DD) with which to filter the date_field. Returns coupons with a timestamp up to and including 11:59:59PM in your site’s time zone on the date specified. Use in query `filter[end_date]=2011-12-17`. |
-| `filterEndDatetime` | `*time.Time` | Query, Optional | The end date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns coupons with a timestamp at or before exact time provided in query. You can specify timezone in query - otherwise your site's time zone will be used. If provided, this parameter will be used instead of end_date. Use in query `filter[end_datetime]=2011-12-19T10:15:30+01:00`. |
-| `filterStartDate` | `*time.Time` | Query, Optional | The start date (format YYYY-MM-DD) with which to filter the date_field. Returns coupons with a timestamp at or after midnight (12:00:00 AM) in your site’s time zone on the date specified. Use in query `filter[start_date]=2011-12-19`. |
-| `filterStartDatetime` | `*time.Time` | Query, Optional | The start date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns coupons with a timestamp at or after exact time provided in query. You can specify timezone in query - otherwise your site's time zone will be used. If provided, this parameter will be used instead of start_date. Use in query `filter[start_datetime]=2011-12-19T10:15:30+01:00`. |
-| `filterDateField` | [`*models.BasicDateField`](../../doc/models/basic-date-field.md) | Query, Optional | The type of filter you would like to apply to your search. Use in query `filter[date_field]=updated_at`. |
-| `filterUseSiteExchangeRate` | `*bool` | Query, Optional | Allows fetching coupons with matching use_site_exchange_rate based on provided value. Use in query `filter[use_site_exchange_rate]=true`. |
 
 ## Response Type
 
@@ -615,27 +601,26 @@ ListCoupons(
 ```go
 ctx := context.Background()
 
-collectedInputStartDate, err := time.Parse(time.RFC3339, "2011-12-17")
-if err != nil {
-    log.Fatalln(err)
-}
-collectedInputStartDatetime, err := time.Parse(time.RFC3339, "06/07/2019 17:20:06")
-if err != nil {
-    log.Fatalln(err)
-}
-collectedInputEndDatetime, err := time.Parse(time.RFC3339, "06/07/2019 17:20:06")
-if err != nil {
-    log.Fatalln(err)
-}Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')
 collectedInput := advancedbilling.ListCouponsInput{
-    Page:                      models.ToPointer(2),
-    PerPage:                   models.ToPointer(50),
-    DateField:                 models.ToPointer(models.BasicDateField("updated_at")),
-Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')    CurrencyPrices:            models.ToPointer(true),
-Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')    StartDate:                 models.ToPointer(collectedInputStartDate),
-    StartDatetime:             models.ToPointer(collectedInputStartDatetime),
-    EndDatetime:               models.ToPointer(collectedInputEndDatetime),
-Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')}
+    Page:           models.ToPointer(2),
+    PerPage:        models.ToPointer(50),
+    Filter:         models.ToPointer(models.ListCouponsFilter{
+        StartDate:           models.ToPointer(parseTime(models.DEFAULT_DATE, "2011-12-17", func(err error) { log.Fatalln(err) })),
+        EndDate:             models.ToPointer(parseTime(models.DEFAULT_DATE, "2011-12-15", func(err error) { log.Fatalln(err) })),
+        StartDatetime:       models.ToPointer(parseTime(time.RFC3339, "12/19/2011 09:15:30", func(err error) { log.Fatalln(err) })),
+        EndDatetime:         models.ToPointer(parseTime(time.RFC3339, "06/07/2019 17:20:06", func(err error) { log.Fatalln(err) })),
+        Ids:                 []int{
+            1,
+            2,
+            3,
+        },
+        Codes:               []string{
+            "free",
+            "free_trial",
+        },
+    }),
+    CurrencyPrices: models.ToPointer(true),
+}
 
 apiResponse, err := couponsController.ListCoupons(ctx, collectedInput)
 if err != nil {
@@ -724,7 +709,9 @@ ReadCouponUsage(
 
 ```go
 ctx := context.Background()
+
 productFamilyId := 140
+
 couponId := 162
 
 apiResponse, err := couponsController.ReadCouponUsage(ctx, productFamilyId, couponId)
@@ -820,7 +807,10 @@ ValidateCoupon(
 
 ```go
 ctx := context.Background()
+
 code := "code8"
+
+
 
 apiResponse, err := couponsController.ValidateCoupon(ctx, code, nil)
 if err != nil {
@@ -856,8 +846,7 @@ if err != nil {
     "archived_at": null,
     "conversion_limit": null,
     "stackable": true,
-    "compounding_strategy": "full-price",
-    "coupon_restrictions": []
+    "compounding_strategy": "full-price"
   }
 }
 ```
@@ -899,21 +888,20 @@ CreateOrUpdateCouponCurrencyPrices(
 
 ```go
 ctx := context.Background()
+
 couponId := 162
 
-bodyCurrencyPrices0 := models.UpdateCouponCurrency{
-    Currency: "EUR",
-    Price:    10,
-}
-
-bodyCurrencyPrices1 := models.UpdateCouponCurrency{
-    Currency: "GBP",
-    Price:    9,
-}
-
-bodyCurrencyPrices := []models.UpdateCouponCurrency{bodyCurrencyPrices0, bodyCurrencyPrices1}
 body := models.CouponCurrencyRequest{
-    CurrencyPrices: bodyCurrencyPrices,
+    CurrencyPrices: []models.UpdateCouponCurrency{
+        models.UpdateCouponCurrency{
+            Currency: "EUR",
+            Price:    10,
+        },
+        models.UpdateCouponCurrency{
+            Currency: "GBP",
+            Price:    9,
+        },
+    },
 }
 
 apiResponse, err := couponsController.CreateOrUpdateCouponCurrencyPrices(ctx, couponId, &body)
@@ -994,10 +982,15 @@ CreateCouponSubcodes(
 
 ```go
 ctx := context.Background()
+
 couponId := 162
 
 body := models.CouponSubcodes{
-    Codes: []string{"BALTIMOREFALL", "ORLANDOFALL", "DETROITFALL"},
+    Codes: []string{
+        "BALTIMOREFALL",
+        "ORLANDOFALL",
+        "DETROITFALL",
+    },
 }
 
 apiResponse, err := couponsController.CreateCouponSubcodes(ctx, couponId, &body)
@@ -1018,9 +1011,7 @@ if err != nil {
     "BALTIMOREFALL",
     "ORLANDOFALL",
     "DETROITFALL"
-  ],
-  "duplicate_codes": [],
-  "invalid_codes": []
+  ]
 }
 ```
 
@@ -1138,10 +1129,15 @@ UpdateCouponSubcodes(
 
 ```go
 ctx := context.Background()
+
 couponId := 162
 
 body := models.CouponSubcodes{
-    Codes: []string{"AAAA", "BBBB", "CCCC"},
+    Codes: []string{
+        "AAAA",
+        "BBBB",
+        "CCCC",
+    },
 }
 
 apiResponse, err := couponsController.UpdateCouponSubcodes(ctx, couponId, &body)
@@ -1204,7 +1200,9 @@ DeleteCouponSubcode(
 
 ```go
 ctx := context.Background()
+
 couponId := 162
+
 subcode := "subcode4"
 
 resp, err := couponsController.DeleteCouponSubcode(ctx, couponId, subcode)

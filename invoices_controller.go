@@ -1,25 +1,25 @@
 package advancedbilling
 
 import (
-	"context"
-	"fmt"
-	"github.com/apimatic/go-core-runtime/https"
-	"github.com/apimatic/go-core-runtime/utilities"
-	"github.com/maxio-com/ab-golang-sdk/errors"
-	"github.com/maxio-com/ab-golang-sdk/models"
-	"net/http"
+    "context"
+    "fmt"
+    "github.com/apimatic/go-core-runtime/https"
+    "github.com/apimatic/go-core-runtime/utilities"
+    "github.com/maxio-com/ab-golang-sdk/errors"
+    "github.com/maxio-com/ab-golang-sdk/models"
+    "net/http"
 )
 
 // InvoicesController represents a controller struct.
 type InvoicesController struct {
-	baseController
+    baseController
 }
 
 // NewInvoicesController creates a new instance of InvoicesController.
 // It takes a baseController as a parameter and returns a pointer to the InvoicesController.
 func NewInvoicesController(baseController baseController) *InvoicesController {
-	invoicesController := InvoicesController{baseController: baseController}
-	return &invoicesController
+    invoicesController := InvoicesController{baseController: baseController}
+    return &invoicesController
 }
 
 // RefundInvoice takes context, uid, body as parameters and
@@ -30,83 +30,83 @@ func NewInvoicesController(baseController baseController) *InvoicesController {
 // A refund less than the total of a consolidated invoice will be split across its segments.
 // A $50.00 refund on a $100.00 consolidated invoice with one $60.00 and one $40.00 segment, the refunded amount will be applied as 50% of each ($30.00 and $20.00 respectively).
 func (i *InvoicesController) RefundInvoice(
-	ctx context.Context,
-	uid string,
-	body *models.RefundInvoiceRequest) (
-	models.ApiResponse[models.Invoice],
-	error) {
-	req := i.prepareRequest(
-		ctx,
-		"POST",
-		fmt.Sprintf("/invoices/%v/refunds.json", uid),
-	)
-	req.Authenticate(NewAuth("BasicAuth"))
-	req.AppendErrors(map[string]https.ErrorBuilder[error]{
-		"422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
-	})
-	req.Header("Content-Type", "application/json")
-	if body != nil {
-		req.Json(body)
-	}
-
-	var result models.Invoice
-	decoder, resp, err := req.CallAsJson()
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	result, err = utilities.DecodeResults[models.Invoice](decoder)
-	return models.NewApiResponse(result, resp), err
+    ctx context.Context,
+    uid string,
+    body *models.RefundInvoiceRequest) (
+    models.ApiResponse[models.Invoice],
+    error) {
+    req := i.prepareRequest(
+      ctx,
+      "POST",
+      fmt.Sprintf("/invoices/%v/refunds.json", uid),
+    )
+    req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
+    })
+    req.Header("Content-Type", "application/json")
+    if body != nil {
+        req.Json(body)
+    }
+    
+    var result models.Invoice
+    decoder, resp, err := req.CallAsJson()
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    result, err = utilities.DecodeResults[models.Invoice](decoder)
+    return models.NewApiResponse(result, resp), err
 }
 
 // ListInvoicesInput represents the input of the ListInvoices endpoint.
 type ListInvoicesInput struct {
-	// The start date (format YYYY-MM-DD) with which to filter the date_field. Returns invoices with a timestamp at or after midnight (12:00:00 AM) in your site’s time zone on the date specified.
-	StartDate *string
-	// The end date (format YYYY-MM-DD) with which to filter the date_field. Returns invoices with a timestamp up to and including 11:59:59PM in your site’s time zone on the date specified.
-	EndDate *string
-	// The current status of the invoice.  Allowed Values: draft, open, paid, pending, voided
-	Status *models.InvoiceStatus
-	// The subscription's ID.
-	SubscriptionId *int
-	// The UID of the subscription group you want to fetch consolidated invoices for. This will return a paginated list of consolidated invoices for the specified group.
-	SubscriptionGroupUid *string
-	// Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.
-	// Use in query `page=1`.
-	Page *int
-	// This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.
-	// Use in query `per_page=200`.
-	PerPage *int
-	// The sort direction of the returned invoices.
-	Direction *models.Direction
-	// Include line items data
-	LineItems *bool
-	// Include discounts data
-	Discounts *bool
-	// Include taxes data
-	Taxes *bool
-	// Include credits data
-	Credits *bool
-	// Include payments data
-	Payments *bool
-	// Include custom fields data
-	CustomFields *bool
-	// Include refunds data
-	Refunds *bool
-	// The type of filter you would like to apply to your search. Use in query `date_field=issue_date`.
-	DateField *models.InvoiceDateField
-	// The start date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns invoices with a timestamp at or after exact time provided in query. You can specify timezone in query - otherwise your site's time zone will be used. If provided, this parameter will be used instead of start_date. Allowed to be used only along with date_field set to created_at or updated_at.
-	StartDatetime *string
-	// The end date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns invoices with a timestamp at or before exact time provided in query. You can specify timezone in query - otherwise your site's time zone will be used. If provided, this parameter will be used instead of end_date. Allowed to be used only along with date_field set to created_at or updated_at.
-	EndDatetime *string
-	// Allows fetching invoices with matching customer id based on provided values. Use in query `customer_ids=1,2,3`.
-	CustomerIds []int
-	// Allows fetching invoices with matching invoice number based on provided values. Use in query `number=1234,1235`.
-	Number []string
-	// Allows fetching invoices with matching line items product ids based on provided values. Use in query `product_ids=23,34`.
-	ProductIds []int
-	// Allows specification of the order of the returned list. Use in query `sort=total_amount`.
-	Sort *models.InvoiceSortField
+    // The start date (format YYYY-MM-DD) with which to filter the date_field. Returns invoices with a timestamp at or after midnight (12:00:00 AM) in your site’s time zone on the date specified.
+    StartDate            *string                  
+    // The end date (format YYYY-MM-DD) with which to filter the date_field. Returns invoices with a timestamp up to and including 11:59:59PM in your site’s time zone on the date specified.
+    EndDate              *string                  
+    // The current status of the invoice.  Allowed Values: draft, open, paid, pending, voided
+    Status               *models.InvoiceStatus    
+    // The subscription's ID.
+    SubscriptionId       *int                     
+    // The UID of the subscription group you want to fetch consolidated invoices for. This will return a paginated list of consolidated invoices for the specified group.
+    SubscriptionGroupUid *string                  
+    // Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.
+    // Use in query `page=1`.
+    Page                 *int                     
+    // This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.
+    // Use in query `per_page=200`.
+    PerPage              *int                     
+    // The sort direction of the returned invoices.
+    Direction            *models.Direction        
+    // Include line items data
+    LineItems            *bool                    
+    // Include discounts data
+    Discounts            *bool                    
+    // Include taxes data
+    Taxes                *bool                    
+    // Include credits data
+    Credits              *bool                    
+    // Include payments data
+    Payments             *bool                    
+    // Include custom fields data
+    CustomFields         *bool                    
+    // Include refunds data
+    Refunds              *bool                    
+    // The type of filter you would like to apply to your search. Use in query `date_field=issue_date`.
+    DateField            *models.InvoiceDateField 
+    // The start date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns invoices with a timestamp at or after exact time provided in query. You can specify timezone in query - otherwise your site's time zone will be used. If provided, this parameter will be used instead of start_date. Allowed to be used only along with date_field set to created_at or updated_at.
+    StartDatetime        *string                  
+    // The end date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns invoices with a timestamp at or before exact time provided in query. You can specify timezone in query - otherwise your site's time zone will be used. If provided, this parameter will be used instead of end_date. Allowed to be used only along with date_field set to created_at or updated_at.
+    EndDatetime          *string                  
+    // Allows fetching invoices with matching customer id based on provided values. Use in query `customer_ids=1,2,3`.
+    CustomerIds          []int                    
+    // Allows fetching invoices with matching invoice number based on provided values. Use in query `number=1234,1235`.
+    Number               []string                 
+    // Allows fetching invoices with matching line items product ids based on provided values. Use in query `product_ids=23,34`.
+    ProductIds           []int                    
+    // Allows specification of the order of the returned list. Use in query `sort=total_amount`.
+    Sort                 *models.InvoiceSortField 
 }
 
 // ListInvoices takes context, startDate, endDate, status, subscriptionId, subscriptionGroupUid, page, perPage, direction, lineItems, discounts, taxes, credits, payments, customFields, refunds, dateField, startDatetime, endDatetime, customerIds, number, productIds, sort as parameters and
@@ -114,86 +114,86 @@ type ListInvoicesInput struct {
 // an error if there was an issue with the request or response.
 // By default, invoices returned on the index will only include totals, not detailed breakdowns for `line_items`, `discounts`, `taxes`, `credits`, `payments`, `custom_fields`, or `refunds`. To include breakdowns, pass the specific field as a key in the query with a value set to `true`.
 func (i *InvoicesController) ListInvoices(
-	ctx context.Context,
-	input ListInvoicesInput) (
-	models.ApiResponse[models.ListInvoicesResponse],
-	error) {
-	req := i.prepareRequest(ctx, "GET", "/invoices.json")
-	req.Authenticate(NewAuth("BasicAuth"))
-	if input.StartDate != nil {
-		req.QueryParam("start_date", *input.StartDate)
-	}
-	if input.EndDate != nil {
-		req.QueryParam("end_date", *input.EndDate)
-	}
-	if input.Status != nil {
-		req.QueryParam("status", *input.Status)
-	}
-	if input.SubscriptionId != nil {
-		req.QueryParam("subscription_id", *input.SubscriptionId)
-	}
-	if input.SubscriptionGroupUid != nil {
-		req.QueryParam("subscription_group_uid", *input.SubscriptionGroupUid)
-	}
-	if input.Page != nil {
-		req.QueryParam("page", *input.Page)
-	}
-	if input.PerPage != nil {
-		req.QueryParam("per_page", *input.PerPage)
-	}
-	if input.Direction != nil {
-		req.QueryParam("direction", *input.Direction)
-	}
-	if input.LineItems != nil {
-		req.QueryParam("line_items", *input.LineItems)
-	}
-	if input.Discounts != nil {
-		req.QueryParam("discounts", *input.Discounts)
-	}
-	if input.Taxes != nil {
-		req.QueryParam("taxes", *input.Taxes)
-	}
-	if input.Credits != nil {
-		req.QueryParam("credits", *input.Credits)
-	}
-	if input.Payments != nil {
-		req.QueryParam("payments", *input.Payments)
-	}
-	if input.CustomFields != nil {
-		req.QueryParam("custom_fields", *input.CustomFields)
-	}
-	if input.Refunds != nil {
-		req.QueryParam("refunds", *input.Refunds)
-	}
-	if input.DateField != nil {
-		req.QueryParam("date_field", *input.DateField)
-	}
-	if input.StartDatetime != nil {
-		req.QueryParam("start_datetime", *input.StartDatetime)
-	}
-	if input.EndDatetime != nil {
-		req.QueryParam("end_datetime", *input.EndDatetime)
-	}
-	if input.CustomerIds != nil {
-		req.QueryParam("customer_ids", input.CustomerIds)
-	}
-	if input.Number != nil {
-		req.QueryParam("number", input.Number)
-	}
-	if input.ProductIds != nil {
-		req.QueryParam("product_ids", input.ProductIds)
-	}
-	if input.Sort != nil {
-		req.QueryParam("sort", *input.Sort)
-	}
-	var result models.ListInvoicesResponse
-	decoder, resp, err := req.CallAsJson()
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	result, err = utilities.DecodeResults[models.ListInvoicesResponse](decoder)
-	return models.NewApiResponse(result, resp), err
+    ctx context.Context,
+    input ListInvoicesInput) (
+    models.ApiResponse[models.ListInvoicesResponse],
+    error) {
+    req := i.prepareRequest(ctx, "GET", "/invoices.json")
+    req.Authenticate(NewAuth("BasicAuth"))
+    if input.StartDate != nil {
+        req.QueryParam("start_date", *input.StartDate)
+    }
+    if input.EndDate != nil {
+        req.QueryParam("end_date", *input.EndDate)
+    }
+    if input.Status != nil {
+        req.QueryParam("status", *input.Status)
+    }
+    if input.SubscriptionId != nil {
+        req.QueryParam("subscription_id", *input.SubscriptionId)
+    }
+    if input.SubscriptionGroupUid != nil {
+        req.QueryParam("subscription_group_uid", *input.SubscriptionGroupUid)
+    }
+    if input.Page != nil {
+        req.QueryParam("page", *input.Page)
+    }
+    if input.PerPage != nil {
+        req.QueryParam("per_page", *input.PerPage)
+    }
+    if input.Direction != nil {
+        req.QueryParam("direction", *input.Direction)
+    }
+    if input.LineItems != nil {
+        req.QueryParam("line_items", *input.LineItems)
+    }
+    if input.Discounts != nil {
+        req.QueryParam("discounts", *input.Discounts)
+    }
+    if input.Taxes != nil {
+        req.QueryParam("taxes", *input.Taxes)
+    }
+    if input.Credits != nil {
+        req.QueryParam("credits", *input.Credits)
+    }
+    if input.Payments != nil {
+        req.QueryParam("payments", *input.Payments)
+    }
+    if input.CustomFields != nil {
+        req.QueryParam("custom_fields", *input.CustomFields)
+    }
+    if input.Refunds != nil {
+        req.QueryParam("refunds", *input.Refunds)
+    }
+    if input.DateField != nil {
+        req.QueryParam("date_field", *input.DateField)
+    }
+    if input.StartDatetime != nil {
+        req.QueryParam("start_datetime", *input.StartDatetime)
+    }
+    if input.EndDatetime != nil {
+        req.QueryParam("end_datetime", *input.EndDatetime)
+    }
+    if input.CustomerIds != nil {
+        req.QueryParam("customer_ids", input.CustomerIds)
+    }
+    if input.Number != nil {
+        req.QueryParam("number", input.Number)
+    }
+    if input.ProductIds != nil {
+        req.QueryParam("product_ids", input.ProductIds)
+    }
+    if input.Sort != nil {
+        req.QueryParam("sort", *input.Sort)
+    }
+    var result models.ListInvoicesResponse
+    decoder, resp, err := req.CallAsJson()
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    result, err = utilities.DecodeResults[models.ListInvoicesResponse](decoder)
+    return models.NewApiResponse(result, resp), err
 }
 
 // ReadInvoice takes context, uid as parameters and
@@ -201,40 +201,40 @@ func (i *InvoicesController) ListInvoices(
 // an error if there was an issue with the request or response.
 // Use this endpoint to retrieve the details for an invoice.
 func (i *InvoicesController) ReadInvoice(
-	ctx context.Context,
-	uid string) (
-	models.ApiResponse[models.Invoice],
-	error) {
-	req := i.prepareRequest(ctx, "GET", fmt.Sprintf("/invoices/%v.json", uid))
-	req.Authenticate(NewAuth("BasicAuth"))
-
-	var result models.Invoice
-	decoder, resp, err := req.CallAsJson()
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	result, err = utilities.DecodeResults[models.Invoice](decoder)
-	return models.NewApiResponse(result, resp), err
+    ctx context.Context,
+    uid string) (
+    models.ApiResponse[models.Invoice],
+    error) {
+    req := i.prepareRequest(ctx, "GET", fmt.Sprintf("/invoices/%v.json", uid))
+    req.Authenticate(NewAuth("BasicAuth"))
+    
+    var result models.Invoice
+    decoder, resp, err := req.CallAsJson()
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    result, err = utilities.DecodeResults[models.Invoice](decoder)
+    return models.NewApiResponse(result, resp), err
 }
 
 // ListInvoiceEventsInput represents the input of the ListInvoiceEvents endpoint.
 type ListInvoiceEventsInput struct {
-	// The timestamp in a format `YYYY-MM-DD T HH:MM:SS Z`, or `YYYY-MM-DD`(in this case, it returns data from the beginning of the day). of the event from which you want to start the search. All the events before the `since_date` timestamp are not returned in the response.
-	SinceDate *string
-	// The ID of the event from which you want to start the search(ID is not included. e.g. if ID is set to 2, then all events with ID 3 and more will be shown) This parameter is not used if since_date is defined.
-	SinceId *int
-	// Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.
-	// Use in query `page=1`.
-	Page *int
-	// This parameter indicates how many records to fetch in each request. Default value is 100. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.
-	PerPage *int
-	// Providing an invoice_uid allows for scoping of the invoice events to a single invoice or credit note.
-	InvoiceUid *string
-	// Use this parameter if you want to fetch also invoice events with change_invoice_status type.
-	WithChangeInvoiceStatus *string
-	// Filter results by event_type. Supply a comma separated list of event types (listed above). Use in query: `event_types=void_invoice,void_remainder`.
-	EventTypes []models.InvoiceEventType
+    // The timestamp in a format `YYYY-MM-DD T HH:MM:SS Z`, or `YYYY-MM-DD`(in this case, it returns data from the beginning of the day). of the event from which you want to start the search. All the events before the `since_date` timestamp are not returned in the response.
+    SinceDate               *string                   
+    // The ID of the event from which you want to start the search(ID is not included. e.g. if ID is set to 2, then all events with ID 3 and more will be shown) This parameter is not used if since_date is defined.
+    SinceId                 *int                      
+    // Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.
+    // Use in query `page=1`.
+    Page                    *int                      
+    // This parameter indicates how many records to fetch in each request. Default value is 100. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.
+    PerPage                 *int                      
+    // Providing an invoice_uid allows for scoping of the invoice events to a single invoice or credit note.
+    InvoiceUid              *string                   
+    // Use this parameter if you want to fetch also invoice events with change_invoice_status type.
+    WithChangeInvoiceStatus *string                   
+    // Filter results by event_type. Supply a comma separated list of event types (listed above). Use in query: `event_types=void_invoice,void_remainder`.
+    EventTypes              []models.InvoiceEventType 
 }
 
 // ListInvoiceEvents takes context, sinceDate, sinceId, page, perPage, invoiceUid, withChangeInvoiceStatus, eventTypes as parameters and
@@ -260,41 +260,41 @@ type ListInvoiceEventsInput struct {
 // If both a `since_date` and `since_id` are provided in request parameters, the `since_date` will be used.
 // Note - invoice events that occurred prior to 09/05/2018 __will not__ contain an `invoice` snapshot.
 func (i *InvoicesController) ListInvoiceEvents(
-	ctx context.Context,
-	input ListInvoiceEventsInput) (
-	models.ApiResponse[models.ListInvoiceEventsResponse],
-	error) {
-	req := i.prepareRequest(ctx, "GET", "/invoices/events.json")
-	req.Authenticate(NewAuth("BasicAuth"))
-	if input.SinceDate != nil {
-		req.QueryParam("since_date", *input.SinceDate)
-	}
-	if input.SinceId != nil {
-		req.QueryParam("since_id", *input.SinceId)
-	}
-	if input.Page != nil {
-		req.QueryParam("page", *input.Page)
-	}
-	if input.PerPage != nil {
-		req.QueryParam("per_page", *input.PerPage)
-	}
-	if input.InvoiceUid != nil {
-		req.QueryParam("invoice_uid", *input.InvoiceUid)
-	}
-	if input.WithChangeInvoiceStatus != nil {
-		req.QueryParam("with_change_invoice_status", *input.WithChangeInvoiceStatus)
-	}
-	if input.EventTypes != nil {
-		req.QueryParam("event_types", input.EventTypes)
-	}
-	var result models.ListInvoiceEventsResponse
-	decoder, resp, err := req.CallAsJson()
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	result, err = utilities.DecodeResults[models.ListInvoiceEventsResponse](decoder)
-	return models.NewApiResponse(result, resp), err
+    ctx context.Context,
+    input ListInvoiceEventsInput) (
+    models.ApiResponse[models.ListInvoiceEventsResponse],
+    error) {
+    req := i.prepareRequest(ctx, "GET", "/invoices/events.json")
+    req.Authenticate(NewAuth("BasicAuth"))
+    if input.SinceDate != nil {
+        req.QueryParam("since_date", *input.SinceDate)
+    }
+    if input.SinceId != nil {
+        req.QueryParam("since_id", *input.SinceId)
+    }
+    if input.Page != nil {
+        req.QueryParam("page", *input.Page)
+    }
+    if input.PerPage != nil {
+        req.QueryParam("per_page", *input.PerPage)
+    }
+    if input.InvoiceUid != nil {
+        req.QueryParam("invoice_uid", *input.InvoiceUid)
+    }
+    if input.WithChangeInvoiceStatus != nil {
+        req.QueryParam("with_change_invoice_status", *input.WithChangeInvoiceStatus)
+    }
+    if input.EventTypes != nil {
+        req.QueryParam("event_types", input.EventTypes)
+    }
+    var result models.ListInvoiceEventsResponse
+    decoder, resp, err := req.CallAsJson()
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    result, err = utilities.DecodeResults[models.ListInvoiceEventsResponse](decoder)
+    return models.NewApiResponse(result, resp), err
 }
 
 // RecordPaymentForInvoice takes context, uid, body as parameters and
@@ -335,33 +335,33 @@ func (i *InvoicesController) ListInvoiceEvents(
 // ```
 // Note that Chargify will attempt to fully pay the invoice's `due_amount` from the Subscription's Service Credit account. At this time, partial payments from a Service Credit Account are only allowed for consolidated invoices (subscription groups). Therefore, for normal invoices the Service Credit account balance must be greater than or equal to the invoice's `due_amount`.
 func (i *InvoicesController) RecordPaymentForInvoice(
-	ctx context.Context,
-	uid string,
-	body *models.CreateInvoicePaymentRequest) (
-	models.ApiResponse[models.Invoice],
-	error) {
-	req := i.prepareRequest(
-		ctx,
-		"POST",
-		fmt.Sprintf("/invoices/%v/payments.json", uid),
-	)
-	req.Authenticate(NewAuth("BasicAuth"))
-	req.AppendErrors(map[string]https.ErrorBuilder[error]{
-		"422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
-	})
-	req.Header("Content-Type", "application/json")
-	if body != nil {
-		req.Json(body)
-	}
-
-	var result models.Invoice
-	decoder, resp, err := req.CallAsJson()
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	result, err = utilities.DecodeResults[models.Invoice](decoder)
-	return models.NewApiResponse(result, resp), err
+    ctx context.Context,
+    uid string,
+    body *models.CreateInvoicePaymentRequest) (
+    models.ApiResponse[models.Invoice],
+    error) {
+    req := i.prepareRequest(
+      ctx,
+      "POST",
+      fmt.Sprintf("/invoices/%v/payments.json", uid),
+    )
+    req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
+    })
+    req.Header("Content-Type", "application/json")
+    if body != nil {
+        req.Json(body)
+    }
+    
+    var result models.Invoice
+    decoder, resp, err := req.CallAsJson()
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    result, err = utilities.DecodeResults[models.Invoice](decoder)
+    return models.NewApiResponse(result, resp), err
 }
 
 // RecordPaymentForMultipleInvoices takes context, body as parameters and
@@ -391,49 +391,49 @@ func (i *InvoicesController) RecordPaymentForInvoice(
 // ```
 // Note that the invoice payment amounts must be greater than 0. Total amount must be greater or equal to invoices payment amount sum.
 func (i *InvoicesController) RecordPaymentForMultipleInvoices(
-	ctx context.Context,
-	body *models.CreateMultiInvoicePaymentRequest) (
-	models.ApiResponse[models.MultiInvoicePaymentResponse],
-	error) {
-	req := i.prepareRequest(ctx, "POST", "/invoices/payments.json")
-	req.Authenticate(NewAuth("BasicAuth"))
-	req.AppendErrors(map[string]https.ErrorBuilder[error]{
-		"422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
-	})
-	req.Header("Content-Type", "application/json")
-	if body != nil {
-		req.Json(body)
-	}
-	var result models.MultiInvoicePaymentResponse
-	decoder, resp, err := req.CallAsJson()
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	result, err = utilities.DecodeResults[models.MultiInvoicePaymentResponse](decoder)
-	return models.NewApiResponse(result, resp), err
+    ctx context.Context,
+    body *models.CreateMultiInvoicePaymentRequest) (
+    models.ApiResponse[models.MultiInvoicePaymentResponse],
+    error) {
+    req := i.prepareRequest(ctx, "POST", "/invoices/payments.json")
+    req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
+    })
+    req.Header("Content-Type", "application/json")
+    if body != nil {
+        req.Json(body)
+    }
+    var result models.MultiInvoicePaymentResponse
+    decoder, resp, err := req.CallAsJson()
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    result, err = utilities.DecodeResults[models.MultiInvoicePaymentResponse](decoder)
+    return models.NewApiResponse(result, resp), err
 }
 
 // ListCreditNotesInput represents the input of the ListCreditNotes endpoint.
 type ListCreditNotesInput struct {
-	// The subscription's Chargify id
-	SubscriptionId *int
-	// Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.
-	// Use in query `page=1`.
-	Page *int
-	// This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.
-	// Use in query `per_page=200`.
-	PerPage *int
-	// Include line items data
-	LineItems *bool
-	// Include discounts data
-	Discounts *bool
-	// Include taxes data
-	Taxes *bool
-	// Include refunds data
-	Refunds *bool
-	// Include applications data
-	Applications *bool
+    // The subscription's Chargify id
+    SubscriptionId *int  
+    // Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.
+    // Use in query `page=1`.
+    Page           *int  
+    // This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.
+    // Use in query `per_page=200`.
+    PerPage        *int  
+    // Include line items data
+    LineItems      *bool 
+    // Include discounts data
+    Discounts      *bool 
+    // Include taxes data
+    Taxes          *bool 
+    // Include refunds data
+    Refunds        *bool 
+    // Include applications data
+    Applications   *bool 
 }
 
 // ListCreditNotes takes context, subscriptionId, page, perPage, lineItems, discounts, taxes, refunds, applications as parameters and
@@ -442,44 +442,44 @@ type ListCreditNotesInput struct {
 // Credit Notes are like inverse invoices. They reduce the amount a customer owes.
 // By default, the credit notes returned by this endpoint will exclude the arrays of `line_items`, `discounts`, `taxes`, `applications`, or `refunds`. To include these arrays, pass the specific field as a key in the query with a value set to `true`.
 func (i *InvoicesController) ListCreditNotes(
-	ctx context.Context,
-	input ListCreditNotesInput) (
-	models.ApiResponse[models.ListCreditNotesResponse],
-	error) {
-	req := i.prepareRequest(ctx, "GET", "/credit_notes.json")
-	req.Authenticate(NewAuth("BasicAuth"))
-	if input.SubscriptionId != nil {
-		req.QueryParam("subscription_id", *input.SubscriptionId)
-	}
-	if input.Page != nil {
-		req.QueryParam("page", *input.Page)
-	}
-	if input.PerPage != nil {
-		req.QueryParam("per_page", *input.PerPage)
-	}
-	if input.LineItems != nil {
-		req.QueryParam("line_items", *input.LineItems)
-	}
-	if input.Discounts != nil {
-		req.QueryParam("discounts", *input.Discounts)
-	}
-	if input.Taxes != nil {
-		req.QueryParam("taxes", *input.Taxes)
-	}
-	if input.Refunds != nil {
-		req.QueryParam("refunds", *input.Refunds)
-	}
-	if input.Applications != nil {
-		req.QueryParam("applications", *input.Applications)
-	}
-	var result models.ListCreditNotesResponse
-	decoder, resp, err := req.CallAsJson()
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	result, err = utilities.DecodeResults[models.ListCreditNotesResponse](decoder)
-	return models.NewApiResponse(result, resp), err
+    ctx context.Context,
+    input ListCreditNotesInput) (
+    models.ApiResponse[models.ListCreditNotesResponse],
+    error) {
+    req := i.prepareRequest(ctx, "GET", "/credit_notes.json")
+    req.Authenticate(NewAuth("BasicAuth"))
+    if input.SubscriptionId != nil {
+        req.QueryParam("subscription_id", *input.SubscriptionId)
+    }
+    if input.Page != nil {
+        req.QueryParam("page", *input.Page)
+    }
+    if input.PerPage != nil {
+        req.QueryParam("per_page", *input.PerPage)
+    }
+    if input.LineItems != nil {
+        req.QueryParam("line_items", *input.LineItems)
+    }
+    if input.Discounts != nil {
+        req.QueryParam("discounts", *input.Discounts)
+    }
+    if input.Taxes != nil {
+        req.QueryParam("taxes", *input.Taxes)
+    }
+    if input.Refunds != nil {
+        req.QueryParam("refunds", *input.Refunds)
+    }
+    if input.Applications != nil {
+        req.QueryParam("applications", *input.Applications)
+    }
+    var result models.ListCreditNotesResponse
+    decoder, resp, err := req.CallAsJson()
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    result, err = utilities.DecodeResults[models.ListCreditNotesResponse](decoder)
+    return models.NewApiResponse(result, resp), err
 }
 
 // ReadCreditNote takes context, uid as parameters and
@@ -487,21 +487,21 @@ func (i *InvoicesController) ListCreditNotes(
 // an error if there was an issue with the request or response.
 // Use this endpoint to retrieve the details for a credit note.
 func (i *InvoicesController) ReadCreditNote(
-	ctx context.Context,
-	uid string) (
-	models.ApiResponse[models.CreditNote],
-	error) {
-	req := i.prepareRequest(ctx, "GET", fmt.Sprintf("/credit_notes/%v.json", uid))
-	req.Authenticate(NewAuth("BasicAuth"))
-
-	var result models.CreditNote
-	decoder, resp, err := req.CallAsJson()
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	result, err = utilities.DecodeResults[models.CreditNote](decoder)
-	return models.NewApiResponse(result, resp), err
+    ctx context.Context,
+    uid string) (
+    models.ApiResponse[models.CreditNote],
+    error) {
+    req := i.prepareRequest(ctx, "GET", fmt.Sprintf("/credit_notes/%v.json", uid))
+    req.Authenticate(NewAuth("BasicAuth"))
+    
+    var result models.CreditNote
+    decoder, resp, err := req.CallAsJson()
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    result, err = utilities.DecodeResults[models.CreditNote](decoder)
+    return models.NewApiResponse(result, resp), err
 }
 
 // RecordPaymentForSubscription takes context, subscriptionId, body as parameters and
@@ -512,33 +512,33 @@ func (i *InvoicesController) ReadCreditNote(
 // Excess payment will result in the creation of a prepayment on the Invoice Account.
 // Only ungrouped or primary subscriptions may be paid using the "bulk" payment request.
 func (i *InvoicesController) RecordPaymentForSubscription(
-	ctx context.Context,
-	subscriptionId int,
-	body *models.RecordPaymentRequest) (
-	models.ApiResponse[models.RecordPaymentResponse],
-	error) {
-	req := i.prepareRequest(
-		ctx,
-		"POST",
-		fmt.Sprintf("/subscriptions/%v/payments.json", subscriptionId),
-	)
-	req.Authenticate(NewAuth("BasicAuth"))
-	req.AppendErrors(map[string]https.ErrorBuilder[error]{
-		"422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
-	})
-	req.Header("Content-Type", "application/json")
-	if body != nil {
-		req.Json(body)
-	}
-
-	var result models.RecordPaymentResponse
-	decoder, resp, err := req.CallAsJson()
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	result, err = utilities.DecodeResults[models.RecordPaymentResponse](decoder)
-	return models.NewApiResponse(result, resp), err
+    ctx context.Context,
+    subscriptionId int,
+    body *models.RecordPaymentRequest) (
+    models.ApiResponse[models.RecordPaymentResponse],
+    error) {
+    req := i.prepareRequest(
+      ctx,
+      "POST",
+      fmt.Sprintf("/subscriptions/%v/payments.json", subscriptionId),
+    )
+    req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
+    })
+    req.Header("Content-Type", "application/json")
+    if body != nil {
+        req.Json(body)
+    }
+    
+    var result models.RecordPaymentResponse
+    decoder, resp, err := req.CallAsJson()
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    result, err = utilities.DecodeResults[models.RecordPaymentResponse](decoder)
+    return models.NewApiResponse(result, resp), err
 }
 
 // ReopenInvoice takes context, uid as parameters and
@@ -552,29 +552,29 @@ func (i *InvoicesController) RecordPaymentForSubscription(
 // ### Reopening Consolidated Invoices
 // When reopening a consolidated invoice, all of its canceled segments will also be reopened.
 func (i *InvoicesController) ReopenInvoice(
-	ctx context.Context,
-	uid string) (
-	models.ApiResponse[models.Invoice],
-	error) {
-	req := i.prepareRequest(
-		ctx,
-		"POST",
-		fmt.Sprintf("/invoices/%v/reopen.json", uid),
-	)
-	req.Authenticate(NewAuth("BasicAuth"))
-	req.AppendErrors(map[string]https.ErrorBuilder[error]{
-		"404": {TemplatedMessage: "Not Found:'{$response.body}'"},
-		"422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
-	})
-
-	var result models.Invoice
-	decoder, resp, err := req.CallAsJson()
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	result, err = utilities.DecodeResults[models.Invoice](decoder)
-	return models.NewApiResponse(result, resp), err
+    ctx context.Context,
+    uid string) (
+    models.ApiResponse[models.Invoice],
+    error) {
+    req := i.prepareRequest(
+      ctx,
+      "POST",
+      fmt.Sprintf("/invoices/%v/reopen.json", uid),
+    )
+    req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
+        "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
+    })
+    
+    var result models.Invoice
+    decoder, resp, err := req.CallAsJson()
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    result, err = utilities.DecodeResults[models.Invoice](decoder)
+    return models.NewApiResponse(result, resp), err
 }
 
 // VoidInvoice takes context, uid, body as parameters and
@@ -582,44 +582,44 @@ func (i *InvoicesController) ReopenInvoice(
 // an error if there was an issue with the request or response.
 // This endpoint allows you to void any invoice with the "open" or "canceled" status.  It will also allow voiding of an invoice with the "pending" status if it is not a consolidated invoice.
 func (i *InvoicesController) VoidInvoice(
-	ctx context.Context,
-	uid string,
-	body *models.VoidInvoiceRequest) (
-	models.ApiResponse[models.Invoice],
-	error) {
-	req := i.prepareRequest(ctx, "POST", fmt.Sprintf("/invoices/%v/void.json", uid))
-	req.Authenticate(NewAuth("BasicAuth"))
-	req.AppendErrors(map[string]https.ErrorBuilder[error]{
-		"404": {TemplatedMessage: "Not Found:'{$response.body}'"},
-		"422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
-	})
-	req.Header("Content-Type", "application/json")
-	if body != nil {
-		req.Json(body)
-	}
-
-	var result models.Invoice
-	decoder, resp, err := req.CallAsJson()
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	result, err = utilities.DecodeResults[models.Invoice](decoder)
-	return models.NewApiResponse(result, resp), err
+    ctx context.Context,
+    uid string,
+    body *models.VoidInvoiceRequest) (
+    models.ApiResponse[models.Invoice],
+    error) {
+    req := i.prepareRequest(ctx, "POST", fmt.Sprintf("/invoices/%v/void.json", uid))
+    req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
+        "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
+    })
+    req.Header("Content-Type", "application/json")
+    if body != nil {
+        req.Json(body)
+    }
+    
+    var result models.Invoice
+    decoder, resp, err := req.CallAsJson()
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    result, err = utilities.DecodeResults[models.Invoice](decoder)
+    return models.NewApiResponse(result, resp), err
 }
 
 // ListConsolidatedInvoiceSegmentsInput represents the input of the ListConsolidatedInvoiceSegments endpoint.
 type ListConsolidatedInvoiceSegmentsInput struct {
-	// The unique identifier of the consolidated invoice
-	InvoiceUid string
-	// Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.
-	// Use in query `page=1`.
-	Page *int
-	// This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.
-	// Use in query `per_page=200`.
-	PerPage *int
-	// Sort direction of the returned segments.
-	Direction *models.Direction
+    // The unique identifier of the consolidated invoice
+    InvoiceUid string            
+    // Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.
+    // Use in query `page=1`.
+    Page       *int              
+    // This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.
+    // Use in query `per_page=200`.
+    PerPage    *int              
+    // Sort direction of the returned segments.
+    Direction  *models.Direction 
 }
 
 // ListConsolidatedInvoiceSegments takes context, invoiceUid, page, perPage, direction as parameters and
@@ -627,34 +627,34 @@ type ListConsolidatedInvoiceSegmentsInput struct {
 // an error if there was an issue with the request or response.
 // Invoice segments returned on the index will only include totals, not detailed breakdowns for `line_items`, `discounts`, `taxes`, `credits`, `payments`, or `custom_fields`.
 func (i *InvoicesController) ListConsolidatedInvoiceSegments(
-	ctx context.Context,
-	input ListConsolidatedInvoiceSegmentsInput) (
-	models.ApiResponse[models.ConsolidatedInvoice],
-	error) {
-	req := i.prepareRequest(
-		ctx,
-		"GET",
-		fmt.Sprintf("/invoices/%v/segments.json", input.InvoiceUid),
-	)
-	req.Authenticate(NewAuth("BasicAuth"))
-	if input.Page != nil {
-		req.QueryParam("page", *input.Page)
-	}
-	if input.PerPage != nil {
-		req.QueryParam("per_page", *input.PerPage)
-	}
-	if input.Direction != nil {
-		req.QueryParam("direction", *input.Direction)
-	}
-
-	var result models.ConsolidatedInvoice
-	decoder, resp, err := req.CallAsJson()
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	result, err = utilities.DecodeResults[models.ConsolidatedInvoice](decoder)
-	return models.NewApiResponse(result, resp), err
+    ctx context.Context,
+    input ListConsolidatedInvoiceSegmentsInput) (
+    models.ApiResponse[models.ConsolidatedInvoice],
+    error) {
+    req := i.prepareRequest(
+      ctx,
+      "GET",
+      fmt.Sprintf("/invoices/%v/segments.json", input.InvoiceUid),
+    )
+    req.Authenticate(NewAuth("BasicAuth"))
+    if input.Page != nil {
+        req.QueryParam("page", *input.Page)
+    }
+    if input.PerPage != nil {
+        req.QueryParam("per_page", *input.PerPage)
+    }
+    if input.Direction != nil {
+        req.QueryParam("direction", *input.Direction)
+    }
+    
+    var result models.ConsolidatedInvoice
+    decoder, resp, err := req.CallAsJson()
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    result, err = utilities.DecodeResults[models.ConsolidatedInvoice](decoder)
+    return models.NewApiResponse(result, resp), err
 }
 
 // CreateInvoice takes context, subscriptionId, body as parameters and
@@ -772,33 +772,33 @@ func (i *InvoicesController) ListConsolidatedInvoiceSegments(
 // #### Status
 // By default, invoices will be created with open status. Possible alternative is `draft`.
 func (i *InvoicesController) CreateInvoice(
-	ctx context.Context,
-	subscriptionId int,
-	body *models.CreateInvoiceRequest) (
-	models.ApiResponse[models.InvoiceResponse],
-	error) {
-	req := i.prepareRequest(
-		ctx,
-		"POST",
-		fmt.Sprintf("/subscriptions/%v/invoices.json", subscriptionId),
-	)
-	req.Authenticate(NewAuth("BasicAuth"))
-	req.AppendErrors(map[string]https.ErrorBuilder[error]{
-		"422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorArrayMapResponse},
-	})
-	req.Header("Content-Type", "application/json")
-	if body != nil {
-		req.Json(body)
-	}
-
-	var result models.InvoiceResponse
-	decoder, resp, err := req.CallAsJson()
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	result, err = utilities.DecodeResults[models.InvoiceResponse](decoder)
-	return models.NewApiResponse(result, resp), err
+    ctx context.Context,
+    subscriptionId int,
+    body *models.CreateInvoiceRequest) (
+    models.ApiResponse[models.InvoiceResponse],
+    error) {
+    req := i.prepareRequest(
+      ctx,
+      "POST",
+      fmt.Sprintf("/subscriptions/%v/invoices.json", subscriptionId),
+    )
+    req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorArrayMapResponse},
+    })
+    req.Header("Content-Type", "application/json")
+    if body != nil {
+        req.Json(body)
+    }
+    
+    var result models.InvoiceResponse
+    decoder, resp, err := req.CallAsJson()
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    result, err = utilities.DecodeResults[models.InvoiceResponse](decoder)
+    return models.NewApiResponse(result, resp), err
 }
 
 // SendInvoice takes context, uid, body as parameters and
@@ -808,30 +808,30 @@ func (i *InvoicesController) CreateInvoice(
 // Please note that if no recipient email addresses are specified in the request, then the subscription's default email configuration will be used. For example, if `recipient_emails` is left blank, then the invoice will be delivered to the subscription's customer email address.
 // On success, a 204 no-content response will be returned. Please note that this does not indicate that email(s) have been delivered, but instead indicates that emails have been successfully queued for delivery. If _any_ invalid or malformed email address is found in the request body, the entire request will be rejected and a 422 response will be returned.
 func (i *InvoicesController) SendInvoice(
-	ctx context.Context,
-	uid string,
-	body *models.SendInvoiceRequest) (
-	*http.Response,
-	error) {
-	req := i.prepareRequest(
-		ctx,
-		"POST",
-		fmt.Sprintf("/invoices/%v/deliveries.json", uid),
-	)
-	req.Authenticate(NewAuth("BasicAuth"))
-	req.AppendErrors(map[string]https.ErrorBuilder[error]{
-		"422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
-	})
-	req.Header("Content-Type", "application/json")
-	if body != nil {
-		req.Json(body)
-	}
-
-	context, err := req.Call()
-	if err != nil {
-		return context.Response, err
-	}
-	return context.Response, err
+    ctx context.Context,
+    uid string,
+    body *models.SendInvoiceRequest) (
+    *http.Response,
+    error) {
+    req := i.prepareRequest(
+      ctx,
+      "POST",
+      fmt.Sprintf("/invoices/%v/deliveries.json", uid),
+    )
+    req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
+    })
+    req.Header("Content-Type", "application/json")
+    if body != nil {
+        req.Json(body)
+    }
+    
+    context, err := req.Call()
+    if err != nil {
+        return context.Response, err
+    }
+    return context.Response, err
 }
 
 // PreviewCustomerInformationChanges takes context, uid as parameters and
@@ -840,29 +840,29 @@ func (i *InvoicesController) SendInvoice(
 // Customer information may change after an invoice is issued which may lead to a mismatch between customer information that are present on an open invoice and actual customer information. This endpoint allows to preview these differences, if any.
 // The endpoint doesn't accept a request body. Customer information differences are calculated on the application side.
 func (i *InvoicesController) PreviewCustomerInformationChanges(
-	ctx context.Context,
-	uid string) (
-	models.ApiResponse[models.CustomerChangesPreviewResponse],
-	error) {
-	req := i.prepareRequest(
-		ctx,
-		"POST",
-		fmt.Sprintf("/invoices/%v/customer_information/preview.json", uid),
-	)
-	req.Authenticate(NewAuth("BasicAuth"))
-	req.AppendErrors(map[string]https.ErrorBuilder[error]{
-		"404": {TemplatedMessage: "Not Found:'{$response.body}'", Unmarshaller: errors.NewErrorListResponse},
-		"422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
-	})
-
-	var result models.CustomerChangesPreviewResponse
-	decoder, resp, err := req.CallAsJson()
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	result, err = utilities.DecodeResults[models.CustomerChangesPreviewResponse](decoder)
-	return models.NewApiResponse(result, resp), err
+    ctx context.Context,
+    uid string) (
+    models.ApiResponse[models.CustomerChangesPreviewResponse],
+    error) {
+    req := i.prepareRequest(
+      ctx,
+      "POST",
+      fmt.Sprintf("/invoices/%v/customer_information/preview.json", uid),
+    )
+    req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "404": {TemplatedMessage: "Not Found:'{$response.body}'", Unmarshaller: errors.NewErrorListResponse},
+        "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
+    })
+    
+    var result models.CustomerChangesPreviewResponse
+    decoder, resp, err := req.CallAsJson()
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    result, err = utilities.DecodeResults[models.CustomerChangesPreviewResponse](decoder)
+    return models.NewApiResponse(result, resp), err
 }
 
 // UpdateCustomerInformation takes context, uid as parameters and
@@ -871,29 +871,29 @@ func (i *InvoicesController) PreviewCustomerInformationChanges(
 // This endpoint updates customer information on an open invoice and returns the updated invoice. If you would like to preview changes that will be applied, use the `/invoices/{uid}/customer_information/preview.json` endpoint before.
 // The endpoint doesn't accept a request body. Customer information differences are calculated on the application side.
 func (i *InvoicesController) UpdateCustomerInformation(
-	ctx context.Context,
-	uid string) (
-	models.ApiResponse[models.Invoice],
-	error) {
-	req := i.prepareRequest(
-		ctx,
-		"PUT",
-		fmt.Sprintf("/invoices/%v/customer_information.json", uid),
-	)
-	req.Authenticate(NewAuth("BasicAuth"))
-	req.AppendErrors(map[string]https.ErrorBuilder[error]{
-		"404": {TemplatedMessage: "Not Found:'{$response.body}'", Unmarshaller: errors.NewErrorListResponse},
-		"422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
-	})
-
-	var result models.Invoice
-	decoder, resp, err := req.CallAsJson()
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	result, err = utilities.DecodeResults[models.Invoice](decoder)
-	return models.NewApiResponse(result, resp), err
+    ctx context.Context,
+    uid string) (
+    models.ApiResponse[models.Invoice],
+    error) {
+    req := i.prepareRequest(
+      ctx,
+      "PUT",
+      fmt.Sprintf("/invoices/%v/customer_information.json", uid),
+    )
+    req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "404": {TemplatedMessage: "Not Found:'{$response.body}'", Unmarshaller: errors.NewErrorListResponse},
+        "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
+    })
+    
+    var result models.Invoice
+    decoder, resp, err := req.CallAsJson()
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    result, err = utilities.DecodeResults[models.Invoice](decoder)
+    return models.NewApiResponse(result, resp), err
 }
 
 // IssueInvoice takes context, uid, body as parameters and
@@ -907,28 +907,28 @@ func (i *InvoicesController) UpdateCustomerInformation(
 // - `rollback_to_pending` - prepayments and credits not applied; invoice remains in "pending" status; no email sent to the customer; payment failure recorded in the invoice history.
 // - `initiate_dunning` - prepayments and credits applied to the invoice; invoice status set to "open"; email sent to the customer for the issued invoice (if setting applies); payment failure recorded in the invoice history; subscription will  most likely go into "past_due" or "canceled" state (depending upon net terms and dunning settings).
 func (i *InvoicesController) IssueInvoice(
-	ctx context.Context,
-	uid string,
-	body *models.IssueInvoiceRequest) (
-	models.ApiResponse[models.Invoice],
-	error) {
-	req := i.prepareRequest(ctx, "POST", fmt.Sprintf("/invoices/%v/issue.json", uid))
-	req.Authenticate(NewAuth("BasicAuth"))
-	req.AppendErrors(map[string]https.ErrorBuilder[error]{
-		"404": {TemplatedMessage: "Not Found:'{$response.body}'"},
-		"422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
-	})
-	req.Header("Content-Type", "application/json")
-	if body != nil {
-		req.Json(body)
-	}
-
-	var result models.Invoice
-	decoder, resp, err := req.CallAsJson()
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	result, err = utilities.DecodeResults[models.Invoice](decoder)
-	return models.NewApiResponse(result, resp), err
+    ctx context.Context,
+    uid string,
+    body *models.IssueInvoiceRequest) (
+    models.ApiResponse[models.Invoice],
+    error) {
+    req := i.prepareRequest(ctx, "POST", fmt.Sprintf("/invoices/%v/issue.json", uid))
+    req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
+        "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
+    })
+    req.Header("Content-Type", "application/json")
+    if body != nil {
+        req.Json(body)
+    }
+    
+    var result models.Invoice
+    decoder, resp, err := req.CallAsJson()
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    result, err = utilities.DecodeResults[models.Invoice](decoder)
+    return models.NewApiResponse(result, resp), err
 }

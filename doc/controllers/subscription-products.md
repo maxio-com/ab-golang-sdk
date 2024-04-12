@@ -97,16 +97,17 @@ MigrateSubscriptionProduct(
 
 ```go
 ctx := context.Background()
+
 subscriptionId := 222
 
-bodyMigration := models.SubscriptionProductMigration{
-    ProductId:               models.ToPointer(3801242),
-    IncludeCoupons:          models.ToPointer(true),
-    PreservePeriod:          models.ToPointer(true),
-}
-
 body := models.SubscriptionProductMigrationRequest{
-    Migration: bodyMigration,
+    Migration: models.SubscriptionProductMigration{
+        ProductId:               models.ToPointer(3801242),
+        IncludeTrial:            models.ToPointer(false),
+        IncludeInitialCharge:    models.ToPointer(false),
+        IncludeCoupons:          models.ToPointer(true),
+        PreservePeriod:          models.ToPointer(true),
+    },
 }
 
 apiResponse, err := subscriptionProductsController.MigrateSubscriptionProduct(ctx, subscriptionId, &body)
@@ -282,14 +283,16 @@ PreviewSubscriptionProductMigration(
 
 ```go
 ctx := context.Background()
+
 subscriptionId := 222
 
-bodyMigration := models.SubscriptionMigrationPreviewOptions{
-    IncludeCoupons:          models.ToPointer(true),
-}
-
 body := models.SubscriptionMigrationPreviewRequest{
-    Migration: bodyMigration,
+    Migration: models.SubscriptionMigrationPreviewOptions{
+        IncludeTrial:            models.ToPointer(false),
+        IncludeInitialCharge:    models.ToPointer(false),
+        IncludeCoupons:          models.ToPointer(true),
+        PreservePeriod:          models.ToPointer(false),
+    },
 }
 
 apiResponse, err := subscriptionProductsController.PreviewSubscriptionProductMigration(ctx, subscriptionId, &body)

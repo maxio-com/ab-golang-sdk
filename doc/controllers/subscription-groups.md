@@ -56,28 +56,23 @@ SignupWithSubscriptionGroup(
 ```go
 ctx := context.Background()
 
-bodySubscriptionGroupSubscriptions0 := models.SubscriptionGroupSignupItem{
-    ProductId:               models.ToPointer(11),
-    Primary:                 models.ToPointer(true),
-}
-
-bodySubscriptionGroupSubscriptions1 := models.SubscriptionGroupSignupItem{
-    ProductId:               models.ToPointer(12),
-}
-
-bodySubscriptionGroupSubscriptions2 := models.SubscriptionGroupSignupItem{
-    ProductId:               models.ToPointer(13),
-}
-
-bodySubscriptionGroupSubscriptions := []models.SubscriptionGroupSignupItem{bodySubscriptionGroupSubscriptions0, bodySubscriptionGroupSubscriptions1, bodySubscriptionGroupSubscriptions2}
-bodySubscriptionGroup := models.SubscriptionGroupSignup{
-    PaymentProfileId:        models.ToPointer(123),
-    PayerId:                 models.ToPointer(123),
-    Subscriptions:           bodySubscriptionGroupSubscriptions,
-}
-
 body := models.SubscriptionGroupSignupRequest{
-    SubscriptionGroup: bodySubscriptionGroup,
+    SubscriptionGroup: models.SubscriptionGroupSignup{
+        PaymentProfileId:        models.ToPointer(123),
+        PayerId:                 models.ToPointer(123),
+        Subscriptions:           []models.SubscriptionGroupSignupItem{
+            models.SubscriptionGroupSignupItem{
+                ProductId:               models.ToPointer(11),
+                Primary:                 models.ToPointer(true),
+            },
+            models.SubscriptionGroupSignupItem{
+                ProductId:               models.ToPointer(12),
+            },
+            models.SubscriptionGroupSignupItem{
+                ProductId:               models.ToPointer(13),
+            },
+        },
+    },
 }
 
 apiResponse, err := subscriptionGroupsController.SignupWithSubscriptionGroup(ctx, &body)
@@ -124,13 +119,15 @@ CreateSubscriptionGroup(
 ```go
 ctx := context.Background()
 
-bodySubscriptionGroup := models.CreateSubscriptionGroup{
-    SubscriptionId: 1,
-    MemberIds:      []int{2, 3, 4},
-}
-
 body := models.CreateSubscriptionGroupRequest{
-    SubscriptionGroup: bodySubscriptionGroup,
+    SubscriptionGroup: models.CreateSubscriptionGroup{
+        SubscriptionId: 1,
+        MemberIds:      []int{
+            2,
+            3,
+            4,
+        },
+    },
 }
 
 apiResponse, err := subscriptionGroupsController.CreateSubscriptionGroup(ctx, &body)
@@ -208,7 +205,10 @@ ctx := context.Background()
 collectedInput := advancedbilling.ListSubscriptionGroupsInput{
     Page:    models.ToPointer(2),
     PerPage: models.ToPointer(50),
-Liquid error: Value cannot be null. (Parameter 'key')}
+    Include: []models.SubscriptionGroupsListInclude{
+        models.SubscriptionGroupsListInclude("account_balances"),
+    },
+}
 
 apiResponse, err := subscriptionGroupsController.ListSubscriptionGroups(ctx, collectedInput)
 if err != nil {
@@ -291,9 +291,14 @@ ReadSubscriptionGroup(
 
 ```go
 ctx := context.Background()
-uid := "uid0"Liquid error: Value cannot be null. (Parameter 'key')
 
-apiResponse, err := subscriptionGroupsController.ReadSubscriptionGroup(ctx, uid, Liquid error: Value cannot be null. (Parameter 'key'))
+uid := "uid0"
+
+include := []models.SubscriptionGroupInclude{
+    models.SubscriptionGroupInclude("current_billing_amount_in_cents"),
+}
+
+apiResponse, err := subscriptionGroupsController.ReadSubscriptionGroup(ctx, uid, include)
 if err != nil {
     log.Fatalln(err)
 } else {
@@ -349,7 +354,7 @@ if err != nil {
 # Update Subscription Group Members
 
 Use this endpoint to update subscription group members.
-`"member_ids": []` should contain an array of both subscription IDs to set as group members and subscription IDs already present in the groups. Not including them will result in removing them from subscription group. To clean up members, just leave the array empty.
+`"member_ids"` should contain an array of both subscription IDs to set as group members and subscription IDs already present in the groups. Not including them will result in removing them from subscription group. To clean up members, just leave the array empty.
 
 ```go
 UpdateSubscriptionGroupMembers(
@@ -375,14 +380,17 @@ UpdateSubscriptionGroupMembers(
 
 ```go
 ctx := context.Background()
+
 uid := "uid0"
 
-bodySubscriptionGroup := models.UpdateSubscriptionGroup{
-    MemberIds: []int{1, 2, 3},
-}
-
 body := models.UpdateSubscriptionGroupRequest{
-    SubscriptionGroup: bodySubscriptionGroup,
+    SubscriptionGroup: models.UpdateSubscriptionGroup{
+        MemberIds: []int{
+            1,
+            2,
+            3,
+        },
+    },
 }
 
 apiResponse, err := subscriptionGroupsController.UpdateSubscriptionGroupMembers(ctx, uid, &body)
@@ -450,6 +458,7 @@ DeleteSubscriptionGroup(
 
 ```go
 ctx := context.Background()
+
 uid := "uid0"
 
 apiResponse, err := subscriptionGroupsController.DeleteSubscriptionGroup(ctx, uid)
@@ -506,6 +515,7 @@ FindSubscriptionGroup(
 
 ```go
 ctx := context.Background()
+
 subscriptionId := "subscription_id0"
 
 apiResponse, err := subscriptionGroupsController.FindSubscriptionGroup(ctx, subscriptionId)
@@ -607,28 +617,21 @@ AddSubscriptionToGroup(
 
 ```go
 ctx := context.Background()
+
 subscriptionId := 222
 
-bodyGroupGroupSettingsTarget := models.GroupTarget{
-    Type: models.GroupTargetType("subscription"),
-    Id:   models.ToPointer(32987),
-}
-
-bodyGroupGroupSettingsBilling := models.GroupBilling{
-    Accrue:    models.ToPointer(true),
-    AlignDate: models.ToPointer(true),
-    Prorate:   models.ToPointer(true),
-}
-
-bodyGroupGroupSettings := models.GroupSettings{
-    Target:  bodyGroupGroupSettingsTarget,
-    Billing: models.ToPointer(bodyGroupGroupSettingsBilling),
-}
-
-bodyGroup := models.AddSubscriptionToAGroupGroupContainer.FromGroupSettings(bodyGroupGroupSettings)
-
 body := models.AddSubscriptionToAGroup{
-    Group: models.ToPointer(bodyGroup),
+    Group: models.ToPointer(models.AddSubscriptionToAGroupGroupContainer.FromGroupSettings(models.GroupSettings{
+        Target:  models.GroupTarget{
+            Type: models.GroupTargetType("subscription"),
+            Id:   models.ToPointer(32987),
+        },
+        Billing: models.ToPointer(models.GroupBilling{
+            Accrue:    models.ToPointer(true),
+            AlignDate: models.ToPointer(true),
+            Prorate:   models.ToPointer(true),
+        }),
+    })),
 }
 
 apiResponse, err := subscriptionGroupsController.AddSubscriptionToGroup(ctx, subscriptionId, &body)
@@ -690,6 +693,7 @@ RemoveSubscriptionFromGroup(
 
 ```go
 ctx := context.Background()
+
 subscriptionId := 222
 
 resp, err := subscriptionGroupsController.RemoveSubscriptionFromGroup(ctx, subscriptionId)

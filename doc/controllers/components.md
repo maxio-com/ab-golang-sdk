@@ -68,27 +68,22 @@ CreateMeteredComponent(
 
 ```go
 ctx := context.Background()
+
 productFamilyId := 140
 
-bodyMeteredComponentPrices0StartingQuantity := models.PriceStartingQuantityContainer.FromNumber(1)
-
-bodyMeteredComponentPrices0UnitPrice := models.PriceUnitPriceContainer.FromPrecision(float64(1))
-
-bodyMeteredComponentPrices0 := models.Price{
-    StartingQuantity: bodyMeteredComponentPrices0StartingQuantity,
-    UnitPrice:        bodyMeteredComponentPrices0UnitPrice,
-}
-
-bodyMeteredComponentPrices := []models.Price{bodyMeteredComponentPrices0}
-bodyMeteredComponent := models.MeteredComponent{
-    Name:                      "Text messages",
-    UnitName:                  "text message",
-    PricingScheme:             models.PricingScheme("per_unit"),
-    Prices:                    bodyMeteredComponentPrices,
-}
-
 body := models.CreateMeteredComponent{
-    MeteredComponent: bodyMeteredComponent,
+    MeteredComponent: models.MeteredComponent{
+        Name:                      "Text messages",
+        UnitName:                  "text message",
+        Taxable:                   models.ToPointer(false),
+        PricingScheme:             models.PricingScheme("per_unit"),
+        Prices:                    []models.Price{
+            models.Price{
+                StartingQuantity: models.PriceStartingQuantityContainer.FromNumber(1),
+                UnitPrice:        models.PriceUnitPriceContainer.FromPrecision(float64(1)),
+            },
+        },
+    },
 }
 
 apiResponse, err := componentsController.CreateMeteredComponent(ctx, productFamilyId, &body)
@@ -201,24 +196,23 @@ CreateQuantityBasedComponent(
 
 ```go
 ctx := context.Background()
+
 productFamilyId := 140
 
-bodyQuantityBasedComponentUnitPrice := models.QuantityBasedComponentUnitPriceContainer.FromString("10")
-
-bodyQuantityBasedComponent := models.QuantityBasedComponent{
-    Name:                      "Quantity Based Component",
-    UnitName:                  "Component",
-    Description:               models.ToPointer("Example of JSON per-unit component example"),
-    Taxable:                   models.ToPointer(true),
-    PricingScheme:             models.PricingScheme("per_unit"),
-    DisplayOnHostedPage:       models.ToPointer(true),
-    AllowFractionalQuantities: models.ToPointer(true),
-    PublicSignupPageIds:       []int{323397},
-    UnitPrice:                 models.ToPointer(bodyQuantityBasedComponentUnitPrice),
-}
-
 body := models.CreateQuantityBasedComponent{
-    QuantityBasedComponent: bodyQuantityBasedComponent,
+    QuantityBasedComponent: models.QuantityBasedComponent{
+        Name:                      "Quantity Based Component",
+        UnitName:                  "Component",
+        Description:               models.ToPointer("Example of JSON per-unit component example"),
+        Taxable:                   models.ToPointer(true),
+        PricingScheme:             models.PricingScheme("per_unit"),
+        UnitPrice:                 models.ToPointer(models.QuantityBasedComponentUnitPriceContainer.FromString("10")),
+        DisplayOnHostedPage:       models.ToPointer(true),
+        AllowFractionalQuantities: models.ToPointer(true),
+        PublicSignupPageIds:       []int{
+            323397,
+        },
+    },
 }
 
 apiResponse, err := componentsController.CreateQuantityBasedComponent(ctx, productFamilyId, &body)
@@ -321,29 +315,25 @@ CreateOnOffComponent(
 
 ```go
 ctx := context.Background()
+
 productFamilyId := 140
 
-bodyOnOffComponentPrices0StartingQuantity := models.PriceStartingQuantityContainer.FromString("0")
-
-bodyOnOffComponentPrices0UnitPrice := models.PriceUnitPriceContainer.FromString("100.00")
-
-bodyOnOffComponentPrices0 := models.Price{
-    StartingQuantity: bodyOnOffComponentPrices0StartingQuantity,
-    UnitPrice:        bodyOnOffComponentPrices0UnitPrice,
-}
-
-bodyOnOffComponentPrices := []models.Price{bodyOnOffComponentPrices0}
-bodyOnOffComponent := models.OnOffComponent{
-    Name:                      "Annual Support Services",
-    Description:               models.ToPointer("Prepay for support services"),
-    Taxable:                   models.ToPointer(true),
-    DisplayOnHostedPage:       models.ToPointer(true),
-    PublicSignupPageIds:       []int{320495},
-    Prices:                    bodyOnOffComponentPrices,
-}
-
 body := models.CreateOnOffComponent{
-    OnOffComponent: bodyOnOffComponent,
+    OnOffComponent: models.OnOffComponent{
+        Name:                      "Annual Support Services",
+        Description:               models.ToPointer("Prepay for support services"),
+        Taxable:                   models.ToPointer(true),
+        Prices:                    []models.Price{
+            models.Price{
+                StartingQuantity: models.PriceStartingQuantityContainer.FromString("0"),
+                UnitPrice:        models.PriceUnitPriceContainer.FromString("100.00"),
+            },
+        },
+        DisplayOnHostedPage:       models.ToPointer(true),
+        PublicSignupPageIds:       []int{
+            320495,
+        },
+    },
 }
 
 apiResponse, err := componentsController.CreateOnOffComponent(ctx, productFamilyId, &body)
@@ -434,51 +424,34 @@ CreatePrepaidUsageComponent(
 
 ```go
 ctx := context.Background()
+
 productFamilyId := 140
 
-bodyPrepaidUsageComponentOveragePricingPrices0StartingQuantity := models.PriceStartingQuantityContainer.FromNumber(1)
-
-bodyPrepaidUsageComponentOveragePricingPrices0EndingQuantity := models.PriceEndingQuantityContainer.FromNumber(100)
-
-bodyPrepaidUsageComponentOveragePricingPrices0UnitPrice := models.PriceUnitPriceContainer.FromPrecision(float64(3))
-
-bodyPrepaidUsageComponentOveragePricingPrices0 := models.Price{
-    StartingQuantity: bodyPrepaidUsageComponentOveragePricingPrices0StartingQuantity,
-    EndingQuantity:   models.NewOptional(models.ToPointer(bodyPrepaidUsageComponentOveragePricingPrices0EndingQuantity)),
-    UnitPrice:        bodyPrepaidUsageComponentOveragePricingPrices0UnitPrice,
-}
-
-bodyPrepaidUsageComponentOveragePricingPrices1StartingQuantity := models.PriceStartingQuantityContainer.FromNumber(101)
-
-bodyPrepaidUsageComponentOveragePricingPrices1UnitPrice := models.PriceUnitPriceContainer.FromPrecision(float64(5))
-
-bodyPrepaidUsageComponentOveragePricingPrices1 := models.Price{
-    StartingQuantity: bodyPrepaidUsageComponentOveragePricingPrices1StartingQuantity,
-    UnitPrice:        bodyPrepaidUsageComponentOveragePricingPrices1UnitPrice,
-}
-
-bodyPrepaidUsageComponentOveragePricingPrices := []models.Price{bodyPrepaidUsageComponentOveragePricingPrices0, bodyPrepaidUsageComponentOveragePricingPrices1}
-bodyPrepaidUsageComponentOveragePricing := models.OveragePricing{
-    PricingScheme: models.PricingScheme("stairstep"),
-    Prices:        bodyPrepaidUsageComponentOveragePricingPrices,
-}
-
-bodyPrepaidUsageComponentUnitPrice := models.PrepaidUsageComponentUnitPriceContainer.FromPrecision(float64(2))
-
-bodyPrepaidUsageComponent := models.PrepaidUsageComponent{
-    Name:                      "Minutes",
-    UnitName:                  models.ToPointer("minutes"),
-    PricingScheme:             models.ToPointer(models.PricingScheme("per_unit")),
-    RolloverPrepaidRemainder:  models.ToPointer(true),
-    RenewPrepaidAllocation:    models.ToPointer(true),
-    ExpirationInterval:        models.ToPointer(float64(15)),
-    ExpirationIntervalUnit:    models.ToPointer(models.IntervalUnit("day")),
-    OveragePricing:            models.ToPointer(bodyPrepaidUsageComponentOveragePricing),
-    UnitPrice:                 models.ToPointer(bodyPrepaidUsageComponentUnitPrice),
-}
-
 body := models.CreatePrepaidComponent{
-    PrepaidUsageComponent: bodyPrepaidUsageComponent,
+    PrepaidUsageComponent: models.PrepaidUsageComponent{
+        Name:                      "Minutes",
+        UnitName:                  models.ToPointer("minutes"),
+        PricingScheme:             models.ToPointer(models.PricingScheme("per_unit")),
+        UnitPrice:                 models.ToPointer(models.PrepaidUsageComponentUnitPriceContainer.FromPrecision(float64(2))),
+        OveragePricing:            models.ToPointer(models.OveragePricing{
+            PricingScheme: models.PricingScheme("stairstep"),
+            Prices:        []models.Price{
+                models.Price{
+                    StartingQuantity: models.PriceStartingQuantityContainer.FromNumber(1),
+                    EndingQuantity:   models.NewOptional(models.ToPointer(models.PriceEndingQuantityContainer.FromNumber(100))),
+                    UnitPrice:        models.PriceUnitPriceContainer.FromPrecision(float64(3)),
+                },
+                models.Price{
+                    StartingQuantity: models.PriceStartingQuantityContainer.FromNumber(101),
+                    UnitPrice:        models.PriceUnitPriceContainer.FromPrecision(float64(5)),
+                },
+            },
+        }),
+        RolloverPrepaidRemainder:  models.ToPointer(true),
+        RenewPrepaidAllocation:    models.ToPointer(true),
+        ExpirationInterval:        models.ToPointer(float64(15)),
+        ExpirationIntervalUnit:    models.ToPointer(models.IntervalUnit("day")),
+    },
 }
 
 apiResponse, err := componentsController.CreatePrepaidUsageComponent(ctx, productFamilyId, &body)
@@ -595,31 +568,25 @@ CreateEventBasedComponent(
 
 ```go
 ctx := context.Background()
+
 productFamilyId := 140
 
-bodyEventBasedComponentPrices0StartingQuantity := models.PriceStartingQuantityContainer.FromNumber(1)
-
-bodyEventBasedComponentPrices0UnitPrice := models.PriceUnitPriceContainer.FromString("0.49")
-
-bodyEventBasedComponentPrices0 := models.Price{
-    StartingQuantity: bodyEventBasedComponentPrices0StartingQuantity,
-    UnitPrice:        bodyEventBasedComponentPrices0UnitPrice,
-}
-
-bodyEventBasedComponentPrices := []models.Price{bodyEventBasedComponentPrices0}
-bodyEventBasedComponent := models.EBBComponent{
-    Name:                      "Component Name",
-    UnitName:                  "string",
-    Description:               models.ToPointer("string"),
-    Handle:                    models.ToPointer("some_handle"),
-    Taxable:                   models.ToPointer(true),
-    PricingScheme:             models.PricingScheme("per_unit"),
-    EventBasedBillingMetricId: 123,
-    Prices:                    bodyEventBasedComponentPrices,
-}
-
 body := models.CreateEBBComponent{
-    EventBasedComponent: bodyEventBasedComponent,
+    EventBasedComponent: models.EBBComponent{
+        Name:                      "Component Name",
+        UnitName:                  "string",
+        Description:               models.ToPointer("string"),
+        Handle:                    models.ToPointer("some_handle"),
+        Taxable:                   models.ToPointer(true),
+        PricingScheme:             models.PricingScheme("per_unit"),
+        Prices:                    []models.Price{
+            models.Price{
+                StartingQuantity: models.PriceStartingQuantityContainer.FromNumber(1),
+                UnitPrice:        models.PriceUnitPriceContainer.FromString("0.49"),
+            },
+        },
+        EventBasedBillingMetricId: 123,
+    },
 }
 
 apiResponse, err := componentsController.CreateEventBasedComponent(ctx, productFamilyId, &body)
@@ -651,7 +618,6 @@ if err != nil {
     "taxable": false,
     "description": null,
     "default_price_point_id": null,
-    "prices": [],
     "price_point_count": 0,
     "price_points_url": "https://staging.chargify.com/components/1489581/price_points",
     "default_price_point_name": "Original",
@@ -706,6 +672,7 @@ FindComponent(
 
 ```go
 ctx := context.Background()
+
 handle := "handle6"
 
 apiResponse, err := componentsController.FindComponent(ctx, handle)
@@ -779,7 +746,9 @@ ReadComponent(
 
 ```go
 ctx := context.Background()
+
 productFamilyId := 140
+
 componentId := "component_id8"
 
 apiResponse, err := componentsController.ReadComponent(ctx, productFamilyId, componentId)
@@ -855,15 +824,15 @@ UpdateProductFamilyComponent(
 
 ```go
 ctx := context.Background()
+
 productFamilyId := 140
+
 componentId := "component_id8"
 
-bodyComponent := models.UpdateComponent{
-    ItemCategory:        models.NewOptional(models.ToPointer(models.ItemCategory("Business Software"))),
-}
-
 body := models.UpdateComponentRequest{
-    Component: bodyComponent,
+    Component: models.UpdateComponent{
+        ItemCategory:        models.NewOptional(models.ToPointer(models.ItemCategory("Business Software"))),
+    },
 }
 
 apiResponse, err := componentsController.UpdateProductFamilyComponent(ctx, productFamilyId, componentId, &body)
@@ -941,7 +910,9 @@ ArchiveComponent(
 
 ```go
 ctx := context.Background()
+
 productFamilyId := 140
+
 componentId := "component_id8"
 
 apiResponse, err := componentsController.ArchiveComponent(ctx, productFamilyId, componentId)
@@ -1011,8 +982,7 @@ ListComponents(
 | `includeArchived` | `*bool` | Query, Optional | Include archived items |
 | `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`. |
 | `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`. |
-| `filterIds` | `[]string` | Query, Optional | Allows fetching components with matching id based on provided value. Use in query `filter[ids]=1,2,3`. |
-| `filterUseSiteExchangeRate` | `*bool` | Query, Optional | Allows fetching components with matching use_site_exchange_rate based on provided value (refers to default price point). Use in query `filter[use_site_exchange_rate]=true`. |
+| `filter` | [`*models.ListComponentsFilter`](../../doc/models/list-components-filter.md) | Query, Optional | Filter to use for List Components operations |
 
 ## Response Type
 
@@ -1024,10 +994,17 @@ ListComponents(
 ctx := context.Background()
 
 collectedInput := advancedbilling.ListComponentsInput{
-    DateField:                 models.ToPointer(models.BasicDateField("updated_at")),
-    Page:                      models.ToPointer(2),
-    PerPage:                   models.ToPointer(50),
-Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')}
+    DateField:       models.ToPointer(models.BasicDateField("updated_at")),
+    Page:            models.ToPointer(2),
+    PerPage:         models.ToPointer(50),
+    Filter:          models.ToPointer(models.ListComponentsFilter{
+        Ids:                 []int{
+            1,
+            2,
+            3,
+        },
+    }),
+}
 
 apiResponse, err := componentsController.ListComponents(ctx, collectedInput)
 if err != nil {
@@ -1166,14 +1143,13 @@ UpdateComponent(
 
 ```go
 ctx := context.Background()
+
 componentId := "component_id8"
 
-bodyComponent := models.UpdateComponent{
-    ItemCategory:        models.NewOptional(models.ToPointer(models.ItemCategory("Business Software"))),
-}
-
 body := models.UpdateComponentRequest{
-    Component: bodyComponent,
+    Component: models.UpdateComponent{
+        ItemCategory:        models.NewOptional(models.ToPointer(models.ItemCategory("Business Software"))),
+    },
 }
 
 apiResponse, err := componentsController.UpdateComponent(ctx, componentId, &body)
@@ -1255,7 +1231,9 @@ PromoteComponentPricePointToDefault(
 
 ```go
 ctx := context.Background()
+
 componentId := 222
+
 pricePointId := 10
 
 apiResponse, err := componentsController.PromoteComponentPricePointToDefault(ctx, componentId, pricePointId)
@@ -1320,15 +1298,14 @@ ListComponentsForProductFamily(
 |  --- | --- | --- | --- |
 | `productFamilyId` | `int` | Template, Required | The Chargify id of the product family |
 | `includeArchived` | `*bool` | Query, Optional | Include archived items. |
-| `filterIds` | `[]int` | Query, Optional | Allows fetching components with matching id based on provided value. Use in query `filter[ids]=1,2`. |
 | `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`. |
 | `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`. |
+| `filter` | [`*models.ListComponentsFilter`](../../doc/models/list-components-filter.md) | Query, Optional | Filter to use for List Components operations |
 | `dateField` | [`*models.BasicDateField`](../../doc/models/basic-date-field.md) | Query, Optional | The type of filter you would like to apply to your search. Use in query `date_field=created_at`. |
 | `endDate` | `*string` | Query, Optional | The end date (format YYYY-MM-DD) with which to filter the date_field. Returns components with a timestamp up to and including 11:59:59PM in your site’s time zone on the date specified. |
 | `endDatetime` | `*string` | Query, Optional | The end date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns components with a timestamp at or before exact time provided in query. You can specify timezone in query - otherwise your site's time zone will be used. If provided, this parameter will be used instead of end_date. optional. |
 | `startDate` | `*string` | Query, Optional | The start date (format YYYY-MM-DD) with which to filter the date_field. Returns components with a timestamp at or after midnight (12:00:00 AM) in your site’s time zone on the date specified. |
 | `startDatetime` | `*string` | Query, Optional | The start date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns components with a timestamp at or after exact time provided in query. You can specify timezone in query - otherwise your site's time zone will be used. If provided, this parameter will be used instead of start_date. |
-| `filterUseSiteExchangeRate` | `*bool` | Query, Optional | Allows fetching components with matching use_site_exchange_rate based on provided value (refers to default price point). Use in query `filter[use_site_exchange_rate]=true`. |
 
 ## Response Type
 
@@ -1340,11 +1317,18 @@ ListComponentsForProductFamily(
 ctx := context.Background()
 
 collectedInput := advancedbilling.ListComponentsForProductFamilyInput{
-    ProductFamilyId:           140,
-Liquid error: Value cannot be null. (Parameter 'key')    Page:                      models.ToPointer(2),
-    PerPage:                   models.ToPointer(50),
-    DateField:                 models.ToPointer(models.BasicDateField("updated_at")),
-Liquid error: Value cannot be null. (Parameter 'key')}
+    ProductFamilyId: 140,
+    Page:            models.ToPointer(2),
+    PerPage:         models.ToPointer(50),
+    Filter:          models.ToPointer(models.ListComponentsFilter{
+        Ids:                 []int{
+            1,
+            2,
+            3,
+        },
+    }),
+    DateField:       models.ToPointer(models.BasicDateField("updated_at")),
+}
 
 apiResponse, err := componentsController.ListComponentsForProductFamily(ctx, collectedInput)
 if err != nil {
@@ -1481,41 +1465,27 @@ CreateComponentPricePoint(
 
 ```go
 ctx := context.Background()
+
 componentId := 222
 
-bodyPricePointCreateComponentPricePointPrices0StartingQuantity := models.PriceStartingQuantityContainer.FromString("1")
-
-bodyPricePointCreateComponentPricePointPrices0EndingQuantity := models.PriceEndingQuantityContainer.FromString("100")
-
-bodyPricePointCreateComponentPricePointPrices0UnitPrice := models.PriceUnitPriceContainer.FromString("5.00")
-
-bodyPricePointCreateComponentPricePointPrices0 := models.Price{
-    StartingQuantity: bodyPricePointCreateComponentPricePointPrices0StartingQuantity,
-    EndingQuantity:   models.NewOptional(models.ToPointer(bodyPricePointCreateComponentPricePointPrices0EndingQuantity)),
-    UnitPrice:        bodyPricePointCreateComponentPricePointPrices0UnitPrice,
-}
-
-bodyPricePointCreateComponentPricePointPrices1StartingQuantity := models.PriceStartingQuantityContainer.FromString("101")
-
-bodyPricePointCreateComponentPricePointPrices1UnitPrice := models.PriceUnitPriceContainer.FromString("4.00")
-
-bodyPricePointCreateComponentPricePointPrices1 := models.Price{
-    StartingQuantity: bodyPricePointCreateComponentPricePointPrices1StartingQuantity,
-    UnitPrice:        bodyPricePointCreateComponentPricePointPrices1UnitPrice,
-}
-
-bodyPricePointCreateComponentPricePointPrices := []models.Price{bodyPricePointCreateComponentPricePointPrices0, bodyPricePointCreateComponentPricePointPrices1}
-bodyPricePointCreateComponentPricePoint := models.CreateComponentPricePoint{
-    Name:                "Wholesale",
-    Handle:              models.ToPointer("wholesale-handle"),
-    PricingScheme:       models.PricingScheme("stairstep"),
-    Prices:              bodyPricePointCreateComponentPricePointPrices,
-}
-
-bodyPricePoint := models.CreateComponentPricePointRequestPricePointContainer.FromCreateComponentPricePoint(bodyPricePointCreateComponentPricePoint)
-
 body := models.CreateComponentPricePointRequest{
-    PricePoint: bodyPricePoint,
+    PricePoint: models.CreateComponentPricePointRequestPricePointContainer.FromCreateComponentPricePoint(models.CreateComponentPricePoint{
+        Name:                "Wholesale",
+        Handle:              models.ToPointer("wholesale-handle"),
+        PricingScheme:       models.PricingScheme("stairstep"),
+        Prices:              []models.Price{
+            models.Price{
+                StartingQuantity: models.PriceStartingQuantityContainer.FromString("1"),
+                EndingQuantity:   models.NewOptional(models.ToPointer(models.PriceEndingQuantityContainer.FromString("100"))),
+                UnitPrice:        models.PriceUnitPriceContainer.FromString("5.00"),
+            },
+            models.Price{
+                StartingQuantity: models.PriceStartingQuantityContainer.FromString("101"),
+                UnitPrice:        models.PriceUnitPriceContainer.FromString("4.00"),
+            },
+        },
+        UseSiteExchangeRate: models.ToPointer(false),
+    }),
 }
 
 apiResponse, err := componentsController.CreateComponentPricePoint(ctx, componentId, &body)
@@ -1660,68 +1630,45 @@ BulkCreateComponentPricePoints(
 
 ```go
 ctx := context.Background()
+
 componentId := "component_id8"
 
-bodyPricePoints0CreateComponentPricePointPrices0StartingQuantity := models.PriceStartingQuantityContainer.FromNumber(1)
-
-bodyPricePoints0CreateComponentPricePointPrices0UnitPrice := models.PriceUnitPriceContainer.FromPrecision(float64(5))
-
-bodyPricePoints0CreateComponentPricePointPrices0 := models.Price{
-    StartingQuantity: bodyPricePoints0CreateComponentPricePointPrices0StartingQuantity,
-    UnitPrice:        bodyPricePoints0CreateComponentPricePointPrices0UnitPrice,
-}
-
-bodyPricePoints0CreateComponentPricePointPrices := []models.Price{bodyPricePoints0CreateComponentPricePointPrices0}
-bodyPricePoints0CreateComponentPricePoint := models.CreateComponentPricePoint{
-    Name:                "Wholesale",
-    Handle:              models.ToPointer("wholesale"),
-    PricingScheme:       models.PricingScheme("per_unit"),
-    Prices:              bodyPricePoints0CreateComponentPricePointPrices,
-}
-
-bodyPricePoints0 := models.CreateComponentPricePointsRequestPricePointsContainer.FromCreateComponentPricePoint(bodyPricePoints0CreateComponentPricePoint)
-
-bodyPricePoints1CreateComponentPricePointPrices0StartingQuantity := models.PriceStartingQuantityContainer.FromNumber(1)
-
-bodyPricePoints1CreateComponentPricePointPrices0UnitPrice := models.PriceUnitPriceContainer.FromPrecision(float64(4))
-
-bodyPricePoints1CreateComponentPricePointPrices0 := models.Price{
-    StartingQuantity: bodyPricePoints1CreateComponentPricePointPrices0StartingQuantity,
-    UnitPrice:        bodyPricePoints1CreateComponentPricePointPrices0UnitPrice,
-}
-
-bodyPricePoints1CreateComponentPricePointPrices := []models.Price{bodyPricePoints1CreateComponentPricePointPrices0}
-bodyPricePoints1CreateComponentPricePoint := models.CreateComponentPricePoint{
-    Name:                "MSRP",
-    Handle:              models.ToPointer("msrp"),
-    PricingScheme:       models.PricingScheme("per_unit"),
-    Prices:              bodyPricePoints1CreateComponentPricePointPrices,
-}
-
-bodyPricePoints1 := models.CreateComponentPricePointsRequestPricePointsContainer.FromCreateComponentPricePoint(bodyPricePoints1CreateComponentPricePoint)
-
-bodyPricePoints2CreateComponentPricePointPrices0StartingQuantity := models.PriceStartingQuantityContainer.FromNumber(1)
-
-bodyPricePoints2CreateComponentPricePointPrices0UnitPrice := models.PriceUnitPriceContainer.FromPrecision(float64(5))
-
-bodyPricePoints2CreateComponentPricePointPrices0 := models.Price{
-    StartingQuantity: bodyPricePoints2CreateComponentPricePointPrices0StartingQuantity,
-    UnitPrice:        bodyPricePoints2CreateComponentPricePointPrices0UnitPrice,
-}
-
-bodyPricePoints2CreateComponentPricePointPrices := []models.Price{bodyPricePoints2CreateComponentPricePointPrices0}
-bodyPricePoints2CreateComponentPricePoint := models.CreateComponentPricePoint{
-    Name:                "Special Pricing",
-    Handle:              models.ToPointer("special"),
-    PricingScheme:       models.PricingScheme("per_unit"),
-    Prices:              bodyPricePoints2CreateComponentPricePointPrices,
-}
-
-bodyPricePoints2 := models.CreateComponentPricePointsRequestPricePointsContainer.FromCreateComponentPricePoint(bodyPricePoints2CreateComponentPricePoint)
-
-bodyPricePoints := []models.CreateComponentPricePointsRequestPricePoints{bodyPricePoints0, bodyPricePoints1, bodyPricePoints2}
 body := models.CreateComponentPricePointsRequest{
-    PricePoints: bodyPricePoints,
+    PricePoints: []models.CreateComponentPricePointsRequestPricePoints{
+        models.CreateComponentPricePointsRequestPricePointsContainer.FromCreateComponentPricePoint(models.CreateComponentPricePoint{
+            Name:                "Wholesale",
+            Handle:              models.ToPointer("wholesale"),
+            PricingScheme:       models.PricingScheme("per_unit"),
+            Prices:              []models.Price{
+                models.Price{
+                    StartingQuantity: models.PriceStartingQuantityContainer.FromNumber(1),
+                    UnitPrice:        models.PriceUnitPriceContainer.FromPrecision(float64(5)),
+                },
+            },
+        }),
+        models.CreateComponentPricePointsRequestPricePointsContainer.FromCreateComponentPricePoint(models.CreateComponentPricePoint{
+            Name:                "MSRP",
+            Handle:              models.ToPointer("msrp"),
+            PricingScheme:       models.PricingScheme("per_unit"),
+            Prices:              []models.Price{
+                models.Price{
+                    StartingQuantity: models.PriceStartingQuantityContainer.FromNumber(1),
+                    UnitPrice:        models.PriceUnitPriceContainer.FromPrecision(float64(4)),
+                },
+            },
+        }),
+        models.CreateComponentPricePointsRequestPricePointsContainer.FromCreateComponentPricePoint(models.CreateComponentPricePoint{
+            Name:                "Special Pricing",
+            Handle:              models.ToPointer("special"),
+            PricingScheme:       models.PricingScheme("per_unit"),
+            Prices:              []models.Price{
+                models.Price{
+                    StartingQuantity: models.PriceStartingQuantityContainer.FromNumber(1),
+                    UnitPrice:        models.PriceUnitPriceContainer.FromPrecision(float64(5)),
+                },
+            },
+        }),
+    },
 }
 
 apiResponse, err := componentsController.BulkCreateComponentPricePoints(ctx, componentId, &body)
@@ -1820,41 +1767,30 @@ UpdateComponentPricePoint(
 
 ```go
 ctx := context.Background()
+
 componentId := 222
+
 pricePointId := 10
 
-bodyPricePointPrices0EndingQuantity := models.UpdatePriceEndingQuantityContainer.FromNumber(100)
-
-bodyPricePointPrices0UnitPrice := models.UpdatePriceUnitPriceContainer.FromPrecision(float64(5))
-
-bodyPricePointPrices0 := models.UpdatePrice{
-    Id:               models.ToPointer(1),
-    EndingQuantity:   models.ToPointer(bodyPricePointPrices0EndingQuantity),
-    UnitPrice:        models.ToPointer(bodyPricePointPrices0UnitPrice),
-}
-
-bodyPricePointPrices1 := models.UpdatePrice{
-    Id:               models.ToPointer(2),
-    Destroy:          models.ToPointer(true),
-}
-
-bodyPricePointPrices2UnitPrice := models.UpdatePriceUnitPriceContainer.FromPrecision(float64(4))
-
-bodyPricePointPrices2StartingQuantity := models.UpdatePriceStartingQuantityContainer.FromNumber(101)
-
-bodyPricePointPrices2 := models.UpdatePrice{
-    UnitPrice:        models.ToPointer(bodyPricePointPrices2UnitPrice),
-    StartingQuantity: models.ToPointer(bodyPricePointPrices2StartingQuantity),
-}
-
-bodyPricePointPrices := []models.UpdatePrice{bodyPricePointPrices0, bodyPricePointPrices1, bodyPricePointPrices2}
-bodyPricePoint := models.UpdateComponentPricePoint{
-    Name:                models.ToPointer("Default"),
-    Prices:              bodyPricePointPrices,
-}
-
 body := models.UpdateComponentPricePointRequest{
-    PricePoint: models.ToPointer(bodyPricePoint),
+    PricePoint: models.ToPointer(models.UpdateComponentPricePoint{
+        Name:                models.ToPointer("Default"),
+        Prices:              []models.UpdatePrice{
+            models.UpdatePrice{
+                Id:               models.ToPointer(1),
+                EndingQuantity:   models.ToPointer(models.UpdatePriceEndingQuantityContainer.FromNumber(100)),
+                UnitPrice:        models.ToPointer(models.UpdatePriceUnitPriceContainer.FromPrecision(float64(5))),
+            },
+            models.UpdatePrice{
+                Id:               models.ToPointer(2),
+                Destroy:          models.ToPointer(true),
+            },
+            models.UpdatePrice{
+                UnitPrice:        models.ToPointer(models.UpdatePriceUnitPriceContainer.FromPrecision(float64(4))),
+                StartingQuantity: models.ToPointer(models.UpdatePriceStartingQuantityContainer.FromNumber(101)),
+            },
+        },
+    }),
 }
 
 apiResponse, err := componentsController.UpdateComponentPricePoint(ctx, componentId, pricePointId, &body)
@@ -1902,7 +1838,9 @@ ArchiveComponentPricePoint(
 
 ```go
 ctx := context.Background()
+
 componentId := 222
+
 pricePointId := 10
 
 apiResponse, err := componentsController.ArchiveComponentPricePoint(ctx, componentId, pricePointId)
@@ -1984,7 +1922,9 @@ UnarchiveComponentPricePoint(
 
 ```go
 ctx := context.Background()
+
 componentId := 222
+
 pricePointId := 10
 
 apiResponse, err := componentsController.UnarchiveComponentPricePoint(ctx, componentId, pricePointId)
@@ -2064,23 +2004,22 @@ CreateCurrencyPrices(
 
 ```go
 ctx := context.Background()
+
 pricePointId := 10
 
-bodyCurrencyPrices0 := models.CreateCurrencyPrice{
-    Currency: models.ToPointer("EUR"),
-    Price:    models.ToPointer(float64(50)),
-    PriceId:  models.ToPointer(20),
-}
-
-bodyCurrencyPrices1 := models.CreateCurrencyPrice{
-    Currency: models.ToPointer("EUR"),
-    Price:    models.ToPointer(float64(40)),
-    PriceId:  models.ToPointer(21),
-}
-
-bodyCurrencyPrices := []models.CreateCurrencyPrice{bodyCurrencyPrices0, bodyCurrencyPrices1}
 body := models.CreateCurrencyPricesRequest{
-    CurrencyPrices: bodyCurrencyPrices,
+    CurrencyPrices: []models.CreateCurrencyPrice{
+        models.CreateCurrencyPrice{
+            Currency: models.ToPointer("EUR"),
+            Price:    models.ToPointer(float64(50)),
+            PriceId:  models.ToPointer(20),
+        },
+        models.CreateCurrencyPrice{
+            Currency: models.ToPointer("EUR"),
+            Price:    models.ToPointer(float64(40)),
+            PriceId:  models.ToPointer(21),
+        },
+    },
 }
 
 apiResponse, err := componentsController.CreateCurrencyPrices(ctx, pricePointId, &body)
@@ -2147,21 +2086,20 @@ UpdateCurrencyPrices(
 
 ```go
 ctx := context.Background()
+
 pricePointId := 10
 
-bodyCurrencyPrices0 := models.UpdateCurrencyPrice{
-    Id:    100,
-    Price: 51,
-}
-
-bodyCurrencyPrices1 := models.UpdateCurrencyPrice{
-    Id:    101,
-    Price: 41,
-}
-
-bodyCurrencyPrices := []models.UpdateCurrencyPrice{bodyCurrencyPrices0, bodyCurrencyPrices1}
 body := models.UpdateCurrencyPricesRequest{
-    CurrencyPrices: bodyCurrencyPrices,
+    CurrencyPrices: []models.UpdateCurrencyPrice{
+        models.UpdateCurrencyPrice{
+            Id:    100,
+            Price: 51,
+        },
+        models.UpdateCurrencyPrice{
+            Id:    101,
+            Price: 41,
+        },
+    },
 }
 
 apiResponse, err := componentsController.UpdateCurrencyPrices(ctx, pricePointId, &body)
@@ -2214,18 +2152,11 @@ ListAllComponentPricePoints(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `filterDateField` | [`*models.BasicDateField`](../../doc/models/basic-date-field.md) | Query, Optional | The type of filter you would like to apply to your search. Use in query: `filter[date_field]=created_at`. |
-| `filterEndDate` | `*time.Time` | Query, Optional | The end date (format YYYY-MM-DD) with which to filter the date_field. Returns price points with a timestamp up to and including 11:59:59PM in your site’s time zone on the date specified. |
-| `filterEndDatetime` | `*time.Time` | Query, Optional | The end date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns price points with a timestamp at or before exact time provided in query. You can specify timezone in query - otherwise your site's time zone will be used. If provided, this parameter will be used instead of end_date. |
 | `include` | [`*models.ListComponentsPricePointsInclude`](../../doc/models/list-components-price-points-include.md) | Query, Optional | Allows including additional data in the response. Use in query: `include=currency_prices`. |
 | `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`. |
 | `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`. |
-| `filterStartDate` | `*time.Time` | Query, Optional | The start date (format YYYY-MM-DD) with which to filter the date_field. Returns price points with a timestamp at or after midnight (12:00:00 AM) in your site’s time zone on the date specified. |
-| `filterStartDatetime` | `*time.Time` | Query, Optional | The start date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns price points with a timestamp at or after exact time provided in query. You can specify timezone in query - otherwise your site's time zone will be used. If provided, this parameter will be used instead of start_date. |
-| `filterType` | [`[]models.PricePointType`](../../doc/models/price-point-type.md) | Query, Optional | Allows fetching price points with matching type. Use in query: `filter[type]=custom,catalog`. |
 | `direction` | [`*models.SortingDirection`](../../doc/models/sorting-direction.md) | Query, Optional | Controls the order in which results are returned.<br>Use in query `direction=asc`. |
-| `filterIds` | `[]int` | Query, Optional | Allows fetching price points with matching id based on provided values. Use in query: `filter[ids]=1,2,3`. |
-| `filterArchivedAt` | [`*models.IncludeNotNull`](../../doc/models/include-not-null.md) | Query, Optional | Allows fetching price points only if archived_at is present or not. Use in query: `filter[archived_at]=not_null`. |
+| `filter` | [`*models.ListPricePointsFilter`](../../doc/models/list-price-points-filter.md) | Query, Optional | Filter to use for List PricePoints operations |
 
 ## Response Type
 
@@ -2235,12 +2166,28 @@ ListAllComponentPricePoints(
 
 ```go
 ctx := context.Background()
-Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')
+
 collectedInput := advancedbilling.ListAllComponentPricePointsInput{
-Liquid error: Value cannot be null. (Parameter 'key')    Include:             models.ToPointer(models.ListComponentsPricePointsInclude("currency_prices")),
-    Page:                models.ToPointer(2),
-    PerPage:             models.ToPointer(50),
-Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')}
+    Include:   models.ToPointer(models.ListComponentsPricePointsInclude("currency_prices")),
+    Page:      models.ToPointer(2),
+    PerPage:   models.ToPointer(50),
+    Filter:    models.ToPointer(models.ListPricePointsFilter{
+        StartDate:     models.ToPointer(parseTime(models.DEFAULT_DATE, "2011-12-17", func(err error) { log.Fatalln(err) })),
+        EndDate:       models.ToPointer(parseTime(models.DEFAULT_DATE, "2011-12-15", func(err error) { log.Fatalln(err) })),
+        StartDatetime: models.ToPointer(parseTime(time.RFC3339, "12/19/2011 09:15:30", func(err error) { log.Fatalln(err) })),
+        EndDatetime:   models.ToPointer(parseTime(time.RFC3339, "06/07/2019 17:20:06", func(err error) { log.Fatalln(err) })),
+        Type:          []models.PricePointType{
+            models.PricePointType("catalog"),
+            models.PricePointType("default"),
+            models.PricePointType("custom"),
+        },
+        Ids:           []int{
+            1,
+            2,
+            3,
+        },
+    }),
+}
 
 apiResponse, err := componentsController.ListAllComponentPricePoints(ctx, collectedInput)
 if err != nil {

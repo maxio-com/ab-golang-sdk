@@ -46,6 +46,7 @@ IssueAdvanceInvoice(
 
 ```go
 ctx := context.Background()
+
 subscriptionId := 222
 
 body := models.IssueAdvanceInvoiceRequest{
@@ -96,6 +97,7 @@ ReadAdvanceInvoice(
 
 ```go
 ctx := context.Background()
+
 subscriptionId := 222
 
 apiResponse, err := advanceInvoiceController.ReadAdvanceInvoice(ctx, subscriptionId)
@@ -144,7 +146,10 @@ VoidAdvanceInvoice(
 
 ```go
 ctx := context.Background()
+
 subscriptionId := 222
+
+
 
 apiResponse, err := advanceInvoiceController.VoidAdvanceInvoice(ctx, subscriptionId, nil)
 if err != nil {

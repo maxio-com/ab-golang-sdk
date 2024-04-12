@@ -660,48 +660,38 @@ CreateSubscription(
 ```go
 ctx := context.Background()
 
-bodySubscriptionCustomerAttributes := models.CustomerAttributes{
-    FirstName:    models.ToPointer("Joe"),
-    LastName:     models.ToPointer("Blow"),
-    Email:        models.ToPointer("joe@example.com"),
-    Organization: models.ToPointer("Acme"),
-    Reference:    models.ToPointer("XYZ"),
-    Address:      models.ToPointer("123 Mass Ave."),
-    Address2:     models.NewOptional(models.ToPointer("address_24")),
-    City:         models.ToPointer("Boston"),
-    State:        models.ToPointer("MA"),
-    Zip:          models.ToPointer("02120"),
-    Country:      models.ToPointer("US"),
-    Phone:        models.ToPointer("(617) 111 - 0000"),
-}
-
-bodySubscriptionCreditCardAttributesExpirationMonth := models.PaymentProfileAttributesExpirationMonthContainer.FromString("1")
-
-bodySubscriptionCreditCardAttributesExpirationYear := models.PaymentProfileAttributesExpirationYearContainer.FromString("2021")
-
-bodySubscriptionCreditCardAttributes := models.PaymentProfileAttributes{
-    FirstName:          models.ToPointer("Joe"),
-    LastName:           models.ToPointer("Smith"),
-    FullNumber:         models.ToPointer("4111111111111111"),
-    CardType:           models.ToPointer(models.CardType("visa")),
-    BillingAddress:     models.ToPointer("123 Mass Ave."),
-    BillingAddress2:    models.NewOptional(models.ToPointer("billing_address_22")),
-    BillingCity:        models.ToPointer("Boston"),
-    BillingState:       models.ToPointer("MA"),
-    BillingCountry:     models.ToPointer("US"),
-    BillingZip:         models.ToPointer("02120"),
-    ExpirationMonth:    models.ToPointer(bodySubscriptionCreditCardAttributesExpirationMonth),
-    ExpirationYear:     models.ToPointer(bodySubscriptionCreditCardAttributesExpirationYear),
-}
-
-bodySubscription := models.CreateSubscription{
-    ProductHandle:                     models.ToPointer("basic"),
-    CustomerAttributes:                models.ToPointer(bodySubscriptionCustomerAttributes),
-    CreditCardAttributes:              models.ToPointer(bodySubscriptionCreditCardAttributes),
-}
-
 body := models.CreateSubscriptionRequest{
-    Subscription: bodySubscription,
+    Subscription: models.CreateSubscription{
+        ProductHandle:                     models.ToPointer("basic"),
+        CustomerAttributes:                models.ToPointer(models.CustomerAttributes{
+            FirstName:    models.ToPointer("Joe"),
+            LastName:     models.ToPointer("Blow"),
+            Email:        models.ToPointer("joe@example.com"),
+            Organization: models.ToPointer("Acme"),
+            Reference:    models.ToPointer("XYZ"),
+            Address:      models.ToPointer("123 Mass Ave."),
+            Address2:     models.NewOptional(models.ToPointer("address_24")),
+            City:         models.ToPointer("Boston"),
+            State:        models.ToPointer("MA"),
+            Zip:          models.ToPointer("02120"),
+            Country:      models.ToPointer("US"),
+            Phone:        models.ToPointer("(617) 111 - 0000"),
+        }),
+        CreditCardAttributes:              models.ToPointer(models.PaymentProfileAttributes{
+            FirstName:          models.ToPointer("Joe"),
+            LastName:           models.ToPointer("Smith"),
+            FullNumber:         models.ToPointer("4111111111111111"),
+            CardType:           models.ToPointer(models.CardType("visa")),
+            ExpirationMonth:    models.ToPointer(models.PaymentProfileAttributesExpirationMonthContainer.FromString("1")),
+            ExpirationYear:     models.ToPointer(models.PaymentProfileAttributesExpirationYearContainer.FromString("2021")),
+            BillingAddress:     models.ToPointer("123 Mass Ave."),
+            BillingAddress2:    models.NewOptional(models.ToPointer("billing_address_22")),
+            BillingCity:        models.ToPointer("Boston"),
+            BillingState:       models.ToPointer("MA"),
+            BillingCountry:     models.ToPointer("US"),
+            BillingZip:         models.ToPointer("02120"),
+        }),
+    },
 }
 
 apiResponse, err := subscriptionsController.CreateSubscription(ctx, &body)
@@ -909,30 +899,17 @@ ListSubscriptions(
 ```go
 ctx := context.Background()
 
-collectedInputStartDate, err := time.Parse(time.RFC3339, "2022-07-01")
-if err != nil {
-    log.Fatalln(err)
-}
-collectedInputEndDate, err := time.Parse(time.RFC3339, "2022-08-01")
-if err != nil {
-    log.Fatalln(err)
-}
-collectedInputStartDatetime, err := time.Parse(time.RFC3339, "2022-07-01 09:00:05")
-if err != nil {
-    log.Fatalln(err)
-}
-collectedInputEndDatetime, err := time.Parse(time.RFC3339, "2022-08-01 10:00:05")
-if err != nil {
-    log.Fatalln(err)
-}
 collectedInput := advancedbilling.ListSubscriptionsInput{
     Page:                models.ToPointer(2),
     PerPage:             models.ToPointer(50),
+    StartDate:           models.ToPointer(parseTime(time.RFC3339, "2022-07-01", func(err error) { log.Fatalln(err) })),
+    EndDate:             models.ToPointer(parseTime(time.RFC3339, "2022-08-01", func(err error) { log.Fatalln(err) })),
+    StartDatetime:       models.ToPointer(parseTime(time.RFC3339, "2022-07-01 09:00:05", func(err error) { log.Fatalln(err) })),
+    EndDatetime:         models.ToPointer(parseTime(time.RFC3339, "2022-08-01 10:00:05", func(err error) { log.Fatalln(err) })),
     Sort:                models.ToPointer(models.SubscriptionSort("signup_date")),
-Liquid error: Value cannot be null. (Parameter 'key')    StartDate:           models.ToPointer(collectedInputStartDate),
-    EndDate:             models.ToPointer(collectedInputEndDate),
-    StartDatetime:       models.ToPointer(collectedInputStartDatetime),
-    EndDatetime:         models.ToPointer(collectedInputEndDatetime),
+    Include:             []models.SubscriptionListInclude{
+        models.SubscriptionListInclude("self_service_page_token"),
+    },
 }
 
 apiResponse, err := subscriptionsController.ListSubscriptions(ctx, collectedInput)
@@ -1014,25 +991,18 @@ UpdateSubscription(
 
 ```go
 ctx := context.Background()
+
 subscriptionId := 222
 
-bodySubscriptionNextBillingAt, err := time.Parse(time.RFC3339, "2010-08-06T15:34:00Z")
-if err != nil {
-    log.Fatalln(err)
-}
-bodySubscriptionCreditCardAttributes := models.CreditCardAttributes{
-    FullNumber:      models.ToPointer("4111111111111111"),
-    ExpirationMonth: models.ToPointer("10"),
-    ExpirationYear:  models.ToPointer("2030"),
-}
-
-bodySubscription := models.UpdateSubscription{
-    NextBillingAt:                     models.ToPointer(bodySubscriptionNextBillingAt),
-    CreditCardAttributes:              models.ToPointer(bodySubscriptionCreditCardAttributes),
-}
-
 body := models.UpdateSubscriptionRequest{
-    Subscription: bodySubscription,
+    Subscription: models.UpdateSubscription{
+        CreditCardAttributes:              models.ToPointer(models.CreditCardAttributes{
+            FullNumber:      models.ToPointer("4111111111111111"),
+            ExpirationMonth: models.ToPointer("10"),
+            ExpirationYear:  models.ToPointer("2030"),
+        }),
+        NextBillingAt:                     models.ToPointer(parseTime(time.RFC3339, "2010-08-06T15:34:00Z", func(err error) { log.Fatalln(err) })),
+    },
 }
 
 apiResponse, err := subscriptionsController.UpdateSubscription(ctx, subscriptionId, &body)
@@ -1194,9 +1164,15 @@ ReadSubscription(
 
 ```go
 ctx := context.Background()
-subscriptionId := 222Liquid error: Value cannot be null. (Parameter 'key')
 
-apiResponse, err := subscriptionsController.ReadSubscription(ctx, subscriptionId, Liquid error: Value cannot be null. (Parameter 'key'))
+subscriptionId := 222
+
+include := []models.SubscriptionInclude{
+    models.SubscriptionInclude("coupons"),
+    models.SubscriptionInclude("self_service_page_token"),
+}
+
+apiResponse, err := subscriptionsController.ReadSubscription(ctx, subscriptionId, include)
 if err != nil {
     log.Fatalln(err)
 } else {
@@ -1392,29 +1368,16 @@ OverrideSubscription(
 
 ```go
 ctx := context.Background()
+
 subscriptionId := 222
 
-bodySubscriptionActivatedAt, err := time.Parse(time.RFC3339, "1999-12-01T10:28:34-05:00")
-if err != nil {
-    log.Fatalln(err)
-}
-bodySubscriptionCanceledAt, err := time.Parse(time.RFC3339, "2000-12-31T10:28:34-05:00")
-if err != nil {
-    log.Fatalln(err)
-}
-bodySubscriptionExpiresAt, err := time.Parse(time.RFC3339, "2001-07-15T10:28:34-05:00")
-if err != nil {
-    log.Fatalln(err)
-}
-bodySubscription := models.OverrideSubscription{
-    CancellationMessage:   models.ToPointer("Original cancellation in 2000"),
-    ActivatedAt:           models.ToPointer(bodySubscriptionActivatedAt),
-    CanceledAt:            models.ToPointer(bodySubscriptionCanceledAt),
-    ExpiresAt:             models.ToPointer(bodySubscriptionExpiresAt),
-}
-
 body := models.OverrideSubscriptionRequest{
-    Subscription: bodySubscription,
+    Subscription: models.OverrideSubscription{
+        ActivatedAt:           models.ToPointer(parseTime(time.RFC3339, "1999-12-01T10:28:34-05:00", func(err error) { log.Fatalln(err) })),
+        CanceledAt:            models.ToPointer(parseTime(time.RFC3339, "2000-12-31T10:28:34-05:00", func(err error) { log.Fatalln(err) })),
+        CancellationMessage:   models.ToPointer("Original cancellation in 2000"),
+        ExpiresAt:             models.ToPointer(parseTime(time.RFC3339, "2001-07-15T10:28:34-05:00", func(err error) { log.Fatalln(err) })),
+    },
 }
 
 resp, err := subscriptionsController.OverrideSubscription(ctx, subscriptionId, &body)
@@ -1458,6 +1421,8 @@ FindSubscription(
 
 ```go
 ctx := context.Background()
+
+
 
 apiResponse, err := subscriptionsController.FindSubscription(ctx, nil)
 if err != nil {
@@ -1508,10 +1473,17 @@ PurgeSubscription(
 
 ```go
 ctx := context.Background()
-subscriptionId := 222
-ack := 252Liquid error: Value cannot be null. (Parameter 'key')
 
-resp, err := subscriptionsController.PurgeSubscription(ctx, subscriptionId, ack, Liquid error: Value cannot be null. (Parameter 'key'))
+subscriptionId := 222
+
+ack := 252
+
+cascade := []models.SubscriptionPurgeType{
+    models.SubscriptionPurgeType("customer"),
+    models.SubscriptionPurgeType("payment_profile"),
+}
+
+resp, err := subscriptionsController.PurgeSubscription(ctx, subscriptionId, ack, cascade)
 if err != nil {
     log.Fatalln(err)
 } else {
@@ -1548,17 +1520,16 @@ UpdatePrepaidSubscriptionConfiguration(
 
 ```go
 ctx := context.Background()
+
 subscriptionId := 222
 
-bodyPrepaidConfiguration := models.UpsertPrepaidConfiguration{
-    InitialFundingAmountInCents:     models.ToPointer(int64(50000)),
-    ReplenishToAmountInCents:        models.ToPointer(int64(50000)),
-    AutoReplenish:                   models.ToPointer(true),
-    ReplenishThresholdAmountInCents: models.ToPointer(int64(10000)),
-}
-
 body := models.UpsertPrepaidConfigurationRequest{
-    PrepaidConfiguration: bodyPrepaidConfiguration,
+    PrepaidConfiguration: models.UpsertPrepaidConfiguration{
+        InitialFundingAmountInCents:     models.ToPointer(int64(50000)),
+        ReplenishToAmountInCents:        models.ToPointer(int64(50000)),
+        AutoReplenish:                   models.ToPointer(true),
+        ReplenishThresholdAmountInCents: models.ToPointer(int64(10000)),
+    },
 }
 
 apiResponse, err := subscriptionsController.UpdatePrepaidSubscriptionConfiguration(ctx, subscriptionId, &body)
@@ -1637,12 +1608,10 @@ PreviewSubscription(
 ```go
 ctx := context.Background()
 
-bodySubscription := models.CreateSubscription{
-    ProductHandle:                     models.ToPointer("gold-product"),
-}
-
 body := models.CreateSubscriptionRequest{
-    Subscription: bodySubscription,
+    Subscription: models.CreateSubscription{
+        ProductHandle:                     models.ToPointer("gold-product"),
+    },
 }
 
 apiResponse, err := subscriptionsController.PreviewSubscription(ctx, &body)
@@ -1812,10 +1781,16 @@ ApplyCouponsToSubscription(
 
 ```go
 ctx := context.Background()
+
 subscriptionId := 222
 
+
+
 body := models.AddCouponsRequest{
-    Codes: []string{"COUPON_1", "COUPON_2"},
+    Codes: []string{
+        "COUPON_1",
+        "COUPON_2",
+    },
 }
 
 apiResponse, err := subscriptionsController.ApplyCouponsToSubscription(ctx, subscriptionId, nil, &body)
@@ -2015,7 +1990,10 @@ RemoveCouponFromSubscription(
 
 ```go
 ctx := context.Background()
+
 subscriptionId := 222
+
+
 
 apiResponse, err := subscriptionsController.RemoveCouponFromSubscription(ctx, subscriptionId, nil)
 if err != nil {
@@ -2110,7 +2088,10 @@ ActivateSubscription(
 
 ```go
 ctx := context.Background()
+
 subscriptionId := 222
+
+
 
 apiResponse, err := subscriptionsController.ActivateSubscription(ctx, subscriptionId, nil)
 if err != nil {
