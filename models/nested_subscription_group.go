@@ -65,7 +65,7 @@ func (n *NestedSubscriptionGroup) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// nestedSubscriptionGroup is a temporary struct used for validating the fields of NestedSubscriptionGroup.
 type nestedSubscriptionGroup  struct {
     Uid                   *string `json:"uid,omitempty"`
     Scheme                *int    `json:"scheme,omitempty"`

@@ -46,7 +46,7 @@ func (s *SegmentResponse) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// segmentResponse is a temporary struct used for validating the fields of SegmentResponse.
 type segmentResponse  struct {
     Segment *Segment `json:"segment,omitempty"`
 }

@@ -50,7 +50,7 @@ func (s *SubscriptionNoteResponse) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// subscriptionNoteResponse is a temporary struct used for validating the fields of SubscriptionNoteResponse.
 type subscriptionNoteResponse  struct {
     Note *SubscriptionNote `json:"note"`
 }

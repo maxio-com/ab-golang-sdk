@@ -46,7 +46,7 @@ func (d *DelayedCancellationResponse) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// delayedCancellationResponse is a temporary struct used for validating the fields of DelayedCancellationResponse.
 type delayedCancellationResponse  struct {
     Message *string `json:"message,omitempty"`
 }

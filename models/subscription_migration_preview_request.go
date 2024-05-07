@@ -50,7 +50,7 @@ func (s *SubscriptionMigrationPreviewRequest) UnmarshalJSON(input []byte) error 
     return nil
 }
 
-// TODO
+// subscriptionMigrationPreviewRequest is a temporary struct used for validating the fields of SubscriptionMigrationPreviewRequest.
 type subscriptionMigrationPreviewRequest  struct {
     Migration *SubscriptionMigrationPreviewOptions `json:"migration"`
 }

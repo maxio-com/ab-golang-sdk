@@ -208,7 +208,7 @@ func (b *BankAccountPaymentProfile) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// bankAccountPaymentProfile is a temporary struct used for validating the fields of BankAccountPaymentProfile.
 type bankAccountPaymentProfile  struct {
     Id                      *int                   `json:"id,omitempty"`
     FirstName               *string                `json:"first_name,omitempty"`

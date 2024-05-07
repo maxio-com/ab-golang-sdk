@@ -51,7 +51,7 @@ func (b *BankAccountVerification) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// bankAccountVerification is a temporary struct used for validating the fields of BankAccountVerification.
 type bankAccountVerification  struct {
     Deposit1InCents *int64 `json:"deposit_1_in_cents,omitempty"`
     Deposit2InCents *int64 `json:"deposit_2_in_cents,omitempty"`

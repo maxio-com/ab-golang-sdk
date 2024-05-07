@@ -47,7 +47,7 @@ func (p *Proration) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// proration is a temporary struct used for validating the fields of Proration.
 type proration  struct {
     PreservePeriod *bool `json:"preserve_period,omitempty"`
 }

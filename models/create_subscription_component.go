@@ -81,7 +81,7 @@ func (c *CreateSubscriptionComponent) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// createSubscriptionComponent is a temporary struct used for validating the fields of CreateSubscriptionComponent.
 type createSubscriptionComponent  struct {
     ComponentId       *CreateSubscriptionComponentComponentId       `json:"component_id,omitempty"`
     Enabled           *bool                                         `json:"enabled,omitempty"`

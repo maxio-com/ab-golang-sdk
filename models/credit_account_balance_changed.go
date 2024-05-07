@@ -68,7 +68,7 @@ func (c *CreditAccountBalanceChanged) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// creditAccountBalanceChanged is a temporary struct used for validating the fields of CreditAccountBalanceChanged.
 type creditAccountBalanceChanged  struct {
     Reason                             *string `json:"reason"`
     ServiceCreditAccountBalanceInCents *int64  `json:"service_credit_account_balance_in_cents"`

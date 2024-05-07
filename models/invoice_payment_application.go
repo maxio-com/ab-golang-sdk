@@ -59,7 +59,7 @@ func (i *InvoicePaymentApplication) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// invoicePaymentApplication is a temporary struct used for validating the fields of InvoicePaymentApplication.
 type invoicePaymentApplication  struct {
     InvoiceUid     *string `json:"invoice_uid,omitempty"`
     ApplicationUid *string `json:"application_uid,omitempty"`

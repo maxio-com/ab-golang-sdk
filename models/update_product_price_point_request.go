@@ -50,7 +50,7 @@ func (u *UpdateProductPricePointRequest) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// updateProductPricePointRequest is a temporary struct used for validating the fields of UpdateProductPricePointRequest.
 type updateProductPricePointRequest  struct {
     PricePoint *UpdateProductPricePoint `json:"price_point"`
 }

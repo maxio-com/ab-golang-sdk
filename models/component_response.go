@@ -50,7 +50,7 @@ func (c *ComponentResponse) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// componentResponse is a temporary struct used for validating the fields of ComponentResponse.
 type componentResponse  struct {
     Component *Component `json:"component"`
 }

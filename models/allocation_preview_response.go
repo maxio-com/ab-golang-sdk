@@ -50,7 +50,7 @@ func (a *AllocationPreviewResponse) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// allocationPreviewResponse is a temporary struct used for validating the fields of AllocationPreviewResponse.
 type allocationPreviewResponse  struct {
     AllocationPreview *AllocationPreview `json:"allocation_preview"`
 }

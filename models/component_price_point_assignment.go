@@ -51,7 +51,7 @@ func (c *ComponentPricePointAssignment) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// componentPricePointAssignment is a temporary struct used for validating the fields of ComponentPricePointAssignment.
 type componentPricePointAssignment  struct {
     ComponentId *int                                     `json:"component_id,omitempty"`
     PricePoint  *ComponentPricePointAssignmentPricePoint `json:"price_point,omitempty"`

@@ -66,7 +66,7 @@ func (s *SubscriptionGroupCustomer) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// subscriptionGroupCustomer is a temporary struct used for validating the fields of SubscriptionGroupCustomer.
 type subscriptionGroupCustomer  struct {
     FirstName    *string `json:"first_name,omitempty"`
     LastName     *string `json:"last_name,omitempty"`

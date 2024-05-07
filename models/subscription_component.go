@@ -33,7 +33,7 @@ type SubscriptionComponent struct {
     ArchivedAt                Optional[time.Time]                     `json:"archived_at"`
     PricePointId              Optional[int]                           `json:"price_point_id"`
     PricePointHandle          Optional[string]                        `json:"price_point_handle"`
-    PricePointType            *SubscriptionComponentPricePointType    `json:"price_point_type,omitempty"`
+    PricePointType            Optional[PricePointType]                `json:"price_point_type"`
     PricePointName            Optional[string]                        `json:"price_point_name"`
     ProductFamilyId           *int                                    `json:"product_family_id,omitempty"`
     ProductFamilyHandle       *string                                 `json:"product_family_handle,omitempty"`
@@ -44,6 +44,7 @@ type SubscriptionComponent struct {
     AllowFractionalQuantities *bool                                   `json:"allow_fractional_quantities,omitempty"`
     // An optional object, will be returned if provided `include=subscription` query param.
     Subscription              *SubscriptionComponentSubscription      `json:"subscription,omitempty"`
+    HistoricUsages            []HistoricUsage                         `json:"historic_usages,omitempty"`
     DisplayOnHostedPage       *bool                                   `json:"display_on_hosted_page,omitempty"`
     // The numerical interval. i.e. an interval of '30' coupled with an interval_unit of day would mean this component price point would renew every 30 days. This property is only available for sites with Multifrequency enabled.
     Interval                  *int                                    `json:"interval,omitempty"`
@@ -151,8 +152,12 @@ func (s SubscriptionComponent) toMap() map[string]any {
             structMap["price_point_handle"] = nil
         }
     }
-    if s.PricePointType != nil {
-        structMap["price_point_type"] = s.PricePointType.toMap()
+    if s.PricePointType.IsValueSet() {
+        if s.PricePointType.Value() != nil {
+            structMap["price_point_type"] = s.PricePointType.Value()
+        } else {
+            structMap["price_point_type"] = nil
+        }
     }
     if s.PricePointName.IsValueSet() {
         if s.PricePointName.Value() != nil {
@@ -193,6 +198,9 @@ func (s SubscriptionComponent) toMap() map[string]any {
     if s.Subscription != nil {
         structMap["subscription"] = s.Subscription.toMap()
     }
+    if s.HistoricUsages != nil {
+        structMap["historic_usages"] = s.HistoricUsages
+    }
     if s.DisplayOnHostedPage != nil {
         structMap["display_on_hosted_page"] = s.DisplayOnHostedPage
     }
@@ -213,7 +221,7 @@ func (s *SubscriptionComponent) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "id", "name", "kind", "unit_name", "enabled", "unit_balance", "currency", "allocated_quantity", "pricing_scheme", "component_id", "component_handle", "subscription_id", "recurring", "upgrade_charge", "downgrade_credit", "archived_at", "price_point_id", "price_point_handle", "price_point_type", "price_point_name", "product_family_id", "product_family_handle", "created_at", "updated_at", "use_site_exchange_rate", "description", "allow_fractional_quantities", "subscription", "display_on_hosted_page", "interval", "interval_unit")
+    additionalProperties, err := UnmarshalAdditionalProperties(input, "id", "name", "kind", "unit_name", "enabled", "unit_balance", "currency", "allocated_quantity", "pricing_scheme", "component_id", "component_handle", "subscription_id", "recurring", "upgrade_charge", "downgrade_credit", "archived_at", "price_point_id", "price_point_handle", "price_point_type", "price_point_name", "product_family_id", "product_family_handle", "created_at", "updated_at", "use_site_exchange_rate", "description", "allow_fractional_quantities", "subscription", "historic_usages", "display_on_hosted_page", "interval", "interval_unit")
     if err != nil {
     	return err
     }
@@ -266,13 +274,14 @@ func (s *SubscriptionComponent) UnmarshalJSON(input []byte) error {
     s.Description = temp.Description
     s.AllowFractionalQuantities = temp.AllowFractionalQuantities
     s.Subscription = temp.Subscription
+    s.HistoricUsages = temp.HistoricUsages
     s.DisplayOnHostedPage = temp.DisplayOnHostedPage
     s.Interval = temp.Interval
     s.IntervalUnit = temp.IntervalUnit
     return nil
 }
 
-// TODO
+// subscriptionComponent is a temporary struct used for validating the fields of SubscriptionComponent.
 type subscriptionComponent  struct {
     Id                        *int                                    `json:"id,omitempty"`
     Name                      *string                                 `json:"name,omitempty"`
@@ -292,7 +301,7 @@ type subscriptionComponent  struct {
     ArchivedAt                Optional[string]                        `json:"archived_at"`
     PricePointId              Optional[int]                           `json:"price_point_id"`
     PricePointHandle          Optional[string]                        `json:"price_point_handle"`
-    PricePointType            *SubscriptionComponentPricePointType    `json:"price_point_type,omitempty"`
+    PricePointType            Optional[PricePointType]                `json:"price_point_type"`
     PricePointName            Optional[string]                        `json:"price_point_name"`
     ProductFamilyId           *int                                    `json:"product_family_id,omitempty"`
     ProductFamilyHandle       *string                                 `json:"product_family_handle,omitempty"`
@@ -302,6 +311,7 @@ type subscriptionComponent  struct {
     Description               Optional[string]                        `json:"description"`
     AllowFractionalQuantities *bool                                   `json:"allow_fractional_quantities,omitempty"`
     Subscription              *SubscriptionComponentSubscription      `json:"subscription,omitempty"`
+    HistoricUsages            []HistoricUsage                         `json:"historic_usages,omitempty"`
     DisplayOnHostedPage       *bool                                   `json:"display_on_hosted_page,omitempty"`
     Interval                  *int                                    `json:"interval,omitempty"`
     IntervalUnit              *IntervalUnit                           `json:"interval_unit,omitempty"`

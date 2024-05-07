@@ -61,7 +61,7 @@ func (r *ResentInvitation) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// resentInvitation is a temporary struct used for validating the fields of ResentInvitation.
 type resentInvitation  struct {
     LastSentAt         *string `json:"last_sent_at,omitempty"`
     LastAcceptedAt     *string `json:"last_accepted_at,omitempty"`

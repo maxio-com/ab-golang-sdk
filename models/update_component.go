@@ -113,7 +113,7 @@ func (u *UpdateComponent) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// updateComponent is a temporary struct used for validating the fields of UpdateComponent.
 type updateComponent  struct {
     Handle              *string                `json:"handle,omitempty"`
     Name                *string                `json:"name,omitempty"`

@@ -153,7 +153,7 @@ func (o *OnOffComponent) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// onOffComponent is a temporary struct used for validating the fields of OnOffComponent.
 type onOffComponent  struct {
     Name                      *string                   `json:"name"`
     Description               *string                   `json:"description,omitempty"`

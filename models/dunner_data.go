@@ -75,7 +75,7 @@ func (d *DunnerData) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// dunnerData is a temporary struct used for validating the fields of DunnerData.
 type dunnerData  struct {
     State                *string `json:"state"`
     SubscriptionId       *int    `json:"subscription_id"`

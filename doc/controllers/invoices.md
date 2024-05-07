@@ -458,6 +458,19 @@ if err != nil {
 
 Use this endpoint to retrieve the details for an invoice.
 
+## PDF Invoice retrieval
+
+Individual PDF Invoices can be retrieved by using the "Accept" header application/pdf or appending .pdf as the format portion of the URL:
+
+```curl -u <api_key>:x -H
+Accept:application/pdf -H
+https://acme.chargify.com/invoices/inv_8gd8tdhtd3hgr.pdf > output_file.pdf
+URL: `https://<subdomain>.chargify.com/invoices/<uid>.<format>`
+Method: GET
+Required parameters: `uid`
+Response: A single Invoice.
+```
+
 ```go
 ReadInvoice(
     ctx context.Context,

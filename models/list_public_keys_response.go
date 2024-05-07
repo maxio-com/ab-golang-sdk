@@ -51,7 +51,7 @@ func (l *ListPublicKeysResponse) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// listPublicKeysResponse is a temporary struct used for validating the fields of ListPublicKeysResponse.
 type listPublicKeysResponse  struct {
     ChargifyJsKeys []PublicKey         `json:"chargify_js_keys,omitempty"`
     Meta           *ListPublicKeysMeta `json:"meta,omitempty"`

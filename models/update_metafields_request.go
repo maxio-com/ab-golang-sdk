@@ -46,7 +46,7 @@ func (u *UpdateMetafieldsRequest) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// updateMetafieldsRequest is a temporary struct used for validating the fields of UpdateMetafieldsRequest.
 type updateMetafieldsRequest  struct {
     Metafields *UpdateMetafieldsRequestMetafields `json:"metafields,omitempty"`
 }

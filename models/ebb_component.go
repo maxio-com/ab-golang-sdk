@@ -150,7 +150,7 @@ func (e *EBBComponent) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// ebbComponent is a temporary struct used for validating the fields of EBBComponent.
 type ebbComponent  struct {
     Name                      *string                   `json:"name"`
     UnitName                  *string                   `json:"unit_name"`

@@ -78,7 +78,7 @@ func (r *RefundConsolidatedInvoice) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// refundConsolidatedInvoice is a temporary struct used for validating the fields of RefundConsolidatedInvoice.
 type refundConsolidatedInvoice  struct {
     Memo        *string                               `json:"memo"`
     PaymentId   *int                                  `json:"payment_id"`

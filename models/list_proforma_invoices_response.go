@@ -51,7 +51,7 @@ func (l *ListProformaInvoicesResponse) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// listProformaInvoicesResponse is a temporary struct used for validating the fields of ListProformaInvoicesResponse.
 type listProformaInvoicesResponse  struct {
     ProformaInvoices []ProformaInvoice         `json:"proforma_invoices,omitempty"`
     Meta             *ListProformaInvoicesMeta `json:"meta,omitempty"`

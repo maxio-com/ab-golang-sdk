@@ -50,7 +50,7 @@ func (c *CustomerResponse) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// customerResponse is a temporary struct used for validating the fields of CustomerResponse.
 type customerResponse  struct {
     Customer *Customer `json:"customer"`
 }

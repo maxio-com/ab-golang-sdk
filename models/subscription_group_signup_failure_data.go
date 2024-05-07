@@ -81,7 +81,7 @@ func (s *SubscriptionGroupSignupFailureData) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// subscriptionGroupSignupFailureData is a temporary struct used for validating the fields of SubscriptionGroupSignupFailureData.
 type subscriptionGroupSignupFailureData  struct {
     PayerId                 *int                          `json:"payer_id,omitempty"`
     PayerReference          *string                       `json:"payer_reference,omitempty"`

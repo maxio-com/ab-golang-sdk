@@ -110,7 +110,7 @@ func (c *CreateInvoiceItem) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// createInvoiceItem is a temporary struct used for validating the fields of CreateInvoiceItem.
 type createInvoiceItem  struct {
     Title               *string                               `json:"title,omitempty"`
     Quantity            *CreateInvoiceItemQuantity            `json:"quantity,omitempty"`

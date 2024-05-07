@@ -53,7 +53,7 @@ func (s *SubscriptionStateChange) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// subscriptionStateChange is a temporary struct used for validating the fields of SubscriptionStateChange.
 type subscriptionStateChange  struct {
     PreviousSubscriptionState *string `json:"previous_subscription_state"`
     NewSubscriptionState      *string `json:"new_subscription_state"`

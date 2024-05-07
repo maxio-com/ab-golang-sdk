@@ -46,7 +46,7 @@ func (c *CountResponse) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// countResponse is a temporary struct used for validating the fields of CountResponse.
 type countResponse  struct {
     Count *int `json:"count,omitempty"`
 }

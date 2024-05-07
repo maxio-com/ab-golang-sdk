@@ -210,25 +210,6 @@ func (p *ProformaBadRequestErrorResponse) Error() string {
     return fmt.Sprintf("ProformaBadRequestErrorResponse occured: %v", p.Message)
 }
 
-// RefundPrepaymentAggregatedErrorsResponse is a custom error.
-// Errors returned on creating a refund prepayment, grouped by field, as arrays of strings.
-type RefundPrepaymentAggregatedErrorsResponse struct {
-    https.ApiError
-    Errors         *models.RefundPrepaymentAggregatedError `json:"errors,omitempty"`
-}
-
-// NewRefundPrepaymentAggregatedErrorsResponse is a constructor for RefundPrepaymentAggregatedErrorsResponse.
-// It creates and returns a pointer to a new RefundPrepaymentAggregatedErrorsResponse instance with the given statusCode and body.
-func NewRefundPrepaymentAggregatedErrorsResponse(apiError https.ApiError) error {
-    return &RefundPrepaymentAggregatedErrorsResponse{ApiError: apiError}
-}
-
-// Error implements the Error method for the error interface.
-// It returns a formatted error message for RefundPrepaymentAggregatedErrorsResponse.
-func (r *RefundPrepaymentAggregatedErrorsResponse) Error() string {
-    return fmt.Sprintf("RefundPrepaymentAggregatedErrorsResponse occured: %v", r.Message)
-}
-
 // RefundPrepaymentBaseErrorsResponse is a custom error.
 // Errors returned on creating a refund prepayment when bad request
 type RefundPrepaymentBaseErrorsResponse struct {

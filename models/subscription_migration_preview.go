@@ -65,7 +65,7 @@ func (s *SubscriptionMigrationPreview) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// subscriptionMigrationPreview is a temporary struct used for validating the fields of SubscriptionMigrationPreview.
 type subscriptionMigrationPreview  struct {
     ProratedAdjustmentInCents *int64 `json:"prorated_adjustment_in_cents,omitempty"`
     ChargeInCents             *int64 `json:"charge_in_cents,omitempty"`

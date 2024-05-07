@@ -120,7 +120,7 @@ func (s *SubscriptionCustomPrice) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// subscriptionCustomPrice is a temporary struct used for validating the fields of SubscriptionCustomPrice.
 type subscriptionCustomPrice  struct {
     Name                    *string                                      `json:"name,omitempty"`
     Handle                  *string                                      `json:"handle,omitempty"`

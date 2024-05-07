@@ -47,7 +47,7 @@ func (l *ListMrrFilter) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// listMrrFilter is a temporary struct used for validating the fields of ListMrrFilter.
 type listMrrFilter  struct {
     SubscriptionIds []int `json:"subscription_ids,omitempty"`
 }

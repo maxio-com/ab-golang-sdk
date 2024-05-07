@@ -84,7 +84,7 @@ func (i *InvoiceCredit) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// invoiceCredit is a temporary struct used for validating the fields of InvoiceCredit.
 type invoiceCredit  struct {
     Uid              *string `json:"uid,omitempty"`
     CreditNoteNumber *string `json:"credit_note_number,omitempty"`

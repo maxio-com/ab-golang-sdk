@@ -50,7 +50,7 @@ func (i *IssueInvoiceRequest) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// issueInvoiceRequest is a temporary struct used for validating the fields of IssueInvoiceRequest.
 type issueInvoiceRequest  struct {
     OnFailedPayment *FailedPaymentAction `json:"on_failed_payment,omitempty"`
 }

@@ -105,7 +105,7 @@ func (i *InvoiceDiscount) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// invoiceDiscount is a temporary struct used for validating the fields of InvoiceDiscount.
 type invoiceDiscount  struct {
     Uid               *string                    `json:"uid,omitempty"`
     Title             *string                    `json:"title,omitempty"`

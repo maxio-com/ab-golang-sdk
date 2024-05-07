@@ -65,7 +65,7 @@ func (p *PaidInvoice) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// paidInvoice is a temporary struct used for validating the fields of PaidInvoice.
 type paidInvoice  struct {
     InvoiceId  *string        `json:"invoice_id,omitempty"`
     Status     *InvoiceStatus `json:"status,omitempty"`

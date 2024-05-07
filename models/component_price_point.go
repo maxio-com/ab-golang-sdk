@@ -20,7 +20,7 @@ type ComponentPricePoint struct {
     // The identifier for the pricing scheme. See [Product Components](https://help.chargify.com/products/product-components.html) for an overview of pricing schemes.
     PricingScheme        *PricingScheme           `json:"pricing_scheme,omitempty"`
     ComponentId          *int                     `json:"component_id,omitempty"`
-    Handle               *string                  `json:"handle,omitempty"`
+    Handle               Optional[string]         `json:"handle"`
     ArchivedAt           Optional[time.Time]      `json:"archived_at"`
     CreatedAt            *time.Time               `json:"created_at,omitempty"`
     UpdatedAt            *time.Time               `json:"updated_at,omitempty"`
@@ -69,8 +69,12 @@ func (c ComponentPricePoint) toMap() map[string]any {
     if c.ComponentId != nil {
         structMap["component_id"] = c.ComponentId
     }
-    if c.Handle != nil {
-        structMap["handle"] = c.Handle
+    if c.Handle.IsValueSet() {
+        if c.Handle.Value() != nil {
+            structMap["handle"] = c.Handle.Value()
+        } else {
+            structMap["handle"] = nil
+        }
     }
     if c.ArchivedAt.IsValueSet() {
         var ArchivedAtVal *string = nil
@@ -175,7 +179,7 @@ func (c *ComponentPricePoint) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// componentPricePoint is a temporary struct used for validating the fields of ComponentPricePoint.
 type componentPricePoint  struct {
     Id                  *int                     `json:"id,omitempty"`
     Type                *PricePointType          `json:"type,omitempty"`
@@ -183,7 +187,7 @@ type componentPricePoint  struct {
     Name                *string                  `json:"name,omitempty"`
     PricingScheme       *PricingScheme           `json:"pricing_scheme,omitempty"`
     ComponentId         *int                     `json:"component_id,omitempty"`
-    Handle              *string                  `json:"handle,omitempty"`
+    Handle              Optional[string]         `json:"handle"`
     ArchivedAt          Optional[string]         `json:"archived_at"`
     CreatedAt           *string                  `json:"created_at,omitempty"`
     UpdatedAt           *string                  `json:"updated_at,omitempty"`

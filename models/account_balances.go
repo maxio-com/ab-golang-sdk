@@ -71,7 +71,7 @@ func (a *AccountBalances) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// accountBalances is a temporary struct used for validating the fields of AccountBalances.
 type accountBalances  struct {
     OpenInvoices     *AccountBalance `json:"open_invoices,omitempty"`
     PendingInvoices  *AccountBalance `json:"pending_invoices,omitempty"`

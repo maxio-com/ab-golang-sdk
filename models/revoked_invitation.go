@@ -56,7 +56,7 @@ func (r *RevokedInvitation) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// revokedInvitation is a temporary struct used for validating the fields of RevokedInvitation.
 type revokedInvitation  struct {
     LastSentAt     *string `json:"last_sent_at,omitempty"`
     LastAcceptedAt *string `json:"last_accepted_at,omitempty"`

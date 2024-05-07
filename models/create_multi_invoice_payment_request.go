@@ -50,7 +50,7 @@ func (c *CreateMultiInvoicePaymentRequest) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// createMultiInvoicePaymentRequest is a temporary struct used for validating the fields of CreateMultiInvoicePaymentRequest.
 type createMultiInvoicePaymentRequest  struct {
     Payment *CreateMultiInvoicePayment `json:"payment"`
 }

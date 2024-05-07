@@ -50,7 +50,7 @@ func (c *CreatePrepaidComponent) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// createPrepaidComponent is a temporary struct used for validating the fields of CreatePrepaidComponent.
 type createPrepaidComponent  struct {
     PrepaidUsageComponent *PrepaidUsageComponent `json:"prepaid_usage_component"`
 }

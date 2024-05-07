@@ -46,7 +46,7 @@ func (e *EBBEvent) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// ebbEvent is a temporary struct used for validating the fields of EBBEvent.
 type ebbEvent  struct {
     Chargify *ChargifyEBB `json:"chargify,omitempty"`
 }

@@ -374,7 +374,7 @@ func (c *CreateSubscription) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// createSubscription is a temporary struct used for validating the fields of CreateSubscription.
 type createSubscription  struct {
     ProductHandle                     *string                       `json:"product_handle,omitempty"`
     ProductId                         *int                          `json:"product_id,omitempty"`

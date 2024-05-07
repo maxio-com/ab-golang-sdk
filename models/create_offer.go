@@ -76,7 +76,7 @@ func (c *CreateOffer) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// createOffer is a temporary struct used for validating the fields of CreateOffer.
 type createOffer  struct {
     Name                *string                `json:"name"`
     Handle              *string                `json:"handle"`

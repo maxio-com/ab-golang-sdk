@@ -113,7 +113,7 @@ func (r *RenewalPreviewLineItem) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// renewalPreviewLineItem is a temporary struct used for validating the fields of RenewalPreviewLineItem.
 type renewalPreviewLineItem  struct {
     TransactionType       *LineItemTransactionType `json:"transaction_type,omitempty"`
     Kind                  *LineItemKind            `json:"kind,omitempty"`

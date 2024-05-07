@@ -50,7 +50,7 @@ func (l *ListCreditNotesResponse) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// listCreditNotesResponse is a temporary struct used for validating the fields of ListCreditNotesResponse.
 type listCreditNotesResponse  struct {
     CreditNotes *[]CreditNote `json:"credit_notes"`
 }

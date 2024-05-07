@@ -191,7 +191,7 @@ func (p *PaymentProfileAttributes) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// paymentProfileAttributes is a temporary struct used for validating the fields of PaymentProfileAttributes.
 type paymentProfileAttributes  struct {
     ChargifyToken      *string                                  `json:"chargify_token,omitempty"`
     Id                 *int                                     `json:"id,omitempty"`

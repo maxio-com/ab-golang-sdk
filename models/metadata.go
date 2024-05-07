@@ -105,7 +105,7 @@ func (m *Metadata) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// metadata is a temporary struct used for validating the fields of Metadata.
 type metadata  struct {
     Id          Optional[int]    `json:"id"`
     Value       Optional[string] `json:"value"`

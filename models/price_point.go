@@ -114,7 +114,7 @@ func (p *PricePoint) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// pricePoint is a temporary struct used for validating the fields of PricePoint.
 type pricePoint  struct {
     Name                     *string         `json:"name,omitempty"`
     Handle                   *string         `json:"handle,omitempty"`

@@ -95,7 +95,7 @@ func (b *BillingAddress) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// billingAddress is a temporary struct used for validating the fields of BillingAddress.
 type billingAddress  struct {
     Street  Optional[string] `json:"street"`
     Line2   Optional[string] `json:"line2"`

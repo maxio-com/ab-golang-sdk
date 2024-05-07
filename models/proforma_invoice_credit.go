@@ -61,7 +61,7 @@ func (p *ProformaInvoiceCredit) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// proformaInvoiceCredit is a temporary struct used for validating the fields of ProformaInvoiceCredit.
 type proformaInvoiceCredit  struct {
     Uid            *string `json:"uid,omitempty"`
     Memo           *string `json:"memo,omitempty"`

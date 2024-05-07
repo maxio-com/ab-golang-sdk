@@ -76,7 +76,7 @@ func (s *SaleRepSettings) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// saleRepSettings is a temporary struct used for validating the fields of SaleRepSettings.
 type saleRepSettings  struct {
     CustomerName    *string `json:"customer_name,omitempty"`
     SubscriptionId  *int    `json:"subscription_id,omitempty"`

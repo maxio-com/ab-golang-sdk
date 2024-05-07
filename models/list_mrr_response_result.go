@@ -76,7 +76,7 @@ func (l *ListMRRResponseResult) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// listMRRResponseResult is a temporary struct used for validating the fields of ListMRRResponseResult.
 type listMRRResponseResult  struct {
     Page           *int       `json:"page,omitempty"`
     PerPage        *int       `json:"per_page,omitempty"`

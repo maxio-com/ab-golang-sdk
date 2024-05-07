@@ -66,7 +66,7 @@ func (e *Endpoint) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// endpoint is a temporary struct used for validating the fields of Endpoint.
 type endpoint  struct {
     Id                   *int     `json:"id,omitempty"`
     Url                  *string  `json:"url,omitempty"`

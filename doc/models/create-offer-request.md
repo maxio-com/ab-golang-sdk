@@ -24,10 +24,12 @@
     "components": [
       {
         "component_id": 108,
+        "price_point_id": 124,
         "starting_quantity": 84
       },
       {
         "component_id": 108,
+        "price_point_id": 124,
         "starting_quantity": 84
       }
     ],

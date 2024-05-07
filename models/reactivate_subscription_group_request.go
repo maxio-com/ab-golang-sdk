@@ -51,7 +51,7 @@ func (r *ReactivateSubscriptionGroupRequest) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// reactivateSubscriptionGroupRequest is a temporary struct used for validating the fields of ReactivateSubscriptionGroupRequest.
 type reactivateSubscriptionGroupRequest  struct {
     Resume        *bool `json:"resume,omitempty"`
     ResumeMembers *bool `json:"resume_members,omitempty"`

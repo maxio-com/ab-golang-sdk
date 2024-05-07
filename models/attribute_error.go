@@ -50,7 +50,7 @@ func (a *AttributeError) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// attributeError is a temporary struct used for validating the fields of AttributeError.
 type attributeError  struct {
     Attribute *[]string `json:"attribute"`
 }

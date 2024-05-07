@@ -104,7 +104,7 @@ func (b *BatchJob) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// batchJob is a temporary struct used for validating the fields of BatchJob.
 type batchJob  struct {
     Id         *int             `json:"id,omitempty"`
     FinishedAt Optional[string] `json:"finished_at"`

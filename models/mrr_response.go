@@ -50,7 +50,7 @@ func (m *MRRResponse) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// mrrResponse is a temporary struct used for validating the fields of MRRResponse.
 type mrrResponse  struct {
     Mrr *MRR `json:"mrr"`
 }

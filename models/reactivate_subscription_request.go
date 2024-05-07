@@ -77,7 +77,7 @@ func (r *ReactivateSubscriptionRequest) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// reactivateSubscriptionRequest is a temporary struct used for validating the fields of ReactivateSubscriptionRequest.
 type reactivateSubscriptionRequest  struct {
     CalendarBilling          *ReactivationBilling                 `json:"calendar_billing,omitempty"`
     IncludeTrial             *bool                                `json:"include_trial,omitempty"`

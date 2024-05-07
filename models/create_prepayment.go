@@ -65,7 +65,7 @@ func (c *CreatePrepayment) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// createPrepayment is a temporary struct used for validating the fields of CreatePrepayment.
 type createPrepayment  struct {
     Amount           *float64                `json:"amount"`
     Details          *string                 `json:"details"`

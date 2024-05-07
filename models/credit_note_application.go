@@ -74,7 +74,7 @@ func (c *CreditNoteApplication) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// creditNoteApplication is a temporary struct used for validating the fields of CreditNoteApplication.
 type creditNoteApplication  struct {
     Uid             *string `json:"uid,omitempty"`
     TransactionTime *string `json:"transaction_time,omitempty"`

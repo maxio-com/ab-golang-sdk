@@ -94,7 +94,7 @@ func (c *CreatePrepaidUsageComponentPricePoint) UnmarshalJSON(input []byte) erro
     return nil
 }
 
-// TODO
+// createPrepaidUsageComponentPricePoint is a temporary struct used for validating the fields of CreatePrepaidUsageComponentPricePoint.
 type createPrepaidUsageComponentPricePoint  struct {
     Name                     *string         `json:"name"`
     Handle                   *string         `json:"handle,omitempty"`

@@ -50,7 +50,7 @@ func (b *BulkCreateProductPricePointsRequest) UnmarshalJSON(input []byte) error 
     return nil
 }
 
-// TODO
+// bulkCreateProductPricePointsRequest is a temporary struct used for validating the fields of BulkCreateProductPricePointsRequest.
 type bulkCreateProductPricePointsRequest  struct {
     PricePoints *[]CreateProductPricePoint `json:"price_points"`
 }

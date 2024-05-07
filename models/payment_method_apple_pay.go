@@ -50,7 +50,7 @@ func (p *PaymentMethodApplePay) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// paymentMethodApplePay is a temporary struct used for validating the fields of PaymentMethodApplePay.
 type paymentMethodApplePay  struct {
     Type *InvoiceEventPaymentMethod `json:"type"`
 }

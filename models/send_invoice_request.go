@@ -56,7 +56,7 @@ func (s *SendInvoiceRequest) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// sendInvoiceRequest is a temporary struct used for validating the fields of SendInvoiceRequest.
 type sendInvoiceRequest  struct {
     RecipientEmails    []string `json:"recipient_emails,omitempty"`
     CcRecipientEmails  []string `json:"cc_recipient_emails,omitempty"`

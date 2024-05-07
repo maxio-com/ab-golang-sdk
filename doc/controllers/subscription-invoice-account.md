@@ -250,7 +250,6 @@ subscriptionId := 222
 body := models.IssueServiceCreditRequest{
     ServiceCredit: models.IssueServiceCredit{
         Amount: models.IssueServiceCreditAmountContainer.FromString("1"),
-        Memo:   "Courtesy credit",
     },
 }
 
@@ -275,6 +274,12 @@ if err != nil {
   "memo": "Credit to group account"
 }
 ```
+
+## Errors
+
+| HTTP Status Code | Error Description | Exception Class |
+|  --- | --- | --- |
+| 422 | Unprocessable Entity (WebDAV) | `ApiError` |
 
 
 # Deduct Service Credit
@@ -311,7 +316,7 @@ subscriptionId := 222
 body := models.DeductServiceCreditRequest{
     Deduction: models.DeductServiceCredit{
         Amount: models.DeductServiceCreditAmountContainer.FromString("1"),
-        Memo:   "Deduction",
+        Memo:   models.ToPointer("Deduction"),
     },
 }
 
@@ -327,7 +332,7 @@ if err != nil {
 
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
-| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../../doc/models/error-list-response-exception.md) |
+| 422 | Unprocessable Entity (WebDAV) | `ApiError` |
 
 
 # Refund Prepayment
@@ -340,7 +345,7 @@ The amount may be passed either as a decimal, with `amount`, or an integer in ce
 RefundPrepayment(
     ctx context.Context,
     subscriptionId int,
-    prepaymentId string,
+    prepaymentId int64,
     body *models.RefundPrepaymentRequest) (
     models.ApiResponse[models.PrepaymentResponse],
     error)
@@ -351,7 +356,7 @@ RefundPrepayment(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription |
-| `prepaymentId` | `string` | Template, Required | id of prepayment |
+| `prepaymentId` | `int64` | Template, Required | id of prepayment |
 | `body` | [`*models.RefundPrepaymentRequest`](../../doc/models/refund-prepayment-request.md) | Body, Optional | - |
 
 ## Response Type
@@ -365,7 +370,7 @@ ctx := context.Background()
 
 subscriptionId := 222
 
-prepaymentId := "prepayment_id8"
+prepaymentId := int64(228)
 
 
 
@@ -385,5 +390,5 @@ if err != nil {
 |  --- | --- | --- |
 | 400 | Bad Request | [`RefundPrepaymentBaseErrorsResponseException`](../../doc/models/refund-prepayment-base-errors-response-exception.md) |
 | 404 | Not Found | `ApiError` |
-| 422 | Unprocessable Entity | [`RefundPrepaymentAggregatedErrorsResponseException`](../../doc/models/refund-prepayment-aggregated-errors-response-exception.md) |
+| 422 | Unprocessable Entity | `ApiError` |
 

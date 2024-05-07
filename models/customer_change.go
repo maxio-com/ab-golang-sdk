@@ -77,7 +77,7 @@ func (c *CustomerChange) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// customerChange is a temporary struct used for validating the fields of CustomerChange.
 type customerChange  struct {
     Payer           Optional[CustomerPayerChange]        `json:"payer"`
     ShippingAddress Optional[AddressChange]              `json:"shipping_address"`

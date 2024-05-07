@@ -50,7 +50,7 @@ func (c *CreateMetafieldsRequest) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// createMetafieldsRequest is a temporary struct used for validating the fields of CreateMetafieldsRequest.
 type createMetafieldsRequest  struct {
     Metafields *CreateMetafieldsRequestMetafields `json:"metafields"`
 }

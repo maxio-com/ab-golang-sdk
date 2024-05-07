@@ -51,7 +51,7 @@ func (e *Errors) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// mErrors is a temporary struct used for validating the fields of Errors.
 type mErrors  struct {
     PerPage    []string `json:"per_page,omitempty"`
     PricePoint []string `json:"price_point,omitempty"`

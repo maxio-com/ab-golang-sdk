@@ -64,7 +64,7 @@ func (p *PublicKey) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// publicKey is a temporary struct used for validating the fields of PublicKey.
 type publicKey  struct {
     PublicKey             *string `json:"public_key,omitempty"`
     RequiresSecurityToken *bool   `json:"requires_security_token,omitempty"`

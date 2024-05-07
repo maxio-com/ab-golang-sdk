@@ -89,7 +89,7 @@ func (a *AllocationPreviewLineItem) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// allocationPreviewLineItem is a temporary struct used for validating the fields of AllocationPreviewLineItem.
 type allocationPreviewLineItem  struct {
     TransactionType       *LineItemTransactionType       `json:"transaction_type,omitempty"`
     Kind                  *AllocationPreviewLineItemKind `json:"kind,omitempty"`

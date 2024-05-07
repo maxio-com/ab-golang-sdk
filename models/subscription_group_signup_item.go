@@ -118,7 +118,7 @@ func (s *SubscriptionGroupSignupItem) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// subscriptionGroupSignupItem is a temporary struct used for validating the fields of SubscriptionGroupSignupItem.
 type subscriptionGroupSignupItem  struct {
     ProductHandle           *string                            `json:"product_handle,omitempty"`
     ProductId               *int                               `json:"product_id,omitempty"`

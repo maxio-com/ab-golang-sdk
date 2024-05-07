@@ -82,7 +82,7 @@ func (s *SubscriptionGroupSubscriptionError) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// subscriptionGroupSubscriptionError is a temporary struct used for validating the fields of SubscriptionGroupSubscriptionError.
 type subscriptionGroupSubscriptionError  struct {
     Product                       []string `json:"product,omitempty"`
     ProductPricePointId           []string `json:"product_price_point_id,omitempty"`

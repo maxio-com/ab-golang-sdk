@@ -56,7 +56,7 @@ func (c *ChangeInvoiceCollectionMethodEventData) UnmarshalJSON(input []byte) err
     return nil
 }
 
-// TODO
+// changeInvoiceCollectionMethodEventData is a temporary struct used for validating the fields of ChangeInvoiceCollectionMethodEventData.
 type changeInvoiceCollectionMethodEventData  struct {
     FromCollectionMethod *string `json:"from_collection_method"`
     ToCollectionMethod   *string `json:"to_collection_method"`

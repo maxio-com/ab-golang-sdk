@@ -180,7 +180,7 @@ func (c *CreditNoteLineItem) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// creditNoteLineItem is a temporary struct used for validating the fields of CreditNoteLineItem.
 type creditNoteLineItem  struct {
     Uid                   *string       `json:"uid,omitempty"`
     Title                 *string       `json:"title,omitempty"`

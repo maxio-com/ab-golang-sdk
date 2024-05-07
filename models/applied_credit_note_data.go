@@ -53,7 +53,7 @@ func (a *AppliedCreditNoteData) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// appliedCreditNoteData is a temporary struct used for validating the fields of AppliedCreditNoteData.
 type appliedCreditNoteData  struct {
     Uid    *string `json:"uid,omitempty"`
     Number *string `json:"number,omitempty"`

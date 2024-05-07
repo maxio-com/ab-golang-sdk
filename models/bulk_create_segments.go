@@ -46,7 +46,7 @@ func (b *BulkCreateSegments) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// bulkCreateSegments is a temporary struct used for validating the fields of BulkCreateSegments.
 type bulkCreateSegments  struct {
     Segments []CreateSegment `json:"segments,omitempty"`
 }

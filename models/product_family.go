@@ -98,7 +98,7 @@ func (p *ProductFamily) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// productFamily is a temporary struct used for validating the fields of ProductFamily.
 type productFamily  struct {
     Id             *int             `json:"id,omitempty"`
     Name           *string          `json:"name,omitempty"`

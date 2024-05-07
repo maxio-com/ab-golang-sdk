@@ -59,7 +59,7 @@ func (c *CreateCurrencyPrice) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// createCurrencyPrice is a temporary struct used for validating the fields of CreateCurrencyPrice.
 type createCurrencyPrice  struct {
     Currency *string  `json:"currency,omitempty"`
     Price    *float64 `json:"price,omitempty"`

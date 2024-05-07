@@ -86,7 +86,7 @@ func (p *PreviewAllocationsRequest) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// previewAllocationsRequest is a temporary struct used for validating the fields of PreviewAllocationsRequest.
 type previewAllocationsRequest  struct {
     Allocations            *[]CreateAllocation  `json:"allocations"`
     EffectiveProrationDate *string              `json:"effective_proration_date,omitempty"`

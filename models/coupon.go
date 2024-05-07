@@ -8,37 +8,37 @@ import (
 
 // Coupon represents a Coupon struct.
 type Coupon struct {
-    Id                            *int                       `json:"id,omitempty"`
-    Name                          *string                    `json:"name,omitempty"`
-    Code                          *string                    `json:"code,omitempty"`
-    Description                   *string                    `json:"description,omitempty"`
-    Amount                        Optional[float64]          `json:"amount"`
-    AmountInCents                 Optional[int]              `json:"amount_in_cents"`
-    ProductFamilyId               *int                       `json:"product_family_id,omitempty"`
-    ProductFamilyName             Optional[string]           `json:"product_family_name"`
-    StartDate                     *time.Time                 `json:"start_date,omitempty"`
-    EndDate                       Optional[time.Time]        `json:"end_date"`
-    Percentage                    Optional[string]           `json:"percentage"`
-    Recurring                     *bool                      `json:"recurring,omitempty"`
-    RecurringScheme               *RecurringScheme           `json:"recurring_scheme,omitempty"`
-    DurationPeriodCount           Optional[int]              `json:"duration_period_count"`
-    DurationInterval              Optional[int]              `json:"duration_interval"`
-    DurationIntervalUnit          Optional[string]           `json:"duration_interval_unit"`
-    DurationIntervalSpan          Optional[string]           `json:"duration_interval_span"`
-    AllowNegativeBalance          *bool                      `json:"allow_negative_balance,omitempty"`
-    ArchivedAt                    Optional[time.Time]        `json:"archived_at"`
-    ConversionLimit               Optional[string]           `json:"conversion_limit"`
-    Stackable                     *bool                      `json:"stackable,omitempty"`
-    CompoundingStrategy           *CouponCompoundingStrategy `json:"compounding_strategy,omitempty"`
-    UseSiteExchangeRate           *bool                      `json:"use_site_exchange_rate,omitempty"`
-    CreatedAt                     *time.Time                 `json:"created_at,omitempty"`
-    UpdatedAt                     *time.Time                 `json:"updated_at,omitempty"`
-    DiscountType                  *DiscountType              `json:"discount_type,omitempty"`
-    ExcludeMidPeriodAllocations   *bool                      `json:"exclude_mid_period_allocations,omitempty"`
-    ApplyOnCancelAtEndOfPeriod    *bool                      `json:"apply_on_cancel_at_end_of_period,omitempty"`
-    ApplyOnSubscriptionExpiration *bool                      `json:"apply_on_subscription_expiration,omitempty"`
-    CouponRestrictions            []CouponRestriction        `json:"coupon_restrictions,omitempty"`
-    AdditionalProperties          map[string]any             `json:"_"`
+    Id                            *int                          `json:"id,omitempty"`
+    Name                          *string                       `json:"name,omitempty"`
+    Code                          *string                       `json:"code,omitempty"`
+    Description                   *string                       `json:"description,omitempty"`
+    Amount                        Optional[float64]             `json:"amount"`
+    AmountInCents                 Optional[int]                 `json:"amount_in_cents"`
+    ProductFamilyId               *int                          `json:"product_family_id,omitempty"`
+    ProductFamilyName             Optional[string]              `json:"product_family_name"`
+    StartDate                     *time.Time                    `json:"start_date,omitempty"`
+    EndDate                       Optional[time.Time]           `json:"end_date"`
+    Percentage                    Optional[string]              `json:"percentage"`
+    Recurring                     *bool                         `json:"recurring,omitempty"`
+    RecurringScheme               *RecurringScheme              `json:"recurring_scheme,omitempty"`
+    DurationPeriodCount           Optional[int]                 `json:"duration_period_count"`
+    DurationInterval              Optional[int]                 `json:"duration_interval"`
+    DurationIntervalUnit          Optional[string]              `json:"duration_interval_unit"`
+    DurationIntervalSpan          Optional[string]              `json:"duration_interval_span"`
+    AllowNegativeBalance          *bool                         `json:"allow_negative_balance,omitempty"`
+    ArchivedAt                    Optional[time.Time]           `json:"archived_at"`
+    ConversionLimit               Optional[string]              `json:"conversion_limit"`
+    Stackable                     *bool                         `json:"stackable,omitempty"`
+    CompoundingStrategy           Optional[CompoundingStrategy] `json:"compounding_strategy"`
+    UseSiteExchangeRate           *bool                         `json:"use_site_exchange_rate,omitempty"`
+    CreatedAt                     *time.Time                    `json:"created_at,omitempty"`
+    UpdatedAt                     *time.Time                    `json:"updated_at,omitempty"`
+    DiscountType                  *DiscountType                 `json:"discount_type,omitempty"`
+    ExcludeMidPeriodAllocations   *bool                         `json:"exclude_mid_period_allocations,omitempty"`
+    ApplyOnCancelAtEndOfPeriod    *bool                         `json:"apply_on_cancel_at_end_of_period,omitempty"`
+    ApplyOnSubscriptionExpiration *bool                         `json:"apply_on_subscription_expiration,omitempty"`
+    CouponRestrictions            []CouponRestriction           `json:"coupon_restrictions,omitempty"`
+    AdditionalProperties          map[string]any                `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for Coupon.
@@ -170,8 +170,12 @@ func (c Coupon) toMap() map[string]any {
     if c.Stackable != nil {
         structMap["stackable"] = c.Stackable
     }
-    if c.CompoundingStrategy != nil {
-        structMap["compounding_strategy"] = c.CompoundingStrategy.toMap()
+    if c.CompoundingStrategy.IsValueSet() {
+        if c.CompoundingStrategy.Value() != nil {
+            structMap["compounding_strategy"] = c.CompoundingStrategy.Value()
+        } else {
+            structMap["compounding_strategy"] = nil
+        }
     }
     if c.UseSiteExchangeRate != nil {
         structMap["use_site_exchange_rate"] = c.UseSiteExchangeRate
@@ -279,36 +283,36 @@ func (c *Coupon) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// coupon is a temporary struct used for validating the fields of Coupon.
 type coupon  struct {
-    Id                            *int                       `json:"id,omitempty"`
-    Name                          *string                    `json:"name,omitempty"`
-    Code                          *string                    `json:"code,omitempty"`
-    Description                   *string                    `json:"description,omitempty"`
-    Amount                        Optional[float64]          `json:"amount"`
-    AmountInCents                 Optional[int]              `json:"amount_in_cents"`
-    ProductFamilyId               *int                       `json:"product_family_id,omitempty"`
-    ProductFamilyName             Optional[string]           `json:"product_family_name"`
-    StartDate                     *string                    `json:"start_date,omitempty"`
-    EndDate                       Optional[string]           `json:"end_date"`
-    Percentage                    Optional[string]           `json:"percentage"`
-    Recurring                     *bool                      `json:"recurring,omitempty"`
-    RecurringScheme               *RecurringScheme           `json:"recurring_scheme,omitempty"`
-    DurationPeriodCount           Optional[int]              `json:"duration_period_count"`
-    DurationInterval              Optional[int]              `json:"duration_interval"`
-    DurationIntervalUnit          Optional[string]           `json:"duration_interval_unit"`
-    DurationIntervalSpan          Optional[string]           `json:"duration_interval_span"`
-    AllowNegativeBalance          *bool                      `json:"allow_negative_balance,omitempty"`
-    ArchivedAt                    Optional[string]           `json:"archived_at"`
-    ConversionLimit               Optional[string]           `json:"conversion_limit"`
-    Stackable                     *bool                      `json:"stackable,omitempty"`
-    CompoundingStrategy           *CouponCompoundingStrategy `json:"compounding_strategy,omitempty"`
-    UseSiteExchangeRate           *bool                      `json:"use_site_exchange_rate,omitempty"`
-    CreatedAt                     *string                    `json:"created_at,omitempty"`
-    UpdatedAt                     *string                    `json:"updated_at,omitempty"`
-    DiscountType                  *DiscountType              `json:"discount_type,omitempty"`
-    ExcludeMidPeriodAllocations   *bool                      `json:"exclude_mid_period_allocations,omitempty"`
-    ApplyOnCancelAtEndOfPeriod    *bool                      `json:"apply_on_cancel_at_end_of_period,omitempty"`
-    ApplyOnSubscriptionExpiration *bool                      `json:"apply_on_subscription_expiration,omitempty"`
-    CouponRestrictions            []CouponRestriction        `json:"coupon_restrictions,omitempty"`
+    Id                            *int                          `json:"id,omitempty"`
+    Name                          *string                       `json:"name,omitempty"`
+    Code                          *string                       `json:"code,omitempty"`
+    Description                   *string                       `json:"description,omitempty"`
+    Amount                        Optional[float64]             `json:"amount"`
+    AmountInCents                 Optional[int]                 `json:"amount_in_cents"`
+    ProductFamilyId               *int                          `json:"product_family_id,omitempty"`
+    ProductFamilyName             Optional[string]              `json:"product_family_name"`
+    StartDate                     *string                       `json:"start_date,omitempty"`
+    EndDate                       Optional[string]              `json:"end_date"`
+    Percentage                    Optional[string]              `json:"percentage"`
+    Recurring                     *bool                         `json:"recurring,omitempty"`
+    RecurringScheme               *RecurringScheme              `json:"recurring_scheme,omitempty"`
+    DurationPeriodCount           Optional[int]                 `json:"duration_period_count"`
+    DurationInterval              Optional[int]                 `json:"duration_interval"`
+    DurationIntervalUnit          Optional[string]              `json:"duration_interval_unit"`
+    DurationIntervalSpan          Optional[string]              `json:"duration_interval_span"`
+    AllowNegativeBalance          *bool                         `json:"allow_negative_balance,omitempty"`
+    ArchivedAt                    Optional[string]              `json:"archived_at"`
+    ConversionLimit               Optional[string]              `json:"conversion_limit"`
+    Stackable                     *bool                         `json:"stackable,omitempty"`
+    CompoundingStrategy           Optional[CompoundingStrategy] `json:"compounding_strategy"`
+    UseSiteExchangeRate           *bool                         `json:"use_site_exchange_rate,omitempty"`
+    CreatedAt                     *string                       `json:"created_at,omitempty"`
+    UpdatedAt                     *string                       `json:"updated_at,omitempty"`
+    DiscountType                  *DiscountType                 `json:"discount_type,omitempty"`
+    ExcludeMidPeriodAllocations   *bool                         `json:"exclude_mid_period_allocations,omitempty"`
+    ApplyOnCancelAtEndOfPeriod    *bool                         `json:"apply_on_cancel_at_end_of_period,omitempty"`
+    ApplyOnSubscriptionExpiration *bool                         `json:"apply_on_subscription_expiration,omitempty"`
+    CouponRestrictions            []CouponRestriction           `json:"coupon_restrictions,omitempty"`
 }

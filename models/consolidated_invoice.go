@@ -46,7 +46,7 @@ func (c *ConsolidatedInvoice) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// consolidatedInvoice is a temporary struct used for validating the fields of ConsolidatedInvoice.
 type consolidatedInvoice  struct {
     Invoices []Invoice `json:"invoices,omitempty"`
 }

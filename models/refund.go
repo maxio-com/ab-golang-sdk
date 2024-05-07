@@ -83,7 +83,7 @@ func (r *Refund) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// refund is a temporary struct used for validating the fields of Refund.
 type refund  struct {
     Amount      *string            `json:"amount,omitempty"`
     Memo        *string            `json:"memo,omitempty"`

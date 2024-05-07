@@ -56,7 +56,7 @@ func (d *DunningStepReached) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// dunningStepReached is a temporary struct used for validating the fields of DunningStepReached.
 type dunningStepReached  struct {
     Dunner      *DunnerData      `json:"dunner"`
     CurrentStep *DunningStepData `json:"current_step"`

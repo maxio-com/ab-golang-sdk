@@ -15,11 +15,11 @@
 | `TotalRevenueInCents` | `*int64` | Optional | Gives the total revenue from the subscription in the number of cents. |
 | `ProductPriceInCents` | `*int64` | Optional | (Added Nov 5 2013) The recurring amount of the product (and version),currently subscribed. NOTE: this may differ from the current price of,the product, if you’ve changed the price of the product but haven’t,moved this subscription to a newer version. |
 | `ProductVersionNumber` | `*int` | Optional | The version of the product for the subscription. Note that this is a deprecated field kept for backwards-compatibility. |
-| `CurrentPeriodEndsAt` | `*time.Time` | Optional | Timestamp relating to the end of the current (recurring) period (i.e.,when the next regularly scheduled attempted charge will occur) |
-| `NextAssessmentAt` | `*time.Time` | Optional | Timestamp that indicates when capture of payment will be tried or,retried. This value will usually track the current_period_ends_at, but,will diverge if a renewal payment fails and must be retried. In that,case, the current_period_ends_at will advance to the end of the next,period (time doesn’t stop because a payment was missed) but the,next_assessment_at will be scheduled for the auto-retry time (i.e. 24,hours in the future, in some cases) |
+| `CurrentPeriodEndsAt` | `models.Optional[time.Time]` | Optional | Timestamp relating to the end of the current (recurring) period (i.e.,when the next regularly scheduled attempted charge will occur) |
+| `NextAssessmentAt` | `models.Optional[time.Time]` | Optional | Timestamp that indicates when capture of payment will be tried or,retried. This value will usually track the current_period_ends_at, but,will diverge if a renewal payment fails and must be retried. In that,case, the current_period_ends_at will advance to the end of the next,period (time doesn’t stop because a payment was missed) but the,next_assessment_at will be scheduled for the auto-retry time (i.e. 24,hours in the future, in some cases) |
 | `TrialStartedAt` | `models.Optional[time.Time]` | Optional | Timestamp for when the trial period (if any) began |
 | `TrialEndedAt` | `models.Optional[time.Time]` | Optional | Timestamp for when the trial period (if any) ended |
-| `ActivatedAt` | `*time.Time` | Optional | Timestamp for when the subscription began (i.e. when it came out of trial, or when it began in the case of no trial) |
+| `ActivatedAt` | `models.Optional[time.Time]` | Optional | Timestamp for when the subscription began (i.e. when it came out of trial, or when it began in the case of no trial) |
 | `ExpiresAt` | `models.Optional[time.Time]` | Optional | Timestamp giving the expiration date of this subscription (if any) |
 | `CreatedAt` | `*time.Time` | Optional | The creation date for this subscription |
 | `UpdatedAt` | `*time.Time` | Optional | The date of last update for this subscription |
@@ -27,7 +27,7 @@
 | `CancellationMethod` | [`models.Optional[models.CancellationMethod]`](../../doc/models/cancellation-method.md) | Optional | The process used to cancel the subscription, if the subscription has been canceled. It is nil if the subscription's state is not canceled. |
 | `CancelAtEndOfPeriod` | `models.Optional[bool]` | Optional | Whether or not the subscription will (or has) canceled at the end of the period. |
 | `CanceledAt` | `models.Optional[time.Time]` | Optional | The timestamp of the most recent cancellation |
-| `CurrentPeriodStartedAt` | `*time.Time` | Optional | Timestamp relating to the start of the current (recurring) period |
+| `CurrentPeriodStartedAt` | `models.Optional[time.Time]` | Optional | Timestamp relating to the start of the current (recurring) period |
 | `PreviousState` | [`*models.SubscriptionState`](../../doc/models/subscription-state.md) | Optional | Only valid for webhook payloads The previous state for webhooks that have indicated a change in state. For normal API calls, this will always be the same as the state (current state) |
 | `SignupPaymentId` | `*int` | Optional | The ID of the transaction that generated the revenue |
 | `SignupRevenue` | `*string` | Optional | The revenue, formatted as a string of decimal separated dollars and,cents, from the subscription signup ($50.00 would be formatted as,50.00) |
@@ -69,7 +69,7 @@
 | `ScheduledCancellationAt` | `models.Optional[time.Time]` | Optional | - |
 | `CreditBalanceInCents` | `*int64` | Optional | - |
 | `PrepaymentBalanceInCents` | `*int64` | Optional | - |
-| `PrepaidConfiguration` | [`*models.PrepaidConfiguration`](../../doc/models/prepaid-configuration.md) | Optional | - |
+| `PrepaidConfiguration` | [`models.Optional[models.PrepaidConfiguration]`](../../doc/models/prepaid-configuration.md) | Optional | - |
 | `SelfServicePageToken` | `*string` | Optional | Returned only for list/read Subscription operation when `include[]=self_service_page_token` parameter is provided. |
 
 ## Example (as JSON)

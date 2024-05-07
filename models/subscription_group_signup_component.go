@@ -68,7 +68,7 @@ func (s *SubscriptionGroupSignupComponent) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// subscriptionGroupSignupComponent is a temporary struct used for validating the fields of SubscriptionGroupSignupComponent.
 type subscriptionGroupSignupComponent  struct {
     ComponentId       *SubscriptionGroupSignupComponentComponentId       `json:"component_id,omitempty"`
     AllocatedQuantity *SubscriptionGroupSignupComponentAllocatedQuantity `json:"allocated_quantity,omitempty"`

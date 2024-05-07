@@ -64,7 +64,7 @@ func (a *AutoResume) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// autoResume is a temporary struct used for validating the fields of AutoResume.
 type autoResume  struct {
     AutomaticallyResumeAt Optional[string] `json:"automatically_resume_at"`
 }

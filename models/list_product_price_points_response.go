@@ -50,7 +50,7 @@ func (l *ListProductPricePointsResponse) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// listProductPricePointsResponse is a temporary struct used for validating the fields of ListProductPricePointsResponse.
 type listProductPricePointsResponse  struct {
     PricePoints *[]ProductPricePoint `json:"price_points"`
 }

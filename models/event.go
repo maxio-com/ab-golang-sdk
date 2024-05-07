@@ -86,7 +86,7 @@ func (e *Event) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// event is a temporary struct used for validating the fields of Event.
 type event  struct {
     Id                *int64                  `json:"id"`
     Key               *string                 `json:"key"`

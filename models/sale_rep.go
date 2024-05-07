@@ -66,7 +66,7 @@ func (s *SaleRep) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// saleRep is a temporary struct used for validating the fields of SaleRep.
 type saleRep  struct {
     Id                 *int                  `json:"id,omitempty"`
     FullName           *string               `json:"full_name,omitempty"`

@@ -66,7 +66,7 @@ func (i *InvoiceSeller) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// invoiceSeller is a temporary struct used for validating the fields of InvoiceSeller.
 type invoiceSeller  struct {
     Name    *string          `json:"name,omitempty"`
     Address *InvoiceAddress  `json:"address,omitempty"`

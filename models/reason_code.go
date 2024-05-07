@@ -90,7 +90,7 @@ func (r *ReasonCode) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// reasonCode is a temporary struct used for validating the fields of ReasonCode.
 type reasonCode  struct {
     Id          *int    `json:"id,omitempty"`
     SiteId      *int    `json:"site_id,omitempty"`

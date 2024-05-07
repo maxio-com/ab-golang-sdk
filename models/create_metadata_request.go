@@ -50,7 +50,7 @@ func (c *CreateMetadataRequest) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// createMetadataRequest is a temporary struct used for validating the fields of CreateMetadataRequest.
 type createMetadataRequest  struct {
     Metadata *[]CreateMetadata `json:"metadata"`
 }

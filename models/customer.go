@@ -332,7 +332,7 @@ func (c *Customer) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// customer is a temporary struct used for validating the fields of Customer.
 type customer  struct {
     FirstName                   *string          `json:"first_name,omitempty"`
     LastName                    *string          `json:"last_name,omitempty"`

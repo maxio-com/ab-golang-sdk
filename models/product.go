@@ -49,7 +49,7 @@ type Product struct {
     Taxable                    *bool                          `json:"taxable,omitempty"`
     // The url to which a customer will be returned after a successful account update
     UpdateReturnUrl            Optional[string]               `json:"update_return_url"`
-    InitialChargeAfterTrial    *bool                          `json:"initial_charge_after_trial,omitempty"`
+    InitialChargeAfterTrial    Optional[bool]                 `json:"initial_charge_after_trial"`
     // The version of the product
     VersionNumber              *int                           `json:"version_number,omitempty"`
     // The parameters will append to the url after a successful account update. See [help documentation](https://help.chargify.com/products/product-editing.html#return-parameters-after-account-update)
@@ -205,8 +205,12 @@ func (p Product) toMap() map[string]any {
             structMap["update_return_url"] = nil
         }
     }
-    if p.InitialChargeAfterTrial != nil {
-        structMap["initial_charge_after_trial"] = p.InitialChargeAfterTrial
+    if p.InitialChargeAfterTrial.IsValueSet() {
+        if p.InitialChargeAfterTrial.Value() != nil {
+            structMap["initial_charge_after_trial"] = p.InitialChargeAfterTrial.Value()
+        } else {
+            structMap["initial_charge_after_trial"] = nil
+        }
     }
     if p.VersionNumber != nil {
         structMap["version_number"] = p.VersionNumber
@@ -346,7 +350,7 @@ func (p *Product) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// product is a temporary struct used for validating the fields of Product.
 type product  struct {
     Id                         *int                           `json:"id,omitempty"`
     Name                       *string                        `json:"name,omitempty"`
@@ -370,7 +374,7 @@ type product  struct {
     ReturnParams               Optional[string]               `json:"return_params"`
     Taxable                    *bool                          `json:"taxable,omitempty"`
     UpdateReturnUrl            Optional[string]               `json:"update_return_url"`
-    InitialChargeAfterTrial    *bool                          `json:"initial_charge_after_trial,omitempty"`
+    InitialChargeAfterTrial    Optional[bool]                 `json:"initial_charge_after_trial"`
     VersionNumber              *int                           `json:"version_number,omitempty"`
     UpdateReturnParams         Optional[string]               `json:"update_return_params"`
     ProductFamily              *ProductFamily                 `json:"product_family,omitempty"`

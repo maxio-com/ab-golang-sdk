@@ -53,7 +53,7 @@ func (s *SubscriptionMRRBreakout) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// subscriptionMRRBreakout is a temporary struct used for validating the fields of SubscriptionMRRBreakout.
 type subscriptionMRRBreakout  struct {
     PlanAmountInCents  *int64 `json:"plan_amount_in_cents"`
     UsageAmountInCents *int64 `json:"usage_amount_in_cents"`

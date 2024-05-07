@@ -46,7 +46,7 @@ func (a *AddCouponsRequest) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// addCouponsRequest is a temporary struct used for validating the fields of AddCouponsRequest.
 type addCouponsRequest  struct {
     Codes []string `json:"codes,omitempty"`
 }

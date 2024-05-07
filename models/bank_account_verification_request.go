@@ -50,7 +50,7 @@ func (b *BankAccountVerificationRequest) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// bankAccountVerificationRequest is a temporary struct used for validating the fields of BankAccountVerificationRequest.
 type bankAccountVerificationRequest  struct {
     BankAccountVerification *BankAccountVerification `json:"bank_account_verification"`
 }

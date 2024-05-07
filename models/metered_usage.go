@@ -65,7 +65,7 @@ func (m *MeteredUsage) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// meteredUsage is a temporary struct used for validating the fields of MeteredUsage.
 type meteredUsage  struct {
     PreviousUnitBalance *string `json:"previous_unit_balance"`
     NewUnitBalance      *int    `json:"new_unit_balance"`

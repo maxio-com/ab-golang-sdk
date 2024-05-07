@@ -53,7 +53,7 @@ func (l *ListSubscriptionComponentsFilter) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// listSubscriptionComponentsFilter is a temporary struct used for validating the fields of ListSubscriptionComponentsFilter.
 type listSubscriptionComponentsFilter  struct {
     Currencies          []string `json:"currencies,omitempty"`
     UseSiteExchangeRate *bool    `json:"use_site_exchange_rate,omitempty"`

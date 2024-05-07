@@ -50,7 +50,7 @@ func (r *ReplayWebhooksRequest) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// replayWebhooksRequest is a temporary struct used for validating the fields of ReplayWebhooksRequest.
 type replayWebhooksRequest  struct {
     Ids *[]int64 `json:"ids"`
 }

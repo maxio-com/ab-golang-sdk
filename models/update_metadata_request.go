@@ -46,7 +46,7 @@ func (u *UpdateMetadataRequest) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// updateMetadataRequest is a temporary struct used for validating the fields of UpdateMetadataRequest.
 type updateMetadataRequest  struct {
     Metadata *UpdateMetadata `json:"metadata,omitempty"`
 }

@@ -66,7 +66,7 @@ func (c *ComponentCustomPrice) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// componentCustomPrice is a temporary struct used for validating the fields of ComponentCustomPrice.
 type componentCustomPrice  struct {
     PricingScheme *PricingScheme `json:"pricing_scheme,omitempty"`
     Interval      *int           `json:"interval,omitempty"`

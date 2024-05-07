@@ -46,7 +46,7 @@ func (p *PrepaymentsResponse) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// prepaymentsResponse is a temporary struct used for validating the fields of PrepaymentsResponse.
 type prepaymentsResponse  struct {
     Prepayments []Prepayment `json:"prepayments,omitempty"`
 }

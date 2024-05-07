@@ -54,7 +54,7 @@ func (a *AllocationExpirationDate) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// allocationExpirationDate is a temporary struct used for validating the fields of AllocationExpirationDate.
 type allocationExpirationDate  struct {
     ExpiresAt *string `json:"expires_at,omitempty"`
 }

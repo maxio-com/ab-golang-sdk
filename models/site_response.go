@@ -50,7 +50,7 @@ func (s *SiteResponse) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// siteResponse is a temporary struct used for validating the fields of SiteResponse.
 type siteResponse  struct {
     Site *Site `json:"site"`
 }

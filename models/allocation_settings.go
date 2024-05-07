@@ -69,7 +69,7 @@ func (a *AllocationSettings) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// allocationSettings is a temporary struct used for validating the fields of AllocationSettings.
 type allocationSettings  struct {
     UpgradeCharge   Optional[CreditType] `json:"upgrade_charge"`
     DowngradeCredit Optional[CreditType] `json:"downgrade_credit"`

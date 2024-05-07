@@ -53,7 +53,7 @@ func (c *CustomerPayerChange) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// customerPayerChange is a temporary struct used for validating the fields of CustomerPayerChange.
 type customerPayerChange  struct {
     Before *InvoicePayerChange `json:"before"`
     After  *InvoicePayerChange `json:"after"`

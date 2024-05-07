@@ -95,7 +95,7 @@ func (s *ShippingAddress) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// shippingAddress is a temporary struct used for validating the fields of ShippingAddress.
 type shippingAddress  struct {
     Street  Optional[string] `json:"street"`
     Line2   Optional[string] `json:"line2"`

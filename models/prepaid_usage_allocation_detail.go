@@ -56,7 +56,7 @@ func (p *PrepaidUsageAllocationDetail) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// prepaidUsageAllocationDetail is a temporary struct used for validating the fields of PrepaidUsageAllocationDetail.
 type prepaidUsageAllocationDetail  struct {
     AllocationId  *int `json:"allocation_id,omitempty"`
     ChargeId      *int `json:"charge_id,omitempty"`

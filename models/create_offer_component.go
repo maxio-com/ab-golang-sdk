@@ -7,6 +7,7 @@ import (
 // CreateOfferComponent represents a CreateOfferComponent struct.
 type CreateOfferComponent struct {
     ComponentId          *int           `json:"component_id,omitempty"`
+    PricePointId         *int           `json:"price_point_id,omitempty"`
     StartingQuantity     *int           `json:"starting_quantity,omitempty"`
     AdditionalProperties map[string]any `json:"_"`
 }
@@ -26,6 +27,9 @@ func (c CreateOfferComponent) toMap() map[string]any {
     if c.ComponentId != nil {
         structMap["component_id"] = c.ComponentId
     }
+    if c.PricePointId != nil {
+        structMap["price_point_id"] = c.PricePointId
+    }
     if c.StartingQuantity != nil {
         structMap["starting_quantity"] = c.StartingQuantity
     }
@@ -40,19 +44,21 @@ func (c *CreateOfferComponent) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "component_id", "starting_quantity")
+    additionalProperties, err := UnmarshalAdditionalProperties(input, "component_id", "price_point_id", "starting_quantity")
     if err != nil {
     	return err
     }
     
     c.AdditionalProperties = additionalProperties
     c.ComponentId = temp.ComponentId
+    c.PricePointId = temp.PricePointId
     c.StartingQuantity = temp.StartingQuantity
     return nil
 }
 
-// TODO
+// createOfferComponent is a temporary struct used for validating the fields of CreateOfferComponent.
 type createOfferComponent  struct {
     ComponentId      *int `json:"component_id,omitempty"`
+    PricePointId     *int `json:"price_point_id,omitempty"`
     StartingQuantity *int `json:"starting_quantity,omitempty"`
 }

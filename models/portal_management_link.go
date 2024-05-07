@@ -107,7 +107,7 @@ func (p *PortalManagementLink) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// portalManagementLink is a temporary struct used for validating the fields of PortalManagementLink.
 type portalManagementLink  struct {
     Url                *string          `json:"url,omitempty"`
     FetchCount         *int             `json:"fetch_count,omitempty"`

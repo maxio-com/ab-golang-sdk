@@ -52,7 +52,7 @@ func (u *UpdateSubscriptionComponent) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// updateSubscriptionComponent is a temporary struct used for validating the fields of UpdateSubscriptionComponent.
 type updateSubscriptionComponent  struct {
     ComponentId *int                  `json:"component_id,omitempty"`
     CustomPrice *ComponentCustomPrice `json:"custom_price,omitempty"`

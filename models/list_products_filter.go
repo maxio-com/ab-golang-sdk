@@ -53,7 +53,7 @@ func (l *ListProductsFilter) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// listProductsFilter is a temporary struct used for validating the fields of ListProductsFilter.
 type listProductsFilter  struct {
     PrepaidProductPricePoint *PrepaidProductPricePointFilter `json:"prepaid_product_price_point,omitempty"`
     UseSiteExchangeRate      *bool                           `json:"use_site_exchange_rate,omitempty"`

@@ -53,7 +53,7 @@ func (r *ResumeOptions) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// resumeOptions is a temporary struct used for validating the fields of ResumeOptions.
 type resumeOptions  struct {
     RequireResume  *bool `json:"require_resume,omitempty"`
     ForgiveBalance *bool `json:"forgive_balance,omitempty"`

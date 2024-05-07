@@ -50,7 +50,7 @@ func (l *ListSubscriptionGroupPrepaymentResponse) UnmarshalJSON(input []byte) er
     return nil
 }
 
-// TODO
+// listSubscriptionGroupPrepaymentResponse is a temporary struct used for validating the fields of ListSubscriptionGroupPrepaymentResponse.
 type listSubscriptionGroupPrepaymentResponse  struct {
     Prepayments *[]ListSubscriptionGroupPrepayment `json:"prepayments"`
 }

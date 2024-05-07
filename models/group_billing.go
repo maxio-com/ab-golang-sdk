@@ -60,7 +60,7 @@ func (g *GroupBilling) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// groupBilling is a temporary struct used for validating the fields of GroupBilling.
 type groupBilling  struct {
     Accrue    *bool `json:"accrue,omitempty"`
     AlignDate *bool `json:"align_date,omitempty"`

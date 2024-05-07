@@ -50,7 +50,7 @@ func (c *ComponentCurrencyPricesResponse) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// componentCurrencyPricesResponse is a temporary struct used for validating the fields of ComponentCurrencyPricesResponse.
 type componentCurrencyPricesResponse  struct {
     CurrencyPrices *[]ComponentCurrencyPrice `json:"currency_prices"`
 }

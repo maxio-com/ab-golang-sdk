@@ -57,9 +57,9 @@ type CreatePaymentProfile struct {
     BankIban              *string                              `json:"bank_iban,omitempty"`
     // (Required when creating with ACH. Optional when creating a subscription with GoCardless). The routing number of the bank. It becomes bank_code while passing via GoCardless API
     BankRoutingNumber     *string                              `json:"bank_routing_number,omitempty"`
-    // (Required when creating with ACH, GoCardless, Stripe BECS Direct Debit and bank_iban is blank) The customerʼs bank account number
+    // (Required when creating with ACH, GoCardless, Stripe BECS or BACS Direct Debit, and bank_iban is blank) The customerʼs bank account number
     BankAccountNumber     *string                              `json:"bank_account_number,omitempty"`
-    // (Optional when creating with GoCardless, required with Stripe BECS Direct Debit) Branch code. Alternatively, an IBAN can be provided
+    // (Optional when creating with GoCardless, required with Stripe BECS or BACS Direct Debit) Branch/Sort code. Alternatively, an IBAN can be provided
     BankBranchCode        *string                              `json:"bank_branch_code,omitempty"`
     // Defaults to checking
     BankAccountType       *BankAccountType                     `json:"bank_account_type,omitempty"`
@@ -234,7 +234,7 @@ func (c *CreatePaymentProfile) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// createPaymentProfile is a temporary struct used for validating the fields of CreatePaymentProfile.
 type createPaymentProfile  struct {
     ChargifyToken         *string                              `json:"chargify_token,omitempty"`
     Id                    *int                                 `json:"id,omitempty"`

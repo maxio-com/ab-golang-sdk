@@ -129,7 +129,7 @@ func (s *SubscriptionGroupBankAccount) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// subscriptionGroupBankAccount is a temporary struct used for validating the fields of SubscriptionGroupBankAccount.
 type subscriptionGroupBankAccount  struct {
     BankName              *string                `json:"bank_name,omitempty"`
     BankAccountNumber     *string                `json:"bank_account_number,omitempty"`

@@ -61,7 +61,7 @@ func (l *ListProformaInvoicesMeta) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// listProformaInvoicesMeta is a temporary struct used for validating the fields of ListProformaInvoicesMeta.
 type listProformaInvoicesMeta  struct {
     TotalCount  *int `json:"total_count,omitempty"`
     CurrentPage *int `json:"current_page,omitempty"`

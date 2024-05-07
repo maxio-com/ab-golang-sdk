@@ -53,7 +53,7 @@ func (s *SubscriptionProductChange) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// subscriptionProductChange is a temporary struct used for validating the fields of SubscriptionProductChange.
 type subscriptionProductChange  struct {
     PreviousProductId *int `json:"previous_product_id"`
     NewProductId      *int `json:"new_product_id"`

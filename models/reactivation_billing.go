@@ -48,7 +48,7 @@ func (r *ReactivationBilling) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// reactivationBilling is a temporary struct used for validating the fields of ReactivationBilling.
 type reactivationBilling  struct {
     ReactivationCharge *ReactivationCharge `json:"reactivation_charge,omitempty"`
 }

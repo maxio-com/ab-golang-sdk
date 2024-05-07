@@ -9,7 +9,7 @@ import (
 // DeductServiceCredit represents a DeductServiceCredit struct.
 type DeductServiceCredit struct {
     Amount               DeductServiceCreditAmount `json:"amount"`
-    Memo                 string                    `json:"memo"`
+    Memo                 *string                   `json:"memo,omitempty"`
     AdditionalProperties map[string]any            `json:"_"`
 }
 
@@ -26,7 +26,9 @@ func (d DeductServiceCredit) toMap() map[string]any {
     structMap := make(map[string]any)
     MapAdditionalProperties(structMap, d.AdditionalProperties)
     structMap["amount"] = d.Amount.toMap()
-    structMap["memo"] = d.Memo
+    if d.Memo != nil {
+        structMap["memo"] = d.Memo
+    }
     return structMap
 }
 
@@ -49,23 +51,20 @@ func (d *DeductServiceCredit) UnmarshalJSON(input []byte) error {
     
     d.AdditionalProperties = additionalProperties
     d.Amount = *temp.Amount
-    d.Memo = *temp.Memo
+    d.Memo = temp.Memo
     return nil
 }
 
-// TODO
+// deductServiceCredit is a temporary struct used for validating the fields of DeductServiceCredit.
 type deductServiceCredit  struct {
     Amount *DeductServiceCreditAmount `json:"amount"`
-    Memo   *string                    `json:"memo"`
+    Memo   *string                    `json:"memo,omitempty"`
 }
 
 func (d *deductServiceCredit) validate() error {
     var errs []string
     if d.Amount == nil {
         errs = append(errs, "required field `amount` is missing for type `Deduct Service Credit`")
-    }
-    if d.Memo == nil {
-        errs = append(errs, "required field `memo` is missing for type `Deduct Service Credit`")
     }
     if len(errs) == 0 {
         return nil

@@ -50,7 +50,7 @@ func (c *CreateProductFamilyRequest) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// createProductFamilyRequest is a temporary struct used for validating the fields of CreateProductFamilyRequest.
 type createProductFamilyRequest  struct {
     ProductFamily *CreateProductFamily `json:"product_family"`
 }

@@ -161,7 +161,7 @@ func (m *MeteredComponent) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// meteredComponent is a temporary struct used for validating the fields of MeteredComponent.
 type meteredComponent  struct {
     Name                      *string                    `json:"name"`
     UnitName                  *string                    `json:"unit_name"`

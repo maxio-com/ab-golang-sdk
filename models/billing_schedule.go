@@ -56,7 +56,7 @@ func (b *BillingSchedule) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// billingSchedule is a temporary struct used for validating the fields of BillingSchedule.
 type billingSchedule  struct {
     InitialBillingAt *string `json:"initial_billing_at,omitempty"`
 }

@@ -53,7 +53,7 @@ func (c *CancellationOptions) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// cancellationOptions is a temporary struct used for validating the fields of CancellationOptions.
 type cancellationOptions  struct {
     CancellationMessage *string `json:"cancellation_message,omitempty"`
     ReasonCode          *string `json:"reason_code,omitempty"`

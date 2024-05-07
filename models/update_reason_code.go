@@ -59,7 +59,7 @@ func (u *UpdateReasonCode) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// updateReasonCode is a temporary struct used for validating the fields of UpdateReasonCode.
 type updateReasonCode  struct {
     Code        *string `json:"code,omitempty"`
     Description *string `json:"description,omitempty"`

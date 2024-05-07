@@ -50,7 +50,7 @@ func (l *ListSubscriptionGroupPrepayment) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// listSubscriptionGroupPrepayment is a temporary struct used for validating the fields of ListSubscriptionGroupPrepayment.
 type listSubscriptionGroupPrepayment  struct {
     Prepayment *ListSubcriptionGroupPrepaymentItem `json:"prepayment"`
 }

@@ -50,7 +50,7 @@ func (c *CreateMeteredComponent) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// createMeteredComponent is a temporary struct used for validating the fields of CreateMeteredComponent.
 type createMeteredComponent  struct {
     MeteredComponent *MeteredComponent `json:"metered_component"`
 }

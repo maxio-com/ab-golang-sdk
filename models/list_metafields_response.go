@@ -66,7 +66,7 @@ func (l *ListMetafieldsResponse) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// listMetafieldsResponse is a temporary struct used for validating the fields of ListMetafieldsResponse.
 type listMetafieldsResponse  struct {
     TotalCount  *int        `json:"total_count,omitempty"`
     CurrentPage *int        `json:"current_page,omitempty"`

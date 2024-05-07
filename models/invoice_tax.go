@@ -100,7 +100,7 @@ func (i *InvoiceTax) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// invoiceTax is a temporary struct used for validating the fields of InvoiceTax.
 type invoiceTax  struct {
     Uid                   *string                       `json:"uid,omitempty"`
     Title                 *string                       `json:"title,omitempty"`

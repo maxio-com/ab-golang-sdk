@@ -60,7 +60,7 @@ func (c *CreatePayment) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// createPayment is a temporary struct used for validating the fields of CreatePayment.
 type createPayment  struct {
     Amount         *string                   `json:"amount"`
     Memo           *string                   `json:"memo"`

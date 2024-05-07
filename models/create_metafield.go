@@ -64,7 +64,7 @@ func (c *CreateMetafield) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// createMetafield is a temporary struct used for validating the fields of CreateMetafield.
 type createMetafield  struct {
     Name      *string         `json:"name,omitempty"`
     Scope     *MetafieldScope `json:"scope,omitempty"`

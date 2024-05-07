@@ -56,7 +56,7 @@ func (o *OfferDiscount) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// offerDiscount is a temporary struct used for validating the fields of OfferDiscount.
 type offerDiscount  struct {
     CouponCode *string `json:"coupon_code,omitempty"`
     CouponId   *int    `json:"coupon_id,omitempty"`

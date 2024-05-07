@@ -53,7 +53,7 @@ func (p *PaymentRelatedEvents) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// paymentRelatedEvents is a temporary struct used for validating the fields of PaymentRelatedEvents.
 type paymentRelatedEvents  struct {
     ProductId            *int `json:"product_id"`
     AccountTransactionId *int `json:"account_transaction_id"`

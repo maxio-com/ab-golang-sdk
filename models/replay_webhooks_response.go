@@ -46,7 +46,7 @@ func (r *ReplayWebhooksResponse) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// replayWebhooksResponse is a temporary struct used for validating the fields of ReplayWebhooksResponse.
 type replayWebhooksResponse  struct {
     Status *string `json:"status,omitempty"`
 }

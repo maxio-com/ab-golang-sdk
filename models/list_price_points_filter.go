@@ -9,22 +9,22 @@ import (
 // ListPricePointsFilter represents a ListPricePointsFilter struct.
 type ListPricePointsFilter struct {
     // The type of filter you would like to apply to your search. Use in query: `filter[date_field]=created_at`.
-    DateField            *BasicDateField  `json:"date_field,omitempty"`
+    DateField            *BasicDateField       `json:"date_field,omitempty"`
     // The start date (format YYYY-MM-DD) with which to filter the date_field. Returns price points with a timestamp at or after midnight (12:00:00 AM) in your site’s time zone on the date specified.
-    StartDate            *time.Time       `json:"start_date,omitempty"`
+    StartDate            *time.Time            `json:"start_date,omitempty"`
     // The end date (format YYYY-MM-DD) with which to filter the date_field. Returns price points with a timestamp up to and including 11:59:59PM in your site’s time zone on the date specified.
-    EndDate              *time.Time       `json:"end_date,omitempty"`
+    EndDate              *time.Time            `json:"end_date,omitempty"`
     // The start date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns price points with a timestamp at or after exact time provided in query. You can specify timezone in query - otherwise your site's time zone will be used. If provided, this parameter will be used instead of start_date.
-    StartDatetime        *time.Time       `json:"start_datetime,omitempty"`
+    StartDatetime        *time.Time            `json:"start_datetime,omitempty"`
     // The end date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns price points with a timestamp at or before exact time provided in query. You can specify timezone in query - otherwise your site's time zone will be used. If provided, this parameter will be used instead of end_date.
-    EndDatetime          *time.Time       `json:"end_datetime,omitempty"`
+    EndDatetime          *time.Time            `json:"end_datetime,omitempty"`
     // Allows fetching price points with matching type. Use in query: `filter[type]=custom,catalog`.
-    Type                 []PricePointType `json:"type,omitempty"`
+    Type                 []PricePointType      `json:"type,omitempty"`
     // Allows fetching price points with matching id based on provided values. Use in query: `filter[ids]=1,2,3`.
-    Ids                  []int            `json:"ids,omitempty"`
+    Ids                  []int                 `json:"ids,omitempty"`
     // Allows fetching price points only if archived_at is present or not. Use in query: `filter[archived_at]=not_null`.
-    ArchivedAt           *IncludeNotNull  `json:"archived_at,omitempty"`
-    AdditionalProperties map[string]any   `json:"_"`
+    ArchivedAt           *IncludeNullOrNotNull `json:"archived_at,omitempty"`
+    AdditionalProperties map[string]any        `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for ListPricePointsFilter.
@@ -115,14 +115,14 @@ func (l *ListPricePointsFilter) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// listPricePointsFilter is a temporary struct used for validating the fields of ListPricePointsFilter.
 type listPricePointsFilter  struct {
-    DateField     *BasicDateField  `json:"date_field,omitempty"`
-    StartDate     *string          `json:"start_date,omitempty"`
-    EndDate       *string          `json:"end_date,omitempty"`
-    StartDatetime *string          `json:"start_datetime,omitempty"`
-    EndDatetime   *string          `json:"end_datetime,omitempty"`
-    Type          []PricePointType `json:"type,omitempty"`
-    Ids           []int            `json:"ids,omitempty"`
-    ArchivedAt    *IncludeNotNull  `json:"archived_at,omitempty"`
+    DateField     *BasicDateField       `json:"date_field,omitempty"`
+    StartDate     *string               `json:"start_date,omitempty"`
+    EndDate       *string               `json:"end_date,omitempty"`
+    StartDatetime *string               `json:"start_datetime,omitempty"`
+    EndDatetime   *string               `json:"end_datetime,omitempty"`
+    Type          []PricePointType      `json:"type,omitempty"`
+    Ids           []int                 `json:"ids,omitempty"`
+    ArchivedAt    *IncludeNullOrNotNull `json:"archived_at,omitempty"`
 }

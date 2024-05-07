@@ -70,7 +70,7 @@ func (c *CouponRestriction) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// couponRestriction is a temporary struct used for validating the fields of CouponRestriction.
 type couponRestriction  struct {
     Id       *int             `json:"id,omitempty"`
     ItemType *RestrictionType `json:"item_type,omitempty"`

@@ -53,7 +53,7 @@ func (a *AddressChange) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// addressChange is a temporary struct used for validating the fields of AddressChange.
 type addressChange  struct {
     Before *InvoiceAddress `json:"before"`
     After  *InvoiceAddress `json:"after"`

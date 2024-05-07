@@ -69,7 +69,7 @@ func (v *VoidRemainderEventData) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// voidRemainderEventData is a temporary struct used for validating the fields of VoidRemainderEventData.
 type voidRemainderEventData  struct {
     CreditNoteAttributes *CreditNote `json:"credit_note_attributes"`
     Memo                 *string     `json:"memo"`

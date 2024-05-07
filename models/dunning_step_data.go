@@ -89,7 +89,7 @@ func (d *DunningStepData) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// dunningStepData is a temporary struct used for validating the fields of DunningStepData.
 type dunningStepData  struct {
     DayThreshold *int             `json:"day_threshold"`
     Action       *string          `json:"action"`

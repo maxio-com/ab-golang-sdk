@@ -61,7 +61,7 @@ func (s *SubscriptionGroupBalances) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// subscriptionGroupBalances is a temporary struct used for validating the fields of SubscriptionGroupBalances.
 type subscriptionGroupBalances  struct {
     Prepayments      *AccountBalance `json:"prepayments,omitempty"`
     ServiceCredits   *AccountBalance `json:"service_credits,omitempty"`

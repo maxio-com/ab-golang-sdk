@@ -57,7 +57,7 @@ func (g *GroupSettings) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// groupSettings is a temporary struct used for validating the fields of GroupSettings.
 type groupSettings  struct {
     Target  *GroupTarget  `json:"target"`
     Billing *GroupBilling `json:"billing,omitempty"`

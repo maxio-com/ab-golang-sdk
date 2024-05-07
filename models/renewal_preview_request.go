@@ -47,7 +47,7 @@ func (r *RenewalPreviewRequest) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// renewalPreviewRequest is a temporary struct used for validating the fields of RenewalPreviewRequest.
 type renewalPreviewRequest  struct {
     Components []RenewalPreviewComponent `json:"components,omitempty"`
 }

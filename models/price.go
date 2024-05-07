@@ -63,7 +63,7 @@ func (p *Price) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// price is a temporary struct used for validating the fields of Price.
 type price  struct {
     StartingQuantity *PriceStartingQuantity        `json:"starting_quantity"`
     EndingQuantity   Optional[PriceEndingQuantity] `json:"ending_quantity"`

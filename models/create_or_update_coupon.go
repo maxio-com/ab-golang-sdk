@@ -58,7 +58,7 @@ func (c *CreateOrUpdateCoupon) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// createOrUpdateCoupon is a temporary struct used for validating the fields of CreateOrUpdateCoupon.
 type createOrUpdateCoupon  struct {
     Coupon               *CreateOrUpdateCouponCoupon `json:"coupon,omitempty"`
     RestrictedProducts   map[string]bool             `json:"restricted_products,omitempty"`

@@ -88,7 +88,7 @@ func (m *MovementLineItem) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// movementLineItem is a temporary struct used for validating the fields of MovementLineItem.
 type movementLineItem  struct {
     ProductId    *int          `json:"product_id,omitempty"`
     ComponentId  *int          `json:"component_id,omitempty"`

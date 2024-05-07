@@ -50,7 +50,7 @@ func (m *MultiInvoicePaymentResponse) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// multiInvoicePaymentResponse is a temporary struct used for validating the fields of MultiInvoicePaymentResponse.
 type multiInvoicePaymentResponse  struct {
     Payment *MultiInvoicePayment `json:"payment"`
 }

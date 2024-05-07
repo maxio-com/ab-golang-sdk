@@ -55,7 +55,7 @@ func (u *UpdateCurrencyPrice) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// updateCurrencyPrice is a temporary struct used for validating the fields of UpdateCurrencyPrice.
 type updateCurrencyPrice  struct {
     Id    *int `json:"id"`
     Price *int `json:"price"`

@@ -66,7 +66,7 @@ func (i *InvoiceCustomField) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// invoiceCustomField is a temporary struct used for validating the fields of InvoiceCustomField.
 type invoiceCustomField  struct {
     OwnerId     *int              `json:"owner_id,omitempty"`
     OwnerType   *CustomFieldOwner `json:"owner_type,omitempty"`

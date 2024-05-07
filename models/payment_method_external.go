@@ -67,7 +67,7 @@ func (p *PaymentMethodExternal) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// paymentMethodExternal is a temporary struct used for validating the fields of PaymentMethodExternal.
 type paymentMethodExternal  struct {
     Details *string                    `json:"details"`
     Kind    *string                    `json:"kind"`

@@ -116,7 +116,7 @@ func (i *InvoiceEventPayment) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// invoiceEventPayment is a temporary struct used for validating the fields of InvoiceEventPayment.
 type invoiceEventPayment  struct {
     Type                *string          `json:"type,omitempty"`
     MaskedAccountNumber *string          `json:"masked_account_number,omitempty"`

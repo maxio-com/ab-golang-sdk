@@ -51,7 +51,7 @@ func (d *DeleteSubscriptionGroupResponse) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// deleteSubscriptionGroupResponse is a temporary struct used for validating the fields of DeleteSubscriptionGroupResponse.
 type deleteSubscriptionGroupResponse  struct {
     Uid     *string `json:"uid,omitempty"`
     Deleted *bool   `json:"deleted,omitempty"`

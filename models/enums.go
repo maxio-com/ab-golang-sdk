@@ -1684,6 +1684,51 @@ const (
     IncludeNotNull_NOTNULL IncludeNotNull = "not_null"
 )
 
+// IncludeNullOrNotNull is a string enum.
+// Allows to filter by `not_null` or `null`.
+type IncludeNullOrNotNull string
+
+// MarshalJSON implements the json.Marshaler interface for IncludeNullOrNotNull.
+// It customizes the JSON marshaling process for IncludeNullOrNotNull objects.
+func (e IncludeNullOrNotNull) MarshalJSON() (
+    []byte,
+    error) {
+    if e.isValid() {
+        return []byte(fmt.Sprintf("\"%v\"", e)), nil
+    }
+    return nil, errors.New("the provided enum value is not allowed for IncludeNullOrNotNull")
+}
+
+// UnmarshalJSON implements the json.Unmarshaler interface for IncludeNullOrNotNull.
+// It customizes the JSON unmarshaling process for IncludeNullOrNotNull objects.
+func (e *IncludeNullOrNotNull) UnmarshalJSON(input []byte) error {
+    var enumValue string
+    err := json.Unmarshal(input, &enumValue)
+    if err != nil {
+        return err
+    }
+    *e = IncludeNullOrNotNull(enumValue)
+    if !e.isValid() {
+        return errors.New("the value " + string(input) + " cannot be unmarshalled to IncludeNullOrNotNull")
+    }
+    return nil
+}
+
+// Checks whether the value is actually a member of IncludeNullOrNotNull.
+func (e IncludeNullOrNotNull) isValid() bool {
+    switch e {
+    case IncludeNullOrNotNull_NOTNULL,
+        IncludeNullOrNotNull_NULL:
+        return true
+    }
+    return false
+}
+
+const (
+    IncludeNullOrNotNull_NOTNULL IncludeNullOrNotNull = "not_null"
+    IncludeNullOrNotNull_NULL    IncludeNullOrNotNull = "null"
+)
+
 // IncludeOption is a string enum.
 type IncludeOption string
 
@@ -2767,14 +2812,16 @@ func (e *ListSubscriptionComponentsInclude) UnmarshalJSON(input []byte) error {
 // Checks whether the value is actually a member of ListSubscriptionComponentsInclude.
 func (e ListSubscriptionComponentsInclude) isValid() bool {
     switch e {
-    case ListSubscriptionComponentsInclude_SUBSCRIPTION:
+    case ListSubscriptionComponentsInclude_SUBSCRIPTION,
+        ListSubscriptionComponentsInclude_HISTORICUSAGES:
         return true
     }
     return false
 }
 
 const (
-    ListSubscriptionComponentsInclude_SUBSCRIPTION ListSubscriptionComponentsInclude = "subscription"
+    ListSubscriptionComponentsInclude_SUBSCRIPTION   ListSubscriptionComponentsInclude = "subscription"
+    ListSubscriptionComponentsInclude_HISTORICUSAGES ListSubscriptionComponentsInclude = "historic_usages"
 )
 
 // ListSubscriptionComponentsSort is a string enum.

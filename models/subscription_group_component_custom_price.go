@@ -58,7 +58,7 @@ func (s *SubscriptionGroupComponentCustomPrice) UnmarshalJSON(input []byte) erro
     return nil
 }
 
-// TODO
+// subscriptionGroupComponentCustomPrice is a temporary struct used for validating the fields of SubscriptionGroupComponentCustomPrice.
 type subscriptionGroupComponentCustomPrice  struct {
     PricingScheme  *PricingScheme         `json:"pricing_scheme,omitempty"`
     Prices         []Price                `json:"prices,omitempty"`

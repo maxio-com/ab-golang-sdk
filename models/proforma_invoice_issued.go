@@ -90,7 +90,7 @@ func (p *ProformaInvoiceIssued) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// proformaInvoiceIssued is a temporary struct used for validating the fields of ProformaInvoiceIssued.
 type proformaInvoiceIssued  struct {
     Uid          *string                     `json:"uid"`
     Number       *string                     `json:"number"`

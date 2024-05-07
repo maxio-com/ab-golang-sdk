@@ -96,7 +96,7 @@ func (a *AllocateComponents) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// allocateComponents is a temporary struct used for validating the fields of AllocateComponents.
 type allocateComponents  struct {
     ProrationUpgradeScheme   *string              `json:"proration_upgrade_scheme,omitempty"`
     ProrationDowngradeScheme *string              `json:"proration_downgrade_scheme,omitempty"`

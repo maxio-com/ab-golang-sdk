@@ -53,7 +53,7 @@ func (o *OriginInvoice) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// originInvoice is a temporary struct used for validating the fields of OriginInvoice.
 type originInvoice  struct {
     Uid    *string `json:"uid,omitempty"`
     Number *string `json:"number,omitempty"`

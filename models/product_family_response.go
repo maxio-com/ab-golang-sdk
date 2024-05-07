@@ -46,7 +46,7 @@ func (p *ProductFamilyResponse) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// productFamilyResponse is a temporary struct used for validating the fields of ProductFamilyResponse.
 type productFamilyResponse  struct {
     ProductFamily *ProductFamily `json:"product_family,omitempty"`
 }

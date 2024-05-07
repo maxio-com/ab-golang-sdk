@@ -214,7 +214,7 @@ func (c *CreditCardPaymentProfile) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// creditCardPaymentProfile is a temporary struct used for validating the fields of CreditCardPaymentProfile.
 type creditCardPaymentProfile  struct {
     Id                   *int             `json:"id,omitempty"`
     FirstName            *string          `json:"first_name,omitempty"`

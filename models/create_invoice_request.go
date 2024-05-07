@@ -50,7 +50,7 @@ func (c *CreateInvoiceRequest) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// createInvoiceRequest is a temporary struct used for validating the fields of CreateInvoiceRequest.
 type createInvoiceRequest  struct {
     Invoice *CreateInvoice `json:"invoice"`
 }

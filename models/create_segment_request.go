@@ -50,7 +50,7 @@ func (c *CreateSegmentRequest) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// createSegmentRequest is a temporary struct used for validating the fields of CreateSegmentRequest.
 type createSegmentRequest  struct {
     Segment *CreateSegment `json:"segment"`
 }

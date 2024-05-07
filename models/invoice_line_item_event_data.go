@@ -173,7 +173,7 @@ func (i *InvoiceLineItemEventData) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// invoiceLineItemEventData is a temporary struct used for validating the fields of InvoiceLineItemEventData.
 type invoiceLineItemEventData  struct {
     Uid                   *string                        `json:"uid,omitempty"`
     Title                 *string                        `json:"title,omitempty"`

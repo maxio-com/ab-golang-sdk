@@ -67,7 +67,7 @@ func (p *PrepaidComponentPricePoint) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// prepaidComponentPricePoint is a temporary struct used for validating the fields of PrepaidComponentPricePoint.
 type prepaidComponentPricePoint  struct {
     Name           *string         `json:"name,omitempty"`
     Handle         *string         `json:"handle,omitempty"`

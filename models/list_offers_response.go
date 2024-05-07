@@ -46,7 +46,7 @@ func (l *ListOffersResponse) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// listOffersResponse is a temporary struct used for validating the fields of ListOffersResponse.
 type listOffersResponse  struct {
     Offers []Offer `json:"offers,omitempty"`
 }

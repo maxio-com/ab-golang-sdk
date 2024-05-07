@@ -95,7 +95,7 @@ func (c *CouponUsage) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// couponUsage is a temporary struct used for validating the fields of CouponUsage.
 type couponUsage  struct {
     Id             *int            `json:"id,omitempty"`
     Name           *string         `json:"name,omitempty"`

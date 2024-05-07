@@ -40,15 +40,15 @@ type Subscription struct {
     // The version of the product for the subscription. Note that this is a deprecated field kept for backwards-compatibility.
     ProductVersionNumber              *int                              `json:"product_version_number,omitempty"`
     // Timestamp relating to the end of the current (recurring) period (i.e.,when the next regularly scheduled attempted charge will occur)
-    CurrentPeriodEndsAt               *time.Time                        `json:"current_period_ends_at,omitempty"`
+    CurrentPeriodEndsAt               Optional[time.Time]               `json:"current_period_ends_at"`
     // Timestamp that indicates when capture of payment will be tried or,retried. This value will usually track the current_period_ends_at, but,will diverge if a renewal payment fails and must be retried. In that,case, the current_period_ends_at will advance to the end of the next,period (time doesn’t stop because a payment was missed) but the,next_assessment_at will be scheduled for the auto-retry time (i.e. 24,hours in the future, in some cases)
-    NextAssessmentAt                  *time.Time                        `json:"next_assessment_at,omitempty"`
+    NextAssessmentAt                  Optional[time.Time]               `json:"next_assessment_at"`
     // Timestamp for when the trial period (if any) began
     TrialStartedAt                    Optional[time.Time]               `json:"trial_started_at"`
     // Timestamp for when the trial period (if any) ended
     TrialEndedAt                      Optional[time.Time]               `json:"trial_ended_at"`
     // Timestamp for when the subscription began (i.e. when it came out of trial, or when it began in the case of no trial)
-    ActivatedAt                       *time.Time                        `json:"activated_at,omitempty"`
+    ActivatedAt                       Optional[time.Time]               `json:"activated_at"`
     // Timestamp giving the expiration date of this subscription (if any)
     ExpiresAt                         Optional[time.Time]               `json:"expires_at"`
     // The creation date for this subscription
@@ -64,7 +64,7 @@ type Subscription struct {
     // The timestamp of the most recent cancellation
     CanceledAt                        Optional[time.Time]               `json:"canceled_at"`
     // Timestamp relating to the start of the current (recurring) period
-    CurrentPeriodStartedAt            *time.Time                        `json:"current_period_started_at,omitempty"`
+    CurrentPeriodStartedAt            Optional[time.Time]               `json:"current_period_started_at"`
     // Only valid for webhook payloads The previous state for webhooks that have indicated a change in state. For normal API calls, this will always be the same as the state (current state)
     PreviousState                     *SubscriptionState                `json:"previous_state,omitempty"`
     // The ID of the transaction that generated the revenue
@@ -140,7 +140,7 @@ type Subscription struct {
     ScheduledCancellationAt           Optional[time.Time]               `json:"scheduled_cancellation_at"`
     CreditBalanceInCents              *int64                            `json:"credit_balance_in_cents,omitempty"`
     PrepaymentBalanceInCents          *int64                            `json:"prepayment_balance_in_cents,omitempty"`
-    PrepaidConfiguration              *PrepaidConfiguration             `json:"prepaid_configuration,omitempty"`
+    PrepaidConfiguration              Optional[PrepaidConfiguration]    `json:"prepaid_configuration"`
     // Returned only for list/read Subscription operation when `include[]=self_service_page_token` parameter is provided.
     SelfServicePageToken              *string                           `json:"self_service_page_token,omitempty"`
     AdditionalProperties              map[string]any                    `json:"_"`
@@ -176,11 +176,29 @@ func (s Subscription) toMap() map[string]any {
     if s.ProductVersionNumber != nil {
         structMap["product_version_number"] = s.ProductVersionNumber
     }
-    if s.CurrentPeriodEndsAt != nil {
-        structMap["current_period_ends_at"] = s.CurrentPeriodEndsAt.Format(time.RFC3339)
+    if s.CurrentPeriodEndsAt.IsValueSet() {
+        var CurrentPeriodEndsAtVal *string = nil
+        if s.CurrentPeriodEndsAt.Value() != nil {
+            val := s.CurrentPeriodEndsAt.Value().Format(time.RFC3339)
+            CurrentPeriodEndsAtVal = &val
+        }
+        if s.CurrentPeriodEndsAt.Value() != nil {
+            structMap["current_period_ends_at"] = CurrentPeriodEndsAtVal
+        } else {
+            structMap["current_period_ends_at"] = nil
+        }
     }
-    if s.NextAssessmentAt != nil {
-        structMap["next_assessment_at"] = s.NextAssessmentAt.Format(time.RFC3339)
+    if s.NextAssessmentAt.IsValueSet() {
+        var NextAssessmentAtVal *string = nil
+        if s.NextAssessmentAt.Value() != nil {
+            val := s.NextAssessmentAt.Value().Format(time.RFC3339)
+            NextAssessmentAtVal = &val
+        }
+        if s.NextAssessmentAt.Value() != nil {
+            structMap["next_assessment_at"] = NextAssessmentAtVal
+        } else {
+            structMap["next_assessment_at"] = nil
+        }
     }
     if s.TrialStartedAt.IsValueSet() {
         var TrialStartedAtVal *string = nil
@@ -206,8 +224,17 @@ func (s Subscription) toMap() map[string]any {
             structMap["trial_ended_at"] = nil
         }
     }
-    if s.ActivatedAt != nil {
-        structMap["activated_at"] = s.ActivatedAt.Format(time.RFC3339)
+    if s.ActivatedAt.IsValueSet() {
+        var ActivatedAtVal *string = nil
+        if s.ActivatedAt.Value() != nil {
+            val := s.ActivatedAt.Value().Format(time.RFC3339)
+            ActivatedAtVal = &val
+        }
+        if s.ActivatedAt.Value() != nil {
+            structMap["activated_at"] = ActivatedAtVal
+        } else {
+            structMap["activated_at"] = nil
+        }
     }
     if s.ExpiresAt.IsValueSet() {
         var ExpiresAtVal *string = nil
@@ -260,8 +287,17 @@ func (s Subscription) toMap() map[string]any {
             structMap["canceled_at"] = nil
         }
     }
-    if s.CurrentPeriodStartedAt != nil {
-        structMap["current_period_started_at"] = s.CurrentPeriodStartedAt.Format(time.RFC3339)
+    if s.CurrentPeriodStartedAt.IsValueSet() {
+        var CurrentPeriodStartedAtVal *string = nil
+        if s.CurrentPeriodStartedAt.Value() != nil {
+            val := s.CurrentPeriodStartedAt.Value().Format(time.RFC3339)
+            CurrentPeriodStartedAtVal = &val
+        }
+        if s.CurrentPeriodStartedAt.Value() != nil {
+            structMap["current_period_started_at"] = CurrentPeriodStartedAtVal
+        } else {
+            structMap["current_period_started_at"] = nil
+        }
     }
     if s.PreviousState != nil {
         structMap["previous_state"] = s.PreviousState
@@ -498,8 +534,12 @@ func (s Subscription) toMap() map[string]any {
     if s.PrepaymentBalanceInCents != nil {
         structMap["prepayment_balance_in_cents"] = s.PrepaymentBalanceInCents
     }
-    if s.PrepaidConfiguration != nil {
-        structMap["prepaid_configuration"] = s.PrepaidConfiguration.toMap()
+    if s.PrepaidConfiguration.IsValueSet() {
+        if s.PrepaidConfiguration.Value() != nil {
+            structMap["prepaid_configuration"] = s.PrepaidConfiguration.Value().toMap()
+        } else {
+            structMap["prepaid_configuration"] = nil
+        }
     }
     if s.SelfServicePageToken != nil {
         structMap["self_service_page_token"] = s.SelfServicePageToken
@@ -527,19 +567,21 @@ func (s *Subscription) UnmarshalJSON(input []byte) error {
     s.TotalRevenueInCents = temp.TotalRevenueInCents
     s.ProductPriceInCents = temp.ProductPriceInCents
     s.ProductVersionNumber = temp.ProductVersionNumber
-    if temp.CurrentPeriodEndsAt != nil {
-        CurrentPeriodEndsAtVal, err := time.Parse(time.RFC3339, *temp.CurrentPeriodEndsAt)
+    s.CurrentPeriodEndsAt.ShouldSetValue(temp.CurrentPeriodEndsAt.IsValueSet())
+    if temp.CurrentPeriodEndsAt.Value() != nil {
+        CurrentPeriodEndsAtVal, err := time.Parse(time.RFC3339, (*temp.CurrentPeriodEndsAt.Value()))
         if err != nil {
             log.Fatalf("Cannot Parse current_period_ends_at as % s format.", time.RFC3339)
         }
-        s.CurrentPeriodEndsAt = &CurrentPeriodEndsAtVal
+        s.CurrentPeriodEndsAt.SetValue(&CurrentPeriodEndsAtVal)
     }
-    if temp.NextAssessmentAt != nil {
-        NextAssessmentAtVal, err := time.Parse(time.RFC3339, *temp.NextAssessmentAt)
+    s.NextAssessmentAt.ShouldSetValue(temp.NextAssessmentAt.IsValueSet())
+    if temp.NextAssessmentAt.Value() != nil {
+        NextAssessmentAtVal, err := time.Parse(time.RFC3339, (*temp.NextAssessmentAt.Value()))
         if err != nil {
             log.Fatalf("Cannot Parse next_assessment_at as % s format.", time.RFC3339)
         }
-        s.NextAssessmentAt = &NextAssessmentAtVal
+        s.NextAssessmentAt.SetValue(&NextAssessmentAtVal)
     }
     s.TrialStartedAt.ShouldSetValue(temp.TrialStartedAt.IsValueSet())
     if temp.TrialStartedAt.Value() != nil {
@@ -557,12 +599,13 @@ func (s *Subscription) UnmarshalJSON(input []byte) error {
         }
         s.TrialEndedAt.SetValue(&TrialEndedAtVal)
     }
-    if temp.ActivatedAt != nil {
-        ActivatedAtVal, err := time.Parse(time.RFC3339, *temp.ActivatedAt)
+    s.ActivatedAt.ShouldSetValue(temp.ActivatedAt.IsValueSet())
+    if temp.ActivatedAt.Value() != nil {
+        ActivatedAtVal, err := time.Parse(time.RFC3339, (*temp.ActivatedAt.Value()))
         if err != nil {
             log.Fatalf("Cannot Parse activated_at as % s format.", time.RFC3339)
         }
-        s.ActivatedAt = &ActivatedAtVal
+        s.ActivatedAt.SetValue(&ActivatedAtVal)
     }
     s.ExpiresAt.ShouldSetValue(temp.ExpiresAt.IsValueSet())
     if temp.ExpiresAt.Value() != nil {
@@ -597,12 +640,13 @@ func (s *Subscription) UnmarshalJSON(input []byte) error {
         }
         s.CanceledAt.SetValue(&CanceledAtVal)
     }
-    if temp.CurrentPeriodStartedAt != nil {
-        CurrentPeriodStartedAtVal, err := time.Parse(time.RFC3339, *temp.CurrentPeriodStartedAt)
+    s.CurrentPeriodStartedAt.ShouldSetValue(temp.CurrentPeriodStartedAt.IsValueSet())
+    if temp.CurrentPeriodStartedAt.Value() != nil {
+        CurrentPeriodStartedAtVal, err := time.Parse(time.RFC3339, (*temp.CurrentPeriodStartedAt.Value()))
         if err != nil {
             log.Fatalf("Cannot Parse current_period_started_at as % s format.", time.RFC3339)
         }
-        s.CurrentPeriodStartedAt = &CurrentPeriodStartedAtVal
+        s.CurrentPeriodStartedAt.SetValue(&CurrentPeriodStartedAtVal)
     }
     s.PreviousState = temp.PreviousState
     s.SignupPaymentId = temp.SignupPaymentId
@@ -678,7 +722,7 @@ func (s *Subscription) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// subscription is a temporary struct used for validating the fields of Subscription.
 type subscription  struct {
     Id                                *int                              `json:"id,omitempty"`
     State                             *SubscriptionState                `json:"state,omitempty"`
@@ -686,11 +730,11 @@ type subscription  struct {
     TotalRevenueInCents               *int64                            `json:"total_revenue_in_cents,omitempty"`
     ProductPriceInCents               *int64                            `json:"product_price_in_cents,omitempty"`
     ProductVersionNumber              *int                              `json:"product_version_number,omitempty"`
-    CurrentPeriodEndsAt               *string                           `json:"current_period_ends_at,omitempty"`
-    NextAssessmentAt                  *string                           `json:"next_assessment_at,omitempty"`
+    CurrentPeriodEndsAt               Optional[string]                  `json:"current_period_ends_at"`
+    NextAssessmentAt                  Optional[string]                  `json:"next_assessment_at"`
     TrialStartedAt                    Optional[string]                  `json:"trial_started_at"`
     TrialEndedAt                      Optional[string]                  `json:"trial_ended_at"`
-    ActivatedAt                       *string                           `json:"activated_at,omitempty"`
+    ActivatedAt                       Optional[string]                  `json:"activated_at"`
     ExpiresAt                         Optional[string]                  `json:"expires_at"`
     CreatedAt                         *string                           `json:"created_at,omitempty"`
     UpdatedAt                         *string                           `json:"updated_at,omitempty"`
@@ -698,7 +742,7 @@ type subscription  struct {
     CancellationMethod                Optional[CancellationMethod]      `json:"cancellation_method"`
     CancelAtEndOfPeriod               Optional[bool]                    `json:"cancel_at_end_of_period"`
     CanceledAt                        Optional[string]                  `json:"canceled_at"`
-    CurrentPeriodStartedAt            *string                           `json:"current_period_started_at,omitempty"`
+    CurrentPeriodStartedAt            Optional[string]                  `json:"current_period_started_at"`
     PreviousState                     *SubscriptionState                `json:"previous_state,omitempty"`
     SignupPaymentId                   *int                              `json:"signup_payment_id,omitempty"`
     SignupRevenue                     *string                           `json:"signup_revenue,omitempty"`
@@ -740,6 +784,6 @@ type subscription  struct {
     ScheduledCancellationAt           Optional[string]                  `json:"scheduled_cancellation_at"`
     CreditBalanceInCents              *int64                            `json:"credit_balance_in_cents,omitempty"`
     PrepaymentBalanceInCents          *int64                            `json:"prepayment_balance_in_cents,omitempty"`
-    PrepaidConfiguration              *PrepaidConfiguration             `json:"prepaid_configuration,omitempty"`
+    PrepaidConfiguration              Optional[PrepaidConfiguration]    `json:"prepaid_configuration"`
     SelfServicePageToken              *string                           `json:"self_service_page_token,omitempty"`
 }

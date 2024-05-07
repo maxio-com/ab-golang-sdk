@@ -51,7 +51,7 @@ func (i *InvoiceDisplaySettings) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// invoiceDisplaySettings is a temporary struct used for validating the fields of InvoiceDisplaySettings.
 type invoiceDisplaySettings  struct {
     HideZeroSubtotalLines   *bool `json:"hide_zero_subtotal_lines,omitempty"`
     IncludeDiscountsOnLines *bool `json:"include_discounts_on_lines,omitempty"`

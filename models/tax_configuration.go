@@ -57,7 +57,7 @@ func (t *TaxConfiguration) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// taxConfiguration is a temporary struct used for validating the fields of TaxConfiguration.
 type taxConfiguration  struct {
     Kind               *TaxConfigurationKind  `json:"kind,omitempty"`
     DestinationAddress *TaxDestinationAddress `json:"destination_address,omitempty"`

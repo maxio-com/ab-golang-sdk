@@ -64,7 +64,7 @@ func (m *MultiInvoicePayment) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// multiInvoicePayment is a temporary struct used for validating the fields of MultiInvoicePayment.
 type multiInvoicePayment  struct {
     TransactionId *int                        `json:"transaction_id,omitempty"`
     TotalAmount   *string                     `json:"total_amount,omitempty"`

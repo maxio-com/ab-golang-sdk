@@ -181,7 +181,7 @@ func (p *PrepaidUsageComponent) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// prepaidUsageComponent is a temporary struct used for validating the fields of PrepaidUsageComponent.
 type prepaidUsageComponent  struct {
     Name                      *string                         `json:"name"`
     UnitName                  *string                         `json:"unit_name,omitempty"`

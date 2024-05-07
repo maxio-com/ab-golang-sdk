@@ -30,7 +30,7 @@
 | `ArchivedAt` | `models.Optional[time.Time]` | Optional | - |
 | `ConversionLimit` | `models.Optional[string]` | Optional | - |
 | `Stackable` | `*bool` | Optional | - |
-| `CompoundingStrategy` | [`*models.CouponCompoundingStrategy`](../../doc/models/containers/coupon-compounding-strategy.md) | Optional | This is a container for any-of cases. |
+| `CompoundingStrategy` | [`models.Optional[models.CompoundingStrategy]`](../../doc/models/compounding-strategy.md) | Optional | - |
 | `UseSiteExchangeRate` | `*bool` | Optional | - |
 | `CreatedAt` | `*time.Time` | Optional | - |
 | `UpdatedAt` | `*time.Time` | Optional | - |

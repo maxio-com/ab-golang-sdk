@@ -150,7 +150,7 @@ func (u *UpdateSubscription) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// updateSubscription is a temporary struct used for validating the fields of UpdateSubscription.
 type updateSubscription  struct {
     CreditCardAttributes              *CreditCardAttributes         `json:"credit_card_attributes,omitempty"`
     ProductHandle                     *string                       `json:"product_handle,omitempty"`

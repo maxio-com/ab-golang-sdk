@@ -121,7 +121,7 @@ func (a *AllocationPreview) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// allocationPreview is a temporary struct used for validating the fields of AllocationPreview.
 type allocationPreview  struct {
     StartDate              *string                     `json:"start_date,omitempty"`
     EndDate                *string                     `json:"end_date,omitempty"`
