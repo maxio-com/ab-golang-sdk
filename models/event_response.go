@@ -50,7 +50,7 @@ func (e *EventResponse) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// eventResponse is a temporary struct used for validating the fields of EventResponse.
 type eventResponse  struct {
     Event *Event `json:"event"`
 }

@@ -14,9 +14,9 @@
 | `TotalDiscountInCents` | `*int64` | Optional | - |
 | `TotalTaxInCents` | `*int64` | Optional | - |
 | `SubtotalInCents` | `*int64` | Optional | - |
-| `StartDate` | `*time.Time` | Optional | - |
-| `EndDate` | `*time.Time` | Optional | - |
-| `PeriodType` | `*string` | Optional | - |
+| `StartDate` | `models.Optional[time.Time]` | Optional | - |
+| `EndDate` | `models.Optional[time.Time]` | Optional | - |
+| `PeriodType` | `models.Optional[string]` | Optional | - |
 | `ExistingBalanceInCents` | `*int64` | Optional | - |
 
 ## Example (as JSON)

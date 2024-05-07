@@ -59,7 +59,7 @@ func (p *PendingCancellationChange) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// pendingCancellationChange is a temporary struct used for validating the fields of PendingCancellationChange.
 type pendingCancellationChange  struct {
     CancellationState *string `json:"cancellation_state"`
     CancelsAt         *string `json:"cancels_at"`

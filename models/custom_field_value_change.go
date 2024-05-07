@@ -76,7 +76,7 @@ func (c *CustomFieldValueChange) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// customFieldValueChange is a temporary struct used for validating the fields of CustomFieldValueChange.
 type customFieldValueChange  struct {
     EventType     *string `json:"event_type"`
     MetafieldName *string `json:"metafield_name"`

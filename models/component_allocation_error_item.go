@@ -61,7 +61,7 @@ func (c *ComponentAllocationErrorItem) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// componentAllocationErrorItem is a temporary struct used for validating the fields of ComponentAllocationErrorItem.
 type componentAllocationErrorItem  struct {
     ComponentId *int    `json:"component_id,omitempty"`
     Message     *string `json:"message,omitempty"`

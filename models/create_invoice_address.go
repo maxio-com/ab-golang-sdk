@@ -87,7 +87,7 @@ func (c *CreateInvoiceAddress) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// createInvoiceAddress is a temporary struct used for validating the fields of CreateInvoiceAddress.
 type createInvoiceAddress  struct {
     FirstName *string `json:"first_name,omitempty"`
     LastName  *string `json:"last_name,omitempty"`

@@ -56,7 +56,7 @@ func (i *ItemPricePointData) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// itemPricePointData is a temporary struct used for validating the fields of ItemPricePointData.
 type itemPricePointData  struct {
     Id     *int    `json:"id,omitempty"`
     Handle *string `json:"handle,omitempty"`

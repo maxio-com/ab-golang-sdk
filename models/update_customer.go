@@ -146,7 +146,7 @@ func (u *UpdateCustomer) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// updateCustomer is a temporary struct used for validating the fields of UpdateCustomer.
 type updateCustomer  struct {
     FirstName       *string        `json:"first_name,omitempty"`
     LastName        *string        `json:"last_name,omitempty"`

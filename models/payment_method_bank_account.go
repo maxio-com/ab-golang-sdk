@@ -56,7 +56,7 @@ func (p *PaymentMethodBankAccount) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// paymentMethodBankAccount is a temporary struct used for validating the fields of PaymentMethodBankAccount.
 type paymentMethodBankAccount  struct {
     MaskedAccountNumber *string                    `json:"masked_account_number"`
     MaskedRoutingNumber *string                    `json:"masked_routing_number"`

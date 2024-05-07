@@ -73,7 +73,7 @@ func (p *PublicSignupPage) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// publicSignupPage is a temporary struct used for validating the fields of PublicSignupPage.
 type publicSignupPage  struct {
     Id           *int             `json:"id,omitempty"`
     ReturnUrl    Optional[string] `json:"return_url"`

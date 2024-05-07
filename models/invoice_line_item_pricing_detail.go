@@ -51,7 +51,7 @@ func (i *InvoiceLineItemPricingDetail) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// invoiceLineItemPricingDetail is a temporary struct used for validating the fields of InvoiceLineItemPricingDetail.
 type invoiceLineItemPricingDetail  struct {
     Label  *string `json:"label,omitempty"`
     Amount *string `json:"amount,omitempty"`

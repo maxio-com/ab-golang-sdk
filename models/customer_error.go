@@ -46,7 +46,7 @@ func (c *CustomerError) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// customerError is a temporary struct used for validating the fields of CustomerError.
 type customerError  struct {
     Customer *string `json:"customer,omitempty"`
 }

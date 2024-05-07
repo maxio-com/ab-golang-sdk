@@ -71,7 +71,7 @@ func (p *ProductPricePointErrors) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// productPricePointErrors is a temporary struct used for validating the fields of ProductPricePointErrors.
 type productPricePointErrors  struct {
     PricePoint   *string  `json:"price_point,omitempty"`
     Interval     []string `json:"interval,omitempty"`

@@ -61,7 +61,7 @@ func (b *Breakouts) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// breakouts is a temporary struct used for validating the fields of Breakouts.
 type breakouts  struct {
     PlanAmountInCents    *int64  `json:"plan_amount_in_cents,omitempty"`
     PlanAmountFormatted  *string `json:"plan_amount_formatted,omitempty"`

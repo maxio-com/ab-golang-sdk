@@ -46,7 +46,7 @@ func (c *CouponCurrencyResponse) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// couponCurrencyResponse is a temporary struct used for validating the fields of CouponCurrencyResponse.
 type couponCurrencyResponse  struct {
     CurrencyPrices []CouponCurrency `json:"currency_prices,omitempty"`
 }

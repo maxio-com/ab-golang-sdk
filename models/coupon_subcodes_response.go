@@ -56,7 +56,7 @@ func (c *CouponSubcodesResponse) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// couponSubcodesResponse is a temporary struct used for validating the fields of CouponSubcodesResponse.
 type couponSubcodesResponse  struct {
     CreatedCodes   []string `json:"created_codes,omitempty"`
     DuplicateCodes []string `json:"duplicate_codes,omitempty"`

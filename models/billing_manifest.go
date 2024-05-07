@@ -13,9 +13,9 @@ type BillingManifest struct {
     TotalDiscountInCents   *int64                `json:"total_discount_in_cents,omitempty"`
     TotalTaxInCents        *int64                `json:"total_tax_in_cents,omitempty"`
     SubtotalInCents        *int64                `json:"subtotal_in_cents,omitempty"`
-    StartDate              *time.Time            `json:"start_date,omitempty"`
-    EndDate                *time.Time            `json:"end_date,omitempty"`
-    PeriodType             *string               `json:"period_type,omitempty"`
+    StartDate              Optional[time.Time]   `json:"start_date"`
+    EndDate                Optional[time.Time]   `json:"end_date"`
+    PeriodType             Optional[string]      `json:"period_type"`
     ExistingBalanceInCents *int64                `json:"existing_balance_in_cents,omitempty"`
     AdditionalProperties   map[string]any        `json:"_"`
 }
@@ -47,14 +47,36 @@ func (b BillingManifest) toMap() map[string]any {
     if b.SubtotalInCents != nil {
         structMap["subtotal_in_cents"] = b.SubtotalInCents
     }
-    if b.StartDate != nil {
-        structMap["start_date"] = b.StartDate.Format(time.RFC3339)
+    if b.StartDate.IsValueSet() {
+        var StartDateVal *string = nil
+        if b.StartDate.Value() != nil {
+            val := b.StartDate.Value().Format(time.RFC3339)
+            StartDateVal = &val
+        }
+        if b.StartDate.Value() != nil {
+            structMap["start_date"] = StartDateVal
+        } else {
+            structMap["start_date"] = nil
+        }
     }
-    if b.EndDate != nil {
-        structMap["end_date"] = b.EndDate.Format(time.RFC3339)
+    if b.EndDate.IsValueSet() {
+        var EndDateVal *string = nil
+        if b.EndDate.Value() != nil {
+            val := b.EndDate.Value().Format(time.RFC3339)
+            EndDateVal = &val
+        }
+        if b.EndDate.Value() != nil {
+            structMap["end_date"] = EndDateVal
+        } else {
+            structMap["end_date"] = nil
+        }
     }
-    if b.PeriodType != nil {
-        structMap["period_type"] = b.PeriodType
+    if b.PeriodType.IsValueSet() {
+        if b.PeriodType.Value() != nil {
+            structMap["period_type"] = b.PeriodType.Value()
+        } else {
+            structMap["period_type"] = nil
+        }
     }
     if b.ExistingBalanceInCents != nil {
         structMap["existing_balance_in_cents"] = b.ExistingBalanceInCents
@@ -81,34 +103,36 @@ func (b *BillingManifest) UnmarshalJSON(input []byte) error {
     b.TotalDiscountInCents = temp.TotalDiscountInCents
     b.TotalTaxInCents = temp.TotalTaxInCents
     b.SubtotalInCents = temp.SubtotalInCents
-    if temp.StartDate != nil {
-        StartDateVal, err := time.Parse(time.RFC3339, *temp.StartDate)
+    b.StartDate.ShouldSetValue(temp.StartDate.IsValueSet())
+    if temp.StartDate.Value() != nil {
+        StartDateVal, err := time.Parse(time.RFC3339, (*temp.StartDate.Value()))
         if err != nil {
             log.Fatalf("Cannot Parse start_date as % s format.", time.RFC3339)
         }
-        b.StartDate = &StartDateVal
+        b.StartDate.SetValue(&StartDateVal)
     }
-    if temp.EndDate != nil {
-        EndDateVal, err := time.Parse(time.RFC3339, *temp.EndDate)
+    b.EndDate.ShouldSetValue(temp.EndDate.IsValueSet())
+    if temp.EndDate.Value() != nil {
+        EndDateVal, err := time.Parse(time.RFC3339, (*temp.EndDate.Value()))
         if err != nil {
             log.Fatalf("Cannot Parse end_date as % s format.", time.RFC3339)
         }
-        b.EndDate = &EndDateVal
+        b.EndDate.SetValue(&EndDateVal)
     }
     b.PeriodType = temp.PeriodType
     b.ExistingBalanceInCents = temp.ExistingBalanceInCents
     return nil
 }
 
-// TODO
+// billingManifest is a temporary struct used for validating the fields of BillingManifest.
 type billingManifest  struct {
     LineItems              []BillingManifestItem `json:"line_items,omitempty"`
     TotalInCents           *int64                `json:"total_in_cents,omitempty"`
     TotalDiscountInCents   *int64                `json:"total_discount_in_cents,omitempty"`
     TotalTaxInCents        *int64                `json:"total_tax_in_cents,omitempty"`
     SubtotalInCents        *int64                `json:"subtotal_in_cents,omitempty"`
-    StartDate              *string               `json:"start_date,omitempty"`
-    EndDate                *string               `json:"end_date,omitempty"`
-    PeriodType             *string               `json:"period_type,omitempty"`
+    StartDate              Optional[string]      `json:"start_date"`
+    EndDate                Optional[string]      `json:"end_date"`
+    PeriodType             Optional[string]      `json:"period_type"`
     ExistingBalanceInCents *int64                `json:"existing_balance_in_cents,omitempty"`
 }

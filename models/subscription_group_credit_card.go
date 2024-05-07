@@ -143,7 +143,7 @@ func (s *SubscriptionGroupCreditCard) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// subscriptionGroupCreditCard is a temporary struct used for validating the fields of SubscriptionGroupCreditCard.
 type subscriptionGroupCreditCard  struct {
     FullNumber         *SubscriptionGroupCreditCardFullNumber      `json:"full_number,omitempty"`
     ExpirationMonth    *SubscriptionGroupCreditCardExpirationMonth `json:"expiration_month,omitempty"`

@@ -94,7 +94,7 @@ func (m *Movement) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// movement is a temporary struct used for validating the fields of Movement.
 type movement  struct {
     Timestamp       *string            `json:"timestamp,omitempty"`
     AmountInCents   *int64             `json:"amount_in_cents,omitempty"`

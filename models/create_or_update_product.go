@@ -131,7 +131,7 @@ func (c *CreateOrUpdateProduct) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// createOrUpdateProduct is a temporary struct used for validating the fields of CreateOrUpdateProduct.
 type createOrUpdateProduct  struct {
     Name                   *string       `json:"name"`
     Handle                 *string       `json:"handle,omitempty"`

@@ -166,7 +166,7 @@ func (q *QuantityBasedComponent) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// quantityBasedComponent is a temporary struct used for validating the fields of QuantityBasedComponent.
 type quantityBasedComponent  struct {
     Name                      *string                          `json:"name"`
     UnitName                  *string                          `json:"unit_name"`

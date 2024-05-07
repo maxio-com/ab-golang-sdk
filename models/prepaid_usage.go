@@ -77,7 +77,7 @@ func (p *PrepaidUsage) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// prepaidUsage is a temporary struct used for validating the fields of PrepaidUsage.
 type prepaidUsage  struct {
     PreviousUnitBalance        *string                         `json:"previous_unit_balance"`
     PreviousOverageUnitBalance *string                         `json:"previous_overage_unit_balance"`

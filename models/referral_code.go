@@ -61,7 +61,7 @@ func (r *ReferralCode) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// referralCode is a temporary struct used for validating the fields of ReferralCode.
 type referralCode  struct {
     Id             *int    `json:"id,omitempty"`
     SiteId         *int    `json:"site_id,omitempty"`

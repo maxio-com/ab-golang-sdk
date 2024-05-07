@@ -50,7 +50,7 @@ func (c *CreateQuantityBasedComponent) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// createQuantityBasedComponent is a temporary struct used for validating the fields of CreateQuantityBasedComponent.
 type createQuantityBasedComponent  struct {
     QuantityBasedComponent *QuantityBasedComponent `json:"quantity_based_component"`
 }

@@ -149,7 +149,7 @@ func (w *Webhook) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// webhook is a temporary struct used for validating the fields of Webhook.
 type webhook  struct {
     Event               *string          `json:"event,omitempty"`
     Id                  *int64           `json:"id,omitempty"`

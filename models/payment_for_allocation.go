@@ -62,7 +62,7 @@ func (p *PaymentForAllocation) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// paymentForAllocation is a temporary struct used for validating the fields of PaymentForAllocation.
 type paymentForAllocation  struct {
     Id            *int    `json:"id,omitempty"`
     AmountInCents *int64  `json:"amount_in_cents,omitempty"`

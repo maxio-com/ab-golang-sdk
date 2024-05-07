@@ -90,7 +90,7 @@ func (i *InvoiceRefund) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// invoiceRefund is a temporary struct used for validating the fields of InvoiceRefund.
 type invoiceRefund  struct {
     TransactionId        *int             `json:"transaction_id,omitempty"`
     PaymentId            *int             `json:"payment_id,omitempty"`

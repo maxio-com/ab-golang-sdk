@@ -56,7 +56,7 @@ func (o *OveragePricing) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// overagePricing is a temporary struct used for validating the fields of OveragePricing.
 type overagePricing  struct {
     PricingScheme *PricingScheme `json:"pricing_scheme"`
     Prices        []Price        `json:"prices,omitempty"`

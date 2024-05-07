@@ -113,7 +113,7 @@ func (b *BillingManifestItem) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// billingManifestItem is a temporary struct used for validating the fields of BillingManifestItem.
 type billingManifestItem  struct {
     TransactionType       *LineItemTransactionType     `json:"transaction_type,omitempty"`
     Kind                  *BillingManifestLineItemKind `json:"kind,omitempty"`

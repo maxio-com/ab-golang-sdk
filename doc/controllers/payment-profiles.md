@@ -225,6 +225,34 @@ The following example creates a customer, bank account and mandate in Stripe:
 }
 ```
 
+## Stripe BACS Direct Debit
+
+Contact the support team to enable this payment method.
+For more information on Stripe BACS Direct Debit, please view the following resources:
+
++ [Full documentation on Stripe BACS Direct Debit](https://maxio-chargify.zendesk.com/hc/en-us/articles/5405050826765-Stripe-SEPA-and-BECS-Direct-Debit)
+
+### Stripe BACS Direct Debit Payment Profiles
+
+The following example creates a customer, bank account and mandate in Stripe:
+
+```json
+{
+  "payment_profile": {
+    "customer_id": "24907598",
+    "bank_name": "British bank",
+    "bank_branch_code": "108800",
+    "bank_account_number": "00012345"
+    "payment_type": "bank_account",
+    "billing_address": "Test",
+    "billing_city": "London",
+    "billing_state": "LND",
+    "billing_zip": "12345",
+    "billing_country": "GB"
+  }
+}
+```
+
 ## 3D Secure - Checkout
 
 It may happen that a payment needs 3D Secure Authentication when the payment profile is created; this is referred to in our help docs as a [post-authentication flow](https://maxio-chargify.zendesk.com/hc/en-us/articles/5405177432077#psd2-flows-pre-authentication-and-post-authentication). The server returns `422 Unprocessable Entity` in this case with the following response:

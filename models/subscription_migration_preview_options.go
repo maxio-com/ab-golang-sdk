@@ -108,7 +108,7 @@ func (s *SubscriptionMigrationPreviewOptions) UnmarshalJSON(input []byte) error 
     return nil
 }
 
-// TODO
+// subscriptionMigrationPreviewOptions is a temporary struct used for validating the fields of SubscriptionMigrationPreviewOptions.
 type subscriptionMigrationPreviewOptions  struct {
     ProductId               *int       `json:"product_id,omitempty"`
     ProductPricePointId     *int       `json:"product_price_point_id,omitempty"`

@@ -61,7 +61,7 @@ func (l *ListPublicKeysMeta) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// listPublicKeysMeta is a temporary struct used for validating the fields of ListPublicKeysMeta.
 type listPublicKeysMeta  struct {
     TotalCount  *int `json:"total_count,omitempty"`
     CurrentPage *int `json:"current_page,omitempty"`

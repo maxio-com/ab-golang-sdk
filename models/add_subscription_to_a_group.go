@@ -46,7 +46,7 @@ func (a *AddSubscriptionToAGroup) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// addSubscriptionToAGroup is a temporary struct used for validating the fields of AddSubscriptionToAGroup.
 type addSubscriptionToAGroup  struct {
     Group *AddSubscriptionToAGroupGroup `json:"group,omitempty"`
 }

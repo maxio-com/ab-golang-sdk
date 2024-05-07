@@ -50,7 +50,7 @@ func (r *RefundInvoiceRequest) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// refundInvoiceRequest is a temporary struct used for validating the fields of RefundInvoiceRequest.
 type refundInvoiceRequest  struct {
     Refund *RefundInvoiceRequestRefund `json:"refund"`
 }

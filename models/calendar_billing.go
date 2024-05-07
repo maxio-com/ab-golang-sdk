@@ -53,7 +53,7 @@ func (c *CalendarBilling) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// calendarBilling is a temporary struct used for validating the fields of CalendarBilling.
 type calendarBilling  struct {
     SnapDay                    *CalendarBillingSnapDay `json:"snap_day,omitempty"`
     CalendarBillingFirstCharge *FirstChargeType        `json:"calendar_billing_first_charge,omitempty"`

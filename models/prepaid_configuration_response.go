@@ -50,7 +50,7 @@ func (p *PrepaidConfigurationResponse) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// prepaidConfigurationResponse is a temporary struct used for validating the fields of PrepaidConfigurationResponse.
 type prepaidConfigurationResponse  struct {
     PrepaidConfiguration *PrepaidConfiguration `json:"prepaid_configuration"`
 }

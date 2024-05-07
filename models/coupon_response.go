@@ -46,7 +46,7 @@ func (c *CouponResponse) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// couponResponse is a temporary struct used for validating the fields of CouponResponse.
 type couponResponse  struct {
     Coupon *Coupon `json:"coupon,omitempty"`
 }

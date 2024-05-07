@@ -53,7 +53,7 @@ func (p *PaymentCollectionMethodChanged) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// paymentCollectionMethodChanged is a temporary struct used for validating the fields of PaymentCollectionMethodChanged.
 type paymentCollectionMethodChanged  struct {
     PreviousValue *string `json:"previous_value"`
     CurrentValue  *string `json:"current_value"`

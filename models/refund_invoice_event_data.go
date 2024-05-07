@@ -100,7 +100,7 @@ func (r *RefundInvoiceEventData) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// refundInvoiceEventData is a temporary struct used for validating the fields of RefundInvoiceEventData.
 type refundInvoiceEventData  struct {
     ApplyCredit          *bool                      `json:"apply_credit"`
     ConsolidationLevel   *InvoiceConsolidationLevel `json:"consolidation_level,omitempty"`

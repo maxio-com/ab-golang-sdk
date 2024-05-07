@@ -59,7 +59,7 @@ func (p *PrepaidSubscriptionBalanceChanged) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// prepaidSubscriptionBalanceChanged is a temporary struct used for validating the fields of PrepaidSubscriptionBalanceChanged.
 type prepaidSubscriptionBalanceChanged  struct {
     Reason                          *string `json:"reason"`
     CurrentAccountBalanceInCents    *int64  `json:"current_account_balance_in_cents"`

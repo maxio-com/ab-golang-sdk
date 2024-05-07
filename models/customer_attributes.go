@@ -156,7 +156,7 @@ func (c *CustomerAttributes) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// customerAttributes is a temporary struct used for validating the fields of CustomerAttributes.
 type customerAttributes  struct {
     FirstName    *string           `json:"first_name,omitempty"`
     LastName     *string           `json:"last_name,omitempty"`

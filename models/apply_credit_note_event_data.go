@@ -106,7 +106,7 @@ func (a *ApplyCreditNoteEventData) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// applyCreditNoteEventData is a temporary struct used for validating the fields of ApplyCreditNoteEventData.
 type applyCreditNoteEventData  struct {
     Uid                 *string                 `json:"uid"`
     CreditNoteNumber    *string                 `json:"credit_note_number"`

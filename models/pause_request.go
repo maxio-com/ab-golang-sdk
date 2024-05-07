@@ -47,7 +47,7 @@ func (p *PauseRequest) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// pauseRequest is a temporary struct used for validating the fields of PauseRequest.
 type pauseRequest  struct {
     Hold *AutoResume `json:"hold,omitempty"`
 }

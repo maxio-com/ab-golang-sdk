@@ -95,7 +95,7 @@ func (s *SaleRepSubscription) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// saleRepSubscription is a temporary struct used for validating the fields of SaleRepSubscription.
 type saleRepSubscription  struct {
     Id              *int             `json:"id,omitempty"`
     SiteName        *string          `json:"site_name,omitempty"`

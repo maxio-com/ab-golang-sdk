@@ -50,7 +50,7 @@ func (s *SubscriptionPreviewResponse) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// subscriptionPreviewResponse is a temporary struct used for validating the fields of SubscriptionPreviewResponse.
 type subscriptionPreviewResponse  struct {
     SubscriptionPreview *SubscriptionPreview `json:"subscription_preview"`
 }

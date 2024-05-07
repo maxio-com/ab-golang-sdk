@@ -66,7 +66,7 @@ func (l *ListSaleRepItem) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// listSaleRepItem is a temporary struct used for validating the fields of ListSaleRepItem.
 type listSaleRepItem  struct {
     Id                 *int                      `json:"id,omitempty"`
     FullName           *string                   `json:"full_name,omitempty"`

@@ -51,7 +51,7 @@ func (e *EventBasedBillingSegmentError) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// eventBasedBillingSegmentError is a temporary struct used for validating the fields of EventBasedBillingSegmentError.
 type eventBasedBillingSegmentError  struct {
     Segments *map[string]interface{} `json:"segments"`
 }

@@ -63,7 +63,7 @@ func (c *CreateUsage) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// createUsage is a temporary struct used for validating the fields of CreateUsage.
 type createUsage  struct {
     Quantity        *float64         `json:"quantity,omitempty"`
     PricePointId    *string          `json:"price_point_id,omitempty"`

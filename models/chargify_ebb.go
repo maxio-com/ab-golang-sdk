@@ -93,7 +93,7 @@ func (c *ChargifyEBB) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// chargifyEBB is a temporary struct used for validating the fields of ChargifyEBB.
 type chargifyEBB  struct {
     Timestamp             *string `json:"timestamp,omitempty"`
     Id                    *string `json:"id,omitempty"`

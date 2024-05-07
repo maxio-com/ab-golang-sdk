@@ -46,7 +46,7 @@ func (s *SubscriptionGroupUpdateError) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// subscriptionGroupUpdateError is a temporary struct used for validating the fields of SubscriptionGroupUpdateError.
 type subscriptionGroupUpdateError  struct {
     Members []SubscriptionGroupMemberError `json:"members,omitempty"`
 }

@@ -50,7 +50,7 @@ func (g *GetOneTimeTokenRequest) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// getOneTimeTokenRequest is a temporary struct used for validating the fields of GetOneTimeTokenRequest.
 type getOneTimeTokenRequest  struct {
     PaymentProfile *GetOneTimeTokenPaymentProfile `json:"payment_profile"`
 }

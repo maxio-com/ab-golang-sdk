@@ -56,30 +56,30 @@ func (s *SubscriptionComponentsController) ReadSubscriptionComponent(
 // ListSubscriptionComponentsInput represents the input of the ListSubscriptionComponents endpoint.
 type ListSubscriptionComponentsInput struct {
     // The Chargify id of the subscription
-    SubscriptionId   int                                       
+    SubscriptionId   int                                        
     // The type of filter you'd like to apply to your search. Use in query `date_field=updated_at`.
-    DateField        *models.SubscriptionListDateField         
+    DateField        *models.SubscriptionListDateField          
     // Controls the order in which results are returned.
     // Use in query `direction=asc`.
-    Direction        *models.SortingDirection                  
+    Direction        *models.SortingDirection                   
     // Filter to use for List Subscription Components operation
-    Filter           *models.ListSubscriptionComponentsFilter  
+    Filter           *models.ListSubscriptionComponentsFilter   
     // The end date (format YYYY-MM-DD) with which to filter the date_field. Returns components with a timestamp up to and including 11:59:59PM in your site’s time zone on the date specified.
-    EndDate          *string                                   
+    EndDate          *string                                    
     // The end date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns components with a timestamp at or before exact time provided in query. You can specify timezone in query - otherwise your site''s time zone will be used. If provided, this parameter will be used instead of end_date.
-    EndDatetime      *string                                   
+    EndDatetime      *string                                    
     // Allows fetching components allocation only if price point id is present. Use in query `price_point_ids=not_null`.
-    PricePointIds    *models.IncludeNotNull                    
+    PricePointIds    *models.IncludeNotNull                     
     // Allows fetching components allocation with matching product family id based on provided ids. Use in query `product_family_ids=1,2,3`.
-    ProductFamilyIds []int                                     
+    ProductFamilyIds []int                                      
     // The attribute by which to sort. Use in query `sort=updated_at`.
-    Sort             *models.ListSubscriptionComponentsSort    
+    Sort             *models.ListSubscriptionComponentsSort     
     // The start date (format YYYY-MM-DD) with which to filter the date_field. Returns components with a timestamp at or after midnight (12:00:00 AM) in your site’s time zone on the date specified.
-    StartDate        *string                                   
+    StartDate        *string                                    
     // The start date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns components with a timestamp at or after exact time provided in query. You can specify timezone in query - otherwise your site''s time zone will be used. If provided, this parameter will be used instead of start_date.
-    StartDatetime    *string                                   
-    // Allows including additional data in the response. Use in query `include=subscription`.
-    Include          *models.ListSubscriptionComponentsInclude 
+    StartDatetime    *string                                    
+    // Allows including additional data in the response. Use in query `include=subscription,historic_usages`.
+    Include          []models.ListSubscriptionComponentsInclude 
 }
 
 // ListSubscriptionComponents takes context, subscriptionId, dateField, direction, filter, endDate, endDatetime, pricePointIds, productFamilyIds, sort, startDate, startDatetime, include as parameters and
@@ -130,7 +130,7 @@ func (s *SubscriptionComponentsController) ListSubscriptionComponents(
         req.QueryParam("start_datetime", *input.StartDatetime)
     }
     if input.Include != nil {
-        req.QueryParam("include", *input.Include)
+        req.QueryParam("include", input.Include)
     }
     
     var result []models.SubscriptionComponentResponse
@@ -780,7 +780,7 @@ type ListSubscriptionComponentsForSiteInput struct {
     PricePointIds    *models.IncludeNotNull                          
     // Allows fetching components allocation with matching product family id based on provided ids. Use in query `product_family_ids=1,2,3`.
     ProductFamilyIds []int                                           
-    // Allows including additional data in the response. Use in query `include=subscription`.
+    // Allows including additional data in the response. Use in query `include=subscription,historic_usages`.
     Include          *models.ListSubscriptionComponentsInclude       
 }
 

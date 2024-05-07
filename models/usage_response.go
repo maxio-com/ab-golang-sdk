@@ -50,7 +50,7 @@ func (u *UsageResponse) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// usageResponse is a temporary struct used for validating the fields of UsageResponse.
 type usageResponse  struct {
     Usage *Usage `json:"usage"`
 }

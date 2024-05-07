@@ -51,7 +51,7 @@ func (l *ListSubscriptionGroupsMeta) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// listSubscriptionGroupsMeta is a temporary struct used for validating the fields of ListSubscriptionGroupsMeta.
 type listSubscriptionGroupsMeta  struct {
     CurrentPage *int `json:"current_page,omitempty"`
     TotalCount  *int `json:"total_count,omitempty"`

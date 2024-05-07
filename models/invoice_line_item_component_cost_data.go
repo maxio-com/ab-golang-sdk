@@ -46,7 +46,7 @@ func (i *InvoiceLineItemComponentCostData) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// invoiceLineItemComponentCostData is a temporary struct used for validating the fields of InvoiceLineItemComponentCostData.
 type invoiceLineItemComponentCostData  struct {
     Rates []ComponentCostData `json:"rates,omitempty"`
 }

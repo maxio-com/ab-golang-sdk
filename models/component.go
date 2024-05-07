@@ -41,7 +41,7 @@ type Component struct {
     // Count for the number of price points associated with the component
     PricePointCount           *int                       `json:"price_point_count,omitempty"`
     // URL that points to the location to read the existing price points via GET request
-    PricePointsUrl            *string                    `json:"price_points_url,omitempty"`
+    PricePointsUrl            Optional[string]           `json:"price_points_url"`
     DefaultPricePointName     *string                    `json:"default_price_point_name,omitempty"`
     // A string representing the tax code related to the component type. This is especially important when using the Avalara service to tax based on locale. This attribute has a max length of 10 characters.
     TaxCode                   Optional[string]           `json:"tax_code"`
@@ -170,8 +170,12 @@ func (c Component) toMap() map[string]any {
     if c.PricePointCount != nil {
         structMap["price_point_count"] = c.PricePointCount
     }
-    if c.PricePointsUrl != nil {
-        structMap["price_points_url"] = c.PricePointsUrl
+    if c.PricePointsUrl.IsValueSet() {
+        if c.PricePointsUrl.Value() != nil {
+            structMap["price_points_url"] = c.PricePointsUrl.Value()
+        } else {
+            structMap["price_points_url"] = nil
+        }
     }
     if c.DefaultPricePointName != nil {
         structMap["default_price_point_name"] = c.DefaultPricePointName
@@ -327,7 +331,7 @@ func (c *Component) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// component is a temporary struct used for validating the fields of Component.
 type component  struct {
     Id                        *int                       `json:"id,omitempty"`
     Name                      *string                    `json:"name,omitempty"`
@@ -346,7 +350,7 @@ type component  struct {
     OveragePrices             Optional[[]ComponentPrice] `json:"overage_prices"`
     Prices                    Optional[[]ComponentPrice] `json:"prices"`
     PricePointCount           *int                       `json:"price_point_count,omitempty"`
-    PricePointsUrl            *string                    `json:"price_points_url,omitempty"`
+    PricePointsUrl            Optional[string]           `json:"price_points_url"`
     DefaultPricePointName     *string                    `json:"default_price_point_name,omitempty"`
     TaxCode                   Optional[string]           `json:"tax_code"`
     Recurring                 *bool                      `json:"recurring,omitempty"`

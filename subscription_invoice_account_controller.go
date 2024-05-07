@@ -153,6 +153,9 @@ func (s *SubscriptionInvoiceAccountController) IssueServiceCredit(
       fmt.Sprintf("/subscriptions/%v/service_credits.json", subscriptionId),
     )
     req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'."},
+    })
     req.Header("Content-Type", "application/json")
     if body != nil {
         req.Json(body)
@@ -185,7 +188,7 @@ func (s *SubscriptionInvoiceAccountController) DeductServiceCredit(
     )
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
-        "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
+        "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'."},
     })
     req.Header("Content-Type", "application/json")
     if body != nil {
@@ -207,7 +210,7 @@ func (s *SubscriptionInvoiceAccountController) DeductServiceCredit(
 func (s *SubscriptionInvoiceAccountController) RefundPrepayment(
     ctx context.Context,
     subscriptionId int,
-    prepaymentId string,
+    prepaymentId int64,
     body *models.RefundPrepaymentRequest) (
     models.ApiResponse[models.PrepaymentResponse],
     error) {
@@ -220,7 +223,7 @@ func (s *SubscriptionInvoiceAccountController) RefundPrepayment(
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
         "400": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewRefundPrepaymentBaseErrorsResponse},
-        "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewRefundPrepaymentAggregatedErrorsResponse},
+        "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'."},
     })
     req.Header("Content-Type", "application/json")
     if body != nil {

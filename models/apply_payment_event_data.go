@@ -108,7 +108,7 @@ func (a *ApplyPaymentEventData) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// applyPaymentEventData is a temporary struct used for validating the fields of ApplyPaymentEventData.
 type applyPaymentEventData  struct {
     Memo                      *string               `json:"memo"`
     OriginalAmount            *string               `json:"original_amount"`

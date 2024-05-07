@@ -51,7 +51,7 @@ func (a *ActivateSubscriptionRequest) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// activateSubscriptionRequest is a temporary struct used for validating the fields of ActivateSubscriptionRequest.
 type activateSubscriptionRequest  struct {
     RevertOnFailure Optional[bool] `json:"revert_on_failure"`
 }

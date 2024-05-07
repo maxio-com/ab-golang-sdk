@@ -15,7 +15,7 @@
 | `Name` | `*string` | Optional | - |
 | `PricingScheme` | [`*models.PricingScheme`](../../doc/models/pricing-scheme.md) | Optional | The identifier for the pricing scheme. See [Product Components](https://help.chargify.com/products/product-components.html) for an overview of pricing schemes. |
 | `ComponentId` | `*int` | Optional | - |
-| `Handle` | `*string` | Optional | - |
+| `Handle` | `models.Optional[string]` | Optional | - |
 | `ArchivedAt` | `models.Optional[time.Time]` | Optional | - |
 | `CreatedAt` | `*time.Time` | Optional | - |
 | `UpdatedAt` | `*time.Time` | Optional | - |

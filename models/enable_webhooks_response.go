@@ -46,7 +46,7 @@ func (e *EnableWebhooksResponse) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// enableWebhooksResponse is a temporary struct used for validating the fields of EnableWebhooksResponse.
 type enableWebhooksResponse  struct {
     WebhooksEnabled *bool `json:"webhooks_enabled,omitempty"`
 }

@@ -9,7 +9,7 @@ import (
 // RefundPrepayment represents a RefundPrepayment struct.
 type RefundPrepayment struct {
     // `amount` is not required if you pass `amount_in_cents`.
-    AmountInCents        int64                  `json:"amount_in_cents"`
+    AmountInCents        *int64                 `json:"amount_in_cents"`
     // `amount_in_cents` is not required if you pass `amount`.
     Amount               RefundPrepaymentAmount `json:"amount"`
     Memo                 string                 `json:"memo"`
@@ -30,7 +30,11 @@ func (r RefundPrepayment) MarshalJSON() (
 func (r RefundPrepayment) toMap() map[string]any {
     structMap := make(map[string]any)
     MapAdditionalProperties(structMap, r.AdditionalProperties)
-    structMap["amount_in_cents"] = r.AmountInCents
+    if r.AmountInCents != nil {
+        structMap["amount_in_cents"] = r.AmountInCents
+    } else {
+        structMap["amount_in_cents"] = nil
+    }
     structMap["amount"] = r.Amount.toMap()
     structMap["memo"] = r.Memo
     if r.External != nil {
@@ -57,14 +61,14 @@ func (r *RefundPrepayment) UnmarshalJSON(input []byte) error {
     }
     
     r.AdditionalProperties = additionalProperties
-    r.AmountInCents = *temp.AmountInCents
+    r.AmountInCents = temp.AmountInCents
     r.Amount = *temp.Amount
     r.Memo = *temp.Memo
     r.External = temp.External
     return nil
 }
 
-// TODO
+// refundPrepayment is a temporary struct used for validating the fields of RefundPrepayment.
 type refundPrepayment  struct {
     AmountInCents *int64                  `json:"amount_in_cents"`
     Amount        *RefundPrepaymentAmount `json:"amount"`
@@ -74,9 +78,6 @@ type refundPrepayment  struct {
 
 func (r *refundPrepayment) validate() error {
     var errs []string
-    if r.AmountInCents == nil {
-        errs = append(errs, "required field `amount_in_cents` is missing for type `Refund Prepayment`")
-    }
     if r.Amount == nil {
         errs = append(errs, "required field `amount` is missing for type `Refund Prepayment`")
     }

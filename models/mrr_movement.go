@@ -61,7 +61,7 @@ func (m *MRRMovement) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// mrrMovement is a temporary struct used for validating the fields of MRRMovement.
 type mrrMovement  struct {
     Amount          *int    `json:"amount,omitempty"`
     Category        *string `json:"category,omitempty"`

@@ -56,7 +56,7 @@ func (i *InvoiceDiscountBreakout) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// invoiceDiscountBreakout is a temporary struct used for validating the fields of InvoiceDiscountBreakout.
 type invoiceDiscountBreakout  struct {
     Uid            *string `json:"uid,omitempty"`
     EligibleAmount *string `json:"eligible_amount,omitempty"`

@@ -65,7 +65,7 @@ func (i *ItemPricePointChanged) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// itemPricePointChanged is a temporary struct used for validating the fields of ItemPricePointChanged.
 type itemPricePointChanged  struct {
     ItemId             *int                `json:"item_id"`
     ItemType           *string             `json:"item_type"`

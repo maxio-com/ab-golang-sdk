@@ -70,7 +70,7 @@ func (c *ComponentCostDataRateTier) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// componentCostDataRateTier is a temporary struct used for validating the fields of ComponentCostDataRateTier.
 type componentCostDataRateTier  struct {
     StartingQuantity *int          `json:"starting_quantity,omitempty"`
     EndingQuantity   Optional[int] `json:"ending_quantity"`

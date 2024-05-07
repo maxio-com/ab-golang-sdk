@@ -55,7 +55,7 @@ func (r *RecordPaymentResponse) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// recordPaymentResponse is a temporary struct used for validating the fields of RecordPaymentResponse.
 type recordPaymentResponse  struct {
     PaidInvoices []PaidInvoice               `json:"paid_invoices,omitempty"`
     Prepayment   Optional[InvoicePrePayment] `json:"prepayment"`

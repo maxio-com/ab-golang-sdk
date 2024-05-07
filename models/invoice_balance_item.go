@@ -56,7 +56,7 @@ func (i *InvoiceBalanceItem) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// invoiceBalanceItem is a temporary struct used for validating the fields of InvoiceBalanceItem.
 type invoiceBalanceItem  struct {
     Uid               *string `json:"uid,omitempty"`
     Number            *string `json:"number,omitempty"`

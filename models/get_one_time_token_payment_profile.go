@@ -138,7 +138,7 @@ func (g *GetOneTimeTokenPaymentProfile) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// getOneTimeTokenPaymentProfile is a temporary struct used for validating the fields of GetOneTimeTokenPaymentProfile.
 type getOneTimeTokenPaymentProfile  struct {
     Id                   Optional[string] `json:"id"`
     FirstName            *string          `json:"first_name"`

@@ -50,7 +50,7 @@ func (c *CreateSubscriptionGroupRequest) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// createSubscriptionGroupRequest is a temporary struct used for validating the fields of CreateSubscriptionGroupRequest.
 type createSubscriptionGroupRequest  struct {
     SubscriptionGroup *CreateSubscriptionGroup `json:"subscription_group"`
 }

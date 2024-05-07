@@ -46,7 +46,7 @@ func (b *BulkUpdateSegments) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// bulkUpdateSegments is a temporary struct used for validating the fields of BulkUpdateSegments.
 type bulkUpdateSegments  struct {
     Segments []BulkUpdateSegmentsItem `json:"segments,omitempty"`
 }

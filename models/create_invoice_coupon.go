@@ -71,7 +71,7 @@ func (c *CreateInvoiceCoupon) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// createInvoiceCoupon is a temporary struct used for validating the fields of CreateInvoiceCoupon.
 type createInvoiceCoupon  struct {
     Code                *string                             `json:"code,omitempty"`
     Percentage          *CreateInvoiceCouponPercentage      `json:"percentage,omitempty"`

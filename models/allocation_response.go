@@ -46,7 +46,7 @@ func (a *AllocationResponse) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// allocationResponse is a temporary struct used for validating the fields of AllocationResponse.
 type allocationResponse  struct {
     Allocation *Allocation `json:"allocation,omitempty"`
 }

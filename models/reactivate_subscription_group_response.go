@@ -94,7 +94,7 @@ func (r *ReactivateSubscriptionGroupResponse) UnmarshalJSON(input []byte) error 
     return nil
 }
 
-// TODO
+// reactivateSubscriptionGroupResponse is a temporary struct used for validating the fields of ReactivateSubscriptionGroupResponse.
 type reactivateSubscriptionGroupResponse  struct {
     Uid                   *string `json:"uid,omitempty"`
     Scheme                *int    `json:"scheme,omitempty"`

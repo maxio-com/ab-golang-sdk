@@ -61,7 +61,7 @@ func (i *InvoicePayerChange) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// invoicePayerChange is a temporary struct used for validating the fields of InvoicePayerChange.
 type invoicePayerChange  struct {
     FirstName    *string `json:"first_name,omitempty"`
     LastName     *string `json:"last_name,omitempty"`

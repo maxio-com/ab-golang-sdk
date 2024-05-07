@@ -50,7 +50,7 @@ func (v *VoidInvoiceRequest) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// voidInvoiceRequest is a temporary struct used for validating the fields of VoidInvoiceRequest.
 type voidInvoiceRequest  struct {
     Void *VoidInvoice `json:"void"`
 }

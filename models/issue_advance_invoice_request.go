@@ -46,7 +46,7 @@ func (i *IssueAdvanceInvoiceRequest) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// issueAdvanceInvoiceRequest is a temporary struct used for validating the fields of IssueAdvanceInvoiceRequest.
 type issueAdvanceInvoiceRequest  struct {
     Force *bool `json:"force,omitempty"`
 }

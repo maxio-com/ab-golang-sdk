@@ -50,7 +50,7 @@ func (u *UpdateSegmentRequest) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// updateSegmentRequest is a temporary struct used for validating the fields of UpdateSegmentRequest.
 type updateSegmentRequest  struct {
     Segment *UpdateSegment `json:"segment"`
 }

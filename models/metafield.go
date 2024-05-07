@@ -78,7 +78,7 @@ func (m *Metafield) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// metafield is a temporary struct used for validating the fields of Metafield.
 type metafield  struct {
     Id        *int                    `json:"id,omitempty"`
     Name      *string                 `json:"name,omitempty"`

@@ -50,7 +50,7 @@ func (u *UpsertPrepaidConfigurationRequest) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// upsertPrepaidConfigurationRequest is a temporary struct used for validating the fields of UpsertPrepaidConfigurationRequest.
 type upsertPrepaidConfigurationRequest  struct {
     PrepaidConfiguration *UpsertPrepaidConfiguration `json:"prepaid_configuration"`
 }

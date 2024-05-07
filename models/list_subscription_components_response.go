@@ -50,7 +50,7 @@ func (l *ListSubscriptionComponentsResponse) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// listSubscriptionComponentsResponse is a temporary struct used for validating the fields of ListSubscriptionComponentsResponse.
 type listSubscriptionComponentsResponse  struct {
     SubscriptionsComponents *[]SubscriptionComponent `json:"subscriptions_components"`
 }

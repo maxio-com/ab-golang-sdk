@@ -96,7 +96,7 @@ func (s *SiteStatistics) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// siteStatistics is a temporary struct used for validating the fields of SiteStatistics.
 type siteStatistics  struct {
     TotalSubscriptions         *int    `json:"total_subscriptions,omitempty"`
     SubscriptionsToday         *int    `json:"subscriptions_today,omitempty"`

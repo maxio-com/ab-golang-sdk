@@ -70,7 +70,7 @@ func (p *PaymentMethodCreditCard) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// paymentMethodCreditCard is a temporary struct used for validating the fields of PaymentMethodCreditCard.
 type paymentMethodCreditCard  struct {
     CardBrand        *string                    `json:"card_brand"`
     CardExpiration   *string                    `json:"card_expiration,omitempty"`

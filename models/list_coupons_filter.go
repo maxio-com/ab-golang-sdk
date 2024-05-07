@@ -115,7 +115,7 @@ func (l *ListCouponsFilter) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// listCouponsFilter is a temporary struct used for validating the fields of ListCouponsFilter.
 type listCouponsFilter  struct {
     DateField           *BasicDateField `json:"date_field,omitempty"`
     StartDate           *string         `json:"start_date,omitempty"`

@@ -129,7 +129,7 @@ func (f *FullSubscriptionGroupResponse) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// fullSubscriptionGroupResponse is a temporary struct used for validating the fields of FullSubscriptionGroupResponse.
 type fullSubscriptionGroupResponse  struct {
     Uid                         *string                    `json:"uid,omitempty"`
     Scheme                      *int                       `json:"scheme,omitempty"`

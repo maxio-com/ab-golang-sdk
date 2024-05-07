@@ -56,7 +56,7 @@ func (c *CreditCardAttributes) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// creditCardAttributes is a temporary struct used for validating the fields of CreditCardAttributes.
 type creditCardAttributes  struct {
     FullNumber      *string `json:"full_number,omitempty"`
     ExpirationMonth *string `json:"expiration_month,omitempty"`

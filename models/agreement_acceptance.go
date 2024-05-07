@@ -74,7 +74,7 @@ func (a *AgreementAcceptance) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// agreementAcceptance is a temporary struct used for validating the fields of AgreementAcceptance.
 type agreementAcceptance  struct {
     IpAddress               *string `json:"ip_address,omitempty"`
     TermsUrl                *string `json:"terms_url,omitempty"`

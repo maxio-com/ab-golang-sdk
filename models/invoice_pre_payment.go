@@ -59,7 +59,7 @@ func (i *InvoicePrePayment) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// invoicePrePayment is a temporary struct used for validating the fields of InvoicePrePayment.
 type invoicePrePayment  struct {
     SubscriptionId       *int   `json:"subscription_id,omitempty"`
     AmountInCents        *int64 `json:"amount_in_cents,omitempty"`

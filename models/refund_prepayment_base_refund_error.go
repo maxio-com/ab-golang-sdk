@@ -46,7 +46,7 @@ func (r *RefundPrepaymentBaseRefundError) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// refundPrepaymentBaseRefundError is a temporary struct used for validating the fields of RefundPrepaymentBaseRefundError.
 type refundPrepaymentBaseRefundError  struct {
     Refund *BaseRefundError `json:"refund,omitempty"`
 }

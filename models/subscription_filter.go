@@ -104,7 +104,7 @@ func (s *SubscriptionFilter) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// subscriptionFilter is a temporary struct used for validating the fields of SubscriptionFilter.
 type subscriptionFilter  struct {
     States        []SubscriptionStateFilter  `json:"states,omitempty"`
     DateField     *SubscriptionListDateField `json:"date_field,omitempty"`

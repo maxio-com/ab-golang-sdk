@@ -217,7 +217,7 @@ func (c *CreditNote) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// creditNote is a temporary struct used for validating the fields of CreditNote.
 type creditNote  struct {
     Uid             *string                 `json:"uid,omitempty"`
     SiteId          *int                    `json:"site_id,omitempty"`

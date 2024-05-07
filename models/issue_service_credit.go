@@ -9,7 +9,7 @@ import (
 // IssueServiceCredit represents a IssueServiceCredit struct.
 type IssueServiceCredit struct {
     Amount               IssueServiceCreditAmount `json:"amount"`
-    Memo                 string                   `json:"memo"`
+    Memo                 *string                  `json:"memo,omitempty"`
     AdditionalProperties map[string]any           `json:"_"`
 }
 
@@ -26,7 +26,9 @@ func (i IssueServiceCredit) toMap() map[string]any {
     structMap := make(map[string]any)
     MapAdditionalProperties(structMap, i.AdditionalProperties)
     structMap["amount"] = i.Amount.toMap()
-    structMap["memo"] = i.Memo
+    if i.Memo != nil {
+        structMap["memo"] = i.Memo
+    }
     return structMap
 }
 
@@ -49,23 +51,20 @@ func (i *IssueServiceCredit) UnmarshalJSON(input []byte) error {
     
     i.AdditionalProperties = additionalProperties
     i.Amount = *temp.Amount
-    i.Memo = *temp.Memo
+    i.Memo = temp.Memo
     return nil
 }
 
-// TODO
+// issueServiceCredit is a temporary struct used for validating the fields of IssueServiceCredit.
 type issueServiceCredit  struct {
     Amount *IssueServiceCreditAmount `json:"amount"`
-    Memo   *string                   `json:"memo"`
+    Memo   *string                   `json:"memo,omitempty"`
 }
 
 func (i *issueServiceCredit) validate() error {
     var errs []string
     if i.Amount == nil {
         errs = append(errs, "required field `amount` is missing for type `Issue Service Credit`")
-    }
-    if i.Memo == nil {
-        errs = append(errs, "required field `memo` is missing for type `Issue Service Credit`")
     }
     if len(errs) == 0 {
         return nil

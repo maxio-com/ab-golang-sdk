@@ -85,7 +85,7 @@ func (s *SegmentPrice) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// segmentPrice is a temporary struct used for validating the fields of SegmentPrice.
 type segmentPrice  struct {
     Id                 *int          `json:"id,omitempty"`
     ComponentId        *int          `json:"component_id,omitempty"`

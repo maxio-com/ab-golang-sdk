@@ -46,7 +46,7 @@ func (w *WebhookResponse) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// webhookResponse is a temporary struct used for validating the fields of WebhookResponse.
 type webhookResponse  struct {
     Webhook *Webhook `json:"webhook,omitempty"`
 }

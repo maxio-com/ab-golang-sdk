@@ -65,7 +65,7 @@ func (l *ListSegmentsFilter) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// listSegmentsFilter is a temporary struct used for validating the fields of ListSegmentsFilter.
 type listSegmentsFilter  struct {
     SegmentProperty1Value *string `json:"segment_property_1_value,omitempty"`
     SegmentProperty2Value *string `json:"segment_property_2_value,omitempty"`

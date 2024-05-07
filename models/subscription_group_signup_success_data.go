@@ -80,7 +80,7 @@ func (s *SubscriptionGroupSignupSuccessData) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// subscriptionGroupSignupSuccessData is a temporary struct used for validating the fields of SubscriptionGroupSignupSuccessData.
 type subscriptionGroupSignupSuccessData  struct {
     Uid                   *string `json:"uid"`
     Scheme                *int    `json:"scheme"`

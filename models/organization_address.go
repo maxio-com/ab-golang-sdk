@@ -113,7 +113,7 @@ func (o *OrganizationAddress) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// organizationAddress is a temporary struct used for validating the fields of OrganizationAddress.
 type organizationAddress  struct {
     Street  Optional[string] `json:"street"`
     Line2   Optional[string] `json:"line2"`

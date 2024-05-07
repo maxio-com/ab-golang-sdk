@@ -73,7 +73,7 @@ func (l *ListPrepaymentsFilter) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// listPrepaymentsFilter is a temporary struct used for validating the fields of ListPrepaymentsFilter.
 type listPrepaymentsFilter  struct {
     DateField *ListPrepaymentDateField `json:"date_field,omitempty"`
     StartDate *string                  `json:"start_date,omitempty"`

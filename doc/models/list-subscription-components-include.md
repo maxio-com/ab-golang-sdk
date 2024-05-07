@@ -10,6 +10,7 @@
 | Name |
 |  --- |
 | `SUBSCRIPTION` |
+| `HISTORICUSAGES` |
 
 ## Example
 

@@ -47,7 +47,7 @@ func (b *BaseStringError) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// baseStringError is a temporary struct used for validating the fields of BaseStringError.
 type baseStringError  struct {
     Base []string `json:"base,omitempty"`
 }

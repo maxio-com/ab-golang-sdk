@@ -50,7 +50,7 @@ func (o *OverrideSubscriptionRequest) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// overrideSubscriptionRequest is a temporary struct used for validating the fields of OverrideSubscriptionRequest.
 type overrideSubscriptionRequest  struct {
     Subscription *OverrideSubscription `json:"subscription"`
 }

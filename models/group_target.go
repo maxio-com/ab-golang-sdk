@@ -58,7 +58,7 @@ func (g *GroupTarget) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// groupTarget is a temporary struct used for validating the fields of GroupTarget.
 type groupTarget  struct {
     Type *GroupTargetType `json:"type"`
     Id   *int             `json:"id,omitempty"`

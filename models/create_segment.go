@@ -80,7 +80,7 @@ func (c *CreateSegment) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// createSegment is a temporary struct used for validating the fields of CreateSegment.
 type createSegment  struct {
     SegmentProperty1Value *CreateSegmentSegmentProperty1Value `json:"segment_property_1_value,omitempty"`
     SegmentProperty2Value *CreateSegmentSegmentProperty2Value `json:"segment_property_2_value,omitempty"`

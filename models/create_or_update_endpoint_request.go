@@ -52,7 +52,7 @@ func (c *CreateOrUpdateEndpointRequest) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// createOrUpdateEndpointRequest is a temporary struct used for validating the fields of CreateOrUpdateEndpointRequest.
 type createOrUpdateEndpointRequest  struct {
     Endpoint *CreateOrUpdateEndpoint `json:"endpoint"`
 }

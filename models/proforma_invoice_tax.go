@@ -76,7 +76,7 @@ func (p *ProformaInvoiceTax) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// proformaInvoiceTax is a temporary struct used for validating the fields of ProformaInvoiceTax.
 type proformaInvoiceTax  struct {
     Uid               *string                       `json:"uid,omitempty"`
     Title             *string                       `json:"title,omitempty"`

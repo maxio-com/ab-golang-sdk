@@ -50,7 +50,7 @@ func (r *ReasonCodeResponse) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// reasonCodeResponse is a temporary struct used for validating the fields of ReasonCodeResponse.
 type reasonCodeResponse  struct {
     ReasonCode *ReasonCode `json:"reason_code"`
 }

@@ -50,7 +50,7 @@ func (c *CreditSchemeRequest) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// creditSchemeRequest is a temporary struct used for validating the fields of CreditSchemeRequest.
 type creditSchemeRequest  struct {
     CreditScheme *CreditScheme `json:"credit_scheme"`
 }

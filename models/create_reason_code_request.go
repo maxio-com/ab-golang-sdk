@@ -50,7 +50,7 @@ func (c *CreateReasonCodeRequest) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// createReasonCodeRequest is a temporary struct used for validating the fields of CreateReasonCodeRequest.
 type createReasonCodeRequest  struct {
     ReasonCode *CreateReasonCode `json:"reason_code"`
 }

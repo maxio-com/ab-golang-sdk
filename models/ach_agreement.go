@@ -66,7 +66,7 @@ func (a *ACHAgreement) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// achAgreement is a temporary struct used for validating the fields of ACHAgreement.
 type achAgreement  struct {
     AgreementTerms      *string `json:"agreement_terms,omitempty"`
     AuthorizerFirstName *string `json:"authorizer_first_name,omitempty"`

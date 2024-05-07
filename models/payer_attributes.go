@@ -132,7 +132,7 @@ func (p *PayerAttributes) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// payerAttributes is a temporary struct used for validating the fields of PayerAttributes.
 type payerAttributes  struct {
     FirstName       *string           `json:"first_name,omitempty"`
     LastName        *string           `json:"last_name,omitempty"`

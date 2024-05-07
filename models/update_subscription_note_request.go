@@ -52,7 +52,7 @@ func (u *UpdateSubscriptionNoteRequest) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// updateSubscriptionNoteRequest is a temporary struct used for validating the fields of UpdateSubscriptionNoteRequest.
 type updateSubscriptionNoteRequest  struct {
     Note *UpdateSubscriptionNote `json:"note"`
 }

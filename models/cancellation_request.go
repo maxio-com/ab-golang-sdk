@@ -50,7 +50,7 @@ func (c *CancellationRequest) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// cancellationRequest is a temporary struct used for validating the fields of CancellationRequest.
 type cancellationRequest  struct {
     Subscription *CancellationOptions `json:"subscription"`
 }

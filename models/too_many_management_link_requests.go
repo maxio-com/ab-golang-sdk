@@ -59,7 +59,7 @@ func (t *TooManyManagementLinkRequests) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// tooManyManagementLinkRequests is a temporary struct used for validating the fields of TooManyManagementLinkRequests.
 type tooManyManagementLinkRequests  struct {
     Error              *string `json:"error"`
     NewLinkAvailableAt *string `json:"new_link_available_at"`

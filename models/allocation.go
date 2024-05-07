@@ -226,7 +226,7 @@ func (a *Allocation) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// allocation is a temporary struct used for validating the fields of Allocation.
 type allocation  struct {
     AllocationId             *int                           `json:"allocation_id,omitempty"`
     ComponentId              *int                           `json:"component_id,omitempty"`

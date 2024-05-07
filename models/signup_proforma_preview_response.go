@@ -50,7 +50,7 @@ func (s *SignupProformaPreviewResponse) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// signupProformaPreviewResponse is a temporary struct used for validating the fields of SignupProformaPreviewResponse.
 type signupProformaPreviewResponse  struct {
     ProformaInvoicePreview *SignupProformaPreview `json:"proforma_invoice_preview"`
 }

@@ -157,7 +157,7 @@ func (a *AllocationPreviewItem) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// allocationPreviewItem is a temporary struct used for validating the fields of AllocationPreviewItem.
 type allocationPreviewItem  struct {
     ComponentId              *int                                   `json:"component_id,omitempty"`
     SubscriptionId           *int                                   `json:"subscription_id,omitempty"`

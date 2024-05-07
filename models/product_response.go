@@ -50,7 +50,7 @@ func (p *ProductResponse) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// productResponse is a temporary struct used for validating the fields of ProductResponse.
 type productResponse  struct {
     Product *Product `json:"product"`
 }

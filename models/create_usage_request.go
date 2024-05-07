@@ -50,7 +50,7 @@ func (c *CreateUsageRequest) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// createUsageRequest is a temporary struct used for validating the fields of CreateUsageRequest.
 type createUsageRequest  struct {
     Usage *CreateUsage `json:"usage"`
 }

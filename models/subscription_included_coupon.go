@@ -88,7 +88,7 @@ func (s *SubscriptionIncludedCoupon) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// subscriptionIncludedCoupon is a temporary struct used for validating the fields of SubscriptionIncludedCoupon.
 type subscriptionIncludedCoupon  struct {
     Code          *string          `json:"code,omitempty"`
     UseCount      *int             `json:"use_count,omitempty"`

@@ -97,7 +97,7 @@ func (o *OverrideSubscription) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// overrideSubscription is a temporary struct used for validating the fields of OverrideSubscription.
 type overrideSubscription  struct {
     ActivatedAt           *string `json:"activated_at,omitempty"`
     CanceledAt            *string `json:"canceled_at,omitempty"`

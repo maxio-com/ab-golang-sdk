@@ -51,7 +51,7 @@ func (s *SubscriptionComponentAllocationErrorItem) UnmarshalJSON(input []byte) e
     return nil
 }
 
-// TODO
+// subscriptionComponentAllocationErrorItem is a temporary struct used for validating the fields of SubscriptionComponentAllocationErrorItem.
 type subscriptionComponentAllocationErrorItem  struct {
     Kind    *string `json:"kind,omitempty"`
     Message *string `json:"message,omitempty"`

@@ -56,7 +56,7 @@ func (s *SaleRepItemMrr) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// saleRepItemMrr is a temporary struct used for validating the fields of SaleRepItemMrr.
 type saleRepItemMrr  struct {
     Mrr       *string `json:"mrr,omitempty"`
     Usage     *string `json:"usage,omitempty"`

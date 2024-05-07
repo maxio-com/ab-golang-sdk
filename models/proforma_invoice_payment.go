@@ -61,7 +61,7 @@ func (p *ProformaInvoicePayment) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// proformaInvoicePayment is a temporary struct used for validating the fields of ProformaInvoicePayment.
 type proformaInvoicePayment  struct {
     Memo           *string `json:"memo,omitempty"`
     OriginalAmount *string `json:"original_amount,omitempty"`

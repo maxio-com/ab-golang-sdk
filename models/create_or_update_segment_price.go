@@ -61,7 +61,7 @@ func (c *CreateOrUpdateSegmentPrice) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// createOrUpdateSegmentPrice is a temporary struct used for validating the fields of CreateOrUpdateSegmentPrice.
 type createOrUpdateSegmentPrice  struct {
     StartingQuantity *int                                 `json:"starting_quantity,omitempty"`
     EndingQuantity   *int                                 `json:"ending_quantity,omitempty"`

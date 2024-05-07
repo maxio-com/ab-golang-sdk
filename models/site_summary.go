@@ -66,7 +66,7 @@ func (s *SiteSummary) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// siteSummary is a temporary struct used for validating the fields of SiteSummary.
 type siteSummary  struct {
     SellerName   *string         `json:"seller_name,omitempty"`
     SiteName     *string         `json:"site_name,omitempty"`

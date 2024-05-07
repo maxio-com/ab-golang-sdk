@@ -67,7 +67,7 @@ func (a *AccountBalance) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// accountBalance is a temporary struct used for validating the fields of AccountBalance.
 type accountBalance  struct {
     BalanceInCents           *int64          `json:"balance_in_cents,omitempty"`
     AutomaticBalanceInCents  Optional[int64] `json:"automatic_balance_in_cents"`

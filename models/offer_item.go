@@ -93,7 +93,7 @@ func (o *OfferItem) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// offerItem is a temporary struct used for validating the fields of OfferItem.
 type offerItem  struct {
     ComponentId        *int            `json:"component_id,omitempty"`
     PricePointId       *int            `json:"price_point_id,omitempty"`

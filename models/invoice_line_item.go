@@ -219,7 +219,7 @@ func (i *InvoiceLineItem) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// invoiceLineItem is a temporary struct used for validating the fields of InvoiceLineItem.
 type invoiceLineItem  struct {
     Uid                 *string                                    `json:"uid,omitempty"`
     Title               *string                                    `json:"title,omitempty"`

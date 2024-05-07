@@ -51,7 +51,7 @@ func (s *SubscriptionPreview) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// subscriptionPreview is a temporary struct used for validating the fields of SubscriptionPreview.
 type subscriptionPreview  struct {
     CurrentBillingManifest *BillingManifest `json:"current_billing_manifest,omitempty"`
     NextBillingManifest    *BillingManifest `json:"next_billing_manifest,omitempty"`

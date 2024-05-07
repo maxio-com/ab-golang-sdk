@@ -61,7 +61,7 @@ func (l *ListInvoiceEventsResponse) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// listInvoiceEventsResponse is a temporary struct used for validating the fields of ListInvoiceEventsResponse.
 type listInvoiceEventsResponse  struct {
     Events     []InvoiceEvent `json:"events,omitempty"`
     Page       *int           `json:"page,omitempty"`

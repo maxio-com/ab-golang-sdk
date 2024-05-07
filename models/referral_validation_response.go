@@ -46,7 +46,7 @@ func (r *ReferralValidationResponse) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// referralValidationResponse is a temporary struct used for validating the fields of ReferralValidationResponse.
 type referralValidationResponse  struct {
     ReferralCode *ReferralCode `json:"referral_code,omitempty"`
 }

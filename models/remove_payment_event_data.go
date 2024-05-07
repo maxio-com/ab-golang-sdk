@@ -84,7 +84,7 @@ func (r *RemovePaymentEventData) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// removePaymentEventData is a temporary struct used for validating the fields of RemovePaymentEventData.
 type removePaymentEventData  struct {
     TransactionId   *int                  `json:"transaction_id"`
     Memo            *string               `json:"memo"`

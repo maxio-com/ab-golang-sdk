@@ -50,7 +50,7 @@ func (c *CreatePaymentProfileRequest) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// createPaymentProfileRequest is a temporary struct used for validating the fields of CreatePaymentProfileRequest.
 type createPaymentProfileRequest  struct {
     PaymentProfile *CreatePaymentProfile `json:"payment_profile"`
 }

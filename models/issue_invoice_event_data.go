@@ -73,7 +73,7 @@ func (i *IssueInvoiceEventData) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// issueInvoiceEventData is a temporary struct used for validating the fields of IssueInvoiceEventData.
 type issueInvoiceEventData  struct {
     ConsolidationLevel *InvoiceConsolidationLevel `json:"consolidation_level"`
     FromStatus         *InvoiceStatus             `json:"from_status"`

@@ -14,7 +14,7 @@ type SubscriptionGroupPrepaymentResponse struct {
     // The type of entry
     EntryType            *ServiceCreditType `json:"entry_type,omitempty"`
     // A memo attached to the entry.
-    Memo                 *string            `json:"memo,omitempty"`
+    Memo                 Optional[string]   `json:"memo"`
     AdditionalProperties map[string]any     `json:"_"`
 }
 
@@ -42,8 +42,12 @@ func (s SubscriptionGroupPrepaymentResponse) toMap() map[string]any {
     if s.EntryType != nil {
         structMap["entry_type"] = s.EntryType
     }
-    if s.Memo != nil {
-        structMap["memo"] = s.Memo
+    if s.Memo.IsValueSet() {
+        if s.Memo.Value() != nil {
+            structMap["memo"] = s.Memo.Value()
+        } else {
+            structMap["memo"] = nil
+        }
     }
     return structMap
 }
@@ -70,11 +74,11 @@ func (s *SubscriptionGroupPrepaymentResponse) UnmarshalJSON(input []byte) error 
     return nil
 }
 
-// TODO
+// subscriptionGroupPrepaymentResponse is a temporary struct used for validating the fields of SubscriptionGroupPrepaymentResponse.
 type subscriptionGroupPrepaymentResponse  struct {
     Id                   *int               `json:"id,omitempty"`
     AmountInCents        *int64             `json:"amount_in_cents,omitempty"`
     EndingBalanceInCents *int64             `json:"ending_balance_in_cents,omitempty"`
     EntryType            *ServiceCreditType `json:"entry_type,omitempty"`
-    Memo                 *string            `json:"memo,omitempty"`
+    Memo                 Optional[string]   `json:"memo"`
 }

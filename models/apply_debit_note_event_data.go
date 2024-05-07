@@ -64,7 +64,7 @@ func (a *ApplyDebitNoteEventData) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// applyDebitNoteEventData is a temporary struct used for validating the fields of ApplyDebitNoteEventData.
 type applyDebitNoteEventData  struct {
     DebitNoteNumber *string `json:"debit_note_number"`
     DebitNoteUid    *string `json:"debit_note_uid"`

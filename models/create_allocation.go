@@ -126,7 +126,7 @@ func (c *CreateAllocation) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// createAllocation is a temporary struct used for validating the fields of CreateAllocation.
 type createAllocation  struct {
     Quantity                 *float64                               `json:"quantity"`
     ComponentId              *int                                   `json:"component_id,omitempty"`

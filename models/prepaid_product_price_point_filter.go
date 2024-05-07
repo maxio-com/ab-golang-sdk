@@ -51,7 +51,7 @@ func (p *PrepaidProductPricePointFilter) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// prepaidProductPricePointFilter is a temporary struct used for validating the fields of PrepaidProductPricePointFilter.
 type prepaidProductPricePointFilter  struct {
     ProductPricePointId *string `json:"product_price_point_id"`
 }

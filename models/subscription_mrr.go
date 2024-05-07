@@ -58,7 +58,7 @@ func (s *SubscriptionMRR) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// subscriptionMRR is a temporary struct used for validating the fields of SubscriptionMRR.
 type subscriptionMRR  struct {
     SubscriptionId   *int                     `json:"subscription_id"`
     MrrAmountInCents *int64                   `json:"mrr_amount_in_cents"`

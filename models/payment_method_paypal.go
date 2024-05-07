@@ -53,7 +53,7 @@ func (p *PaymentMethodPaypal) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// paymentMethodPaypal is a temporary struct used for validating the fields of PaymentMethodPaypal.
 type paymentMethodPaypal  struct {
     Email *string                    `json:"email"`
     Type  *InvoiceEventPaymentMethod `json:"type"`

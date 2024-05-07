@@ -81,7 +81,7 @@ func (c *ComponentCostData) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// componentCostData is a temporary struct used for validating the fields of ComponentCostData.
 type componentCostData  struct {
     ComponentCodeId Optional[int]               `json:"component_code_id"`
     PricePointId    *int                        `json:"price_point_id,omitempty"`

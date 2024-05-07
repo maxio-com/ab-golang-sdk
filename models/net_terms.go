@@ -66,7 +66,7 @@ func (n *NetTerms) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// netTerms is a temporary struct used for validating the fields of NetTerms.
 type netTerms  struct {
     DefaultNetTerms                    *int  `json:"default_net_terms,omitempty"`
     AutomaticNetTerms                  *int  `json:"automatic_net_terms,omitempty"`

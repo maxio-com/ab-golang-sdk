@@ -50,7 +50,7 @@ func (r *RecordPaymentRequest) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// recordPaymentRequest is a temporary struct used for validating the fields of RecordPaymentRequest.
 type recordPaymentRequest  struct {
     Payment *CreatePayment `json:"payment"`
 }

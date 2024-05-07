@@ -53,7 +53,7 @@ func (c *CustomerCustomFieldsChange) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// customerCustomFieldsChange is a temporary struct used for validating the fields of CustomerCustomFieldsChange.
 type customerCustomFieldsChange  struct {
     Before *[]InvoiceCustomField `json:"before"`
     After  *[]InvoiceCustomField `json:"after"`

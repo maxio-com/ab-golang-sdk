@@ -70,7 +70,7 @@ func (c *ComponentAllocationChange) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// componentAllocationChange is a temporary struct used for validating the fields of ComponentAllocationChange.
 type componentAllocationChange  struct {
     PreviousAllocation *int                                        `json:"previous_allocation"`
     NewAllocation      *int                                        `json:"new_allocation"`

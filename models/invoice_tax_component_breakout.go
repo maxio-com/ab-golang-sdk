@@ -61,7 +61,7 @@ func (i *InvoiceTaxComponentBreakout) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// invoiceTaxComponentBreakout is a temporary struct used for validating the fields of InvoiceTaxComponentBreakout.
 type invoiceTaxComponentBreakout  struct {
     TaxRuleId       *int    `json:"tax_rule_id,omitempty"`
     Percentage      *string `json:"percentage,omitempty"`

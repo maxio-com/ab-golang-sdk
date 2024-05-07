@@ -121,7 +121,7 @@ func (s *Site) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// site is a temporary struct used for validating the fields of Site.
 type site  struct {
     Id                             *int                 `json:"id,omitempty"`
     Name                           *string              `json:"name,omitempty"`

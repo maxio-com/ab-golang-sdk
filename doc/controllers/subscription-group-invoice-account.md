@@ -192,7 +192,7 @@ uid := "uid0"
 body := models.IssueServiceCreditRequest{
     ServiceCredit: models.IssueServiceCredit{
         Amount: models.IssueServiceCreditAmountContainer.FromPrecision(float64(10)),
-        Memo:   "Credit the group account",
+        Memo:   models.ToPointer("Credit the group account"),
     },
 }
 
@@ -261,7 +261,7 @@ uid := "uid0"
 body := models.DeductServiceCreditRequest{
     Deduction: models.DeductServiceCredit{
         Amount: models.DeductServiceCreditAmountContainer.FromPrecision(float64(10)),
-        Memo:   "Deduct from group account",
+        Memo:   models.ToPointer("Deduct from group account"),
     },
 }
 

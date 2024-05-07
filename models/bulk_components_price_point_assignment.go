@@ -46,7 +46,7 @@ func (b *BulkComponentsPricePointAssignment) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// bulkComponentsPricePointAssignment is a temporary struct used for validating the fields of BulkComponentsPricePointAssignment.
 type bulkComponentsPricePointAssignment  struct {
     Components []ComponentPricePointAssignment `json:"components,omitempty"`
 }

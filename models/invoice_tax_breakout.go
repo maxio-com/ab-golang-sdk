@@ -61,7 +61,7 @@ func (i *InvoiceTaxBreakout) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// invoiceTaxBreakout is a temporary struct used for validating the fields of InvoiceTaxBreakout.
 type invoiceTaxBreakout  struct {
     Uid             *string `json:"uid,omitempty"`
     TaxableAmount   *string `json:"taxable_amount,omitempty"`

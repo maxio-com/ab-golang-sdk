@@ -81,7 +81,7 @@ func (p *ProformaInvoiceDiscount) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// proformaInvoiceDiscount is a temporary struct used for validating the fields of ProformaInvoiceDiscount.
 type proformaInvoiceDiscount  struct {
     Uid               *string                            `json:"uid,omitempty"`
     Title             *string                            `json:"title,omitempty"`

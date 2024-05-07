@@ -66,7 +66,7 @@ func (p *PrepaidConfiguration) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// prepaidConfiguration is a temporary struct used for validating the fields of PrepaidConfiguration.
 type prepaidConfiguration  struct {
     Id                              *int   `json:"id,omitempty"`
     InitialFundingAmountInCents     *int64 `json:"initial_funding_amount_in_cents,omitempty"`

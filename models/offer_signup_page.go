@@ -71,7 +71,7 @@ func (o *OfferSignupPage) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// offerSignupPage is a temporary struct used for validating the fields of OfferSignupPage.
 type offerSignupPage  struct {
     Id           *int    `json:"id,omitempty"`
     Nickname     *string `json:"nickname,omitempty"`

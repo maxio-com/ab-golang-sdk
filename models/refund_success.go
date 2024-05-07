@@ -56,7 +56,7 @@ func (r *RefundSuccess) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// refundSuccess is a temporary struct used for validating the fields of RefundSuccess.
 type refundSuccess  struct {
     RefundId             *int `json:"refund_id"`
     GatewayTransactionId *int `json:"gateway_transaction_id"`

@@ -93,7 +93,7 @@ func (i *InvoiceCustomer) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// invoiceCustomer is a temporary struct used for validating the fields of InvoiceCustomer.
 type invoiceCustomer  struct {
     ChargifyId   Optional[int]    `json:"chargify_id"`
     FirstName    *string          `json:"first_name,omitempty"`

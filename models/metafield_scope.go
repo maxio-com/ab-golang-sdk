@@ -83,7 +83,7 @@ func (m *MetafieldScope) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// metafieldScope is a temporary struct used for validating the fields of MetafieldScope.
 type metafieldScope  struct {
     Csv        *IncludeOption `json:"csv,omitempty"`
     Invoices   *IncludeOption `json:"invoices,omitempty"`

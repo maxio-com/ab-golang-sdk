@@ -56,7 +56,7 @@ func (c *ComponentPricePointErrorItem) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// componentPricePointErrorItem is a temporary struct used for validating the fields of ComponentPricePointErrorItem.
 type componentPricePointErrorItem  struct {
     ComponentId *int    `json:"component_id,omitempty"`
     Message     *string `json:"message,omitempty"`

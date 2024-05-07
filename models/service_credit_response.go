@@ -50,7 +50,7 @@ func (s *ServiceCreditResponse) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// serviceCreditResponse is a temporary struct used for validating the fields of ServiceCreditResponse.
 type serviceCreditResponse  struct {
     ServiceCredit *ServiceCredit `json:"service_credit"`
 }

@@ -110,7 +110,7 @@ func (b *BankAccountAttributes) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// bankAccountAttributes is a temporary struct used for validating the fields of BankAccountAttributes.
 type bankAccountAttributes  struct {
     ChargifyToken         *string                `json:"chargify_token,omitempty"`
     BankName              *string                `json:"bank_name,omitempty"`

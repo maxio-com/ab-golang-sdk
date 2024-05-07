@@ -50,7 +50,7 @@ func (d *DeductServiceCreditRequest) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// deductServiceCreditRequest is a temporary struct used for validating the fields of DeductServiceCreditRequest.
 type deductServiceCreditRequest  struct {
     Deduction *DeductServiceCredit `json:"deduction"`
 }

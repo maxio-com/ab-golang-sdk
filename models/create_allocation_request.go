@@ -50,7 +50,7 @@ func (c *CreateAllocationRequest) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// createAllocationRequest is a temporary struct used for validating the fields of CreateAllocationRequest.
 type createAllocationRequest  struct {
     Allocation *CreateAllocation `json:"allocation"`
 }

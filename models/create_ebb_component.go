@@ -50,7 +50,7 @@ func (c *CreateEBBComponent) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// createEBBComponent is a temporary struct used for validating the fields of CreateEBBComponent.
 type createEBBComponent  struct {
     EventBasedComponent *EBBComponent `json:"event_based_component"`
 }

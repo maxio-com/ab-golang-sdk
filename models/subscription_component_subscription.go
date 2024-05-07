@@ -80,7 +80,7 @@ func (s *SubscriptionComponentSubscription) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// subscriptionComponentSubscription is a temporary struct used for validating the fields of SubscriptionComponentSubscription.
 type subscriptionComponentSubscription  struct {
     State     *SubscriptionState `json:"state,omitempty"`
     UpdatedAt *string            `json:"updated_at,omitempty"`

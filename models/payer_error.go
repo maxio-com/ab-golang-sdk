@@ -56,7 +56,7 @@ func (p *PayerError) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// payerError is a temporary struct used for validating the fields of PayerError.
 type payerError  struct {
     LastName  []string `json:"last_name,omitempty"`
     FirstName []string `json:"first_name,omitempty"`

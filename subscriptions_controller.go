@@ -294,10 +294,10 @@ func NewSubscriptionsController(baseController baseController) *SubscriptionsCon
 // ```
 // ## Subscription using Stripe BECS Direct Debit
 // For more information on Stripe Direct Debit, please view the following two resources:
-// + [Payment Profiles via API for Stripe BECS Direct Debit](https://developers.chargify.com/docs/api-docs/1f10a4f170405-create-payment-profile#stripe-becs-direct-debit)
+// + [Payment Profiles via API for Stripe BECS Direct Debit]($e/Payment%20Profiles/createPaymentProfile)
 // + [Full documentation on Stripe Direct Debit](https://maxio-chargify.zendesk.com/hc/en-us/articles/5405050826765-Stripe-SEPA-and-BECS-Direct-Debit)
-// + [Using Chargify.js with Stripe SEPA or BECS Direct Debit - minimal example](https://developers.chargify.com/docs/developer-docs/ZG9jOjE0NjAzNDIy-examples#minimal-example-with-sepa-or-becs-direct-debit-stripe-gateway)
-// + [Using Chargify.js with Stripe BECS Direct Debit - full example](https://developers.chargify.com/docs/developer-docs/ZG9jOjE0NjAzNDIy-examples#full-example-with-becs-direct-debit-stripe-gateway)
+// + [Using Chargify.js with Stripe SEPA, BECS or BACS Direct Debit - minimal example](page:development-tools/chargify-js/examples#minimal-example-with-sepa-becs-or-bacs-direct-debit-stripe-gateway)
+// + [Using Chargify.js with Stripe BECS Direct Debit - full example](page:development-tools/chargify-js/examples#full-example-with-becs-direct-debit-stripe-gateway)
 // ```json
 // {
 // "subscription": {
@@ -312,6 +312,35 @@ func NewSubscriptionsController(baseController baseController) *SubscriptionsCon
 // "bank_branch_code": "000000",
 // "bank_account_number": "000123456",
 // "payment_type": "bank_account"
+// }
+// }
+// }
+// ```
+// ## Subscription using Stripe BACS Direct Debit
+// For more information on Stripe Direct Debit, please view the following two resources:
+// + [Payment Profiles via API for Stripe BACS Direct Debit]($e/Payment%20Profiles/createPaymentProfile)
+// + [Full documentation on Stripe Direct Debit](https://maxio-chargify.zendesk.com/hc/en-us/articles/5405050826765-Stripe-SEPA-and-BECS-Direct-Debit)
+// + [Using Chargify.js with Stripe SEPA, BECS or BACS Direct Debit - minimal example](page:development-tools/chargify-js/examples#minimal-example-with-sepa-becs-or-bacs-direct-debit-stripe-gateway)
+// + [Using Chargify.js with Stripe BACS Direct Debit - full example](page:development-tools/chargify-js/examples#full-example-with-bacs-direct-debit-stripe-gateway)
+// ```json
+// {
+// "subscription": {
+// "product_handle": "gold-product",
+// "customer_attributes": {
+// "first_name": "Jane",
+// "last_name": "Doe",
+// "email": "jd@chargify.test"
+// },
+// "bank_account_attributes": {
+// "bank_name": "Test Bank",
+// "bank_branch_code": "108800",
+// "bank_account_number": "00012345",
+// "payment_type": "bank_account",
+// "billing_address": "123 Main St.",
+// "billing_city": "London",
+// "billing_state": "LND",
+// "billing_zip": "W1A 1AA",
+// "billing_country": "GB"
 // }
 // }
 // }

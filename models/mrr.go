@@ -80,7 +80,7 @@ func (m *MRR) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// mrr is a temporary struct used for validating the fields of MRR.
 type mrr  struct {
     AmountInCents   *int64     `json:"amount_in_cents,omitempty"`
     AmountFormatted *string    `json:"amount_formatted,omitempty"`

@@ -59,7 +59,7 @@ func (i *InvoicePreviousBalance) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// invoicePreviousBalance is a temporary struct used for validating the fields of InvoicePreviousBalance.
 type invoicePreviousBalance  struct {
     CapturedAt *string              `json:"captured_at,omitempty"`
     Invoices   []InvoiceBalanceItem `json:"invoices,omitempty"`

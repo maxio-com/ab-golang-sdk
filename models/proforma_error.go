@@ -47,7 +47,7 @@ func (p *ProformaError) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// proformaError is a temporary struct used for validating the fields of ProformaError.
 type proformaError  struct {
     Subscription *BaseStringError `json:"subscription,omitempty"`
 }

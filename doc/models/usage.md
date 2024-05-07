@@ -10,7 +10,7 @@
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `Id` | `*int64` | Optional | **Constraints**: `>= 0` |
-| `Memo` | `*string` | Optional | - |
+| `Memo` | `models.Optional[string]` | Optional | - |
 | `CreatedAt` | `*time.Time` | Optional | - |
 | `PricePointId` | `*int` | Optional | - |
 | `Quantity` | [`*models.UsageQuantity`](../../doc/models/containers/usage-quantity.md) | Optional | This is a container for one-of cases. |

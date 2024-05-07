@@ -50,7 +50,7 @@ func (c *CreateCustomerRequest) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// createCustomerRequest is a temporary struct used for validating the fields of CreateCustomerRequest.
 type createCustomerRequest  struct {
     Customer *CreateCustomer `json:"customer"`
 }

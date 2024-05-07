@@ -8,16 +8,16 @@ import (
 
 // Usage represents a Usage struct.
 type Usage struct {
-    Id                   *int64         `json:"id,omitempty"`
-    Memo                 *string        `json:"memo,omitempty"`
-    CreatedAt            *time.Time     `json:"created_at,omitempty"`
-    PricePointId         *int           `json:"price_point_id,omitempty"`
-    Quantity             *UsageQuantity `json:"quantity,omitempty"`
-    OverageQuantity      *int           `json:"overage_quantity,omitempty"`
-    ComponentId          *int           `json:"component_id,omitempty"`
-    ComponentHandle      *string        `json:"component_handle,omitempty"`
-    SubscriptionId       *int           `json:"subscription_id,omitempty"`
-    AdditionalProperties map[string]any `json:"_"`
+    Id                   *int64           `json:"id,omitempty"`
+    Memo                 Optional[string] `json:"memo"`
+    CreatedAt            *time.Time       `json:"created_at,omitempty"`
+    PricePointId         *int             `json:"price_point_id,omitempty"`
+    Quantity             *UsageQuantity   `json:"quantity,omitempty"`
+    OverageQuantity      *int             `json:"overage_quantity,omitempty"`
+    ComponentId          *int             `json:"component_id,omitempty"`
+    ComponentHandle      *string          `json:"component_handle,omitempty"`
+    SubscriptionId       *int             `json:"subscription_id,omitempty"`
+    AdditionalProperties map[string]any   `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for Usage.
@@ -35,8 +35,12 @@ func (u Usage) toMap() map[string]any {
     if u.Id != nil {
         structMap["id"] = u.Id
     }
-    if u.Memo != nil {
-        structMap["memo"] = u.Memo
+    if u.Memo.IsValueSet() {
+        if u.Memo.Value() != nil {
+            structMap["memo"] = u.Memo.Value()
+        } else {
+            structMap["memo"] = nil
+        }
     }
     if u.CreatedAt != nil {
         structMap["created_at"] = u.CreatedAt.Format(time.RFC3339)
@@ -94,15 +98,15 @@ func (u *Usage) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// usage is a temporary struct used for validating the fields of Usage.
 type usage  struct {
-    Id              *int64         `json:"id,omitempty"`
-    Memo            *string        `json:"memo,omitempty"`
-    CreatedAt       *string        `json:"created_at,omitempty"`
-    PricePointId    *int           `json:"price_point_id,omitempty"`
-    Quantity        *UsageQuantity `json:"quantity,omitempty"`
-    OverageQuantity *int           `json:"overage_quantity,omitempty"`
-    ComponentId     *int           `json:"component_id,omitempty"`
-    ComponentHandle *string        `json:"component_handle,omitempty"`
-    SubscriptionId  *int           `json:"subscription_id,omitempty"`
+    Id              *int64           `json:"id,omitempty"`
+    Memo            Optional[string] `json:"memo"`
+    CreatedAt       *string          `json:"created_at,omitempty"`
+    PricePointId    *int             `json:"price_point_id,omitempty"`
+    Quantity        *UsageQuantity   `json:"quantity,omitempty"`
+    OverageQuantity *int             `json:"overage_quantity,omitempty"`
+    ComponentId     *int             `json:"component_id,omitempty"`
+    ComponentHandle *string          `json:"component_handle,omitempty"`
+    SubscriptionId  *int             `json:"subscription_id,omitempty"`
 }

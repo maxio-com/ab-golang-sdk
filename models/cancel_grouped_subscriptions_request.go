@@ -46,7 +46,7 @@ func (c *CancelGroupedSubscriptionsRequest) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// TODO
+// cancelGroupedSubscriptionsRequest is a temporary struct used for validating the fields of CancelGroupedSubscriptionsRequest.
 type cancelGroupedSubscriptionsRequest  struct {
     ChargeUnbilledUsage *bool `json:"charge_unbilled_usage,omitempty"`
 }
