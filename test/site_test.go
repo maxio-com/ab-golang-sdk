@@ -35,12 +35,12 @@ func (s *SiteSuite) TestReadSite() {
 				s.NoError(err)
 
 				respSite := resp.Data.Site
-				s.Equal(4718, *respSite.Id, "ID")
-				s.Equal("GO SDK env", *respSite.Name, "Name")
+				s.Equal(86564, *respSite.Id, "ID")
+				s.Equal("Golang SDK", *respSite.Name, "Name")
 				s.Equal("go-sdk", *respSite.Subdomain, "Subdomain")
 				s.Equal("USD", *respSite.Currency, "Currency")
-				s.Equal(722159, *respSite.SellerId, "SellerID")
-				s.EqualValues([]string{}, respSite.NonPrimaryCurrencies, "NonPrimaryCurrencies")
+				s.Equal(56887, *respSite.SellerId, "SellerID")
+				s.EqualValues([]string{"EUR"}, respSite.NonPrimaryCurrencies, "NonPrimaryCurrencies")
 				s.True(*respSite.RelationshipInvoicingEnabled, "RelationshipInvoiceEnabled")
 				s.False(*respSite.CustomerHierarchyEnabled, "CustomerHierarchyEnabled,")
 				s.False(*respSite.WhopaysEnabled, "WhopaysEnabled")
@@ -59,7 +59,7 @@ func (s *SiteSuite) TestReadSite() {
 				s.Equal("TX", *organizationAddress.State.Value(), "State")
 				s.Equal("78015", *organizationAddress.Zip.Value(), "Zip")
 				s.Equal("US", *organizationAddress.Country.Value(), "Country")
-				s.Equal("Developer Experience", *organizationAddress.Name.Value(), "AddressName")
+				s.Equal("Maxio Developer Experience", *organizationAddress.Name.Value(), "AddressName")
 				s.Equal("555 111 222", *organizationAddress.Phone.Value(), "Phone")
 
 				taxConfiguration := respSite.TaxConfiguration
