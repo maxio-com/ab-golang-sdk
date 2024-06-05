@@ -1,7 +1,7 @@
 
 # Historic Usage
 
-An optional object for Event Based Components, will be returned if provided `include=historic_usages` query param.
+Optional for Event Based Components. If the `include=historic_usages` query param is provided, the last ten billing periods will be returned.
 
 ## Structure
 

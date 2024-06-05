@@ -12,20 +12,20 @@ import (
 // Example schema for an `remove_payment` event
 type RemovePaymentEventData struct {
     // Transaction ID of the original payment that was removed
-    TransactionId        int                  `json:"transaction_id"`
+    TransactionId        int                 `json:"transaction_id"`
     // Memo of the original payment
-    Memo                 string               `json:"memo"`
+    Memo                 string              `json:"memo"`
     // Full amount of the original payment
-    OriginalAmount       *string              `json:"original_amount,omitempty"`
+    OriginalAmount       *string             `json:"original_amount,omitempty"`
     // Applied amount of the original payment
-    AppliedAmount        string               `json:"applied_amount"`
+    AppliedAmount        string              `json:"applied_amount"`
     // Transaction time of the original payment, in ISO 8601 format, i.e. "2019-06-07T17:20:06Z"
-    TransactionTime      time.Time            `json:"transaction_time"`
+    TransactionTime      time.Time           `json:"transaction_time"`
     // A nested data structure detailing the method of payment
-    PaymentMethod        InvoiceEventPayment2 `json:"payment_method"`
+    PaymentMethod        InvoiceEventPayment `json:"payment_method"`
     // The flag that shows whether the original payment was a prepayment or not
-    Prepayment           bool                 `json:"prepayment"`
-    AdditionalProperties map[string]any       `json:"_"`
+    Prepayment           bool                `json:"prepayment"`
+    AdditionalProperties map[string]any      `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for RemovePaymentEventData.
@@ -86,13 +86,13 @@ func (r *RemovePaymentEventData) UnmarshalJSON(input []byte) error {
 
 // removePaymentEventData is a temporary struct used for validating the fields of RemovePaymentEventData.
 type removePaymentEventData  struct {
-    TransactionId   *int                  `json:"transaction_id"`
-    Memo            *string               `json:"memo"`
-    OriginalAmount  *string               `json:"original_amount,omitempty"`
-    AppliedAmount   *string               `json:"applied_amount"`
-    TransactionTime *string               `json:"transaction_time"`
-    PaymentMethod   *InvoiceEventPayment2 `json:"payment_method"`
-    Prepayment      *bool                 `json:"prepayment"`
+    TransactionId   *int                 `json:"transaction_id"`
+    Memo            *string              `json:"memo"`
+    OriginalAmount  *string              `json:"original_amount,omitempty"`
+    AppliedAmount   *string              `json:"applied_amount"`
+    TransactionTime *string              `json:"transaction_time"`
+    PaymentMethod   *InvoiceEventPayment `json:"payment_method"`
+    Prepayment      *bool                `json:"prepayment"`
 }
 
 func (r *removePaymentEventData) validate() error {

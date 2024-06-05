@@ -28,9 +28,9 @@ type ListEventsInput struct {
     // Use in query `per_page=200`.
     PerPage       *int                        
     // Returns events with an id greater than or equal to the one specified
-    SinceId       *int                        
+    SinceId       *int64                      
     // Returns events with an id less than or equal to the one specified
-    MaxId         *int                        
+    MaxId         *int64                      
     // The sort direction of the returned events.
     Direction     *models.Direction           
     // You can pass multiple event keys after comma.
@@ -160,9 +160,9 @@ type ListSubscriptionEventsInput struct {
     // Use in query `per_page=200`.
     PerPage        *int               
     // Returns events with an id greater than or equal to the one specified
-    SinceId        *int               
+    SinceId        *int64             
     // Returns events with an id less than or equal to the one specified
-    MaxId          *int               
+    MaxId          *int64             
     // The sort direction of the returned events.
     Direction      *models.Direction  
     // You can pass multiple event keys after comma.
@@ -224,9 +224,9 @@ type ReadEventsCountInput struct {
     // Use in query `per_page=200`.
     PerPage   *int               
     // Returns events with an id greater than or equal to the one specified
-    SinceId   *int               
+    SinceId   *int64             
     // Returns events with an id less than or equal to the one specified
-    MaxId     *int               
+    MaxId     *int64             
     // The sort direction of the returned events.
     Direction *models.Direction  
     // You can pass multiple event keys after comma.

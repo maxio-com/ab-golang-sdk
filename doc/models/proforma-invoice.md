@@ -18,7 +18,7 @@
 | `CreatedAt` | `*time.Time` | Optional | - |
 | `DeliveryDate` | `*time.Time` | Optional | - |
 | `Status` | [`*models.ProformaInvoiceStatus`](../../doc/models/proforma-invoice-status.md) | Optional | - |
-| `CollectionMethod` | [`*models.CollectionMethod`](../../doc/models/collection-method.md) | Optional | The type of payment collection to be used in the subscription. For legacy Statements Architecture valid options are - `invoice`, `automatic`. For current Relationship Invoicing Architecture valid options are - `remittance`, `automatic`, `prepaid`.<br>**Default**: `"automatic"` |
+| `CollectionMethod` | [`*models.CollectionMethod`](../../doc/models/collection-method.md) | Optional | The type of payment collection to be used in the subscription. For legacy Statements Architecture valid options are - `invoice`, `automatic`. For current Relationship Invoicing Architecture valid options are - `remittance`, `automatic`, `prepaid`. |
 | `PaymentInstructions` | `*string` | Optional | - |
 | `Currency` | `*string` | Optional | - |
 | `ConsolidationLevel` | [`*models.InvoiceConsolidationLevel`](../../doc/models/invoice-consolidation-level.md) | Optional | Consolidation level of the invoice, which is applicable to invoice consolidation.  It will hold one of the following values:<br><br>* "none": A normal invoice with no consolidation.<br>* "child": An invoice segment which has been combined into a consolidated invoice.<br>* "parent": A consolidated invoice, whose contents are composed of invoice segments.<br><br>"Parent" invoices do not have lines of their own, but they have subtotals and totals which aggregate the member invoice segments.<br><br>See also the [invoice consolidation documentation](https://chargify.zendesk.com/hc/en-us/articles/4407746391835). |
@@ -50,7 +50,6 @@
 
 ```json
 {
-  "collection_method": "automatic",
   "uid": "uid6",
   "site_id": 196,
   "customer_id": 52,

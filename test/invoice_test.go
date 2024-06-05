@@ -91,18 +91,28 @@ func (s *InvoiceSuite) TestInvoice() {
 				s.Equal(models.InvoiceStatus_VOIDED, *void.Data.Status)
 
 				// sometimes some events are missing
-				time.Sleep(500 * time.Millisecond)
+				time.Sleep(2500 * time.Millisecond)
 
-				events, err := s.client.InvoicesController().ListInvoiceEvents(
-					ctx,
-					advancedbilling.ListInvoiceEventsInput{
-						InvoiceUid: resp.Data.Invoice.Uid, // cant pass event types here. Server throws 500
-					},
-				)
+                events, err := s.client.InvoicesController().ListInvoiceEvents(
+                    ctx,
+                    advancedbilling.ListInvoiceEventsInput{
+                        InvoiceUid: resp.Data.Invoice.Uid, // cant pass event types here. Server throws 500
+                    },
+                )
 
-				s.NoError(err)
-				s.Equal(http.StatusOK, events.Response.StatusCode)
-				s.Greater(len(events.Data.Events), 0)
+                s.NoError(err)
+                s.Equal(http.StatusOK, events.Response.StatusCode)
+                s.Equal(len(events.Data.Events), 2)
+
+                event1, ok := events.Data.Events[0].AsIssueInvoiceEvent()
+                s.True(ok)
+                s.Equal(event1.EventType, models.InvoiceEventType_ISSUEINVOICE)
+                s.Equal(event1.EventData.TotalAmount, "900.0")
+
+                event2, ok := events.Data.Events[1].AsVoidInvoiceEvent()
+                s.True(ok)
+                s.Equal(event2.EventType, models.InvoiceEventType_VOIDINVOICE)
+                s.Equal(event2.EventData.Reason, "Duplicate invoice")
 			},
 		},
 		{

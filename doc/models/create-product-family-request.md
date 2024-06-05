@@ -17,6 +17,7 @@
 {
   "product_family": {
     "name": "name0",
+    "handle": "handle6",
     "description": "description0"
   }
 }

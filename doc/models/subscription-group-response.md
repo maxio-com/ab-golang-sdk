@@ -16,7 +16,6 @@
 ```json
 {
   "subscription_group": {
-    "payment_collection_method": "automatic",
     "customer_id": 220,
     "payment_profile": {
       "id": 44,
@@ -24,6 +23,7 @@
       "last_name": "last_name2",
       "masked_card_number": "masked_card_number2"
     },
+    "payment_collection_method": "prepaid",
     "subscription_ids": [
       74,
       75

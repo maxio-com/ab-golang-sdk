@@ -24,7 +24,7 @@ type ApplyCreditNoteEventData struct {
     // The time the credit note was applied, in ISO 8601 format, i.e. "2019-06-07T17:20:06Z"
     TransactionTime      *time.Time              `json:"transaction_time,omitempty"`
     // The credit note memo.
-    Memo                 *string                 `json:"memo,omitempty"`
+    Memo                 Optional[string]        `json:"memo"`
     // The role of the credit note (e.g. 'general')
     Role                 *string                 `json:"role,omitempty"`
     // Shows whether it was applied to consolidated invoice or not
@@ -54,8 +54,12 @@ func (a ApplyCreditNoteEventData) toMap() map[string]any {
     if a.TransactionTime != nil {
         structMap["transaction_time"] = a.TransactionTime.Format(time.RFC3339)
     }
-    if a.Memo != nil {
-        structMap["memo"] = a.Memo
+    if a.Memo.IsValueSet() {
+        if a.Memo.Value() != nil {
+            structMap["memo"] = a.Memo.Value()
+        } else {
+            structMap["memo"] = nil
+        }
     }
     if a.Role != nil {
         structMap["role"] = a.Role
@@ -114,7 +118,7 @@ type applyCreditNoteEventData  struct {
     OriginalAmount      *string                 `json:"original_amount"`
     AppliedAmount       *string                 `json:"applied_amount"`
     TransactionTime     *string                 `json:"transaction_time,omitempty"`
-    Memo                *string                 `json:"memo,omitempty"`
+    Memo                Optional[string]        `json:"memo"`
     Role                *string                 `json:"role,omitempty"`
     ConsolidatedInvoice *bool                   `json:"consolidated_invoice,omitempty"`
     AppliedCreditNotes  []AppliedCreditNoteData `json:"applied_credit_notes,omitempty"`

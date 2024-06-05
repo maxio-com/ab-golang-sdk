@@ -19,7 +19,7 @@
 {
   "masked_account_number": "masked_account_number2",
   "masked_routing_number": "masked_routing_number2",
-  "type": "paypal_account"
+  "type": "bank_account"
 }
 ```
 

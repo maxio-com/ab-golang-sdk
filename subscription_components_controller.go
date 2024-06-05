@@ -80,9 +80,11 @@ type ListSubscriptionComponentsInput struct {
     StartDatetime    *string                                    
     // Allows including additional data in the response. Use in query `include=subscription,historic_usages`.
     Include          []models.ListSubscriptionComponentsInclude 
+    // If in_use is set to true, it returns only components that are currently in use. However, if it's set to false or not provided, it returns all components connected with the subscription.
+    InUse            *bool                                      
 }
 
-// ListSubscriptionComponents takes context, subscriptionId, dateField, direction, filter, endDate, endDatetime, pricePointIds, productFamilyIds, sort, startDate, startDatetime, include as parameters and
+// ListSubscriptionComponents takes context, subscriptionId, dateField, direction, filter, endDate, endDatetime, pricePointIds, productFamilyIds, sort, startDate, startDatetime, include, inUse as parameters and
 // returns an models.ApiResponse with []models.SubscriptionComponentResponse data and
 // an error if there was an issue with the request or response.
 // This request will list a subscription's applied components.
@@ -131,6 +133,9 @@ func (s *SubscriptionComponentsController) ListSubscriptionComponents(
     }
     if input.Include != nil {
         req.QueryParam("include", input.Include)
+    }
+    if input.InUse != nil {
+        req.QueryParam("in_use", *input.InUse)
     }
     
     var result []models.SubscriptionComponentResponse
@@ -553,9 +558,9 @@ type ListUsagesInput struct {
     // Either the Chargify id for the component or the component's handle prefixed by `handle:`
     ComponentId    models.ListUsagesInputComponentId 
     // Returns usages with an id greater than or equal to the one specified
-    SinceId        *int                              
+    SinceId        *int64                            
     // Returns usages with an id less than or equal to the one specified
-    MaxId          *int                              
+    MaxId          *int64                            
     // Returns usages with a created_at date greater than or equal to midnight (12:00 AM) on the date specified.
     SinceDate      *time.Time                        
     // Returns usages with a created_at date less than or equal to midnight (12:00 AM) on the date specified.

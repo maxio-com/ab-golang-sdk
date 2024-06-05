@@ -16,7 +16,6 @@
 ```json
 {
   "subscription": {
-    "payment_collection_method": "automatic",
     "metafields": {
       "custom_field_name_1": "custom_field_value_1",
       "custom_field_name_2": "custom_field_value_2"

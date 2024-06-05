@@ -208,7 +208,7 @@ ctx := context.Background()
 
 body := models.CreateProductFamilyRequest{
     ProductFamily: models.CreateProductFamily{
-        Name:        models.ToPointer("Acme Projects"),
+        Name:        "Acme Projects",
         Description: models.NewOptional(models.ToPointer("Amazing project management tool")),
     },
 }

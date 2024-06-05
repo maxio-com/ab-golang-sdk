@@ -551,6 +551,55 @@ const (
     CardType_LASER              CardType = "laser"
 )
 
+// ChargebackStatus is a string enum.
+// The current chargeback status.
+type ChargebackStatus string
+
+// MarshalJSON implements the json.Marshaler interface for ChargebackStatus.
+// It customizes the JSON marshaling process for ChargebackStatus objects.
+func (e ChargebackStatus) MarshalJSON() (
+    []byte,
+    error) {
+    if e.isValid() {
+        return []byte(fmt.Sprintf("\"%v\"", e)), nil
+    }
+    return nil, errors.New("the provided enum value is not allowed for ChargebackStatus")
+}
+
+// UnmarshalJSON implements the json.Unmarshaler interface for ChargebackStatus.
+// It customizes the JSON unmarshaling process for ChargebackStatus objects.
+func (e *ChargebackStatus) UnmarshalJSON(input []byte) error {
+    var enumValue string
+    err := json.Unmarshal(input, &enumValue)
+    if err != nil {
+        return err
+    }
+    *e = ChargebackStatus(enumValue)
+    if !e.isValid() {
+        return errors.New("the value " + string(input) + " cannot be unmarshalled to ChargebackStatus")
+    }
+    return nil
+}
+
+// Checks whether the value is actually a member of ChargebackStatus.
+func (e ChargebackStatus) isValid() bool {
+    switch e {
+    case ChargebackStatus_OPEN,
+        ChargebackStatus_LOST,
+        ChargebackStatus_WON,
+        ChargebackStatus_CLOSED:
+        return true
+    }
+    return false
+}
+
+const (
+    ChargebackStatus_OPEN   ChargebackStatus = "open"
+    ChargebackStatus_LOST   ChargebackStatus = "lost"
+    ChargebackStatus_WON    ChargebackStatus = "won"
+    ChargebackStatus_CLOSED ChargebackStatus = "closed"
+)
+
 // CleanupScope is a string enum.
 // all: Will clear all products, customers, and related subscriptions from the site. customers: Will clear only customers and related subscriptions (leaving the products untouched) for the site. Revenue will also be reset to 0.
 type CleanupScope string
@@ -1206,6 +1255,100 @@ func (e CustomFieldOwner) isValid() bool {
 const (
     CustomFieldOwner_CUSTOMER     CustomFieldOwner = "Customer"
     CustomFieldOwner_SUBSCRIPTION CustomFieldOwner = "Subscription"
+)
+
+// DebitNoteRole is a string enum.
+// The role of the debit note.
+type DebitNoteRole string
+
+// MarshalJSON implements the json.Marshaler interface for DebitNoteRole.
+// It customizes the JSON marshaling process for DebitNoteRole objects.
+func (e DebitNoteRole) MarshalJSON() (
+    []byte,
+    error) {
+    if e.isValid() {
+        return []byte(fmt.Sprintf("\"%v\"", e)), nil
+    }
+    return nil, errors.New("the provided enum value is not allowed for DebitNoteRole")
+}
+
+// UnmarshalJSON implements the json.Unmarshaler interface for DebitNoteRole.
+// It customizes the JSON unmarshaling process for DebitNoteRole objects.
+func (e *DebitNoteRole) UnmarshalJSON(input []byte) error {
+    var enumValue string
+    err := json.Unmarshal(input, &enumValue)
+    if err != nil {
+        return err
+    }
+    *e = DebitNoteRole(enumValue)
+    if !e.isValid() {
+        return errors.New("the value " + string(input) + " cannot be unmarshalled to DebitNoteRole")
+    }
+    return nil
+}
+
+// Checks whether the value is actually a member of DebitNoteRole.
+func (e DebitNoteRole) isValid() bool {
+    switch e {
+    case DebitNoteRole_CHARGEBACK,
+        DebitNoteRole_REFUND:
+        return true
+    }
+    return false
+}
+
+const (
+    DebitNoteRole_CHARGEBACK DebitNoteRole = "chargeback"
+    DebitNoteRole_REFUND     DebitNoteRole = "refund"
+)
+
+// DebitNoteStatus is a string enum.
+// Current status of the debit note.
+type DebitNoteStatus string
+
+// MarshalJSON implements the json.Marshaler interface for DebitNoteStatus.
+// It customizes the JSON marshaling process for DebitNoteStatus objects.
+func (e DebitNoteStatus) MarshalJSON() (
+    []byte,
+    error) {
+    if e.isValid() {
+        return []byte(fmt.Sprintf("\"%v\"", e)), nil
+    }
+    return nil, errors.New("the provided enum value is not allowed for DebitNoteStatus")
+}
+
+// UnmarshalJSON implements the json.Unmarshaler interface for DebitNoteStatus.
+// It customizes the JSON unmarshaling process for DebitNoteStatus objects.
+func (e *DebitNoteStatus) UnmarshalJSON(input []byte) error {
+    var enumValue string
+    err := json.Unmarshal(input, &enumValue)
+    if err != nil {
+        return err
+    }
+    *e = DebitNoteStatus(enumValue)
+    if !e.isValid() {
+        return errors.New("the value " + string(input) + " cannot be unmarshalled to DebitNoteStatus")
+    }
+    return nil
+}
+
+// Checks whether the value is actually a member of DebitNoteStatus.
+func (e DebitNoteStatus) isValid() bool {
+    switch e {
+    case DebitNoteStatus_OPEN,
+        DebitNoteStatus_APPLIED,
+        DebitNoteStatus_BANISHED,
+        DebitNoteStatus_PAID:
+        return true
+    }
+    return false
+}
+
+const (
+    DebitNoteStatus_OPEN     DebitNoteStatus = "open"
+    DebitNoteStatus_APPLIED  DebitNoteStatus = "applied"
+    DebitNoteStatus_BANISHED DebitNoteStatus = "banished"
+    DebitNoteStatus_PAID     DebitNoteStatus = "paid"
 )
 
 // Direction is a string enum.
@@ -2099,6 +2242,7 @@ func (e InvoiceEventType) isValid() bool {
         InvoiceEventType_CREATECREDITNOTE,
         InvoiceEventType_APPLYPAYMENT,
         InvoiceEventType_APPLYDEBITNOTE,
+        InvoiceEventType_CREATEDEBITNOTE,
         InvoiceEventType_REFUNDINVOICE,
         InvoiceEventType_VOIDINVOICE,
         InvoiceEventType_VOIDREMAINDER,
@@ -2119,6 +2263,7 @@ const (
     InvoiceEventType_CREATECREDITNOTE              InvoiceEventType = "create_credit_note"
     InvoiceEventType_APPLYPAYMENT                  InvoiceEventType = "apply_payment"
     InvoiceEventType_APPLYDEBITNOTE                InvoiceEventType = "apply_debit_note"
+    InvoiceEventType_CREATEDEBITNOTE               InvoiceEventType = "create_debit_note"
     InvoiceEventType_REFUNDINVOICE                 InvoiceEventType = "refund_invoice"
     InvoiceEventType_VOIDINVOICE                   InvoiceEventType = "void_invoice"
     InvoiceEventType_VOIDREMAINDER                 InvoiceEventType = "void_remainder"
@@ -2349,7 +2494,7 @@ const (
 )
 
 // InvoiceStatus is a string enum.
-// The current status of the invoice. See [Invoice Statuses](https://chargify.zendesk.com/hc/en-us/articles/4407737494171#line-item-breakdowns) for more.
+// The current status of the invoice. See [Invoice Statuses](https://maxio-chargify.zendesk.com/hc/en-us/articles/5405078794253-Introduction-to-Invoices#invoice-statuses) for more.
 type InvoiceStatus string
 
 // MarshalJSON implements the json.Marshaler interface for InvoiceStatus.
