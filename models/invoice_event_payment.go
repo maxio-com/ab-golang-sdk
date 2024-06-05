@@ -7,23 +7,27 @@ package models
 
 import (
     "encoding/json"
+    "errors"
+    "strings"
 )
 
 // InvoiceEventPayment represents a InvoiceEventPayment struct.
 // A nested data structure detailing the method of payment
 type InvoiceEventPayment struct {
-    Type                 *string          `json:"type,omitempty"`
-    MaskedAccountNumber  *string          `json:"masked_account_number,omitempty"`
-    MaskedRoutingNumber  *string          `json:"masked_routing_number,omitempty"`
-    CardBrand            *string          `json:"card_brand,omitempty"`
-    CardExpiration       *string          `json:"card_expiration,omitempty"`
-    LastFour             Optional[string] `json:"last_four"`
-    MaskedCardNumber     *string          `json:"masked_card_number,omitempty"`
-    Details              Optional[string] `json:"details"`
-    Kind                 *string          `json:"kind,omitempty"`
-    Memo                 Optional[string] `json:"memo"`
-    Email                *string          `json:"email,omitempty"`
-    AdditionalProperties map[string]any   `json:"_"`
+    value                      any
+    isPaymentMethodApplePay    bool
+    isPaymentMethodBankAccount bool
+    isPaymentMethodCreditCard  bool
+    isPaymentMethodExternal    bool
+    isPaymentMethodPaypal      bool
+}
+
+// String converts the InvoiceEventPayment object to a string representation.
+func (i InvoiceEventPayment) String() string {
+    if bytes, err := json.Marshal(i.value); err == nil {
+         return strings.Trim(string(bytes), "\"")
+    }
+    return ""
 }
 
 // MarshalJSON implements the json.Marshaler interface for InvoiceEventPayment.
@@ -31,102 +35,116 @@ type InvoiceEventPayment struct {
 func (i InvoiceEventPayment) MarshalJSON() (
     []byte,
     error) {
+    if i.value == nil {
+        return nil, errors.New("No underlying type is set. Please use any of the `models.InvoiceEventPaymentContainer.From*` functions to initialize the InvoiceEventPayment object.")
+    }
     return json.Marshal(i.toMap())
 }
 
 // toMap converts the InvoiceEventPayment object to a map representation for JSON marshaling.
-func (i InvoiceEventPayment) toMap() map[string]any {
-    structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, i.AdditionalProperties)
-    if i.Type != nil {
-        structMap["type"] = *i.Type
-    } else {
-        structMap["type"] = "Invoice Event Payment"
+func (i *InvoiceEventPayment) toMap() any {
+    switch obj := i.value.(type) {
+    case *PaymentMethodApplePay:
+        return obj.toMap()
+    case *PaymentMethodBankAccount:
+        return obj.toMap()
+    case *PaymentMethodCreditCard:
+        return obj.toMap()
+    case *PaymentMethodExternal:
+        return obj.toMap()
+    case *PaymentMethodPaypal:
+        return obj.toMap()
     }
-    if i.MaskedAccountNumber != nil {
-        structMap["masked_account_number"] = i.MaskedAccountNumber
-    }
-    if i.MaskedRoutingNumber != nil {
-        structMap["masked_routing_number"] = i.MaskedRoutingNumber
-    }
-    if i.CardBrand != nil {
-        structMap["card_brand"] = i.CardBrand
-    }
-    if i.CardExpiration != nil {
-        structMap["card_expiration"] = i.CardExpiration
-    }
-    if i.LastFour.IsValueSet() {
-        if i.LastFour.Value() != nil {
-            structMap["last_four"] = i.LastFour.Value()
-        } else {
-            structMap["last_four"] = nil
-        }
-    }
-    if i.MaskedCardNumber != nil {
-        structMap["masked_card_number"] = i.MaskedCardNumber
-    }
-    if i.Details.IsValueSet() {
-        if i.Details.Value() != nil {
-            structMap["details"] = i.Details.Value()
-        } else {
-            structMap["details"] = nil
-        }
-    }
-    if i.Kind != nil {
-        structMap["kind"] = i.Kind
-    }
-    if i.Memo.IsValueSet() {
-        if i.Memo.Value() != nil {
-            structMap["memo"] = i.Memo.Value()
-        } else {
-            structMap["memo"] = nil
-        }
-    }
-    if i.Email != nil {
-        structMap["email"] = i.Email
-    }
-    return structMap
+    return nil
 }
 
 // UnmarshalJSON implements the json.Unmarshaler interface for InvoiceEventPayment.
 // It customizes the JSON unmarshaling process for InvoiceEventPayment objects.
 func (i *InvoiceEventPayment) UnmarshalJSON(input []byte) error {
-    var temp invoiceEventPayment
-    err := json.Unmarshal(input, &temp)
-    if err != nil {
-    	return err
-    }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "type", "masked_account_number", "masked_routing_number", "card_brand", "card_expiration", "last_four", "masked_card_number", "details", "kind", "memo", "email")
-    if err != nil {
-    	return err
-    }
+    result, err := UnmarshallAnyOfWithDiscriminator(input, "type",
+        NewTypeHolderDiscriminator(&PaymentMethodApplePay{}, false, &i.isPaymentMethodApplePay, "apple_pay"),
+        NewTypeHolderDiscriminator(&PaymentMethodBankAccount{}, false, &i.isPaymentMethodBankAccount, "bank_account"),
+        NewTypeHolderDiscriminator(&PaymentMethodCreditCard{}, false, &i.isPaymentMethodCreditCard, "credit_card"),
+        NewTypeHolderDiscriminator(&PaymentMethodExternal{}, false, &i.isPaymentMethodExternal, "external"),
+        NewTypeHolderDiscriminator(&PaymentMethodPaypal{}, false, &i.isPaymentMethodPaypal, "paypal_account"),
+    )
     
-    i.AdditionalProperties = additionalProperties
-    i.Type = temp.Type
-    i.MaskedAccountNumber = temp.MaskedAccountNumber
-    i.MaskedRoutingNumber = temp.MaskedRoutingNumber
-    i.CardBrand = temp.CardBrand
-    i.CardExpiration = temp.CardExpiration
-    i.LastFour = temp.LastFour
-    i.MaskedCardNumber = temp.MaskedCardNumber
-    i.Details = temp.Details
-    i.Kind = temp.Kind
-    i.Memo = temp.Memo
-    i.Email = temp.Email
-    return nil
+    i.value = result
+    return err
 }
 
-// invoiceEventPayment is a temporary struct used for validating the fields of InvoiceEventPayment.
-type invoiceEventPayment  struct {
-    Type                *string          `json:"type,omitempty"`
-    MaskedAccountNumber *string          `json:"masked_account_number,omitempty"`
-    MaskedRoutingNumber *string          `json:"masked_routing_number,omitempty"`
-    CardBrand           *string          `json:"card_brand,omitempty"`
-    CardExpiration      *string          `json:"card_expiration,omitempty"`
-    LastFour            Optional[string] `json:"last_four"`
-    MaskedCardNumber    *string          `json:"masked_card_number,omitempty"`
-    Details             Optional[string] `json:"details"`
-    Kind                *string          `json:"kind,omitempty"`
-    Memo                Optional[string] `json:"memo"`
-    Email               *string          `json:"email,omitempty"`
+func (i *InvoiceEventPayment) AsPaymentMethodApplePay() (
+    *PaymentMethodApplePay,
+    bool) {
+    if !i.isPaymentMethodApplePay {
+        return nil, false
+    }
+    return i.value.(*PaymentMethodApplePay), true
+}
+
+func (i *InvoiceEventPayment) AsPaymentMethodBankAccount() (
+    *PaymentMethodBankAccount,
+    bool) {
+    if !i.isPaymentMethodBankAccount {
+        return nil, false
+    }
+    return i.value.(*PaymentMethodBankAccount), true
+}
+
+func (i *InvoiceEventPayment) AsPaymentMethodCreditCard() (
+    *PaymentMethodCreditCard,
+    bool) {
+    if !i.isPaymentMethodCreditCard {
+        return nil, false
+    }
+    return i.value.(*PaymentMethodCreditCard), true
+}
+
+func (i *InvoiceEventPayment) AsPaymentMethodExternal() (
+    *PaymentMethodExternal,
+    bool) {
+    if !i.isPaymentMethodExternal {
+        return nil, false
+    }
+    return i.value.(*PaymentMethodExternal), true
+}
+
+func (i *InvoiceEventPayment) AsPaymentMethodPaypal() (
+    *PaymentMethodPaypal,
+    bool) {
+    if !i.isPaymentMethodPaypal {
+        return nil, false
+    }
+    return i.value.(*PaymentMethodPaypal), true
+}
+
+// internalInvoiceEventPayment represents a invoiceEventPayment struct.
+// A nested data structure detailing the method of payment
+type internalInvoiceEventPayment struct {}
+
+var InvoiceEventPaymentContainer internalInvoiceEventPayment
+
+// The internalInvoiceEventPayment instance, wrapping the provided PaymentMethodApplePay value.
+func (i *internalInvoiceEventPayment) FromPaymentMethodApplePay(val PaymentMethodApplePay) InvoiceEventPayment {
+    return InvoiceEventPayment{value: &val}
+}
+
+// The internalInvoiceEventPayment instance, wrapping the provided PaymentMethodBankAccount value.
+func (i *internalInvoiceEventPayment) FromPaymentMethodBankAccount(val PaymentMethodBankAccount) InvoiceEventPayment {
+    return InvoiceEventPayment{value: &val}
+}
+
+// The internalInvoiceEventPayment instance, wrapping the provided PaymentMethodCreditCard value.
+func (i *internalInvoiceEventPayment) FromPaymentMethodCreditCard(val PaymentMethodCreditCard) InvoiceEventPayment {
+    return InvoiceEventPayment{value: &val}
+}
+
+// The internalInvoiceEventPayment instance, wrapping the provided PaymentMethodExternal value.
+func (i *internalInvoiceEventPayment) FromPaymentMethodExternal(val PaymentMethodExternal) InvoiceEventPayment {
+    return InvoiceEventPayment{value: &val}
+}
+
+// The internalInvoiceEventPayment instance, wrapping the provided PaymentMethodPaypal value.
+func (i *internalInvoiceEventPayment) FromPaymentMethodPaypal(val PaymentMethodPaypal) InvoiceEventPayment {
+    return InvoiceEventPayment{value: &val}
 }

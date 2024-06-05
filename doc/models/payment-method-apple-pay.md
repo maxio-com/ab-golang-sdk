@@ -15,7 +15,7 @@
 
 ```json
 {
-  "type": "credit_card"
+  "type": "apple_pay"
 }
 ```
 

@@ -17,7 +17,7 @@
 ```json
 {
   "email": "email2",
-  "type": "bank_account"
+  "type": "paypal_account"
 }
 ```
 

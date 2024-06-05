@@ -130,6 +130,7 @@ ListSubscriptionComponents(
 | `startDate` | `*string` | Query, Optional | The start date (format YYYY-MM-DD) with which to filter the date_field. Returns components with a timestamp at or after midnight (12:00:00 AM) in your site’s time zone on the date specified. |
 | `startDatetime` | `*string` | Query, Optional | The start date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns components with a timestamp at or after exact time provided in query. You can specify timezone in query - otherwise your site''s time zone will be used. If provided, this parameter will be used instead of start_date. |
 | `include` | [`[]models.ListSubscriptionComponentsInclude`](../../doc/models/list-subscription-components-include.md) | Query, Optional | Allows including additional data in the response. Use in query `include=subscription,historic_usages`. |
+| `inUse` | `*bool` | Query, Optional | If in_use is set to true, it returns only components that are currently in use. However, if it's set to false or not provided, it returns all components connected with the subscription. |
 
 ## Response Type
 
@@ -160,6 +161,7 @@ collectedInput := advancedbilling.ListSubscriptionComponentsInput{
         models.ListSubscriptionComponentsInclude("subscription"),
         models.ListSubscriptionComponentsInclude("historic_usages"),
     },
+    InUse:            models.ToPointer(true),
 }
 
 apiResponse, err := subscriptionComponentsController.ListSubscriptionComponents(ctx, collectedInput)
@@ -1272,8 +1274,8 @@ ListUsages(
 |  --- | --- | --- | --- |
 | `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription |
 | `componentId` | [`models.ListUsagesInputComponentId`](../../doc/models/containers/list-usages-input-component-id.md) | Template, Required | This is a container for one-of cases. |
-| `sinceId` | `*int` | Query, Optional | Returns usages with an id greater than or equal to the one specified |
-| `maxId` | `*int` | Query, Optional | Returns usages with an id less than or equal to the one specified |
+| `sinceId` | `*int64` | Query, Optional | Returns usages with an id greater than or equal to the one specified |
+| `maxId` | `*int64` | Query, Optional | Returns usages with an id less than or equal to the one specified |
 | `sinceDate` | `*time.Time` | Query, Optional | Returns usages with a created_at date greater than or equal to midnight (12:00 AM) on the date specified. |
 | `untilDate` | `*time.Time` | Query, Optional | Returns usages with a created_at date less than or equal to midnight (12:00 AM) on the date specified. |
 | `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`. |

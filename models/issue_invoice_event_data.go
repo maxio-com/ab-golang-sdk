@@ -16,9 +16,9 @@ type IssueInvoiceEventData struct {
     // "Parent" invoices do not have lines of their own, but they have subtotals and totals which aggregate the member invoice segments.
     // See also the [invoice consolidation documentation](https://chargify.zendesk.com/hc/en-us/articles/4407746391835).
     ConsolidationLevel   InvoiceConsolidationLevel `json:"consolidation_level"`
-    // The status of the invoice before event occurence. See [Invoice Statuses](https://chargify.zendesk.com/hc/en-us/articles/4407737494171#line-item-breakdowns) for more.
+    // The status of the invoice before event occurrence. See [Invoice Statuses](https://maxio-chargify.zendesk.com/hc/en-us/articles/5405078794253-Introduction-to-Invoices#invoice-statusess) for more.
     FromStatus           InvoiceStatus             `json:"from_status"`
-    // The status of the invoice after event occurence. See [Invoice Statuses](https://chargify.zendesk.com/hc/en-us/articles/4407737494171#line-item-breakdowns) for more.
+    // The status of the invoice after event occurrence. See [Invoice Statuses](https://maxio-chargify.zendesk.com/hc/en-us/articles/5405078794253-Introduction-to-Invoices#invoice-statusess) for more.
     ToStatus             InvoiceStatus             `json:"to_status"`
     // Amount due on the invoice, which is `total_amount - credit_amount - paid_amount`.
     DueAmount            string                    `json:"due_amount"`

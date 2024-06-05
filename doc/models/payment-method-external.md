@@ -21,7 +21,7 @@
   "details": "details4",
   "kind": "kind2",
   "memo": "memo8",
-  "type": "bank_account"
+  "type": "external"
 }
 ```
 

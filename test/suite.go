@@ -126,7 +126,7 @@ func (s *APISuite) generateCustomer(ctx context.Context) models.Customer {
 func (s *APISuite) generateProductFamily(ctx context.Context) models.ProductFamily {
 	resp, err := s.client.ProductFamiliesController().CreateProductFamily(ctx, &models.CreateProductFamilyRequest{
 		ProductFamily: models.CreateProductFamily{
-			Name: strPtr(s.fkr.RandomStringWithLength(20)),
+			Name: s.fkr.RandomStringWithLength(20),
 		},
 	})
 

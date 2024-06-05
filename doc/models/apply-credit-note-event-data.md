@@ -17,7 +17,7 @@ Example schema for an `apply_credit_note` event
 | `OriginalAmount` | `string` | Required | The full, original amount of the credit note. |
 | `AppliedAmount` | `string` | Required | The amount of the credit note applied to invoice. |
 | `TransactionTime` | `*time.Time` | Optional | The time the credit note was applied, in ISO 8601 format, i.e. "2019-06-07T17:20:06Z" |
-| `Memo` | `*string` | Optional | The credit note memo. |
+| `Memo` | `models.Optional[string]` | Optional | The credit note memo. |
 | `Role` | `*string` | Optional | The role of the credit note (e.g. 'general') |
 | `ConsolidatedInvoice` | `*bool` | Optional | Shows whether it was applied to consolidated invoice or not |
 | `AppliedCreditNotes` | [`[]models.AppliedCreditNoteData`](../../doc/models/applied-credit-note-data.md) | Optional | List of credit notes applied to children invoices (if consolidated invoice) |

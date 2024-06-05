@@ -20,10 +20,10 @@
 ```json
 {
   "card_brand": "card_brand4",
-  "card_expiration": "card_expiration2",
-  "last_four": "last_four4",
   "masked_card_number": "masked_card_number0",
-  "type": "external"
+  "type": "credit_card",
+  "card_expiration": "card_expiration2",
+  "last_four": "last_four4"
 }
 ```
 

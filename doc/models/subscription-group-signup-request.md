@@ -16,7 +16,6 @@
 ```json
 {
   "subscription_group": {
-    "payment_collection_method": "automatic",
     "subscriptions": [
       {
         "metafields": {
@@ -33,6 +32,7 @@
     "payment_profile_id": 128,
     "payer_id": 150,
     "payer_reference": "payer_reference6",
+    "payment_collection_method": "prepaid",
     "payer_attributes": {
       "first_name": "first_name2",
       "last_name": "last_name0",

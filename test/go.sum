@@ -1,5 +1,5 @@
-github.com/apimatic/go-core-runtime v0.0.20 h1:orjqhRC43F1xDRGOYbJsosTbja3UzE60DLvloHsG9xc=
-github.com/apimatic/go-core-runtime v0.0.20/go.mod h1:kyqGg2v3OTV7o2fXHgbHLZPMinqZvIqw1JwdEd64OzM=
+github.com/apimatic/go-core-runtime v0.0.21 h1:05q2QqxfCxY8ejQQjJYs78DFjFvOeSnMl3EZNRuw3bc=
+github.com/apimatic/go-core-runtime v0.0.21/go.mod h1:kyqGg2v3OTV7o2fXHgbHLZPMinqZvIqw1JwdEd64OzM=
 github.com/caarlos0/env/v10 v10.0.0 h1:yIHUBZGsyqCnpTkbjk8asUlx6RFhhEs+h7TOBdgdzXA=
 github.com/caarlos0/env/v10 v10.0.0/go.mod h1:ZfulV76NvVPw3tm591U4SwL3Xx9ldzBP9aGxzeN7G18=
 github.com/creack/pty v1.1.9/go.mod h1:oKZEueFk5CKHvIhNR5MUki03XCEU+Q6VDXinZuGJ33E=

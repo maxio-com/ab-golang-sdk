@@ -11,23 +11,24 @@ import (
 // ApplyPaymentEventData represents a ApplyPaymentEventData struct.
 // Example schema for an `apply_payment` event
 type ApplyPaymentEventData struct {
+    ConsolidationLevel        InvoiceConsolidationLevel `json:"consolidation_level"`
     // The payment memo
-    Memo                      string               `json:"memo"`
+    Memo                      string                    `json:"memo"`
     // The full, original amount of the payment transaction as a string in full units. Incoming payments can be split amongst several invoices, which will result in a `applied_amount` less than the `original_amount`. Example: A $100.99 payment, of which $40.11 is applied to this invoice, will have an `original_amount` of `"100.99"`.
-    OriginalAmount            string               `json:"original_amount"`
+    OriginalAmount            string                    `json:"original_amount"`
     // The amount of the payment applied to this invoice. Incoming payments can be split amongst several invoices, which will result in a `applied_amount` less than the `original_amount`. Example: A $100.99 payment, of which $40.11 is applied to this invoice, will have an `applied_amount` of `"40.11"`.
-    AppliedAmount             string               `json:"applied_amount"`
+    AppliedAmount             string                    `json:"applied_amount"`
     // The time the payment was applied, in ISO 8601 format, i.e. "2019-06-07T17:20:06Z"
-    TransactionTime           time.Time            `json:"transaction_time"`
+    TransactionTime           time.Time                 `json:"transaction_time"`
     // A nested data structure detailing the method of payment
-    PaymentMethod             InvoiceEventPayment2 `json:"payment_method"`
+    PaymentMethod             InvoiceEventPayment       `json:"payment_method"`
     // The Chargify id of the original payment
-    TransactionId             *int                 `json:"transaction_id,omitempty"`
-    ParentInvoiceNumber       Optional[int]        `json:"parent_invoice_number"`
-    RemainingPrepaymentAmount Optional[string]     `json:"remaining_prepayment_amount"`
-    Prepayment                *bool                `json:"prepayment,omitempty"`
-    External                  *bool                `json:"external,omitempty"`
-    AdditionalProperties      map[string]any       `json:"_"`
+    TransactionId             *int                      `json:"transaction_id,omitempty"`
+    ParentInvoiceNumber       Optional[int]             `json:"parent_invoice_number"`
+    RemainingPrepaymentAmount Optional[string]          `json:"remaining_prepayment_amount"`
+    Prepayment                *bool                     `json:"prepayment,omitempty"`
+    External                  *bool                     `json:"external,omitempty"`
+    AdditionalProperties      map[string]any            `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for ApplyPaymentEventData.
@@ -42,6 +43,7 @@ func (a ApplyPaymentEventData) MarshalJSON() (
 func (a ApplyPaymentEventData) toMap() map[string]any {
     structMap := make(map[string]any)
     MapAdditionalProperties(structMap, a.AdditionalProperties)
+    structMap["consolidation_level"] = a.ConsolidationLevel
     structMap["memo"] = a.Memo
     structMap["original_amount"] = a.OriginalAmount
     structMap["applied_amount"] = a.AppliedAmount
@@ -85,12 +87,13 @@ func (a *ApplyPaymentEventData) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "memo", "original_amount", "applied_amount", "transaction_time", "payment_method", "transaction_id", "parent_invoice_number", "remaining_prepayment_amount", "prepayment", "external")
+    additionalProperties, err := UnmarshalAdditionalProperties(input, "consolidation_level", "memo", "original_amount", "applied_amount", "transaction_time", "payment_method", "transaction_id", "parent_invoice_number", "remaining_prepayment_amount", "prepayment", "external")
     if err != nil {
     	return err
     }
     
     a.AdditionalProperties = additionalProperties
+    a.ConsolidationLevel = *temp.ConsolidationLevel
     a.Memo = *temp.Memo
     a.OriginalAmount = *temp.OriginalAmount
     a.AppliedAmount = *temp.AppliedAmount
@@ -110,20 +113,24 @@ func (a *ApplyPaymentEventData) UnmarshalJSON(input []byte) error {
 
 // applyPaymentEventData is a temporary struct used for validating the fields of ApplyPaymentEventData.
 type applyPaymentEventData  struct {
-    Memo                      *string               `json:"memo"`
-    OriginalAmount            *string               `json:"original_amount"`
-    AppliedAmount             *string               `json:"applied_amount"`
-    TransactionTime           *string               `json:"transaction_time"`
-    PaymentMethod             *InvoiceEventPayment2 `json:"payment_method"`
-    TransactionId             *int                  `json:"transaction_id,omitempty"`
-    ParentInvoiceNumber       Optional[int]         `json:"parent_invoice_number"`
-    RemainingPrepaymentAmount Optional[string]      `json:"remaining_prepayment_amount"`
-    Prepayment                *bool                 `json:"prepayment,omitempty"`
-    External                  *bool                 `json:"external,omitempty"`
+    ConsolidationLevel        *InvoiceConsolidationLevel `json:"consolidation_level"`
+    Memo                      *string                    `json:"memo"`
+    OriginalAmount            *string                    `json:"original_amount"`
+    AppliedAmount             *string                    `json:"applied_amount"`
+    TransactionTime           *string                    `json:"transaction_time"`
+    PaymentMethod             *InvoiceEventPayment       `json:"payment_method"`
+    TransactionId             *int                       `json:"transaction_id,omitempty"`
+    ParentInvoiceNumber       Optional[int]              `json:"parent_invoice_number"`
+    RemainingPrepaymentAmount Optional[string]           `json:"remaining_prepayment_amount"`
+    Prepayment                *bool                      `json:"prepayment,omitempty"`
+    External                  *bool                      `json:"external,omitempty"`
 }
 
 func (a *applyPaymentEventData) validate() error {
     var errs []string
+    if a.ConsolidationLevel == nil {
+        errs = append(errs, "required field `consolidation_level` is missing for type `Apply Payment Event Data`")
+    }
     if a.Memo == nil {
         errs = append(errs, "required field `memo` is missing for type `Apply Payment Event Data`")
     }

@@ -3,21 +3,27 @@ package models
 import (
     "encoding/json"
     "errors"
+    "log"
     "strings"
+    "time"
 )
 
 // ApplyDebitNoteEventData represents a ApplyDebitNoteEventData struct.
 // Example schema for an `apply_debit_note` event
 type ApplyDebitNoteEventData struct {
     // A unique, identifying string that appears on the debit note and in places it is referenced.
-    DebitNoteNumber      string         `json:"debit_note_number"`
+    DebitNoteNumber      string              `json:"debit_note_number"`
     // Unique identifier for the debit note. It is generated automatically by Chargify and has the prefix "db_" followed by alphanumeric characters.
-    DebitNoteUid         string         `json:"debit_note_uid"`
+    DebitNoteUid         string              `json:"debit_note_uid"`
     // The full, original amount of the debit note.
-    OriginalAmount       string         `json:"original_amount"`
+    OriginalAmount       string              `json:"original_amount"`
     // The amount of the debit note applied to invoice.
-    AppliedAmount        string         `json:"applied_amount"`
-    AdditionalProperties map[string]any `json:"_"`
+    AppliedAmount        string              `json:"applied_amount"`
+    // The debit note memo.
+    Memo                 Optional[string]    `json:"memo"`
+    // The time the debit note was applied, in ISO 8601 format, i.e. "2019-06-07T17:20:06Z"
+    TransactionTime      Optional[time.Time] `json:"transaction_time"`
+    AdditionalProperties map[string]any      `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for ApplyDebitNoteEventData.
@@ -36,6 +42,25 @@ func (a ApplyDebitNoteEventData) toMap() map[string]any {
     structMap["debit_note_uid"] = a.DebitNoteUid
     structMap["original_amount"] = a.OriginalAmount
     structMap["applied_amount"] = a.AppliedAmount
+    if a.Memo.IsValueSet() {
+        if a.Memo.Value() != nil {
+            structMap["memo"] = a.Memo.Value()
+        } else {
+            structMap["memo"] = nil
+        }
+    }
+    if a.TransactionTime.IsValueSet() {
+        var TransactionTimeVal *string = nil
+        if a.TransactionTime.Value() != nil {
+            val := a.TransactionTime.Value().Format(time.RFC3339)
+            TransactionTimeVal = &val
+        }
+        if a.TransactionTime.Value() != nil {
+            structMap["transaction_time"] = TransactionTimeVal
+        } else {
+            structMap["transaction_time"] = nil
+        }
+    }
     return structMap
 }
 
@@ -51,7 +76,7 @@ func (a *ApplyDebitNoteEventData) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "debit_note_number", "debit_note_uid", "original_amount", "applied_amount")
+    additionalProperties, err := UnmarshalAdditionalProperties(input, "debit_note_number", "debit_note_uid", "original_amount", "applied_amount", "memo", "transaction_time")
     if err != nil {
     	return err
     }
@@ -61,15 +86,26 @@ func (a *ApplyDebitNoteEventData) UnmarshalJSON(input []byte) error {
     a.DebitNoteUid = *temp.DebitNoteUid
     a.OriginalAmount = *temp.OriginalAmount
     a.AppliedAmount = *temp.AppliedAmount
+    a.Memo = temp.Memo
+    a.TransactionTime.ShouldSetValue(temp.TransactionTime.IsValueSet())
+    if temp.TransactionTime.Value() != nil {
+        TransactionTimeVal, err := time.Parse(time.RFC3339, (*temp.TransactionTime.Value()))
+        if err != nil {
+            log.Fatalf("Cannot Parse transaction_time as % s format.", time.RFC3339)
+        }
+        a.TransactionTime.SetValue(&TransactionTimeVal)
+    }
     return nil
 }
 
 // applyDebitNoteEventData is a temporary struct used for validating the fields of ApplyDebitNoteEventData.
 type applyDebitNoteEventData  struct {
-    DebitNoteNumber *string `json:"debit_note_number"`
-    DebitNoteUid    *string `json:"debit_note_uid"`
-    OriginalAmount  *string `json:"original_amount"`
-    AppliedAmount   *string `json:"applied_amount"`
+    DebitNoteNumber *string          `json:"debit_note_number"`
+    DebitNoteUid    *string          `json:"debit_note_uid"`
+    OriginalAmount  *string          `json:"original_amount"`
+    AppliedAmount   *string          `json:"applied_amount"`
+    Memo            Optional[string] `json:"memo"`
+    TransactionTime Optional[string] `json:"transaction_time"`
 }
 
 func (a *applyDebitNoteEventData) validate() error {

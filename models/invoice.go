@@ -35,7 +35,7 @@ type Invoice struct {
     // If partial payments are applied to the invoice, this date will not be present until payment has been made in full.
     // The format is `"YYYY-MM-DD"`.
     PaidDate                   Optional[time.Time]        `json:"paid_date"`
-    // The current status of the invoice. See [Invoice Statuses](https://chargify.zendesk.com/hc/en-us/articles/4407737494171#line-item-breakdowns) for more.
+    // The current status of the invoice. See [Invoice Statuses](https://maxio-chargify.zendesk.com/hc/en-us/articles/5405078794253-Introduction-to-Invoices#invoice-statuses) for more.
     Status                     *InvoiceStatus             `json:"status,omitempty"`
     Role                       *InvoiceRole               `json:"role,omitempty"`
     ParentInvoiceId            Optional[int]              `json:"parent_invoice_id"`
