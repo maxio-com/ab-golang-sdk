@@ -96,7 +96,7 @@ func NewClient(configuration Configuration) ClientInterface {
         configuration: configuration,
     }
     
-    client.userAgent = utilities.UpdateUserAgent("AB SDK Go:0.1.0 on OS {os-info}")
+    client.userAgent = utilities.UpdateUserAgent("AB SDK Go:0.2.0 on OS {os-info}")
     client.callBuilderFactory = callBuilderHandler(
     	func(server string) string {
     		if server == "" {
