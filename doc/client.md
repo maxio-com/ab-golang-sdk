@@ -28,6 +28,8 @@ client := advancedbilling.NewClient(
                 "BasicAuthPassword",
             ),
         ),
+        advancedbilling.WithSubdomain("subdomain"),
+        advancedbilling.WithDomain("chargify.com"),
     ),
 )
 ```

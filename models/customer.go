@@ -16,7 +16,7 @@ type Customer struct {
     Email                       *string             `json:"email,omitempty"`
     // A comma-separated list of emails that should be cc’d on all customer communications (i.e. “joe@example.com, sue@example.com”)
     CcEmails                    Optional[string]    `json:"cc_emails"`
-    // The organization of the customer
+    // The organization of the customer. If no value, `null` or empty string is provided, `organization` will be populated with the customer's first and last name, separated with a space.
     Organization                Optional[string]    `json:"organization"`
     // The unique identifier used within your own application for this customer
     Reference                   Optional[string]    `json:"reference"`
