@@ -96,7 +96,8 @@ func (s *InvoiceSuite) TestInvoice() {
                 events, err := s.client.InvoicesController().ListInvoiceEvents(
                     ctx,
                     advancedbilling.ListInvoiceEventsInput{
-                        InvoiceUid: resp.Data.Invoice.Uid, // cant pass event types here. Server throws 500
+                        EventTypes: []models.InvoiceEventType{models.InvoiceEventType_ISSUEINVOICE, models.InvoiceEventType_VOIDINVOICE},
+                        InvoiceUid: resp.Data.Invoice.Uid,
                     },
                 )
 

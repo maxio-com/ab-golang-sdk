@@ -38,10 +38,10 @@ The following section explains how to use the advancedbilling library in a new p
 To use the package in your application, you can install the package from [pkg.go.dev](https://pkg.go.dev/) using the following command:
 
 ```bash
-$ go get github.com/maxio-com/ab-golang-sdk@v0.2.0
+$ go get github.com/maxio-com/ab-golang-sdk@v0.2.1
 ```
 
-You can also view the package at: https://pkg.go.dev/github.com/maxio-com/ab-golang-sdk@v0.2.0
+You can also view the package at: https://pkg.go.dev/github.com/maxio-com/ab-golang-sdk@v0.2.1
 
 ## Initialize the API Client
 
@@ -74,6 +74,8 @@ client := advancedbilling.NewClient(
                 "BasicAuthPassword",
             ),
         ),
+        advancedbilling.WithSubdomain("subdomain"),
+        advancedbilling.WithDomain("chargify.com"),
     ),
 )
 ```

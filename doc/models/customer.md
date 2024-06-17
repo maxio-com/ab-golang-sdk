@@ -13,7 +13,7 @@
 | `LastName` | `*string` | Optional | The last name of the customer |
 | `Email` | `*string` | Optional | The email address of the customer |
 | `CcEmails` | `models.Optional[string]` | Optional | A comma-separated list of emails that should be cc’d on all customer communications (i.e. “joe@example.com, sue@example.com”) |
-| `Organization` | `models.Optional[string]` | Optional | The organization of the customer |
+| `Organization` | `models.Optional[string]` | Optional | The organization of the customer. If no value, `null` or empty string is provided, `organization` will be populated with the customer's first and last name, separated with a space. |
 | `Reference` | `models.Optional[string]` | Optional | The unique identifier used within your own application for this customer |
 | `Id` | `*int` | Optional | The customer ID in Chargify |
 | `CreatedAt` | `*time.Time` | Optional | The timestamp in which the customer object was created in Chargify |
