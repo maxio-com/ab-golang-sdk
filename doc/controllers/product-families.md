@@ -32,7 +32,7 @@ ListProductsForProductFamily(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `productFamilyId` | `int` | Template, Required | The Chargify id of the product family to which the product belongs |
+| `productFamilyId` | `string` | Template, Required | Either the product family's id or its handle prefixed with `handle:` |
 | `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`. |
 | `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`. |
 | `dateField` | [`*models.BasicDateField`](../../doc/models/basic-date-field.md) | Query, Optional | The type of filter you would like to apply to your search.<br>Use in query: `date_field=created_at`. |
@@ -54,7 +54,7 @@ ListProductsForProductFamily(
 ctx := context.Background()
 
 collectedInput := advancedbilling.ListProductsForProductFamilyInput{
-    ProductFamilyId: 140,
+    ProductFamilyId: "product_family_id4",
     Page:            models.ToPointer(2),
     PerPage:         models.ToPointer(50),
     DateField:       models.ToPointer(models.BasicDateField("updated_at")),

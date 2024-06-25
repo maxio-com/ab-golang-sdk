@@ -23,8 +23,8 @@ func NewProductFamiliesController(baseController baseController) *ProductFamilie
 
 // ListProductsForProductFamilyInput represents the input of the ListProductsForProductFamily endpoint.
 type ListProductsForProductFamilyInput struct {
-    // The Chargify id of the product family to which the product belongs
-    ProductFamilyId int                         
+    // Either the product family's id or its handle prefixed with `handle:`
+    ProductFamilyId string                      
     // Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.
     // Use in query `page=1`.
     Page            *int                        

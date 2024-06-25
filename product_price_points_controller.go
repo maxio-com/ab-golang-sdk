@@ -144,7 +144,7 @@ func (p *ProductPricePointsController) UpdateProductPricePoint(
 // ReadProductPricePoint takes context, productId, pricePointId, currencyPrices as parameters and
 // returns an models.ApiResponse with models.ProductPricePointResponse data and
 // an error if there was an issue with the request or response.
-// Use this endpoint to retrieve details for a specific product price point.
+// Use this endpoint to retrieve details for a specific product price point. You can achieve this by using either the product price point ID or handle.
 func (p *ProductPricePointsController) ReadProductPricePoint(
     ctx context.Context,
     productId models.ReadProductPricePointProductId,

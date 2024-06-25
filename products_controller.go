@@ -30,7 +30,7 @@ func NewProductsController(baseController baseController) *ProductsController {
 // + [Changing a Subscription's Product](https://maxio-chargify.zendesk.com/hc/en-us/articles/5404225334669-Product-Changes-Migrations)
 func (p *ProductsController) CreateProduct(
     ctx context.Context,
-    productFamilyId int,
+    productFamilyId string,
     body *models.CreateOrUpdateProductRequest) (
     models.ApiResponse[models.ProductResponse],
     error) {
