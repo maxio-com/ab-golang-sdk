@@ -137,7 +137,7 @@ func (s *APISuite) generateProductFamily(ctx context.Context) models.ProductFami
 }
 
 func (s *APISuite) generateProduct(ctx context.Context, productFamilyID int) models.Product {
-	resp, err := s.client.ProductsController().CreateProduct(ctx, productFamilyID, &models.CreateOrUpdateProductRequest{
+	resp, err := s.client.ProductsController().CreateProduct(ctx, fmt.Sprint(productFamilyID), &models.CreateOrUpdateProductRequest{
 		Product: models.CreateOrUpdateProduct{
 			Name:         s.fkr.RandomStringWithLength(20),
 			PriceInCents: 50,
