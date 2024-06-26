@@ -22,6 +22,7 @@ type ClientInterface interface {
     BillingPortalController() *BillingPortalController
     CouponsController() *CouponsController
     ComponentsController() *ComponentsController
+    ComponentPricePointsController() *ComponentPricePointsController
     CustomersController() *CustomersController
     CustomFieldsController() *CustomFieldsController
     EventsController() *EventsController
@@ -61,6 +62,7 @@ type client struct {
     billingPortalController                   BillingPortalController
     couponsController                         CouponsController
     componentsController                      ComponentsController
+    componentPricePointsController            ComponentPricePointsController
     customersController                       CustomersController
     customFieldsController                    CustomFieldsController
     eventsController                          EventsController
@@ -96,7 +98,7 @@ func NewClient(configuration Configuration) ClientInterface {
         configuration: configuration,
     }
     
-    client.userAgent = utilities.UpdateUserAgent("AB SDK Go:0.2.1 on OS {os-info}")
+    client.userAgent = utilities.UpdateUserAgent("AB SDK Go:0.3.0 on OS {os-info}")
     client.callBuilderFactory = callBuilderHandler(
     	func(server string) string {
     		if server == "" {
@@ -118,6 +120,7 @@ func NewClient(configuration Configuration) ClientInterface {
     client.billingPortalController = *NewBillingPortalController(*baseController)
     client.couponsController = *NewCouponsController(*baseController)
     client.componentsController = *NewComponentsController(*baseController)
+    client.componentPricePointsController = *NewComponentPricePointsController(*baseController)
     client.customersController = *NewCustomersController(*baseController)
     client.customFieldsController = *NewCustomFieldsController(*baseController)
     client.eventsController = *NewEventsController(*baseController)
@@ -180,6 +183,11 @@ func (c *client) CouponsController() *CouponsController {
 // ComponentsController returns the componentsController instance of the client.
 func (c *client) ComponentsController() *ComponentsController {
     return &c.componentsController
+}
+
+// ComponentPricePointsController returns the componentPricePointsController instance of the client.
+func (c *client) ComponentPricePointsController() *ComponentPricePointsController {
+    return &c.componentPricePointsController
 }
 
 // CustomersController returns the customersController instance of the client.

@@ -28,7 +28,7 @@ Use this method to create a product within your Chargify site.
 ```go
 CreateProduct(
     ctx context.Context,
-    productFamilyId int,
+    productFamilyId string,
     body *models.CreateOrUpdateProductRequest) (
     models.ApiResponse[models.ProductResponse],
     error)
@@ -38,7 +38,7 @@ CreateProduct(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `productFamilyId` | `int` | Template, Required | The Chargify id of the product family to which the product belongs |
+| `productFamilyId` | `string` | Template, Required | Either the product family's id or its handle prefixed with `handle:` |
 | `body` | [`*models.CreateOrUpdateProductRequest`](../../doc/models/create-or-update-product-request.md) | Body, Optional | - |
 
 ## Response Type
@@ -50,7 +50,7 @@ CreateProduct(
 ```go
 ctx := context.Background()
 
-productFamilyId := 140
+productFamilyId := "product_family_id4"
 
 body := models.CreateOrUpdateProductRequest{
     Product: models.CreateOrUpdateProduct{

@@ -47,6 +47,7 @@ The gateway for the SDK. This class acts as a factory for the Controllers and al
 | billingPortal | Gets BillingPortalController |
 | coupons | Gets CouponsController |
 | components | Gets ComponentsController |
+| componentPricePoints | Gets ComponentPricePointsController |
 | customers | Gets CustomersController |
 | customFields | Gets CustomFieldsController |
 | events | Gets EventsController |
