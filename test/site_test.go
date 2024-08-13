@@ -35,11 +35,11 @@ func (s *SiteSuite) TestReadSite() {
 				s.NoError(err)
 
 				respSite := resp.Data.Site
-				s.Equal(86564, *respSite.Id, "ID")
+				s.Equal(87358, *respSite.Id, "ID")
 				s.Equal("Golang SDK", *respSite.Name, "Name")
 				s.Equal("go-sdk", *respSite.Subdomain, "Subdomain")
 				s.Equal("USD", *respSite.Currency, "Currency")
-				s.Equal(56887, *respSite.SellerId, "SellerID")
+				s.Equal(58665, *respSite.SellerId, "SellerID")
 				s.EqualValues([]string{"EUR"}, respSite.NonPrimaryCurrencies, "NonPrimaryCurrencies")
 				s.True(*respSite.RelationshipInvoicingEnabled, "RelationshipInvoiceEnabled")
 				s.False(*respSite.CustomerHierarchyEnabled, "CustomerHierarchyEnabled,")
