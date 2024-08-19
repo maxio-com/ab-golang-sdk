@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -31,7 +36,7 @@ func (b BaseRefundError) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for BaseRefundError.
 // It customizes the JSON unmarshaling process for BaseRefundError objects.
 func (b *BaseRefundError) UnmarshalJSON(input []byte) error {
-    var temp baseRefundError
+    var temp tempBaseRefundError
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -46,7 +51,7 @@ func (b *BaseRefundError) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// baseRefundError is a temporary struct used for validating the fields of BaseRefundError.
-type baseRefundError  struct {
+// tempBaseRefundError is a temporary struct used for validating the fields of BaseRefundError.
+type tempBaseRefundError  struct {
     Base []interface{} `json:"base,omitempty"`
 }

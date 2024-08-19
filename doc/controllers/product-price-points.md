@@ -25,7 +25,7 @@ productPricePointsController := client.ProductPricePointsController()
 
 # Create Product Price Point
 
-[Product Price Point Documentation](https://chargify.zendesk.com/hc/en-us/articles/4407755824155)
+[Product Price Point Documentation](https://maxio.zendesk.com/hc/en-us/articles/24261111947789-Product-Price-Points)
 
 ```go
 CreateProductPricePoint(
@@ -68,7 +68,7 @@ body := models.CreateProductPricePointRequest{
         InitialChargeInCents:    models.ToPointer(int64(120000)),
         InitialChargeAfterTrial: models.ToPointer(false),
         ExpirationInterval:      models.ToPointer(12),
-        ExpirationIntervalUnit:  models.ToPointer(models.IntervalUnit("month")),
+        ExpirationIntervalUnit:  models.NewOptional(models.ToPointer(models.ExpirationIntervalUnit("month"))),
     },
 }
 
@@ -444,8 +444,8 @@ UnarchiveProductPricePoint(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `productId` | `int` | Template, Required | The Chargify id of the product to which the price point belongs |
-| `pricePointId` | `int` | Template, Required | The Chargify id of the product price point |
+| `productId` | `int` | Template, Required | The Advanced Billing id of the product to which the price point belongs |
+| `pricePointId` | `int` | Template, Required | The Advanced Billing id of the product price point |
 
 ## Response Type
 
@@ -517,8 +517,8 @@ PromoteProductPricePointToDefault(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `productId` | `int` | Template, Required | The Chargify id of the product to which the price point belongs |
-| `pricePointId` | `int` | Template, Required | The Chargify id of the product price point |
+| `productId` | `int` | Template, Required | The Advanced Billing id of the product to which the price point belongs |
+| `pricePointId` | `int` | Template, Required | The Advanced Billing id of the product price point |
 
 ## Response Type
 
@@ -614,7 +614,7 @@ BulkCreateProductPricePoints(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `productId` | `int` | Template, Required | The Chargify id of the product to which the price points belong |
+| `productId` | `int` | Template, Required | The Advanced Billing id of the product to which the price points belong |
 | `body` | [`*models.BulkCreateProductPricePointsRequest`](../../doc/models/bulk-create-product-price-points-request.md) | Body, Optional | - |
 
 ## Response Type
@@ -643,7 +643,7 @@ body := models.BulkCreateProductPricePointsRequest{
             InitialChargeInCents:    models.ToPointer(int64(120000)),
             InitialChargeAfterTrial: models.ToPointer(false),
             ExpirationInterval:      models.ToPointer(12),
-            ExpirationIntervalUnit:  models.ToPointer(models.IntervalUnit("month")),
+            ExpirationIntervalUnit:  models.NewOptional(models.ToPointer(models.ExpirationIntervalUnit("month"))),
         },
         models.CreateProductPricePoint{
             Name:                    "More Educational",
@@ -658,7 +658,7 @@ body := models.BulkCreateProductPricePointsRequest{
             InitialChargeInCents:    models.ToPointer(int64(120000)),
             InitialChargeAfterTrial: models.ToPointer(false),
             ExpirationInterval:      models.ToPointer(12),
-            ExpirationIntervalUnit:  models.ToPointer(models.IntervalUnit("month")),
+            ExpirationIntervalUnit:  models.NewOptional(models.ToPointer(models.ExpirationIntervalUnit("month"))),
         },
     },
 }
@@ -730,7 +730,7 @@ CreateProductCurrencyPrices(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `productPricePointId` | `int` | Template, Required | The Chargify id of the product price point |
+| `productPricePointId` | `int` | Template, Required | The Advanced Billing id of the product price point |
 | `body` | [`*models.CreateProductCurrencyPricesRequest`](../../doc/models/create-product-currency-prices-request.md) | Body, Optional | - |
 
 ## Response Type
@@ -819,7 +819,7 @@ UpdateProductCurrencyPrices(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `productPricePointId` | `int` | Template, Required | The Chargify id of the product price point |
+| `productPricePointId` | `int` | Template, Required | The Advanced Billing id of the product price point |
 | `body` | [`*models.UpdateCurrencyPricesRequest`](../../doc/models/update-currency-prices-request.md) | Body, Optional | - |
 
 ## Response Type

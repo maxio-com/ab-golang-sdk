@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -37,7 +42,7 @@ func (s SubscriptionGroupPrepayment) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for SubscriptionGroupPrepayment.
 // It customizes the JSON unmarshaling process for SubscriptionGroupPrepayment objects.
 func (s *SubscriptionGroupPrepayment) UnmarshalJSON(input []byte) error {
-    var temp subscriptionGroupPrepayment
+    var temp tempSubscriptionGroupPrepayment
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -59,15 +64,15 @@ func (s *SubscriptionGroupPrepayment) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// subscriptionGroupPrepayment is a temporary struct used for validating the fields of SubscriptionGroupPrepayment.
-type subscriptionGroupPrepayment  struct {
+// tempSubscriptionGroupPrepayment is a temporary struct used for validating the fields of SubscriptionGroupPrepayment.
+type tempSubscriptionGroupPrepayment  struct {
     Amount  *int                               `json:"amount"`
     Details *string                            `json:"details"`
     Memo    *string                            `json:"memo"`
     Method  *SubscriptionGroupPrepaymentMethod `json:"method"`
 }
 
-func (s *subscriptionGroupPrepayment) validate() error {
+func (s *tempSubscriptionGroupPrepayment) validate() error {
     var errs []string
     if s.Amount == nil {
         errs = append(errs, "required field `amount` is missing for type `Subscription Group Prepayment`")
@@ -84,5 +89,5 @@ func (s *subscriptionGroupPrepayment) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

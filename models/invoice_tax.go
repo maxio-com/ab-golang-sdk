@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -17,6 +22,9 @@ type InvoiceTax struct {
     TransactionId         *int                          `json:"transaction_id,omitempty"`
     LineItemBreakouts     []InvoiceTaxBreakout          `json:"line_item_breakouts,omitempty"`
     TaxComponentBreakouts []InvoiceTaxComponentBreakout `json:"tax_component_breakouts,omitempty"`
+    EuVat                 *bool                         `json:"eu_vat,omitempty"`
+    Type                  *string                       `json:"type,omitempty"`
+    TaxExemptAmount       *string                       `json:"tax_exempt_amount,omitempty"`
     AdditionalProperties  map[string]any                `json:"_"`
 }
 
@@ -69,18 +77,27 @@ func (i InvoiceTax) toMap() map[string]any {
     if i.TaxComponentBreakouts != nil {
         structMap["tax_component_breakouts"] = i.TaxComponentBreakouts
     }
+    if i.EuVat != nil {
+        structMap["eu_vat"] = i.EuVat
+    }
+    if i.Type != nil {
+        structMap["type"] = i.Type
+    }
+    if i.TaxExemptAmount != nil {
+        structMap["tax_exempt_amount"] = i.TaxExemptAmount
+    }
     return structMap
 }
 
 // UnmarshalJSON implements the json.Unmarshaler interface for InvoiceTax.
 // It customizes the JSON unmarshaling process for InvoiceTax objects.
 func (i *InvoiceTax) UnmarshalJSON(input []byte) error {
-    var temp invoiceTax
+    var temp tempInvoiceTax
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "uid", "title", "description", "source_type", "source_id", "percentage", "taxable_amount", "tax_amount", "transaction_id", "line_item_breakouts", "tax_component_breakouts")
+    additionalProperties, err := UnmarshalAdditionalProperties(input, "uid", "title", "description", "source_type", "source_id", "percentage", "taxable_amount", "tax_amount", "transaction_id", "line_item_breakouts", "tax_component_breakouts", "eu_vat", "type", "tax_exempt_amount")
     if err != nil {
     	return err
     }
@@ -97,11 +114,14 @@ func (i *InvoiceTax) UnmarshalJSON(input []byte) error {
     i.TransactionId = temp.TransactionId
     i.LineItemBreakouts = temp.LineItemBreakouts
     i.TaxComponentBreakouts = temp.TaxComponentBreakouts
+    i.EuVat = temp.EuVat
+    i.Type = temp.Type
+    i.TaxExemptAmount = temp.TaxExemptAmount
     return nil
 }
 
-// invoiceTax is a temporary struct used for validating the fields of InvoiceTax.
-type invoiceTax  struct {
+// tempInvoiceTax is a temporary struct used for validating the fields of InvoiceTax.
+type tempInvoiceTax  struct {
     Uid                   *string                       `json:"uid,omitempty"`
     Title                 *string                       `json:"title,omitempty"`
     Description           Optional[string]              `json:"description"`
@@ -113,4 +133,7 @@ type invoiceTax  struct {
     TransactionId         *int                          `json:"transaction_id,omitempty"`
     LineItemBreakouts     []InvoiceTaxBreakout          `json:"line_item_breakouts,omitempty"`
     TaxComponentBreakouts []InvoiceTaxComponentBreakout `json:"tax_component_breakouts,omitempty"`
+    EuVat                 *bool                         `json:"eu_vat,omitempty"`
+    Type                  *string                       `json:"type,omitempty"`
+    TaxExemptAmount       *string                       `json:"tax_exempt_amount,omitempty"`
 }

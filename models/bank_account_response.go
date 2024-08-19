@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -31,7 +36,7 @@ func (b BankAccountResponse) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for BankAccountResponse.
 // It customizes the JSON unmarshaling process for BankAccountResponse objects.
 func (b *BankAccountResponse) UnmarshalJSON(input []byte) error {
-    var temp bankAccountResponse
+    var temp tempBankAccountResponse
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -50,12 +55,12 @@ func (b *BankAccountResponse) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// bankAccountResponse is a temporary struct used for validating the fields of BankAccountResponse.
-type bankAccountResponse  struct {
+// tempBankAccountResponse is a temporary struct used for validating the fields of BankAccountResponse.
+type tempBankAccountResponse  struct {
     PaymentProfile *BankAccountPaymentProfile `json:"payment_profile"`
 }
 
-func (b *bankAccountResponse) validate() error {
+func (b *tempBankAccountResponse) validate() error {
     var errs []string
     if b.PaymentProfile == nil {
         errs = append(errs, "required field `payment_profile` is missing for type `Bank Account Response`")
@@ -63,5 +68,5 @@ func (b *bankAccountResponse) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

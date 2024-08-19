@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -36,7 +41,7 @@ func (u UpdateSegment) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for UpdateSegment.
 // It customizes the JSON unmarshaling process for UpdateSegment objects.
 func (u *UpdateSegment) UnmarshalJSON(input []byte) error {
-    var temp updateSegment
+    var temp tempUpdateSegment
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -56,13 +61,13 @@ func (u *UpdateSegment) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// updateSegment is a temporary struct used for validating the fields of UpdateSegment.
-type updateSegment  struct {
+// tempUpdateSegment is a temporary struct used for validating the fields of UpdateSegment.
+type tempUpdateSegment  struct {
     PricingScheme *PricingScheme               `json:"pricing_scheme"`
     Prices        []CreateOrUpdateSegmentPrice `json:"prices,omitempty"`
 }
 
-func (u *updateSegment) validate() error {
+func (u *tempUpdateSegment) validate() error {
     var errs []string
     if u.PricingScheme == nil {
         errs = append(errs, "required field `pricing_scheme` is missing for type `Update Segment`")
@@ -70,5 +75,5 @@ func (u *updateSegment) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -31,7 +36,7 @@ func (a AttributeError) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for AttributeError.
 // It customizes the JSON unmarshaling process for AttributeError objects.
 func (a *AttributeError) UnmarshalJSON(input []byte) error {
-    var temp attributeError
+    var temp tempAttributeError
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -50,12 +55,12 @@ func (a *AttributeError) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// attributeError is a temporary struct used for validating the fields of AttributeError.
-type attributeError  struct {
+// tempAttributeError is a temporary struct used for validating the fields of AttributeError.
+type tempAttributeError  struct {
     Attribute *[]string `json:"attribute"`
 }
 
-func (a *attributeError) validate() error {
+func (a *tempAttributeError) validate() error {
     var errs []string
     if a.Attribute == nil {
         errs = append(errs, "required field `attribute` is missing for type `Attribute Error`")
@@ -63,5 +68,5 @@ func (a *attributeError) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

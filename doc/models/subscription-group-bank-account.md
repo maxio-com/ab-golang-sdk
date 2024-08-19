@@ -23,7 +23,7 @@
 | `BillingZip` | `*string` | Optional | - |
 | `BillingCountry` | `*string` | Optional | - |
 | `ChargifyToken` | `*string` | Optional | - |
-| `CurrentVault` | [`*models.BankAccountVault`](../../doc/models/bank-account-vault.md) | Optional | The vault that stores the payment profile with the provided vault_token. |
+| `CurrentVault` | [`*models.BankAccountVault`](../../doc/models/bank-account-vault.md) | Optional | The vault that stores the payment profile with the provided vault_token. Use `bogus` for testing. |
 | `GatewayHandle` | `*string` | Optional | - |
 
 ## Example (as JSON)

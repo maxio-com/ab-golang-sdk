@@ -39,6 +39,7 @@
     ],
     "overage_pricing": [
       {
+        "tax_included": false,
         "pricing_scheme": "stairstep",
         "interval": 230,
         "interval_unit": "day",
@@ -51,6 +52,7 @@
         ]
       },
       {
+        "tax_included": false,
         "pricing_scheme": "stairstep",
         "interval": 230,
         "interval_unit": "day",
@@ -63,6 +65,7 @@
         ]
       },
       {
+        "tax_included": false,
         "pricing_scheme": "stairstep",
         "interval": 230,
         "interval_unit": "day",

@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -37,7 +42,7 @@ func (b BulkUpdateSegmentsItem) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for BulkUpdateSegmentsItem.
 // It customizes the JSON unmarshaling process for BulkUpdateSegmentsItem objects.
 func (b *BulkUpdateSegmentsItem) UnmarshalJSON(input []byte) error {
-    var temp bulkUpdateSegmentsItem
+    var temp tempBulkUpdateSegmentsItem
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -58,14 +63,14 @@ func (b *BulkUpdateSegmentsItem) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// bulkUpdateSegmentsItem is a temporary struct used for validating the fields of BulkUpdateSegmentsItem.
-type bulkUpdateSegmentsItem  struct {
+// tempBulkUpdateSegmentsItem is a temporary struct used for validating the fields of BulkUpdateSegmentsItem.
+type tempBulkUpdateSegmentsItem  struct {
     Id            *int                          `json:"id"`
     PricingScheme *PricingScheme                `json:"pricing_scheme"`
     Prices        *[]CreateOrUpdateSegmentPrice `json:"prices"`
 }
 
-func (b *bulkUpdateSegmentsItem) validate() error {
+func (b *tempBulkUpdateSegmentsItem) validate() error {
     var errs []string
     if b.Id == nil {
         errs = append(errs, "required field `id` is missing for type `Bulk Update Segments Item`")
@@ -79,5 +84,5 @@ func (b *bulkUpdateSegmentsItem) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

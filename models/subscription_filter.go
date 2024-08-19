@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -60,7 +65,7 @@ func (s SubscriptionFilter) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for SubscriptionFilter.
 // It customizes the JSON unmarshaling process for SubscriptionFilter objects.
 func (s *SubscriptionFilter) UnmarshalJSON(input []byte) error {
-    var temp subscriptionFilter
+    var temp tempSubscriptionFilter
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -104,8 +109,8 @@ func (s *SubscriptionFilter) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// subscriptionFilter is a temporary struct used for validating the fields of SubscriptionFilter.
-type subscriptionFilter  struct {
+// tempSubscriptionFilter is a temporary struct used for validating the fields of SubscriptionFilter.
+type tempSubscriptionFilter  struct {
     States        []SubscriptionStateFilter  `json:"states,omitempty"`
     DateField     *SubscriptionListDateField `json:"date_field,omitempty"`
     StartDate     *string                    `json:"start_date,omitempty"`

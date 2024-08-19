@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -45,7 +50,7 @@ func (c ComponentAllocationChange) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for ComponentAllocationChange.
 // It customizes the JSON unmarshaling process for ComponentAllocationChange objects.
 func (c *ComponentAllocationChange) UnmarshalJSON(input []byte) error {
-    var temp componentAllocationChange
+    var temp tempComponentAllocationChange
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -70,8 +75,8 @@ func (c *ComponentAllocationChange) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// componentAllocationChange is a temporary struct used for validating the fields of ComponentAllocationChange.
-type componentAllocationChange  struct {
+// tempComponentAllocationChange is a temporary struct used for validating the fields of ComponentAllocationChange.
+type tempComponentAllocationChange  struct {
     PreviousAllocation *int                                        `json:"previous_allocation"`
     NewAllocation      *int                                        `json:"new_allocation"`
     ComponentId        *int                                        `json:"component_id"`
@@ -81,7 +86,7 @@ type componentAllocationChange  struct {
     AllocatedQuantity  *ComponentAllocationChangeAllocatedQuantity `json:"allocated_quantity,omitempty"`
 }
 
-func (c *componentAllocationChange) validate() error {
+func (c *tempComponentAllocationChange) validate() error {
     var errs []string
     if c.PreviousAllocation == nil {
         errs = append(errs, "required field `previous_allocation` is missing for type `Component Allocation Change`")
@@ -104,5 +109,5 @@ func (c *componentAllocationChange) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

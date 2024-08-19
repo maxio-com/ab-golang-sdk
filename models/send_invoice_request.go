@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -39,7 +44,7 @@ func (s SendInvoiceRequest) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for SendInvoiceRequest.
 // It customizes the JSON unmarshaling process for SendInvoiceRequest objects.
 func (s *SendInvoiceRequest) UnmarshalJSON(input []byte) error {
-    var temp sendInvoiceRequest
+    var temp tempSendInvoiceRequest
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -56,8 +61,8 @@ func (s *SendInvoiceRequest) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// sendInvoiceRequest is a temporary struct used for validating the fields of SendInvoiceRequest.
-type sendInvoiceRequest  struct {
+// tempSendInvoiceRequest is a temporary struct used for validating the fields of SendInvoiceRequest.
+type tempSendInvoiceRequest  struct {
     RecipientEmails    []string `json:"recipient_emails,omitempty"`
     CcRecipientEmails  []string `json:"cc_recipient_emails,omitempty"`
     BccRecipientEmails []string `json:"bcc_recipient_emails,omitempty"`

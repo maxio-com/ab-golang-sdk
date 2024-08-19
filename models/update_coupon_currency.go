@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -35,7 +40,7 @@ func (u UpdateCouponCurrency) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for UpdateCouponCurrency.
 // It customizes the JSON unmarshaling process for UpdateCouponCurrency objects.
 func (u *UpdateCouponCurrency) UnmarshalJSON(input []byte) error {
-    var temp updateCouponCurrency
+    var temp tempUpdateCouponCurrency
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -55,13 +60,13 @@ func (u *UpdateCouponCurrency) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// updateCouponCurrency is a temporary struct used for validating the fields of UpdateCouponCurrency.
-type updateCouponCurrency  struct {
+// tempUpdateCouponCurrency is a temporary struct used for validating the fields of UpdateCouponCurrency.
+type tempUpdateCouponCurrency  struct {
     Currency *string `json:"currency"`
     Price    *int    `json:"price"`
 }
 
-func (u *updateCouponCurrency) validate() error {
+func (u *tempUpdateCouponCurrency) validate() error {
     var errs []string
     if u.Currency == nil {
         errs = append(errs, "required field `currency` is missing for type `Update Coupon Currency`")
@@ -72,5 +77,5 @@ func (u *updateCouponCurrency) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

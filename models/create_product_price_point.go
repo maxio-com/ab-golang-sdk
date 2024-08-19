@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -9,32 +14,32 @@ import (
 // CreateProductPricePoint represents a CreateProductPricePoint struct.
 type CreateProductPricePoint struct {
     // The product price point name
-    Name                    string         `json:"name"`
+    Name                    string                           `json:"name"`
     // The product price point API handle
-    Handle                  *string        `json:"handle,omitempty"`
+    Handle                  *string                          `json:"handle,omitempty"`
     // The product price point price, in integer cents
-    PriceInCents            int64          `json:"price_in_cents"`
+    PriceInCents            int64                            `json:"price_in_cents"`
     // The numerical interval. i.e. an interval of ‘30’ coupled with an interval_unit of day would mean this product price point would renew every 30 days
-    Interval                int            `json:"interval"`
+    Interval                int                              `json:"interval"`
     // A string representing the interval unit for this product price point, either month or day
-    IntervalUnit            IntervalUnit   `json:"interval_unit"`
+    IntervalUnit            IntervalUnit                     `json:"interval_unit"`
     // The product price point trial price, in integer cents
-    TrialPriceInCents       *int64         `json:"trial_price_in_cents,omitempty"`
+    TrialPriceInCents       *int64                           `json:"trial_price_in_cents,omitempty"`
     // The numerical trial interval. i.e. an interval of ‘30’ coupled with a trial_interval_unit of day would mean this product price point trial would last 30 days.
-    TrialInterval           *int           `json:"trial_interval,omitempty"`
+    TrialInterval           *int                             `json:"trial_interval,omitempty"`
     // A string representing the trial interval unit for this product price point, either month or day
-    TrialIntervalUnit       *IntervalUnit  `json:"trial_interval_unit,omitempty"`
-    TrialType               *string        `json:"trial_type,omitempty"`
+    TrialIntervalUnit       *IntervalUnit                    `json:"trial_interval_unit,omitempty"`
+    TrialType               *string                          `json:"trial_type,omitempty"`
     // The product price point initial charge, in integer cents
-    InitialChargeInCents    *int64         `json:"initial_charge_in_cents,omitempty"`
-    InitialChargeAfterTrial *bool          `json:"initial_charge_after_trial,omitempty"`
+    InitialChargeInCents    *int64                           `json:"initial_charge_in_cents,omitempty"`
+    InitialChargeAfterTrial *bool                            `json:"initial_charge_after_trial,omitempty"`
     // The numerical expiration interval. i.e. an expiration_interval of ‘30’ coupled with an expiration_interval_unit of day would mean this product price point would expire after 30 days.
-    ExpirationInterval      *int           `json:"expiration_interval,omitempty"`
-    // A string representing the expiration interval unit for this product price point, either month or day
-    ExpirationIntervalUnit  *IntervalUnit  `json:"expiration_interval_unit,omitempty"`
+    ExpirationInterval      *int                             `json:"expiration_interval,omitempty"`
+    // A string representing the expiration interval unit for this product price point, either month, day or never
+    ExpirationIntervalUnit  Optional[ExpirationIntervalUnit] `json:"expiration_interval_unit"`
     // Whether or not to use the site's exchange rate or define your own pricing when your site has multiple currencies defined.
-    UseSiteExchangeRate     *bool          `json:"use_site_exchange_rate,omitempty"`
-    AdditionalProperties    map[string]any `json:"_"`
+    UseSiteExchangeRate     *bool                            `json:"use_site_exchange_rate,omitempty"`
+    AdditionalProperties    map[string]any                   `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreateProductPricePoint.
@@ -77,8 +82,12 @@ func (c CreateProductPricePoint) toMap() map[string]any {
     if c.ExpirationInterval != nil {
         structMap["expiration_interval"] = c.ExpirationInterval
     }
-    if c.ExpirationIntervalUnit != nil {
-        structMap["expiration_interval_unit"] = c.ExpirationIntervalUnit
+    if c.ExpirationIntervalUnit.IsValueSet() {
+        if c.ExpirationIntervalUnit.Value() != nil {
+            structMap["expiration_interval_unit"] = c.ExpirationIntervalUnit.Value()
+        } else {
+            structMap["expiration_interval_unit"] = nil
+        }
     }
     if c.UseSiteExchangeRate != nil {
         structMap["use_site_exchange_rate"] = c.UseSiteExchangeRate
@@ -89,7 +98,7 @@ func (c CreateProductPricePoint) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for CreateProductPricePoint.
 // It customizes the JSON unmarshaling process for CreateProductPricePoint objects.
 func (c *CreateProductPricePoint) UnmarshalJSON(input []byte) error {
-    var temp createProductPricePoint
+    var temp tempCreateProductPricePoint
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -121,25 +130,25 @@ func (c *CreateProductPricePoint) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// createProductPricePoint is a temporary struct used for validating the fields of CreateProductPricePoint.
-type createProductPricePoint  struct {
-    Name                    *string       `json:"name"`
-    Handle                  *string       `json:"handle,omitempty"`
-    PriceInCents            *int64        `json:"price_in_cents"`
-    Interval                *int          `json:"interval"`
-    IntervalUnit            *IntervalUnit `json:"interval_unit"`
-    TrialPriceInCents       *int64        `json:"trial_price_in_cents,omitempty"`
-    TrialInterval           *int          `json:"trial_interval,omitempty"`
-    TrialIntervalUnit       *IntervalUnit `json:"trial_interval_unit,omitempty"`
-    TrialType               *string       `json:"trial_type,omitempty"`
-    InitialChargeInCents    *int64        `json:"initial_charge_in_cents,omitempty"`
-    InitialChargeAfterTrial *bool         `json:"initial_charge_after_trial,omitempty"`
-    ExpirationInterval      *int          `json:"expiration_interval,omitempty"`
-    ExpirationIntervalUnit  *IntervalUnit `json:"expiration_interval_unit,omitempty"`
-    UseSiteExchangeRate     *bool         `json:"use_site_exchange_rate,omitempty"`
+// tempCreateProductPricePoint is a temporary struct used for validating the fields of CreateProductPricePoint.
+type tempCreateProductPricePoint  struct {
+    Name                    *string                          `json:"name"`
+    Handle                  *string                          `json:"handle,omitempty"`
+    PriceInCents            *int64                           `json:"price_in_cents"`
+    Interval                *int                             `json:"interval"`
+    IntervalUnit            *IntervalUnit                    `json:"interval_unit"`
+    TrialPriceInCents       *int64                           `json:"trial_price_in_cents,omitempty"`
+    TrialInterval           *int                             `json:"trial_interval,omitempty"`
+    TrialIntervalUnit       *IntervalUnit                    `json:"trial_interval_unit,omitempty"`
+    TrialType               *string                          `json:"trial_type,omitempty"`
+    InitialChargeInCents    *int64                           `json:"initial_charge_in_cents,omitempty"`
+    InitialChargeAfterTrial *bool                            `json:"initial_charge_after_trial,omitempty"`
+    ExpirationInterval      *int                             `json:"expiration_interval,omitempty"`
+    ExpirationIntervalUnit  Optional[ExpirationIntervalUnit] `json:"expiration_interval_unit"`
+    UseSiteExchangeRate     *bool                            `json:"use_site_exchange_rate,omitempty"`
 }
 
-func (c *createProductPricePoint) validate() error {
+func (c *tempCreateProductPricePoint) validate() error {
     var errs []string
     if c.Name == nil {
         errs = append(errs, "required field `name` is missing for type `Create Product Price Point`")
@@ -156,5 +165,5 @@ func (c *createProductPricePoint) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

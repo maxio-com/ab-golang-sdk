@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -22,7 +27,7 @@ type BankAccountAttributes struct {
     // Defaults to personal
     BankAccountHolderType *BankAccountHolderType `json:"bank_account_holder_type,omitempty"`
     PaymentType           *PaymentType           `json:"payment_type,omitempty"`
-    // The vault that stores the payment profile with the provided vault_token.
+    // The vault that stores the payment profile with the provided vault_token. Use `bogus` for testing.
     CurrentVault          *BankAccountVault      `json:"current_vault,omitempty"`
     VaultToken            *string                `json:"vault_token,omitempty"`
     // (only for Authorize.Net CIM storage or Square) The customerProfileId for the owner of the customerPaymentProfileId provided as the vault_token
@@ -84,7 +89,7 @@ func (b BankAccountAttributes) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for BankAccountAttributes.
 // It customizes the JSON unmarshaling process for BankAccountAttributes objects.
 func (b *BankAccountAttributes) UnmarshalJSON(input []byte) error {
-    var temp bankAccountAttributes
+    var temp tempBankAccountAttributes
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -110,8 +115,8 @@ func (b *BankAccountAttributes) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// bankAccountAttributes is a temporary struct used for validating the fields of BankAccountAttributes.
-type bankAccountAttributes  struct {
+// tempBankAccountAttributes is a temporary struct used for validating the fields of BankAccountAttributes.
+type tempBankAccountAttributes  struct {
     ChargifyToken         *string                `json:"chargify_token,omitempty"`
     BankName              *string                `json:"bank_name,omitempty"`
     BankRoutingNumber     *string                `json:"bank_routing_number,omitempty"`

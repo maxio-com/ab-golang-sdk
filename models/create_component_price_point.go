@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -8,20 +13,20 @@ import (
 
 // CreateComponentPricePoint represents a CreateComponentPricePoint struct.
 type CreateComponentPricePoint struct {
-    Name                 string         `json:"name"`
-    Handle               *string        `json:"handle,omitempty"`
+    Name                 string                 `json:"name"`
+    Handle               *string                `json:"handle,omitempty"`
     // The identifier for the pricing scheme. See [Product Components](https://help.chargify.com/products/product-components.html) for an overview of pricing schemes.
-    PricingScheme        PricingScheme  `json:"pricing_scheme"`
-    Prices               []Price        `json:"prices"`
+    PricingScheme        PricingScheme          `json:"pricing_scheme"`
+    Prices               []Price                `json:"prices"`
     // Whether to use the site level exchange rate or define your own prices for each currency if you have multiple currencies defined on the site.
-    UseSiteExchangeRate  *bool          `json:"use_site_exchange_rate,omitempty"`
+    UseSiteExchangeRate  *bool                  `json:"use_site_exchange_rate,omitempty"`
     // Whether or not the price point includes tax
-    TaxIncluded          *bool          `json:"tax_included,omitempty"`
+    TaxIncluded          *bool                  `json:"tax_included,omitempty"`
     // The numerical interval. i.e. an interval of ‘30’ coupled with an interval_unit of day would mean this price point would renew every 30 days. This property is only available for sites with Multifrequency enabled.
-    Interval             *int           `json:"interval,omitempty"`
+    Interval             *int                   `json:"interval,omitempty"`
     // A string representing the interval unit for this price point, either month or day. This property is only available for sites with Multifrequency enabled.
-    IntervalUnit         *IntervalUnit  `json:"interval_unit,omitempty"`
-    AdditionalProperties map[string]any `json:"_"`
+    IntervalUnit         Optional[IntervalUnit] `json:"interval_unit"`
+    AdditionalProperties map[string]any         `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreateComponentPricePoint.
@@ -51,8 +56,12 @@ func (c CreateComponentPricePoint) toMap() map[string]any {
     if c.Interval != nil {
         structMap["interval"] = c.Interval
     }
-    if c.IntervalUnit != nil {
-        structMap["interval_unit"] = c.IntervalUnit
+    if c.IntervalUnit.IsValueSet() {
+        if c.IntervalUnit.Value() != nil {
+            structMap["interval_unit"] = c.IntervalUnit.Value()
+        } else {
+            structMap["interval_unit"] = nil
+        }
     }
     return structMap
 }
@@ -60,7 +69,7 @@ func (c CreateComponentPricePoint) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for CreateComponentPricePoint.
 // It customizes the JSON unmarshaling process for CreateComponentPricePoint objects.
 func (c *CreateComponentPricePoint) UnmarshalJSON(input []byte) error {
-    var temp createComponentPricePoint
+    var temp tempCreateComponentPricePoint
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -86,19 +95,19 @@ func (c *CreateComponentPricePoint) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// createComponentPricePoint is a temporary struct used for validating the fields of CreateComponentPricePoint.
-type createComponentPricePoint  struct {
-    Name                *string        `json:"name"`
-    Handle              *string        `json:"handle,omitempty"`
-    PricingScheme       *PricingScheme `json:"pricing_scheme"`
-    Prices              *[]Price       `json:"prices"`
-    UseSiteExchangeRate *bool          `json:"use_site_exchange_rate,omitempty"`
-    TaxIncluded         *bool          `json:"tax_included,omitempty"`
-    Interval            *int           `json:"interval,omitempty"`
-    IntervalUnit        *IntervalUnit  `json:"interval_unit,omitempty"`
+// tempCreateComponentPricePoint is a temporary struct used for validating the fields of CreateComponentPricePoint.
+type tempCreateComponentPricePoint  struct {
+    Name                *string                `json:"name"`
+    Handle              *string                `json:"handle,omitempty"`
+    PricingScheme       *PricingScheme         `json:"pricing_scheme"`
+    Prices              *[]Price               `json:"prices"`
+    UseSiteExchangeRate *bool                  `json:"use_site_exchange_rate,omitempty"`
+    TaxIncluded         *bool                  `json:"tax_included,omitempty"`
+    Interval            *int                   `json:"interval,omitempty"`
+    IntervalUnit        Optional[IntervalUnit] `json:"interval_unit"`
 }
 
-func (c *createComponentPricePoint) validate() error {
+func (c *tempCreateComponentPricePoint) validate() error {
     var errs []string
     if c.Name == nil {
         errs = append(errs, "required field `name` is missing for type `Create Component Price Point`")
@@ -112,5 +121,5 @@ func (c *createComponentPricePoint) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

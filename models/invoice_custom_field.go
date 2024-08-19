@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -47,7 +52,7 @@ func (i InvoiceCustomField) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for InvoiceCustomField.
 // It customizes the JSON unmarshaling process for InvoiceCustomField objects.
 func (i *InvoiceCustomField) UnmarshalJSON(input []byte) error {
-    var temp invoiceCustomField
+    var temp tempInvoiceCustomField
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -66,8 +71,8 @@ func (i *InvoiceCustomField) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// invoiceCustomField is a temporary struct used for validating the fields of InvoiceCustomField.
-type invoiceCustomField  struct {
+// tempInvoiceCustomField is a temporary struct used for validating the fields of InvoiceCustomField.
+type tempInvoiceCustomField  struct {
     OwnerId     *int              `json:"owner_id,omitempty"`
     OwnerType   *CustomFieldOwner `json:"owner_type,omitempty"`
     Name        *string           `json:"name,omitempty"`

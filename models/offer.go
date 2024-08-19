@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -118,7 +123,7 @@ func (o Offer) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for Offer.
 // It customizes the JSON unmarshaling process for Offer objects.
 func (o *Offer) UnmarshalJSON(input []byte) error {
-    var temp offer
+    var temp tempOffer
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -170,8 +175,8 @@ func (o *Offer) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// offer is a temporary struct used for validating the fields of Offer.
-type offer  struct {
+// tempOffer is a temporary struct used for validating the fields of Offer.
+type tempOffer  struct {
     Id                     *int              `json:"id,omitempty"`
     SiteId                 *int              `json:"site_id,omitempty"`
     ProductFamilyId        *int              `json:"product_family_id,omitempty"`

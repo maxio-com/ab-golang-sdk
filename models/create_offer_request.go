@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -31,7 +36,7 @@ func (c CreateOfferRequest) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for CreateOfferRequest.
 // It customizes the JSON unmarshaling process for CreateOfferRequest objects.
 func (c *CreateOfferRequest) UnmarshalJSON(input []byte) error {
-    var temp createOfferRequest
+    var temp tempCreateOfferRequest
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -50,12 +55,12 @@ func (c *CreateOfferRequest) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// createOfferRequest is a temporary struct used for validating the fields of CreateOfferRequest.
-type createOfferRequest  struct {
+// tempCreateOfferRequest is a temporary struct used for validating the fields of CreateOfferRequest.
+type tempCreateOfferRequest  struct {
     Offer *CreateOffer `json:"offer"`
 }
 
-func (c *createOfferRequest) validate() error {
+func (c *tempCreateOfferRequest) validate() error {
     var errs []string
     if c.Offer == nil {
         errs = append(errs, "required field `offer` is missing for type `Create Offer Request`")
@@ -63,5 +68,5 @@ func (c *createOfferRequest) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

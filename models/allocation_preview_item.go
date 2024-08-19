@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -25,7 +30,7 @@ type AllocationPreviewItem struct {
     // The numerical interval. i.e. an interval of ‘30’ coupled with an interval_unit of day would mean this component price point would renew every 30 days. This property is only available for sites with Multifrequency enabled.
     Interval                 *int                                   `json:"interval,omitempty"`
     // A string representing the interval unit for this component price point, either month or day. This property is only available for sites with Multifrequency enabled.
-    IntervalUnit             *IntervalUnit                          `json:"interval_unit,omitempty"`
+    IntervalUnit             Optional[IntervalUnit]                 `json:"interval_unit"`
     PreviousPricePointId     *int                                   `json:"previous_price_point_id,omitempty"`
     PricePointHandle         *string                                `json:"price_point_handle,omitempty"`
     PricePointName           *string                                `json:"price_point_name,omitempty"`
@@ -100,8 +105,12 @@ func (a AllocationPreviewItem) toMap() map[string]any {
     if a.Interval != nil {
         structMap["interval"] = a.Interval
     }
-    if a.IntervalUnit != nil {
-        structMap["interval_unit"] = a.IntervalUnit
+    if a.IntervalUnit.IsValueSet() {
+        if a.IntervalUnit.Value() != nil {
+            structMap["interval_unit"] = a.IntervalUnit.Value()
+        } else {
+            structMap["interval_unit"] = nil
+        }
     }
     if a.PreviousPricePointId != nil {
         structMap["previous_price_point_id"] = a.PreviousPricePointId
@@ -125,7 +134,7 @@ func (a AllocationPreviewItem) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for AllocationPreviewItem.
 // It customizes the JSON unmarshaling process for AllocationPreviewItem objects.
 func (a *AllocationPreviewItem) UnmarshalJSON(input []byte) error {
-    var temp allocationPreviewItem
+    var temp tempAllocationPreviewItem
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -157,8 +166,8 @@ func (a *AllocationPreviewItem) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// allocationPreviewItem is a temporary struct used for validating the fields of AllocationPreviewItem.
-type allocationPreviewItem  struct {
+// tempAllocationPreviewItem is a temporary struct used for validating the fields of AllocationPreviewItem.
+type tempAllocationPreviewItem  struct {
     ComponentId              *int                                   `json:"component_id,omitempty"`
     SubscriptionId           *int                                   `json:"subscription_id,omitempty"`
     Quantity                 *AllocationPreviewItemQuantity         `json:"quantity,omitempty"`
@@ -172,7 +181,7 @@ type allocationPreviewItem  struct {
     DowngradeCredit          Optional[CreditType]                   `json:"downgrade_credit"`
     PricePointId             *int                                   `json:"price_point_id,omitempty"`
     Interval                 *int                                   `json:"interval,omitempty"`
-    IntervalUnit             *IntervalUnit                          `json:"interval_unit,omitempty"`
+    IntervalUnit             Optional[IntervalUnit]                 `json:"interval_unit"`
     PreviousPricePointId     *int                                   `json:"previous_price_point_id,omitempty"`
     PricePointHandle         *string                                `json:"price_point_handle,omitempty"`
     PricePointName           *string                                `json:"price_point_name,omitempty"`

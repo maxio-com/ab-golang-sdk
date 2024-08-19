@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -31,7 +36,7 @@ func (w WebhookResponse) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for WebhookResponse.
 // It customizes the JSON unmarshaling process for WebhookResponse objects.
 func (w *WebhookResponse) UnmarshalJSON(input []byte) error {
-    var temp webhookResponse
+    var temp tempWebhookResponse
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -46,7 +51,7 @@ func (w *WebhookResponse) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// webhookResponse is a temporary struct used for validating the fields of WebhookResponse.
-type webhookResponse  struct {
+// tempWebhookResponse is a temporary struct used for validating the fields of WebhookResponse.
+type tempWebhookResponse  struct {
     Webhook *Webhook `json:"webhook,omitempty"`
 }

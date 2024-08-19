@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -31,7 +36,7 @@ func (b BatchJobResponse) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for BatchJobResponse.
 // It customizes the JSON unmarshaling process for BatchJobResponse objects.
 func (b *BatchJobResponse) UnmarshalJSON(input []byte) error {
-    var temp batchJobResponse
+    var temp tempBatchJobResponse
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -50,12 +55,12 @@ func (b *BatchJobResponse) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// batchJobResponse is a temporary struct used for validating the fields of BatchJobResponse.
-type batchJobResponse  struct {
+// tempBatchJobResponse is a temporary struct used for validating the fields of BatchJobResponse.
+type tempBatchJobResponse  struct {
     Batchjob *BatchJob `json:"batchjob"`
 }
 
-func (b *batchJobResponse) validate() error {
+func (b *tempBatchJobResponse) validate() error {
     var errs []string
     if b.Batchjob == nil {
         errs = append(errs, "required field `batchjob` is missing for type `Batch Job Response`")
@@ -63,5 +68,5 @@ func (b *batchJobResponse) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

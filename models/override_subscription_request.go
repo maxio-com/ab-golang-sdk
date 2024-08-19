@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -31,7 +36,7 @@ func (o OverrideSubscriptionRequest) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for OverrideSubscriptionRequest.
 // It customizes the JSON unmarshaling process for OverrideSubscriptionRequest objects.
 func (o *OverrideSubscriptionRequest) UnmarshalJSON(input []byte) error {
-    var temp overrideSubscriptionRequest
+    var temp tempOverrideSubscriptionRequest
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -50,12 +55,12 @@ func (o *OverrideSubscriptionRequest) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// overrideSubscriptionRequest is a temporary struct used for validating the fields of OverrideSubscriptionRequest.
-type overrideSubscriptionRequest  struct {
+// tempOverrideSubscriptionRequest is a temporary struct used for validating the fields of OverrideSubscriptionRequest.
+type tempOverrideSubscriptionRequest  struct {
     Subscription *OverrideSubscription `json:"subscription"`
 }
 
-func (o *overrideSubscriptionRequest) validate() error {
+func (o *tempOverrideSubscriptionRequest) validate() error {
     var errs []string
     if o.Subscription == nil {
         errs = append(errs, "required field `subscription` is missing for type `Override Subscription Request`")
@@ -63,5 +68,5 @@ func (o *overrideSubscriptionRequest) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

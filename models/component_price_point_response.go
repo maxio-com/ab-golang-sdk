@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -31,7 +36,7 @@ func (c ComponentPricePointResponse) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for ComponentPricePointResponse.
 // It customizes the JSON unmarshaling process for ComponentPricePointResponse objects.
 func (c *ComponentPricePointResponse) UnmarshalJSON(input []byte) error {
-    var temp componentPricePointResponse
+    var temp tempComponentPricePointResponse
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -50,12 +55,12 @@ func (c *ComponentPricePointResponse) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// componentPricePointResponse is a temporary struct used for validating the fields of ComponentPricePointResponse.
-type componentPricePointResponse  struct {
+// tempComponentPricePointResponse is a temporary struct used for validating the fields of ComponentPricePointResponse.
+type tempComponentPricePointResponse  struct {
     PricePoint *ComponentPricePoint `json:"price_point"`
 }
 
-func (c *componentPricePointResponse) validate() error {
+func (c *tempComponentPricePointResponse) validate() error {
     var errs []string
     if c.PricePoint == nil {
         errs = append(errs, "required field `price_point` is missing for type `Component Price Point Response`")
@@ -63,5 +68,5 @@ func (c *componentPricePointResponse) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

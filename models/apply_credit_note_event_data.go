@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -76,7 +81,7 @@ func (a ApplyCreditNoteEventData) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for ApplyCreditNoteEventData.
 // It customizes the JSON unmarshaling process for ApplyCreditNoteEventData objects.
 func (a *ApplyCreditNoteEventData) UnmarshalJSON(input []byte) error {
-    var temp applyCreditNoteEventData
+    var temp tempApplyCreditNoteEventData
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -110,8 +115,8 @@ func (a *ApplyCreditNoteEventData) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// applyCreditNoteEventData is a temporary struct used for validating the fields of ApplyCreditNoteEventData.
-type applyCreditNoteEventData  struct {
+// tempApplyCreditNoteEventData is a temporary struct used for validating the fields of ApplyCreditNoteEventData.
+type tempApplyCreditNoteEventData  struct {
     Uid                 *string                 `json:"uid"`
     CreditNoteNumber    *string                 `json:"credit_note_number"`
     CreditNoteUid       *string                 `json:"credit_note_uid"`
@@ -124,7 +129,7 @@ type applyCreditNoteEventData  struct {
     AppliedCreditNotes  []AppliedCreditNoteData `json:"applied_credit_notes,omitempty"`
 }
 
-func (a *applyCreditNoteEventData) validate() error {
+func (a *tempApplyCreditNoteEventData) validate() error {
     var errs []string
     if a.Uid == nil {
         errs = append(errs, "required field `uid` is missing for type `Apply Credit Note Event Data`")
@@ -144,5 +149,5 @@ func (a *applyCreditNoteEventData) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

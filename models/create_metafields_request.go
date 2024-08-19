@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -31,7 +36,7 @@ func (c CreateMetafieldsRequest) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for CreateMetafieldsRequest.
 // It customizes the JSON unmarshaling process for CreateMetafieldsRequest objects.
 func (c *CreateMetafieldsRequest) UnmarshalJSON(input []byte) error {
-    var temp createMetafieldsRequest
+    var temp tempCreateMetafieldsRequest
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -50,12 +55,12 @@ func (c *CreateMetafieldsRequest) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// createMetafieldsRequest is a temporary struct used for validating the fields of CreateMetafieldsRequest.
-type createMetafieldsRequest  struct {
+// tempCreateMetafieldsRequest is a temporary struct used for validating the fields of CreateMetafieldsRequest.
+type tempCreateMetafieldsRequest  struct {
     Metafields *CreateMetafieldsRequestMetafields `json:"metafields"`
 }
 
-func (c *createMetafieldsRequest) validate() error {
+func (c *tempCreateMetafieldsRequest) validate() error {
     var errs []string
     if c.Metafields == nil {
         errs = append(errs, "required field `metafields` is missing for type `Create Metafields Request`")
@@ -63,5 +68,5 @@ func (c *createMetafieldsRequest) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

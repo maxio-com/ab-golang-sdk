@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -31,7 +36,7 @@ func (s SubscriptionGroupSingleError) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for SubscriptionGroupSingleError.
 // It customizes the JSON unmarshaling process for SubscriptionGroupSingleError objects.
 func (s *SubscriptionGroupSingleError) UnmarshalJSON(input []byte) error {
-    var temp subscriptionGroupSingleError
+    var temp tempSubscriptionGroupSingleError
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -50,12 +55,12 @@ func (s *SubscriptionGroupSingleError) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// subscriptionGroupSingleError is a temporary struct used for validating the fields of SubscriptionGroupSingleError.
-type subscriptionGroupSingleError  struct {
+// tempSubscriptionGroupSingleError is a temporary struct used for validating the fields of SubscriptionGroupSingleError.
+type tempSubscriptionGroupSingleError  struct {
     SubscriptionGroup *string `json:"subscription_group"`
 }
 
-func (s *subscriptionGroupSingleError) validate() error {
+func (s *tempSubscriptionGroupSingleError) validate() error {
     var errs []string
     if s.SubscriptionGroup == nil {
         errs = append(errs, "required field `subscription_group` is missing for type `Subscription Group Single Error`")
@@ -63,5 +68,5 @@ func (s *subscriptionGroupSingleError) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

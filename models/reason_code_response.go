@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -31,7 +36,7 @@ func (r ReasonCodeResponse) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for ReasonCodeResponse.
 // It customizes the JSON unmarshaling process for ReasonCodeResponse objects.
 func (r *ReasonCodeResponse) UnmarshalJSON(input []byte) error {
-    var temp reasonCodeResponse
+    var temp tempReasonCodeResponse
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -50,12 +55,12 @@ func (r *ReasonCodeResponse) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// reasonCodeResponse is a temporary struct used for validating the fields of ReasonCodeResponse.
-type reasonCodeResponse  struct {
+// tempReasonCodeResponse is a temporary struct used for validating the fields of ReasonCodeResponse.
+type tempReasonCodeResponse  struct {
     ReasonCode *ReasonCode `json:"reason_code"`
 }
 
-func (r *reasonCodeResponse) validate() error {
+func (r *tempReasonCodeResponse) validate() error {
     var errs []string
     if r.ReasonCode == nil {
         errs = append(errs, "required field `reason_code` is missing for type `Reason Code Response`")
@@ -63,5 +68,5 @@ func (r *reasonCodeResponse) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -43,7 +48,7 @@ func (r ReferralCode) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for ReferralCode.
 // It customizes the JSON unmarshaling process for ReferralCode objects.
 func (r *ReferralCode) UnmarshalJSON(input []byte) error {
-    var temp referralCode
+    var temp tempReferralCode
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -61,8 +66,8 @@ func (r *ReferralCode) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// referralCode is a temporary struct used for validating the fields of ReferralCode.
-type referralCode  struct {
+// tempReferralCode is a temporary struct used for validating the fields of ReferralCode.
+type tempReferralCode  struct {
     Id             *int    `json:"id,omitempty"`
     SiteId         *int    `json:"site_id,omitempty"`
     SubscriptionId *int    `json:"subscription_id,omitempty"`

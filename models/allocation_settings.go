@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -52,7 +57,7 @@ func (a AllocationSettings) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for AllocationSettings.
 // It customizes the JSON unmarshaling process for AllocationSettings objects.
 func (a *AllocationSettings) UnmarshalJSON(input []byte) error {
-    var temp allocationSettings
+    var temp tempAllocationSettings
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -69,8 +74,8 @@ func (a *AllocationSettings) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// allocationSettings is a temporary struct used for validating the fields of AllocationSettings.
-type allocationSettings  struct {
+// tempAllocationSettings is a temporary struct used for validating the fields of AllocationSettings.
+type tempAllocationSettings  struct {
     UpgradeCharge   Optional[CreditType] `json:"upgrade_charge"`
     DowngradeCredit Optional[CreditType] `json:"downgrade_credit"`
     AccrueCharge    *string              `json:"accrue_charge,omitempty"`

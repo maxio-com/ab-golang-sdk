@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -124,7 +129,7 @@ func (c CustomerAttributes) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for CustomerAttributes.
 // It customizes the JSON unmarshaling process for CustomerAttributes objects.
 func (c *CustomerAttributes) UnmarshalJSON(input []byte) error {
-    var temp customerAttributes
+    var temp tempCustomerAttributes
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -156,8 +161,8 @@ func (c *CustomerAttributes) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// customerAttributes is a temporary struct used for validating the fields of CustomerAttributes.
-type customerAttributes  struct {
+// tempCustomerAttributes is a temporary struct used for validating the fields of CustomerAttributes.
+type tempCustomerAttributes  struct {
     FirstName    *string           `json:"first_name,omitempty"`
     LastName     *string           `json:"last_name,omitempty"`
     Email        *string           `json:"email,omitempty"`

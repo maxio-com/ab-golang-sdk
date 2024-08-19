@@ -1,15 +1,24 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
     "encoding/json"
+    "log"
+    "time"
 )
 
 // ResentInvitation represents a ResentInvitation struct.
 type ResentInvitation struct {
-    LastSentAt           *string        `json:"last_sent_at,omitempty"`
-    LastAcceptedAt       *string        `json:"last_accepted_at,omitempty"`
+    LastSentAt           *string        `json:"last_sent_at,omitempty"`            // Deprecated
+    LastAcceptedAt       *string        `json:"last_accepted_at,omitempty"`        // Deprecated
     SendInviteLinkText   *string        `json:"send_invite_link_text,omitempty"`
     UninvitedCount       *int           `json:"uninvited_count,omitempty"`
+    LastInviteSentAt     *time.Time     `json:"last_invite_sent_at,omitempty"`
+    LastInviteAcceptedAt *time.Time     `json:"last_invite_accepted_at,omitempty"`
     AdditionalProperties map[string]any `json:"_"`
 }
 
@@ -37,18 +46,24 @@ func (r ResentInvitation) toMap() map[string]any {
     if r.UninvitedCount != nil {
         structMap["uninvited_count"] = r.UninvitedCount
     }
+    if r.LastInviteSentAt != nil {
+        structMap["last_invite_sent_at"] = r.LastInviteSentAt.Format(time.RFC3339)
+    }
+    if r.LastInviteAcceptedAt != nil {
+        structMap["last_invite_accepted_at"] = r.LastInviteAcceptedAt.Format(time.RFC3339)
+    }
     return structMap
 }
 
 // UnmarshalJSON implements the json.Unmarshaler interface for ResentInvitation.
 // It customizes the JSON unmarshaling process for ResentInvitation objects.
 func (r *ResentInvitation) UnmarshalJSON(input []byte) error {
-    var temp resentInvitation
+    var temp tempResentInvitation
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "last_sent_at", "last_accepted_at", "send_invite_link_text", "uninvited_count")
+    additionalProperties, err := UnmarshalAdditionalProperties(input, "last_sent_at", "last_accepted_at", "send_invite_link_text", "uninvited_count", "last_invite_sent_at", "last_invite_accepted_at")
     if err != nil {
     	return err
     }
@@ -58,13 +73,29 @@ func (r *ResentInvitation) UnmarshalJSON(input []byte) error {
     r.LastAcceptedAt = temp.LastAcceptedAt
     r.SendInviteLinkText = temp.SendInviteLinkText
     r.UninvitedCount = temp.UninvitedCount
+    if temp.LastInviteSentAt != nil {
+        LastInviteSentAtVal, err := time.Parse(time.RFC3339, *temp.LastInviteSentAt)
+        if err != nil {
+            log.Fatalf("Cannot Parse last_invite_sent_at as % s format.", time.RFC3339)
+        }
+        r.LastInviteSentAt = &LastInviteSentAtVal
+    }
+    if temp.LastInviteAcceptedAt != nil {
+        LastInviteAcceptedAtVal, err := time.Parse(time.RFC3339, *temp.LastInviteAcceptedAt)
+        if err != nil {
+            log.Fatalf("Cannot Parse last_invite_accepted_at as % s format.", time.RFC3339)
+        }
+        r.LastInviteAcceptedAt = &LastInviteAcceptedAtVal
+    }
     return nil
 }
 
-// resentInvitation is a temporary struct used for validating the fields of ResentInvitation.
-type resentInvitation  struct {
-    LastSentAt         *string `json:"last_sent_at,omitempty"`
-    LastAcceptedAt     *string `json:"last_accepted_at,omitempty"`
-    SendInviteLinkText *string `json:"send_invite_link_text,omitempty"`
-    UninvitedCount     *int    `json:"uninvited_count,omitempty"`
+// tempResentInvitation is a temporary struct used for validating the fields of ResentInvitation.
+type tempResentInvitation  struct {
+    LastSentAt           *string `json:"last_sent_at,omitempty"`
+    LastAcceptedAt       *string `json:"last_accepted_at,omitempty"`
+    SendInviteLinkText   *string `json:"send_invite_link_text,omitempty"`
+    UninvitedCount       *int    `json:"uninvited_count,omitempty"`
+    LastInviteSentAt     *string `json:"last_invite_sent_at,omitempty"`
+    LastInviteAcceptedAt *string `json:"last_invite_accepted_at,omitempty"`
 }

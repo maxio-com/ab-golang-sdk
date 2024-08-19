@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -43,7 +48,7 @@ func (g GroupBilling) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for GroupBilling.
 // It customizes the JSON unmarshaling process for GroupBilling objects.
 func (g *GroupBilling) UnmarshalJSON(input []byte) error {
-    var temp groupBilling
+    var temp tempGroupBilling
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -60,8 +65,8 @@ func (g *GroupBilling) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// groupBilling is a temporary struct used for validating the fields of GroupBilling.
-type groupBilling  struct {
+// tempGroupBilling is a temporary struct used for validating the fields of GroupBilling.
+type tempGroupBilling  struct {
     Accrue    *bool `json:"accrue,omitempty"`
     AlignDate *bool `json:"align_date,omitempty"`
     Prorate   *bool `json:"prorate,omitempty"`

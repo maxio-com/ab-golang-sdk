@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -31,7 +36,7 @@ func (i IssueAdvanceInvoiceRequest) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for IssueAdvanceInvoiceRequest.
 // It customizes the JSON unmarshaling process for IssueAdvanceInvoiceRequest objects.
 func (i *IssueAdvanceInvoiceRequest) UnmarshalJSON(input []byte) error {
-    var temp issueAdvanceInvoiceRequest
+    var temp tempIssueAdvanceInvoiceRequest
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -46,7 +51,7 @@ func (i *IssueAdvanceInvoiceRequest) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// issueAdvanceInvoiceRequest is a temporary struct used for validating the fields of IssueAdvanceInvoiceRequest.
-type issueAdvanceInvoiceRequest  struct {
+// tempIssueAdvanceInvoiceRequest is a temporary struct used for validating the fields of IssueAdvanceInvoiceRequest.
+type tempIssueAdvanceInvoiceRequest  struct {
     Force *bool `json:"force,omitempty"`
 }

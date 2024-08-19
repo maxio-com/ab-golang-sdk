@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package advancedbilling
 
 import (
@@ -22,7 +27,7 @@ func DefaultRetryConfiguration() RetryConfiguration {
 // It also configures various HttpConfiguration options.
 func DefaultHttpConfiguration() HttpConfiguration {
     return NewHttpConfiguration(
-        WithTimeout(30),
+        WithTimeout(120),
         WithTransport(http.DefaultTransport),
         WithRetryConfiguration(DefaultRetryConfiguration()),
     )

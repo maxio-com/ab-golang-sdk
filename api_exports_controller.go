@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package advancedbilling
 
 import (
@@ -17,8 +22,8 @@ type APIExportsController struct {
 // NewAPIExportsController creates a new instance of APIExportsController.
 // It takes a baseController as a parameter and returns a pointer to the APIExportsController.
 func NewAPIExportsController(baseController baseController) *APIExportsController {
-    APIExportsController := APIExportsController{baseController: baseController}
-    return &APIExportsController
+    aPIExportsController := APIExportsController{baseController: baseController}
+    return &aPIExportsController
 }
 
 // ListExportedProformaInvoicesInput represents the input of the ListExportedProformaInvoices endpoint.

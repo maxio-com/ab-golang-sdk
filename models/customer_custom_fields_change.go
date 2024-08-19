@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -33,7 +38,7 @@ func (c CustomerCustomFieldsChange) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for CustomerCustomFieldsChange.
 // It customizes the JSON unmarshaling process for CustomerCustomFieldsChange objects.
 func (c *CustomerCustomFieldsChange) UnmarshalJSON(input []byte) error {
-    var temp customerCustomFieldsChange
+    var temp tempCustomerCustomFieldsChange
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -53,13 +58,13 @@ func (c *CustomerCustomFieldsChange) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// customerCustomFieldsChange is a temporary struct used for validating the fields of CustomerCustomFieldsChange.
-type customerCustomFieldsChange  struct {
+// tempCustomerCustomFieldsChange is a temporary struct used for validating the fields of CustomerCustomFieldsChange.
+type tempCustomerCustomFieldsChange  struct {
     Before *[]InvoiceCustomField `json:"before"`
     After  *[]InvoiceCustomField `json:"after"`
 }
 
-func (c *customerCustomFieldsChange) validate() error {
+func (c *tempCustomerCustomFieldsChange) validate() error {
     var errs []string
     if c.Before == nil {
         errs = append(errs, "required field `before` is missing for type `Customer Custom Fields Change`")
@@ -70,5 +75,5 @@ func (c *customerCustomFieldsChange) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

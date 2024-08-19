@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -31,7 +36,7 @@ func (c CountResponse) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for CountResponse.
 // It customizes the JSON unmarshaling process for CountResponse objects.
 func (c *CountResponse) UnmarshalJSON(input []byte) error {
-    var temp countResponse
+    var temp tempCountResponse
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -46,7 +51,7 @@ func (c *CountResponse) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// countResponse is a temporary struct used for validating the fields of CountResponse.
-type countResponse  struct {
+// tempCountResponse is a temporary struct used for validating the fields of CountResponse.
+type tempCountResponse  struct {
     Count *int `json:"count,omitempty"`
 }

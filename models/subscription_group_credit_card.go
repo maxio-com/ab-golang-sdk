@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -12,7 +17,7 @@ type SubscriptionGroupCreditCard struct {
     ChargifyToken        *string                                     `json:"chargify_token,omitempty"`
     VaultToken           *string                                     `json:"vault_token,omitempty"`
     // The vault that stores the payment profile with the provided `vault_token`. Use `bogus` for testing.
-    CurrentVault         *CurrentVault                               `json:"current_vault,omitempty"`
+    CurrentVault         *CreditCardVault                            `json:"current_vault,omitempty"`
     GatewayHandle        *string                                     `json:"gateway_handle,omitempty"`
     FirstName            *string                                     `json:"first_name,omitempty"`
     LastName             *string                                     `json:"last_name,omitempty"`
@@ -109,7 +114,7 @@ func (s SubscriptionGroupCreditCard) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for SubscriptionGroupCreditCard.
 // It customizes the JSON unmarshaling process for SubscriptionGroupCreditCard objects.
 func (s *SubscriptionGroupCreditCard) UnmarshalJSON(input []byte) error {
-    var temp subscriptionGroupCreditCard
+    var temp tempSubscriptionGroupCreditCard
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -143,14 +148,14 @@ func (s *SubscriptionGroupCreditCard) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// subscriptionGroupCreditCard is a temporary struct used for validating the fields of SubscriptionGroupCreditCard.
-type subscriptionGroupCreditCard  struct {
+// tempSubscriptionGroupCreditCard is a temporary struct used for validating the fields of SubscriptionGroupCreditCard.
+type tempSubscriptionGroupCreditCard  struct {
     FullNumber         *SubscriptionGroupCreditCardFullNumber      `json:"full_number,omitempty"`
     ExpirationMonth    *SubscriptionGroupCreditCardExpirationMonth `json:"expiration_month,omitempty"`
     ExpirationYear     *SubscriptionGroupCreditCardExpirationYear  `json:"expiration_year,omitempty"`
     ChargifyToken      *string                                     `json:"chargify_token,omitempty"`
     VaultToken         *string                                     `json:"vault_token,omitempty"`
-    CurrentVault       *CurrentVault                               `json:"current_vault,omitempty"`
+    CurrentVault       *CreditCardVault                            `json:"current_vault,omitempty"`
     GatewayHandle      *string                                     `json:"gateway_handle,omitempty"`
     FirstName          *string                                     `json:"first_name,omitempty"`
     LastName           *string                                     `json:"last_name,omitempty"`

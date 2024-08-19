@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -43,7 +48,7 @@ func (u UpsertPrepaidConfiguration) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for UpsertPrepaidConfiguration.
 // It customizes the JSON unmarshaling process for UpsertPrepaidConfiguration objects.
 func (u *UpsertPrepaidConfiguration) UnmarshalJSON(input []byte) error {
-    var temp upsertPrepaidConfiguration
+    var temp tempUpsertPrepaidConfiguration
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -61,8 +66,8 @@ func (u *UpsertPrepaidConfiguration) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// upsertPrepaidConfiguration is a temporary struct used for validating the fields of UpsertPrepaidConfiguration.
-type upsertPrepaidConfiguration  struct {
+// tempUpsertPrepaidConfiguration is a temporary struct used for validating the fields of UpsertPrepaidConfiguration.
+type tempUpsertPrepaidConfiguration  struct {
     InitialFundingAmountInCents     *int64 `json:"initial_funding_amount_in_cents,omitempty"`
     ReplenishToAmountInCents        *int64 `json:"replenish_to_amount_in_cents,omitempty"`
     AutoReplenish                   *bool  `json:"auto_replenish,omitempty"`

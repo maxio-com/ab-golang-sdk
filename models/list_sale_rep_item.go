@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -47,7 +52,7 @@ func (l ListSaleRepItem) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for ListSaleRepItem.
 // It customizes the JSON unmarshaling process for ListSaleRepItem objects.
 func (l *ListSaleRepItem) UnmarshalJSON(input []byte) error {
-    var temp listSaleRepItem
+    var temp tempListSaleRepItem
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -66,8 +71,8 @@ func (l *ListSaleRepItem) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// listSaleRepItem is a temporary struct used for validating the fields of ListSaleRepItem.
-type listSaleRepItem  struct {
+// tempListSaleRepItem is a temporary struct used for validating the fields of ListSaleRepItem.
+type tempListSaleRepItem  struct {
     Id                 *int                      `json:"id,omitempty"`
     FullName           *string                   `json:"full_name,omitempty"`
     SubscriptionsCount *int                      `json:"subscriptions_count,omitempty"`

@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -33,7 +38,7 @@ func (p PaymentCollectionMethodChanged) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for PaymentCollectionMethodChanged.
 // It customizes the JSON unmarshaling process for PaymentCollectionMethodChanged objects.
 func (p *PaymentCollectionMethodChanged) UnmarshalJSON(input []byte) error {
-    var temp paymentCollectionMethodChanged
+    var temp tempPaymentCollectionMethodChanged
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -53,13 +58,13 @@ func (p *PaymentCollectionMethodChanged) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// paymentCollectionMethodChanged is a temporary struct used for validating the fields of PaymentCollectionMethodChanged.
-type paymentCollectionMethodChanged  struct {
+// tempPaymentCollectionMethodChanged is a temporary struct used for validating the fields of PaymentCollectionMethodChanged.
+type tempPaymentCollectionMethodChanged  struct {
     PreviousValue *string `json:"previous_value"`
     CurrentValue  *string `json:"current_value"`
 }
 
-func (p *paymentCollectionMethodChanged) validate() error {
+func (p *tempPaymentCollectionMethodChanged) validate() error {
     var errs []string
     if p.PreviousValue == nil {
         errs = append(errs, "required field `previous_value` is missing for type `Payment Collection Method Changed`")
@@ -70,5 +75,5 @@ func (p *paymentCollectionMethodChanged) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

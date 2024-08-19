@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -31,7 +36,7 @@ func (a AllocationResponse) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for AllocationResponse.
 // It customizes the JSON unmarshaling process for AllocationResponse objects.
 func (a *AllocationResponse) UnmarshalJSON(input []byte) error {
-    var temp allocationResponse
+    var temp tempAllocationResponse
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -46,7 +51,7 @@ func (a *AllocationResponse) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// allocationResponse is a temporary struct used for validating the fields of AllocationResponse.
-type allocationResponse  struct {
+// tempAllocationResponse is a temporary struct used for validating the fields of AllocationResponse.
+type tempAllocationResponse  struct {
     Allocation *Allocation `json:"allocation,omitempty"`
 }

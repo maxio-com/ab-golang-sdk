@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -8,70 +13,70 @@ import (
 
 // Product represents a Product struct.
 type Product struct {
-    Id                         *int                           `json:"id,omitempty"`
+    Id                         *int                             `json:"id,omitempty"`
     // The product name
-    Name                       *string                        `json:"name,omitempty"`
+    Name                       *string                          `json:"name,omitempty"`
     // The product API handle
-    Handle                     Optional[string]               `json:"handle"`
+    Handle                     Optional[string]                 `json:"handle"`
     // The product description
-    Description                Optional[string]               `json:"description"`
+    Description                Optional[string]                 `json:"description"`
     // E.g. Internal ID or SKU Number
-    AccountingCode             Optional[string]               `json:"accounting_code"`
+    AccountingCode             Optional[string]                 `json:"accounting_code"`
     // Deprecated value that can be ignored unless you have legacy hosted pages. For Public Signup Page users, please read this attribute from under the signup page.
-    RequestCreditCard          *bool                          `json:"request_credit_card,omitempty"`
+    RequestCreditCard          *bool                            `json:"request_credit_card,omitempty"`
     // A numerical interval for the length a subscription to this product will run before it expires. See the description of interval for a description of how this value is coupled with an interval unit to calculate the full interval
-    ExpirationInterval         Optional[int]                  `json:"expiration_interval"`
-    // A string representing the expiration interval unit for this product, either month or day
-    ExpirationIntervalUnit     Optional[ExtendedIntervalUnit] `json:"expiration_interval_unit"`
+    ExpirationInterval         Optional[int]                    `json:"expiration_interval"`
+    // A string representing the expiration interval unit for this product, either month, day or never
+    ExpirationIntervalUnit     Optional[ExpirationIntervalUnit] `json:"expiration_interval_unit"`
     // Timestamp indicating when this product was created
-    CreatedAt                  *time.Time                     `json:"created_at,omitempty"`
+    CreatedAt                  *time.Time                       `json:"created_at,omitempty"`
     // Timestamp indicating when this product was last updated
-    UpdatedAt                  *time.Time                     `json:"updated_at,omitempty"`
+    UpdatedAt                  *time.Time                       `json:"updated_at,omitempty"`
     // The product price, in integer cents
-    PriceInCents               *int64                         `json:"price_in_cents,omitempty"`
+    PriceInCents               *int64                           `json:"price_in_cents,omitempty"`
     // The numerical interval. i.e. an interval of ‘30’ coupled with an interval_unit of day would mean this product would renew every 30 days
-    Interval                   *int                           `json:"interval,omitempty"`
+    Interval                   *int                             `json:"interval,omitempty"`
     // A string representing the interval unit for this product, either month or day
-    IntervalUnit               *IntervalUnit                  `json:"interval_unit,omitempty"`
+    IntervalUnit               *IntervalUnit                    `json:"interval_unit,omitempty"`
     // The up front charge you have specified.
-    InitialChargeInCents       Optional[int64]                `json:"initial_charge_in_cents"`
+    InitialChargeInCents       Optional[int64]                  `json:"initial_charge_in_cents"`
     // The price of the trial period for a subscription to this product, in integer cents.
-    TrialPriceInCents          Optional[int64]                `json:"trial_price_in_cents"`
+    TrialPriceInCents          Optional[int64]                  `json:"trial_price_in_cents"`
     // A numerical interval for the length of the trial period of a subscription to this product. See the description of interval for a description of how this value is coupled with an interval unit to calculate the full interval
-    TrialInterval              Optional[int]                  `json:"trial_interval"`
+    TrialInterval              Optional[int]                    `json:"trial_interval"`
     // A string representing the trial interval unit for this product, either month or day
-    TrialIntervalUnit          Optional[IntervalUnit]         `json:"trial_interval_unit"`
+    TrialIntervalUnit          Optional[IntervalUnit]           `json:"trial_interval_unit"`
     // Timestamp indicating when this product was archived
-    ArchivedAt                 Optional[time.Time]            `json:"archived_at"`
+    ArchivedAt                 Optional[time.Time]              `json:"archived_at"`
     // Boolean that controls whether a payment profile is required to be entered for customers wishing to sign up on this product.
-    RequireCreditCard          *bool                          `json:"require_credit_card,omitempty"`
-    ReturnParams               Optional[string]               `json:"return_params"`
-    Taxable                    *bool                          `json:"taxable,omitempty"`
+    RequireCreditCard          *bool                            `json:"require_credit_card,omitempty"`
+    ReturnParams               Optional[string]                 `json:"return_params"`
+    Taxable                    *bool                            `json:"taxable,omitempty"`
     // The url to which a customer will be returned after a successful account update
-    UpdateReturnUrl            Optional[string]               `json:"update_return_url"`
-    InitialChargeAfterTrial    Optional[bool]                 `json:"initial_charge_after_trial"`
+    UpdateReturnUrl            Optional[string]                 `json:"update_return_url"`
+    InitialChargeAfterTrial    Optional[bool]                   `json:"initial_charge_after_trial"`
     // The version of the product
-    VersionNumber              *int                           `json:"version_number,omitempty"`
+    VersionNumber              *int                             `json:"version_number,omitempty"`
     // The parameters will append to the url after a successful account update. See [help documentation](https://help.chargify.com/products/product-editing.html#return-parameters-after-account-update)
-    UpdateReturnParams         Optional[string]               `json:"update_return_params"`
-    ProductFamily              *ProductFamily                 `json:"product_family,omitempty"`
-    PublicSignupPages          []PublicSignupPage             `json:"public_signup_pages,omitempty"`
-    ProductPricePointName      *string                        `json:"product_price_point_name,omitempty"`
+    UpdateReturnParams         Optional[string]                 `json:"update_return_params"`
+    ProductFamily              *ProductFamily                   `json:"product_family,omitempty"`
+    PublicSignupPages          []PublicSignupPage               `json:"public_signup_pages,omitempty"`
+    ProductPricePointName      *string                          `json:"product_price_point_name,omitempty"`
     // A boolean indicating whether to request a billing address on any Self-Service Pages that are used by subscribers of this product.
-    RequestBillingAddress      *bool                          `json:"request_billing_address,omitempty"`
+    RequestBillingAddress      *bool                            `json:"request_billing_address,omitempty"`
     // A boolean indicating whether a billing address is required to add a payment profile, especially at signup.
-    RequireBillingAddress      *bool                          `json:"require_billing_address,omitempty"`
+    RequireBillingAddress      *bool                            `json:"require_billing_address,omitempty"`
     // A boolean indicating whether a shipping address is required for the customer, especially at signup.
-    RequireShippingAddress     *bool                          `json:"require_shipping_address,omitempty"`
+    RequireShippingAddress     *bool                            `json:"require_shipping_address,omitempty"`
     // A string representing the tax code related to the product type. This is especially important when using the Avalara service to tax based on locale. This attribute has a max length of 10 characters.
-    TaxCode                    Optional[string]               `json:"tax_code"`
-    DefaultProductPricePointId *int                           `json:"default_product_price_point_id,omitempty"`
-    UseSiteExchangeRate        Optional[bool]                 `json:"use_site_exchange_rate"`
+    TaxCode                    Optional[string]                 `json:"tax_code"`
+    DefaultProductPricePointId *int                             `json:"default_product_price_point_id,omitempty"`
+    UseSiteExchangeRate        Optional[bool]                   `json:"use_site_exchange_rate"`
     // One of the following: Business Software, Consumer Software, Digital Services, Physical Goods, Other
-    ItemCategory               Optional[string]               `json:"item_category"`
-    ProductPricePointId        *int                           `json:"product_price_point_id,omitempty"`
-    ProductPricePointHandle    Optional[string]               `json:"product_price_point_handle"`
-    AdditionalProperties       map[string]any                 `json:"_"`
+    ItemCategory               Optional[string]                 `json:"item_category"`
+    ProductPricePointId        *int                             `json:"product_price_point_id,omitempty"`
+    ProductPricePointHandle    Optional[string]                 `json:"product_price_point_handle"`
+    AdditionalProperties       map[string]any                   `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for Product.
@@ -280,7 +285,7 @@ func (p Product) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for Product.
 // It customizes the JSON unmarshaling process for Product objects.
 func (p *Product) UnmarshalJSON(input []byte) error {
-    var temp product
+    var temp tempProduct
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -350,43 +355,43 @@ func (p *Product) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// product is a temporary struct used for validating the fields of Product.
-type product  struct {
-    Id                         *int                           `json:"id,omitempty"`
-    Name                       *string                        `json:"name,omitempty"`
-    Handle                     Optional[string]               `json:"handle"`
-    Description                Optional[string]               `json:"description"`
-    AccountingCode             Optional[string]               `json:"accounting_code"`
-    RequestCreditCard          *bool                          `json:"request_credit_card,omitempty"`
-    ExpirationInterval         Optional[int]                  `json:"expiration_interval"`
-    ExpirationIntervalUnit     Optional[ExtendedIntervalUnit] `json:"expiration_interval_unit"`
-    CreatedAt                  *string                        `json:"created_at,omitempty"`
-    UpdatedAt                  *string                        `json:"updated_at,omitempty"`
-    PriceInCents               *int64                         `json:"price_in_cents,omitempty"`
-    Interval                   *int                           `json:"interval,omitempty"`
-    IntervalUnit               *IntervalUnit                  `json:"interval_unit,omitempty"`
-    InitialChargeInCents       Optional[int64]                `json:"initial_charge_in_cents"`
-    TrialPriceInCents          Optional[int64]                `json:"trial_price_in_cents"`
-    TrialInterval              Optional[int]                  `json:"trial_interval"`
-    TrialIntervalUnit          Optional[IntervalUnit]         `json:"trial_interval_unit"`
-    ArchivedAt                 Optional[string]               `json:"archived_at"`
-    RequireCreditCard          *bool                          `json:"require_credit_card,omitempty"`
-    ReturnParams               Optional[string]               `json:"return_params"`
-    Taxable                    *bool                          `json:"taxable,omitempty"`
-    UpdateReturnUrl            Optional[string]               `json:"update_return_url"`
-    InitialChargeAfterTrial    Optional[bool]                 `json:"initial_charge_after_trial"`
-    VersionNumber              *int                           `json:"version_number,omitempty"`
-    UpdateReturnParams         Optional[string]               `json:"update_return_params"`
-    ProductFamily              *ProductFamily                 `json:"product_family,omitempty"`
-    PublicSignupPages          []PublicSignupPage             `json:"public_signup_pages,omitempty"`
-    ProductPricePointName      *string                        `json:"product_price_point_name,omitempty"`
-    RequestBillingAddress      *bool                          `json:"request_billing_address,omitempty"`
-    RequireBillingAddress      *bool                          `json:"require_billing_address,omitempty"`
-    RequireShippingAddress     *bool                          `json:"require_shipping_address,omitempty"`
-    TaxCode                    Optional[string]               `json:"tax_code"`
-    DefaultProductPricePointId *int                           `json:"default_product_price_point_id,omitempty"`
-    UseSiteExchangeRate        Optional[bool]                 `json:"use_site_exchange_rate"`
-    ItemCategory               Optional[string]               `json:"item_category"`
-    ProductPricePointId        *int                           `json:"product_price_point_id,omitempty"`
-    ProductPricePointHandle    Optional[string]               `json:"product_price_point_handle"`
+// tempProduct is a temporary struct used for validating the fields of Product.
+type tempProduct  struct {
+    Id                         *int                             `json:"id,omitempty"`
+    Name                       *string                          `json:"name,omitempty"`
+    Handle                     Optional[string]                 `json:"handle"`
+    Description                Optional[string]                 `json:"description"`
+    AccountingCode             Optional[string]                 `json:"accounting_code"`
+    RequestCreditCard          *bool                            `json:"request_credit_card,omitempty"`
+    ExpirationInterval         Optional[int]                    `json:"expiration_interval"`
+    ExpirationIntervalUnit     Optional[ExpirationIntervalUnit] `json:"expiration_interval_unit"`
+    CreatedAt                  *string                          `json:"created_at,omitempty"`
+    UpdatedAt                  *string                          `json:"updated_at,omitempty"`
+    PriceInCents               *int64                           `json:"price_in_cents,omitempty"`
+    Interval                   *int                             `json:"interval,omitempty"`
+    IntervalUnit               *IntervalUnit                    `json:"interval_unit,omitempty"`
+    InitialChargeInCents       Optional[int64]                  `json:"initial_charge_in_cents"`
+    TrialPriceInCents          Optional[int64]                  `json:"trial_price_in_cents"`
+    TrialInterval              Optional[int]                    `json:"trial_interval"`
+    TrialIntervalUnit          Optional[IntervalUnit]           `json:"trial_interval_unit"`
+    ArchivedAt                 Optional[string]                 `json:"archived_at"`
+    RequireCreditCard          *bool                            `json:"require_credit_card,omitempty"`
+    ReturnParams               Optional[string]                 `json:"return_params"`
+    Taxable                    *bool                            `json:"taxable,omitempty"`
+    UpdateReturnUrl            Optional[string]                 `json:"update_return_url"`
+    InitialChargeAfterTrial    Optional[bool]                   `json:"initial_charge_after_trial"`
+    VersionNumber              *int                             `json:"version_number,omitempty"`
+    UpdateReturnParams         Optional[string]                 `json:"update_return_params"`
+    ProductFamily              *ProductFamily                   `json:"product_family,omitempty"`
+    PublicSignupPages          []PublicSignupPage               `json:"public_signup_pages,omitempty"`
+    ProductPricePointName      *string                          `json:"product_price_point_name,omitempty"`
+    RequestBillingAddress      *bool                            `json:"request_billing_address,omitempty"`
+    RequireBillingAddress      *bool                            `json:"require_billing_address,omitempty"`
+    RequireShippingAddress     *bool                            `json:"require_shipping_address,omitempty"`
+    TaxCode                    Optional[string]                 `json:"tax_code"`
+    DefaultProductPricePointId *int                             `json:"default_product_price_point_id,omitempty"`
+    UseSiteExchangeRate        Optional[bool]                   `json:"use_site_exchange_rate"`
+    ItemCategory               Optional[string]                 `json:"item_category"`
+    ProductPricePointId        *int                             `json:"product_price_point_id,omitempty"`
+    ProductPricePointHandle    Optional[string]                 `json:"product_price_point_handle"`
 }

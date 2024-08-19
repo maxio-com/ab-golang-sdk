@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -31,7 +36,7 @@ func (c CreateMeteredComponent) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for CreateMeteredComponent.
 // It customizes the JSON unmarshaling process for CreateMeteredComponent objects.
 func (c *CreateMeteredComponent) UnmarshalJSON(input []byte) error {
-    var temp createMeteredComponent
+    var temp tempCreateMeteredComponent
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -50,12 +55,12 @@ func (c *CreateMeteredComponent) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// createMeteredComponent is a temporary struct used for validating the fields of CreateMeteredComponent.
-type createMeteredComponent  struct {
+// tempCreateMeteredComponent is a temporary struct used for validating the fields of CreateMeteredComponent.
+type tempCreateMeteredComponent  struct {
     MeteredComponent *MeteredComponent `json:"metered_component"`
 }
 
-func (c *createMeteredComponent) validate() error {
+func (c *tempCreateMeteredComponent) validate() error {
     var errs []string
     if c.MeteredComponent == nil {
         errs = append(errs, "required field `metered_component` is missing for type `Create Metered Component`")
@@ -63,5 +68,5 @@ func (c *createMeteredComponent) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -42,7 +47,7 @@ func (c ChangeInvoiceStatusEvent) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for ChangeInvoiceStatusEvent.
 // It customizes the JSON unmarshaling process for ChangeInvoiceStatusEvent objects.
 func (c *ChangeInvoiceStatusEvent) UnmarshalJSON(input []byte) error {
-    var temp changeInvoiceStatusEvent
+    var temp tempChangeInvoiceStatusEvent
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -69,8 +74,8 @@ func (c *ChangeInvoiceStatusEvent) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// changeInvoiceStatusEvent is a temporary struct used for validating the fields of ChangeInvoiceStatusEvent.
-type changeInvoiceStatusEvent  struct {
+// tempChangeInvoiceStatusEvent is a temporary struct used for validating the fields of ChangeInvoiceStatusEvent.
+type tempChangeInvoiceStatusEvent  struct {
     Id        *int64                        `json:"id"`
     Timestamp *string                       `json:"timestamp"`
     Invoice   *Invoice                      `json:"invoice"`
@@ -78,7 +83,7 @@ type changeInvoiceStatusEvent  struct {
     EventData *ChangeInvoiceStatusEventData `json:"event_data"`
 }
 
-func (c *changeInvoiceStatusEvent) validate() error {
+func (c *tempChangeInvoiceStatusEvent) validate() error {
     var errs []string
     if c.Id == nil {
         errs = append(errs, "required field `id` is missing for type `Change Invoice Status Event`")
@@ -98,5 +103,5 @@ func (c *changeInvoiceStatusEvent) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

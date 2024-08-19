@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -49,7 +54,7 @@ func (p PrepaidUsage) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for PrepaidUsage.
 // It customizes the JSON unmarshaling process for PrepaidUsage objects.
 func (p *PrepaidUsage) UnmarshalJSON(input []byte) error {
-    var temp prepaidUsage
+    var temp tempPrepaidUsage
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -77,8 +82,8 @@ func (p *PrepaidUsage) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// prepaidUsage is a temporary struct used for validating the fields of PrepaidUsage.
-type prepaidUsage  struct {
+// tempPrepaidUsage is a temporary struct used for validating the fields of PrepaidUsage.
+type tempPrepaidUsage  struct {
     PreviousUnitBalance        *string                         `json:"previous_unit_balance"`
     PreviousOverageUnitBalance *string                         `json:"previous_overage_unit_balance"`
     NewUnitBalance             *int                            `json:"new_unit_balance"`
@@ -91,7 +96,7 @@ type prepaidUsage  struct {
     AllocationDetails          *[]PrepaidUsageAllocationDetail `json:"allocation_details"`
 }
 
-func (p *prepaidUsage) validate() error {
+func (p *tempPrepaidUsage) validate() error {
     var errs []string
     if p.PreviousUnitBalance == nil {
         errs = append(errs, "required field `previous_unit_balance` is missing for type `Prepaid Usage`")
@@ -126,5 +131,5 @@ func (p *prepaidUsage) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

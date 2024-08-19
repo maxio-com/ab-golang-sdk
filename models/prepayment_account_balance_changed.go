@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -37,7 +42,7 @@ func (p PrepaymentAccountBalanceChanged) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for PrepaymentAccountBalanceChanged.
 // It customizes the JSON unmarshaling process for PrepaymentAccountBalanceChanged objects.
 func (p *PrepaymentAccountBalanceChanged) UnmarshalJSON(input []byte) error {
-    var temp prepaymentAccountBalanceChanged
+    var temp tempPrepaymentAccountBalanceChanged
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -59,15 +64,15 @@ func (p *PrepaymentAccountBalanceChanged) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// prepaymentAccountBalanceChanged is a temporary struct used for validating the fields of PrepaymentAccountBalanceChanged.
-type prepaymentAccountBalanceChanged  struct {
+// tempPrepaymentAccountBalanceChanged is a temporary struct used for validating the fields of PrepaymentAccountBalanceChanged.
+type tempPrepaymentAccountBalanceChanged  struct {
     Reason                          *string `json:"reason"`
     PrepaymentAccountBalanceInCents *int64  `json:"prepayment_account_balance_in_cents"`
     PrepaymentBalanceChangeInCents  *int64  `json:"prepayment_balance_change_in_cents"`
     CurrencyCode                    *string `json:"currency_code"`
 }
 
-func (p *prepaymentAccountBalanceChanged) validate() error {
+func (p *tempPrepaymentAccountBalanceChanged) validate() error {
     var errs []string
     if p.Reason == nil {
         errs = append(errs, "required field `reason` is missing for type `Prepayment Account Balance Changed`")
@@ -84,5 +89,5 @@ func (p *prepaymentAccountBalanceChanged) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -8,8 +13,8 @@ import (
 
 // PaymentProfileResponse represents a PaymentProfileResponse struct.
 type PaymentProfileResponse struct {
-    PaymentProfile       PaymentProfileResponsePaymentProfile `json:"payment_profile"`
-    AdditionalProperties map[string]any                       `json:"_"`
+    PaymentProfile       PaymentProfile `json:"payment_profile"`
+    AdditionalProperties map[string]any `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for PaymentProfileResponse.
@@ -31,7 +36,7 @@ func (p PaymentProfileResponse) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for PaymentProfileResponse.
 // It customizes the JSON unmarshaling process for PaymentProfileResponse objects.
 func (p *PaymentProfileResponse) UnmarshalJSON(input []byte) error {
-    var temp paymentProfileResponse
+    var temp tempPaymentProfileResponse
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -50,12 +55,12 @@ func (p *PaymentProfileResponse) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// paymentProfileResponse is a temporary struct used for validating the fields of PaymentProfileResponse.
-type paymentProfileResponse  struct {
-    PaymentProfile *PaymentProfileResponsePaymentProfile `json:"payment_profile"`
+// tempPaymentProfileResponse is a temporary struct used for validating the fields of PaymentProfileResponse.
+type tempPaymentProfileResponse  struct {
+    PaymentProfile *PaymentProfile `json:"payment_profile"`
 }
 
-func (p *paymentProfileResponse) validate() error {
+func (p *tempPaymentProfileResponse) validate() error {
     var errs []string
     if p.PaymentProfile == nil {
         errs = append(errs, "required field `payment_profile` is missing for type `Payment Profile Response`")
@@ -63,5 +68,5 @@ func (p *paymentProfileResponse) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -35,7 +40,7 @@ func (b BankAccountVerification) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for BankAccountVerification.
 // It customizes the JSON unmarshaling process for BankAccountVerification objects.
 func (b *BankAccountVerification) UnmarshalJSON(input []byte) error {
-    var temp bankAccountVerification
+    var temp tempBankAccountVerification
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -51,8 +56,8 @@ func (b *BankAccountVerification) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// bankAccountVerification is a temporary struct used for validating the fields of BankAccountVerification.
-type bankAccountVerification  struct {
+// tempBankAccountVerification is a temporary struct used for validating the fields of BankAccountVerification.
+type tempBankAccountVerification  struct {
     Deposit1InCents *int64 `json:"deposit_1_in_cents,omitempty"`
     Deposit2InCents *int64 `json:"deposit_2_in_cents,omitempty"`
 }

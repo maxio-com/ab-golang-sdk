@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -31,7 +36,7 @@ func (c CreditSchemeRequest) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for CreditSchemeRequest.
 // It customizes the JSON unmarshaling process for CreditSchemeRequest objects.
 func (c *CreditSchemeRequest) UnmarshalJSON(input []byte) error {
-    var temp creditSchemeRequest
+    var temp tempCreditSchemeRequest
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -50,12 +55,12 @@ func (c *CreditSchemeRequest) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// creditSchemeRequest is a temporary struct used for validating the fields of CreditSchemeRequest.
-type creditSchemeRequest  struct {
+// tempCreditSchemeRequest is a temporary struct used for validating the fields of CreditSchemeRequest.
+type tempCreditSchemeRequest  struct {
     CreditScheme *CreditScheme `json:"credit_scheme"`
 }
 
-func (c *creditSchemeRequest) validate() error {
+func (c *tempCreditSchemeRequest) validate() error {
     var errs []string
     if c.CreditScheme == nil {
         errs = append(errs, "required field `credit_scheme` is missing for type `Credit Scheme Request`")
@@ -63,5 +68,5 @@ func (c *creditSchemeRequest) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

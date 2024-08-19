@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -30,9 +35,9 @@ type CreateSubscription struct {
     NetTerms                          *string                       `json:"net_terms,omitempty"`
     // The ID of an existing customer within Chargify. Required, unless a `customer_reference` or a set of `customer_attributes` is given.
     CustomerId                        *int                          `json:"customer_id,omitempty"`
-    // (Optional) Set this attribute to a future date/time to sync imported subscriptions to your existing renewal schedule. See the notes on “Date/Time Format” in our [subscription import documentation](https://maxio-chargify.zendesk.com/hc/en-us/articles/5404863655821#date-format). If you provide a next_billing_at timestamp that is in the future, no trial or initial charges will be applied when you create the subscription. In fact, no payment will be captured at all. The first payment will be captured, according to the prices defined by the product, near the time specified by next_billing_at. If you do not provide a value for next_billing_at, any trial and/or initial charges will be assessed and charged at the time of subscription creation. If the card cannot be successfully charged, the subscription will not be created. See further notes in the section on Importing Subscriptions.
+    // (Optional) Set this attribute to a future date/time to sync imported subscriptions to your existing renewal schedule. See the notes on “Date/Time Format” in our [subscription import documentation](https://maxio.zendesk.com/hc/en-us/articles/24251489107213-Advanced-Billing-Subscription-Imports#date-format). If you provide a next_billing_at timestamp that is in the future, no trial or initial charges will be applied when you create the subscription. In fact, no payment will be captured at all. The first payment will be captured, according to the prices defined by the product, near the time specified by next_billing_at. If you do not provide a value for next_billing_at, any trial and/or initial charges will be assessed and charged at the time of subscription creation. If the card cannot be successfully charged, the subscription will not be created. See further notes in the section on Importing Subscriptions.
     NextBillingAt                     *time.Time                    `json:"next_billing_at,omitempty"`
-    // (Optional) Set this attribute to a future date/time to create a subscription in the "Awaiting Signup" state, rather than "Active" or "Trialing". See the notes on “Date/Time Format” in our [subscription import documentation](https://maxio-chargify.zendesk.com/hc/en-us/articles/5404863655821#date-format). In the "Awaiting Signup" state, a subscription behaves like any other. It can be canceled, allocated to, had its billing date changed. etc. When the initial_billing_at date hits, the subscription will transition to the expected state. If the product has a trial, the subscription will enter a trial, otherwise it will go active. Setup fees will be respected either before or after the trial, as configured on the price point. If the payment is due at the initial_billing_at and it fails the subscription will be immediately canceled. See further notes in the section on Delayed Signups.
+    // (Optional) Set this attribute to a future date/time to create a subscription in the "Awaiting Signup" state, rather than "Active" or "Trialing". See the notes on “Date/Time Format” in our [subscription import documentation](https://maxio.zendesk.com/hc/en-us/articles/24251489107213-Advanced-Billing-Subscription-Imports#date-format). In the "Awaiting Signup" state, a subscription behaves like any other. It can be canceled, allocated to, had its billing date changed. etc. When the initial_billing_at date hits, the subscription will transition to the expected state. If the product has a trial, the subscription will enter a trial, otherwise it will go active. Setup fees will be respected either before or after the trial, as configured on the price point. If the payment is due at the initial_billing_at and it fails the subscription will be immediately canceled. See further notes in the section on Delayed Signups.
     InitialBillingAt                  *time.Time                    `json:"initial_billing_at,omitempty"`
     // For European sites subject to PSD2 and using 3D Secure, this can be used to reference a previous transaction for the customer. This will ensure the card will be charged successfully at renewal.
     StoredCredentialTransactionId     *int                          `json:"stored_credential_transaction_id,omitempty"`
@@ -47,7 +52,7 @@ type CreateSubscription struct {
     // Credit Card data to create a new Subscription. Interchangeable with `payment_profile_attributes` property.
     CreditCardAttributes              *PaymentProfileAttributes     `json:"credit_card_attributes,omitempty"`
     BankAccountAttributes             *BankAccountAttributes        `json:"bank_account_attributes,omitempty"`
-    // (Optional) An array of component ids and quantities to be added to the subscription. See [Components](https://maxio-chargify.zendesk.com/hc/en-us/articles/5405020625677) for more information.
+    // (Optional) An array of component ids and quantities to be added to the subscription. See [Components](https://maxio.zendesk.com/hc/en-us/articles/24261141522189-Components-Overview) for more information.
     Components                        []CreateSubscriptionComponent `json:"components,omitempty"`
     // (Optional). Cannot be used when also specifying next_billing_at
     CalendarBilling                   *CalendarBilling              `json:"calendar_billing,omitempty"`
@@ -56,7 +61,7 @@ type CreateSubscription struct {
     // The reference value (provided by your app) of an existing customer within Chargify. Required, unless a `customer_id` or a set of `customer_attributes` is given.
     CustomerReference                 *string                       `json:"customer_reference,omitempty"`
     Group                             *GroupSettings                `json:"group,omitempty"`
-    // A valid referral code. (optional, see [Referrals](https://maxio-chargify.zendesk.com/hc/en-us/articles/5405420204045-Referrals-Reference#how-to-obtain-referral-codes) for more details). If supplied, must be valid, or else subscription creation will fail.
+    // A valid referral code. (optional, see [Referrals](https://maxio.zendesk.com/hc/en-us/articles/24286981223693-Referrals-Reference#how-to-obtain-referral-codes) for more details). If supplied, must be valid, or else subscription creation will fail.
     Ref                               *string                       `json:"ref,omitempty"`
     // (Optional) Can be used when canceling a subscription (via the HTTP DELETE method) to make a note about the reason for cancellation.
     CancellationMessage               *string                       `json:"cancellation_message,omitempty"`
@@ -275,7 +280,7 @@ func (c CreateSubscription) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for CreateSubscription.
 // It customizes the JSON unmarshaling process for CreateSubscription objects.
 func (c *CreateSubscription) UnmarshalJSON(input []byte) error {
-    var temp createSubscription
+    var temp tempCreateSubscription
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -374,8 +379,8 @@ func (c *CreateSubscription) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// createSubscription is a temporary struct used for validating the fields of CreateSubscription.
-type createSubscription  struct {
+// tempCreateSubscription is a temporary struct used for validating the fields of CreateSubscription.
+type tempCreateSubscription  struct {
     ProductHandle                     *string                       `json:"product_handle,omitempty"`
     ProductId                         *int                          `json:"product_id,omitempty"`
     ProductPricePointHandle           *string                       `json:"product_price_point_handle,omitempty"`

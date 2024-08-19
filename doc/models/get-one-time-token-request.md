@@ -24,7 +24,7 @@
     "expiration_month": 133.5,
     "expiration_year": 156.84,
     "customer_id": "customer_id2",
-    "current_vault": "eway",
+    "current_vault": "stripe",
     "vault_token": "vault_token6",
     "billing_address": "billing_address4",
     "billing_address_2": "billing_address_26",

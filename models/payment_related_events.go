@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -33,7 +38,7 @@ func (p PaymentRelatedEvents) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for PaymentRelatedEvents.
 // It customizes the JSON unmarshaling process for PaymentRelatedEvents objects.
 func (p *PaymentRelatedEvents) UnmarshalJSON(input []byte) error {
-    var temp paymentRelatedEvents
+    var temp tempPaymentRelatedEvents
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -53,13 +58,13 @@ func (p *PaymentRelatedEvents) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// paymentRelatedEvents is a temporary struct used for validating the fields of PaymentRelatedEvents.
-type paymentRelatedEvents  struct {
+// tempPaymentRelatedEvents is a temporary struct used for validating the fields of PaymentRelatedEvents.
+type tempPaymentRelatedEvents  struct {
     ProductId            *int `json:"product_id"`
     AccountTransactionId *int `json:"account_transaction_id"`
 }
 
-func (p *paymentRelatedEvents) validate() error {
+func (p *tempPaymentRelatedEvents) validate() error {
     var errs []string
     if p.ProductId == nil {
         errs = append(errs, "required field `product_id` is missing for type `Payment Related Events`")
@@ -70,5 +75,5 @@ func (p *paymentRelatedEvents) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

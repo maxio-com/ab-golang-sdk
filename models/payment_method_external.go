@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -45,7 +50,7 @@ func (p PaymentMethodExternal) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for PaymentMethodExternal.
 // It customizes the JSON unmarshaling process for PaymentMethodExternal objects.
 func (p *PaymentMethodExternal) UnmarshalJSON(input []byte) error {
-    var temp paymentMethodExternal
+    var temp tempPaymentMethodExternal
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -67,15 +72,15 @@ func (p *PaymentMethodExternal) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// paymentMethodExternal is a temporary struct used for validating the fields of PaymentMethodExternal.
-type paymentMethodExternal  struct {
+// tempPaymentMethodExternal is a temporary struct used for validating the fields of PaymentMethodExternal.
+type tempPaymentMethodExternal  struct {
     Details *string                    `json:"details"`
     Kind    *string                    `json:"kind"`
     Memo    *string                    `json:"memo"`
     Type    *InvoiceEventPaymentMethod `json:"type"`
 }
 
-func (p *paymentMethodExternal) validate() error {
+func (p *tempPaymentMethodExternal) validate() error {
     var errs []string
     if p.Kind == nil {
         errs = append(errs, "required field `kind` is missing for type `Payment Method External`")
@@ -86,5 +91,5 @@ func (p *paymentMethodExternal) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

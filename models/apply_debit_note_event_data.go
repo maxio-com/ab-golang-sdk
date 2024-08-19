@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -67,7 +72,7 @@ func (a ApplyDebitNoteEventData) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for ApplyDebitNoteEventData.
 // It customizes the JSON unmarshaling process for ApplyDebitNoteEventData objects.
 func (a *ApplyDebitNoteEventData) UnmarshalJSON(input []byte) error {
-    var temp applyDebitNoteEventData
+    var temp tempApplyDebitNoteEventData
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -98,8 +103,8 @@ func (a *ApplyDebitNoteEventData) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// applyDebitNoteEventData is a temporary struct used for validating the fields of ApplyDebitNoteEventData.
-type applyDebitNoteEventData  struct {
+// tempApplyDebitNoteEventData is a temporary struct used for validating the fields of ApplyDebitNoteEventData.
+type tempApplyDebitNoteEventData  struct {
     DebitNoteNumber *string          `json:"debit_note_number"`
     DebitNoteUid    *string          `json:"debit_note_uid"`
     OriginalAmount  *string          `json:"original_amount"`
@@ -108,7 +113,7 @@ type applyDebitNoteEventData  struct {
     TransactionTime Optional[string] `json:"transaction_time"`
 }
 
-func (a *applyDebitNoteEventData) validate() error {
+func (a *tempApplyDebitNoteEventData) validate() error {
     var errs []string
     if a.DebitNoteNumber == nil {
         errs = append(errs, "required field `debit_note_number` is missing for type `Apply Debit Note Event Data`")
@@ -125,5 +130,5 @@ func (a *applyDebitNoteEventData) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

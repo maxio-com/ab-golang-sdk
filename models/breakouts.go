@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -43,7 +48,7 @@ func (b Breakouts) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for Breakouts.
 // It customizes the JSON unmarshaling process for Breakouts objects.
 func (b *Breakouts) UnmarshalJSON(input []byte) error {
-    var temp breakouts
+    var temp tempBreakouts
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -61,8 +66,8 @@ func (b *Breakouts) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// breakouts is a temporary struct used for validating the fields of Breakouts.
-type breakouts  struct {
+// tempBreakouts is a temporary struct used for validating the fields of Breakouts.
+type tempBreakouts  struct {
     PlanAmountInCents    *int64  `json:"plan_amount_in_cents,omitempty"`
     PlanAmountFormatted  *string `json:"plan_amount_formatted,omitempty"`
     UsageAmountInCents   *int64  `json:"usage_amount_in_cents,omitempty"`

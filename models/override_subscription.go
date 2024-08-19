@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -54,7 +59,7 @@ func (o OverrideSubscription) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for OverrideSubscription.
 // It customizes the JSON unmarshaling process for OverrideSubscription objects.
 func (o *OverrideSubscription) UnmarshalJSON(input []byte) error {
-    var temp overrideSubscription
+    var temp tempOverrideSubscription
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -97,8 +102,8 @@ func (o *OverrideSubscription) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// overrideSubscription is a temporary struct used for validating the fields of OverrideSubscription.
-type overrideSubscription  struct {
+// tempOverrideSubscription is a temporary struct used for validating the fields of OverrideSubscription.
+type tempOverrideSubscription  struct {
     ActivatedAt           *string `json:"activated_at,omitempty"`
     CanceledAt            *string `json:"canceled_at,omitempty"`
     CancellationMessage   *string `json:"cancellation_message,omitempty"`

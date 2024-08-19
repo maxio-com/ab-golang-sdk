@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -33,7 +38,7 @@ func (s SubscriptionMRRBreakout) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for SubscriptionMRRBreakout.
 // It customizes the JSON unmarshaling process for SubscriptionMRRBreakout objects.
 func (s *SubscriptionMRRBreakout) UnmarshalJSON(input []byte) error {
-    var temp subscriptionMRRBreakout
+    var temp tempSubscriptionMRRBreakout
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -53,13 +58,13 @@ func (s *SubscriptionMRRBreakout) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// subscriptionMRRBreakout is a temporary struct used for validating the fields of SubscriptionMRRBreakout.
-type subscriptionMRRBreakout  struct {
+// tempSubscriptionMRRBreakout is a temporary struct used for validating the fields of SubscriptionMRRBreakout.
+type tempSubscriptionMRRBreakout  struct {
     PlanAmountInCents  *int64 `json:"plan_amount_in_cents"`
     UsageAmountInCents *int64 `json:"usage_amount_in_cents"`
 }
 
-func (s *subscriptionMRRBreakout) validate() error {
+func (s *tempSubscriptionMRRBreakout) validate() error {
     var errs []string
     if s.PlanAmountInCents == nil {
         errs = append(errs, "required field `plan_amount_in_cents` is missing for type `Subscription MRR Breakout`")
@@ -70,5 +75,5 @@ func (s *subscriptionMRRBreakout) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

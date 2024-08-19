@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -43,7 +48,7 @@ func (l ListInvoiceEventsResponse) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for ListInvoiceEventsResponse.
 // It customizes the JSON unmarshaling process for ListInvoiceEventsResponse objects.
 func (l *ListInvoiceEventsResponse) UnmarshalJSON(input []byte) error {
-    var temp listInvoiceEventsResponse
+    var temp tempListInvoiceEventsResponse
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -61,8 +66,8 @@ func (l *ListInvoiceEventsResponse) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// listInvoiceEventsResponse is a temporary struct used for validating the fields of ListInvoiceEventsResponse.
-type listInvoiceEventsResponse  struct {
+// tempListInvoiceEventsResponse is a temporary struct used for validating the fields of ListInvoiceEventsResponse.
+type tempListInvoiceEventsResponse  struct {
     Events     []InvoiceEvent `json:"events,omitempty"`
     Page       *int           `json:"page,omitempty"`
     PerPage    *int           `json:"per_page,omitempty"`

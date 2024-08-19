@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -42,7 +47,7 @@ type EBBComponent struct {
     // The numerical interval. i.e. an interval of ‘30’ coupled with an interval_unit of day would mean this component's default price point would renew every 30 days. This property is only available for sites with Multifrequency enabled.
     Interval                  *int                      `json:"interval,omitempty"`
     // A string representing the interval unit for this component's default price point, either month or day. This property is only available for sites with Multifrequency enabled.
-    IntervalUnit              *IntervalUnit             `json:"interval_unit,omitempty"`
+    IntervalUnit              Optional[IntervalUnit]    `json:"interval_unit"`
     AdditionalProperties      map[string]any            `json:"_"`
 }
 
@@ -106,8 +111,12 @@ func (e EBBComponent) toMap() map[string]any {
     if e.Interval != nil {
         structMap["interval"] = e.Interval
     }
-    if e.IntervalUnit != nil {
-        structMap["interval_unit"] = e.IntervalUnit
+    if e.IntervalUnit.IsValueSet() {
+        if e.IntervalUnit.Value() != nil {
+            structMap["interval_unit"] = e.IntervalUnit.Value()
+        } else {
+            structMap["interval_unit"] = nil
+        }
     }
     return structMap
 }
@@ -115,7 +124,7 @@ func (e EBBComponent) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for EBBComponent.
 // It customizes the JSON unmarshaling process for EBBComponent objects.
 func (e *EBBComponent) UnmarshalJSON(input []byte) error {
-    var temp ebbComponent
+    var temp tempEBBComponent
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -150,8 +159,8 @@ func (e *EBBComponent) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// ebbComponent is a temporary struct used for validating the fields of EBBComponent.
-type ebbComponent  struct {
+// tempEBBComponent is a temporary struct used for validating the fields of EBBComponent.
+type tempEBBComponent  struct {
     Name                      *string                   `json:"name"`
     UnitName                  *string                   `json:"unit_name"`
     Description               *string                   `json:"description,omitempty"`
@@ -168,10 +177,10 @@ type ebbComponent  struct {
     PriceInCents              *string                   `json:"price_in_cents,omitempty"`
     EventBasedBillingMetricId *int                      `json:"event_based_billing_metric_id"`
     Interval                  *int                      `json:"interval,omitempty"`
-    IntervalUnit              *IntervalUnit             `json:"interval_unit,omitempty"`
+    IntervalUnit              Optional[IntervalUnit]    `json:"interval_unit"`
 }
 
-func (e *ebbComponent) validate() error {
+func (e *tempEBBComponent) validate() error {
     var errs []string
     if e.Name == nil {
         errs = append(errs, "required field `name` is missing for type `EBB Component`")
@@ -188,5 +197,5 @@ func (e *ebbComponent) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

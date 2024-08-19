@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -33,7 +38,7 @@ func (a AllocationExpirationDate) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for AllocationExpirationDate.
 // It customizes the JSON unmarshaling process for AllocationExpirationDate objects.
 func (a *AllocationExpirationDate) UnmarshalJSON(input []byte) error {
-    var temp allocationExpirationDate
+    var temp tempAllocationExpirationDate
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -54,7 +59,7 @@ func (a *AllocationExpirationDate) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// allocationExpirationDate is a temporary struct used for validating the fields of AllocationExpirationDate.
-type allocationExpirationDate  struct {
+// tempAllocationExpirationDate is a temporary struct used for validating the fields of AllocationExpirationDate.
+type tempAllocationExpirationDate  struct {
     ExpiresAt *string `json:"expires_at,omitempty"`
 }

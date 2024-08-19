@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -39,7 +44,7 @@ func (c ComponentPricePointErrorItem) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for ComponentPricePointErrorItem.
 // It customizes the JSON unmarshaling process for ComponentPricePointErrorItem objects.
 func (c *ComponentPricePointErrorItem) UnmarshalJSON(input []byte) error {
-    var temp componentPricePointErrorItem
+    var temp tempComponentPricePointErrorItem
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -56,8 +61,8 @@ func (c *ComponentPricePointErrorItem) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// componentPricePointErrorItem is a temporary struct used for validating the fields of ComponentPricePointErrorItem.
-type componentPricePointErrorItem  struct {
+// tempComponentPricePointErrorItem is a temporary struct used for validating the fields of ComponentPricePointErrorItem.
+type tempComponentPricePointErrorItem  struct {
     ComponentId *int    `json:"component_id,omitempty"`
     Message     *string `json:"message,omitempty"`
     PricePoint  *int    `json:"price_point,omitempty"`

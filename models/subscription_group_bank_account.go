@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -27,7 +32,7 @@ type SubscriptionGroupBankAccount struct {
     BillingZip            *string                `json:"billing_zip,omitempty"`
     BillingCountry        *string                `json:"billing_country,omitempty"`
     ChargifyToken         *string                `json:"chargify_token,omitempty"`
-    // The vault that stores the payment profile with the provided vault_token.
+    // The vault that stores the payment profile with the provided vault_token. Use `bogus` for testing.
     CurrentVault          *BankAccountVault      `json:"current_vault,omitempty"`
     GatewayHandle         *string                `json:"gateway_handle,omitempty"`
     AdditionalProperties  map[string]any         `json:"_"`
@@ -99,7 +104,7 @@ func (s SubscriptionGroupBankAccount) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for SubscriptionGroupBankAccount.
 // It customizes the JSON unmarshaling process for SubscriptionGroupBankAccount objects.
 func (s *SubscriptionGroupBankAccount) UnmarshalJSON(input []byte) error {
-    var temp subscriptionGroupBankAccount
+    var temp tempSubscriptionGroupBankAccount
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -129,8 +134,8 @@ func (s *SubscriptionGroupBankAccount) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// subscriptionGroupBankAccount is a temporary struct used for validating the fields of SubscriptionGroupBankAccount.
-type subscriptionGroupBankAccount  struct {
+// tempSubscriptionGroupBankAccount is a temporary struct used for validating the fields of SubscriptionGroupBankAccount.
+type tempSubscriptionGroupBankAccount  struct {
     BankName              *string                `json:"bank_name,omitempty"`
     BankAccountNumber     *string                `json:"bank_account_number,omitempty"`
     BankRoutingNumber     *string                `json:"bank_routing_number,omitempty"`

@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -43,7 +48,7 @@ func (c ComponentAllocationErrorItem) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for ComponentAllocationErrorItem.
 // It customizes the JSON unmarshaling process for ComponentAllocationErrorItem objects.
 func (c *ComponentAllocationErrorItem) UnmarshalJSON(input []byte) error {
-    var temp componentAllocationErrorItem
+    var temp tempComponentAllocationErrorItem
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -61,8 +66,8 @@ func (c *ComponentAllocationErrorItem) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// componentAllocationErrorItem is a temporary struct used for validating the fields of ComponentAllocationErrorItem.
-type componentAllocationErrorItem  struct {
+// tempComponentAllocationErrorItem is a temporary struct used for validating the fields of ComponentAllocationErrorItem.
+type tempComponentAllocationErrorItem  struct {
     ComponentId *int    `json:"component_id,omitempty"`
     Message     *string `json:"message,omitempty"`
     Kind        *string `json:"kind,omitempty"`

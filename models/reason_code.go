@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -57,7 +62,7 @@ func (r ReasonCode) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for ReasonCode.
 // It customizes the JSON unmarshaling process for ReasonCode objects.
 func (r *ReasonCode) UnmarshalJSON(input []byte) error {
-    var temp reasonCode
+    var temp tempReasonCode
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -90,8 +95,8 @@ func (r *ReasonCode) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// reasonCode is a temporary struct used for validating the fields of ReasonCode.
-type reasonCode  struct {
+// tempReasonCode is a temporary struct used for validating the fields of ReasonCode.
+type tempReasonCode  struct {
     Id          *int    `json:"id,omitempty"`
     SiteId      *int    `json:"site_id,omitempty"`
     Code        *string `json:"code,omitempty"`

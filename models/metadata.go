@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -78,7 +83,7 @@ func (m Metadata) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for Metadata.
 // It customizes the JSON unmarshaling process for Metadata objects.
 func (m *Metadata) UnmarshalJSON(input []byte) error {
-    var temp metadata
+    var temp tempMetadata
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -105,8 +110,8 @@ func (m *Metadata) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// metadata is a temporary struct used for validating the fields of Metadata.
-type metadata  struct {
+// tempMetadata is a temporary struct used for validating the fields of Metadata.
+type tempMetadata  struct {
     Id          Optional[int]    `json:"id"`
     Value       Optional[string] `json:"value"`
     ResourceId  Optional[int]    `json:"resource_id"`

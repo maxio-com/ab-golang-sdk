@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -31,7 +36,7 @@ func (s SubscriptionPreviewResponse) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for SubscriptionPreviewResponse.
 // It customizes the JSON unmarshaling process for SubscriptionPreviewResponse objects.
 func (s *SubscriptionPreviewResponse) UnmarshalJSON(input []byte) error {
-    var temp subscriptionPreviewResponse
+    var temp tempSubscriptionPreviewResponse
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -50,12 +55,12 @@ func (s *SubscriptionPreviewResponse) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// subscriptionPreviewResponse is a temporary struct used for validating the fields of SubscriptionPreviewResponse.
-type subscriptionPreviewResponse  struct {
+// tempSubscriptionPreviewResponse is a temporary struct used for validating the fields of SubscriptionPreviewResponse.
+type tempSubscriptionPreviewResponse  struct {
     SubscriptionPreview *SubscriptionPreview `json:"subscription_preview"`
 }
 
-func (s *subscriptionPreviewResponse) validate() error {
+func (s *tempSubscriptionPreviewResponse) validate() error {
     var errs []string
     if s.SubscriptionPreview == nil {
         errs = append(errs, "required field `subscription_preview` is missing for type `Subscription Preview Response`")
@@ -63,5 +68,5 @@ func (s *subscriptionPreviewResponse) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

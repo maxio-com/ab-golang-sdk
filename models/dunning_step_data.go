@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -63,7 +68,7 @@ func (d DunningStepData) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for DunningStepData.
 // It customizes the JSON unmarshaling process for DunningStepData objects.
 func (d *DunningStepData) UnmarshalJSON(input []byte) error {
-    var temp dunningStepData
+    var temp tempDunningStepData
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -89,8 +94,8 @@ func (d *DunningStepData) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// dunningStepData is a temporary struct used for validating the fields of DunningStepData.
-type dunningStepData  struct {
+// tempDunningStepData is a temporary struct used for validating the fields of DunningStepData.
+type tempDunningStepData  struct {
     DayThreshold *int             `json:"day_threshold"`
     Action       *string          `json:"action"`
     EmailBody    Optional[string] `json:"email_body"`
@@ -101,7 +106,7 @@ type dunningStepData  struct {
     SmsBody      Optional[string] `json:"sms_body"`
 }
 
-func (d *dunningStepData) validate() error {
+func (d *tempDunningStepData) validate() error {
     var errs []string
     if d.DayThreshold == nil {
         errs = append(errs, "required field `day_threshold` is missing for type `Dunning Step Data`")
@@ -121,5 +126,5 @@ func (d *dunningStepData) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

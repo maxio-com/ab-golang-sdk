@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -73,7 +78,7 @@ func (l ListSubscriptionGroupsItem) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for ListSubscriptionGroupsItem.
 // It customizes the JSON unmarshaling process for ListSubscriptionGroupsItem objects.
 func (l *ListSubscriptionGroupsItem) UnmarshalJSON(input []byte) error {
-    var temp listSubscriptionGroupsItem
+    var temp tempListSubscriptionGroupsItem
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -104,8 +109,8 @@ func (l *ListSubscriptionGroupsItem) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// listSubscriptionGroupsItem is a temporary struct used for validating the fields of ListSubscriptionGroupsItem.
-type listSubscriptionGroupsItem  struct {
+// tempListSubscriptionGroupsItem is a temporary struct used for validating the fields of ListSubscriptionGroupsItem.
+type tempListSubscriptionGroupsItem  struct {
     Uid                   *string                    `json:"uid,omitempty"`
     Scheme                *int                       `json:"scheme,omitempty"`
     CustomerId            *int                       `json:"customer_id,omitempty"`

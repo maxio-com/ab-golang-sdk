@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -31,7 +36,7 @@ func (c CouponSubcodes) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for CouponSubcodes.
 // It customizes the JSON unmarshaling process for CouponSubcodes objects.
 func (c *CouponSubcodes) UnmarshalJSON(input []byte) error {
-    var temp couponSubcodes
+    var temp tempCouponSubcodes
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -46,7 +51,7 @@ func (c *CouponSubcodes) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// couponSubcodes is a temporary struct used for validating the fields of CouponSubcodes.
-type couponSubcodes  struct {
+// tempCouponSubcodes is a temporary struct used for validating the fields of CouponSubcodes.
+type tempCouponSubcodes  struct {
     Codes []string `json:"codes,omitempty"`
 }

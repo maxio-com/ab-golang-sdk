@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -45,7 +50,7 @@ func (h HistoricUsage) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for HistoricUsage.
 // It customizes the JSON unmarshaling process for HistoricUsage objects.
 func (h *HistoricUsage) UnmarshalJSON(input []byte) error {
-    var temp historicUsage
+    var temp tempHistoricUsage
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -74,8 +79,8 @@ func (h *HistoricUsage) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// historicUsage is a temporary struct used for validating the fields of HistoricUsage.
-type historicUsage  struct {
+// tempHistoricUsage is a temporary struct used for validating the fields of HistoricUsage.
+type tempHistoricUsage  struct {
     TotalUsageQuantity    *float64 `json:"total_usage_quantity,omitempty"`
     BillingPeriodStartsAt *string  `json:"billing_period_starts_at,omitempty"`
     BillingPeriodEndsAt   *string  `json:"billing_period_ends_at,omitempty"`

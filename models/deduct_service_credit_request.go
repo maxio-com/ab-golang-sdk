@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -31,7 +36,7 @@ func (d DeductServiceCreditRequest) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for DeductServiceCreditRequest.
 // It customizes the JSON unmarshaling process for DeductServiceCreditRequest objects.
 func (d *DeductServiceCreditRequest) UnmarshalJSON(input []byte) error {
-    var temp deductServiceCreditRequest
+    var temp tempDeductServiceCreditRequest
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -50,12 +55,12 @@ func (d *DeductServiceCreditRequest) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// deductServiceCreditRequest is a temporary struct used for validating the fields of DeductServiceCreditRequest.
-type deductServiceCreditRequest  struct {
+// tempDeductServiceCreditRequest is a temporary struct used for validating the fields of DeductServiceCreditRequest.
+type tempDeductServiceCreditRequest  struct {
     Deduction *DeductServiceCredit `json:"deduction"`
 }
 
-func (d *deductServiceCreditRequest) validate() error {
+func (d *tempDeductServiceCreditRequest) validate() error {
     var errs []string
     if d.Deduction == nil {
         errs = append(errs, "required field `deduction` is missing for type `Deduct Service Credit Request`")
@@ -63,5 +68,5 @@ func (d *deductServiceCreditRequest) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -11,7 +16,7 @@ type CreateMetafield struct {
     Scope                *MetafieldScope `json:"scope,omitempty"`
     // Indicates how data should be added to the metafield. For example, a text type is just a string, so a given metafield of this type can have any value attached. On the other hand, dropdown and radio have a set of allowed values that can be input, and appear differently on a Public Signup Page. Defaults to 'text'
     InputType            *MetafieldInput `json:"input_type,omitempty"`
-    // Only applicable when input_type is radio or dropdown
+    // Only applicable when input_type is radio or dropdown. Empty strings will not be submitted.
     Enum                 []string        `json:"enum,omitempty"`
     AdditionalProperties map[string]any  `json:"_"`
 }
@@ -46,7 +51,7 @@ func (c CreateMetafield) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for CreateMetafield.
 // It customizes the JSON unmarshaling process for CreateMetafield objects.
 func (c *CreateMetafield) UnmarshalJSON(input []byte) error {
-    var temp createMetafield
+    var temp tempCreateMetafield
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -64,8 +69,8 @@ func (c *CreateMetafield) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// createMetafield is a temporary struct used for validating the fields of CreateMetafield.
-type createMetafield  struct {
+// tempCreateMetafield is a temporary struct used for validating the fields of CreateMetafield.
+type tempCreateMetafield  struct {
     Name      *string         `json:"name,omitempty"`
     Scope     *MetafieldScope `json:"scope,omitempty"`
     InputType *MetafieldInput `json:"input_type,omitempty"`

@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -31,7 +36,7 @@ func (c CustomerChangesPreviewResponse) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for CustomerChangesPreviewResponse.
 // It customizes the JSON unmarshaling process for CustomerChangesPreviewResponse objects.
 func (c *CustomerChangesPreviewResponse) UnmarshalJSON(input []byte) error {
-    var temp customerChangesPreviewResponse
+    var temp tempCustomerChangesPreviewResponse
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -50,12 +55,12 @@ func (c *CustomerChangesPreviewResponse) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// customerChangesPreviewResponse is a temporary struct used for validating the fields of CustomerChangesPreviewResponse.
-type customerChangesPreviewResponse  struct {
+// tempCustomerChangesPreviewResponse is a temporary struct used for validating the fields of CustomerChangesPreviewResponse.
+type tempCustomerChangesPreviewResponse  struct {
     Changes *CustomerChange `json:"changes"`
 }
 
-func (c *customerChangesPreviewResponse) validate() error {
+func (c *tempCustomerChangesPreviewResponse) validate() error {
     var errs []string
     if c.Changes == nil {
         errs = append(errs, "required field `changes` is missing for type `Customer Changes Preview Response`")
@@ -63,5 +68,5 @@ func (c *customerChangesPreviewResponse) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

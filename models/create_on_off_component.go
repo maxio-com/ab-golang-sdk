@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -31,7 +36,7 @@ func (c CreateOnOffComponent) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for CreateOnOffComponent.
 // It customizes the JSON unmarshaling process for CreateOnOffComponent objects.
 func (c *CreateOnOffComponent) UnmarshalJSON(input []byte) error {
-    var temp createOnOffComponent
+    var temp tempCreateOnOffComponent
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -50,12 +55,12 @@ func (c *CreateOnOffComponent) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// createOnOffComponent is a temporary struct used for validating the fields of CreateOnOffComponent.
-type createOnOffComponent  struct {
+// tempCreateOnOffComponent is a temporary struct used for validating the fields of CreateOnOffComponent.
+type tempCreateOnOffComponent  struct {
     OnOffComponent *OnOffComponent `json:"on_off_component"`
 }
 
-func (c *createOnOffComponent) validate() error {
+func (c *tempCreateOnOffComponent) validate() error {
     var errs []string
     if c.OnOffComponent == nil {
         errs = append(errs, "required field `on_off_component` is missing for type `Create On/Off Component`")
@@ -63,5 +68,5 @@ func (c *createOnOffComponent) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

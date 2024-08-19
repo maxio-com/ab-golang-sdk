@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -31,7 +36,7 @@ func (s SubscriptionProductMigrationRequest) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for SubscriptionProductMigrationRequest.
 // It customizes the JSON unmarshaling process for SubscriptionProductMigrationRequest objects.
 func (s *SubscriptionProductMigrationRequest) UnmarshalJSON(input []byte) error {
-    var temp subscriptionProductMigrationRequest
+    var temp tempSubscriptionProductMigrationRequest
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -50,12 +55,12 @@ func (s *SubscriptionProductMigrationRequest) UnmarshalJSON(input []byte) error 
     return nil
 }
 
-// subscriptionProductMigrationRequest is a temporary struct used for validating the fields of SubscriptionProductMigrationRequest.
-type subscriptionProductMigrationRequest  struct {
+// tempSubscriptionProductMigrationRequest is a temporary struct used for validating the fields of SubscriptionProductMigrationRequest.
+type tempSubscriptionProductMigrationRequest  struct {
     Migration *SubscriptionProductMigration `json:"migration"`
 }
 
-func (s *subscriptionProductMigrationRequest) validate() error {
+func (s *tempSubscriptionProductMigrationRequest) validate() error {
     var errs []string
     if s.Migration == nil {
         errs = append(errs, "required field `migration` is missing for type `Subscription Product Migration Request`")
@@ -63,5 +68,5 @@ func (s *subscriptionProductMigrationRequest) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

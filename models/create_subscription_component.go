@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -60,7 +65,7 @@ func (c CreateSubscriptionComponent) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for CreateSubscriptionComponent.
 // It customizes the JSON unmarshaling process for CreateSubscriptionComponent objects.
 func (c *CreateSubscriptionComponent) UnmarshalJSON(input []byte) error {
-    var temp createSubscriptionComponent
+    var temp tempCreateSubscriptionComponent
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -81,8 +86,8 @@ func (c *CreateSubscriptionComponent) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// createSubscriptionComponent is a temporary struct used for validating the fields of CreateSubscriptionComponent.
-type createSubscriptionComponent  struct {
+// tempCreateSubscriptionComponent is a temporary struct used for validating the fields of CreateSubscriptionComponent.
+type tempCreateSubscriptionComponent  struct {
     ComponentId       *CreateSubscriptionComponentComponentId       `json:"component_id,omitempty"`
     Enabled           *bool                                         `json:"enabled,omitempty"`
     UnitBalance       *int                                          `json:"unit_balance,omitempty"`

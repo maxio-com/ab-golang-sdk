@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -31,7 +36,7 @@ func (e EBBEvent) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for EBBEvent.
 // It customizes the JSON unmarshaling process for EBBEvent objects.
 func (e *EBBEvent) UnmarshalJSON(input []byte) error {
-    var temp ebbEvent
+    var temp tempEBBEvent
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -46,7 +51,7 @@ func (e *EBBEvent) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// ebbEvent is a temporary struct used for validating the fields of EBBEvent.
-type ebbEvent  struct {
+// tempEBBEvent is a temporary struct used for validating the fields of EBBEvent.
+type tempEBBEvent  struct {
     Chargify *ChargifyEBB `json:"chargify,omitempty"`
 }

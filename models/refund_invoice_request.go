@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -31,7 +36,7 @@ func (r RefundInvoiceRequest) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for RefundInvoiceRequest.
 // It customizes the JSON unmarshaling process for RefundInvoiceRequest objects.
 func (r *RefundInvoiceRequest) UnmarshalJSON(input []byte) error {
-    var temp refundInvoiceRequest
+    var temp tempRefundInvoiceRequest
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -50,12 +55,12 @@ func (r *RefundInvoiceRequest) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// refundInvoiceRequest is a temporary struct used for validating the fields of RefundInvoiceRequest.
-type refundInvoiceRequest  struct {
+// tempRefundInvoiceRequest is a temporary struct used for validating the fields of RefundInvoiceRequest.
+type tempRefundInvoiceRequest  struct {
     Refund *RefundInvoiceRequestRefund `json:"refund"`
 }
 
-func (r *refundInvoiceRequest) validate() error {
+func (r *tempRefundInvoiceRequest) validate() error {
     var errs []string
     if r.Refund == nil {
         errs = append(errs, "required field `refund` is missing for type `Refund Invoice Request`")
@@ -63,5 +68,5 @@ func (r *refundInvoiceRequest) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

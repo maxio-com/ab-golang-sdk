@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -47,7 +52,7 @@ func (p PaymentMethodCreditCard) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for PaymentMethodCreditCard.
 // It customizes the JSON unmarshaling process for PaymentMethodCreditCard objects.
 func (p *PaymentMethodCreditCard) UnmarshalJSON(input []byte) error {
-    var temp paymentMethodCreditCard
+    var temp tempPaymentMethodCreditCard
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -70,8 +75,8 @@ func (p *PaymentMethodCreditCard) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// paymentMethodCreditCard is a temporary struct used for validating the fields of PaymentMethodCreditCard.
-type paymentMethodCreditCard  struct {
+// tempPaymentMethodCreditCard is a temporary struct used for validating the fields of PaymentMethodCreditCard.
+type tempPaymentMethodCreditCard  struct {
     CardBrand        *string                    `json:"card_brand"`
     CardExpiration   *string                    `json:"card_expiration,omitempty"`
     LastFour         Optional[string]           `json:"last_four"`
@@ -79,7 +84,7 @@ type paymentMethodCreditCard  struct {
     Type             *InvoiceEventPaymentMethod `json:"type"`
 }
 
-func (p *paymentMethodCreditCard) validate() error {
+func (p *tempPaymentMethodCreditCard) validate() error {
     var errs []string
     if p.CardBrand == nil {
         errs = append(errs, "required field `card_brand` is missing for type `Payment Method Credit Card`")
@@ -93,5 +98,5 @@ func (p *paymentMethodCreditCard) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

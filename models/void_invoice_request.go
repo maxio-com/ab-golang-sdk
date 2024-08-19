@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -31,7 +36,7 @@ func (v VoidInvoiceRequest) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for VoidInvoiceRequest.
 // It customizes the JSON unmarshaling process for VoidInvoiceRequest objects.
 func (v *VoidInvoiceRequest) UnmarshalJSON(input []byte) error {
-    var temp voidInvoiceRequest
+    var temp tempVoidInvoiceRequest
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -50,12 +55,12 @@ func (v *VoidInvoiceRequest) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// voidInvoiceRequest is a temporary struct used for validating the fields of VoidInvoiceRequest.
-type voidInvoiceRequest  struct {
+// tempVoidInvoiceRequest is a temporary struct used for validating the fields of VoidInvoiceRequest.
+type tempVoidInvoiceRequest  struct {
     Void *VoidInvoice `json:"void"`
 }
 
-func (v *voidInvoiceRequest) validate() error {
+func (v *tempVoidInvoiceRequest) validate() error {
     var errs []string
     if v.Void == nil {
         errs = append(errs, "required field `void` is missing for type `Void Invoice Request`")
@@ -63,5 +68,5 @@ func (v *voidInvoiceRequest) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

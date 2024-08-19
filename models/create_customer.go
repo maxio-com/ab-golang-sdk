@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -101,7 +106,7 @@ func (c CreateCustomer) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for CreateCustomer.
 // It customizes the JSON unmarshaling process for CreateCustomer objects.
 func (c *CreateCustomer) UnmarshalJSON(input []byte) error {
-    var temp createCustomer
+    var temp tempCreateCustomer
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -137,8 +142,8 @@ func (c *CreateCustomer) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// createCustomer is a temporary struct used for validating the fields of CreateCustomer.
-type createCustomer  struct {
+// tempCreateCustomer is a temporary struct used for validating the fields of CreateCustomer.
+type tempCreateCustomer  struct {
     FirstName       *string       `json:"first_name"`
     LastName        *string       `json:"last_name"`
     Email           *string       `json:"email"`
@@ -159,7 +164,7 @@ type createCustomer  struct {
     ParentId        Optional[int] `json:"parent_id"`
 }
 
-func (c *createCustomer) validate() error {
+func (c *tempCreateCustomer) validate() error {
     var errs []string
     if c.FirstName == nil {
         errs = append(errs, "required field `first_name` is missing for type `Create Customer`")
@@ -173,5 +178,5 @@ func (c *createCustomer) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

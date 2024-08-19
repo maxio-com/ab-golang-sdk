@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -31,7 +36,7 @@ func (p ProductFamilyResponse) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for ProductFamilyResponse.
 // It customizes the JSON unmarshaling process for ProductFamilyResponse objects.
 func (p *ProductFamilyResponse) UnmarshalJSON(input []byte) error {
-    var temp productFamilyResponse
+    var temp tempProductFamilyResponse
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -46,7 +51,7 @@ func (p *ProductFamilyResponse) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// productFamilyResponse is a temporary struct used for validating the fields of ProductFamilyResponse.
-type productFamilyResponse  struct {
+// tempProductFamilyResponse is a temporary struct used for validating the fields of ProductFamilyResponse.
+type tempProductFamilyResponse  struct {
     ProductFamily *ProductFamily `json:"product_family,omitempty"`
 }

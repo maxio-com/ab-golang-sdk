@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -7,10 +12,10 @@ import (
 // PaymentProfileAttributes represents a PaymentProfileAttributes struct.
 // alias to credit_card_attributes
 type PaymentProfileAttributes struct {
-    // (Optional) Token received after sending billing informations using chargify.js. This token must be passed as a sole attribute of `payment_profile_attributes` (i.e. tok_9g6hw85pnpt6knmskpwp4ttt)
+    // (Optional) Token received after sending billing information using chargify.js. This token must be passed as a sole attribute of `payment_profile_attributes` (i.e. tok_9g6hw85pnpt6knmskpwp4ttt)
     ChargifyToken        *string                                  `json:"chargify_token,omitempty"`
     Id                   *int                                     `json:"id,omitempty"`
-    PaymentType          *string                                  `json:"payment_type,omitempty"`
+    PaymentType          *PaymentType                             `json:"payment_type,omitempty"`
     // (Optional) First name on card or bank account. If omitted, the first_name from customer attributes will be used.
     FirstName            *string                                  `json:"first_name,omitempty"`
     // (Optional) Last name on card or bank account. If omitted, the last_name from customer attributes will be used.
@@ -37,7 +42,7 @@ type PaymentProfileAttributes struct {
     // (Optional, may be required by your product configuration or gateway settings) The credit card or bank account billing address zip code (i.e. 12345). This value is merely passed through to the payment gateway.
     BillingZip           *string                                  `json:"billing_zip,omitempty"`
     // (Optional, used only for Subscription Import) The vault that stores the payment profile with the provided vault_token.
-    CurrentVault         *CurrentVault                            `json:"current_vault,omitempty"`
+    CurrentVault         *AllVaults                               `json:"current_vault,omitempty"`
     // (Optional, used only for Subscription Import) The “token” provided by your vault storage for an already stored payment profile
     VaultToken           *string                                  `json:"vault_token,omitempty"`
     // (Optional, used only for Subscription Import) (only for Authorize.Net CIM storage or Square) The customerProfileId for the owner of the customerPaymentProfileId provided as the vault_token
@@ -152,7 +157,7 @@ func (p PaymentProfileAttributes) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for PaymentProfileAttributes.
 // It customizes the JSON unmarshaling process for PaymentProfileAttributes objects.
 func (p *PaymentProfileAttributes) UnmarshalJSON(input []byte) error {
-    var temp paymentProfileAttributes
+    var temp tempPaymentProfileAttributes
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -191,11 +196,11 @@ func (p *PaymentProfileAttributes) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// paymentProfileAttributes is a temporary struct used for validating the fields of PaymentProfileAttributes.
-type paymentProfileAttributes  struct {
+// tempPaymentProfileAttributes is a temporary struct used for validating the fields of PaymentProfileAttributes.
+type tempPaymentProfileAttributes  struct {
     ChargifyToken      *string                                  `json:"chargify_token,omitempty"`
     Id                 *int                                     `json:"id,omitempty"`
-    PaymentType        *string                                  `json:"payment_type,omitempty"`
+    PaymentType        *PaymentType                             `json:"payment_type,omitempty"`
     FirstName          *string                                  `json:"first_name,omitempty"`
     LastName           *string                                  `json:"last_name,omitempty"`
     MaskedCardNumber   *string                                  `json:"masked_card_number,omitempty"`
@@ -209,7 +214,7 @@ type paymentProfileAttributes  struct {
     BillingState       *string                                  `json:"billing_state,omitempty"`
     BillingCountry     *string                                  `json:"billing_country,omitempty"`
     BillingZip         *string                                  `json:"billing_zip,omitempty"`
-    CurrentVault       *CurrentVault                            `json:"current_vault,omitempty"`
+    CurrentVault       *AllVaults                               `json:"current_vault,omitempty"`
     VaultToken         *string                                  `json:"vault_token,omitempty"`
     CustomerVaultToken *string                                  `json:"customer_vault_token,omitempty"`
     CustomerId         *int                                     `json:"customer_id,omitempty"`

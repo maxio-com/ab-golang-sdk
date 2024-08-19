@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -31,7 +36,7 @@ func (c CreateQuantityBasedComponent) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for CreateQuantityBasedComponent.
 // It customizes the JSON unmarshaling process for CreateQuantityBasedComponent objects.
 func (c *CreateQuantityBasedComponent) UnmarshalJSON(input []byte) error {
-    var temp createQuantityBasedComponent
+    var temp tempCreateQuantityBasedComponent
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -50,12 +55,12 @@ func (c *CreateQuantityBasedComponent) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// createQuantityBasedComponent is a temporary struct used for validating the fields of CreateQuantityBasedComponent.
-type createQuantityBasedComponent  struct {
+// tempCreateQuantityBasedComponent is a temporary struct used for validating the fields of CreateQuantityBasedComponent.
+type tempCreateQuantityBasedComponent  struct {
     QuantityBasedComponent *QuantityBasedComponent `json:"quantity_based_component"`
 }
 
-func (c *createQuantityBasedComponent) validate() error {
+func (c *tempCreateQuantityBasedComponent) validate() error {
     var errs []string
     if c.QuantityBasedComponent == nil {
         errs = append(errs, "required field `quantity_based_component` is missing for type `Create Quantity Based Component`")
@@ -63,5 +68,5 @@ func (c *createQuantityBasedComponent) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -42,7 +47,7 @@ func (u UpdateReasonCode) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for UpdateReasonCode.
 // It customizes the JSON unmarshaling process for UpdateReasonCode objects.
 func (u *UpdateReasonCode) UnmarshalJSON(input []byte) error {
-    var temp updateReasonCode
+    var temp tempUpdateReasonCode
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -59,8 +64,8 @@ func (u *UpdateReasonCode) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// updateReasonCode is a temporary struct used for validating the fields of UpdateReasonCode.
-type updateReasonCode  struct {
+// tempUpdateReasonCode is a temporary struct used for validating the fields of UpdateReasonCode.
+type tempUpdateReasonCode  struct {
     Code        *string `json:"code,omitempty"`
     Description *string `json:"description,omitempty"`
     Position    *int    `json:"position,omitempty"`

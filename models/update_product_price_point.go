@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -35,7 +40,7 @@ func (u UpdateProductPricePoint) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for UpdateProductPricePoint.
 // It customizes the JSON unmarshaling process for UpdateProductPricePoint objects.
 func (u *UpdateProductPricePoint) UnmarshalJSON(input []byte) error {
-    var temp updateProductPricePoint
+    var temp tempUpdateProductPricePoint
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -51,8 +56,8 @@ func (u *UpdateProductPricePoint) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// updateProductPricePoint is a temporary struct used for validating the fields of UpdateProductPricePoint.
-type updateProductPricePoint  struct {
+// tempUpdateProductPricePoint is a temporary struct used for validating the fields of UpdateProductPricePoint.
+type tempUpdateProductPricePoint  struct {
     Handle       *string `json:"handle,omitempty"`
     PriceInCents *int64  `json:"price_in_cents,omitempty"`
 }

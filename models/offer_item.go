@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -6,19 +11,19 @@ import (
 
 // OfferItem represents a OfferItem struct.
 type OfferItem struct {
-    ComponentId          *int            `json:"component_id,omitempty"`
-    PricePointId         *int            `json:"price_point_id,omitempty"`
-    StartingQuantity     *string         `json:"starting_quantity,omitempty"`
-    Editable             *bool           `json:"editable,omitempty"`
-    ComponentUnitPrice   *string         `json:"component_unit_price,omitempty"`
-    ComponentName        *string         `json:"component_name,omitempty"`
-    PricePointName       *string         `json:"price_point_name,omitempty"`
-    CurrencyPrices       []CurrencyPrice `json:"currency_prices,omitempty"`
+    ComponentId          *int                   `json:"component_id,omitempty"`
+    PricePointId         *int                   `json:"price_point_id,omitempty"`
+    StartingQuantity     *string                `json:"starting_quantity,omitempty"`
+    Editable             *bool                  `json:"editable,omitempty"`
+    ComponentUnitPrice   *string                `json:"component_unit_price,omitempty"`
+    ComponentName        *string                `json:"component_name,omitempty"`
+    PricePointName       *string                `json:"price_point_name,omitempty"`
+    CurrencyPrices       []CurrencyPrice        `json:"currency_prices,omitempty"`
     // The numerical interval. i.e. an interval of '30' coupled with an interval_unit of day would mean this component price point would renew every 30 days. This property is only available for sites with Multifrequency enabled.
-    Interval             *int            `json:"interval,omitempty"`
+    Interval             *int                   `json:"interval,omitempty"`
     // A string representing the interval unit for this component price point, either month or day. This property is only available for sites with Multifrequency enabled.
-    IntervalUnit         *IntervalUnit   `json:"interval_unit,omitempty"`
-    AdditionalProperties map[string]any  `json:"_"`
+    IntervalUnit         Optional[IntervalUnit] `json:"interval_unit"`
+    AdditionalProperties map[string]any         `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for OfferItem.
@@ -60,8 +65,12 @@ func (o OfferItem) toMap() map[string]any {
     if o.Interval != nil {
         structMap["interval"] = o.Interval
     }
-    if o.IntervalUnit != nil {
-        structMap["interval_unit"] = o.IntervalUnit
+    if o.IntervalUnit.IsValueSet() {
+        if o.IntervalUnit.Value() != nil {
+            structMap["interval_unit"] = o.IntervalUnit.Value()
+        } else {
+            structMap["interval_unit"] = nil
+        }
     }
     return structMap
 }
@@ -69,7 +78,7 @@ func (o OfferItem) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for OfferItem.
 // It customizes the JSON unmarshaling process for OfferItem objects.
 func (o *OfferItem) UnmarshalJSON(input []byte) error {
-    var temp offerItem
+    var temp tempOfferItem
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -93,16 +102,16 @@ func (o *OfferItem) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// offerItem is a temporary struct used for validating the fields of OfferItem.
-type offerItem  struct {
-    ComponentId        *int            `json:"component_id,omitempty"`
-    PricePointId       *int            `json:"price_point_id,omitempty"`
-    StartingQuantity   *string         `json:"starting_quantity,omitempty"`
-    Editable           *bool           `json:"editable,omitempty"`
-    ComponentUnitPrice *string         `json:"component_unit_price,omitempty"`
-    ComponentName      *string         `json:"component_name,omitempty"`
-    PricePointName     *string         `json:"price_point_name,omitempty"`
-    CurrencyPrices     []CurrencyPrice `json:"currency_prices,omitempty"`
-    Interval           *int            `json:"interval,omitempty"`
-    IntervalUnit       *IntervalUnit   `json:"interval_unit,omitempty"`
+// tempOfferItem is a temporary struct used for validating the fields of OfferItem.
+type tempOfferItem  struct {
+    ComponentId        *int                   `json:"component_id,omitempty"`
+    PricePointId       *int                   `json:"price_point_id,omitempty"`
+    StartingQuantity   *string                `json:"starting_quantity,omitempty"`
+    Editable           *bool                  `json:"editable,omitempty"`
+    ComponentUnitPrice *string                `json:"component_unit_price,omitempty"`
+    ComponentName      *string                `json:"component_name,omitempty"`
+    PricePointName     *string                `json:"price_point_name,omitempty"`
+    CurrencyPrices     []CurrencyPrice        `json:"currency_prices,omitempty"`
+    Interval           *int                   `json:"interval,omitempty"`
+    IntervalUnit       Optional[IntervalUnit] `json:"interval_unit"`
 }

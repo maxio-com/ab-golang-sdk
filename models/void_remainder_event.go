@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -42,7 +47,7 @@ func (v VoidRemainderEvent) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for VoidRemainderEvent.
 // It customizes the JSON unmarshaling process for VoidRemainderEvent objects.
 func (v *VoidRemainderEvent) UnmarshalJSON(input []byte) error {
-    var temp voidRemainderEvent
+    var temp tempVoidRemainderEvent
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -69,8 +74,8 @@ func (v *VoidRemainderEvent) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// voidRemainderEvent is a temporary struct used for validating the fields of VoidRemainderEvent.
-type voidRemainderEvent  struct {
+// tempVoidRemainderEvent is a temporary struct used for validating the fields of VoidRemainderEvent.
+type tempVoidRemainderEvent  struct {
     Id        *int64                  `json:"id"`
     Timestamp *string                 `json:"timestamp"`
     Invoice   *Invoice                `json:"invoice"`
@@ -78,7 +83,7 @@ type voidRemainderEvent  struct {
     EventData *VoidRemainderEventData `json:"event_data"`
 }
 
-func (v *voidRemainderEvent) validate() error {
+func (v *tempVoidRemainderEvent) validate() error {
     var errs []string
     if v.Id == nil {
         errs = append(errs, "required field `id` is missing for type `Void Remainder Event`")
@@ -98,5 +103,5 @@ func (v *voidRemainderEvent) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

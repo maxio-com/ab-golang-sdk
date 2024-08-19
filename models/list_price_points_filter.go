@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -69,7 +74,7 @@ func (l ListPricePointsFilter) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for ListPricePointsFilter.
 // It customizes the JSON unmarshaling process for ListPricePointsFilter objects.
 func (l *ListPricePointsFilter) UnmarshalJSON(input []byte) error {
-    var temp listPricePointsFilter
+    var temp tempListPricePointsFilter
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -115,8 +120,8 @@ func (l *ListPricePointsFilter) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// listPricePointsFilter is a temporary struct used for validating the fields of ListPricePointsFilter.
-type listPricePointsFilter  struct {
+// tempListPricePointsFilter is a temporary struct used for validating the fields of ListPricePointsFilter.
+type tempListPricePointsFilter  struct {
     DateField     *BasicDateField       `json:"date_field,omitempty"`
     StartDate     *string               `json:"start_date,omitempty"`
     EndDate       *string               `json:"end_date,omitempty"`

@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -31,7 +36,7 @@ func (c CreatePaymentProfileRequest) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for CreatePaymentProfileRequest.
 // It customizes the JSON unmarshaling process for CreatePaymentProfileRequest objects.
 func (c *CreatePaymentProfileRequest) UnmarshalJSON(input []byte) error {
-    var temp createPaymentProfileRequest
+    var temp tempCreatePaymentProfileRequest
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -50,12 +55,12 @@ func (c *CreatePaymentProfileRequest) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// createPaymentProfileRequest is a temporary struct used for validating the fields of CreatePaymentProfileRequest.
-type createPaymentProfileRequest  struct {
+// tempCreatePaymentProfileRequest is a temporary struct used for validating the fields of CreatePaymentProfileRequest.
+type tempCreatePaymentProfileRequest  struct {
     PaymentProfile *CreatePaymentProfile `json:"payment_profile"`
 }
 
-func (c *createPaymentProfileRequest) validate() error {
+func (c *tempCreatePaymentProfileRequest) validate() error {
     var errs []string
     if c.PaymentProfile == nil {
         errs = append(errs, "required field `payment_profile` is missing for type `Create Payment Profile Request`")
@@ -63,5 +68,5 @@ func (c *createPaymentProfileRequest) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

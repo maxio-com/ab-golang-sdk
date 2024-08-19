@@ -1,9 +1,9 @@
 
-# Extended Interval Unit
+# Expiration Interval Unit
 
 ## Enumeration
 
-`ExtendedIntervalUnit`
+`ExpirationIntervalUnit`
 
 ## Fields
 

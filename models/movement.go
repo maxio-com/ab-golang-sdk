@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -65,7 +70,7 @@ func (m Movement) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for Movement.
 // It customizes the JSON unmarshaling process for Movement objects.
 func (m *Movement) UnmarshalJSON(input []byte) error {
-    var temp movement
+    var temp tempMovement
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -94,8 +99,8 @@ func (m *Movement) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// movement is a temporary struct used for validating the fields of Movement.
-type movement  struct {
+// tempMovement is a temporary struct used for validating the fields of Movement.
+type tempMovement  struct {
     Timestamp       *string            `json:"timestamp,omitempty"`
     AmountInCents   *int64             `json:"amount_in_cents,omitempty"`
     AmountFormatted *string            `json:"amount_formatted,omitempty"`

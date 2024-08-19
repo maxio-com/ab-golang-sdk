@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -87,7 +92,7 @@ func (b BillingManifest) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for BillingManifest.
 // It customizes the JSON unmarshaling process for BillingManifest objects.
 func (b *BillingManifest) UnmarshalJSON(input []byte) error {
-    var temp billingManifest
+    var temp tempBillingManifest
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -124,8 +129,8 @@ func (b *BillingManifest) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// billingManifest is a temporary struct used for validating the fields of BillingManifest.
-type billingManifest  struct {
+// tempBillingManifest is a temporary struct used for validating the fields of BillingManifest.
+type tempBillingManifest  struct {
     LineItems              []BillingManifestItem `json:"line_items,omitempty"`
     TotalInCents           *int64                `json:"total_in_cents,omitempty"`
     TotalDiscountInCents   *int64                `json:"total_discount_in_cents,omitempty"`

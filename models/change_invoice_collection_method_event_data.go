@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -36,7 +41,7 @@ func (c ChangeInvoiceCollectionMethodEventData) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for ChangeInvoiceCollectionMethodEventData.
 // It customizes the JSON unmarshaling process for ChangeInvoiceCollectionMethodEventData objects.
 func (c *ChangeInvoiceCollectionMethodEventData) UnmarshalJSON(input []byte) error {
-    var temp changeInvoiceCollectionMethodEventData
+    var temp tempChangeInvoiceCollectionMethodEventData
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -56,13 +61,13 @@ func (c *ChangeInvoiceCollectionMethodEventData) UnmarshalJSON(input []byte) err
     return nil
 }
 
-// changeInvoiceCollectionMethodEventData is a temporary struct used for validating the fields of ChangeInvoiceCollectionMethodEventData.
-type changeInvoiceCollectionMethodEventData  struct {
+// tempChangeInvoiceCollectionMethodEventData is a temporary struct used for validating the fields of ChangeInvoiceCollectionMethodEventData.
+type tempChangeInvoiceCollectionMethodEventData  struct {
     FromCollectionMethod *string `json:"from_collection_method"`
     ToCollectionMethod   *string `json:"to_collection_method"`
 }
 
-func (c *changeInvoiceCollectionMethodEventData) validate() error {
+func (c *tempChangeInvoiceCollectionMethodEventData) validate() error {
     var errs []string
     if c.FromCollectionMethod == nil {
         errs = append(errs, "required field `from_collection_method` is missing for type `Change Invoice Collection Method Event Data`")
@@ -73,5 +78,5 @@ func (c *changeInvoiceCollectionMethodEventData) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

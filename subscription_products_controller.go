@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package advancedbilling
 
 import (
@@ -29,11 +34,11 @@ func NewSubscriptionProductsController(baseController baseController) *Subscript
 // Subscriptions should be in the `active` or `trialing` state in order to be migrated.
 // (For backwards compatibility reasons, it is possible to migrate a subscription that is in the `trial_ended` state via the API, however this is not recommended.  Since `trial_ended` is an end-of-life state, the subscription should be canceled, the product changed, and then the subscription can be reactivated.)
 // ## Migrations Documentation
-// Full documentation on how to record Migrations in the Chargify UI can be located [here](https://chargify.zendesk.com/hc/en-us/articles/4407898373531).
+// Full documentation on how to record Migrations in the Advanced Billing UI can be located [here](https://maxio.zendesk.com/hc/en-us/articles/24181589372429-Data-Migration-to-Advanced-Billing).
 // ## Failed Migrations
 // One of the most common ways that a migration can fail is when the attempt is made to migrate a subscription to it's current product. Please be aware of this issue!
 // ## Migration 3D Secure - Stripe
-// It may happen that a payment needs 3D Secure Authentication when the subscription is migrated to a new product; this is referred to in our help docs as a [post-authentication flow](https://maxio-chargify.zendesk.com/hc/en-us/articles/5405177432077#psd2-flows-pre-authentication-and-post-authentication). The server returns `422 Unprocessable Entity` in this case with the following response:
+// It may happen that a payment needs 3D Secure Authentication when the subscription is migrated to a new product; this is referred to in our help docs as a [post-authentication flow](https://maxio.zendesk.com/hc/en-us/articles/24176278996493-Testing-Implementing-3D-Secure#psd2-flows-pre-authentication-and-post-authentication). The server returns `422 Unprocessable Entity` in this case with the following response:
 // ```json
 // {
 // "errors": [

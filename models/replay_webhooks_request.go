@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -31,7 +36,7 @@ func (r ReplayWebhooksRequest) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for ReplayWebhooksRequest.
 // It customizes the JSON unmarshaling process for ReplayWebhooksRequest objects.
 func (r *ReplayWebhooksRequest) UnmarshalJSON(input []byte) error {
-    var temp replayWebhooksRequest
+    var temp tempReplayWebhooksRequest
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -50,12 +55,12 @@ func (r *ReplayWebhooksRequest) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// replayWebhooksRequest is a temporary struct used for validating the fields of ReplayWebhooksRequest.
-type replayWebhooksRequest  struct {
+// tempReplayWebhooksRequest is a temporary struct used for validating the fields of ReplayWebhooksRequest.
+type tempReplayWebhooksRequest  struct {
     Ids *[]int64 `json:"ids"`
 }
 
-func (r *replayWebhooksRequest) validate() error {
+func (r *tempReplayWebhooksRequest) validate() error {
     var errs []string
     if r.Ids == nil {
         errs = append(errs, "required field `ids` is missing for type `Replay Webhooks Request`")
@@ -63,5 +68,5 @@ func (r *replayWebhooksRequest) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

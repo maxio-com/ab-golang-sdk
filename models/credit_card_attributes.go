@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -39,7 +44,7 @@ func (c CreditCardAttributes) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for CreditCardAttributes.
 // It customizes the JSON unmarshaling process for CreditCardAttributes objects.
 func (c *CreditCardAttributes) UnmarshalJSON(input []byte) error {
-    var temp creditCardAttributes
+    var temp tempCreditCardAttributes
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -56,8 +61,8 @@ func (c *CreditCardAttributes) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// creditCardAttributes is a temporary struct used for validating the fields of CreditCardAttributes.
-type creditCardAttributes  struct {
+// tempCreditCardAttributes is a temporary struct used for validating the fields of CreditCardAttributes.
+type tempCreditCardAttributes  struct {
     FullNumber      *string `json:"full_number,omitempty"`
     ExpirationMonth *string `json:"expiration_month,omitempty"`
     ExpirationYear  *string `json:"expiration_year,omitempty"`

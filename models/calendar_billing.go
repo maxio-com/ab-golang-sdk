@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -37,7 +42,7 @@ func (c CalendarBilling) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for CalendarBilling.
 // It customizes the JSON unmarshaling process for CalendarBilling objects.
 func (c *CalendarBilling) UnmarshalJSON(input []byte) error {
-    var temp calendarBilling
+    var temp tempCalendarBilling
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -53,8 +58,8 @@ func (c *CalendarBilling) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// calendarBilling is a temporary struct used for validating the fields of CalendarBilling.
-type calendarBilling  struct {
+// tempCalendarBilling is a temporary struct used for validating the fields of CalendarBilling.
+type tempCalendarBilling  struct {
     SnapDay                    *CalendarBillingSnapDay `json:"snap_day,omitempty"`
     CalendarBillingFirstCharge *FirstChargeType        `json:"calendar_billing_first_charge,omitempty"`
 }

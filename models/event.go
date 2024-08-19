@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -57,7 +62,7 @@ func (e Event) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for Event.
 // It customizes the JSON unmarshaling process for Event objects.
 func (e *Event) UnmarshalJSON(input []byte) error {
-    var temp event
+    var temp tempEvent
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -86,8 +91,8 @@ func (e *Event) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// event is a temporary struct used for validating the fields of Event.
-type event  struct {
+// tempEvent is a temporary struct used for validating the fields of Event.
+type tempEvent  struct {
     Id                *int64                  `json:"id"`
     Key               *string                 `json:"key"`
     Message           *string                 `json:"message"`
@@ -97,7 +102,7 @@ type event  struct {
     EventSpecificData *EventEventSpecificData `json:"event_specific_data"`
 }
 
-func (e *event) validate() error {
+func (e *tempEvent) validate() error {
     var errs []string
     if e.Id == nil {
         errs = append(errs, "required field `id` is missing for type `Event`")
@@ -114,5 +119,5 @@ func (e *event) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

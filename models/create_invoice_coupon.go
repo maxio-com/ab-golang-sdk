@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -51,7 +56,7 @@ func (c CreateInvoiceCoupon) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for CreateInvoiceCoupon.
 // It customizes the JSON unmarshaling process for CreateInvoiceCoupon objects.
 func (c *CreateInvoiceCoupon) UnmarshalJSON(input []byte) error {
-    var temp createInvoiceCoupon
+    var temp tempCreateInvoiceCoupon
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -71,8 +76,8 @@ func (c *CreateInvoiceCoupon) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// createInvoiceCoupon is a temporary struct used for validating the fields of CreateInvoiceCoupon.
-type createInvoiceCoupon  struct {
+// tempCreateInvoiceCoupon is a temporary struct used for validating the fields of CreateInvoiceCoupon.
+type tempCreateInvoiceCoupon  struct {
     Code                *string                             `json:"code,omitempty"`
     Percentage          *CreateInvoiceCouponPercentage      `json:"percentage,omitempty"`
     Amount              *CreateInvoiceCouponAmount          `json:"amount,omitempty"`

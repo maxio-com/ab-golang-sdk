@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -45,7 +50,7 @@ func (c CreateUsage) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for CreateUsage.
 // It customizes the JSON unmarshaling process for CreateUsage objects.
 func (c *CreateUsage) UnmarshalJSON(input []byte) error {
-    var temp createUsage
+    var temp tempCreateUsage
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -63,8 +68,8 @@ func (c *CreateUsage) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// createUsage is a temporary struct used for validating the fields of CreateUsage.
-type createUsage  struct {
+// tempCreateUsage is a temporary struct used for validating the fields of CreateUsage.
+type tempCreateUsage  struct {
     Quantity        *float64         `json:"quantity,omitempty"`
     PricePointId    *string          `json:"price_point_id,omitempty"`
     Memo            *string          `json:"memo,omitempty"`

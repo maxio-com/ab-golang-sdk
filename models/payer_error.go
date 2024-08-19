@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -39,7 +44,7 @@ func (p PayerError) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for PayerError.
 // It customizes the JSON unmarshaling process for PayerError objects.
 func (p *PayerError) UnmarshalJSON(input []byte) error {
-    var temp payerError
+    var temp tempPayerError
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -56,8 +61,8 @@ func (p *PayerError) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// payerError is a temporary struct used for validating the fields of PayerError.
-type payerError  struct {
+// tempPayerError is a temporary struct used for validating the fields of PayerError.
+type tempPayerError  struct {
     LastName  []string `json:"last_name,omitempty"`
     FirstName []string `json:"first_name,omitempty"`
     Email     []string `json:"email,omitempty"`

@@ -25,7 +25,7 @@
 | `PriceInCents` | `*string` | Optional | deprecated May 2011 - use unit_price instead |
 | `EventBasedBillingMetricId` | `int` | Required | The ID of an event based billing metric that will be attached to this component. |
 | `Interval` | `*int` | Optional | The numerical interval. i.e. an interval of ‘30’ coupled with an interval_unit of day would mean this component's default price point would renew every 30 days. This property is only available for sites with Multifrequency enabled. |
-| `IntervalUnit` | [`*models.IntervalUnit`](../../doc/models/interval-unit.md) | Optional | A string representing the interval unit for this component's default price point, either month or day. This property is only available for sites with Multifrequency enabled. |
+| `IntervalUnit` | [`models.Optional[models.IntervalUnit]`](../../doc/models/interval-unit.md) | Optional | A string representing the interval unit for this component's default price point, either month or day. This property is only available for sites with Multifrequency enabled. |
 
 ## Example (as JSON)
 

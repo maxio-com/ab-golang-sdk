@@ -11,9 +11,9 @@ alias to credit_card_attributes
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `ChargifyToken` | `*string` | Optional | (Optional) Token received after sending billing informations using chargify.js. This token must be passed as a sole attribute of `payment_profile_attributes` (i.e. tok_9g6hw85pnpt6knmskpwp4ttt) |
+| `ChargifyToken` | `*string` | Optional | (Optional) Token received after sending billing information using chargify.js. This token must be passed as a sole attribute of `payment_profile_attributes` (i.e. tok_9g6hw85pnpt6knmskpwp4ttt) |
 | `Id` | `*int` | Optional | - |
-| `PaymentType` | `*string` | Optional | - |
+| `PaymentType` | [`*models.PaymentType`](../../doc/models/payment-type.md) | Optional | - |
 | `FirstName` | `*string` | Optional | (Optional) First name on card or bank account. If omitted, the first_name from customer attributes will be used. |
 | `LastName` | `*string` | Optional | (Optional) Last name on card or bank account. If omitted, the last_name from customer attributes will be used. |
 | `MaskedCardNumber` | `*string` | Optional | - |
@@ -27,7 +27,7 @@ alias to credit_card_attributes
 | `BillingState` | `*string` | Optional | (Optional, may be required by your product configuration or gateway settings) The credit card or bank account billing address state (i.e. MA). This value is merely passed through to the payment gateway. This must conform to the [ISO_3166-1](https://en.wikipedia.org/wiki/ISO_3166-1#Current_codes) in order to be valid for tax locale purposes. |
 | `BillingCountry` | `*string` | Optional | (Optional, may be required by your product configuration or gateway settings) The credit card or bank account billing address country, required in [ISO_3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) format (i.e. “US”). This value is merely passed through to the payment gateway. Some gateways require country codes in a specific format. Please check your gateway’s documentation. If creating an ACH subscription, only US is supported at this time. |
 | `BillingZip` | `*string` | Optional | (Optional, may be required by your product configuration or gateway settings) The credit card or bank account billing address zip code (i.e. 12345). This value is merely passed through to the payment gateway. |
-| `CurrentVault` | [`*models.CurrentVault`](../../doc/models/current-vault.md) | Optional | (Optional, used only for Subscription Import) The vault that stores the payment profile with the provided vault_token. |
+| `CurrentVault` | [`*models.AllVaults`](../../doc/models/all-vaults.md) | Optional | (Optional, used only for Subscription Import) The vault that stores the payment profile with the provided vault_token. |
 | `VaultToken` | `*string` | Optional | (Optional, used only for Subscription Import) The “token” provided by your vault storage for an already stored payment profile |
 | `CustomerVaultToken` | `*string` | Optional | (Optional, used only for Subscription Import) (only for Authorize.Net CIM storage or Square) The customerProfileId for the owner of the customerPaymentProfileId provided as the vault_token |
 | `CustomerId` | `*int` | Optional | - |
@@ -43,7 +43,7 @@ alias to credit_card_attributes
 {
   "chargify_token": "chargify_token8",
   "id": 80,
-  "payment_type": "payment_type0",
+  "payment_type": "credit_card",
   "first_name": "first_name0",
   "last_name": "last_name8"
 }

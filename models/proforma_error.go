@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -32,7 +37,7 @@ func (p ProformaError) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for ProformaError.
 // It customizes the JSON unmarshaling process for ProformaError objects.
 func (p *ProformaError) UnmarshalJSON(input []byte) error {
-    var temp proformaError
+    var temp tempProformaError
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -47,7 +52,7 @@ func (p *ProformaError) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// proformaError is a temporary struct used for validating the fields of ProformaError.
-type proformaError  struct {
+// tempProformaError is a temporary struct used for validating the fields of ProformaError.
+type tempProformaError  struct {
     Subscription *BaseStringError `json:"subscription,omitempty"`
 }

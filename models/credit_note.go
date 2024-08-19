@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -60,7 +65,7 @@ type CreditNote struct {
     Taxes                []InvoiceTax            `json:"taxes,omitempty"`
     Applications         []CreditNoteApplication `json:"applications,omitempty"`
     Refunds              []InvoiceRefund         `json:"refunds,omitempty"`
-    // An array of origin invoices for the credit note. Learn more about [Origin Invoice from our docs](https://chargify.zendesk.com/hc/en-us/articles/4407753036699#origin-invoices)
+    // An array of origin invoices for the credit note. Learn more about [Origin Invoice from our docs](https://maxio.zendesk.com/hc/en-us/articles/24252261284749-Credit-Notes-Proration#origin-invoices)
     OriginInvoices       []OriginInvoice         `json:"origin_invoices,omitempty"`
     AdditionalProperties map[string]any          `json:"_"`
 }
@@ -164,7 +169,7 @@ func (c CreditNote) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for CreditNote.
 // It customizes the JSON unmarshaling process for CreditNote objects.
 func (c *CreditNote) UnmarshalJSON(input []byte) error {
-    var temp creditNote
+    var temp tempCreditNote
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -217,8 +222,8 @@ func (c *CreditNote) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// creditNote is a temporary struct used for validating the fields of CreditNote.
-type creditNote  struct {
+// tempCreditNote is a temporary struct used for validating the fields of CreditNote.
+type tempCreditNote  struct {
     Uid             *string                 `json:"uid,omitempty"`
     SiteId          *int                    `json:"site_id,omitempty"`
     CustomerId      *int                    `json:"customer_id,omitempty"`

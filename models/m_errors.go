@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -13,29 +18,29 @@ type Errors struct {
 
 // MarshalJSON implements the json.Marshaler interface for Errors.
 // It customizes the JSON marshaling process for Errors objects.
-func (e Errors) MarshalJSON() (
+func (m Errors) MarshalJSON() (
     []byte,
     error) {
-    return json.Marshal(e.toMap())
+    return json.Marshal(m.toMap())
 }
 
 // toMap converts the Errors object to a map representation for JSON marshaling.
-func (e Errors) toMap() map[string]any {
+func (m Errors) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, e.AdditionalProperties)
-    if e.PerPage != nil {
-        structMap["per_page"] = e.PerPage
+    MapAdditionalProperties(structMap, m.AdditionalProperties)
+    if m.PerPage != nil {
+        structMap["per_page"] = m.PerPage
     }
-    if e.PricePoint != nil {
-        structMap["price_point"] = e.PricePoint
+    if m.PricePoint != nil {
+        structMap["price_point"] = m.PricePoint
     }
     return structMap
 }
 
 // UnmarshalJSON implements the json.Unmarshaler interface for Errors.
 // It customizes the JSON unmarshaling process for Errors objects.
-func (e *Errors) UnmarshalJSON(input []byte) error {
-    var temp mErrors
+func (m *Errors) UnmarshalJSON(input []byte) error {
+    var temp tempErrors
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -45,14 +50,14 @@ func (e *Errors) UnmarshalJSON(input []byte) error {
     	return err
     }
     
-    e.AdditionalProperties = additionalProperties
-    e.PerPage = temp.PerPage
-    e.PricePoint = temp.PricePoint
+    m.AdditionalProperties = additionalProperties
+    m.PerPage = temp.PerPage
+    m.PricePoint = temp.PricePoint
     return nil
 }
 
-// mErrors is a temporary struct used for validating the fields of Errors.
-type mErrors  struct {
+// tempErrors is a temporary struct used for validating the fields of Errors.
+type tempErrors  struct {
     PerPage    []string `json:"per_page,omitempty"`
     PricePoint []string `json:"price_point,omitempty"`
 }

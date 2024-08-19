@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -35,7 +40,7 @@ func (s SignupProformaPreview) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for SignupProformaPreview.
 // It customizes the JSON unmarshaling process for SignupProformaPreview objects.
 func (s *SignupProformaPreview) UnmarshalJSON(input []byte) error {
-    var temp signupProformaPreview
+    var temp tempSignupProformaPreview
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -51,8 +56,8 @@ func (s *SignupProformaPreview) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// signupProformaPreview is a temporary struct used for validating the fields of SignupProformaPreview.
-type signupProformaPreview  struct {
+// tempSignupProformaPreview is a temporary struct used for validating the fields of SignupProformaPreview.
+type tempSignupProformaPreview  struct {
     CurrentProformaInvoice *ProformaInvoice `json:"current_proforma_invoice,omitempty"`
     NextProformaInvoice    *ProformaInvoice `json:"next_proforma_invoice,omitempty"`
 }

@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -31,7 +36,7 @@ func (s SignupProformaPreviewResponse) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for SignupProformaPreviewResponse.
 // It customizes the JSON unmarshaling process for SignupProformaPreviewResponse objects.
 func (s *SignupProformaPreviewResponse) UnmarshalJSON(input []byte) error {
-    var temp signupProformaPreviewResponse
+    var temp tempSignupProformaPreviewResponse
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -50,12 +55,12 @@ func (s *SignupProformaPreviewResponse) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// signupProformaPreviewResponse is a temporary struct used for validating the fields of SignupProformaPreviewResponse.
-type signupProformaPreviewResponse  struct {
+// tempSignupProformaPreviewResponse is a temporary struct used for validating the fields of SignupProformaPreviewResponse.
+type tempSignupProformaPreviewResponse  struct {
     ProformaInvoicePreview *SignupProformaPreview `json:"proforma_invoice_preview"`
 }
 
-func (s *signupProformaPreviewResponse) validate() error {
+func (s *tempSignupProformaPreviewResponse) validate() error {
     var errs []string
     if s.ProformaInvoicePreview == nil {
         errs = append(errs, "required field `proforma_invoice_preview` is missing for type `Signup Proforma Preview Response`")
@@ -63,5 +68,5 @@ func (s *signupProformaPreviewResponse) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

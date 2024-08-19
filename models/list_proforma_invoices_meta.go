@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -43,7 +48,7 @@ func (l ListProformaInvoicesMeta) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for ListProformaInvoicesMeta.
 // It customizes the JSON unmarshaling process for ListProformaInvoicesMeta objects.
 func (l *ListProformaInvoicesMeta) UnmarshalJSON(input []byte) error {
-    var temp listProformaInvoicesMeta
+    var temp tempListProformaInvoicesMeta
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -61,8 +66,8 @@ func (l *ListProformaInvoicesMeta) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// listProformaInvoicesMeta is a temporary struct used for validating the fields of ListProformaInvoicesMeta.
-type listProformaInvoicesMeta  struct {
+// tempListProformaInvoicesMeta is a temporary struct used for validating the fields of ListProformaInvoicesMeta.
+type tempListProformaInvoicesMeta  struct {
     TotalCount  *int `json:"total_count,omitempty"`
     CurrentPage *int `json:"current_page,omitempty"`
     TotalPages  *int `json:"total_pages,omitempty"`

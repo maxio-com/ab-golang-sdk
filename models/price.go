@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -42,7 +47,7 @@ func (p Price) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for Price.
 // It customizes the JSON unmarshaling process for Price objects.
 func (p *Price) UnmarshalJSON(input []byte) error {
-    var temp price
+    var temp tempPrice
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -63,14 +68,14 @@ func (p *Price) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// price is a temporary struct used for validating the fields of Price.
-type price  struct {
+// tempPrice is a temporary struct used for validating the fields of Price.
+type tempPrice  struct {
     StartingQuantity *PriceStartingQuantity        `json:"starting_quantity"`
     EndingQuantity   Optional[PriceEndingQuantity] `json:"ending_quantity"`
     UnitPrice        *PriceUnitPrice               `json:"unit_price"`
 }
 
-func (p *price) validate() error {
+func (p *tempPrice) validate() error {
     var errs []string
     if p.StartingQuantity == nil {
         errs = append(errs, "required field `starting_quantity` is missing for type `Price`")
@@ -81,5 +86,5 @@ func (p *price) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

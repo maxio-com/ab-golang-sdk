@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -47,7 +52,7 @@ func (n NetTerms) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for NetTerms.
 // It customizes the JSON unmarshaling process for NetTerms objects.
 func (n *NetTerms) UnmarshalJSON(input []byte) error {
-    var temp netTerms
+    var temp tempNetTerms
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -66,8 +71,8 @@ func (n *NetTerms) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// netTerms is a temporary struct used for validating the fields of NetTerms.
-type netTerms  struct {
+// tempNetTerms is a temporary struct used for validating the fields of NetTerms.
+type tempNetTerms  struct {
     DefaultNetTerms                    *int  `json:"default_net_terms,omitempty"`
     AutomaticNetTerms                  *int  `json:"automatic_net_terms,omitempty"`
     RemittanceNetTerms                 *int  `json:"remittance_net_terms,omitempty"`

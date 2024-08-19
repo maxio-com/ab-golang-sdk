@@ -11,6 +11,115 @@ import (
     "fmt"
 )
 
+// AllVaults is a string enum.
+// The vault that stores the payment profile with the provided `vault_token`. Use `bogus` for testing.
+type AllVaults string
+
+// MarshalJSON implements the json.Marshaler interface for AllVaults.
+// It customizes the JSON marshaling process for AllVaults objects.
+func (e AllVaults) MarshalJSON() (
+    []byte,
+    error) {
+    if e.isValid() {
+        return []byte(fmt.Sprintf("\"%v\"", e)), nil
+    }
+    return nil, errors.New("the provided enum value is not allowed for AllVaults")
+}
+
+// UnmarshalJSON implements the json.Unmarshaler interface for AllVaults.
+// It customizes the JSON unmarshaling process for AllVaults objects.
+func (e *AllVaults) UnmarshalJSON(input []byte) error {
+    var enumValue string
+    err := json.Unmarshal(input, &enumValue)
+    if err != nil {
+        return err
+    }
+    *e = AllVaults(enumValue)
+    if !e.isValid() {
+        return errors.New("the value " + string(input) + " cannot be unmarshalled to AllVaults")
+    }
+    return nil
+}
+
+// Checks whether the value is actually a member of AllVaults.
+func (e AllVaults) isValid() bool {
+    switch e {
+    case AllVaults_ADYEN,
+        AllVaults_AUTHORIZENET,
+        AllVaults_BEANSTREAM,
+        AllVaults_BLUESNAP,
+        AllVaults_BOGUS,
+        AllVaults_BRAINTREE1,
+        AllVaults_BRAINTREEBLUE,
+        AllVaults_CHECKOUT,
+        AllVaults_CYBERSOURCE,
+        AllVaults_ELAVON,
+        AllVaults_EWAY,
+        AllVaults_EWAYRAPID,
+        AllVaults_EWAYRAPIDSTD,
+        AllVaults_FIRSTDATA,
+        AllVaults_FORTE,
+        AllVaults_GOCARDLESS,
+        AllVaults_LITLE,
+        AllVaults_MAXIOPAYMENTS,
+        AllVaults_MAXP,
+        AllVaults_MODUSLINK,
+        AllVaults_MONERIS,
+        AllVaults_NMI,
+        AllVaults_ORBITAL,
+        AllVaults_PAYMENTEXPRESS,
+        AllVaults_PAYMILL,
+        AllVaults_PAYPAL,
+        AllVaults_PAYPALCOMPLETE,
+        AllVaults_PIN,
+        AllVaults_SQUARE,
+        AllVaults_STRIPE,
+        AllVaults_STRIPECONNECT,
+        AllVaults_TRUSTCOMMERCE,
+        AllVaults_UNIPAAS,
+        AllVaults_WIRECARD:
+        return true
+    }
+    return false
+}
+
+const (
+    AllVaults_ADYEN          AllVaults = "adyen"
+    AllVaults_AUTHORIZENET   AllVaults = "authorizenet"
+    AllVaults_BEANSTREAM     AllVaults = "beanstream"
+    AllVaults_BLUESNAP       AllVaults = "blue_snap"
+    AllVaults_BOGUS          AllVaults = "bogus"
+    AllVaults_BRAINTREE1     AllVaults = "braintree1"
+    AllVaults_BRAINTREEBLUE  AllVaults = "braintree_blue"
+    AllVaults_CHECKOUT       AllVaults = "checkout"
+    AllVaults_CYBERSOURCE    AllVaults = "cybersource"
+    AllVaults_ELAVON         AllVaults = "elavon"
+    AllVaults_EWAY           AllVaults = "eway"
+    AllVaults_EWAYRAPID      AllVaults = "eway_rapid"
+    AllVaults_EWAYRAPIDSTD   AllVaults = "eway_rapid_std"
+    AllVaults_FIRSTDATA      AllVaults = "firstdata"
+    AllVaults_FORTE          AllVaults = "forte"
+    AllVaults_GOCARDLESS     AllVaults = "gocardless"
+    AllVaults_LITLE          AllVaults = "litle"
+    AllVaults_MAXIOPAYMENTS  AllVaults = "maxio_payments"
+    AllVaults_MAXP           AllVaults = "maxp"
+    AllVaults_MODUSLINK      AllVaults = "moduslink"
+    AllVaults_MONERIS        AllVaults = "moneris"
+    AllVaults_NMI            AllVaults = "nmi"
+    AllVaults_ORBITAL        AllVaults = "orbital"
+    AllVaults_PAYMENTEXPRESS AllVaults = "payment_express"
+    AllVaults_PAYMILL        AllVaults = "paymill"
+    AllVaults_PAYPAL         AllVaults = "paypal"
+    AllVaults_PAYPALCOMPLETE AllVaults = "paypal_complete"
+    AllVaults_PIN            AllVaults = "pin"
+    AllVaults_SQUARE         AllVaults = "square"
+    AllVaults_STRIPE         AllVaults = "stripe"
+    AllVaults_STRIPECONNECT  AllVaults = "stripe_connect"
+    AllVaults_TRUSTCOMMERCE  AllVaults = "trust_commerce"
+    AllVaults_UNIPAAS        AllVaults = "unipaas"
+    AllVaults_WIRECARD       AllVaults = "wirecard"
+)
+
 // AllocationPreviewDirection is a string enum.
 type AllocationPreviewDirection string
 
@@ -102,6 +211,49 @@ const (
     AllocationPreviewLineItemKind_ONOFFCOMPONENT         AllocationPreviewLineItemKind = "on_off_component"
     AllocationPreviewLineItemKind_COUPON                 AllocationPreviewLineItemKind = "coupon"
     AllocationPreviewLineItemKind_TAX                    AllocationPreviewLineItemKind = "tax"
+)
+
+// ApplePayVault is a string enum.
+// The vault that stores the payment profile with the provided vault_token.
+type ApplePayVault string
+
+// MarshalJSON implements the json.Marshaler interface for ApplePayVault.
+// It customizes the JSON marshaling process for ApplePayVault objects.
+func (e ApplePayVault) MarshalJSON() (
+    []byte,
+    error) {
+    if e.isValid() {
+        return []byte(fmt.Sprintf("\"%v\"", e)), nil
+    }
+    return nil, errors.New("the provided enum value is not allowed for ApplePayVault")
+}
+
+// UnmarshalJSON implements the json.Unmarshaler interface for ApplePayVault.
+// It customizes the JSON unmarshaling process for ApplePayVault objects.
+func (e *ApplePayVault) UnmarshalJSON(input []byte) error {
+    var enumValue string
+    err := json.Unmarshal(input, &enumValue)
+    if err != nil {
+        return err
+    }
+    *e = ApplePayVault(enumValue)
+    if !e.isValid() {
+        return errors.New("the value " + string(input) + " cannot be unmarshalled to ApplePayVault")
+    }
+    return nil
+}
+
+// Checks whether the value is actually a member of ApplePayVault.
+func (e ApplePayVault) isValid() bool {
+    switch e {
+    case ApplePayVault_BRAINTREEBLUE:
+        return true
+    }
+    return false
+}
+
+const (
+    ApplePayVault_BRAINTREEBLUE ApplePayVault = "braintree_blue"
 )
 
 // AutoInvite is a int enum.
@@ -239,7 +391,7 @@ const (
 )
 
 // BankAccountVault is a string enum.
-// The vault that stores the payment profile with the provided vault_token.
+// The vault that stores the payment profile with the provided vault_token. Use `bogus` for testing.
 type BankAccountVault string
 
 // MarshalJSON implements the json.Marshaler interface for BankAccountVault.
@@ -271,22 +423,28 @@ func (e *BankAccountVault) UnmarshalJSON(input []byte) error {
 // Checks whether the value is actually a member of BankAccountVault.
 func (e BankAccountVault) isValid() bool {
     switch e {
-    case BankAccountVault_BOGUS,
-        BankAccountVault_AUTHORIZENET,
-        BankAccountVault_STRIPECONNECT,
-        BankAccountVault_BRAINTREEBLUE,
-        BankAccountVault_GOCARDLESS:
+    case BankAccountVault_AUTHORIZENET,
+        BankAccountVault_BLUESNAP,
+        BankAccountVault_BOGUS,
+        BankAccountVault_FORTE,
+        BankAccountVault_GOCARDLESS,
+        BankAccountVault_MAXIOPAYMENTS,
+        BankAccountVault_MAXP,
+        BankAccountVault_STRIPECONNECT:
         return true
     }
     return false
 }
 
 const (
-    BankAccountVault_BOGUS         BankAccountVault = "bogus"
     BankAccountVault_AUTHORIZENET  BankAccountVault = "authorizenet"
-    BankAccountVault_STRIPECONNECT BankAccountVault = "stripe_connect"
-    BankAccountVault_BRAINTREEBLUE BankAccountVault = "braintree_blue"
+    BankAccountVault_BLUESNAP      BankAccountVault = "blue_snap"
+    BankAccountVault_BOGUS         BankAccountVault = "bogus"
+    BankAccountVault_FORTE         BankAccountVault = "forte"
     BankAccountVault_GOCARDLESS    BankAccountVault = "gocardless"
+    BankAccountVault_MAXIOPAYMENTS BankAccountVault = "maxio_payments"
+    BankAccountVault_MAXP          BankAccountVault = "maxp"
+    BankAccountVault_STRIPECONNECT BankAccountVault = "stripe_connect"
 )
 
 // BasicDateField is a string enum.
@@ -932,6 +1090,113 @@ const (
     CreateSignupProformaPreviewInclude_NEXTPROFORMAINVOICE CreateSignupProformaPreviewInclude = "next_proforma_invoice"
 )
 
+// CreditCardVault is a string enum.
+// The vault that stores the payment profile with the provided `vault_token`. Use `bogus` for testing.
+type CreditCardVault string
+
+// MarshalJSON implements the json.Marshaler interface for CreditCardVault.
+// It customizes the JSON marshaling process for CreditCardVault objects.
+func (e CreditCardVault) MarshalJSON() (
+    []byte,
+    error) {
+    if e.isValid() {
+        return []byte(fmt.Sprintf("\"%v\"", e)), nil
+    }
+    return nil, errors.New("the provided enum value is not allowed for CreditCardVault")
+}
+
+// UnmarshalJSON implements the json.Unmarshaler interface for CreditCardVault.
+// It customizes the JSON unmarshaling process for CreditCardVault objects.
+func (e *CreditCardVault) UnmarshalJSON(input []byte) error {
+    var enumValue string
+    err := json.Unmarshal(input, &enumValue)
+    if err != nil {
+        return err
+    }
+    *e = CreditCardVault(enumValue)
+    if !e.isValid() {
+        return errors.New("the value " + string(input) + " cannot be unmarshalled to CreditCardVault")
+    }
+    return nil
+}
+
+// Checks whether the value is actually a member of CreditCardVault.
+func (e CreditCardVault) isValid() bool {
+    switch e {
+    case CreditCardVault_ADYEN,
+        CreditCardVault_AUTHORIZENET,
+        CreditCardVault_BEANSTREAM,
+        CreditCardVault_BLUESNAP,
+        CreditCardVault_BOGUS,
+        CreditCardVault_BRAINTREE1,
+        CreditCardVault_BRAINTREEBLUE,
+        CreditCardVault_CHECKOUT,
+        CreditCardVault_CYBERSOURCE,
+        CreditCardVault_ELAVON,
+        CreditCardVault_EWAY,
+        CreditCardVault_EWAYRAPID,
+        CreditCardVault_EWAYRAPIDSTD,
+        CreditCardVault_FIRSTDATA,
+        CreditCardVault_FORTE,
+        CreditCardVault_LITLE,
+        CreditCardVault_MAXIOPAYMENTS,
+        CreditCardVault_MAXP,
+        CreditCardVault_MODUSLINK,
+        CreditCardVault_MONERIS,
+        CreditCardVault_NMI,
+        CreditCardVault_ORBITAL,
+        CreditCardVault_PAYMENTEXPRESS,
+        CreditCardVault_PAYMILL,
+        CreditCardVault_PAYPAL,
+        CreditCardVault_PAYPALCOMPLETE,
+        CreditCardVault_PIN,
+        CreditCardVault_SQUARE,
+        CreditCardVault_STRIPE,
+        CreditCardVault_STRIPECONNECT,
+        CreditCardVault_TRUSTCOMMERCE,
+        CreditCardVault_UNIPAAS,
+        CreditCardVault_WIRECARD:
+        return true
+    }
+    return false
+}
+
+const (
+    CreditCardVault_ADYEN          CreditCardVault = "adyen"
+    CreditCardVault_AUTHORIZENET   CreditCardVault = "authorizenet"
+    CreditCardVault_BEANSTREAM     CreditCardVault = "beanstream"
+    CreditCardVault_BLUESNAP       CreditCardVault = "blue_snap"
+    CreditCardVault_BOGUS          CreditCardVault = "bogus"
+    CreditCardVault_BRAINTREE1     CreditCardVault = "braintree1"
+    CreditCardVault_BRAINTREEBLUE  CreditCardVault = "braintree_blue"
+    CreditCardVault_CHECKOUT       CreditCardVault = "checkout"
+    CreditCardVault_CYBERSOURCE    CreditCardVault = "cybersource"
+    CreditCardVault_ELAVON         CreditCardVault = "elavon"
+    CreditCardVault_EWAY           CreditCardVault = "eway"
+    CreditCardVault_EWAYRAPID      CreditCardVault = "eway_rapid"
+    CreditCardVault_EWAYRAPIDSTD   CreditCardVault = "eway_rapid_std"
+    CreditCardVault_FIRSTDATA      CreditCardVault = "firstdata"
+    CreditCardVault_FORTE          CreditCardVault = "forte"
+    CreditCardVault_LITLE          CreditCardVault = "litle"
+    CreditCardVault_MAXIOPAYMENTS  CreditCardVault = "maxio_payments"
+    CreditCardVault_MAXP           CreditCardVault = "maxp"
+    CreditCardVault_MODUSLINK      CreditCardVault = "moduslink"
+    CreditCardVault_MONERIS        CreditCardVault = "moneris"
+    CreditCardVault_NMI            CreditCardVault = "nmi"
+    CreditCardVault_ORBITAL        CreditCardVault = "orbital"
+    CreditCardVault_PAYMENTEXPRESS CreditCardVault = "payment_express"
+    CreditCardVault_PAYMILL        CreditCardVault = "paymill"
+    CreditCardVault_PAYPAL         CreditCardVault = "paypal"
+    CreditCardVault_PAYPALCOMPLETE CreditCardVault = "paypal_complete"
+    CreditCardVault_PIN            CreditCardVault = "pin"
+    CreditCardVault_SQUARE         CreditCardVault = "square"
+    CreditCardVault_STRIPE         CreditCardVault = "stripe"
+    CreditCardVault_STRIPECONNECT  CreditCardVault = "stripe_connect"
+    CreditCardVault_TRUSTCOMMERCE  CreditCardVault = "trust_commerce"
+    CreditCardVault_UNIPAAS        CreditCardVault = "unipaas"
+    CreditCardVault_WIRECARD       CreditCardVault = "wirecard"
+)
+
 // CreditNoteStatus is a string enum.
 // Current status of the credit note.
 type CreditNoteStatus string
@@ -1116,101 +1381,6 @@ const (
     CurrencyPriceRole_BASELINE CurrencyPriceRole = "baseline"
     CurrencyPriceRole_TRIAL    CurrencyPriceRole = "trial"
     CurrencyPriceRole_INITIAL  CurrencyPriceRole = "initial"
-)
-
-// CurrentVault is a string enum.
-// The vault that stores the payment profile with the provided `vault_token`. Use `bogus` for testing.
-type CurrentVault string
-
-// MarshalJSON implements the json.Marshaler interface for CurrentVault.
-// It customizes the JSON marshaling process for CurrentVault objects.
-func (e CurrentVault) MarshalJSON() (
-    []byte,
-    error) {
-    if e.isValid() {
-        return []byte(fmt.Sprintf("\"%v\"", e)), nil
-    }
-    return nil, errors.New("the provided enum value is not allowed for CurrentVault")
-}
-
-// UnmarshalJSON implements the json.Unmarshaler interface for CurrentVault.
-// It customizes the JSON unmarshaling process for CurrentVault objects.
-func (e *CurrentVault) UnmarshalJSON(input []byte) error {
-    var enumValue string
-    err := json.Unmarshal(input, &enumValue)
-    if err != nil {
-        return err
-    }
-    *e = CurrentVault(enumValue)
-    if !e.isValid() {
-        return errors.New("the value " + string(input) + " cannot be unmarshalled to CurrentVault")
-    }
-    return nil
-}
-
-// Checks whether the value is actually a member of CurrentVault.
-func (e CurrentVault) isValid() bool {
-    switch e {
-    case CurrentVault_ADYEN,
-        CurrentVault_AUTHORIZENET,
-        CurrentVault_AVALARA,
-        CurrentVault_BEANSTREAM,
-        CurrentVault_BLUESNAP,
-        CurrentVault_BOGUS,
-        CurrentVault_BRAINTREEBLUE,
-        CurrentVault_CHECKOUT,
-        CurrentVault_CYBERSOURCE,
-        CurrentVault_ELAVON,
-        CurrentVault_EWAY,
-        CurrentVault_EWAYRAPIDSTD,
-        CurrentVault_FIRSTDATA,
-        CurrentVault_FORTE,
-        CurrentVault_GOCARDLESS,
-        CurrentVault_LITLE,
-        CurrentVault_MAXIOPAYMENTS,
-        CurrentVault_MODUSLINK,
-        CurrentVault_MONERIS,
-        CurrentVault_NMI,
-        CurrentVault_ORBITAL,
-        CurrentVault_PAYMENTEXPRESS,
-        CurrentVault_PIN,
-        CurrentVault_SQUARE,
-        CurrentVault_STRIPECONNECT,
-        CurrentVault_TRUSTCOMMERCE,
-        CurrentVault_UNIPAAS:
-        return true
-    }
-    return false
-}
-
-const (
-    CurrentVault_ADYEN          CurrentVault = "adyen"
-    CurrentVault_AUTHORIZENET   CurrentVault = "authorizenet"
-    CurrentVault_AVALARA        CurrentVault = "avalara"
-    CurrentVault_BEANSTREAM     CurrentVault = "beanstream"
-    CurrentVault_BLUESNAP       CurrentVault = "blue_snap"
-    CurrentVault_BOGUS          CurrentVault = "bogus"
-    CurrentVault_BRAINTREEBLUE  CurrentVault = "braintree_blue"
-    CurrentVault_CHECKOUT       CurrentVault = "checkout"
-    CurrentVault_CYBERSOURCE    CurrentVault = "cybersource"
-    CurrentVault_ELAVON         CurrentVault = "elavon"
-    CurrentVault_EWAY           CurrentVault = "eway"
-    CurrentVault_EWAYRAPIDSTD   CurrentVault = "eway_rapid_std"
-    CurrentVault_FIRSTDATA      CurrentVault = "firstdata"
-    CurrentVault_FORTE          CurrentVault = "forte"
-    CurrentVault_GOCARDLESS     CurrentVault = "gocardless"
-    CurrentVault_LITLE          CurrentVault = "litle"
-    CurrentVault_MAXIOPAYMENTS  CurrentVault = "maxio_payments"
-    CurrentVault_MODUSLINK      CurrentVault = "moduslink"
-    CurrentVault_MONERIS        CurrentVault = "moneris"
-    CurrentVault_NMI            CurrentVault = "nmi"
-    CurrentVault_ORBITAL        CurrentVault = "orbital"
-    CurrentVault_PAYMENTEXPRESS CurrentVault = "payment_express"
-    CurrentVault_PIN            CurrentVault = "pin"
-    CurrentVault_SQUARE         CurrentVault = "square"
-    CurrentVault_STRIPECONNECT  CurrentVault = "stripe_connect"
-    CurrentVault_TRUSTCOMMERCE  CurrentVault = "trust_commerce"
-    CurrentVault_UNIPAAS        CurrentVault = "unipaas"
 )
 
 // CustomFieldOwner is a string enum.
@@ -1547,50 +1717,50 @@ const (
     EventType_SUBSCRIPTIONSERVICECREDITACCOUNTBALANCECHANGED EventType = "subscription_service_credit_account_balance_changed"
 )
 
-// ExtendedIntervalUnit is a string enum.
-type ExtendedIntervalUnit string
+// ExpirationIntervalUnit is a string enum.
+type ExpirationIntervalUnit string
 
-// MarshalJSON implements the json.Marshaler interface for ExtendedIntervalUnit.
-// It customizes the JSON marshaling process for ExtendedIntervalUnit objects.
-func (e ExtendedIntervalUnit) MarshalJSON() (
+// MarshalJSON implements the json.Marshaler interface for ExpirationIntervalUnit.
+// It customizes the JSON marshaling process for ExpirationIntervalUnit objects.
+func (e ExpirationIntervalUnit) MarshalJSON() (
     []byte,
     error) {
     if e.isValid() {
         return []byte(fmt.Sprintf("\"%v\"", e)), nil
     }
-    return nil, errors.New("the provided enum value is not allowed for ExtendedIntervalUnit")
+    return nil, errors.New("the provided enum value is not allowed for ExpirationIntervalUnit")
 }
 
-// UnmarshalJSON implements the json.Unmarshaler interface for ExtendedIntervalUnit.
-// It customizes the JSON unmarshaling process for ExtendedIntervalUnit objects.
-func (e *ExtendedIntervalUnit) UnmarshalJSON(input []byte) error {
+// UnmarshalJSON implements the json.Unmarshaler interface for ExpirationIntervalUnit.
+// It customizes the JSON unmarshaling process for ExpirationIntervalUnit objects.
+func (e *ExpirationIntervalUnit) UnmarshalJSON(input []byte) error {
     var enumValue string
     err := json.Unmarshal(input, &enumValue)
     if err != nil {
         return err
     }
-    *e = ExtendedIntervalUnit(enumValue)
+    *e = ExpirationIntervalUnit(enumValue)
     if !e.isValid() {
-        return errors.New("the value " + string(input) + " cannot be unmarshalled to ExtendedIntervalUnit")
+        return errors.New("the value " + string(input) + " cannot be unmarshalled to ExpirationIntervalUnit")
     }
     return nil
 }
 
-// Checks whether the value is actually a member of ExtendedIntervalUnit.
-func (e ExtendedIntervalUnit) isValid() bool {
+// Checks whether the value is actually a member of ExpirationIntervalUnit.
+func (e ExpirationIntervalUnit) isValid() bool {
     switch e {
-    case ExtendedIntervalUnit_DAY,
-        ExtendedIntervalUnit_MONTH,
-        ExtendedIntervalUnit_NEVER:
+    case ExpirationIntervalUnit_DAY,
+        ExpirationIntervalUnit_MONTH,
+        ExpirationIntervalUnit_NEVER:
         return true
     }
     return false
 }
 
 const (
-    ExtendedIntervalUnit_DAY   ExtendedIntervalUnit = "day"
-    ExtendedIntervalUnit_MONTH ExtendedIntervalUnit = "month"
-    ExtendedIntervalUnit_NEVER ExtendedIntervalUnit = "never"
+    ExpirationIntervalUnit_DAY   ExpirationIntervalUnit = "day"
+    ExpirationIntervalUnit_MONTH ExpirationIntervalUnit = "month"
+    ExpirationIntervalUnit_NEVER ExpirationIntervalUnit = "never"
 )
 
 // FailedPaymentAction is a string enum.
@@ -1966,7 +2136,7 @@ const (
 // * "child": An invoice segment which has been combined into a consolidated invoice.
 // * "parent": A consolidated invoice, whose contents are composed of invoice segments.
 // "Parent" invoices do not have lines of their own, but they have subtotals and totals which aggregate the member invoice segments.
-// See also the [invoice consolidation documentation](https://chargify.zendesk.com/hc/en-us/articles/4407746391835).
+// See also the [invoice consolidation documentation](https://maxio.zendesk.com/hc/en-us/articles/24252269909389-Invoice-Consolidation).
 type InvoiceConsolidationLevel string
 
 // MarshalJSON implements the json.Marshaler interface for InvoiceConsolidationLevel.
@@ -2494,7 +2664,7 @@ const (
 )
 
 // InvoiceStatus is a string enum.
-// The current status of the invoice. See [Invoice Statuses](https://maxio-chargify.zendesk.com/hc/en-us/articles/5405078794253-Introduction-to-Invoices#invoice-statuses) for more.
+// The current status of the invoice. See [Invoice Statuses](https://maxio.zendesk.com/hc/en-us/articles/24252287829645-Advanced-Billing-Invoices-Overview#invoice-statuses) for more.
 type InvoiceStatus string
 
 // MarshalJSON implements the json.Marshaler interface for InvoiceStatus.
@@ -3096,7 +3266,8 @@ func (e PaymentType) isValid() bool {
     switch e {
     case PaymentType_CREDITCARD,
         PaymentType_BANKACCOUNT,
-        PaymentType_PAYPALACCOUNT:
+        PaymentType_PAYPALACCOUNT,
+        PaymentType_APPLEPAY:
         return true
     }
     return false
@@ -3106,6 +3277,56 @@ const (
     PaymentType_CREDITCARD    PaymentType = "credit_card"
     PaymentType_BANKACCOUNT   PaymentType = "bank_account"
     PaymentType_PAYPALACCOUNT PaymentType = "paypal_account"
+    PaymentType_APPLEPAY      PaymentType = "apple_pay"
+)
+
+// PayPalVault is a string enum.
+// The vault that stores the payment profile with the provided vault_token.
+type PayPalVault string
+
+// MarshalJSON implements the json.Marshaler interface for PayPalVault.
+// It customizes the JSON marshaling process for PayPalVault objects.
+func (e PayPalVault) MarshalJSON() (
+    []byte,
+    error) {
+    if e.isValid() {
+        return []byte(fmt.Sprintf("\"%v\"", e)), nil
+    }
+    return nil, errors.New("the provided enum value is not allowed for PayPalVault")
+}
+
+// UnmarshalJSON implements the json.Unmarshaler interface for PayPalVault.
+// It customizes the JSON unmarshaling process for PayPalVault objects.
+func (e *PayPalVault) UnmarshalJSON(input []byte) error {
+    var enumValue string
+    err := json.Unmarshal(input, &enumValue)
+    if err != nil {
+        return err
+    }
+    *e = PayPalVault(enumValue)
+    if !e.isValid() {
+        return errors.New("the value " + string(input) + " cannot be unmarshalled to PayPalVault")
+    }
+    return nil
+}
+
+// Checks whether the value is actually a member of PayPalVault.
+func (e PayPalVault) isValid() bool {
+    switch e {
+    case PayPalVault_BRAINTREEBLUE,
+        PayPalVault_PAYPAL,
+        PayPalVault_MODUSLINK,
+        PayPalVault_PAYPALCOMPLETE:
+        return true
+    }
+    return false
+}
+
+const (
+    PayPalVault_BRAINTREEBLUE  PayPalVault = "braintree_blue"
+    PayPalVault_PAYPAL         PayPalVault = "paypal"
+    PayPalVault_MODUSLINK      PayPalVault = "moduslink"
+    PayPalVault_PAYPALCOMPLETE PayPalVault = "paypal_complete"
 )
 
 // PrepaymentMethod is a string enum.
@@ -4234,16 +4455,16 @@ const (
 // * **Problem States**
 //     * `past_due` - Indicates that the most recent payment has failed, and payment is past due for this subscription. If you have enabled our automated dunning, this subscription will be in the dunning process (additional status and callbacks from the dunning process will be available in the future). If you are handling dunning and payment updates yourself, you will want to use this state to initiate a payment update from your customers.
 //     * `soft_failure` - Indicates that normal assessment/processing of the subscription has failed for a reason that cannot be fixed by the Customer. For example, a Soft Fail may result from a timeout at the gateway or incorrect credentials on your part. The subscriptions should be retried automatically. An interface is being built for you to review problems resulting from these events to take manual action when needed.
-//     * `unpaid` - Indicates an unpaid subscription. A subscription is marked unpaid if the retry period expires and you have configured your [Dunning](https://maxio-chargify.zendesk.com/hc/en-us/articles/5405505141005) settings to have a Final Action of `mark the subscription unpaid`.
+//     * `unpaid` - Indicates an unpaid subscription. A subscription is marked unpaid if the retry period expires and you have configured your [Dunning](https://maxio.zendesk.com/hc/en-us/articles/24287076583565-Dunning-Overview) settings to have a Final Action of `mark the subscription unpaid`.
 // * **End of Life States**
-//     * `canceled` - Indicates a canceled subscription. This may happen at your request (via the API or the web interface) or due to the expiration of the [Dunning](https://maxio-chargify.zendesk.com/hc/en-us/articles/5405505141005) process without payment. See the [Reactivation](https://maxio-chargify.zendesk.com/hc/en-us/articles/5404559291021) documentation for info on how to restart a canceled subscription.
+//     * `canceled` - Indicates a canceled subscription. This may happen at your request (via the API or the web interface) or due to the expiration of the [Dunning](https://maxio.zendesk.com/hc/en-us/articles/24287076583565-Dunning-Overview) process without payment. See the [Reactivation](https://maxio.zendesk.com/hc/en-us/articles/24252109503629-Reactivating-and-Resuming) documentation for info on how to restart a canceled subscription.
 //     While a subscription is canceled, its period will not advance, it will not accrue any new charges, and Advanced Billing will not attempt to collect the overdue balance.
 //     * `expired` - Indicates a subscription that has expired due to running its normal life cycle. Some products may be configured to have an expiration period. An expired subscription then is one that stayed active until it fulfilled its full period.
 //     * `failed_to_create` - Indicates that signup has failed. (You may see this state in a signup_failure webhook.)
 //     * `on_hold` - Indicates that a subscription’s billing has been temporarily stopped. While it is expected that the subscription will resume and return to active status, this is still treated as an “End of Life” state because the customer is not paying for services during this time.
 //     * `suspended` - Indicates that a prepaid subscription has used up all their prepayment balance. If a prepayment is applied, it will return to an active state.
-//     * `trial_ended` - A subscription in a trial_ended state is a subscription that completed a no-obligation trial and did not have a card on file at the expiration of the trial period. See [Product Pricing – No Obligation Trials](https://maxio-chargify.zendesk.com/hc/en-us/articles/5405246782221) for more details.
-// See [Subscription States](https://maxio-chargify.zendesk.com/hc/en-us/articles/5404222005773) for more info about subscription states and state transitions.
+//     * `trial_ended` - A subscription in a trial_ended state is a subscription that completed a no-obligation trial and did not have a card on file at the expiration of the trial period. See [Product Pricing – No Obligation Trials](https://maxio.zendesk.com/hc/en-us/articles/24261076617869-Product-Editing) for more details.
+// See [Subscription States](https://maxio.zendesk.com/hc/en-us/articles/24252119027853-Subscription-States) for more info about subscription states and state transitions.
 type SubscriptionState string
 
 // MarshalJSON implements the json.Marshaler interface for SubscriptionState.

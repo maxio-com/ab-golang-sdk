@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -31,7 +36,7 @@ func (i IssueServiceCreditRequest) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for IssueServiceCreditRequest.
 // It customizes the JSON unmarshaling process for IssueServiceCreditRequest objects.
 func (i *IssueServiceCreditRequest) UnmarshalJSON(input []byte) error {
-    var temp issueServiceCreditRequest
+    var temp tempIssueServiceCreditRequest
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -50,12 +55,12 @@ func (i *IssueServiceCreditRequest) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// issueServiceCreditRequest is a temporary struct used for validating the fields of IssueServiceCreditRequest.
-type issueServiceCreditRequest  struct {
+// tempIssueServiceCreditRequest is a temporary struct used for validating the fields of IssueServiceCreditRequest.
+type tempIssueServiceCreditRequest  struct {
     ServiceCredit *IssueServiceCredit `json:"service_credit"`
 }
 
-func (i *issueServiceCreditRequest) validate() error {
+func (i *tempIssueServiceCreditRequest) validate() error {
     var errs []string
     if i.ServiceCredit == nil {
         errs = append(errs, "required field `service_credit` is missing for type `Issue Service Credit Request`")
@@ -63,5 +68,5 @@ func (i *issueServiceCreditRequest) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

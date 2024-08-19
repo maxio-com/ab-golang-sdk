@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -41,7 +46,7 @@ func (p PublicKey) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for PublicKey.
 // It customizes the JSON unmarshaling process for PublicKey objects.
 func (p *PublicKey) UnmarshalJSON(input []byte) error {
-    var temp publicKey
+    var temp tempPublicKey
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -64,8 +69,8 @@ func (p *PublicKey) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// publicKey is a temporary struct used for validating the fields of PublicKey.
-type publicKey  struct {
+// tempPublicKey is a temporary struct used for validating the fields of PublicKey.
+type tempPublicKey  struct {
     PublicKey             *string `json:"public_key,omitempty"`
     RequiresSecurityToken *bool   `json:"requires_security_token,omitempty"`
     CreatedAt             *string `json:"created_at,omitempty"`

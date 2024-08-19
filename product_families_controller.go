@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package advancedbilling
 
 import (
@@ -112,8 +117,8 @@ func (p *ProductFamiliesController) ListProductsForProductFamily(
 // CreateProductFamily takes context, body as parameters and
 // returns an models.ApiResponse with models.ProductFamilyResponse data and
 // an error if there was an issue with the request or response.
-// This method will create a Product Family within your Chargify site. Create a Product Family to act as a container for your products, components and coupons.
-// Full documentation on how Product Families operate within the Chargify UI can be located [here](https://maxio-chargify.zendesk.com/hc/en-us/articles/5405369633421).
+// This method will create a Product Family within your Advanced Billing site. Create a Product Family to act as a container for your products, components and coupons.
+// Full documentation on how Product Families operate within the Advanced Billing UI can be located [here](https://maxio.zendesk.com/hc/en-us/articles/24261098936205-Product-Families).
 func (p *ProductFamiliesController) CreateProductFamily(
     ctx context.Context,
     body *models.CreateProductFamilyRequest) (

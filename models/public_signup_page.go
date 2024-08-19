@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -55,7 +60,7 @@ func (p PublicSignupPage) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for PublicSignupPage.
 // It customizes the JSON unmarshaling process for PublicSignupPage objects.
 func (p *PublicSignupPage) UnmarshalJSON(input []byte) error {
-    var temp publicSignupPage
+    var temp tempPublicSignupPage
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -73,8 +78,8 @@ func (p *PublicSignupPage) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// publicSignupPage is a temporary struct used for validating the fields of PublicSignupPage.
-type publicSignupPage  struct {
+// tempPublicSignupPage is a temporary struct used for validating the fields of PublicSignupPage.
+type tempPublicSignupPage  struct {
     Id           *int             `json:"id,omitempty"`
     ReturnUrl    Optional[string] `json:"return_url"`
     ReturnParams Optional[string] `json:"return_params"`

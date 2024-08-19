@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -48,7 +53,7 @@ func (a ACHAgreement) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for ACHAgreement.
 // It customizes the JSON unmarshaling process for ACHAgreement objects.
 func (a *ACHAgreement) UnmarshalJSON(input []byte) error {
-    var temp achAgreement
+    var temp tempACHAgreement
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -66,8 +71,8 @@ func (a *ACHAgreement) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// achAgreement is a temporary struct used for validating the fields of ACHAgreement.
-type achAgreement  struct {
+// tempACHAgreement is a temporary struct used for validating the fields of ACHAgreement.
+type tempACHAgreement  struct {
     AgreementTerms      *string `json:"agreement_terms,omitempty"`
     AuthorizerFirstName *string `json:"authorizer_first_name,omitempty"`
     AuthorizerLastName  *string `json:"authorizer_last_name,omitempty"`

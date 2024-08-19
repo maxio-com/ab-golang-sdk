@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -35,7 +40,7 @@ func (d DunningStepReached) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for DunningStepReached.
 // It customizes the JSON unmarshaling process for DunningStepReached objects.
 func (d *DunningStepReached) UnmarshalJSON(input []byte) error {
-    var temp dunningStepReached
+    var temp tempDunningStepReached
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -56,14 +61,14 @@ func (d *DunningStepReached) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// dunningStepReached is a temporary struct used for validating the fields of DunningStepReached.
-type dunningStepReached  struct {
+// tempDunningStepReached is a temporary struct used for validating the fields of DunningStepReached.
+type tempDunningStepReached  struct {
     Dunner      *DunnerData      `json:"dunner"`
     CurrentStep *DunningStepData `json:"current_step"`
     NextStep    *DunningStepData `json:"next_step"`
 }
 
-func (d *dunningStepReached) validate() error {
+func (d *tempDunningStepReached) validate() error {
     var errs []string
     if d.Dunner == nil {
         errs = append(errs, "required field `dunner` is missing for type `Dunning Step Reached`")
@@ -77,5 +82,5 @@ func (d *dunningStepReached) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

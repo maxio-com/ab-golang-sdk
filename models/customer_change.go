@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -59,7 +64,7 @@ func (c CustomerChange) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for CustomerChange.
 // It customizes the JSON unmarshaling process for CustomerChange objects.
 func (c *CustomerChange) UnmarshalJSON(input []byte) error {
-    var temp customerChange
+    var temp tempCustomerChange
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -77,8 +82,8 @@ func (c *CustomerChange) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// customerChange is a temporary struct used for validating the fields of CustomerChange.
-type customerChange  struct {
+// tempCustomerChange is a temporary struct used for validating the fields of CustomerChange.
+type tempCustomerChange  struct {
     Payer           Optional[CustomerPayerChange]        `json:"payer"`
     ShippingAddress Optional[AddressChange]              `json:"shipping_address"`
     BillingAddress  Optional[AddressChange]              `json:"billing_address"`

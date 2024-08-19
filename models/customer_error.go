@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -31,7 +36,7 @@ func (c CustomerError) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for CustomerError.
 // It customizes the JSON unmarshaling process for CustomerError objects.
 func (c *CustomerError) UnmarshalJSON(input []byte) error {
-    var temp customerError
+    var temp tempCustomerError
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -46,7 +51,7 @@ func (c *CustomerError) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// customerError is a temporary struct used for validating the fields of CustomerError.
-type customerError  struct {
+// tempCustomerError is a temporary struct used for validating the fields of CustomerError.
+type tempCustomerError  struct {
     Customer *string `json:"customer,omitempty"`
 }

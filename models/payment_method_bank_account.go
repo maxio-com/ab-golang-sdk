@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -35,7 +40,7 @@ func (p PaymentMethodBankAccount) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for PaymentMethodBankAccount.
 // It customizes the JSON unmarshaling process for PaymentMethodBankAccount objects.
 func (p *PaymentMethodBankAccount) UnmarshalJSON(input []byte) error {
-    var temp paymentMethodBankAccount
+    var temp tempPaymentMethodBankAccount
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -56,14 +61,14 @@ func (p *PaymentMethodBankAccount) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// paymentMethodBankAccount is a temporary struct used for validating the fields of PaymentMethodBankAccount.
-type paymentMethodBankAccount  struct {
+// tempPaymentMethodBankAccount is a temporary struct used for validating the fields of PaymentMethodBankAccount.
+type tempPaymentMethodBankAccount  struct {
     MaskedAccountNumber *string                    `json:"masked_account_number"`
     MaskedRoutingNumber *string                    `json:"masked_routing_number"`
     Type                *InvoiceEventPaymentMethod `json:"type"`
 }
 
-func (p *paymentMethodBankAccount) validate() error {
+func (p *tempPaymentMethodBankAccount) validate() error {
     var errs []string
     if p.MaskedAccountNumber == nil {
         errs = append(errs, "required field `masked_account_number` is missing for type `Payment Method Bank Account`")
@@ -77,5 +82,5 @@ func (p *paymentMethodBankAccount) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -35,7 +40,7 @@ type Invoice struct {
     // If partial payments are applied to the invoice, this date will not be present until payment has been made in full.
     // The format is `"YYYY-MM-DD"`.
     PaidDate                   Optional[time.Time]        `json:"paid_date"`
-    // The current status of the invoice. See [Invoice Statuses](https://maxio-chargify.zendesk.com/hc/en-us/articles/5405078794253-Introduction-to-Invoices#invoice-statuses) for more.
+    // The current status of the invoice. See [Invoice Statuses](https://maxio.zendesk.com/hc/en-us/articles/24252287829645-Advanced-Billing-Invoices-Overview#invoice-statuses) for more.
     Status                     *InvoiceStatus             `json:"status,omitempty"`
     Role                       *InvoiceRole               `json:"role,omitempty"`
     ParentInvoiceId            Optional[int]              `json:"parent_invoice_id"`
@@ -50,7 +55,7 @@ type Invoice struct {
     // * "child": An invoice segment which has been combined into a consolidated invoice.
     // * "parent": A consolidated invoice, whose contents are composed of invoice segments.
     // "Parent" invoices do not have lines of their own, but they have subtotals and totals which aggregate the member invoice segments.
-    // See also the [invoice consolidation documentation](https://chargify.zendesk.com/hc/en-us/articles/4407746391835).
+    // See also the [invoice consolidation documentation](https://maxio.zendesk.com/hc/en-us/articles/24252269909389-Invoice-Consolidation).
     ConsolidationLevel         *InvoiceConsolidationLevel `json:"consolidation_level,omitempty"`
     // For invoices with `consolidation_level` of `child`, this specifies the UID of the parent (consolidated) invoice.
     ParentInvoiceUid           Optional[string]           `json:"parent_invoice_uid"`
@@ -104,6 +109,8 @@ type Invoice struct {
     // The public URL of the invoice
     PublicUrl                  *string                    `json:"public_url,omitempty"`
     PreviousBalanceData        *InvoicePreviousBalance    `json:"previous_balance_data,omitempty"`
+    // The format is `"YYYY-MM-DD"`.
+    PublicUrlExpiresOn         *time.Time                 `json:"public_url_expires_on,omitempty"`
     AdditionalProperties       map[string]any             `json:"_"`
 }
 
@@ -304,18 +311,21 @@ func (i Invoice) toMap() map[string]any {
     if i.PreviousBalanceData != nil {
         structMap["previous_balance_data"] = i.PreviousBalanceData.toMap()
     }
+    if i.PublicUrlExpiresOn != nil {
+        structMap["public_url_expires_on"] = i.PublicUrlExpiresOn.Format(DEFAULT_DATE)
+    }
     return structMap
 }
 
 // UnmarshalJSON implements the json.Unmarshaler interface for Invoice.
 // It customizes the JSON unmarshaling process for Invoice objects.
 func (i *Invoice) UnmarshalJSON(input []byte) error {
-    var temp invoice
+    var temp tempInvoice
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "id", "uid", "site_id", "customer_id", "subscription_id", "number", "sequence_number", "transaction_time", "created_at", "updated_at", "issue_date", "due_date", "paid_date", "status", "role", "parent_invoice_id", "collection_method", "payment_instructions", "currency", "consolidation_level", "parent_invoice_uid", "subscription_group_id", "parent_invoice_number", "group_primary_subscription_id", "product_name", "product_family_name", "seller", "customer", "payer", "recipient_emails", "net_terms", "memo", "billing_address", "shipping_address", "subtotal_amount", "discount_amount", "tax_amount", "total_amount", "credit_amount", "refund_amount", "paid_amount", "due_amount", "line_items", "discounts", "taxes", "credits", "refunds", "payments", "custom_fields", "display_settings", "public_url", "previous_balance_data")
+    additionalProperties, err := UnmarshalAdditionalProperties(input, "id", "uid", "site_id", "customer_id", "subscription_id", "number", "sequence_number", "transaction_time", "created_at", "updated_at", "issue_date", "due_date", "paid_date", "status", "role", "parent_invoice_id", "collection_method", "payment_instructions", "currency", "consolidation_level", "parent_invoice_uid", "subscription_group_id", "parent_invoice_number", "group_primary_subscription_id", "product_name", "product_family_name", "seller", "customer", "payer", "recipient_emails", "net_terms", "memo", "billing_address", "shipping_address", "subtotal_amount", "discount_amount", "tax_amount", "total_amount", "credit_amount", "refund_amount", "paid_amount", "due_amount", "line_items", "discounts", "taxes", "credits", "refunds", "payments", "custom_fields", "display_settings", "public_url", "previous_balance_data", "public_url_expires_on")
     if err != nil {
     	return err
     }
@@ -410,11 +420,18 @@ func (i *Invoice) UnmarshalJSON(input []byte) error {
     i.DisplaySettings = temp.DisplaySettings
     i.PublicUrl = temp.PublicUrl
     i.PreviousBalanceData = temp.PreviousBalanceData
+    if temp.PublicUrlExpiresOn != nil {
+        PublicUrlExpiresOnVal, err := time.Parse(DEFAULT_DATE, *temp.PublicUrlExpiresOn)
+        if err != nil {
+            log.Fatalf("Cannot Parse public_url_expires_on as % s format.", DEFAULT_DATE)
+        }
+        i.PublicUrlExpiresOn = &PublicUrlExpiresOnVal
+    }
     return nil
 }
 
-// invoice is a temporary struct used for validating the fields of Invoice.
-type invoice  struct {
+// tempInvoice is a temporary struct used for validating the fields of Invoice.
+type tempInvoice  struct {
     Id                         *int64                     `json:"id,omitempty"`
     Uid                        *string                    `json:"uid,omitempty"`
     SiteId                     *int                       `json:"site_id,omitempty"`
@@ -467,4 +484,5 @@ type invoice  struct {
     DisplaySettings            *InvoiceDisplaySettings    `json:"display_settings,omitempty"`
     PublicUrl                  *string                    `json:"public_url,omitempty"`
     PreviousBalanceData        *InvoicePreviousBalance    `json:"previous_balance_data,omitempty"`
+    PublicUrlExpiresOn         *string                    `json:"public_url_expires_on,omitempty"`
 }

@@ -1,7 +1,7 @@
 
 # Bank Account Vault
 
-The vault that stores the payment profile with the provided vault_token.
+The vault that stores the payment profile with the provided vault_token. Use `bogus` for testing.
 
 ## Enumeration
 
@@ -11,9 +11,12 @@ The vault that stores the payment profile with the provided vault_token.
 
 | Name |
 |  --- |
-| `BOGUS` |
 | `AUTHORIZENET` |
-| `STRIPECONNECT` |
-| `BRAINTREEBLUE` |
+| `BLUESNAP` |
+| `BOGUS` |
+| `FORTE` |
 | `GOCARDLESS` |
+| `MAXIOPAYMENTS` |
+| `MAXP` |
+| `STRIPECONNECT` |
 

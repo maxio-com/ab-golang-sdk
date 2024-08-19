@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -65,7 +70,7 @@ func (v VoidInvoiceEventData) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for VoidInvoiceEventData.
 // It customizes the JSON unmarshaling process for VoidInvoiceEventData objects.
 func (v *VoidInvoiceEventData) UnmarshalJSON(input []byte) error {
-    var temp voidInvoiceEventData
+    var temp tempVoidInvoiceEventData
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -95,8 +100,8 @@ func (v *VoidInvoiceEventData) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// voidInvoiceEventData is a temporary struct used for validating the fields of VoidInvoiceEventData.
-type voidInvoiceEventData  struct {
+// tempVoidInvoiceEventData is a temporary struct used for validating the fields of VoidInvoiceEventData.
+type tempVoidInvoiceEventData  struct {
     CreditNoteAttributes *CreditNote `json:"credit_note_attributes"`
     Memo                 *string     `json:"memo"`
     AppliedAmount        *string     `json:"applied_amount"`
@@ -105,7 +110,7 @@ type voidInvoiceEventData  struct {
     Reason               *string     `json:"reason"`
 }
 
-func (v *voidInvoiceEventData) validate() error {
+func (v *tempVoidInvoiceEventData) validate() error {
     var errs []string
     if v.IsAdvanceInvoice == nil {
         errs = append(errs, "required field `is_advance_invoice` is missing for type `Void Invoice Event Data`")
@@ -116,5 +121,5 @@ func (v *voidInvoiceEventData) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

@@ -7,10 +7,10 @@ Maxio Advanced Billing (formerly Chargify) provides an HTTP-based API that confo
 One of the many reasons to use Advanced Billing is the immense feature set and surrounding community [client libraries](page:development-tools/client-libraries).
 The Maxio API returns JSON responses as the primary and recommended format, but XML is also provided as a backwards compatible option for Merchants who require it.
 
-### Steps to make your first Maxio Advanced Billing API call
+### Steps to make your first Maxio Chargify API call
 
-1. [Sign-up](https://app.chargify.com/signup/maxio-billing-sandbox) or [log-in](https://app.chargify.com/login.html) to your [test site](https://maxio-chargify.zendesk.com/hc/en-us/articles/5405553861773-Testing-Intro) account.
-2. [Setup and configure authentication](https://maxio-chargify.zendesk.com/hc/en-us/articles/5405281550477-API-Keys#api) credentials.
+1. [Sign-up](https://app.chargify.com/signup/maxio-billing-sandbox) or [log-in](https://app.chargify.com/login.html) to your [test site](https://maxio.zendesk.com/hc/en-us/articles/24250712113165-Testing-Overview) account.
+2. [Setup and configure authentication](https://maxio.zendesk.com/hc/en-us/articles/24294819360525-API-Keys) credentials.
 3. Submit your API request and try it out.
 4. Verify results through response.
 5. Test our integrations.
@@ -51,8 +51,8 @@ The following parameters are configurable for the API Client:
 
 | Parameter | Type | Description |
 |  --- | --- | --- |
-| `subdomain` | `string` | The subdomain for your Chargify site.<br>*Default*: `"subdomain"` |
-| `domain` | `string` | The Chargify server domain.<br>*Default*: `"chargify.com"` |
+| `subdomain` | `string` | The subdomain for your Advanced Billing site.<br>*Default*: `"subdomain"` |
+| `domain` | `string` | The Advanced Billing server domain.<br>*Default*: `"chargify.com"` |
 | `environment` | `Environment` | The API environment. <br> **Default: `Environment.PRODUCTION`** |
 | `httpConfiguration` | [`HttpConfiguration`](doc/http-configuration.md) | Configurable http client options like timeout and retries. |
 | `basicAuthCredentials` | [`BasicAuthCredentials`](doc/auth/basic-authentication.md) | The Credentials Setter for Basic Authentication |
@@ -64,7 +64,7 @@ client := advancedbilling.NewClient(
     advancedbilling.CreateConfiguration(
         advancedbilling.WithHttpConfiguration(
             advancedbilling.CreateHttpConfiguration(
-                advancedbilling.WithTimeout(30),
+                advancedbilling.WithTimeout(120),
             ),
         ),
         advancedbilling.WithEnvironment(advancedbilling.PRODUCTION),

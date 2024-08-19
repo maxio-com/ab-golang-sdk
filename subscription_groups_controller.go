@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package advancedbilling
 
 import (
@@ -253,7 +258,7 @@ func (s *SubscriptionGroupsController) FindSubscriptionGroup(
 // AddSubscriptionToGroup takes context, subscriptionId, body as parameters and
 // returns an models.ApiResponse with models.SubscriptionGroupResponse data and
 // an error if there was an issue with the request or response.
-// For sites making use of the [Relationship Billing](https://chargify.zendesk.com/hc/en-us/articles/4407737494171) and [Customer Hierarchy](https://chargify.zendesk.com/hc/en-us/articles/4407746683291) features, it is possible to add existing subscriptions to subscription groups.
+// For sites making use of the [Relationship Billing](https://maxio.zendesk.com/hc/en-us/articles/24252287829645-Advanced-Billing-Invoices-Overview) and [Customer Hierarchy](https://maxio.zendesk.com/hc/en-us/articles/24252185211533-Customer-Hierarchies-WhoPays#customer-hierarchies) features, it is possible to add existing subscriptions to subscription groups.
 // Passing `group` parameters with a `target` containing a `type` and optional `id` is all that's needed. When the `target` parameter specifies a `"customer"` or `"subscription"` that is already part of a hierarchy, the subscription will become a member of the customer's subscription group.  If the target customer or subscription is not part of a subscription group, a new group will be created and the subscription will become part of the group with the specified target customer set as the responsible payer for the group's subscriptions.
 // **Please Note:** In order to add an existing subscription to a subscription group, it must belong to either the same customer record as the target, or be within the same customer hierarchy.
 // Rather than specifying a customer, the `target` parameter could instead simply have a value of
@@ -292,7 +297,7 @@ func (s *SubscriptionGroupsController) AddSubscriptionToGroup(
 // RemoveSubscriptionFromGroup takes context, subscriptionId as parameters and
 // returns an models.ApiResponse with  data and
 // an error if there was an issue with the request or response.
-// For sites making use of the [Relationship Billing](https://chargify.zendesk.com/hc/en-us/articles/4407737494171) and [Customer Hierarchy](https://chargify.zendesk.com/hc/en-us/articles/4407746683291) features, it is possible to remove existing subscription from subscription group.
+// For sites making use of the [Relationship Billing](https://maxio.zendesk.com/hc/en-us/articles/24252287829645-Advanced-Billing-Invoices-Overview) and [Customer Hierarchy](https://maxio.zendesk.com/hc/en-us/articles/24252185211533-Customer-Hierarchies-WhoPays#customer-hierarchies) features, it is possible to remove existing subscription from subscription group.
 func (s *SubscriptionGroupsController) RemoveSubscriptionFromGroup(
     ctx context.Context,
     subscriptionId int) (

@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -18,7 +23,7 @@ type SubscriptionCustomPrice struct {
     // Required if using `custom_price` attribute.
     Interval                SubscriptionCustomPriceInterval              `json:"interval"`
     // Required if using `custom_price` attribute.
-    IntervalUnit            IntervalUnit                                 `json:"interval_unit"`
+    IntervalUnit            *IntervalUnit                                `json:"interval_unit"`
     // (Optional)
     TrialPriceInCents       *SubscriptionCustomPriceTrialPriceInCents    `json:"trial_price_in_cents,omitempty"`
     // (Optional)
@@ -32,7 +37,7 @@ type SubscriptionCustomPrice struct {
     // (Optional)
     ExpirationInterval      *SubscriptionCustomPriceExpirationInterval   `json:"expiration_interval,omitempty"`
     // (Optional)
-    ExpirationIntervalUnit  *IntervalUnit                                `json:"expiration_interval_unit,omitempty"`
+    ExpirationIntervalUnit  Optional[ExpirationIntervalUnit]             `json:"expiration_interval_unit"`
     // (Optional)
     TaxIncluded             *bool                                        `json:"tax_included,omitempty"`
     AdditionalProperties    map[string]any                               `json:"_"`
@@ -58,7 +63,11 @@ func (s SubscriptionCustomPrice) toMap() map[string]any {
     }
     structMap["price_in_cents"] = s.PriceInCents.toMap()
     structMap["interval"] = s.Interval.toMap()
-    structMap["interval_unit"] = s.IntervalUnit
+    if s.IntervalUnit != nil {
+        structMap["interval_unit"] = s.IntervalUnit
+    } else {
+        structMap["interval_unit"] = nil
+    }
     if s.TrialPriceInCents != nil {
         structMap["trial_price_in_cents"] = s.TrialPriceInCents.toMap()
     }
@@ -77,8 +86,12 @@ func (s SubscriptionCustomPrice) toMap() map[string]any {
     if s.ExpirationInterval != nil {
         structMap["expiration_interval"] = s.ExpirationInterval.toMap()
     }
-    if s.ExpirationIntervalUnit != nil {
-        structMap["expiration_interval_unit"] = s.ExpirationIntervalUnit
+    if s.ExpirationIntervalUnit.IsValueSet() {
+        if s.ExpirationIntervalUnit.Value() != nil {
+            structMap["expiration_interval_unit"] = s.ExpirationIntervalUnit.Value()
+        } else {
+            structMap["expiration_interval_unit"] = nil
+        }
     }
     if s.TaxIncluded != nil {
         structMap["tax_included"] = s.TaxIncluded
@@ -89,7 +102,7 @@ func (s SubscriptionCustomPrice) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for SubscriptionCustomPrice.
 // It customizes the JSON unmarshaling process for SubscriptionCustomPrice objects.
 func (s *SubscriptionCustomPrice) UnmarshalJSON(input []byte) error {
-    var temp subscriptionCustomPrice
+    var temp tempSubscriptionCustomPrice
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -108,7 +121,7 @@ func (s *SubscriptionCustomPrice) UnmarshalJSON(input []byte) error {
     s.Handle = temp.Handle
     s.PriceInCents = *temp.PriceInCents
     s.Interval = *temp.Interval
-    s.IntervalUnit = *temp.IntervalUnit
+    s.IntervalUnit = temp.IntervalUnit
     s.TrialPriceInCents = temp.TrialPriceInCents
     s.TrialInterval = temp.TrialInterval
     s.TrialIntervalUnit = temp.TrialIntervalUnit
@@ -120,8 +133,8 @@ func (s *SubscriptionCustomPrice) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// subscriptionCustomPrice is a temporary struct used for validating the fields of SubscriptionCustomPrice.
-type subscriptionCustomPrice  struct {
+// tempSubscriptionCustomPrice is a temporary struct used for validating the fields of SubscriptionCustomPrice.
+type tempSubscriptionCustomPrice  struct {
     Name                    *string                                      `json:"name,omitempty"`
     Handle                  *string                                      `json:"handle,omitempty"`
     PriceInCents            *SubscriptionCustomPricePriceInCents         `json:"price_in_cents"`
@@ -133,11 +146,11 @@ type subscriptionCustomPrice  struct {
     InitialChargeInCents    *SubscriptionCustomPriceInitialChargeInCents `json:"initial_charge_in_cents,omitempty"`
     InitialChargeAfterTrial *bool                                        `json:"initial_charge_after_trial,omitempty"`
     ExpirationInterval      *SubscriptionCustomPriceExpirationInterval   `json:"expiration_interval,omitempty"`
-    ExpirationIntervalUnit  *IntervalUnit                                `json:"expiration_interval_unit,omitempty"`
+    ExpirationIntervalUnit  Optional[ExpirationIntervalUnit]             `json:"expiration_interval_unit"`
     TaxIncluded             *bool                                        `json:"tax_included,omitempty"`
 }
 
-func (s *subscriptionCustomPrice) validate() error {
+func (s *tempSubscriptionCustomPrice) validate() error {
     var errs []string
     if s.PriceInCents == nil {
         errs = append(errs, "required field `price_in_cents` is missing for type `Subscription Custom Price`")
@@ -145,11 +158,8 @@ func (s *subscriptionCustomPrice) validate() error {
     if s.Interval == nil {
         errs = append(errs, "required field `interval` is missing for type `Subscription Custom Price`")
     }
-    if s.IntervalUnit == nil {
-        errs = append(errs, "required field `interval_unit` is missing for type `Subscription Custom Price`")
-    }
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

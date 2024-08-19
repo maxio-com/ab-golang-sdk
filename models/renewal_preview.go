@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -74,7 +79,7 @@ func (r RenewalPreview) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for RenewalPreview.
 // It customizes the JSON unmarshaling process for RenewalPreview objects.
 func (r *RenewalPreview) UnmarshalJSON(input []byte) error {
-    var temp renewalPreview
+    var temp tempRenewalPreview
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -103,8 +108,8 @@ func (r *RenewalPreview) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// renewalPreview is a temporary struct used for validating the fields of RenewalPreview.
-type renewalPreview  struct {
+// tempRenewalPreview is a temporary struct used for validating the fields of RenewalPreview.
+type tempRenewalPreview  struct {
     NextAssessmentAt       *string                  `json:"next_assessment_at,omitempty"`
     SubtotalInCents        *int64                   `json:"subtotal_in_cents,omitempty"`
     TotalTaxInCents        *int64                   `json:"total_tax_in_cents,omitempty"`

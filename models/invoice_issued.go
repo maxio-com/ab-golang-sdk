@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -67,7 +72,7 @@ func (i InvoiceIssued) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for InvoiceIssued.
 // It customizes the JSON unmarshaling process for InvoiceIssued objects.
 func (i *InvoiceIssued) UnmarshalJSON(input []byte) error {
-    var temp invoiceIssued
+    var temp tempInvoiceIssued
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -106,8 +111,8 @@ func (i *InvoiceIssued) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// invoiceIssued is a temporary struct used for validating the fields of InvoiceIssued.
-type invoiceIssued  struct {
+// tempInvoiceIssued is a temporary struct used for validating the fields of InvoiceIssued.
+type tempInvoiceIssued  struct {
     Uid                *string                     `json:"uid"`
     Number             *string                     `json:"number"`
     Role               *string                     `json:"role"`
@@ -125,7 +130,7 @@ type invoiceIssued  struct {
     LineItems          *[]InvoiceLineItemEventData `json:"line_items"`
 }
 
-func (i *invoiceIssued) validate() error {
+func (i *tempInvoiceIssued) validate() error {
     var errs []string
     if i.Uid == nil {
         errs = append(errs, "required field `uid` is missing for type `Invoice Issued`")
@@ -172,5 +177,5 @@ func (i *invoiceIssued) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

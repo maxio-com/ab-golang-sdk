@@ -27,7 +27,7 @@ Notes allow you to record information about a particular Subscription in a free 
 
 If you have structured data such as birth date, color, etc., consider using Metadata instead.
 
-Full documentation on how to use Notes in the Chargify UI can be located [here](https://maxio-chargify.zendesk.com/hc/en-us/articles/5404434903181-Subscription-Summary#notes).
+Full documentation on how to use Notes in the Advanced Billing UI can be located [here](https://maxio.zendesk.com/hc/en-us/articles/24251712214413-Subscription-Summary-Overview).
 
 ```go
 CreateSubscriptionNote(
@@ -165,7 +165,7 @@ ReadSubscriptionNote(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription |
-| `noteId` | `int` | Template, Required | The Chargify id of the note |
+| `noteId` | `int` | Template, Required | The Advanced Billing id of the note |
 
 ## Response Type
 
@@ -225,7 +225,7 @@ UpdateSubscriptionNote(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription |
-| `noteId` | `int` | Template, Required | The Chargify id of the note |
+| `noteId` | `int` | Template, Required | The Advanced Billing id of the note |
 | `body` | [`*models.UpdateSubscriptionNoteRequest`](../../doc/models/update-subscription-note-request.md) | Body, Optional | Updatable fields for Subscription Note |
 
 ## Response Type
@@ -277,7 +277,7 @@ DeleteSubscriptionNote(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription |
-| `noteId` | `int` | Template, Required | The Chargify id of the note |
+| `noteId` | `int` | Template, Required | The Advanced Billing id of the note |
 
 ## Response Type
 

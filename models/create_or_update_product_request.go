@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -31,7 +36,7 @@ func (c CreateOrUpdateProductRequest) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for CreateOrUpdateProductRequest.
 // It customizes the JSON unmarshaling process for CreateOrUpdateProductRequest objects.
 func (c *CreateOrUpdateProductRequest) UnmarshalJSON(input []byte) error {
-    var temp createOrUpdateProductRequest
+    var temp tempCreateOrUpdateProductRequest
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -50,12 +55,12 @@ func (c *CreateOrUpdateProductRequest) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// createOrUpdateProductRequest is a temporary struct used for validating the fields of CreateOrUpdateProductRequest.
-type createOrUpdateProductRequest  struct {
+// tempCreateOrUpdateProductRequest is a temporary struct used for validating the fields of CreateOrUpdateProductRequest.
+type tempCreateOrUpdateProductRequest  struct {
     Product *CreateOrUpdateProduct `json:"product"`
 }
 
-func (c *createOrUpdateProductRequest) validate() error {
+func (c *tempCreateOrUpdateProductRequest) validate() error {
     var errs []string
     if c.Product == nil {
         errs = append(errs, "required field `product` is missing for type `Create or Update Product Request`")
@@ -63,5 +68,5 @@ func (c *createOrUpdateProductRequest) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

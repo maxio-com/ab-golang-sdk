@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -32,7 +37,7 @@ func (l ListMrrFilter) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for ListMrrFilter.
 // It customizes the JSON unmarshaling process for ListMrrFilter objects.
 func (l *ListMrrFilter) UnmarshalJSON(input []byte) error {
-    var temp listMrrFilter
+    var temp tempListMrrFilter
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -47,7 +52,7 @@ func (l *ListMrrFilter) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// listMrrFilter is a temporary struct used for validating the fields of ListMrrFilter.
-type listMrrFilter  struct {
+// tempListMrrFilter is a temporary struct used for validating the fields of ListMrrFilter.
+type tempListMrrFilter  struct {
     SubscriptionIds []int `json:"subscription_ids,omitempty"`
 }

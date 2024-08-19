@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -49,7 +54,7 @@ func (s SubscriptionGroupSignupComponent) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for SubscriptionGroupSignupComponent.
 // It customizes the JSON unmarshaling process for SubscriptionGroupSignupComponent objects.
 func (s *SubscriptionGroupSignupComponent) UnmarshalJSON(input []byte) error {
-    var temp subscriptionGroupSignupComponent
+    var temp tempSubscriptionGroupSignupComponent
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -68,8 +73,8 @@ func (s *SubscriptionGroupSignupComponent) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// subscriptionGroupSignupComponent is a temporary struct used for validating the fields of SubscriptionGroupSignupComponent.
-type subscriptionGroupSignupComponent  struct {
+// tempSubscriptionGroupSignupComponent is a temporary struct used for validating the fields of SubscriptionGroupSignupComponent.
+type tempSubscriptionGroupSignupComponent  struct {
     ComponentId       *SubscriptionGroupSignupComponentComponentId       `json:"component_id,omitempty"`
     AllocatedQuantity *SubscriptionGroupSignupComponentAllocatedQuantity `json:"allocated_quantity,omitempty"`
     UnitBalance       *SubscriptionGroupSignupComponentUnitBalance       `json:"unit_balance,omitempty"`

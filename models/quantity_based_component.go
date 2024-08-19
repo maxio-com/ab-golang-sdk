@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -20,7 +25,7 @@ type QuantityBasedComponent struct {
     Taxable                   *bool                            `json:"taxable,omitempty"`
     // The identifier for the pricing scheme. See [Product Components](https://help.chargify.com/products/product-components.html) for an overview of pricing schemes.
     PricingScheme             PricingScheme                    `json:"pricing_scheme"`
-    // (Not required for ‘per_unit’ pricing schemes) One or more price brackets. See [Price Bracket Rules](https://chargify.zendesk.com/hc/en-us/articles/4407755865883#price-bracket-rules) for an overview of how price brackets work for different pricing schemes.
+    // (Not required for ‘per_unit’ pricing schemes) One or more price brackets. See [Price Bracket Rules](https://maxio.zendesk.com/hc/en-us/articles/24261149166733-Component-Pricing-Schemes#price-bracket-rules) for an overview of how price brackets work for different pricing schemes.
     Prices                    []Price                          `json:"prices,omitempty"`
     // The type of credit to be created when upgrading/downgrading. Defaults to the component and then site setting if one is not provided.
     // Available values: `full`, `prorated`, `none`.
@@ -44,7 +49,7 @@ type QuantityBasedComponent struct {
     // The numerical interval. i.e. an interval of ‘30’ coupled with an interval_unit of day would mean this component's default price point would renew every 30 days. This property is only available for sites with Multifrequency enabled.
     Interval                  *int                             `json:"interval,omitempty"`
     // A string representing the interval unit for this component's default price point, either month or day. This property is only available for sites with Multifrequency enabled.
-    IntervalUnit              *IntervalUnit                    `json:"interval_unit,omitempty"`
+    IntervalUnit              Optional[IntervalUnit]           `json:"interval_unit"`
     AdditionalProperties      map[string]any                   `json:"_"`
 }
 
@@ -119,8 +124,12 @@ func (q QuantityBasedComponent) toMap() map[string]any {
     if q.Interval != nil {
         structMap["interval"] = q.Interval
     }
-    if q.IntervalUnit != nil {
-        structMap["interval_unit"] = q.IntervalUnit
+    if q.IntervalUnit.IsValueSet() {
+        if q.IntervalUnit.Value() != nil {
+            structMap["interval_unit"] = q.IntervalUnit.Value()
+        } else {
+            structMap["interval_unit"] = nil
+        }
     }
     return structMap
 }
@@ -128,7 +137,7 @@ func (q QuantityBasedComponent) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for QuantityBasedComponent.
 // It customizes the JSON unmarshaling process for QuantityBasedComponent objects.
 func (q *QuantityBasedComponent) UnmarshalJSON(input []byte) error {
-    var temp quantityBasedComponent
+    var temp tempQuantityBasedComponent
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -166,8 +175,8 @@ func (q *QuantityBasedComponent) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// quantityBasedComponent is a temporary struct used for validating the fields of QuantityBasedComponent.
-type quantityBasedComponent  struct {
+// tempQuantityBasedComponent is a temporary struct used for validating the fields of QuantityBasedComponent.
+type tempQuantityBasedComponent  struct {
     Name                      *string                          `json:"name"`
     UnitName                  *string                          `json:"unit_name"`
     Description               *string                          `json:"description,omitempty"`
@@ -187,10 +196,10 @@ type quantityBasedComponent  struct {
     AllowFractionalQuantities *bool                            `json:"allow_fractional_quantities,omitempty"`
     PublicSignupPageIds       []int                            `json:"public_signup_page_ids,omitempty"`
     Interval                  *int                             `json:"interval,omitempty"`
-    IntervalUnit              *IntervalUnit                    `json:"interval_unit,omitempty"`
+    IntervalUnit              Optional[IntervalUnit]           `json:"interval_unit"`
 }
 
-func (q *quantityBasedComponent) validate() error {
+func (q *tempQuantityBasedComponent) validate() error {
     var errs []string
     if q.Name == nil {
         errs = append(errs, "required field `name` is missing for type `Quantity Based Component`")
@@ -204,5 +213,5 @@ func (q *quantityBasedComponent) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }
