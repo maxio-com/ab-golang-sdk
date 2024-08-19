@@ -180,7 +180,7 @@ func (s *APISuite) generateCoupon(ctx context.Context, productFamilyID int) mode
 func (s *APISuite) generateMeteredComponent(ctx context.Context, productFamilyID int) models.Component {
 	resp, err := s.client.ComponentsController().CreateMeteredComponent(
 		ctx,
-		productFamilyID,
+		fmt.Sprint(productFamilyID),
 		&models.CreateMeteredComponent{
 			MeteredComponent: models.MeteredComponent{
 				Name:          s.fkr.RandomStringWithLength(20),

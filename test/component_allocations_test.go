@@ -29,7 +29,7 @@ func (s *ComponentAlocationSuite) TestComponentAllocations() {
 
 	onOffResp, err := s.client.ComponentsController().CreateOnOffComponent(
 		ctx,
-		*pf.Id,
+		fmt.Sprint(*pf.Id),
 		&models.CreateOnOffComponent{
 			OnOffComponent: models.OnOffComponent{
 				Name: "OnOff component",
@@ -59,7 +59,7 @@ func (s *ComponentAlocationSuite) TestComponentAllocations() {
 
 	quantityResp, err := s.client.ComponentsController().CreateQuantityBasedComponent(
 		ctx,
-		*pf.Id,
+		fmt.Sprint(*pf.Id),
 		&models.CreateQuantityBasedComponent{
 			QuantityBasedComponent: models.QuantityBasedComponent{
 				Name:                      s.fkr.RandomStringWithLength(20),
