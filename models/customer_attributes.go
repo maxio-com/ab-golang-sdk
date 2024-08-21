@@ -46,6 +46,8 @@ type CustomerAttributes struct {
     Metafields           map[string]string `json:"metafields,omitempty"`
     // The parent ID in Chargify if applicable. Parent is another Customer object.
     ParentId             Optional[int]     `json:"parent_id"`
+    // (Optional) The Salesforce ID of the customer.
+    SalesforceId         Optional[string]  `json:"salesforce_id"`
     AdditionalProperties map[string]any    `json:"_"`
 }
 
@@ -123,6 +125,13 @@ func (c CustomerAttributes) toMap() map[string]any {
             structMap["parent_id"] = nil
         }
     }
+    if c.SalesforceId.IsValueSet() {
+        if c.SalesforceId.Value() != nil {
+            structMap["salesforce_id"] = c.SalesforceId.Value()
+        } else {
+            structMap["salesforce_id"] = nil
+        }
+    }
     return structMap
 }
 
@@ -134,7 +143,7 @@ func (c *CustomerAttributes) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "first_name", "last_name", "email", "cc_emails", "organization", "reference", "address", "address_2", "city", "state", "zip", "country", "phone", "verified", "tax_exempt", "vat_number", "metafields", "parent_id")
+    additionalProperties, err := UnmarshalAdditionalProperties(input, "first_name", "last_name", "email", "cc_emails", "organization", "reference", "address", "address_2", "city", "state", "zip", "country", "phone", "verified", "tax_exempt", "vat_number", "metafields", "parent_id", "salesforce_id")
     if err != nil {
     	return err
     }
@@ -158,6 +167,7 @@ func (c *CustomerAttributes) UnmarshalJSON(input []byte) error {
     c.VatNumber = temp.VatNumber
     c.Metafields = temp.Metafields
     c.ParentId = temp.ParentId
+    c.SalesforceId = temp.SalesforceId
     return nil
 }
 
@@ -181,4 +191,5 @@ type tempCustomerAttributes  struct {
     VatNumber    *string           `json:"vat_number,omitempty"`
     Metafields   map[string]string `json:"metafields,omitempty"`
     ParentId     Optional[int]     `json:"parent_id"`
+    SalesforceId Optional[string]  `json:"salesforce_id"`
 }

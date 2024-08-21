@@ -13,27 +13,29 @@ import (
 
 // CreateCustomer represents a CreateCustomer struct.
 type CreateCustomer struct {
-    FirstName            string         `json:"first_name"`
-    LastName             string         `json:"last_name"`
-    Email                string         `json:"email"`
-    CcEmails             *string        `json:"cc_emails,omitempty"`
-    Organization         *string        `json:"organization,omitempty"`
-    Reference            *string        `json:"reference,omitempty"`
-    Address              *string        `json:"address,omitempty"`
-    Address2             *string        `json:"address_2,omitempty"`
-    City                 *string        `json:"city,omitempty"`
-    State                *string        `json:"state,omitempty"`
-    Zip                  *string        `json:"zip,omitempty"`
-    Country              *string        `json:"country,omitempty"`
-    Phone                *string        `json:"phone,omitempty"`
+    FirstName            string           `json:"first_name"`
+    LastName             string           `json:"last_name"`
+    Email                string           `json:"email"`
+    CcEmails             *string          `json:"cc_emails,omitempty"`
+    Organization         *string          `json:"organization,omitempty"`
+    Reference            *string          `json:"reference,omitempty"`
+    Address              *string          `json:"address,omitempty"`
+    Address2             *string          `json:"address_2,omitempty"`
+    City                 *string          `json:"city,omitempty"`
+    State                *string          `json:"state,omitempty"`
+    Zip                  *string          `json:"zip,omitempty"`
+    Country              *string          `json:"country,omitempty"`
+    Phone                *string          `json:"phone,omitempty"`
     // Set a specific language on a customer record.
-    Locale               *string        `json:"locale,omitempty"`
-    VatNumber            *string        `json:"vat_number,omitempty"`
-    TaxExempt            *bool          `json:"tax_exempt,omitempty"`
-    TaxExemptReason      *string        `json:"tax_exempt_reason,omitempty"`
+    Locale               *string          `json:"locale,omitempty"`
+    VatNumber            *string          `json:"vat_number,omitempty"`
+    TaxExempt            *bool            `json:"tax_exempt,omitempty"`
+    TaxExemptReason      *string          `json:"tax_exempt_reason,omitempty"`
     // The parent ID in Chargify if applicable. Parent is another Customer object.
-    ParentId             Optional[int]  `json:"parent_id"`
-    AdditionalProperties map[string]any `json:"_"`
+    ParentId             Optional[int]    `json:"parent_id"`
+    // The Salesforce ID of the customer
+    SalesforceId         Optional[string] `json:"salesforce_id"`
+    AdditionalProperties map[string]any   `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreateCustomer.
@@ -100,6 +102,13 @@ func (c CreateCustomer) toMap() map[string]any {
             structMap["parent_id"] = nil
         }
     }
+    if c.SalesforceId.IsValueSet() {
+        if c.SalesforceId.Value() != nil {
+            structMap["salesforce_id"] = c.SalesforceId.Value()
+        } else {
+            structMap["salesforce_id"] = nil
+        }
+    }
     return structMap
 }
 
@@ -115,7 +124,7 @@ func (c *CreateCustomer) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "first_name", "last_name", "email", "cc_emails", "organization", "reference", "address", "address_2", "city", "state", "zip", "country", "phone", "locale", "vat_number", "tax_exempt", "tax_exempt_reason", "parent_id")
+    additionalProperties, err := UnmarshalAdditionalProperties(input, "first_name", "last_name", "email", "cc_emails", "organization", "reference", "address", "address_2", "city", "state", "zip", "country", "phone", "locale", "vat_number", "tax_exempt", "tax_exempt_reason", "parent_id", "salesforce_id")
     if err != nil {
     	return err
     }
@@ -139,29 +148,31 @@ func (c *CreateCustomer) UnmarshalJSON(input []byte) error {
     c.TaxExempt = temp.TaxExempt
     c.TaxExemptReason = temp.TaxExemptReason
     c.ParentId = temp.ParentId
+    c.SalesforceId = temp.SalesforceId
     return nil
 }
 
 // tempCreateCustomer is a temporary struct used for validating the fields of CreateCustomer.
 type tempCreateCustomer  struct {
-    FirstName       *string       `json:"first_name"`
-    LastName        *string       `json:"last_name"`
-    Email           *string       `json:"email"`
-    CcEmails        *string       `json:"cc_emails,omitempty"`
-    Organization    *string       `json:"organization,omitempty"`
-    Reference       *string       `json:"reference,omitempty"`
-    Address         *string       `json:"address,omitempty"`
-    Address2        *string       `json:"address_2,omitempty"`
-    City            *string       `json:"city,omitempty"`
-    State           *string       `json:"state,omitempty"`
-    Zip             *string       `json:"zip,omitempty"`
-    Country         *string       `json:"country,omitempty"`
-    Phone           *string       `json:"phone,omitempty"`
-    Locale          *string       `json:"locale,omitempty"`
-    VatNumber       *string       `json:"vat_number,omitempty"`
-    TaxExempt       *bool         `json:"tax_exempt,omitempty"`
-    TaxExemptReason *string       `json:"tax_exempt_reason,omitempty"`
-    ParentId        Optional[int] `json:"parent_id"`
+    FirstName       *string          `json:"first_name"`
+    LastName        *string          `json:"last_name"`
+    Email           *string          `json:"email"`
+    CcEmails        *string          `json:"cc_emails,omitempty"`
+    Organization    *string          `json:"organization,omitempty"`
+    Reference       *string          `json:"reference,omitempty"`
+    Address         *string          `json:"address,omitempty"`
+    Address2        *string          `json:"address_2,omitempty"`
+    City            *string          `json:"city,omitempty"`
+    State           *string          `json:"state,omitempty"`
+    Zip             *string          `json:"zip,omitempty"`
+    Country         *string          `json:"country,omitempty"`
+    Phone           *string          `json:"phone,omitempty"`
+    Locale          *string          `json:"locale,omitempty"`
+    VatNumber       *string          `json:"vat_number,omitempty"`
+    TaxExempt       *bool            `json:"tax_exempt,omitempty"`
+    TaxExemptReason *string          `json:"tax_exempt_reason,omitempty"`
+    ParentId        Optional[int]    `json:"parent_id"`
+    SalesforceId    Optional[string] `json:"salesforce_id"`
 }
 
 func (c *tempCreateCustomer) validate() error {

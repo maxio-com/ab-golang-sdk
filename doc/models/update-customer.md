@@ -28,6 +28,7 @@
 | `TaxExemptReason` | `*string` | Optional | - |
 | `ParentId` | `models.Optional[int]` | Optional | - |
 | `Verified` | `models.Optional[bool]` | Optional | Is the customer verified to use ACH as a payment method. Available only on Authorize.Net gateway |
+| `SalesforceId` | `models.Optional[string]` | Optional | The Salesforce ID of the customer |
 
 ## Example (as JSON)
 

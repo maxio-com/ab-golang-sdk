@@ -36,6 +36,7 @@
 | `ParentId` | `models.Optional[int]` | Optional | The parent ID in Chargify if applicable. Parent is another Customer object. |
 | `Locale` | `models.Optional[string]` | Optional | The locale for the customer to identify language-region |
 | `DefaultSubscriptionGroupUid` | `models.Optional[string]` | Optional | - |
+| `SalesforceId` | `models.Optional[string]` | Optional | The Salesforce ID for the customer |
 
 ## Example (as JSON)
 
