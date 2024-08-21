@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -47,7 +52,7 @@ func (c CreateProductFamily) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for CreateProductFamily.
 // It customizes the JSON unmarshaling process for CreateProductFamily objects.
 func (c *CreateProductFamily) UnmarshalJSON(input []byte) error {
-    var temp createProductFamily
+    var temp tempCreateProductFamily
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -68,14 +73,14 @@ func (c *CreateProductFamily) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// createProductFamily is a temporary struct used for validating the fields of CreateProductFamily.
-type createProductFamily  struct {
+// tempCreateProductFamily is a temporary struct used for validating the fields of CreateProductFamily.
+type tempCreateProductFamily  struct {
     Name        *string          `json:"name"`
     Handle      Optional[string] `json:"handle"`
     Description Optional[string] `json:"description"`
 }
 
-func (c *createProductFamily) validate() error {
+func (c *tempCreateProductFamily) validate() error {
     var errs []string
     if c.Name == nil {
         errs = append(errs, "required field `name` is missing for type `Create Product Family`")
@@ -83,5 +88,5 @@ func (c *createProductFamily) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

@@ -1,10 +1,12 @@
-github.com/apimatic/go-core-runtime v0.0.22 h1:n9O8r5U+g7X1sZRBzvqcdwa79BegV8CBy4z1M8eoYzU=
-github.com/apimatic/go-core-runtime v0.0.22/go.mod h1:kyqGg2v3OTV7o2fXHgbHLZPMinqZvIqw1JwdEd64OzM=
+github.com/apimatic/go-core-runtime v0.0.23 h1:1veBglzHCXbFY83X/V5KncLiiC73RtYO816KPfaJS6w=
+github.com/apimatic/go-core-runtime v0.0.23/go.mod h1:eYSG9icLyMjbPWq212ELOQ4PZdlT2RihZGXEaAZdx6Q=
 github.com/caarlos0/env/v10 v10.0.0 h1:yIHUBZGsyqCnpTkbjk8asUlx6RFhhEs+h7TOBdgdzXA=
 github.com/caarlos0/env/v10 v10.0.0/go.mod h1:ZfulV76NvVPw3tm591U4SwL3Xx9ldzBP9aGxzeN7G18=
 github.com/creack/pty v1.1.9/go.mod h1:oKZEueFk5CKHvIhNR5MUki03XCEU+Q6VDXinZuGJ33E=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
+github.com/google/uuid v1.6.0 h1:NIvaJDMOsjHA8n1jAhLSgzrAzy1Hgr+hNrb57e+94F0=
+github.com/google/uuid v1.6.0/go.mod h1:TIyPZe4MgqvfeYDBFedMoGGpEw/LqOeaOT+nhxU+yHo=
 github.com/jaswdr/faker v1.19.1 h1:xBoz8/O6r0QAR8eEvKJZMdofxiRH+F0M/7MU9eNKhsM=
 github.com/jaswdr/faker v1.19.1/go.mod h1:x7ZlyB1AZqwqKZgyQlnqEG8FDptmHlncA5u2zY/yi6w=
 github.com/kr/pretty v0.2.1/go.mod h1:ipq/a2n7PKx3OHsz4KJII5eveXtPO4qwEXGdVfWzfnI=

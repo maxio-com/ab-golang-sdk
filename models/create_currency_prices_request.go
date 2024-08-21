@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -31,7 +36,7 @@ func (c CreateCurrencyPricesRequest) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for CreateCurrencyPricesRequest.
 // It customizes the JSON unmarshaling process for CreateCurrencyPricesRequest objects.
 func (c *CreateCurrencyPricesRequest) UnmarshalJSON(input []byte) error {
-    var temp createCurrencyPricesRequest
+    var temp tempCreateCurrencyPricesRequest
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -50,12 +55,12 @@ func (c *CreateCurrencyPricesRequest) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// createCurrencyPricesRequest is a temporary struct used for validating the fields of CreateCurrencyPricesRequest.
-type createCurrencyPricesRequest  struct {
+// tempCreateCurrencyPricesRequest is a temporary struct used for validating the fields of CreateCurrencyPricesRequest.
+type tempCreateCurrencyPricesRequest  struct {
     CurrencyPrices *[]CreateCurrencyPrice `json:"currency_prices"`
 }
 
-func (c *createCurrencyPricesRequest) validate() error {
+func (c *tempCreateCurrencyPricesRequest) validate() error {
     var errs []string
     if c.CurrencyPrices == nil {
         errs = append(errs, "required field `currency_prices` is missing for type `Create Currency Prices Request`")
@@ -63,5 +68,5 @@ func (c *createCurrencyPricesRequest) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

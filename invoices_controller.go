@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package advancedbilling
 
 import (
@@ -343,7 +348,7 @@ func (i *InvoicesController) ListInvoiceEvents(
 // }
 // }
 // ```
-// Note that Chargify will attempt to fully pay the invoice's `due_amount` from the Subscription's Service Credit account. At this time, partial payments from a Service Credit Account are only allowed for consolidated invoices (subscription groups). Therefore, for normal invoices the Service Credit account balance must be greater than or equal to the invoice's `due_amount`.
+// Note that Advanced Billing will attempt to fully pay the invoice's `due_amount` from the Subscription's Service Credit account. At this time, partial payments from a Service Credit Account are only allowed for consolidated invoices (subscription groups). Therefore, for normal invoices the Service Credit account balance must be greater than or equal to the invoice's `due_amount`.
 func (i *InvoicesController) RecordPaymentForInvoice(
     ctx context.Context,
     uid string,
@@ -426,7 +431,7 @@ func (i *InvoicesController) RecordPaymentForMultipleInvoices(
 
 // ListCreditNotesInput represents the input of the ListCreditNotes endpoint.
 type ListCreditNotesInput struct {
-    // The subscription's Chargify id
+    // The subscription's Advanced Billing id
     SubscriptionId *int  
     // Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.
     // Use in query `page=1`.

@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -31,7 +36,7 @@ func (p PrepaidConfigurationResponse) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for PrepaidConfigurationResponse.
 // It customizes the JSON unmarshaling process for PrepaidConfigurationResponse objects.
 func (p *PrepaidConfigurationResponse) UnmarshalJSON(input []byte) error {
-    var temp prepaidConfigurationResponse
+    var temp tempPrepaidConfigurationResponse
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -50,12 +55,12 @@ func (p *PrepaidConfigurationResponse) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// prepaidConfigurationResponse is a temporary struct used for validating the fields of PrepaidConfigurationResponse.
-type prepaidConfigurationResponse  struct {
+// tempPrepaidConfigurationResponse is a temporary struct used for validating the fields of PrepaidConfigurationResponse.
+type tempPrepaidConfigurationResponse  struct {
     PrepaidConfiguration *PrepaidConfiguration `json:"prepaid_configuration"`
 }
 
-func (p *prepaidConfigurationResponse) validate() error {
+func (p *tempPrepaidConfigurationResponse) validate() error {
     var errs []string
     if p.PrepaidConfiguration == nil {
         errs = append(errs, "required field `prepaid_configuration` is missing for type `Prepaid Configuration Response`")
@@ -63,5 +68,5 @@ func (p *prepaidConfigurationResponse) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

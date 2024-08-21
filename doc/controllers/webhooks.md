@@ -24,12 +24,12 @@ webhooksController := client.WebhooksController()
 
 The Webhooks API allows you to view a list of all webhooks and to selectively resend individual or groups of webhooks. Webhooks will be sent on endpoints specified by you. Endpoints can be added via API or Web UI. There is also an option to enable / disable webhooks via API request.
 
-We recommend that you review Chargify's webhook documentation located in our help site. The following resources will help guide you on how to use webhooks in Chargify, in addition to these webhook endpoints:
+We recommend that you review Advanced Billing's webhook documentation located in our help site. The following resources will help guide you on how to use webhooks in Advanced Billing, in addition to these webhook endpoints:
 
-+ [Adding/editing new webhooks](https://maxio-chargify.zendesk.com/hc/en-us/articles/5404448450317#configure-webhook-url)
-+ [Webhooks introduction and delivery information](https://maxio-chargify.zendesk.com/hc/en-us/articles/5405568068365#webhooks-introduction-0-0)
-+ [Main webhook overview](https://maxio-chargify.zendesk.com/hc/en-us/articles/5405357509645-Webhooks-Reference#webhooks-reference-0-0)
-+ [Available webhooks and payloads](https://maxio-chargify.zendesk.com/hc/en-us/articles/5405357509645-Webhooks-Reference#events)
++ [Adding/editing new webhooks](https://maxio.zendesk.com/hc/en-us/articles/24286723085197-Webhooks#configure-webhook-url)
++ [Webhooks introduction and delivery information](https://maxio.zendesk.com/hc/en-us/articles/24266143173901-Webhooks-Overview)
++ [Main webhook reference](https://maxio.zendesk.com/hc/en-us/articles/24266136649869-Webhooks-Reference)
++ [Available webhooks and payloads](https://maxio.zendesk.com/hc/en-us/articles/24266136649869-Webhooks-Reference#events)
 
 ## List Webhooks for a Site
 
@@ -53,7 +53,7 @@ ListWebhooks(
 | `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`. |
 | `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`. |
 | `order` | [`*models.WebhookOrder`](../../doc/models/webhook-order.md) | Query, Optional | The order in which the Webhooks are returned. |
-| `subscription` | `*int` | Query, Optional | The Chargify id of a subscription you'd like to filter for |
+| `subscription` | `*int` | Query, Optional | The Advanced Billing id of a subscription you'd like to filter for |
 
 ## Response Type
 
@@ -229,7 +229,7 @@ if err != nil {
 The Chargify API allows you to create an endpoint and assign a list of webhooks subscriptions (events) to it.
 
 You can check available events here.
-[Event keys](https://maxio-chargify.zendesk.com/hc/en-us/articles/5405357509645-Webhooks-Reference#example-payloads)
+[Event keys](https://maxio.zendesk.com/hc/en-us/articles/24266136649869-Webhooks-Reference#events)
 
 ```go
 CreateEndpoint(
@@ -362,7 +362,7 @@ if err != nil {
 You can update an Endpoint via the API with a PUT request to the resource endpoint.
 
 You can change the `url` of your endpoint which consumes webhooks or list of `webhook_subscriptions`.
-Check available [Event keys](https://maxio-chargify.zendesk.com/hc/en-us/articles/5404448450317-Webhooks#configure-webhook-url).
+Check available [Event keys](https://maxio.zendesk.com/hc/en-us/articles/24266136649869-Webhooks-Reference#events).
 
 Always send a complete list of events which you want subscribe/watch.
 Sending an PUT request for existing endpoint with empty list of `webhook_subscriptions` will end with unsubscribe from all events.
@@ -382,7 +382,7 @@ UpdateEndpoint(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `endpointId` | `int` | Template, Required | The Chargify id for the endpoint that should be updated |
+| `endpointId` | `int` | Template, Required | The Advanced Billing id for the endpoint that should be updated |
 | `body` | [`*models.CreateOrUpdateEndpointRequest`](../../doc/models/create-or-update-endpoint-request.md) | Body, Optional | Used to Create or Update Endpoint |
 
 ## Response Type

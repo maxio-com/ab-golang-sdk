@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -18,7 +23,7 @@ type RefundInvoiceEventData struct {
     // * "child": An invoice segment which has been combined into a consolidated invoice.
     // * "parent": A consolidated invoice, whose contents are composed of invoice segments.
     // "Parent" invoices do not have lines of their own, but they have subtotals and totals which aggregate the member invoice segments.
-    // See also the [invoice consolidation documentation](https://chargify.zendesk.com/hc/en-us/articles/4407746391835).
+    // See also the [invoice consolidation documentation](https://maxio.zendesk.com/hc/en-us/articles/24252269909389-Invoice-Consolidation).
     ConsolidationLevel   *InvoiceConsolidationLevel `json:"consolidation_level,omitempty"`
     CreditNoteAttributes CreditNote                 `json:"credit_note_attributes"`
     // The refund memo.
@@ -69,7 +74,7 @@ func (r RefundInvoiceEventData) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for RefundInvoiceEventData.
 // It customizes the JSON unmarshaling process for RefundInvoiceEventData objects.
 func (r *RefundInvoiceEventData) UnmarshalJSON(input []byte) error {
-    var temp refundInvoiceEventData
+    var temp tempRefundInvoiceEventData
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -100,8 +105,8 @@ func (r *RefundInvoiceEventData) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// refundInvoiceEventData is a temporary struct used for validating the fields of RefundInvoiceEventData.
-type refundInvoiceEventData  struct {
+// tempRefundInvoiceEventData is a temporary struct used for validating the fields of RefundInvoiceEventData.
+type tempRefundInvoiceEventData  struct {
     ApplyCredit          *bool                      `json:"apply_credit"`
     ConsolidationLevel   *InvoiceConsolidationLevel `json:"consolidation_level,omitempty"`
     CreditNoteAttributes *CreditNote                `json:"credit_note_attributes"`
@@ -113,7 +118,7 @@ type refundInvoiceEventData  struct {
     TransactionTime      *string                    `json:"transaction_time"`
 }
 
-func (r *refundInvoiceEventData) validate() error {
+func (r *tempRefundInvoiceEventData) validate() error {
     var errs []string
     if r.ApplyCredit == nil {
         errs = append(errs, "required field `apply_credit` is missing for type `Refund Invoice Event Data`")
@@ -136,5 +141,5 @@ func (r *refundInvoiceEventData) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

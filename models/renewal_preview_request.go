@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -32,7 +37,7 @@ func (r RenewalPreviewRequest) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for RenewalPreviewRequest.
 // It customizes the JSON unmarshaling process for RenewalPreviewRequest objects.
 func (r *RenewalPreviewRequest) UnmarshalJSON(input []byte) error {
-    var temp renewalPreviewRequest
+    var temp tempRenewalPreviewRequest
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -47,7 +52,7 @@ func (r *RenewalPreviewRequest) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// renewalPreviewRequest is a temporary struct used for validating the fields of RenewalPreviewRequest.
-type renewalPreviewRequest  struct {
+// tempRenewalPreviewRequest is a temporary struct used for validating the fields of RenewalPreviewRequest.
+type tempRenewalPreviewRequest  struct {
     Components []RenewalPreviewComponent `json:"components,omitempty"`
 }

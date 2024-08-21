@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package advancedbilling
 
 import (
@@ -23,15 +28,15 @@ func NewSitesController(baseController baseController) *SitesController {
 // returns an models.ApiResponse with models.SiteResponse data and
 // an error if there was an issue with the request or response.
 // This endpoint allows you to fetch some site data.
-// Full documentation on Sites in the Chargify UI can be located [here](https://chargify.zendesk.com/hc/en-us/articles/4407870738587).
-// Specifically, the [Clearing Site Data](https://maxio-chargify.zendesk.com/hc/en-us/articles/5405428327309) section is extremely relevant to this endpoint documentation.
+// Full documentation on Sites in the Advanced Billing UI can be located [here](https://maxio.zendesk.com/hc/en-us/sections/24250550707085-Sites).
+// Specifically, the [Clearing Site Data](https://maxio.zendesk.com/hc/en-us/articles/24250617028365-Clearing-Site-Data) section is extremely relevant to this endpoint documentation.
 // #### Relationship invoicing enabled
 // If site has RI enabled then you will see more settings like:
 // "customer_hierarchy_enabled": true,
 // "whopays_enabled": true,
 // "whopays_default_payer": "self"
 // You can read more about these settings here:
-// [Who Pays & Customer Hierarchy](https://chargify.zendesk.com/hc/en-us/articles/4407746683291)
+// [Who Pays & Customer Hierarchy](https://maxio.zendesk.com/hc/en-us/articles/24252185211533-Customer-Hierarchies-WhoPays)
 func (s *SitesController) ReadSite(ctx context.Context) (
     models.ApiResponse[models.SiteResponse],
     error) {

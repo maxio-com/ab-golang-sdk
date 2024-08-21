@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -31,7 +36,7 @@ func (s SubscriptionComponentResponse) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for SubscriptionComponentResponse.
 // It customizes the JSON unmarshaling process for SubscriptionComponentResponse objects.
 func (s *SubscriptionComponentResponse) UnmarshalJSON(input []byte) error {
-    var temp subscriptionComponentResponse
+    var temp tempSubscriptionComponentResponse
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -46,7 +51,7 @@ func (s *SubscriptionComponentResponse) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// subscriptionComponentResponse is a temporary struct used for validating the fields of SubscriptionComponentResponse.
-type subscriptionComponentResponse  struct {
+// tempSubscriptionComponentResponse is a temporary struct used for validating the fields of SubscriptionComponentResponse.
+type tempSubscriptionComponentResponse  struct {
     Component *SubscriptionComponent `json:"component,omitempty"`
 }

@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -58,7 +63,7 @@ func (p PreviewAllocationsRequest) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for PreviewAllocationsRequest.
 // It customizes the JSON unmarshaling process for PreviewAllocationsRequest objects.
 func (p *PreviewAllocationsRequest) UnmarshalJSON(input []byte) error {
-    var temp previewAllocationsRequest
+    var temp tempPreviewAllocationsRequest
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -86,15 +91,15 @@ func (p *PreviewAllocationsRequest) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// previewAllocationsRequest is a temporary struct used for validating the fields of PreviewAllocationsRequest.
-type previewAllocationsRequest  struct {
+// tempPreviewAllocationsRequest is a temporary struct used for validating the fields of PreviewAllocationsRequest.
+type tempPreviewAllocationsRequest  struct {
     Allocations            *[]CreateAllocation  `json:"allocations"`
     EffectiveProrationDate *string              `json:"effective_proration_date,omitempty"`
     UpgradeCharge          Optional[CreditType] `json:"upgrade_charge"`
     DowngradeCredit        Optional[CreditType] `json:"downgrade_credit"`
 }
 
-func (p *previewAllocationsRequest) validate() error {
+func (p *tempPreviewAllocationsRequest) validate() error {
     var errs []string
     if p.Allocations == nil {
         errs = append(errs, "required field `allocations` is missing for type `Preview Allocations Request`")
@@ -102,5 +107,5 @@ func (p *previewAllocationsRequest) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -78,7 +83,7 @@ func (i InvoicePayment) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for InvoicePayment.
 // It customizes the JSON unmarshaling process for InvoicePayment objects.
 func (i *InvoicePayment) UnmarshalJSON(input []byte) error {
-    var temp invoicePayment
+    var temp tempInvoicePayment
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -108,8 +113,8 @@ func (i *InvoicePayment) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// invoicePayment is a temporary struct used for validating the fields of InvoicePayment.
-type invoicePayment  struct {
+// tempInvoicePayment is a temporary struct used for validating the fields of InvoicePayment.
+type tempInvoicePayment  struct {
     TransactionTime      *string               `json:"transaction_time,omitempty"`
     Memo                 *string               `json:"memo,omitempty"`
     OriginalAmount       *string               `json:"original_amount,omitempty"`

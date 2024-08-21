@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -35,7 +40,7 @@ func (p PendingCancellationChange) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for PendingCancellationChange.
 // It customizes the JSON unmarshaling process for PendingCancellationChange objects.
 func (p *PendingCancellationChange) UnmarshalJSON(input []byte) error {
-    var temp pendingCancellationChange
+    var temp tempPendingCancellationChange
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -59,13 +64,13 @@ func (p *PendingCancellationChange) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// pendingCancellationChange is a temporary struct used for validating the fields of PendingCancellationChange.
-type pendingCancellationChange  struct {
+// tempPendingCancellationChange is a temporary struct used for validating the fields of PendingCancellationChange.
+type tempPendingCancellationChange  struct {
     CancellationState *string `json:"cancellation_state"`
     CancelsAt         *string `json:"cancels_at"`
 }
 
-func (p *pendingCancellationChange) validate() error {
+func (p *tempPendingCancellationChange) validate() error {
     var errs []string
     if p.CancellationState == nil {
         errs = append(errs, "required field `cancellation_state` is missing for type `Pending Cancellation Change`")
@@ -76,5 +81,5 @@ func (p *pendingCancellationChange) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

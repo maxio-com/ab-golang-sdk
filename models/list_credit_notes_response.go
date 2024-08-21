@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -31,7 +36,7 @@ func (l ListCreditNotesResponse) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for ListCreditNotesResponse.
 // It customizes the JSON unmarshaling process for ListCreditNotesResponse objects.
 func (l *ListCreditNotesResponse) UnmarshalJSON(input []byte) error {
-    var temp listCreditNotesResponse
+    var temp tempListCreditNotesResponse
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -50,12 +55,12 @@ func (l *ListCreditNotesResponse) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// listCreditNotesResponse is a temporary struct used for validating the fields of ListCreditNotesResponse.
-type listCreditNotesResponse  struct {
+// tempListCreditNotesResponse is a temporary struct used for validating the fields of ListCreditNotesResponse.
+type tempListCreditNotesResponse  struct {
     CreditNotes *[]CreditNote `json:"credit_notes"`
 }
 
-func (l *listCreditNotesResponse) validate() error {
+func (l *tempListCreditNotesResponse) validate() error {
     var errs []string
     if l.CreditNotes == nil {
         errs = append(errs, "required field `credit_notes` is missing for type `List Credit Notes Response`")
@@ -63,5 +68,5 @@ func (l *listCreditNotesResponse) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

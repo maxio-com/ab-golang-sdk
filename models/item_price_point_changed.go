@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -41,7 +46,7 @@ func (i ItemPricePointChanged) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for ItemPricePointChanged.
 // It customizes the JSON unmarshaling process for ItemPricePointChanged objects.
 func (i *ItemPricePointChanged) UnmarshalJSON(input []byte) error {
-    var temp itemPricePointChanged
+    var temp tempItemPricePointChanged
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -65,8 +70,8 @@ func (i *ItemPricePointChanged) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// itemPricePointChanged is a temporary struct used for validating the fields of ItemPricePointChanged.
-type itemPricePointChanged  struct {
+// tempItemPricePointChanged is a temporary struct used for validating the fields of ItemPricePointChanged.
+type tempItemPricePointChanged  struct {
     ItemId             *int                `json:"item_id"`
     ItemType           *string             `json:"item_type"`
     ItemHandle         *string             `json:"item_handle"`
@@ -75,7 +80,7 @@ type itemPricePointChanged  struct {
     CurrentPricePoint  *ItemPricePointData `json:"current_price_point"`
 }
 
-func (i *itemPricePointChanged) validate() error {
+func (i *tempItemPricePointChanged) validate() error {
     var errs []string
     if i.ItemId == nil {
         errs = append(errs, "required field `item_id` is missing for type `Item Price Point Changed`")
@@ -98,5 +103,5 @@ func (i *itemPricePointChanged) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

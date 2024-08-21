@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -43,7 +48,7 @@ func (d DunnerData) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for DunnerData.
 // It customizes the JSON unmarshaling process for DunnerData objects.
 func (d *DunnerData) UnmarshalJSON(input []byte) error {
-    var temp dunnerData
+    var temp tempDunnerData
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -75,8 +80,8 @@ func (d *DunnerData) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// dunnerData is a temporary struct used for validating the fields of DunnerData.
-type dunnerData  struct {
+// tempDunnerData is a temporary struct used for validating the fields of DunnerData.
+type tempDunnerData  struct {
     State                *string `json:"state"`
     SubscriptionId       *int    `json:"subscription_id"`
     RevenueAtRiskInCents *int64  `json:"revenue_at_risk_in_cents"`
@@ -85,7 +90,7 @@ type dunnerData  struct {
     LastAttemptedAt      *string `json:"last_attempted_at"`
 }
 
-func (d *dunnerData) validate() error {
+func (d *tempDunnerData) validate() error {
     var errs []string
     if d.State == nil {
         errs = append(errs, "required field `state` is missing for type `Dunner Data`")
@@ -108,5 +113,5 @@ func (d *dunnerData) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

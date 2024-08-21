@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -31,7 +36,7 @@ func (u UpdatePaymentProfileRequest) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for UpdatePaymentProfileRequest.
 // It customizes the JSON unmarshaling process for UpdatePaymentProfileRequest objects.
 func (u *UpdatePaymentProfileRequest) UnmarshalJSON(input []byte) error {
-    var temp updatePaymentProfileRequest
+    var temp tempUpdatePaymentProfileRequest
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -50,12 +55,12 @@ func (u *UpdatePaymentProfileRequest) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// updatePaymentProfileRequest is a temporary struct used for validating the fields of UpdatePaymentProfileRequest.
-type updatePaymentProfileRequest  struct {
+// tempUpdatePaymentProfileRequest is a temporary struct used for validating the fields of UpdatePaymentProfileRequest.
+type tempUpdatePaymentProfileRequest  struct {
     PaymentProfile *UpdatePaymentProfile `json:"payment_profile"`
 }
 
-func (u *updatePaymentProfileRequest) validate() error {
+func (u *tempUpdatePaymentProfileRequest) validate() error {
     var errs []string
     if u.PaymentProfile == nil {
         errs = append(errs, "required field `payment_profile` is missing for type `Update Payment Profile Request`")
@@ -63,5 +68,5 @@ func (u *updatePaymentProfileRequest) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

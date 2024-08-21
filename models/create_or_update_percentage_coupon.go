@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -79,7 +84,7 @@ func (c CreateOrUpdatePercentageCoupon) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for CreateOrUpdatePercentageCoupon.
 // It customizes the JSON unmarshaling process for CreateOrUpdatePercentageCoupon objects.
 func (c *CreateOrUpdatePercentageCoupon) UnmarshalJSON(input []byte) error {
-    var temp createOrUpdatePercentageCoupon
+    var temp tempCreateOrUpdatePercentageCoupon
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -116,8 +121,8 @@ func (c *CreateOrUpdatePercentageCoupon) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// createOrUpdatePercentageCoupon is a temporary struct used for validating the fields of CreateOrUpdatePercentageCoupon.
-type createOrUpdatePercentageCoupon  struct {
+// tempCreateOrUpdatePercentageCoupon is a temporary struct used for validating the fields of CreateOrUpdatePercentageCoupon.
+type tempCreateOrUpdatePercentageCoupon  struct {
     Name                          *string                                   `json:"name"`
     Code                          *string                                   `json:"code"`
     Description                   *string                                   `json:"description,omitempty"`
@@ -133,7 +138,7 @@ type createOrUpdatePercentageCoupon  struct {
     ApplyOnSubscriptionExpiration *bool                                     `json:"apply_on_subscription_expiration,omitempty"`
 }
 
-func (c *createOrUpdatePercentageCoupon) validate() error {
+func (c *tempCreateOrUpdatePercentageCoupon) validate() error {
     var errs []string
     if c.Name == nil {
         errs = append(errs, "required field `name` is missing for type `Create or Update Percentage Coupon`")
@@ -147,5 +152,5 @@ func (c *createOrUpdatePercentageCoupon) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

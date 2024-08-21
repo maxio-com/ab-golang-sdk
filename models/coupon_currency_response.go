@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -31,7 +36,7 @@ func (c CouponCurrencyResponse) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for CouponCurrencyResponse.
 // It customizes the JSON unmarshaling process for CouponCurrencyResponse objects.
 func (c *CouponCurrencyResponse) UnmarshalJSON(input []byte) error {
-    var temp couponCurrencyResponse
+    var temp tempCouponCurrencyResponse
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -46,7 +51,7 @@ func (c *CouponCurrencyResponse) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// couponCurrencyResponse is a temporary struct used for validating the fields of CouponCurrencyResponse.
-type couponCurrencyResponse  struct {
+// tempCouponCurrencyResponse is a temporary struct used for validating the fields of CouponCurrencyResponse.
+type tempCouponCurrencyResponse  struct {
     CurrencyPrices []CouponCurrency `json:"currency_prices,omitempty"`
 }

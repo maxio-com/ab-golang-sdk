@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -144,7 +149,7 @@ func (d DebitNote) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for DebitNote.
 // It customizes the JSON unmarshaling process for DebitNote objects.
 func (d *DebitNote) UnmarshalJSON(input []byte) error {
-    var temp debitNote
+    var temp tempDebitNote
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -199,8 +204,8 @@ func (d *DebitNote) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// debitNote is a temporary struct used for validating the fields of DebitNote.
-type debitNote  struct {
+// tempDebitNote is a temporary struct used for validating the fields of DebitNote.
+type tempDebitNote  struct {
     Uid                    *string              `json:"uid,omitempty"`
     SiteId                 *int                 `json:"site_id,omitempty"`
     CustomerId             *int                 `json:"customer_id,omitempty"`

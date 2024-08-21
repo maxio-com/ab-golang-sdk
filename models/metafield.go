@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -58,7 +63,7 @@ func (m Metafield) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for Metafield.
 // It customizes the JSON unmarshaling process for Metafield objects.
 func (m *Metafield) UnmarshalJSON(input []byte) error {
-    var temp metafield
+    var temp tempMetafield
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -78,8 +83,8 @@ func (m *Metafield) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// metafield is a temporary struct used for validating the fields of Metafield.
-type metafield  struct {
+// tempMetafield is a temporary struct used for validating the fields of Metafield.
+type tempMetafield  struct {
     Id        *int                    `json:"id,omitempty"`
     Name      *string                 `json:"name,omitempty"`
     Scope     *MetafieldScope         `json:"scope,omitempty"`

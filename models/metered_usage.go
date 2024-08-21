@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -41,7 +46,7 @@ func (m MeteredUsage) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for MeteredUsage.
 // It customizes the JSON unmarshaling process for MeteredUsage objects.
 func (m *MeteredUsage) UnmarshalJSON(input []byte) error {
-    var temp meteredUsage
+    var temp tempMeteredUsage
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -65,8 +70,8 @@ func (m *MeteredUsage) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// meteredUsage is a temporary struct used for validating the fields of MeteredUsage.
-type meteredUsage  struct {
+// tempMeteredUsage is a temporary struct used for validating the fields of MeteredUsage.
+type tempMeteredUsage  struct {
     PreviousUnitBalance *string `json:"previous_unit_balance"`
     NewUnitBalance      *int    `json:"new_unit_balance"`
     UsageQuantity       *int    `json:"usage_quantity"`
@@ -75,7 +80,7 @@ type meteredUsage  struct {
     Memo                *string `json:"memo"`
 }
 
-func (m *meteredUsage) validate() error {
+func (m *tempMeteredUsage) validate() error {
     var errs []string
     if m.PreviousUnitBalance == nil {
         errs = append(errs, "required field `previous_unit_balance` is missing for type `Metered Usage`")
@@ -98,5 +103,5 @@ func (m *meteredUsage) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

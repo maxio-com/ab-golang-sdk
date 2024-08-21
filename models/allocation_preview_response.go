@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -31,7 +36,7 @@ func (a AllocationPreviewResponse) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for AllocationPreviewResponse.
 // It customizes the JSON unmarshaling process for AllocationPreviewResponse objects.
 func (a *AllocationPreviewResponse) UnmarshalJSON(input []byte) error {
-    var temp allocationPreviewResponse
+    var temp tempAllocationPreviewResponse
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -50,12 +55,12 @@ func (a *AllocationPreviewResponse) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// allocationPreviewResponse is a temporary struct used for validating the fields of AllocationPreviewResponse.
-type allocationPreviewResponse  struct {
+// tempAllocationPreviewResponse is a temporary struct used for validating the fields of AllocationPreviewResponse.
+type tempAllocationPreviewResponse  struct {
     AllocationPreview *AllocationPreview `json:"allocation_preview"`
 }
 
-func (a *allocationPreviewResponse) validate() error {
+func (a *tempAllocationPreviewResponse) validate() error {
     var errs []string
     if a.AllocationPreview == nil {
         errs = append(errs, "required field `allocation_preview` is missing for type `Allocation Preview Response`")
@@ -63,5 +68,5 @@ func (a *allocationPreviewResponse) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

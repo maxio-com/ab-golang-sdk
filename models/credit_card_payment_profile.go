@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -15,7 +20,7 @@ type CreditCardPaymentProfile struct {
     // The last name of the card holder.
     LastName             *string          `json:"last_name,omitempty"`
     // A string representation of the credit card number with all but the last 4 digits masked with X’s (i.e. ‘XXXX-XXXX-XXXX-1234’).
-    MaskedCardNumber     string           `json:"masked_card_number"`
+    MaskedCardNumber     *string          `json:"masked_card_number,omitempty"`
     // The type of card used.
     CardType             *CardType        `json:"card_type,omitempty"`
     // An integer representing the expiration month of the card(1 – 12).
@@ -25,7 +30,7 @@ type CreditCardPaymentProfile struct {
     // The Chargify-assigned id for the customer record to which the card belongs.
     CustomerId           *int             `json:"customer_id,omitempty"`
     // The vault that stores the payment profile with the provided `vault_token`. Use `bogus` for testing.
-    CurrentVault         *CurrentVault    `json:"current_vault,omitempty"`
+    CurrentVault         *CreditCardVault `json:"current_vault,omitempty"`
     // The “token” provided by your vault storage for an already stored payment profile.
     VaultToken           Optional[string] `json:"vault_token"`
     // The current billing street address for the card.
@@ -42,7 +47,7 @@ type CreditCardPaymentProfile struct {
     CustomerVaultToken   Optional[string] `json:"customer_vault_token"`
     // The current billing street address, second line, for the card.
     BillingAddress2      Optional[string] `json:"billing_address_2"`
-    PaymentType          *PaymentType     `json:"payment_type,omitempty"`
+    PaymentType          PaymentType      `json:"payment_type"`
     Disabled             *bool            `json:"disabled,omitempty"`
     // Token received after sending billing information using chargify.js. This token will only be received if passed as a sole attribute of credit_card_attributes (i.e. tok_9g6hw85pnpt6knmskpwp4ttt)
     ChargifyToken        *string          `json:"chargify_token,omitempty"`
@@ -73,7 +78,9 @@ func (c CreditCardPaymentProfile) toMap() map[string]any {
     if c.LastName != nil {
         structMap["last_name"] = c.LastName
     }
-    structMap["masked_card_number"] = c.MaskedCardNumber
+    if c.MaskedCardNumber != nil {
+        structMap["masked_card_number"] = c.MaskedCardNumber
+    }
     if c.CardType != nil {
         structMap["card_type"] = c.CardType
     }
@@ -145,9 +152,7 @@ func (c CreditCardPaymentProfile) toMap() map[string]any {
             structMap["billing_address_2"] = nil
         }
     }
-    if c.PaymentType != nil {
-        structMap["payment_type"] = c.PaymentType
-    }
+    structMap["payment_type"] = c.PaymentType
     if c.Disabled != nil {
         structMap["disabled"] = c.Disabled
     }
@@ -174,7 +179,7 @@ func (c CreditCardPaymentProfile) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for CreditCardPaymentProfile.
 // It customizes the JSON unmarshaling process for CreditCardPaymentProfile objects.
 func (c *CreditCardPaymentProfile) UnmarshalJSON(input []byte) error {
-    var temp creditCardPaymentProfile
+    var temp tempCreditCardPaymentProfile
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -192,7 +197,7 @@ func (c *CreditCardPaymentProfile) UnmarshalJSON(input []byte) error {
     c.Id = temp.Id
     c.FirstName = temp.FirstName
     c.LastName = temp.LastName
-    c.MaskedCardNumber = *temp.MaskedCardNumber
+    c.MaskedCardNumber = temp.MaskedCardNumber
     c.CardType = temp.CardType
     c.ExpirationMonth = temp.ExpirationMonth
     c.ExpirationYear = temp.ExpirationYear
@@ -206,7 +211,7 @@ func (c *CreditCardPaymentProfile) UnmarshalJSON(input []byte) error {
     c.BillingCountry = temp.BillingCountry
     c.CustomerVaultToken = temp.CustomerVaultToken
     c.BillingAddress2 = temp.BillingAddress2
-    c.PaymentType = temp.PaymentType
+    c.PaymentType = *temp.PaymentType
     c.Disabled = temp.Disabled
     c.ChargifyToken = temp.ChargifyToken
     c.SiteGatewaySettingId = temp.SiteGatewaySettingId
@@ -214,17 +219,17 @@ func (c *CreditCardPaymentProfile) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// creditCardPaymentProfile is a temporary struct used for validating the fields of CreditCardPaymentProfile.
-type creditCardPaymentProfile  struct {
+// tempCreditCardPaymentProfile is a temporary struct used for validating the fields of CreditCardPaymentProfile.
+type tempCreditCardPaymentProfile  struct {
     Id                   *int             `json:"id,omitempty"`
     FirstName            *string          `json:"first_name,omitempty"`
     LastName             *string          `json:"last_name,omitempty"`
-    MaskedCardNumber     *string          `json:"masked_card_number"`
+    MaskedCardNumber     *string          `json:"masked_card_number,omitempty"`
     CardType             *CardType        `json:"card_type,omitempty"`
     ExpirationMonth      *int             `json:"expiration_month,omitempty"`
     ExpirationYear       *int             `json:"expiration_year,omitempty"`
     CustomerId           *int             `json:"customer_id,omitempty"`
-    CurrentVault         *CurrentVault    `json:"current_vault,omitempty"`
+    CurrentVault         *CreditCardVault `json:"current_vault,omitempty"`
     VaultToken           Optional[string] `json:"vault_token"`
     BillingAddress       Optional[string] `json:"billing_address"`
     BillingCity          Optional[string] `json:"billing_city"`
@@ -233,20 +238,20 @@ type creditCardPaymentProfile  struct {
     BillingCountry       Optional[string] `json:"billing_country"`
     CustomerVaultToken   Optional[string] `json:"customer_vault_token"`
     BillingAddress2      Optional[string] `json:"billing_address_2"`
-    PaymentType          *PaymentType     `json:"payment_type,omitempty"`
+    PaymentType          *PaymentType     `json:"payment_type"`
     Disabled             *bool            `json:"disabled,omitempty"`
     ChargifyToken        *string          `json:"chargify_token,omitempty"`
     SiteGatewaySettingId Optional[int]    `json:"site_gateway_setting_id"`
     GatewayHandle        Optional[string] `json:"gateway_handle"`
 }
 
-func (c *creditCardPaymentProfile) validate() error {
+func (c *tempCreditCardPaymentProfile) validate() error {
     var errs []string
-    if c.MaskedCardNumber == nil {
-        errs = append(errs, "required field `masked_card_number` is missing for type `Credit Card Payment Profile`")
+    if c.PaymentType == nil {
+        errs = append(errs, "required field `payment_type` is missing for type `Credit Card Payment Profile`")
     }
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

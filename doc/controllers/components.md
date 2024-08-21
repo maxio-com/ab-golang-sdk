@@ -32,12 +32,12 @@ Metered components are used to bill for any type of unit that resets to 0 at the
 
 Note that this is different from recurring quantity-based components, which DO NOT reset to zero at the start of every billing period. If you want to bill for a quantity of something that does not change unless you change it, then you want quantity components, instead.
 
-For more information on components, please see our documentation [here](https://maxio-chargify.zendesk.com/hc/en-us/articles/5405020625677).
+For more information on components, please see our documentation [here](https://maxio.zendesk.com/hc/en-us/articles/24261141522189-Components-Overview).
 
 ```go
 CreateMeteredComponent(
     ctx context.Context,
-    productFamilyId int,
+    productFamilyId string,
     body *models.CreateMeteredComponent) (
     models.ApiResponse[models.ComponentResponse],
     error)
@@ -47,7 +47,7 @@ CreateMeteredComponent(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `productFamilyId` | `int` | Template, Required | The Chargify id of the product family to which the component belongs |
+| `productFamilyId` | `string` | Template, Required | Either the product family's id or its handle prefixed with `handle:` |
 | `body` | [`*models.CreateMeteredComponent`](../../doc/models/create-metered-component.md) | Body, Optional | - |
 
 ## Response Type
@@ -59,7 +59,7 @@ CreateMeteredComponent(
 ```go
 ctx := context.Background()
 
-productFamilyId := 140
+productFamilyId := "product_family_id4"
 
 body := models.CreateMeteredComponent{
     MeteredComponent: models.MeteredComponent{
@@ -160,12 +160,12 @@ One-time quantity-based components are used to create ad hoc usage charges that 
 
 The allocated quantity for one-time quantity-based components immediately gets reset back to zero after the allocation is made.
 
-For more information on components, please see our documentation [here](https://maxio-chargify.zendesk.com/hc/en-us/articles/5405020625677).
+For more information on components, please see our documentation [here](https://maxio.zendesk.com/hc/en-us/articles/24261141522189-Components-Overview).
 
 ```go
 CreateQuantityBasedComponent(
     ctx context.Context,
-    productFamilyId int,
+    productFamilyId string,
     body *models.CreateQuantityBasedComponent) (
     models.ApiResponse[models.ComponentResponse],
     error)
@@ -175,7 +175,7 @@ CreateQuantityBasedComponent(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `productFamilyId` | `int` | Template, Required | The Chargify id of the product family to which the component belongs |
+| `productFamilyId` | `string` | Template, Required | Either the product family's id or its handle prefixed with `handle:` |
 | `body` | [`*models.CreateQuantityBasedComponent`](../../doc/models/create-quantity-based-component.md) | Body, Optional | - |
 
 ## Response Type
@@ -187,7 +187,7 @@ CreateQuantityBasedComponent(
 ```go
 ctx := context.Background()
 
-productFamilyId := 140
+productFamilyId := "product_family_id4"
 
 body := models.CreateQuantityBasedComponent{
     QuantityBasedComponent: models.QuantityBasedComponent{
@@ -279,12 +279,12 @@ This request will create a component definition of kind **on_off_component** und
 
 On/off components are used for any flat fee, recurring add on (think $99/month for tech support or a flat add on shipping fee).
 
-For more information on components, please see our documentation [here](https://maxio-chargify.zendesk.com/hc/en-us/articles/5405020625677).
+For more information on components, please see our documentation [here](https://maxio.zendesk.com/hc/en-us/articles/24261141522189-Components-Overview).
 
 ```go
 CreateOnOffComponent(
     ctx context.Context,
-    productFamilyId int,
+    productFamilyId string,
     body *models.CreateOnOffComponent) (
     models.ApiResponse[models.ComponentResponse],
     error)
@@ -294,7 +294,7 @@ CreateOnOffComponent(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `productFamilyId` | `int` | Template, Required | The Chargify id of the product family to which the component belongs |
+| `productFamilyId` | `string` | Template, Required | Either the product family's id or its handle prefixed with `handle:` |
 | `body` | [`*models.CreateOnOffComponent`](../../doc/models/create-on-off-component.md) | Body, Optional | - |
 
 ## Response Type
@@ -306,7 +306,7 @@ CreateOnOffComponent(
 ```go
 ctx := context.Background()
 
-productFamilyId := 140
+productFamilyId := "product_family_id4"
 
 body := models.CreateOnOffComponent{
     OnOffComponent: models.OnOffComponent{
@@ -388,12 +388,12 @@ This request will create a component definition of kind **prepaid_usage_componen
 
 Prepaid components allow customers to pre-purchase units that can be used up over time on their subscription. In a sense, they are the mirror image of metered components; while metered components charge at the end of the period for the amount of units used, prepaid components are charged for at the time of purchase, and we subsequently keep track of the usage against the amount purchased.
 
-For more information on components, please see our documentation [here](https://maxio-chargify.zendesk.com/hc/en-us/articles/5405020625677).
+For more information on components, please see our documentation [here](https://maxio.zendesk.com/hc/en-us/articles/24261141522189-Components-Overview).
 
 ```go
 CreatePrepaidUsageComponent(
     ctx context.Context,
-    productFamilyId int,
+    productFamilyId string,
     body *models.CreatePrepaidComponent) (
     models.ApiResponse[models.ComponentResponse],
     error)
@@ -403,7 +403,7 @@ CreatePrepaidUsageComponent(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `productFamilyId` | `int` | Template, Required | The Chargify id of the product family to which the component belongs |
+| `productFamilyId` | `string` | Template, Required | Either the product family's id or its handle prefixed with `handle:` |
 | `body` | [`*models.CreatePrepaidComponent`](../../doc/models/create-prepaid-component.md) | Body, Optional | - |
 
 ## Response Type
@@ -415,7 +415,7 @@ CreatePrepaidUsageComponent(
 ```go
 ctx := context.Background()
 
-productFamilyId := 140
+productFamilyId := "product_family_id4"
 
 body := models.CreatePrepaidComponent{
     PrepaidUsageComponent: models.PrepaidUsageComponent{
@@ -440,7 +440,7 @@ body := models.CreatePrepaidComponent{
         RolloverPrepaidRemainder:  models.ToPointer(true),
         RenewPrepaidAllocation:    models.ToPointer(true),
         ExpirationInterval:        models.ToPointer(float64(15)),
-        ExpirationIntervalUnit:    models.ToPointer(models.IntervalUnit("day")),
+        ExpirationIntervalUnit:    models.NewOptional(models.ToPointer(models.ExpirationIntervalUnit("day"))),
     },
 }
 
@@ -532,12 +532,12 @@ Event-based components are similar to other component types, in that you define 
 
 So, instead of reporting usage directly for each component (as you would with metered components), the usage is derived from analysis of your events.
 
-For more information on components, please see our documentation [here](https://maxio-chargify.zendesk.com/hc/en-us/articles/5405020625677).
+For more information on components, please see our documentation [here](https://maxio.zendesk.com/hc/en-us/articles/24261141522189-Components-Overview).
 
 ```go
 CreateEventBasedComponent(
     ctx context.Context,
-    productFamilyId int,
+    productFamilyId string,
     body *models.CreateEBBComponent) (
     models.ApiResponse[models.ComponentResponse],
     error)
@@ -547,7 +547,7 @@ CreateEventBasedComponent(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `productFamilyId` | `int` | Template, Required | The Chargify id of the product family to which the component belongs |
+| `productFamilyId` | `string` | Template, Required | Either the product family's id or its handle prefixed with `handle:` |
 | `body` | [`*models.CreateEBBComponent`](../../doc/models/create-ebb-component.md) | Body, Optional | - |
 
 ## Response Type
@@ -559,7 +559,7 @@ CreateEventBasedComponent(
 ```go
 ctx := context.Background()
 
-productFamilyId := 140
+productFamilyId := "product_family_id4"
 
 body := models.CreateEBBComponent{
     EventBasedComponent: models.EBBComponent{
@@ -725,8 +725,8 @@ ReadComponent(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `productFamilyId` | `int` | Template, Required | The Chargify id of the product family to which the component belongs |
-| `componentId` | `string` | Template, Required | Either the Chargify id of the component or the handle for the component prefixed with `handle:` |
+| `productFamilyId` | `int` | Template, Required | The Advanced Billing id of the product family to which the component belongs |
+| `componentId` | `string` | Template, Required | Either the Advanced Billing id of the component or the handle for the component prefixed with `handle:` |
 
 ## Response Type
 
@@ -802,8 +802,8 @@ UpdateProductFamilyComponent(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `productFamilyId` | `int` | Template, Required | The Chargify id of the product family to which the component belongs |
-| `componentId` | `string` | Template, Required | Either the Chargify id of the component or the handle for the component prefixed with `handle:` |
+| `productFamilyId` | `int` | Template, Required | The Advanced Billing id of the product family to which the component belongs |
+| `componentId` | `string` | Template, Required | Either the Advanced Billing id of the component or the handle for the component prefixed with `handle:` |
 | `body` | [`*models.UpdateComponentRequest`](../../doc/models/update-component-request.md) | Body, Optional | - |
 
 ## Response Type
@@ -889,8 +889,8 @@ ArchiveComponent(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `productFamilyId` | `int` | Template, Required | The Chargify id of the product family to which the component belongs |
-| `componentId` | `string` | Template, Required | Either the Chargify id of the component or the handle for the component prefixed with `handle:` |
+| `productFamilyId` | `int` | Template, Required | The Advanced Billing id of the product family to which the component belongs |
+| `componentId` | `string` | Template, Required | Either the Advanced Billing id of the component or the handle for the component prefixed with `handle:` |
 
 ## Response Type
 
@@ -1205,7 +1205,7 @@ ListComponentsForProductFamily(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `productFamilyId` | `int` | Template, Required | The Chargify id of the product family |
+| `productFamilyId` | `int` | Template, Required | The Advanced Billing id of the product family |
 | `includeArchived` | `*bool` | Query, Optional | Include archived items. |
 | `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`. |
 | `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`. |

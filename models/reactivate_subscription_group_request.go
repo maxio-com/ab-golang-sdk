@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -35,7 +40,7 @@ func (r ReactivateSubscriptionGroupRequest) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for ReactivateSubscriptionGroupRequest.
 // It customizes the JSON unmarshaling process for ReactivateSubscriptionGroupRequest objects.
 func (r *ReactivateSubscriptionGroupRequest) UnmarshalJSON(input []byte) error {
-    var temp reactivateSubscriptionGroupRequest
+    var temp tempReactivateSubscriptionGroupRequest
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -51,8 +56,8 @@ func (r *ReactivateSubscriptionGroupRequest) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// reactivateSubscriptionGroupRequest is a temporary struct used for validating the fields of ReactivateSubscriptionGroupRequest.
-type reactivateSubscriptionGroupRequest  struct {
+// tempReactivateSubscriptionGroupRequest is a temporary struct used for validating the fields of ReactivateSubscriptionGroupRequest.
+type tempReactivateSubscriptionGroupRequest  struct {
     Resume        *bool `json:"resume,omitempty"`
     ResumeMembers *bool `json:"resume_members,omitempty"`
 }

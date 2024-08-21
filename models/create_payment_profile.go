@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -36,7 +41,7 @@ type CreatePaymentProfile struct {
     // The credit card or bank account billing address zip code (i.e. 12345). This value is merely passed through to the payment gateway.
     BillingZip            *string                              `json:"billing_zip,omitempty"`
     // The vault that stores the payment profile with the provided `vault_token`. Use `bogus` for testing.
-    CurrentVault          *CurrentVault                        `json:"current_vault,omitempty"`
+    CurrentVault          *AllVaults                           `json:"current_vault,omitempty"`
     // The “token” provided by your vault storage for an already stored payment profile
     VaultToken            *string                              `json:"vault_token,omitempty"`
     // (only for Authorize.Net CIM storage or Square) The customerProfileId for the owner of the customerPaymentProfileId provided as the vault_token
@@ -188,7 +193,7 @@ func (c CreatePaymentProfile) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for CreatePaymentProfile.
 // It customizes the JSON unmarshaling process for CreatePaymentProfile objects.
 func (c *CreatePaymentProfile) UnmarshalJSON(input []byte) error {
-    var temp createPaymentProfile
+    var temp tempCreatePaymentProfile
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -234,8 +239,8 @@ func (c *CreatePaymentProfile) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// createPaymentProfile is a temporary struct used for validating the fields of CreatePaymentProfile.
-type createPaymentProfile  struct {
+// tempCreatePaymentProfile is a temporary struct used for validating the fields of CreatePaymentProfile.
+type tempCreatePaymentProfile  struct {
     ChargifyToken         *string                              `json:"chargify_token,omitempty"`
     Id                    *int                                 `json:"id,omitempty"`
     PaymentType           *PaymentType                         `json:"payment_type,omitempty"`
@@ -252,7 +257,7 @@ type createPaymentProfile  struct {
     BillingState          *string                              `json:"billing_state,omitempty"`
     BillingCountry        *string                              `json:"billing_country,omitempty"`
     BillingZip            *string                              `json:"billing_zip,omitempty"`
-    CurrentVault          *CurrentVault                        `json:"current_vault,omitempty"`
+    CurrentVault          *AllVaults                           `json:"current_vault,omitempty"`
     VaultToken            *string                              `json:"vault_token,omitempty"`
     CustomerVaultToken    *string                              `json:"customer_vault_token,omitempty"`
     CustomerId            *int                                 `json:"customer_id,omitempty"`

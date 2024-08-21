@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -31,7 +36,7 @@ func (s SubscriptionGroupMembersArrayError) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for SubscriptionGroupMembersArrayError.
 // It customizes the JSON unmarshaling process for SubscriptionGroupMembersArrayError objects.
 func (s *SubscriptionGroupMembersArrayError) UnmarshalJSON(input []byte) error {
-    var temp subscriptionGroupMembersArrayError
+    var temp tempSubscriptionGroupMembersArrayError
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -50,12 +55,12 @@ func (s *SubscriptionGroupMembersArrayError) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// subscriptionGroupMembersArrayError is a temporary struct used for validating the fields of SubscriptionGroupMembersArrayError.
-type subscriptionGroupMembersArrayError  struct {
+// tempSubscriptionGroupMembersArrayError is a temporary struct used for validating the fields of SubscriptionGroupMembersArrayError.
+type tempSubscriptionGroupMembersArrayError  struct {
     Members *[]string `json:"members"`
 }
 
-func (s *subscriptionGroupMembersArrayError) validate() error {
+func (s *tempSubscriptionGroupMembersArrayError) validate() error {
     var errs []string
     if s.Members == nil {
         errs = append(errs, "required field `members` is missing for type `Subscription Group Members Array Error`")
@@ -63,5 +68,5 @@ func (s *subscriptionGroupMembersArrayError) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

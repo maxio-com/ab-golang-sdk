@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -71,7 +76,7 @@ func (s SiteStatistics) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for SiteStatistics.
 // It customizes the JSON unmarshaling process for SiteStatistics objects.
 func (s *SiteStatistics) UnmarshalJSON(input []byte) error {
-    var temp siteStatistics
+    var temp tempSiteStatistics
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -96,8 +101,8 @@ func (s *SiteStatistics) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// siteStatistics is a temporary struct used for validating the fields of SiteStatistics.
-type siteStatistics  struct {
+// tempSiteStatistics is a temporary struct used for validating the fields of SiteStatistics.
+type tempSiteStatistics  struct {
     TotalSubscriptions         *int    `json:"total_subscriptions,omitempty"`
     SubscriptionsToday         *int    `json:"subscriptions_today,omitempty"`
     TotalRevenue               *string `json:"total_revenue,omitempty"`

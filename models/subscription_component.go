@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -49,7 +54,7 @@ type SubscriptionComponent struct {
     // The numerical interval. i.e. an interval of '30' coupled with an interval_unit of day would mean this component price point would renew every 30 days. This property is only available for sites with Multifrequency enabled.
     Interval                  *int                                    `json:"interval,omitempty"`
     // A string representing the interval unit for this component price point, either month or day. This property is only available for sites with Multifrequency enabled.
-    IntervalUnit              *IntervalUnit                           `json:"interval_unit,omitempty"`
+    IntervalUnit              Optional[IntervalUnit]                  `json:"interval_unit"`
     AdditionalProperties      map[string]any                          `json:"_"`
 }
 
@@ -207,8 +212,12 @@ func (s SubscriptionComponent) toMap() map[string]any {
     if s.Interval != nil {
         structMap["interval"] = s.Interval
     }
-    if s.IntervalUnit != nil {
-        structMap["interval_unit"] = s.IntervalUnit
+    if s.IntervalUnit.IsValueSet() {
+        if s.IntervalUnit.Value() != nil {
+            structMap["interval_unit"] = s.IntervalUnit.Value()
+        } else {
+            structMap["interval_unit"] = nil
+        }
     }
     return structMap
 }
@@ -216,7 +225,7 @@ func (s SubscriptionComponent) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for SubscriptionComponent.
 // It customizes the JSON unmarshaling process for SubscriptionComponent objects.
 func (s *SubscriptionComponent) UnmarshalJSON(input []byte) error {
-    var temp subscriptionComponent
+    var temp tempSubscriptionComponent
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -281,8 +290,8 @@ func (s *SubscriptionComponent) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// subscriptionComponent is a temporary struct used for validating the fields of SubscriptionComponent.
-type subscriptionComponent  struct {
+// tempSubscriptionComponent is a temporary struct used for validating the fields of SubscriptionComponent.
+type tempSubscriptionComponent  struct {
     Id                        *int                                    `json:"id,omitempty"`
     Name                      *string                                 `json:"name,omitempty"`
     Kind                      *ComponentKind                          `json:"kind,omitempty"`
@@ -314,5 +323,5 @@ type subscriptionComponent  struct {
     HistoricUsages            []HistoricUsage                         `json:"historic_usages,omitempty"`
     DisplayOnHostedPage       *bool                                   `json:"display_on_hosted_page,omitempty"`
     Interval                  *int                                    `json:"interval,omitempty"`
-    IntervalUnit              *IntervalUnit                           `json:"interval_unit,omitempty"`
+    IntervalUnit              Optional[IntervalUnit]                  `json:"interval_unit"`
 }

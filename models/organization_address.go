@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -91,7 +96,7 @@ func (o OrganizationAddress) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for OrganizationAddress.
 // It customizes the JSON unmarshaling process for OrganizationAddress objects.
 func (o *OrganizationAddress) UnmarshalJSON(input []byte) error {
-    var temp organizationAddress
+    var temp tempOrganizationAddress
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -113,8 +118,8 @@ func (o *OrganizationAddress) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// organizationAddress is a temporary struct used for validating the fields of OrganizationAddress.
-type organizationAddress  struct {
+// tempOrganizationAddress is a temporary struct used for validating the fields of OrganizationAddress.
+type tempOrganizationAddress  struct {
     Street  Optional[string] `json:"street"`
     Line2   Optional[string] `json:"line2"`
     City    Optional[string] `json:"city"`

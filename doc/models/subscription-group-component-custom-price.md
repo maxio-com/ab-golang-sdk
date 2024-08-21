@@ -29,6 +29,7 @@ Used in place of `price_point_id` to define a custom price point unique to the s
   ],
   "overage_pricing": [
     {
+      "tax_included": false,
       "pricing_scheme": "stairstep",
       "interval": 230,
       "interval_unit": "day",

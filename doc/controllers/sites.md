@@ -19,9 +19,9 @@ sitesController := client.SitesController()
 
 This endpoint allows you to fetch some site data.
 
-Full documentation on Sites in the Chargify UI can be located [here](https://chargify.zendesk.com/hc/en-us/articles/4407870738587).
+Full documentation on Sites in the Advanced Billing UI can be located [here](https://maxio.zendesk.com/hc/en-us/sections/24250550707085-Sites).
 
-Specifically, the [Clearing Site Data](https://maxio-chargify.zendesk.com/hc/en-us/articles/5405428327309) section is extremely relevant to this endpoint documentation.
+Specifically, the [Clearing Site Data](https://maxio.zendesk.com/hc/en-us/articles/24250617028365-Clearing-Site-Data) section is extremely relevant to this endpoint documentation.
 
 #### Relationship invoicing enabled
 
@@ -32,7 +32,7 @@ If site has RI enabled then you will see more settings like:
     "whopays_default_payer": "self"
 
 You can read more about these settings here:
-[Who Pays & Customer Hierarchy](https://chargify.zendesk.com/hc/en-us/articles/4407746683291)
+[Who Pays & Customer Hierarchy](https://maxio.zendesk.com/hc/en-us/articles/24252185211533-Customer-Hierarchies-WhoPays)
 
 ```go
 ReadSite(

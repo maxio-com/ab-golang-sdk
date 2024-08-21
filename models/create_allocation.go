@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -97,7 +102,7 @@ func (c CreateAllocation) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for CreateAllocation.
 // It customizes the JSON unmarshaling process for CreateAllocation objects.
 func (c *CreateAllocation) UnmarshalJSON(input []byte) error {
-    var temp createAllocation
+    var temp tempCreateAllocation
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -126,8 +131,8 @@ func (c *CreateAllocation) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// createAllocation is a temporary struct used for validating the fields of CreateAllocation.
-type createAllocation  struct {
+// tempCreateAllocation is a temporary struct used for validating the fields of CreateAllocation.
+type tempCreateAllocation  struct {
     Quantity                 *float64                               `json:"quantity"`
     ComponentId              *int                                   `json:"component_id,omitempty"`
     Memo                     *string                                `json:"memo,omitempty"`
@@ -141,7 +146,7 @@ type createAllocation  struct {
     BillingSchedule          *BillingSchedule                       `json:"billing_schedule,omitempty"`
 }
 
-func (c *createAllocation) validate() error {
+func (c *tempCreateAllocation) validate() error {
     var errs []string
     if c.Quantity == nil {
         errs = append(errs, "required field `quantity` is missing for type `Create Allocation`")
@@ -149,5 +154,5 @@ func (c *createAllocation) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

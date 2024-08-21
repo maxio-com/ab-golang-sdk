@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -37,7 +42,7 @@ func (s SubscriptionMRR) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for SubscriptionMRR.
 // It customizes the JSON unmarshaling process for SubscriptionMRR objects.
 func (s *SubscriptionMRR) UnmarshalJSON(input []byte) error {
-    var temp subscriptionMRR
+    var temp tempSubscriptionMRR
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -58,14 +63,14 @@ func (s *SubscriptionMRR) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// subscriptionMRR is a temporary struct used for validating the fields of SubscriptionMRR.
-type subscriptionMRR  struct {
+// tempSubscriptionMRR is a temporary struct used for validating the fields of SubscriptionMRR.
+type tempSubscriptionMRR  struct {
     SubscriptionId   *int                     `json:"subscription_id"`
     MrrAmountInCents *int64                   `json:"mrr_amount_in_cents"`
     Breakouts        *SubscriptionMRRBreakout `json:"breakouts,omitempty"`
 }
 
-func (s *subscriptionMRR) validate() error {
+func (s *tempSubscriptionMRR) validate() error {
     var errs []string
     if s.SubscriptionId == nil {
         errs = append(errs, "required field `subscription_id` is missing for type `Subscription MRR`")
@@ -76,5 +81,5 @@ func (s *subscriptionMRR) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

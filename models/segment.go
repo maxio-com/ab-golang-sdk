@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -78,7 +83,7 @@ func (s Segment) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for Segment.
 // It customizes the JSON unmarshaling process for Segment objects.
 func (s *Segment) UnmarshalJSON(input []byte) error {
-    var temp segment
+    var temp tempSegment
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -116,8 +121,8 @@ func (s *Segment) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// segment is a temporary struct used for validating the fields of Segment.
-type segment  struct {
+// tempSegment is a temporary struct used for validating the fields of Segment.
+type tempSegment  struct {
     Id                        *int                          `json:"id,omitempty"`
     ComponentId               *int                          `json:"component_id,omitempty"`
     PricePointId              *int                          `json:"price_point_id,omitempty"`

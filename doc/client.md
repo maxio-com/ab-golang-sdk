@@ -5,8 +5,8 @@ The following parameters are configurable for the API Client:
 
 | Parameter | Type | Description |
 |  --- | --- | --- |
-| `subdomain` | `string` | The subdomain for your Chargify site.<br>*Default*: `"subdomain"` |
-| `domain` | `string` | The Chargify server domain.<br>*Default*: `"chargify.com"` |
+| `subdomain` | `string` | The subdomain for your Advanced Billing site.<br>*Default*: `"subdomain"` |
+| `domain` | `string` | The Advanced Billing server domain.<br>*Default*: `"chargify.com"` |
 | `environment` | `Environment` | The API environment. <br> **Default: `Environment.PRODUCTION`** |
 | `httpConfiguration` | [`HttpConfiguration`](http-configuration.md) | Configurable http client options like timeout and retries. |
 | `basicAuthCredentials` | [`BasicAuthCredentials`](auth/basic-authentication.md) | The Credentials Setter for Basic Authentication |
@@ -18,7 +18,7 @@ client := advancedbilling.NewClient(
     advancedbilling.CreateConfiguration(
         advancedbilling.WithHttpConfiguration(
             advancedbilling.CreateHttpConfiguration(
-                advancedbilling.WithTimeout(30),
+                advancedbilling.WithTimeout(120),
             ),
         ),
         advancedbilling.WithEnvironment(advancedbilling.PRODUCTION),
@@ -42,36 +42,36 @@ The gateway for the SDK. This class acts as a factory for the Controllers and al
 
 | Name | Description |
 |  --- | --- |
-| aPIExports | Gets APIExportsController |
-| advanceInvoice | Gets AdvanceInvoiceController |
-| billingPortal | Gets BillingPortalController |
-| coupons | Gets CouponsController |
-| components | Gets ComponentsController |
-| componentPricePoints | Gets ComponentPricePointsController |
-| customers | Gets CustomersController |
-| customFields | Gets CustomFieldsController |
-| events | Gets EventsController |
-| eventsBasedBillingSegments | Gets EventsBasedBillingSegmentsController |
-| insights | Gets InsightsController |
-| invoices | Gets InvoicesController |
-| offers | Gets OffersController |
-| paymentProfiles | Gets PaymentProfilesController |
-| productFamilies | Gets ProductFamiliesController |
-| products | Gets ProductsController |
-| productPricePoints | Gets ProductPricePointsController |
-| proformaInvoices | Gets ProformaInvoicesController |
-| reasonCodes | Gets ReasonCodesController |
-| referralCodes | Gets ReferralCodesController |
-| salesCommissions | Gets SalesCommissionsController |
-| sites | Gets SitesController |
-| subscriptions | Gets SubscriptionsController |
-| subscriptionComponents | Gets SubscriptionComponentsController |
-| subscriptionGroups | Gets SubscriptionGroupsController |
-| subscriptionGroupInvoiceAccount | Gets SubscriptionGroupInvoiceAccountController |
-| subscriptionGroupStatus | Gets SubscriptionGroupStatusController |
-| subscriptionInvoiceAccount | Gets SubscriptionInvoiceAccountController |
-| subscriptionNotes | Gets SubscriptionNotesController |
-| subscriptionProducts | Gets SubscriptionProductsController |
-| subscriptionStatus | Gets SubscriptionStatusController |
-| webhooks | Gets WebhooksController |
+| APIExportsController() | Gets APIExportsController |
+| AdvanceInvoiceController() | Gets AdvanceInvoiceController |
+| BillingPortalController() | Gets BillingPortalController |
+| CouponsController() | Gets CouponsController |
+| ComponentsController() | Gets ComponentsController |
+| ComponentPricePointsController() | Gets ComponentPricePointsController |
+| CustomersController() | Gets CustomersController |
+| CustomFieldsController() | Gets CustomFieldsController |
+| EventsController() | Gets EventsController |
+| EventsBasedBillingSegmentsController() | Gets EventsBasedBillingSegmentsController |
+| InsightsController() | Gets InsightsController |
+| InvoicesController() | Gets InvoicesController |
+| OffersController() | Gets OffersController |
+| PaymentProfilesController() | Gets PaymentProfilesController |
+| ProductFamiliesController() | Gets ProductFamiliesController |
+| ProductsController() | Gets ProductsController |
+| ProductPricePointsController() | Gets ProductPricePointsController |
+| ProformaInvoicesController() | Gets ProformaInvoicesController |
+| ReasonCodesController() | Gets ReasonCodesController |
+| ReferralCodesController() | Gets ReferralCodesController |
+| SalesCommissionsController() | Gets SalesCommissionsController |
+| SitesController() | Gets SitesController |
+| SubscriptionsController() | Gets SubscriptionsController |
+| SubscriptionComponentsController() | Gets SubscriptionComponentsController |
+| SubscriptionGroupsController() | Gets SubscriptionGroupsController |
+| SubscriptionGroupInvoiceAccountController() | Gets SubscriptionGroupInvoiceAccountController |
+| SubscriptionGroupStatusController() | Gets SubscriptionGroupStatusController |
+| SubscriptionInvoiceAccountController() | Gets SubscriptionInvoiceAccountController |
+| SubscriptionNotesController() | Gets SubscriptionNotesController |
+| SubscriptionProductsController() | Gets SubscriptionProductsController |
+| SubscriptionStatusController() | Gets SubscriptionStatusController |
+| WebhooksController() | Gets WebhooksController |
 

@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -36,7 +41,7 @@ func (o OveragePricing) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for OveragePricing.
 // It customizes the JSON unmarshaling process for OveragePricing objects.
 func (o *OveragePricing) UnmarshalJSON(input []byte) error {
-    var temp overagePricing
+    var temp tempOveragePricing
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -56,13 +61,13 @@ func (o *OveragePricing) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// overagePricing is a temporary struct used for validating the fields of OveragePricing.
-type overagePricing  struct {
+// tempOveragePricing is a temporary struct used for validating the fields of OveragePricing.
+type tempOveragePricing  struct {
     PricingScheme *PricingScheme `json:"pricing_scheme"`
     Prices        []Price        `json:"prices,omitempty"`
 }
 
-func (o *overagePricing) validate() error {
+func (o *tempOveragePricing) validate() error {
     var errs []string
     if o.PricingScheme == nil {
         errs = append(errs, "required field `pricing_scheme` is missing for type `Overage Pricing`")
@@ -70,5 +75,5 @@ func (o *overagePricing) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

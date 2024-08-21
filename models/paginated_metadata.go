@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -47,7 +52,7 @@ func (p PaginatedMetadata) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for PaginatedMetadata.
 // It customizes the JSON unmarshaling process for PaginatedMetadata objects.
 func (p *PaginatedMetadata) UnmarshalJSON(input []byte) error {
-    var temp paginatedMetadata
+    var temp tempPaginatedMetadata
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -66,8 +71,8 @@ func (p *PaginatedMetadata) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// paginatedMetadata is a temporary struct used for validating the fields of PaginatedMetadata.
-type paginatedMetadata  struct {
+// tempPaginatedMetadata is a temporary struct used for validating the fields of PaginatedMetadata.
+type tempPaginatedMetadata  struct {
     TotalCount  *int       `json:"total_count,omitempty"`
     CurrentPage *int       `json:"current_page,omitempty"`
     TotalPages  *int       `json:"total_pages,omitempty"`

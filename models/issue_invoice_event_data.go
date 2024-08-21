@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -14,11 +19,11 @@ type IssueInvoiceEventData struct {
     // * "child": An invoice segment which has been combined into a consolidated invoice.
     // * "parent": A consolidated invoice, whose contents are composed of invoice segments.
     // "Parent" invoices do not have lines of their own, but they have subtotals and totals which aggregate the member invoice segments.
-    // See also the [invoice consolidation documentation](https://chargify.zendesk.com/hc/en-us/articles/4407746391835).
+    // See also the [invoice consolidation documentation](https://maxio.zendesk.com/hc/en-us/articles/24252269909389-Invoice-Consolidation).
     ConsolidationLevel   InvoiceConsolidationLevel `json:"consolidation_level"`
-    // The status of the invoice before event occurrence. See [Invoice Statuses](https://maxio-chargify.zendesk.com/hc/en-us/articles/5405078794253-Introduction-to-Invoices#invoice-statusess) for more.
+    // The status of the invoice before event occurrence. See [Invoice Statuses](https://maxio.zendesk.com/hc/en-us/articles/24252287829645-Advanced-Billing-Invoices-Overview#invoice-statuses) for more.
     FromStatus           InvoiceStatus             `json:"from_status"`
-    // The status of the invoice after event occurrence. See [Invoice Statuses](https://maxio-chargify.zendesk.com/hc/en-us/articles/5405078794253-Introduction-to-Invoices#invoice-statusess) for more.
+    // The status of the invoice after event occurrence. See [Invoice Statuses](https://maxio.zendesk.com/hc/en-us/articles/24252287829645-Advanced-Billing-Invoices-Overview#invoice-statuses) for more.
     ToStatus             InvoiceStatus             `json:"to_status"`
     // Amount due on the invoice, which is `total_amount - credit_amount - paid_amount`.
     DueAmount            string                    `json:"due_amount"`
@@ -50,7 +55,7 @@ func (i IssueInvoiceEventData) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for IssueInvoiceEventData.
 // It customizes the JSON unmarshaling process for IssueInvoiceEventData objects.
 func (i *IssueInvoiceEventData) UnmarshalJSON(input []byte) error {
-    var temp issueInvoiceEventData
+    var temp tempIssueInvoiceEventData
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -73,8 +78,8 @@ func (i *IssueInvoiceEventData) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// issueInvoiceEventData is a temporary struct used for validating the fields of IssueInvoiceEventData.
-type issueInvoiceEventData  struct {
+// tempIssueInvoiceEventData is a temporary struct used for validating the fields of IssueInvoiceEventData.
+type tempIssueInvoiceEventData  struct {
     ConsolidationLevel *InvoiceConsolidationLevel `json:"consolidation_level"`
     FromStatus         *InvoiceStatus             `json:"from_status"`
     ToStatus           *InvoiceStatus             `json:"to_status"`
@@ -82,7 +87,7 @@ type issueInvoiceEventData  struct {
     TotalAmount        *string                    `json:"total_amount"`
 }
 
-func (i *issueInvoiceEventData) validate() error {
+func (i *tempIssueInvoiceEventData) validate() error {
     var errs []string
     if i.ConsolidationLevel == nil {
         errs = append(errs, "required field `consolidation_level` is missing for type `Issue Invoice Event Data`")
@@ -102,5 +107,5 @@ func (i *issueInvoiceEventData) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

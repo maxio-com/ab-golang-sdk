@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -31,7 +36,7 @@ func (r RecordPaymentRequest) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for RecordPaymentRequest.
 // It customizes the JSON unmarshaling process for RecordPaymentRequest objects.
 func (r *RecordPaymentRequest) UnmarshalJSON(input []byte) error {
-    var temp recordPaymentRequest
+    var temp tempRecordPaymentRequest
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -50,12 +55,12 @@ func (r *RecordPaymentRequest) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// recordPaymentRequest is a temporary struct used for validating the fields of RecordPaymentRequest.
-type recordPaymentRequest  struct {
+// tempRecordPaymentRequest is a temporary struct used for validating the fields of RecordPaymentRequest.
+type tempRecordPaymentRequest  struct {
     Payment *CreatePayment `json:"payment"`
 }
 
-func (r *recordPaymentRequest) validate() error {
+func (r *tempRecordPaymentRequest) validate() error {
     var errs []string
     if r.Payment == nil {
         errs = append(errs, "required field `payment` is missing for type `Record Payment Request`")
@@ -63,5 +68,5 @@ func (r *recordPaymentRequest) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

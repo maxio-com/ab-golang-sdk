@@ -1,7 +1,7 @@
 # API Exports
 
 ```go
-APIExportsController := client.APIExportsController()
+aPIExportsController := client.APIExportsController()
 ```
 
 ## Class Name
@@ -58,7 +58,7 @@ collectedInput := advancedbilling.ListExportedProformaInvoicesInput{
     Page:    models.ToPointer(2),
 }
 
-apiResponse, err := APIExportsController.ListExportedProformaInvoices(ctx, collectedInput)
+apiResponse, err := aPIExportsController.ListExportedProformaInvoices(ctx, collectedInput)
 if err != nil {
     log.Fatalln(err)
 } else {
@@ -112,7 +112,7 @@ collectedInput := advancedbilling.ListExportedInvoicesInput{
     Page:    models.ToPointer(2),
 }
 
-apiResponse, err := APIExportsController.ListExportedInvoices(ctx, collectedInput)
+apiResponse, err := aPIExportsController.ListExportedInvoices(ctx, collectedInput)
 if err != nil {
     log.Fatalln(err)
 } else {
@@ -166,7 +166,7 @@ collectedInput := advancedbilling.ListExportedSubscriptionsInput{
     Page:    models.ToPointer(2),
 }
 
-apiResponse, err := APIExportsController.ListExportedSubscriptions(ctx, collectedInput)
+apiResponse, err := aPIExportsController.ListExportedSubscriptions(ctx, collectedInput)
 if err != nil {
     log.Fatalln(err)
 } else {
@@ -205,7 +205,7 @@ ExportProformaInvoices(
 ```go
 ctx := context.Background()
 
-apiResponse, err := APIExportsController.ExportProformaInvoices(ctx)
+apiResponse, err := aPIExportsController.ExportProformaInvoices(ctx)
 if err != nil {
     log.Fatalln(err)
 } else {
@@ -243,7 +243,7 @@ ExportInvoices(
 ```go
 ctx := context.Background()
 
-apiResponse, err := APIExportsController.ExportInvoices(ctx)
+apiResponse, err := aPIExportsController.ExportInvoices(ctx)
 if err != nil {
     log.Fatalln(err)
 } else {
@@ -281,7 +281,7 @@ ExportSubscriptions(
 ```go
 ctx := context.Background()
 
-apiResponse, err := APIExportsController.ExportSubscriptions(ctx)
+apiResponse, err := aPIExportsController.ExportSubscriptions(ctx)
 if err != nil {
     log.Fatalln(err)
 } else {
@@ -327,7 +327,7 @@ ctx := context.Background()
 
 batchId := "batch_id8"
 
-apiResponse, err := APIExportsController.ReadProformaInvoicesExport(ctx, batchId)
+apiResponse, err := aPIExportsController.ReadProformaInvoicesExport(ctx, batchId)
 if err != nil {
     log.Fatalln(err)
 } else {
@@ -373,7 +373,7 @@ ctx := context.Background()
 
 batchId := "batch_id8"
 
-apiResponse, err := APIExportsController.ReadInvoicesExport(ctx, batchId)
+apiResponse, err := aPIExportsController.ReadInvoicesExport(ctx, batchId)
 if err != nil {
     log.Fatalln(err)
 } else {
@@ -419,7 +419,7 @@ ctx := context.Background()
 
 batchId := "batch_id8"
 
-apiResponse, err := APIExportsController.ReadSubscriptionsExport(ctx, batchId)
+apiResponse, err := aPIExportsController.ReadSubscriptionsExport(ctx, batchId)
 if err != nil {
     log.Fatalln(err)
 } else {

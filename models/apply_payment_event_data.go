@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -78,7 +83,7 @@ func (a ApplyPaymentEventData) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for ApplyPaymentEventData.
 // It customizes the JSON unmarshaling process for ApplyPaymentEventData objects.
 func (a *ApplyPaymentEventData) UnmarshalJSON(input []byte) error {
-    var temp applyPaymentEventData
+    var temp tempApplyPaymentEventData
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -111,8 +116,8 @@ func (a *ApplyPaymentEventData) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// applyPaymentEventData is a temporary struct used for validating the fields of ApplyPaymentEventData.
-type applyPaymentEventData  struct {
+// tempApplyPaymentEventData is a temporary struct used for validating the fields of ApplyPaymentEventData.
+type tempApplyPaymentEventData  struct {
     ConsolidationLevel        *InvoiceConsolidationLevel `json:"consolidation_level"`
     Memo                      *string                    `json:"memo"`
     OriginalAmount            *string                    `json:"original_amount"`
@@ -126,7 +131,7 @@ type applyPaymentEventData  struct {
     External                  *bool                      `json:"external,omitempty"`
 }
 
-func (a *applyPaymentEventData) validate() error {
+func (a *tempApplyPaymentEventData) validate() error {
     var errs []string
     if a.ConsolidationLevel == nil {
         errs = append(errs, "required field `consolidation_level` is missing for type `Apply Payment Event Data`")
@@ -149,5 +154,5 @@ func (a *applyPaymentEventData) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

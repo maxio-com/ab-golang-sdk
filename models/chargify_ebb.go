@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -61,7 +66,7 @@ func (c ChargifyEBB) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for ChargifyEBB.
 // It customizes the JSON unmarshaling process for ChargifyEBB objects.
 func (c *ChargifyEBB) UnmarshalJSON(input []byte) error {
-    var temp chargifyEBB
+    var temp tempChargifyEBB
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -93,8 +98,8 @@ func (c *ChargifyEBB) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// chargifyEBB is a temporary struct used for validating the fields of ChargifyEBB.
-type chargifyEBB  struct {
+// tempChargifyEBB is a temporary struct used for validating the fields of ChargifyEBB.
+type tempChargifyEBB  struct {
     Timestamp             *string `json:"timestamp,omitempty"`
     Id                    *string `json:"id,omitempty"`
     CreatedAt             *string `json:"created_at,omitempty"`

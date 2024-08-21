@@ -17,6 +17,7 @@
 | `GatewayTransactionId` | `models.Optional[string]` | Optional | The transaction ID for the refund as returned from the payment gateway |
 | `GatewayUsed` | `*string` | Optional | - |
 | `GatewayHandle` | `models.Optional[string]` | Optional | - |
+| `AchLateReject` | `models.Optional[bool]` | Optional | - |
 
 ## Example (as JSON)
 

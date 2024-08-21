@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -34,7 +39,7 @@ func (c CreateOrUpdateEndpoint) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for CreateOrUpdateEndpoint.
 // It customizes the JSON unmarshaling process for CreateOrUpdateEndpoint objects.
 func (c *CreateOrUpdateEndpoint) UnmarshalJSON(input []byte) error {
-    var temp createOrUpdateEndpoint
+    var temp tempCreateOrUpdateEndpoint
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -54,13 +59,13 @@ func (c *CreateOrUpdateEndpoint) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// createOrUpdateEndpoint is a temporary struct used for validating the fields of CreateOrUpdateEndpoint.
-type createOrUpdateEndpoint  struct {
+// tempCreateOrUpdateEndpoint is a temporary struct used for validating the fields of CreateOrUpdateEndpoint.
+type tempCreateOrUpdateEndpoint  struct {
     Url                  *string                `json:"url"`
     WebhookSubscriptions *[]WebhookSubscription `json:"webhook_subscriptions"`
 }
 
-func (c *createOrUpdateEndpoint) validate() error {
+func (c *tempCreateOrUpdateEndpoint) validate() error {
     var errs []string
     if c.Url == nil {
         errs = append(errs, "required field `url` is missing for type `Create or Update Endpoint`")
@@ -71,5 +76,5 @@ func (c *createOrUpdateEndpoint) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

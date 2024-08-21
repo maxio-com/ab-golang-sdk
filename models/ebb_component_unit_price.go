@@ -79,7 +79,7 @@ func (e *EBBComponentUnitPrice) AsPrecision() (
     return e.value.(*float64), true
 }
 
-// internalEBBComponentUnitPrice represents a EBBComponentUnitPrice struct.
+// internalEBBComponentUnitPrice represents a eBBComponentUnitPrice struct.
 // This is a container for one-of cases.
 type internalEBBComponentUnitPrice struct {}
 

@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -37,7 +42,7 @@ func (r ResumeOptions) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for ResumeOptions.
 // It customizes the JSON unmarshaling process for ResumeOptions objects.
 func (r *ResumeOptions) UnmarshalJSON(input []byte) error {
-    var temp resumeOptions
+    var temp tempResumeOptions
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -53,8 +58,8 @@ func (r *ResumeOptions) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// resumeOptions is a temporary struct used for validating the fields of ResumeOptions.
-type resumeOptions  struct {
+// tempResumeOptions is a temporary struct used for validating the fields of ResumeOptions.
+type tempResumeOptions  struct {
     RequireResume  *bool `json:"require_resume,omitempty"`
     ForgiveBalance *bool `json:"forgive_balance,omitempty"`
 }

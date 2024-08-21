@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -31,7 +36,7 @@ func (c CreateMetadataRequest) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for CreateMetadataRequest.
 // It customizes the JSON unmarshaling process for CreateMetadataRequest objects.
 func (c *CreateMetadataRequest) UnmarshalJSON(input []byte) error {
-    var temp createMetadataRequest
+    var temp tempCreateMetadataRequest
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -50,12 +55,12 @@ func (c *CreateMetadataRequest) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// createMetadataRequest is a temporary struct used for validating the fields of CreateMetadataRequest.
-type createMetadataRequest  struct {
+// tempCreateMetadataRequest is a temporary struct used for validating the fields of CreateMetadataRequest.
+type tempCreateMetadataRequest  struct {
     Metadata *[]CreateMetadata `json:"metadata"`
 }
 
-func (c *createMetadataRequest) validate() error {
+func (c *tempCreateMetadataRequest) validate() error {
     var errs []string
     if c.Metadata == nil {
         errs = append(errs, "required field `metadata` is missing for type `Create Metadata Request`")
@@ -63,5 +68,5 @@ func (c *createMetadataRequest) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

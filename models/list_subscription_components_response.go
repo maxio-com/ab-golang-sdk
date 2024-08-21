@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -31,7 +36,7 @@ func (l ListSubscriptionComponentsResponse) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for ListSubscriptionComponentsResponse.
 // It customizes the JSON unmarshaling process for ListSubscriptionComponentsResponse objects.
 func (l *ListSubscriptionComponentsResponse) UnmarshalJSON(input []byte) error {
-    var temp listSubscriptionComponentsResponse
+    var temp tempListSubscriptionComponentsResponse
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -50,12 +55,12 @@ func (l *ListSubscriptionComponentsResponse) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// listSubscriptionComponentsResponse is a temporary struct used for validating the fields of ListSubscriptionComponentsResponse.
-type listSubscriptionComponentsResponse  struct {
+// tempListSubscriptionComponentsResponse is a temporary struct used for validating the fields of ListSubscriptionComponentsResponse.
+type tempListSubscriptionComponentsResponse  struct {
     SubscriptionsComponents *[]SubscriptionComponent `json:"subscriptions_components"`
 }
 
-func (l *listSubscriptionComponentsResponse) validate() error {
+func (l *tempListSubscriptionComponentsResponse) validate() error {
     var errs []string
     if l.SubscriptionsComponents == nil {
         errs = append(errs, "required field `subscriptions_components` is missing for type `List Subscription Components Response`")
@@ -63,5 +68,5 @@ func (l *listSubscriptionComponentsResponse) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

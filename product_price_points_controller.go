@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package advancedbilling
 
 import (
@@ -24,7 +29,7 @@ func NewProductPricePointsController(baseController baseController) *ProductPric
 // CreateProductPricePoint takes context, productId, body as parameters and
 // returns an models.ApiResponse with models.ProductPricePointResponse data and
 // an error if there was an issue with the request or response.
-// [Product Price Point Documentation](https://chargify.zendesk.com/hc/en-us/articles/4407755824155)
+// [Product Price Point Documentation](https://maxio.zendesk.com/hc/en-us/articles/24261111947789-Product-Price-Points)
 func (p *ProductPricePointsController) CreateProductPricePoint(
     ctx context.Context,
     productId models.CreateProductPricePointProductId,

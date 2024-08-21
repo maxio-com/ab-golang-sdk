@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -43,7 +48,7 @@ func (l ListPublicKeysMeta) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for ListPublicKeysMeta.
 // It customizes the JSON unmarshaling process for ListPublicKeysMeta objects.
 func (l *ListPublicKeysMeta) UnmarshalJSON(input []byte) error {
-    var temp listPublicKeysMeta
+    var temp tempListPublicKeysMeta
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -61,8 +66,8 @@ func (l *ListPublicKeysMeta) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// listPublicKeysMeta is a temporary struct used for validating the fields of ListPublicKeysMeta.
-type listPublicKeysMeta  struct {
+// tempListPublicKeysMeta is a temporary struct used for validating the fields of ListPublicKeysMeta.
+type tempListPublicKeysMeta  struct {
     TotalCount  *int `json:"total_count,omitempty"`
     CurrentPage *int `json:"current_page,omitempty"`
     TotalPages  *int `json:"total_pages,omitempty"`

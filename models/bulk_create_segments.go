@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -31,7 +36,7 @@ func (b BulkCreateSegments) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for BulkCreateSegments.
 // It customizes the JSON unmarshaling process for BulkCreateSegments objects.
 func (b *BulkCreateSegments) UnmarshalJSON(input []byte) error {
-    var temp bulkCreateSegments
+    var temp tempBulkCreateSegments
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -46,7 +51,7 @@ func (b *BulkCreateSegments) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// bulkCreateSegments is a temporary struct used for validating the fields of BulkCreateSegments.
-type bulkCreateSegments  struct {
+// tempBulkCreateSegments is a temporary struct used for validating the fields of BulkCreateSegments.
+type tempBulkCreateSegments  struct {
     Segments []CreateSegment `json:"segments,omitempty"`
 }

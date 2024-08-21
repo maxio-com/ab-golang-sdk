@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -54,7 +59,7 @@ func (m MRR) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for MRR.
 // It customizes the JSON unmarshaling process for MRR objects.
 func (m *MRR) UnmarshalJSON(input []byte) error {
-    var temp mrr
+    var temp tempMRR
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -80,8 +85,8 @@ func (m *MRR) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// mrr is a temporary struct used for validating the fields of MRR.
-type mrr  struct {
+// tempMRR is a temporary struct used for validating the fields of MRR.
+type tempMRR  struct {
     AmountInCents   *int64     `json:"amount_in_cents,omitempty"`
     AmountFormatted *string    `json:"amount_formatted,omitempty"`
     Currency        *string    `json:"currency,omitempty"`

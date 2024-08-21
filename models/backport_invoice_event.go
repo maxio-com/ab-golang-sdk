@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -42,7 +47,7 @@ func (b BackportInvoiceEvent) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for BackportInvoiceEvent.
 // It customizes the JSON unmarshaling process for BackportInvoiceEvent objects.
 func (b *BackportInvoiceEvent) UnmarshalJSON(input []byte) error {
-    var temp backportInvoiceEvent
+    var temp tempBackportInvoiceEvent
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -69,8 +74,8 @@ func (b *BackportInvoiceEvent) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// backportInvoiceEvent is a temporary struct used for validating the fields of BackportInvoiceEvent.
-type backportInvoiceEvent  struct {
+// tempBackportInvoiceEvent is a temporary struct used for validating the fields of BackportInvoiceEvent.
+type tempBackportInvoiceEvent  struct {
     Id        *int64            `json:"id"`
     Timestamp *string           `json:"timestamp"`
     Invoice   *Invoice          `json:"invoice"`
@@ -78,7 +83,7 @@ type backportInvoiceEvent  struct {
     EventData *Invoice          `json:"event_data"`
 }
 
-func (b *backportInvoiceEvent) validate() error {
+func (b *tempBackportInvoiceEvent) validate() error {
     var errs []string
     if b.Id == nil {
         errs = append(errs, "required field `id` is missing for type `Backport Invoice Event`")
@@ -98,5 +103,5 @@ func (b *backportInvoiceEvent) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

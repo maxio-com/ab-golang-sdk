@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -31,7 +36,7 @@ func (b BulkCreateProductPricePointsRequest) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for BulkCreateProductPricePointsRequest.
 // It customizes the JSON unmarshaling process for BulkCreateProductPricePointsRequest objects.
 func (b *BulkCreateProductPricePointsRequest) UnmarshalJSON(input []byte) error {
-    var temp bulkCreateProductPricePointsRequest
+    var temp tempBulkCreateProductPricePointsRequest
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -50,12 +55,12 @@ func (b *BulkCreateProductPricePointsRequest) UnmarshalJSON(input []byte) error 
     return nil
 }
 
-// bulkCreateProductPricePointsRequest is a temporary struct used for validating the fields of BulkCreateProductPricePointsRequest.
-type bulkCreateProductPricePointsRequest  struct {
+// tempBulkCreateProductPricePointsRequest is a temporary struct used for validating the fields of BulkCreateProductPricePointsRequest.
+type tempBulkCreateProductPricePointsRequest  struct {
     PricePoints *[]CreateProductPricePoint `json:"price_points"`
 }
 
-func (b *bulkCreateProductPricePointsRequest) validate() error {
+func (b *tempBulkCreateProductPricePointsRequest) validate() error {
     var errs []string
     if b.PricePoints == nil {
         errs = append(errs, "required field `price_points` is missing for type `Bulk Create Product Price Points Request`")
@@ -63,5 +68,5 @@ func (b *bulkCreateProductPricePointsRequest) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

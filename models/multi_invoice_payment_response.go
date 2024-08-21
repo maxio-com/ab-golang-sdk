@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -31,7 +36,7 @@ func (m MultiInvoicePaymentResponse) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for MultiInvoicePaymentResponse.
 // It customizes the JSON unmarshaling process for MultiInvoicePaymentResponse objects.
 func (m *MultiInvoicePaymentResponse) UnmarshalJSON(input []byte) error {
-    var temp multiInvoicePaymentResponse
+    var temp tempMultiInvoicePaymentResponse
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -50,12 +55,12 @@ func (m *MultiInvoicePaymentResponse) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// multiInvoicePaymentResponse is a temporary struct used for validating the fields of MultiInvoicePaymentResponse.
-type multiInvoicePaymentResponse  struct {
+// tempMultiInvoicePaymentResponse is a temporary struct used for validating the fields of MultiInvoicePaymentResponse.
+type tempMultiInvoicePaymentResponse  struct {
     Payment *MultiInvoicePayment `json:"payment"`
 }
 
-func (m *multiInvoicePaymentResponse) validate() error {
+func (m *tempMultiInvoicePaymentResponse) validate() error {
     var errs []string
     if m.Payment == nil {
         errs = append(errs, "required field `payment` is missing for type `Multi Invoice Payment Response`")
@@ -63,5 +68,5 @@ func (m *multiInvoicePaymentResponse) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

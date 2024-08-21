@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -79,7 +84,7 @@ func (c CreateOrUpdateFlatAmountCoupon) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for CreateOrUpdateFlatAmountCoupon.
 // It customizes the JSON unmarshaling process for CreateOrUpdateFlatAmountCoupon objects.
 func (c *CreateOrUpdateFlatAmountCoupon) UnmarshalJSON(input []byte) error {
-    var temp createOrUpdateFlatAmountCoupon
+    var temp tempCreateOrUpdateFlatAmountCoupon
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -116,8 +121,8 @@ func (c *CreateOrUpdateFlatAmountCoupon) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// createOrUpdateFlatAmountCoupon is a temporary struct used for validating the fields of CreateOrUpdateFlatAmountCoupon.
-type createOrUpdateFlatAmountCoupon  struct {
+// tempCreateOrUpdateFlatAmountCoupon is a temporary struct used for validating the fields of CreateOrUpdateFlatAmountCoupon.
+type tempCreateOrUpdateFlatAmountCoupon  struct {
     Name                          *string              `json:"name"`
     Code                          *string              `json:"code"`
     Description                   *string              `json:"description,omitempty"`
@@ -133,7 +138,7 @@ type createOrUpdateFlatAmountCoupon  struct {
     ApplyOnSubscriptionExpiration *bool                `json:"apply_on_subscription_expiration,omitempty"`
 }
 
-func (c *createOrUpdateFlatAmountCoupon) validate() error {
+func (c *tempCreateOrUpdateFlatAmountCoupon) validate() error {
     var errs []string
     if c.Name == nil {
         errs = append(errs, "required field `name` is missing for type `Create or Update Flat Amount Coupon`")
@@ -147,5 +152,5 @@ func (c *createOrUpdateFlatAmountCoupon) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -52,7 +57,7 @@ func (c CurrencyPrice) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for CurrencyPrice.
 // It customizes the JSON unmarshaling process for CurrencyPrice objects.
 func (c *CurrencyPrice) UnmarshalJSON(input []byte) error {
-    var temp currencyPrice
+    var temp tempCurrencyPrice
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -72,8 +77,8 @@ func (c *CurrencyPrice) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// currencyPrice is a temporary struct used for validating the fields of CurrencyPrice.
-type currencyPrice  struct {
+// tempCurrencyPrice is a temporary struct used for validating the fields of CurrencyPrice.
+type tempCurrencyPrice  struct {
     Id                  *int               `json:"id,omitempty"`
     Currency            *string            `json:"currency,omitempty"`
     Price               *float64           `json:"price,omitempty"`

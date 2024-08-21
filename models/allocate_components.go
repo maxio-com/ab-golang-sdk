@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -74,7 +79,7 @@ func (a AllocateComponents) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for AllocateComponents.
 // It customizes the JSON unmarshaling process for AllocateComponents objects.
 func (a *AllocateComponents) UnmarshalJSON(input []byte) error {
-    var temp allocateComponents
+    var temp tempAllocateComponents
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -96,8 +101,8 @@ func (a *AllocateComponents) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// allocateComponents is a temporary struct used for validating the fields of AllocateComponents.
-type allocateComponents  struct {
+// tempAllocateComponents is a temporary struct used for validating the fields of AllocateComponents.
+type tempAllocateComponents  struct {
     ProrationUpgradeScheme   *string              `json:"proration_upgrade_scheme,omitempty"`
     ProrationDowngradeScheme *string              `json:"proration_downgrade_scheme,omitempty"`
     Allocations              []CreateAllocation   `json:"allocations,omitempty"`

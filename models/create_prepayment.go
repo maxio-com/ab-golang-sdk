@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -42,7 +47,7 @@ func (c CreatePrepayment) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for CreatePrepayment.
 // It customizes the JSON unmarshaling process for CreatePrepayment objects.
 func (c *CreatePrepayment) UnmarshalJSON(input []byte) error {
-    var temp createPrepayment
+    var temp tempCreatePrepayment
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -65,8 +70,8 @@ func (c *CreatePrepayment) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// createPrepayment is a temporary struct used for validating the fields of CreatePrepayment.
-type createPrepayment  struct {
+// tempCreatePrepayment is a temporary struct used for validating the fields of CreatePrepayment.
+type tempCreatePrepayment  struct {
     Amount           *float64                `json:"amount"`
     Details          *string                 `json:"details"`
     Memo             *string                 `json:"memo"`
@@ -74,7 +79,7 @@ type createPrepayment  struct {
     PaymentProfileId *int                    `json:"payment_profile_id,omitempty"`
 }
 
-func (c *createPrepayment) validate() error {
+func (c *tempCreatePrepayment) validate() error {
     var errs []string
     if c.Amount == nil {
         errs = append(errs, "required field `amount` is missing for type `Create Prepayment`")
@@ -91,5 +96,5 @@ func (c *createPrepayment) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

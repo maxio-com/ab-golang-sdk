@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -47,7 +52,7 @@ func (n NestedSubscriptionGroup) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for NestedSubscriptionGroup.
 // It customizes the JSON unmarshaling process for NestedSubscriptionGroup objects.
 func (n *NestedSubscriptionGroup) UnmarshalJSON(input []byte) error {
-    var temp nestedSubscriptionGroup
+    var temp tempNestedSubscriptionGroup
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -65,8 +70,8 @@ func (n *NestedSubscriptionGroup) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// nestedSubscriptionGroup is a temporary struct used for validating the fields of NestedSubscriptionGroup.
-type nestedSubscriptionGroup  struct {
+// tempNestedSubscriptionGroup is a temporary struct used for validating the fields of NestedSubscriptionGroup.
+type tempNestedSubscriptionGroup  struct {
     Uid                   *string `json:"uid,omitempty"`
     Scheme                *int    `json:"scheme,omitempty"`
     PrimarySubscriptionId *int    `json:"primary_subscription_id,omitempty"`

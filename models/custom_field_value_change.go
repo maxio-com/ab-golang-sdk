@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -51,7 +56,7 @@ func (c CustomFieldValueChange) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for CustomFieldValueChange.
 // It customizes the JSON unmarshaling process for CustomFieldValueChange objects.
 func (c *CustomFieldValueChange) UnmarshalJSON(input []byte) error {
-    var temp customFieldValueChange
+    var temp tempCustomFieldValueChange
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -76,8 +81,8 @@ func (c *CustomFieldValueChange) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// customFieldValueChange is a temporary struct used for validating the fields of CustomFieldValueChange.
-type customFieldValueChange  struct {
+// tempCustomFieldValueChange is a temporary struct used for validating the fields of CustomFieldValueChange.
+type tempCustomFieldValueChange  struct {
     EventType     *string `json:"event_type"`
     MetafieldName *string `json:"metafield_name"`
     MetafieldId   *int    `json:"metafield_id"`
@@ -87,7 +92,7 @@ type customFieldValueChange  struct {
     ResourceId    *int    `json:"resource_id"`
 }
 
-func (c *customFieldValueChange) validate() error {
+func (c *tempCustomFieldValueChange) validate() error {
     var errs []string
     if c.EventType == nil {
         errs = append(errs, "required field `event_type` is missing for type `Custom Field Value Change`")
@@ -107,5 +112,5 @@ func (c *customFieldValueChange) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

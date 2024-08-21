@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -31,7 +36,7 @@ func (b BankAccountVerificationRequest) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for BankAccountVerificationRequest.
 // It customizes the JSON unmarshaling process for BankAccountVerificationRequest objects.
 func (b *BankAccountVerificationRequest) UnmarshalJSON(input []byte) error {
-    var temp bankAccountVerificationRequest
+    var temp tempBankAccountVerificationRequest
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -50,12 +55,12 @@ func (b *BankAccountVerificationRequest) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// bankAccountVerificationRequest is a temporary struct used for validating the fields of BankAccountVerificationRequest.
-type bankAccountVerificationRequest  struct {
+// tempBankAccountVerificationRequest is a temporary struct used for validating the fields of BankAccountVerificationRequest.
+type tempBankAccountVerificationRequest  struct {
     BankAccountVerification *BankAccountVerification `json:"bank_account_verification"`
 }
 
-func (b *bankAccountVerificationRequest) validate() error {
+func (b *tempBankAccountVerificationRequest) validate() error {
     var errs []string
     if b.BankAccountVerification == nil {
         errs = append(errs, "required field `bank_account_verification` is missing for type `Bank Account Verification Request`")
@@ -63,5 +68,5 @@ func (b *bankAccountVerificationRequest) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

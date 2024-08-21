@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -6,28 +11,30 @@ import (
 
 // UpdateCustomer represents a UpdateCustomer struct.
 type UpdateCustomer struct {
-    FirstName            *string        `json:"first_name,omitempty"`
-    LastName             *string        `json:"last_name,omitempty"`
-    Email                *string        `json:"email,omitempty"`
-    CcEmails             *string        `json:"cc_emails,omitempty"`
-    Organization         *string        `json:"organization,omitempty"`
-    Reference            *string        `json:"reference,omitempty"`
-    Address              *string        `json:"address,omitempty"`
-    Address2             *string        `json:"address_2,omitempty"`
-    City                 *string        `json:"city,omitempty"`
-    State                *string        `json:"state,omitempty"`
-    Zip                  *string        `json:"zip,omitempty"`
-    Country              *string        `json:"country,omitempty"`
-    Phone                *string        `json:"phone,omitempty"`
+    FirstName            *string          `json:"first_name,omitempty"`
+    LastName             *string          `json:"last_name,omitempty"`
+    Email                *string          `json:"email,omitempty"`
+    CcEmails             *string          `json:"cc_emails,omitempty"`
+    Organization         *string          `json:"organization,omitempty"`
+    Reference            *string          `json:"reference,omitempty"`
+    Address              *string          `json:"address,omitempty"`
+    Address2             *string          `json:"address_2,omitempty"`
+    City                 *string          `json:"city,omitempty"`
+    State                *string          `json:"state,omitempty"`
+    Zip                  *string          `json:"zip,omitempty"`
+    Country              *string          `json:"country,omitempty"`
+    Phone                *string          `json:"phone,omitempty"`
     // Set a specific language on a customer record.
-    Locale               *string        `json:"locale,omitempty"`
-    VatNumber            *string        `json:"vat_number,omitempty"`
-    TaxExempt            *bool          `json:"tax_exempt,omitempty"`
-    TaxExemptReason      *string        `json:"tax_exempt_reason,omitempty"`
-    ParentId             Optional[int]  `json:"parent_id"`
+    Locale               *string          `json:"locale,omitempty"`
+    VatNumber            *string          `json:"vat_number,omitempty"`
+    TaxExempt            *bool            `json:"tax_exempt,omitempty"`
+    TaxExemptReason      *string          `json:"tax_exempt_reason,omitempty"`
+    ParentId             Optional[int]    `json:"parent_id"`
     // Is the customer verified to use ACH as a payment method. Available only on Authorize.Net gateway
-    Verified             Optional[bool] `json:"verified"`
-    AdditionalProperties map[string]any `json:"_"`
+    Verified             Optional[bool]   `json:"verified"`
+    // The Salesforce ID of the customer
+    SalesforceId         Optional[string] `json:"salesforce_id"`
+    AdditionalProperties map[string]any   `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for UpdateCustomer.
@@ -107,18 +114,25 @@ func (u UpdateCustomer) toMap() map[string]any {
             structMap["verified"] = nil
         }
     }
+    if u.SalesforceId.IsValueSet() {
+        if u.SalesforceId.Value() != nil {
+            structMap["salesforce_id"] = u.SalesforceId.Value()
+        } else {
+            structMap["salesforce_id"] = nil
+        }
+    }
     return structMap
 }
 
 // UnmarshalJSON implements the json.Unmarshaler interface for UpdateCustomer.
 // It customizes the JSON unmarshaling process for UpdateCustomer objects.
 func (u *UpdateCustomer) UnmarshalJSON(input []byte) error {
-    var temp updateCustomer
+    var temp tempUpdateCustomer
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "first_name", "last_name", "email", "cc_emails", "organization", "reference", "address", "address_2", "city", "state", "zip", "country", "phone", "locale", "vat_number", "tax_exempt", "tax_exempt_reason", "parent_id", "verified")
+    additionalProperties, err := UnmarshalAdditionalProperties(input, "first_name", "last_name", "email", "cc_emails", "organization", "reference", "address", "address_2", "city", "state", "zip", "country", "phone", "locale", "vat_number", "tax_exempt", "tax_exempt_reason", "parent_id", "verified", "salesforce_id")
     if err != nil {
     	return err
     }
@@ -143,28 +157,30 @@ func (u *UpdateCustomer) UnmarshalJSON(input []byte) error {
     u.TaxExemptReason = temp.TaxExemptReason
     u.ParentId = temp.ParentId
     u.Verified = temp.Verified
+    u.SalesforceId = temp.SalesforceId
     return nil
 }
 
-// updateCustomer is a temporary struct used for validating the fields of UpdateCustomer.
-type updateCustomer  struct {
-    FirstName       *string        `json:"first_name,omitempty"`
-    LastName        *string        `json:"last_name,omitempty"`
-    Email           *string        `json:"email,omitempty"`
-    CcEmails        *string        `json:"cc_emails,omitempty"`
-    Organization    *string        `json:"organization,omitempty"`
-    Reference       *string        `json:"reference,omitempty"`
-    Address         *string        `json:"address,omitempty"`
-    Address2        *string        `json:"address_2,omitempty"`
-    City            *string        `json:"city,omitempty"`
-    State           *string        `json:"state,omitempty"`
-    Zip             *string        `json:"zip,omitempty"`
-    Country         *string        `json:"country,omitempty"`
-    Phone           *string        `json:"phone,omitempty"`
-    Locale          *string        `json:"locale,omitempty"`
-    VatNumber       *string        `json:"vat_number,omitempty"`
-    TaxExempt       *bool          `json:"tax_exempt,omitempty"`
-    TaxExemptReason *string        `json:"tax_exempt_reason,omitempty"`
-    ParentId        Optional[int]  `json:"parent_id"`
-    Verified        Optional[bool] `json:"verified"`
+// tempUpdateCustomer is a temporary struct used for validating the fields of UpdateCustomer.
+type tempUpdateCustomer  struct {
+    FirstName       *string          `json:"first_name,omitempty"`
+    LastName        *string          `json:"last_name,omitempty"`
+    Email           *string          `json:"email,omitempty"`
+    CcEmails        *string          `json:"cc_emails,omitempty"`
+    Organization    *string          `json:"organization,omitempty"`
+    Reference       *string          `json:"reference,omitempty"`
+    Address         *string          `json:"address,omitempty"`
+    Address2        *string          `json:"address_2,omitempty"`
+    City            *string          `json:"city,omitempty"`
+    State           *string          `json:"state,omitempty"`
+    Zip             *string          `json:"zip,omitempty"`
+    Country         *string          `json:"country,omitempty"`
+    Phone           *string          `json:"phone,omitempty"`
+    Locale          *string          `json:"locale,omitempty"`
+    VatNumber       *string          `json:"vat_number,omitempty"`
+    TaxExempt       *bool            `json:"tax_exempt,omitempty"`
+    TaxExemptReason *string          `json:"tax_exempt_reason,omitempty"`
+    ParentId        Optional[int]    `json:"parent_id"`
+    Verified        Optional[bool]   `json:"verified"`
+    SalesforceId    Optional[string] `json:"salesforce_id"`
 }

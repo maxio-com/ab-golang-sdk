@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -32,7 +37,7 @@ func (e EventBasedBillingSegmentError) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for EventBasedBillingSegmentError.
 // It customizes the JSON unmarshaling process for EventBasedBillingSegmentError objects.
 func (e *EventBasedBillingSegmentError) UnmarshalJSON(input []byte) error {
-    var temp eventBasedBillingSegmentError
+    var temp tempEventBasedBillingSegmentError
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -51,12 +56,12 @@ func (e *EventBasedBillingSegmentError) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// eventBasedBillingSegmentError is a temporary struct used for validating the fields of EventBasedBillingSegmentError.
-type eventBasedBillingSegmentError  struct {
+// tempEventBasedBillingSegmentError is a temporary struct used for validating the fields of EventBasedBillingSegmentError.
+type tempEventBasedBillingSegmentError  struct {
     Segments *map[string]interface{} `json:"segments"`
 }
 
-func (e *eventBasedBillingSegmentError) validate() error {
+func (e *tempEventBasedBillingSegmentError) validate() error {
     var errs []string
     if e.Segments == nil {
         errs = append(errs, "required field `segments` is missing for type `Event Based Billing Segment Error`")
@@ -64,5 +69,5 @@ func (e *eventBasedBillingSegmentError) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

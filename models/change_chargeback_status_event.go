@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -42,7 +47,7 @@ func (c ChangeChargebackStatusEvent) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for ChangeChargebackStatusEvent.
 // It customizes the JSON unmarshaling process for ChangeChargebackStatusEvent objects.
 func (c *ChangeChargebackStatusEvent) UnmarshalJSON(input []byte) error {
-    var temp changeChargebackStatusEvent
+    var temp tempChangeChargebackStatusEvent
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -69,8 +74,8 @@ func (c *ChangeChargebackStatusEvent) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// changeChargebackStatusEvent is a temporary struct used for validating the fields of ChangeChargebackStatusEvent.
-type changeChargebackStatusEvent  struct {
+// tempChangeChargebackStatusEvent is a temporary struct used for validating the fields of ChangeChargebackStatusEvent.
+type tempChangeChargebackStatusEvent  struct {
     Id        *int64                           `json:"id"`
     Timestamp *string                          `json:"timestamp"`
     Invoice   *Invoice                         `json:"invoice"`
@@ -78,7 +83,7 @@ type changeChargebackStatusEvent  struct {
     EventData *ChangeChargebackStatusEventData `json:"event_data"`
 }
 
-func (c *changeChargebackStatusEvent) validate() error {
+func (c *tempChangeChargebackStatusEvent) validate() error {
     var errs []string
     if c.Id == nil {
         errs = append(errs, "required field `id` is missing for type `Change Chargeback Status Event`")
@@ -98,5 +103,5 @@ func (c *changeChargebackStatusEvent) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

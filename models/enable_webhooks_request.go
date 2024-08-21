@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -31,7 +36,7 @@ func (e EnableWebhooksRequest) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for EnableWebhooksRequest.
 // It customizes the JSON unmarshaling process for EnableWebhooksRequest objects.
 func (e *EnableWebhooksRequest) UnmarshalJSON(input []byte) error {
-    var temp enableWebhooksRequest
+    var temp tempEnableWebhooksRequest
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -50,12 +55,12 @@ func (e *EnableWebhooksRequest) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// enableWebhooksRequest is a temporary struct used for validating the fields of EnableWebhooksRequest.
-type enableWebhooksRequest  struct {
+// tempEnableWebhooksRequest is a temporary struct used for validating the fields of EnableWebhooksRequest.
+type tempEnableWebhooksRequest  struct {
     WebhooksEnabled *bool `json:"webhooks_enabled"`
 }
 
-func (e *enableWebhooksRequest) validate() error {
+func (e *tempEnableWebhooksRequest) validate() error {
     var errs []string
     if e.WebhooksEnabled == nil {
         errs = append(errs, "required field `webhooks_enabled` is missing for type `Enable Webhooks Request`")
@@ -63,5 +68,5 @@ func (e *enableWebhooksRequest) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

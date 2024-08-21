@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -56,7 +61,7 @@ func (c CreateSegment) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for CreateSegment.
 // It customizes the JSON unmarshaling process for CreateSegment objects.
 func (c *CreateSegment) UnmarshalJSON(input []byte) error {
-    var temp createSegment
+    var temp tempCreateSegment
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -80,8 +85,8 @@ func (c *CreateSegment) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// createSegment is a temporary struct used for validating the fields of CreateSegment.
-type createSegment  struct {
+// tempCreateSegment is a temporary struct used for validating the fields of CreateSegment.
+type tempCreateSegment  struct {
     SegmentProperty1Value *CreateSegmentSegmentProperty1Value `json:"segment_property_1_value,omitempty"`
     SegmentProperty2Value *CreateSegmentSegmentProperty2Value `json:"segment_property_2_value,omitempty"`
     SegmentProperty3Value *CreateSegmentSegmentProperty3Value `json:"segment_property_3_value,omitempty"`
@@ -90,7 +95,7 @@ type createSegment  struct {
     Prices                []CreateOrUpdateSegmentPrice        `json:"prices,omitempty"`
 }
 
-func (c *createSegment) validate() error {
+func (c *tempCreateSegment) validate() error {
     var errs []string
     if c.PricingScheme == nil {
         errs = append(errs, "required field `pricing_scheme` is missing for type `Create Segment`")
@@ -98,5 +103,5 @@ func (c *createSegment) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

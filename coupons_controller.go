@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package advancedbilling
 
 import (
@@ -26,8 +31,8 @@ func NewCouponsController(baseController baseController) *CouponsController {
 // returns an models.ApiResponse with models.CouponResponse data and
 // an error if there was an issue with the request or response.
 // ## Coupons Documentation
-// Coupons can be administered in the Chargify application or created via API. Please view our section on [creating coupons](https://maxio-chargify.zendesk.com/hc/en-us/articles/5404742830733) for more information.
-// Additionally, for documentation on how to apply a coupon to a subscription within the Chargify UI, please see our documentation [here](https://maxio-chargify.zendesk.com/hc/en-us/articles/5404761012877).
+// Coupons can be administered in the Advanced Billing application or created via API. Please view our section on [creating coupons](https://maxio.zendesk.com/hc/en-us/articles/24261212433165-Creating-Editing-Deleting-Coupons) for more information.
+// Additionally, for documentation on how to apply a coupon to a subscription within the Advanced Billing UI, please see our documentation [here](https://maxio.zendesk.com/hc/en-us/articles/24261259337101-Coupons-and-Subscriptions).
 // ## Create Coupon
 // This request will create a coupon, based on the provided information.
 // When creating a coupon, you must specify a product family using the `product_family_id`. If no `product_family_id` is passed, the first product family available is used. You will also need to formulate your URL to cite the Product Family ID in your request.
@@ -65,7 +70,7 @@ func (c *CouponsController) CreateCoupon(
 
 // ListCouponsForProductFamilyInput represents the input of the ListCouponsForProductFamily endpoint.
 type ListCouponsForProductFamilyInput struct {
-    // The Chargify id of the product family to which the coupon belongs
+    // The Advanced Billing id of the product family to which the coupon belongs
     ProductFamilyId int                       
     // Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.
     // Use in query `page=1`.
@@ -150,7 +155,7 @@ func (c *CouponsController) FindCoupon(
 // ReadCoupon takes context, productFamilyId, couponId as parameters and
 // returns an models.ApiResponse with models.CouponResponse data and
 // an error if there was an issue with the request or response.
-// You can retrieve the Coupon via the API with the Show method. You must identify the Coupon in this call by the ID parameter that Chargify assigns.
+// You can retrieve the Coupon via the API with the Show method. You must identify the Coupon in this call by the ID parameter that Advanced Billing assigns.
 // If instead you would like to find a Coupon using a Coupon code, see the Coupon Find method.
 // When fetching a coupon, if you have defined multiple currencies at the site level, you can optionally pass the `?currency_prices=true` query param to include an array of currency price data in the response.
 // If the coupon is set to `use_site_exchange_rate: true`, it will return pricing based on the current exchange rate. If the flag is set to false, it will return all of the defined prices for each currency.
@@ -405,8 +410,8 @@ func (c *CouponsController) CreateOrUpdateCouponCurrencyPrices(
 // Coupon subcodes can be administered in the Admin Interface or via the API.
 // When creating a coupon subcode, you must specify a coupon to attach it to using the coupon_id. Valid coupon subcodes are all capital letters, contain only letters and numbers, and do not have any spaces. Lowercase letters will be capitalized before the subcode is created.
 // ## Coupon Subcodes Documentation
-// Full documentation on how to create coupon subcodes in the Chargify UI can be located [here](https://chargify.zendesk.com/hc/en-us/articles/4407755909531#coupon-codes).
-// Additionally, for documentation on how to apply a coupon to a Subscription within the Chargify UI, please see our documentation [here](https://chargify.zendesk.com/hc/en-us/articles/4407884887835#coupon).
+// Full documentation on how to create coupon subcodes in the Advanced Billing UI can be located [here](https://maxio.zendesk.com/hc/en-us/articles/24261208729229-Coupon-Codes).
+// Additionally, for documentation on how to apply a coupon to a Subscription within the Advanced Billing UI, please see our documentation [here](https://maxio.zendesk.com/hc/en-us/articles/24261259337101-Coupons-and-Subscriptions).
 // ## Create Coupon Subcode
 // This request allows you to create specific subcodes underneath an existing coupon code.
 // *Note*: If you are using any of the allowed special characters ("%", "@", "+", "-", "_", and "."), you must encode them for use in the URL.
@@ -446,7 +451,7 @@ func (c *CouponsController) CreateCouponSubcodes(
 
 // ListCouponSubcodesInput represents the input of the ListCouponSubcodes endpoint.
 type ListCouponSubcodesInput struct {
-    // The Chargify id of the coupon
+    // The Advanced Billing id of the coupon
     CouponId int  
     // Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.
     // Use in query `page=1`.

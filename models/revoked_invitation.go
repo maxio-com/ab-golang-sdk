@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -39,7 +44,7 @@ func (r RevokedInvitation) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for RevokedInvitation.
 // It customizes the JSON unmarshaling process for RevokedInvitation objects.
 func (r *RevokedInvitation) UnmarshalJSON(input []byte) error {
-    var temp revokedInvitation
+    var temp tempRevokedInvitation
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -56,8 +61,8 @@ func (r *RevokedInvitation) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// revokedInvitation is a temporary struct used for validating the fields of RevokedInvitation.
-type revokedInvitation  struct {
+// tempRevokedInvitation is a temporary struct used for validating the fields of RevokedInvitation.
+type tempRevokedInvitation  struct {
     LastSentAt     *string `json:"last_sent_at,omitempty"`
     LastAcceptedAt *string `json:"last_accepted_at,omitempty"`
     UninvitedCount *int    `json:"uninvited_count,omitempty"`

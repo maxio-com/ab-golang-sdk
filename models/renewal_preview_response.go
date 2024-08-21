@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -31,7 +36,7 @@ func (r RenewalPreviewResponse) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for RenewalPreviewResponse.
 // It customizes the JSON unmarshaling process for RenewalPreviewResponse objects.
 func (r *RenewalPreviewResponse) UnmarshalJSON(input []byte) error {
-    var temp renewalPreviewResponse
+    var temp tempRenewalPreviewResponse
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -50,12 +55,12 @@ func (r *RenewalPreviewResponse) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// renewalPreviewResponse is a temporary struct used for validating the fields of RenewalPreviewResponse.
-type renewalPreviewResponse  struct {
+// tempRenewalPreviewResponse is a temporary struct used for validating the fields of RenewalPreviewResponse.
+type tempRenewalPreviewResponse  struct {
     RenewalPreview *RenewalPreview `json:"renewal_preview"`
 }
 
-func (r *renewalPreviewResponse) validate() error {
+func (r *tempRenewalPreviewResponse) validate() error {
     var errs []string
     if r.RenewalPreview == nil {
         errs = append(errs, "required field `renewal_preview` is missing for type `Renewal Preview Response`")
@@ -63,5 +68,5 @@ func (r *renewalPreviewResponse) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

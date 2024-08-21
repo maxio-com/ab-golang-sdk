@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package advancedbilling
 
 import (
@@ -25,9 +30,9 @@ func NewProductsController(baseController baseController) *ProductsController {
 // CreateProduct takes context, productFamilyId, body as parameters and
 // returns an models.ApiResponse with models.ProductResponse data and
 // an error if there was an issue with the request or response.
-// Use this method to create a product within your Chargify site.
-// + [Products Documentation](https://maxio-chargify.zendesk.com/hc/en-us/articles/5405561405709)
-// + [Changing a Subscription's Product](https://maxio-chargify.zendesk.com/hc/en-us/articles/5404225334669-Product-Changes-Migrations)
+// Use this method to create a product within your Advanced Billing site.
+// + [Products Documentation](https://maxio.zendesk.com/hc/en-us/articles/24261090117645-Products-Overview)
+// + [Changing a Subscription's Product](https://maxio.zendesk.com/hc/en-us/articles/24252069837581-Product-Changes-and-Migrations)
 func (p *ProductsController) CreateProduct(
     ctx context.Context,
     productFamilyId string,
@@ -61,7 +66,7 @@ func (p *ProductsController) CreateProduct(
 // ReadProduct takes context, productId as parameters and
 // returns an models.ApiResponse with models.ProductResponse data and
 // an error if there was an issue with the request or response.
-// This endpoint allows you to read the current details of a product that you've created in Chargify.
+// This endpoint allows you to read the current details of a product that you've created in Advanced Billing.
 func (p *ProductsController) ReadProduct(
     ctx context.Context,
     productId int) (

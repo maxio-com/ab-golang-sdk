@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -36,7 +41,7 @@ type Allocation struct {
     // The numerical interval. i.e. an interval of ‘30’ coupled with an interval_unit of day would mean this component price point would renew every 30 days. This property is only available for sites with Multifrequency enabled.
     Interval                 *int                           `json:"interval,omitempty"`
     // A string representing the interval unit for this component price point, either month or day. This property is only available for sites with Multifrequency enabled.
-    IntervalUnit             *IntervalUnit                  `json:"interval_unit,omitempty"`
+    IntervalUnit             Optional[IntervalUnit]         `json:"interval_unit"`
     PreviousPricePointId     *int                           `json:"previous_price_point_id,omitempty"`
     // If the change in cost is an upgrade, this determines if the charge should accrue to the next renewal or if capture should be attempted immediately.
     AccrueCharge             *bool                          `json:"accrue_charge,omitempty"`
@@ -121,8 +126,12 @@ func (a Allocation) toMap() map[string]any {
     if a.Interval != nil {
         structMap["interval"] = a.Interval
     }
-    if a.IntervalUnit != nil {
-        structMap["interval_unit"] = a.IntervalUnit
+    if a.IntervalUnit.IsValueSet() {
+        if a.IntervalUnit.Value() != nil {
+            structMap["interval_unit"] = a.IntervalUnit.Value()
+        } else {
+            structMap["interval_unit"] = nil
+        }
     }
     if a.PreviousPricePointId != nil {
         structMap["previous_price_point_id"] = a.PreviousPricePointId
@@ -169,7 +178,7 @@ func (a Allocation) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for Allocation.
 // It customizes the JSON unmarshaling process for Allocation objects.
 func (a *Allocation) UnmarshalJSON(input []byte) error {
-    var temp allocation
+    var temp tempAllocation
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -226,8 +235,8 @@ func (a *Allocation) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// allocation is a temporary struct used for validating the fields of Allocation.
-type allocation  struct {
+// tempAllocation is a temporary struct used for validating the fields of Allocation.
+type tempAllocation  struct {
     AllocationId             *int                           `json:"allocation_id,omitempty"`
     ComponentId              *int                           `json:"component_id,omitempty"`
     ComponentHandle          Optional[string]               `json:"component_handle"`
@@ -243,7 +252,7 @@ type allocation  struct {
     PricePointName           *string                        `json:"price_point_name,omitempty"`
     PricePointHandle         *string                        `json:"price_point_handle,omitempty"`
     Interval                 *int                           `json:"interval,omitempty"`
-    IntervalUnit             *IntervalUnit                  `json:"interval_unit,omitempty"`
+    IntervalUnit             Optional[IntervalUnit]         `json:"interval_unit"`
     PreviousPricePointId     *int                           `json:"previous_price_point_id,omitempty"`
     AccrueCharge             *bool                          `json:"accrue_charge,omitempty"`
     InitiateDunning          *bool                          `json:"initiate_dunning,omitempty"`

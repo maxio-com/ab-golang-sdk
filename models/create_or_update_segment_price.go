@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -40,7 +45,7 @@ func (c CreateOrUpdateSegmentPrice) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for CreateOrUpdateSegmentPrice.
 // It customizes the JSON unmarshaling process for CreateOrUpdateSegmentPrice objects.
 func (c *CreateOrUpdateSegmentPrice) UnmarshalJSON(input []byte) error {
-    var temp createOrUpdateSegmentPrice
+    var temp tempCreateOrUpdateSegmentPrice
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -61,14 +66,14 @@ func (c *CreateOrUpdateSegmentPrice) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// createOrUpdateSegmentPrice is a temporary struct used for validating the fields of CreateOrUpdateSegmentPrice.
-type createOrUpdateSegmentPrice  struct {
+// tempCreateOrUpdateSegmentPrice is a temporary struct used for validating the fields of CreateOrUpdateSegmentPrice.
+type tempCreateOrUpdateSegmentPrice  struct {
     StartingQuantity *int                                 `json:"starting_quantity,omitempty"`
     EndingQuantity   *int                                 `json:"ending_quantity,omitempty"`
     UnitPrice        *CreateOrUpdateSegmentPriceUnitPrice `json:"unit_price"`
 }
 
-func (c *createOrUpdateSegmentPrice) validate() error {
+func (c *tempCreateOrUpdateSegmentPrice) validate() error {
     var errs []string
     if c.UnitPrice == nil {
         errs = append(errs, "required field `unit_price` is missing for type `Create or Update Segment Price`")
@@ -76,5 +81,5 @@ func (c *createOrUpdateSegmentPrice) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

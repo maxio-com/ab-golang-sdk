@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -66,7 +71,7 @@ func (a AllocationPreviewLineItem) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for AllocationPreviewLineItem.
 // It customizes the JSON unmarshaling process for AllocationPreviewLineItem objects.
 func (a *AllocationPreviewLineItem) UnmarshalJSON(input []byte) error {
-    var temp allocationPreviewLineItem
+    var temp tempAllocationPreviewLineItem
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -89,8 +94,8 @@ func (a *AllocationPreviewLineItem) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// allocationPreviewLineItem is a temporary struct used for validating the fields of AllocationPreviewLineItem.
-type allocationPreviewLineItem  struct {
+// tempAllocationPreviewLineItem is a temporary struct used for validating the fields of AllocationPreviewLineItem.
+type tempAllocationPreviewLineItem  struct {
     TransactionType       *LineItemTransactionType       `json:"transaction_type,omitempty"`
     Kind                  *AllocationPreviewLineItemKind `json:"kind,omitempty"`
     AmountInCents         *int64                         `json:"amount_in_cents,omitempty"`

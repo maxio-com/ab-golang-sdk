@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -38,7 +43,7 @@ func (g GroupTarget) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for GroupTarget.
 // It customizes the JSON unmarshaling process for GroupTarget objects.
 func (g *GroupTarget) UnmarshalJSON(input []byte) error {
-    var temp groupTarget
+    var temp tempGroupTarget
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -58,13 +63,13 @@ func (g *GroupTarget) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// groupTarget is a temporary struct used for validating the fields of GroupTarget.
-type groupTarget  struct {
+// tempGroupTarget is a temporary struct used for validating the fields of GroupTarget.
+type tempGroupTarget  struct {
     Type *GroupTargetType `json:"type"`
     Id   *int             `json:"id,omitempty"`
 }
 
-func (g *groupTarget) validate() error {
+func (g *tempGroupTarget) validate() error {
     var errs []string
     if g.Type == nil {
         errs = append(errs, "required field `type` is missing for type `Group Target`")
@@ -72,5 +77,5 @@ func (g *groupTarget) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

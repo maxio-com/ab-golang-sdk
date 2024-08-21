@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -42,7 +47,7 @@ func (a ApplyDebitNoteEvent) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for ApplyDebitNoteEvent.
 // It customizes the JSON unmarshaling process for ApplyDebitNoteEvent objects.
 func (a *ApplyDebitNoteEvent) UnmarshalJSON(input []byte) error {
-    var temp applyDebitNoteEvent
+    var temp tempApplyDebitNoteEvent
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -69,8 +74,8 @@ func (a *ApplyDebitNoteEvent) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// applyDebitNoteEvent is a temporary struct used for validating the fields of ApplyDebitNoteEvent.
-type applyDebitNoteEvent  struct {
+// tempApplyDebitNoteEvent is a temporary struct used for validating the fields of ApplyDebitNoteEvent.
+type tempApplyDebitNoteEvent  struct {
     Id        *int64                   `json:"id"`
     Timestamp *string                  `json:"timestamp"`
     Invoice   *Invoice                 `json:"invoice"`
@@ -78,7 +83,7 @@ type applyDebitNoteEvent  struct {
     EventData *ApplyDebitNoteEventData `json:"event_data"`
 }
 
-func (a *applyDebitNoteEvent) validate() error {
+func (a *tempApplyDebitNoteEvent) validate() error {
     var errs []string
     if a.Id == nil {
         errs = append(errs, "required field `id` is missing for type `Apply Debit Note Event`")
@@ -98,5 +103,5 @@ func (a *applyDebitNoteEvent) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

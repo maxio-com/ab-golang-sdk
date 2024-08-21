@@ -27,7 +27,7 @@ componentPricePointsController := client.ComponentPricePointsController()
 
 Sets a new default price point for the component. This new default will apply to all new subscriptions going forward - existing subscriptions will remain on their current price point.
 
-See [Price Points Documentation](https://chargify.zendesk.com/hc/en-us/articles/4407755865883#price-points) for more information on price points and moving subscriptions between price points.
+See [Price Points Documentation](https://maxio.zendesk.com/hc/en-us/articles/24261191737101-Price-Points-Components) for more information on price points and moving subscriptions between price points.
 
 Note: Custom price points are not able to be set as the default for a component.
 
@@ -44,8 +44,8 @@ PromoteComponentPricePointToDefault(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `componentId` | `int` | Template, Required | The Chargify id of the component to which the price point belongs |
-| `pricePointId` | `int` | Template, Required | The Chargify id of the price point |
+| `componentId` | `int` | Template, Required | The Advanced Billing id of the component to which the price point belongs |
+| `pricePointId` | `int` | Template, Required | The Advanced Billing id of the price point |
 
 ## Response Type
 
@@ -121,7 +121,7 @@ CreateComponentPricePoint(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `componentId` | `int` | Template, Required | The Chargify id of the component |
+| `componentId` | `int` | Template, Required | The Advanced Billing id of the component |
 | `body` | [`*models.CreateComponentPricePointRequest`](../../doc/models/create-component-price-point-request.md) | Body, Optional | - |
 
 ## Response Type
@@ -188,7 +188,7 @@ ListComponentPricePoints(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `componentId` | `int` | Template, Required | The Chargify id of the component |
+| `componentId` | `int` | Template, Required | The Advanced Billing id of the component |
 | `currencyPrices` | `*bool` | Query, Optional | Include an array of currency price data |
 | `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`. |
 | `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`. |
@@ -286,7 +286,7 @@ BulkCreateComponentPricePoints(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `componentId` | `string` | Template, Required | The Chargify id of the component for which you want to fetch price points. |
+| `componentId` | `string` | Template, Required | The Advanced Billing id of the component for which you want to fetch price points. |
 | `body` | [`*models.CreateComponentPricePointsRequest`](../../doc/models/create-component-price-points-request.md) | Body, Optional | - |
 
 ## Response Type
@@ -622,8 +622,8 @@ UnarchiveComponentPricePoint(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `componentId` | `int` | Template, Required | The Chargify id of the component to which the price point belongs |
-| `pricePointId` | `int` | Template, Required | The Chargify id of the price point |
+| `componentId` | `int` | Template, Required | The Advanced Billing id of the component to which the price point belongs |
+| `pricePointId` | `int` | Template, Required | The Advanced Billing id of the price point |
 
 ## Response Type
 
@@ -704,7 +704,7 @@ CreateCurrencyPrices(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `pricePointId` | `int` | Template, Required | The Chargify id of the price point |
+| `pricePointId` | `int` | Template, Required | The Advanced Billing id of the price point |
 | `body` | [`*models.CreateCurrencyPricesRequest`](../../doc/models/create-currency-prices-request.md) | Body, Optional | - |
 
 ## Response Type
@@ -786,7 +786,7 @@ UpdateCurrencyPrices(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `pricePointId` | `int` | Template, Required | The Chargify id of the price point |
+| `pricePointId` | `int` | Template, Required | The Advanced Billing id of the price point |
 | `body` | [`*models.UpdateCurrencyPricesRequest`](../../doc/models/update-currency-prices-request.md) | Body, Optional | - |
 
 ## Response Type

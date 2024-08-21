@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -31,7 +36,7 @@ func (c CancelGroupedSubscriptionsRequest) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for CancelGroupedSubscriptionsRequest.
 // It customizes the JSON unmarshaling process for CancelGroupedSubscriptionsRequest objects.
 func (c *CancelGroupedSubscriptionsRequest) UnmarshalJSON(input []byte) error {
-    var temp cancelGroupedSubscriptionsRequest
+    var temp tempCancelGroupedSubscriptionsRequest
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -46,7 +51,7 @@ func (c *CancelGroupedSubscriptionsRequest) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// cancelGroupedSubscriptionsRequest is a temporary struct used for validating the fields of CancelGroupedSubscriptionsRequest.
-type cancelGroupedSubscriptionsRequest  struct {
+// tempCancelGroupedSubscriptionsRequest is a temporary struct used for validating the fields of CancelGroupedSubscriptionsRequest.
+type tempCancelGroupedSubscriptionsRequest  struct {
     ChargeUnbilledUsage *bool `json:"charge_unbilled_usage,omitempty"`
 }

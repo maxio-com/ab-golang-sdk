@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -31,7 +36,7 @@ func (b BulkCreateProductPricePointsResponse) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for BulkCreateProductPricePointsResponse.
 // It customizes the JSON unmarshaling process for BulkCreateProductPricePointsResponse objects.
 func (b *BulkCreateProductPricePointsResponse) UnmarshalJSON(input []byte) error {
-    var temp bulkCreateProductPricePointsResponse
+    var temp tempBulkCreateProductPricePointsResponse
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -46,7 +51,7 @@ func (b *BulkCreateProductPricePointsResponse) UnmarshalJSON(input []byte) error
     return nil
 }
 
-// bulkCreateProductPricePointsResponse is a temporary struct used for validating the fields of BulkCreateProductPricePointsResponse.
-type bulkCreateProductPricePointsResponse  struct {
+// tempBulkCreateProductPricePointsResponse is a temporary struct used for validating the fields of BulkCreateProductPricePointsResponse.
+type tempBulkCreateProductPricePointsResponse  struct {
     PricePoints []ProductPricePoint `json:"price_points,omitempty"`
 }

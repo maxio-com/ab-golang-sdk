@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -53,7 +58,7 @@ func (p ProformaInvoiceIssued) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for ProformaInvoiceIssued.
 // It customizes the JSON unmarshaling process for ProformaInvoiceIssued objects.
 func (p *ProformaInvoiceIssued) UnmarshalJSON(input []byte) error {
-    var temp proformaInvoiceIssued
+    var temp tempProformaInvoiceIssued
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -90,8 +95,8 @@ func (p *ProformaInvoiceIssued) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// proformaInvoiceIssued is a temporary struct used for validating the fields of ProformaInvoiceIssued.
-type proformaInvoiceIssued  struct {
+// tempProformaInvoiceIssued is a temporary struct used for validating the fields of ProformaInvoiceIssued.
+type tempProformaInvoiceIssued  struct {
     Uid          *string                     `json:"uid"`
     Number       *string                     `json:"number"`
     Role         *string                     `json:"role"`
@@ -105,7 +110,7 @@ type proformaInvoiceIssued  struct {
     LineItems    *[]InvoiceLineItemEventData `json:"line_items"`
 }
 
-func (p *proformaInvoiceIssued) validate() error {
+func (p *tempProformaInvoiceIssued) validate() error {
     var errs []string
     if p.Uid == nil {
         errs = append(errs, "required field `uid` is missing for type `Proforma Invoice Issued`")
@@ -143,5 +148,5 @@ func (p *proformaInvoiceIssued) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

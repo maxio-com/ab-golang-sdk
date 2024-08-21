@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -8,52 +13,52 @@ import (
 
 // ProductPricePoint represents a ProductPricePoint struct.
 type ProductPricePoint struct {
-    Id                      *int                   `json:"id,omitempty"`
+    Id                      *int                             `json:"id,omitempty"`
     // The product price point name
-    Name                    *string                `json:"name,omitempty"`
+    Name                    *string                          `json:"name,omitempty"`
     // The product price point API handle
-    Handle                  Optional[string]       `json:"handle"`
+    Handle                  Optional[string]                 `json:"handle"`
     // The product price point price, in integer cents
-    PriceInCents            *int64                 `json:"price_in_cents,omitempty"`
+    PriceInCents            *int64                           `json:"price_in_cents,omitempty"`
     // The numerical interval. i.e. an interval of ‘30’ coupled with an interval_unit of day would mean this product price point would renew every 30 days
-    Interval                *int                   `json:"interval,omitempty"`
+    Interval                *int                             `json:"interval,omitempty"`
     // A string representing the interval unit for this product price point, either month or day
-    IntervalUnit            *IntervalUnit          `json:"interval_unit,omitempty"`
+    IntervalUnit            *IntervalUnit                    `json:"interval_unit,omitempty"`
     // The product price point trial price, in integer cents
-    TrialPriceInCents       Optional[int64]        `json:"trial_price_in_cents"`
+    TrialPriceInCents       Optional[int64]                  `json:"trial_price_in_cents"`
     // The numerical trial interval. i.e. an interval of ‘30’ coupled with a trial_interval_unit of day would mean this product price point trial would last 30 days
-    TrialInterval           Optional[int]          `json:"trial_interval"`
+    TrialInterval           Optional[int]                    `json:"trial_interval"`
     // A string representing the trial interval unit for this product price point, either month or day
-    TrialIntervalUnit       Optional[IntervalUnit] `json:"trial_interval_unit"`
-    TrialType               *string                `json:"trial_type,omitempty"`
+    TrialIntervalUnit       Optional[IntervalUnit]           `json:"trial_interval_unit"`
+    TrialType               *string                          `json:"trial_type,omitempty"`
     // reserved for future use
-    IntroductoryOffer       Optional[bool]         `json:"introductory_offer"`
+    IntroductoryOffer       Optional[bool]                   `json:"introductory_offer"`
     // The product price point initial charge, in integer cents
-    InitialChargeInCents    Optional[int64]        `json:"initial_charge_in_cents"`
-    InitialChargeAfterTrial Optional[bool]         `json:"initial_charge_after_trial"`
+    InitialChargeInCents    Optional[int64]                  `json:"initial_charge_in_cents"`
+    InitialChargeAfterTrial Optional[bool]                   `json:"initial_charge_after_trial"`
     // The numerical expiration interval. i.e. an expiration_interval of ‘30’ coupled with an expiration_interval_unit of day would mean this product price point would expire after 30 days
-    ExpirationInterval      Optional[int]          `json:"expiration_interval"`
-    // A string representing the expiration interval unit for this product price point, either month or day
-    ExpirationIntervalUnit  Optional[IntervalUnit] `json:"expiration_interval_unit"`
+    ExpirationInterval      Optional[int]                    `json:"expiration_interval"`
+    // A string representing the expiration interval unit for this product price point, either month, day or never
+    ExpirationIntervalUnit  Optional[ExpirationIntervalUnit] `json:"expiration_interval_unit"`
     // The product id this price point belongs to
-    ProductId               *int                   `json:"product_id,omitempty"`
+    ProductId               *int                             `json:"product_id,omitempty"`
     // Timestamp indicating when this price point was archived
-    ArchivedAt              Optional[time.Time]    `json:"archived_at"`
+    ArchivedAt              Optional[time.Time]              `json:"archived_at"`
     // Timestamp indicating when this price point was created
-    CreatedAt               *time.Time             `json:"created_at,omitempty"`
+    CreatedAt               *time.Time                       `json:"created_at,omitempty"`
     // Timestamp indicating when this price point was last updated
-    UpdatedAt               *time.Time             `json:"updated_at,omitempty"`
+    UpdatedAt               *time.Time                       `json:"updated_at,omitempty"`
     // Whether or not to use the site's exchange rate or define your own pricing when your site has multiple currencies defined.
-    UseSiteExchangeRate     *bool                  `json:"use_site_exchange_rate,omitempty"`
+    UseSiteExchangeRate     *bool                            `json:"use_site_exchange_rate,omitempty"`
     // The type of price point
-    Type                    *PricePointType        `json:"type,omitempty"`
+    Type                    *PricePointType                  `json:"type,omitempty"`
     // Whether or not the price point includes tax
-    TaxIncluded             *bool                  `json:"tax_included,omitempty"`
+    TaxIncluded             *bool                            `json:"tax_included,omitempty"`
     // The subscription id this price point belongs to
-    SubscriptionId          Optional[int]          `json:"subscription_id"`
+    SubscriptionId          Optional[int]                    `json:"subscription_id"`
     // An array of currency pricing data is available when multiple currencies are defined for the site. It varies based on the use_site_exchange_rate setting for the price point. This parameter is present only in the response of read endpoints, after including the appropriate query parameter.
-    CurrencyPrices          []CurrencyPrice        `json:"currency_prices,omitempty"`
-    AdditionalProperties    map[string]any         `json:"_"`
+    CurrencyPrices          []CurrencyPrice                  `json:"currency_prices,omitempty"`
+    AdditionalProperties    map[string]any                   `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for ProductPricePoint.
@@ -195,7 +200,7 @@ func (p ProductPricePoint) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for ProductPricePoint.
 // It customizes the JSON unmarshaling process for ProductPricePoint objects.
 func (p *ProductPricePoint) UnmarshalJSON(input []byte) error {
-    var temp productPricePoint
+    var temp tempProductPricePoint
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -252,30 +257,30 @@ func (p *ProductPricePoint) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// productPricePoint is a temporary struct used for validating the fields of ProductPricePoint.
-type productPricePoint  struct {
-    Id                      *int                   `json:"id,omitempty"`
-    Name                    *string                `json:"name,omitempty"`
-    Handle                  Optional[string]       `json:"handle"`
-    PriceInCents            *int64                 `json:"price_in_cents,omitempty"`
-    Interval                *int                   `json:"interval,omitempty"`
-    IntervalUnit            *IntervalUnit          `json:"interval_unit,omitempty"`
-    TrialPriceInCents       Optional[int64]        `json:"trial_price_in_cents"`
-    TrialInterval           Optional[int]          `json:"trial_interval"`
-    TrialIntervalUnit       Optional[IntervalUnit] `json:"trial_interval_unit"`
-    TrialType               *string                `json:"trial_type,omitempty"`
-    IntroductoryOffer       Optional[bool]         `json:"introductory_offer"`
-    InitialChargeInCents    Optional[int64]        `json:"initial_charge_in_cents"`
-    InitialChargeAfterTrial Optional[bool]         `json:"initial_charge_after_trial"`
-    ExpirationInterval      Optional[int]          `json:"expiration_interval"`
-    ExpirationIntervalUnit  Optional[IntervalUnit] `json:"expiration_interval_unit"`
-    ProductId               *int                   `json:"product_id,omitempty"`
-    ArchivedAt              Optional[string]       `json:"archived_at"`
-    CreatedAt               *string                `json:"created_at,omitempty"`
-    UpdatedAt               *string                `json:"updated_at,omitempty"`
-    UseSiteExchangeRate     *bool                  `json:"use_site_exchange_rate,omitempty"`
-    Type                    *PricePointType        `json:"type,omitempty"`
-    TaxIncluded             *bool                  `json:"tax_included,omitempty"`
-    SubscriptionId          Optional[int]          `json:"subscription_id"`
-    CurrencyPrices          []CurrencyPrice        `json:"currency_prices,omitempty"`
+// tempProductPricePoint is a temporary struct used for validating the fields of ProductPricePoint.
+type tempProductPricePoint  struct {
+    Id                      *int                             `json:"id,omitempty"`
+    Name                    *string                          `json:"name,omitempty"`
+    Handle                  Optional[string]                 `json:"handle"`
+    PriceInCents            *int64                           `json:"price_in_cents,omitempty"`
+    Interval                *int                             `json:"interval,omitempty"`
+    IntervalUnit            *IntervalUnit                    `json:"interval_unit,omitempty"`
+    TrialPriceInCents       Optional[int64]                  `json:"trial_price_in_cents"`
+    TrialInterval           Optional[int]                    `json:"trial_interval"`
+    TrialIntervalUnit       Optional[IntervalUnit]           `json:"trial_interval_unit"`
+    TrialType               *string                          `json:"trial_type,omitempty"`
+    IntroductoryOffer       Optional[bool]                   `json:"introductory_offer"`
+    InitialChargeInCents    Optional[int64]                  `json:"initial_charge_in_cents"`
+    InitialChargeAfterTrial Optional[bool]                   `json:"initial_charge_after_trial"`
+    ExpirationInterval      Optional[int]                    `json:"expiration_interval"`
+    ExpirationIntervalUnit  Optional[ExpirationIntervalUnit] `json:"expiration_interval_unit"`
+    ProductId               *int                             `json:"product_id,omitempty"`
+    ArchivedAt              Optional[string]                 `json:"archived_at"`
+    CreatedAt               *string                          `json:"created_at,omitempty"`
+    UpdatedAt               *string                          `json:"updated_at,omitempty"`
+    UseSiteExchangeRate     *bool                            `json:"use_site_exchange_rate,omitempty"`
+    Type                    *PricePointType                  `json:"type,omitempty"`
+    TaxIncluded             *bool                            `json:"tax_included,omitempty"`
+    SubscriptionId          Optional[int]                    `json:"subscription_id"`
+    CurrencyPrices          []CurrencyPrice                  `json:"currency_prices,omitempty"`
 }

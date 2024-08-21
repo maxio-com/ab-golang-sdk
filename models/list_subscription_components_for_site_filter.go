@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -42,7 +47,7 @@ func (l ListSubscriptionComponentsForSiteFilter) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for ListSubscriptionComponentsForSiteFilter.
 // It customizes the JSON unmarshaling process for ListSubscriptionComponentsForSiteFilter objects.
 func (l *ListSubscriptionComponentsForSiteFilter) UnmarshalJSON(input []byte) error {
-    var temp listSubscriptionComponentsForSiteFilter
+    var temp tempListSubscriptionComponentsForSiteFilter
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -59,8 +64,8 @@ func (l *ListSubscriptionComponentsForSiteFilter) UnmarshalJSON(input []byte) er
     return nil
 }
 
-// listSubscriptionComponentsForSiteFilter is a temporary struct used for validating the fields of ListSubscriptionComponentsForSiteFilter.
-type listSubscriptionComponentsForSiteFilter  struct {
+// tempListSubscriptionComponentsForSiteFilter is a temporary struct used for validating the fields of ListSubscriptionComponentsForSiteFilter.
+type tempListSubscriptionComponentsForSiteFilter  struct {
     Currencies          []string            `json:"currencies,omitempty"`
     UseSiteExchangeRate *bool               `json:"use_site_exchange_rate,omitempty"`
     Subscription        *SubscriptionFilter `json:"subscription,omitempty"`

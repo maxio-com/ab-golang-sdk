@@ -27,6 +27,7 @@
 | `TaxExempt` | `*bool` | Optional | - |
 | `TaxExemptReason` | `*string` | Optional | - |
 | `ParentId` | `models.Optional[int]` | Optional | The parent ID in Chargify if applicable. Parent is another Customer object. |
+| `SalesforceId` | `models.Optional[string]` | Optional | The Salesforce ID of the customer |
 
 ## Example (as JSON)
 

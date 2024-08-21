@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -18,7 +23,7 @@ type GetOneTimeTokenPaymentProfile struct {
     ExpirationYear       float64          `json:"expiration_year"`
     CustomerId           Optional[string] `json:"customer_id"`
     // The vault that stores the payment profile with the provided `vault_token`. Use `bogus` for testing.
-    CurrentVault         CurrentVault     `json:"current_vault"`
+    CurrentVault         CreditCardVault  `json:"current_vault"`
     VaultToken           string           `json:"vault_token"`
     BillingAddress       string           `json:"billing_address"`
     BillingAddress2      *string          `json:"billing_address_2,omitempty"`
@@ -99,7 +104,7 @@ func (g GetOneTimeTokenPaymentProfile) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for GetOneTimeTokenPaymentProfile.
 // It customizes the JSON unmarshaling process for GetOneTimeTokenPaymentProfile objects.
 func (g *GetOneTimeTokenPaymentProfile) UnmarshalJSON(input []byte) error {
-    var temp getOneTimeTokenPaymentProfile
+    var temp tempGetOneTimeTokenPaymentProfile
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -138,8 +143,8 @@ func (g *GetOneTimeTokenPaymentProfile) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// getOneTimeTokenPaymentProfile is a temporary struct used for validating the fields of GetOneTimeTokenPaymentProfile.
-type getOneTimeTokenPaymentProfile  struct {
+// tempGetOneTimeTokenPaymentProfile is a temporary struct used for validating the fields of GetOneTimeTokenPaymentProfile.
+type tempGetOneTimeTokenPaymentProfile  struct {
     Id                   Optional[string] `json:"id"`
     FirstName            *string          `json:"first_name"`
     LastName             *string          `json:"last_name"`
@@ -148,7 +153,7 @@ type getOneTimeTokenPaymentProfile  struct {
     ExpirationMonth      *float64         `json:"expiration_month"`
     ExpirationYear       *float64         `json:"expiration_year"`
     CustomerId           Optional[string] `json:"customer_id"`
-    CurrentVault         *CurrentVault    `json:"current_vault"`
+    CurrentVault         *CreditCardVault `json:"current_vault"`
     VaultToken           *string          `json:"vault_token"`
     BillingAddress       *string          `json:"billing_address"`
     BillingAddress2      *string          `json:"billing_address_2,omitempty"`
@@ -163,7 +168,7 @@ type getOneTimeTokenPaymentProfile  struct {
     GatewayHandle        Optional[string] `json:"gateway_handle"`
 }
 
-func (g *getOneTimeTokenPaymentProfile) validate() error {
+func (g *tempGetOneTimeTokenPaymentProfile) validate() error {
     var errs []string
     if g.FirstName == nil {
         errs = append(errs, "required field `first_name` is missing for type `Get One Time Token Payment Profile`")
@@ -216,5 +221,5 @@ func (g *getOneTimeTokenPaymentProfile) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

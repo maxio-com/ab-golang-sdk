@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -31,7 +36,7 @@ func (s SiteResponse) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for SiteResponse.
 // It customizes the JSON unmarshaling process for SiteResponse objects.
 func (s *SiteResponse) UnmarshalJSON(input []byte) error {
-    var temp siteResponse
+    var temp tempSiteResponse
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -50,12 +55,12 @@ func (s *SiteResponse) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// siteResponse is a temporary struct used for validating the fields of SiteResponse.
-type siteResponse  struct {
+// tempSiteResponse is a temporary struct used for validating the fields of SiteResponse.
+type tempSiteResponse  struct {
     Site *Site `json:"site"`
 }
 
-func (s *siteResponse) validate() error {
+func (s *tempSiteResponse) validate() error {
     var errs []string
     if s.Site == nil {
         errs = append(errs, "required field `site` is missing for type `Site Response`")
@@ -63,5 +68,5 @@ func (s *siteResponse) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -16,7 +21,7 @@ type OnOffComponent struct {
     Handle                    *string                   `json:"handle,omitempty"`
     // Boolean flag describing whether a component is taxable or not.
     Taxable                   *bool                     `json:"taxable,omitempty"`
-    // (Not required for ‘per_unit’ pricing schemes) One or more price brackets. See [Price Bracket Rules](https://chargify.zendesk.com/hc/en-us/articles/4407755865883#price-bracket-rules) for an overview of how price brackets work for different pricing schemes.
+    // (Not required for ‘per_unit’ pricing schemes) One or more price brackets. See [Price Bracket Rules](https://maxio.zendesk.com/hc/en-us/articles/24261191737101-Price-Points-Components) for an overview of how price brackets work for different pricing schemes.
     Prices                    []Price                   `json:"prices,omitempty"`
     // The type of credit to be created when upgrading/downgrading. Defaults to the component and then site setting if one is not provided.
     // Available values: `full`, `prorated`, `none`.
@@ -39,7 +44,7 @@ type OnOffComponent struct {
     // The numerical interval. i.e. an interval of ‘30’ coupled with an interval_unit of day would mean this component's default price point would renew every 30 days. This property is only available for sites with Multifrequency enabled.
     Interval                  *int                      `json:"interval,omitempty"`
     // A string representing the interval unit for this component's default price point, either month or day. This property is only available for sites with Multifrequency enabled.
-    IntervalUnit              *IntervalUnit             `json:"interval_unit,omitempty"`
+    IntervalUnit              Optional[IntervalUnit]    `json:"interval_unit"`
     AdditionalProperties      map[string]any            `json:"_"`
 }
 
@@ -109,8 +114,12 @@ func (o OnOffComponent) toMap() map[string]any {
     if o.Interval != nil {
         structMap["interval"] = o.Interval
     }
-    if o.IntervalUnit != nil {
-        structMap["interval_unit"] = o.IntervalUnit
+    if o.IntervalUnit.IsValueSet() {
+        if o.IntervalUnit.Value() != nil {
+            structMap["interval_unit"] = o.IntervalUnit.Value()
+        } else {
+            structMap["interval_unit"] = nil
+        }
     }
     return structMap
 }
@@ -118,7 +127,7 @@ func (o OnOffComponent) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for OnOffComponent.
 // It customizes the JSON unmarshaling process for OnOffComponent objects.
 func (o *OnOffComponent) UnmarshalJSON(input []byte) error {
-    var temp onOffComponent
+    var temp tempOnOffComponent
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -153,8 +162,8 @@ func (o *OnOffComponent) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// onOffComponent is a temporary struct used for validating the fields of OnOffComponent.
-type onOffComponent  struct {
+// tempOnOffComponent is a temporary struct used for validating the fields of OnOffComponent.
+type tempOnOffComponent  struct {
     Name                      *string                   `json:"name"`
     Description               *string                   `json:"description,omitempty"`
     Handle                    *string                   `json:"handle,omitempty"`
@@ -171,10 +180,10 @@ type onOffComponent  struct {
     AllowFractionalQuantities *bool                     `json:"allow_fractional_quantities,omitempty"`
     PublicSignupPageIds       []int                     `json:"public_signup_page_ids,omitempty"`
     Interval                  *int                      `json:"interval,omitempty"`
-    IntervalUnit              *IntervalUnit             `json:"interval_unit,omitempty"`
+    IntervalUnit              Optional[IntervalUnit]    `json:"interval_unit"`
 }
 
-func (o *onOffComponent) validate() error {
+func (o *tempOnOffComponent) validate() error {
     var errs []string
     if o.Name == nil {
         errs = append(errs, "required field `name` is missing for type `On/Off Component`")
@@ -182,5 +191,5 @@ func (o *onOffComponent) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

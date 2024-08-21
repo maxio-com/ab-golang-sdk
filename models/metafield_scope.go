@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -62,7 +67,7 @@ func (m MetafieldScope) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for MetafieldScope.
 // It customizes the JSON unmarshaling process for MetafieldScope objects.
 func (m *MetafieldScope) UnmarshalJSON(input []byte) error {
-    var temp metafieldScope
+    var temp tempMetafieldScope
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -83,8 +88,8 @@ func (m *MetafieldScope) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// metafieldScope is a temporary struct used for validating the fields of MetafieldScope.
-type metafieldScope  struct {
+// tempMetafieldScope is a temporary struct used for validating the fields of MetafieldScope.
+type tempMetafieldScope  struct {
     Csv        *IncludeOption `json:"csv,omitempty"`
     Invoices   *IncludeOption `json:"invoices,omitempty"`
     Statements *IncludeOption `json:"statements,omitempty"`

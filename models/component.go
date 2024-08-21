@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -71,7 +76,7 @@ type Component struct {
     // The numerical interval. i.e. an interval of ‘30’ coupled with an interval_unit of day would mean this component's default price point would renew every 30 days. This property is only available for sites with Multifrequency enabled.
     Interval                  *int                       `json:"interval,omitempty"`
     // A string representing the interval unit for this component's default price point, either month or day. This property is only available for sites with Multifrequency enabled.
-    IntervalUnit              *IntervalUnit              `json:"interval_unit,omitempty"`
+    IntervalUnit              Optional[IntervalUnit]     `json:"interval_unit"`
     AdditionalProperties      map[string]any             `json:"_"`
 }
 
@@ -255,8 +260,12 @@ func (c Component) toMap() map[string]any {
     if c.Interval != nil {
         structMap["interval"] = c.Interval
     }
-    if c.IntervalUnit != nil {
-        structMap["interval_unit"] = c.IntervalUnit
+    if c.IntervalUnit.IsValueSet() {
+        if c.IntervalUnit.Value() != nil {
+            structMap["interval_unit"] = c.IntervalUnit.Value()
+        } else {
+            structMap["interval_unit"] = nil
+        }
     }
     return structMap
 }
@@ -264,7 +273,7 @@ func (c Component) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for Component.
 // It customizes the JSON unmarshaling process for Component objects.
 func (c *Component) UnmarshalJSON(input []byte) error {
-    var temp component
+    var temp tempComponent
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -331,8 +340,8 @@ func (c *Component) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// component is a temporary struct used for validating the fields of Component.
-type component  struct {
+// tempComponent is a temporary struct used for validating the fields of Component.
+type tempComponent  struct {
     Id                        *int                       `json:"id,omitempty"`
     Name                      *string                    `json:"name,omitempty"`
     Handle                    Optional[string]           `json:"handle"`
@@ -366,5 +375,5 @@ type component  struct {
     AccountingCode            Optional[string]           `json:"accounting_code"`
     EventBasedBillingMetricId *int                       `json:"event_based_billing_metric_id,omitempty"`
     Interval                  *int                       `json:"interval,omitempty"`
-    IntervalUnit              *IntervalUnit              `json:"interval_unit,omitempty"`
+    IntervalUnit              Optional[IntervalUnit]     `json:"interval_unit"`
 }

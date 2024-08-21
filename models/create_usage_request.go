@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -31,7 +36,7 @@ func (c CreateUsageRequest) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for CreateUsageRequest.
 // It customizes the JSON unmarshaling process for CreateUsageRequest objects.
 func (c *CreateUsageRequest) UnmarshalJSON(input []byte) error {
-    var temp createUsageRequest
+    var temp tempCreateUsageRequest
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -50,12 +55,12 @@ func (c *CreateUsageRequest) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// createUsageRequest is a temporary struct used for validating the fields of CreateUsageRequest.
-type createUsageRequest  struct {
+// tempCreateUsageRequest is a temporary struct used for validating the fields of CreateUsageRequest.
+type tempCreateUsageRequest  struct {
     Usage *CreateUsage `json:"usage"`
 }
 
-func (c *createUsageRequest) validate() error {
+func (c *tempCreateUsageRequest) validate() error {
     var errs []string
     if c.Usage == nil {
         errs = append(errs, "required field `usage` is missing for type `Create Usage Request`")
@@ -63,5 +68,5 @@ func (c *createUsageRequest) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

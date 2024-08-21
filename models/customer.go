@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -61,6 +66,8 @@ type Customer struct {
     // The locale for the customer to identify language-region
     Locale                      Optional[string]    `json:"locale"`
     DefaultSubscriptionGroupUid Optional[string]    `json:"default_subscription_group_uid"`
+    // The Salesforce ID for the customer
+    SalesforceId                Optional[string]    `json:"salesforce_id"`
     AdditionalProperties        map[string]any      `json:"_"`
 }
 
@@ -252,18 +259,25 @@ func (c Customer) toMap() map[string]any {
             structMap["default_subscription_group_uid"] = nil
         }
     }
+    if c.SalesforceId.IsValueSet() {
+        if c.SalesforceId.Value() != nil {
+            structMap["salesforce_id"] = c.SalesforceId.Value()
+        } else {
+            structMap["salesforce_id"] = nil
+        }
+    }
     return structMap
 }
 
 // UnmarshalJSON implements the json.Unmarshaler interface for Customer.
 // It customizes the JSON unmarshaling process for Customer objects.
 func (c *Customer) UnmarshalJSON(input []byte) error {
-    var temp customer
+    var temp tempCustomer
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "first_name", "last_name", "email", "cc_emails", "organization", "reference", "id", "created_at", "updated_at", "address", "address_2", "city", "state", "state_name", "zip", "country", "country_name", "phone", "verified", "portal_customer_created_at", "portal_invite_last_sent_at", "portal_invite_last_accepted_at", "tax_exempt", "vat_number", "parent_id", "locale", "default_subscription_group_uid")
+    additionalProperties, err := UnmarshalAdditionalProperties(input, "first_name", "last_name", "email", "cc_emails", "organization", "reference", "id", "created_at", "updated_at", "address", "address_2", "city", "state", "state_name", "zip", "country", "country_name", "phone", "verified", "portal_customer_created_at", "portal_invite_last_sent_at", "portal_invite_last_accepted_at", "tax_exempt", "vat_number", "parent_id", "locale", "default_subscription_group_uid", "salesforce_id")
     if err != nil {
     	return err
     }
@@ -329,11 +343,12 @@ func (c *Customer) UnmarshalJSON(input []byte) error {
     c.ParentId = temp.ParentId
     c.Locale = temp.Locale
     c.DefaultSubscriptionGroupUid = temp.DefaultSubscriptionGroupUid
+    c.SalesforceId = temp.SalesforceId
     return nil
 }
 
-// customer is a temporary struct used for validating the fields of Customer.
-type customer  struct {
+// tempCustomer is a temporary struct used for validating the fields of Customer.
+type tempCustomer  struct {
     FirstName                   *string          `json:"first_name,omitempty"`
     LastName                    *string          `json:"last_name,omitempty"`
     Email                       *string          `json:"email,omitempty"`
@@ -361,4 +376,5 @@ type customer  struct {
     ParentId                    Optional[int]    `json:"parent_id"`
     Locale                      Optional[string] `json:"locale"`
     DefaultSubscriptionGroupUid Optional[string] `json:"default_subscription_group_uid"`
+    SalesforceId                Optional[string] `json:"salesforce_id"`
 }

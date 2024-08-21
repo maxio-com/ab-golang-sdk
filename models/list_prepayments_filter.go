@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -44,7 +49,7 @@ func (l ListPrepaymentsFilter) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for ListPrepaymentsFilter.
 // It customizes the JSON unmarshaling process for ListPrepaymentsFilter objects.
 func (l *ListPrepaymentsFilter) UnmarshalJSON(input []byte) error {
-    var temp listPrepaymentsFilter
+    var temp tempListPrepaymentsFilter
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -73,8 +78,8 @@ func (l *ListPrepaymentsFilter) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// listPrepaymentsFilter is a temporary struct used for validating the fields of ListPrepaymentsFilter.
-type listPrepaymentsFilter  struct {
+// tempListPrepaymentsFilter is a temporary struct used for validating the fields of ListPrepaymentsFilter.
+type tempListPrepaymentsFilter  struct {
     DateField *ListPrepaymentDateField `json:"date_field,omitempty"`
     StartDate *string                  `json:"start_date,omitempty"`
     EndDate   *string                  `json:"end_date,omitempty"`

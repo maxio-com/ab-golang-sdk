@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -6,16 +11,16 @@ import (
 
 // ComponentPricePointItem represents a ComponentPricePointItem struct.
 type ComponentPricePointItem struct {
-    Name                 *string        `json:"name,omitempty"`
-    Handle               *string        `json:"handle,omitempty"`
+    Name                 *string                `json:"name,omitempty"`
+    Handle               *string                `json:"handle,omitempty"`
     // The identifier for the pricing scheme. See [Product Components](https://help.chargify.com/products/product-components.html) for an overview of pricing schemes.
-    PricingScheme        *PricingScheme `json:"pricing_scheme,omitempty"`
+    PricingScheme        *PricingScheme         `json:"pricing_scheme,omitempty"`
     // The numerical interval. i.e. an interval of ‘30’ coupled with an interval_unit of day would mean this component price point would renew every 30 days. This property is only available for sites with Multifrequency enabled.
-    Interval             *int           `json:"interval,omitempty"`
+    Interval             *int                   `json:"interval,omitempty"`
     // A string representing the interval unit for this component price point, either month or day. This property is only available for sites with Multifrequency enabled.
-    IntervalUnit         *IntervalUnit  `json:"interval_unit,omitempty"`
-    Prices               []Price        `json:"prices,omitempty"`
-    AdditionalProperties map[string]any `json:"_"`
+    IntervalUnit         Optional[IntervalUnit] `json:"interval_unit"`
+    Prices               []Price                `json:"prices,omitempty"`
+    AdditionalProperties map[string]any         `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for ComponentPricePointItem.
@@ -42,8 +47,12 @@ func (c ComponentPricePointItem) toMap() map[string]any {
     if c.Interval != nil {
         structMap["interval"] = c.Interval
     }
-    if c.IntervalUnit != nil {
-        structMap["interval_unit"] = c.IntervalUnit
+    if c.IntervalUnit.IsValueSet() {
+        if c.IntervalUnit.Value() != nil {
+            structMap["interval_unit"] = c.IntervalUnit.Value()
+        } else {
+            structMap["interval_unit"] = nil
+        }
     }
     if c.Prices != nil {
         structMap["prices"] = c.Prices
@@ -54,7 +63,7 @@ func (c ComponentPricePointItem) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for ComponentPricePointItem.
 // It customizes the JSON unmarshaling process for ComponentPricePointItem objects.
 func (c *ComponentPricePointItem) UnmarshalJSON(input []byte) error {
-    var temp componentPricePointItem
+    var temp tempComponentPricePointItem
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -74,12 +83,12 @@ func (c *ComponentPricePointItem) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// componentPricePointItem is a temporary struct used for validating the fields of ComponentPricePointItem.
-type componentPricePointItem  struct {
-    Name          *string        `json:"name,omitempty"`
-    Handle        *string        `json:"handle,omitempty"`
-    PricingScheme *PricingScheme `json:"pricing_scheme,omitempty"`
-    Interval      *int           `json:"interval,omitempty"`
-    IntervalUnit  *IntervalUnit  `json:"interval_unit,omitempty"`
-    Prices        []Price        `json:"prices,omitempty"`
+// tempComponentPricePointItem is a temporary struct used for validating the fields of ComponentPricePointItem.
+type tempComponentPricePointItem  struct {
+    Name          *string                `json:"name,omitempty"`
+    Handle        *string                `json:"handle,omitempty"`
+    PricingScheme *PricingScheme         `json:"pricing_scheme,omitempty"`
+    Interval      *int                   `json:"interval,omitempty"`
+    IntervalUnit  Optional[IntervalUnit] `json:"interval_unit"`
+    Prices        []Price                `json:"prices,omitempty"`
 }

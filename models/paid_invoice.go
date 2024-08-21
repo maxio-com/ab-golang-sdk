@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -8,7 +13,7 @@ import (
 type PaidInvoice struct {
     // The uid of the paid invoice
     InvoiceId            *string        `json:"invoice_id,omitempty"`
-    // The current status of the invoice. See [Invoice Statuses](https://maxio-chargify.zendesk.com/hc/en-us/articles/5405078794253-Introduction-to-Invoices#invoice-statuses) for more.
+    // The current status of the invoice. See [Invoice Statuses](https://maxio.zendesk.com/hc/en-us/articles/24252287829645-Advanced-Billing-Invoices-Overview#invoice-statuses) for more.
     Status               *InvoiceStatus `json:"status,omitempty"`
     // The remaining due amount on the invoice
     DueAmount            *string        `json:"due_amount,omitempty"`
@@ -47,7 +52,7 @@ func (p PaidInvoice) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for PaidInvoice.
 // It customizes the JSON unmarshaling process for PaidInvoice objects.
 func (p *PaidInvoice) UnmarshalJSON(input []byte) error {
-    var temp paidInvoice
+    var temp tempPaidInvoice
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -65,8 +70,8 @@ func (p *PaidInvoice) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// paidInvoice is a temporary struct used for validating the fields of PaidInvoice.
-type paidInvoice  struct {
+// tempPaidInvoice is a temporary struct used for validating the fields of PaidInvoice.
+type tempPaidInvoice  struct {
     InvoiceId  *string        `json:"invoice_id,omitempty"`
     Status     *InvoiceStatus `json:"status,omitempty"`
     DueAmount  *string        `json:"due_amount,omitempty"`

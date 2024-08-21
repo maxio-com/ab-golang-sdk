@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -91,7 +96,7 @@ func (s Site) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for Site.
 // It customizes the JSON unmarshaling process for Site objects.
 func (s *Site) UnmarshalJSON(input []byte) error {
-    var temp site
+    var temp tempSite
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -121,8 +126,8 @@ func (s *Site) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// site is a temporary struct used for validating the fields of Site.
-type site  struct {
+// tempSite is a temporary struct used for validating the fields of Site.
+type tempSite  struct {
     Id                             *int                 `json:"id,omitempty"`
     Name                           *string              `json:"name,omitempty"`
     Subdomain                      *string              `json:"subdomain,omitempty"`

@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -54,7 +59,7 @@ func (c CreateMultiInvoicePayment) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for CreateMultiInvoicePayment.
 // It customizes the JSON unmarshaling process for CreateMultiInvoicePayment objects.
 func (c *CreateMultiInvoicePayment) UnmarshalJSON(input []byte) error {
-    var temp createMultiInvoicePayment
+    var temp tempCreateMultiInvoicePayment
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -78,8 +83,8 @@ func (c *CreateMultiInvoicePayment) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// createMultiInvoicePayment is a temporary struct used for validating the fields of CreateMultiInvoicePayment.
-type createMultiInvoicePayment  struct {
+// tempCreateMultiInvoicePayment is a temporary struct used for validating the fields of CreateMultiInvoicePayment.
+type tempCreateMultiInvoicePayment  struct {
     Memo         *string                            `json:"memo,omitempty"`
     Details      *string                            `json:"details,omitempty"`
     Method       *InvoicePaymentMethodType          `json:"method,omitempty"`
@@ -88,7 +93,7 @@ type createMultiInvoicePayment  struct {
     Applications *[]CreateInvoicePaymentApplication `json:"applications"`
 }
 
-func (c *createMultiInvoicePayment) validate() error {
+func (c *tempCreateMultiInvoicePayment) validate() error {
     var errs []string
     if c.Amount == nil {
         errs = append(errs, "required field `amount` is missing for type `Create Multi Invoice Payment`")
@@ -99,5 +104,5 @@ func (c *createMultiInvoicePayment) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

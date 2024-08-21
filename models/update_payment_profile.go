@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -19,7 +24,7 @@ type UpdatePaymentProfile struct {
     // (Optional when performing a Import via vault_token, required otherwise) The 4-digit credit card expiration year, as an integer or string, i.e. 2012
     ExpirationYear       *string          `json:"expiration_year,omitempty"`
     // The vault that stores the payment profile with the provided `vault_token`. Use `bogus` for testing.
-    CurrentVault         *CurrentVault    `json:"current_vault,omitempty"`
+    CurrentVault         *AllVaults       `json:"current_vault,omitempty"`
     // The credit card or bank account billing street address (i.e. 123 Main St.). This value is merely passed through to the payment gateway.
     BillingAddress       *string          `json:"billing_address,omitempty"`
     // The credit card or bank account billing address city (i.e. “Boston”). This value is merely passed through to the payment gateway.
@@ -96,7 +101,7 @@ func (u UpdatePaymentProfile) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for UpdatePaymentProfile.
 // It customizes the JSON unmarshaling process for UpdatePaymentProfile objects.
 func (u *UpdatePaymentProfile) UnmarshalJSON(input []byte) error {
-    var temp updatePaymentProfile
+    var temp tempUpdatePaymentProfile
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -123,15 +128,15 @@ func (u *UpdatePaymentProfile) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// updatePaymentProfile is a temporary struct used for validating the fields of UpdatePaymentProfile.
-type updatePaymentProfile  struct {
+// tempUpdatePaymentProfile is a temporary struct used for validating the fields of UpdatePaymentProfile.
+type tempUpdatePaymentProfile  struct {
     FirstName       *string          `json:"first_name,omitempty"`
     LastName        *string          `json:"last_name,omitempty"`
     FullNumber      *string          `json:"full_number,omitempty"`
     CardType        *CardType        `json:"card_type,omitempty"`
     ExpirationMonth *string          `json:"expiration_month,omitempty"`
     ExpirationYear  *string          `json:"expiration_year,omitempty"`
-    CurrentVault    *CurrentVault    `json:"current_vault,omitempty"`
+    CurrentVault    *AllVaults       `json:"current_vault,omitempty"`
     BillingAddress  *string          `json:"billing_address,omitempty"`
     BillingCity     *string          `json:"billing_city,omitempty"`
     BillingState    *string          `json:"billing_state,omitempty"`

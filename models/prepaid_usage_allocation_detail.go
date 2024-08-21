@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -39,7 +44,7 @@ func (p PrepaidUsageAllocationDetail) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for PrepaidUsageAllocationDetail.
 // It customizes the JSON unmarshaling process for PrepaidUsageAllocationDetail objects.
 func (p *PrepaidUsageAllocationDetail) UnmarshalJSON(input []byte) error {
-    var temp prepaidUsageAllocationDetail
+    var temp tempPrepaidUsageAllocationDetail
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -56,8 +61,8 @@ func (p *PrepaidUsageAllocationDetail) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// prepaidUsageAllocationDetail is a temporary struct used for validating the fields of PrepaidUsageAllocationDetail.
-type prepaidUsageAllocationDetail  struct {
+// tempPrepaidUsageAllocationDetail is a temporary struct used for validating the fields of PrepaidUsageAllocationDetail.
+type tempPrepaidUsageAllocationDetail  struct {
     AllocationId  *int `json:"allocation_id,omitempty"`
     ChargeId      *int `json:"charge_id,omitempty"`
     UsageQuantity *int `json:"usage_quantity,omitempty"`

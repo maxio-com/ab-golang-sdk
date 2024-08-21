@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -41,6 +46,8 @@ type CustomerAttributes struct {
     Metafields           map[string]string `json:"metafields,omitempty"`
     // The parent ID in Chargify if applicable. Parent is another Customer object.
     ParentId             Optional[int]     `json:"parent_id"`
+    // (Optional) The Salesforce ID of the customer.
+    SalesforceId         Optional[string]  `json:"salesforce_id"`
     AdditionalProperties map[string]any    `json:"_"`
 }
 
@@ -118,18 +125,25 @@ func (c CustomerAttributes) toMap() map[string]any {
             structMap["parent_id"] = nil
         }
     }
+    if c.SalesforceId.IsValueSet() {
+        if c.SalesforceId.Value() != nil {
+            structMap["salesforce_id"] = c.SalesforceId.Value()
+        } else {
+            structMap["salesforce_id"] = nil
+        }
+    }
     return structMap
 }
 
 // UnmarshalJSON implements the json.Unmarshaler interface for CustomerAttributes.
 // It customizes the JSON unmarshaling process for CustomerAttributes objects.
 func (c *CustomerAttributes) UnmarshalJSON(input []byte) error {
-    var temp customerAttributes
+    var temp tempCustomerAttributes
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "first_name", "last_name", "email", "cc_emails", "organization", "reference", "address", "address_2", "city", "state", "zip", "country", "phone", "verified", "tax_exempt", "vat_number", "metafields", "parent_id")
+    additionalProperties, err := UnmarshalAdditionalProperties(input, "first_name", "last_name", "email", "cc_emails", "organization", "reference", "address", "address_2", "city", "state", "zip", "country", "phone", "verified", "tax_exempt", "vat_number", "metafields", "parent_id", "salesforce_id")
     if err != nil {
     	return err
     }
@@ -153,11 +167,12 @@ func (c *CustomerAttributes) UnmarshalJSON(input []byte) error {
     c.VatNumber = temp.VatNumber
     c.Metafields = temp.Metafields
     c.ParentId = temp.ParentId
+    c.SalesforceId = temp.SalesforceId
     return nil
 }
 
-// customerAttributes is a temporary struct used for validating the fields of CustomerAttributes.
-type customerAttributes  struct {
+// tempCustomerAttributes is a temporary struct used for validating the fields of CustomerAttributes.
+type tempCustomerAttributes  struct {
     FirstName    *string           `json:"first_name,omitempty"`
     LastName     *string           `json:"last_name,omitempty"`
     Email        *string           `json:"email,omitempty"`
@@ -176,4 +191,5 @@ type customerAttributes  struct {
     VatNumber    *string           `json:"vat_number,omitempty"`
     Metafields   map[string]string `json:"metafields,omitempty"`
     ParentId     Optional[int]     `json:"parent_id"`
+    SalesforceId Optional[string]  `json:"salesforce_id"`
 }

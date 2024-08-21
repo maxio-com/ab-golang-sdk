@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -8,22 +13,23 @@ import (
 
 // CreatePrepaidUsageComponentPricePoint represents a CreatePrepaidUsageComponentPricePoint struct.
 type CreatePrepaidUsageComponentPricePoint struct {
-    Name                     string         `json:"name"`
-    Handle                   *string        `json:"handle,omitempty"`
+    Name                     string                           `json:"name"`
+    Handle                   *string                          `json:"handle,omitempty"`
     // The identifier for the pricing scheme. See [Product Components](https://help.chargify.com/products/product-components.html) for an overview of pricing schemes.
-    PricingScheme            PricingScheme  `json:"pricing_scheme"`
-    Prices                   []Price        `json:"prices"`
-    OveragePricing           OveragePricing `json:"overage_pricing"`
+    PricingScheme            PricingScheme                    `json:"pricing_scheme"`
+    Prices                   []Price                          `json:"prices"`
+    OveragePricing           OveragePricing                   `json:"overage_pricing"`
     // Whether to use the site level exchange rate or define your own prices for each currency if you have multiple currencies defined on the site.
-    UseSiteExchangeRate      *bool          `json:"use_site_exchange_rate,omitempty"`
+    UseSiteExchangeRate      *bool                            `json:"use_site_exchange_rate,omitempty"`
     // Boolean which controls whether or not remaining units should be rolled over to the next period
-    RolloverPrepaidRemainder *bool          `json:"rollover_prepaid_remainder,omitempty"`
+    RolloverPrepaidRemainder *bool                            `json:"rollover_prepaid_remainder,omitempty"`
     // Boolean which controls whether or not the allocated quantity should be renewed at the beginning of each period
-    RenewPrepaidAllocation   *bool          `json:"renew_prepaid_allocation,omitempty"`
+    RenewPrepaidAllocation   *bool                            `json:"renew_prepaid_allocation,omitempty"`
     // (only for prepaid usage components where rollover_prepaid_remainder is true) The number of `expiration_interval_unit`s after which rollover amounts should expire
-    ExpirationInterval       *float64       `json:"expiration_interval,omitempty"`
-    ExpirationIntervalUnit   *IntervalUnit  `json:"expiration_interval_unit,omitempty"`
-    AdditionalProperties     map[string]any `json:"_"`
+    ExpirationInterval       *float64                         `json:"expiration_interval,omitempty"`
+    // A string representing the expiration interval unit for this component, either month or day
+    ExpirationIntervalUnit   Optional[ExpirationIntervalUnit] `json:"expiration_interval_unit"`
+    AdditionalProperties     map[string]any                   `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreatePrepaidUsageComponentPricePoint.
@@ -57,8 +63,12 @@ func (c CreatePrepaidUsageComponentPricePoint) toMap() map[string]any {
     if c.ExpirationInterval != nil {
         structMap["expiration_interval"] = c.ExpirationInterval
     }
-    if c.ExpirationIntervalUnit != nil {
-        structMap["expiration_interval_unit"] = c.ExpirationIntervalUnit
+    if c.ExpirationIntervalUnit.IsValueSet() {
+        if c.ExpirationIntervalUnit.Value() != nil {
+            structMap["expiration_interval_unit"] = c.ExpirationIntervalUnit.Value()
+        } else {
+            structMap["expiration_interval_unit"] = nil
+        }
     }
     return structMap
 }
@@ -66,7 +76,7 @@ func (c CreatePrepaidUsageComponentPricePoint) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for CreatePrepaidUsageComponentPricePoint.
 // It customizes the JSON unmarshaling process for CreatePrepaidUsageComponentPricePoint objects.
 func (c *CreatePrepaidUsageComponentPricePoint) UnmarshalJSON(input []byte) error {
-    var temp createPrepaidUsageComponentPricePoint
+    var temp tempCreatePrepaidUsageComponentPricePoint
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -94,21 +104,21 @@ func (c *CreatePrepaidUsageComponentPricePoint) UnmarshalJSON(input []byte) erro
     return nil
 }
 
-// createPrepaidUsageComponentPricePoint is a temporary struct used for validating the fields of CreatePrepaidUsageComponentPricePoint.
-type createPrepaidUsageComponentPricePoint  struct {
-    Name                     *string         `json:"name"`
-    Handle                   *string         `json:"handle,omitempty"`
-    PricingScheme            *PricingScheme  `json:"pricing_scheme"`
-    Prices                   *[]Price        `json:"prices"`
-    OveragePricing           *OveragePricing `json:"overage_pricing"`
-    UseSiteExchangeRate      *bool           `json:"use_site_exchange_rate,omitempty"`
-    RolloverPrepaidRemainder *bool           `json:"rollover_prepaid_remainder,omitempty"`
-    RenewPrepaidAllocation   *bool           `json:"renew_prepaid_allocation,omitempty"`
-    ExpirationInterval       *float64        `json:"expiration_interval,omitempty"`
-    ExpirationIntervalUnit   *IntervalUnit   `json:"expiration_interval_unit,omitempty"`
+// tempCreatePrepaidUsageComponentPricePoint is a temporary struct used for validating the fields of CreatePrepaidUsageComponentPricePoint.
+type tempCreatePrepaidUsageComponentPricePoint  struct {
+    Name                     *string                          `json:"name"`
+    Handle                   *string                          `json:"handle,omitempty"`
+    PricingScheme            *PricingScheme                   `json:"pricing_scheme"`
+    Prices                   *[]Price                         `json:"prices"`
+    OveragePricing           *OveragePricing                  `json:"overage_pricing"`
+    UseSiteExchangeRate      *bool                            `json:"use_site_exchange_rate,omitempty"`
+    RolloverPrepaidRemainder *bool                            `json:"rollover_prepaid_remainder,omitempty"`
+    RenewPrepaidAllocation   *bool                            `json:"renew_prepaid_allocation,omitempty"`
+    ExpirationInterval       *float64                         `json:"expiration_interval,omitempty"`
+    ExpirationIntervalUnit   Optional[ExpirationIntervalUnit] `json:"expiration_interval_unit"`
 }
 
-func (c *createPrepaidUsageComponentPricePoint) validate() error {
+func (c *tempCreatePrepaidUsageComponentPricePoint) validate() error {
     var errs []string
     if c.Name == nil {
         errs = append(errs, "required field `name` is missing for type `Create Prepaid Usage Component Price Point`")
@@ -125,5 +135,5 @@ func (c *createPrepaidUsageComponentPricePoint) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

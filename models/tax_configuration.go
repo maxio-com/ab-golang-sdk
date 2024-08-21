@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -8,7 +13,7 @@ import (
 type TaxConfiguration struct {
     Kind                 *TaxConfigurationKind  `json:"kind,omitempty"`
     DestinationAddress   *TaxDestinationAddress `json:"destination_address,omitempty"`
-    // Returns `true` when Chargify has been properly configured to charge tax using the specified tax system. More details about taxes: https://maxio-chargify.zendesk.com/hc/en-us/articles/5405488905869-Taxes-Introduction
+    // Returns `true` when Chargify has been properly configured to charge tax using the specified tax system. More details about taxes: https://maxio.zendesk.com/hc/en-us/articles/24287012608909-Taxes-Overview
     FullyConfigured      *bool                  `json:"fully_configured,omitempty"`
     AdditionalProperties map[string]any         `json:"_"`
 }
@@ -40,7 +45,7 @@ func (t TaxConfiguration) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for TaxConfiguration.
 // It customizes the JSON unmarshaling process for TaxConfiguration objects.
 func (t *TaxConfiguration) UnmarshalJSON(input []byte) error {
-    var temp taxConfiguration
+    var temp tempTaxConfiguration
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -57,8 +62,8 @@ func (t *TaxConfiguration) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// taxConfiguration is a temporary struct used for validating the fields of TaxConfiguration.
-type taxConfiguration  struct {
+// tempTaxConfiguration is a temporary struct used for validating the fields of TaxConfiguration.
+type tempTaxConfiguration  struct {
     Kind               *TaxConfigurationKind  `json:"kind,omitempty"`
     DestinationAddress *TaxDestinationAddress `json:"destination_address,omitempty"`
     FullyConfigured    *bool                  `json:"fully_configured,omitempty"`

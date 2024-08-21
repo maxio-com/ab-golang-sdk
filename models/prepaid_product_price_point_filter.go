@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -32,7 +37,7 @@ func (p PrepaidProductPricePointFilter) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for PrepaidProductPricePointFilter.
 // It customizes the JSON unmarshaling process for PrepaidProductPricePointFilter objects.
 func (p *PrepaidProductPricePointFilter) UnmarshalJSON(input []byte) error {
-    var temp prepaidProductPricePointFilter
+    var temp tempPrepaidProductPricePointFilter
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -51,12 +56,12 @@ func (p *PrepaidProductPricePointFilter) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// prepaidProductPricePointFilter is a temporary struct used for validating the fields of PrepaidProductPricePointFilter.
-type prepaidProductPricePointFilter  struct {
+// tempPrepaidProductPricePointFilter is a temporary struct used for validating the fields of PrepaidProductPricePointFilter.
+type tempPrepaidProductPricePointFilter  struct {
     ProductPricePointId *string `json:"product_price_point_id"`
 }
 
-func (p *prepaidProductPricePointFilter) validate() error {
+func (p *tempPrepaidProductPricePointFilter) validate() error {
     var errs []string
     if p.ProductPricePointId == nil {
         errs = append(errs, "required field `product_price_point_id` is missing for type `Prepaid Product Price Point Filter`")
@@ -64,5 +69,5 @@ func (p *prepaidProductPricePointFilter) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

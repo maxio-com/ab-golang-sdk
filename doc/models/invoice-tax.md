@@ -20,6 +20,9 @@
 | `TransactionId` | `*int` | Optional | - |
 | `LineItemBreakouts` | [`[]models.InvoiceTaxBreakout`](../../doc/models/invoice-tax-breakout.md) | Optional | - |
 | `TaxComponentBreakouts` | [`[]models.InvoiceTaxComponentBreakout`](../../doc/models/invoice-tax-component-breakout.md) | Optional | - |
+| `EuVat` | `*bool` | Optional | - |
+| `Type` | `*string` | Optional | - |
+| `TaxExemptAmount` | `*string` | Optional | - |
 
 ## Example (as JSON)
 

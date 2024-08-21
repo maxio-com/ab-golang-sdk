@@ -19,7 +19,7 @@
     "chargify_token": "tok_9g6hw85pnpt6knmskpwp4ttt",
     "full_number": "5424000000000015",
     "id": 44,
-    "payment_type": "bank_account",
+    "payment_type": "credit_card",
     "first_name": "first_name4",
     "last_name": "last_name2"
   }

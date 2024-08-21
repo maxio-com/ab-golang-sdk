@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -54,7 +59,7 @@ func (r RefundConsolidatedInvoice) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for RefundConsolidatedInvoice.
 // It customizes the JSON unmarshaling process for RefundConsolidatedInvoice objects.
 func (r *RefundConsolidatedInvoice) UnmarshalJSON(input []byte) error {
-    var temp refundConsolidatedInvoice
+    var temp tempRefundConsolidatedInvoice
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -78,8 +83,8 @@ func (r *RefundConsolidatedInvoice) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// refundConsolidatedInvoice is a temporary struct used for validating the fields of RefundConsolidatedInvoice.
-type refundConsolidatedInvoice  struct {
+// tempRefundConsolidatedInvoice is a temporary struct used for validating the fields of RefundConsolidatedInvoice.
+type tempRefundConsolidatedInvoice  struct {
     Memo        *string                               `json:"memo"`
     PaymentId   *int                                  `json:"payment_id"`
     SegmentUids *RefundConsolidatedInvoiceSegmentUids `json:"segment_uids"`
@@ -88,7 +93,7 @@ type refundConsolidatedInvoice  struct {
     Amount      *string                               `json:"amount,omitempty"`
 }
 
-func (r *refundConsolidatedInvoice) validate() error {
+func (r *tempRefundConsolidatedInvoice) validate() error {
     var errs []string
     if r.Memo == nil {
         errs = append(errs, "required field `memo` is missing for type `Refund Consolidated Invoice`")
@@ -102,5 +107,5 @@ func (r *refundConsolidatedInvoice) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

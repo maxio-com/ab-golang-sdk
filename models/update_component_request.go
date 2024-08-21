@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -31,7 +36,7 @@ func (u UpdateComponentRequest) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for UpdateComponentRequest.
 // It customizes the JSON unmarshaling process for UpdateComponentRequest objects.
 func (u *UpdateComponentRequest) UnmarshalJSON(input []byte) error {
-    var temp updateComponentRequest
+    var temp tempUpdateComponentRequest
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -50,12 +55,12 @@ func (u *UpdateComponentRequest) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// updateComponentRequest is a temporary struct used for validating the fields of UpdateComponentRequest.
-type updateComponentRequest  struct {
+// tempUpdateComponentRequest is a temporary struct used for validating the fields of UpdateComponentRequest.
+type tempUpdateComponentRequest  struct {
     Component *UpdateComponent `json:"component"`
 }
 
-func (u *updateComponentRequest) validate() error {
+func (u *tempUpdateComponentRequest) validate() error {
     var errs []string
     if u.Component == nil {
         errs = append(errs, "required field `component` is missing for type `Update Component Request`")
@@ -63,5 +68,5 @@ func (u *updateComponentRequest) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -41,7 +46,7 @@ func (c CreditAccountBalanceChanged) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for CreditAccountBalanceChanged.
 // It customizes the JSON unmarshaling process for CreditAccountBalanceChanged objects.
 func (c *CreditAccountBalanceChanged) UnmarshalJSON(input []byte) error {
-    var temp creditAccountBalanceChanged
+    var temp tempCreditAccountBalanceChanged
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -68,8 +73,8 @@ func (c *CreditAccountBalanceChanged) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// creditAccountBalanceChanged is a temporary struct used for validating the fields of CreditAccountBalanceChanged.
-type creditAccountBalanceChanged  struct {
+// tempCreditAccountBalanceChanged is a temporary struct used for validating the fields of CreditAccountBalanceChanged.
+type tempCreditAccountBalanceChanged  struct {
     Reason                             *string `json:"reason"`
     ServiceCreditAccountBalanceInCents *int64  `json:"service_credit_account_balance_in_cents"`
     ServiceCreditBalanceChangeInCents  *int64  `json:"service_credit_balance_change_in_cents"`
@@ -77,7 +82,7 @@ type creditAccountBalanceChanged  struct {
     AtTime                             *string `json:"at_time"`
 }
 
-func (c *creditAccountBalanceChanged) validate() error {
+func (c *tempCreditAccountBalanceChanged) validate() error {
     var errs []string
     if c.Reason == nil {
         errs = append(errs, "required field `reason` is missing for type `Credit Account Balance Changed`")
@@ -97,5 +102,5 @@ func (c *creditAccountBalanceChanged) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

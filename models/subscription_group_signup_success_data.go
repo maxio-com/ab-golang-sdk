@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -49,7 +54,7 @@ func (s SubscriptionGroupSignupSuccessData) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for SubscriptionGroupSignupSuccessData.
 // It customizes the JSON unmarshaling process for SubscriptionGroupSignupSuccessData objects.
 func (s *SubscriptionGroupSignupSuccessData) UnmarshalJSON(input []byte) error {
-    var temp subscriptionGroupSignupSuccessData
+    var temp tempSubscriptionGroupSignupSuccessData
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -80,8 +85,8 @@ func (s *SubscriptionGroupSignupSuccessData) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// subscriptionGroupSignupSuccessData is a temporary struct used for validating the fields of SubscriptionGroupSignupSuccessData.
-type subscriptionGroupSignupSuccessData  struct {
+// tempSubscriptionGroupSignupSuccessData is a temporary struct used for validating the fields of SubscriptionGroupSignupSuccessData.
+type tempSubscriptionGroupSignupSuccessData  struct {
     Uid                   *string `json:"uid"`
     Scheme                *int    `json:"scheme"`
     CustomerId            *int    `json:"customer_id"`
@@ -93,7 +98,7 @@ type subscriptionGroupSignupSuccessData  struct {
     CancelAtEndOfPeriod   *bool   `json:"cancel_at_end_of_period"`
 }
 
-func (s *subscriptionGroupSignupSuccessData) validate() error {
+func (s *tempSubscriptionGroupSignupSuccessData) validate() error {
     var errs []string
     if s.Uid == nil {
         errs = append(errs, "required field `uid` is missing for type `Subscription Group Signup Success Data`")
@@ -125,5 +130,5 @@ func (s *subscriptionGroupSignupSuccessData) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

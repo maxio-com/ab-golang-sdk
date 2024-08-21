@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -15,6 +20,7 @@ type InvoiceRefund struct {
     GatewayTransactionId Optional[string] `json:"gateway_transaction_id"`
     GatewayUsed          *string          `json:"gateway_used,omitempty"`
     GatewayHandle        Optional[string] `json:"gateway_handle"`
+    AchLateReject        Optional[bool]   `json:"ach_late_reject"`
     AdditionalProperties map[string]any   `json:"_"`
 }
 
@@ -62,18 +68,25 @@ func (i InvoiceRefund) toMap() map[string]any {
             structMap["gateway_handle"] = nil
         }
     }
+    if i.AchLateReject.IsValueSet() {
+        if i.AchLateReject.Value() != nil {
+            structMap["ach_late_reject"] = i.AchLateReject.Value()
+        } else {
+            structMap["ach_late_reject"] = nil
+        }
+    }
     return structMap
 }
 
 // UnmarshalJSON implements the json.Unmarshaler interface for InvoiceRefund.
 // It customizes the JSON unmarshaling process for InvoiceRefund objects.
 func (i *InvoiceRefund) UnmarshalJSON(input []byte) error {
-    var temp invoiceRefund
+    var temp tempInvoiceRefund
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "transaction_id", "payment_id", "memo", "original_amount", "applied_amount", "gateway_transaction_id", "gateway_used", "gateway_handle")
+    additionalProperties, err := UnmarshalAdditionalProperties(input, "transaction_id", "payment_id", "memo", "original_amount", "applied_amount", "gateway_transaction_id", "gateway_used", "gateway_handle", "ach_late_reject")
     if err != nil {
     	return err
     }
@@ -87,11 +100,12 @@ func (i *InvoiceRefund) UnmarshalJSON(input []byte) error {
     i.GatewayTransactionId = temp.GatewayTransactionId
     i.GatewayUsed = temp.GatewayUsed
     i.GatewayHandle = temp.GatewayHandle
+    i.AchLateReject = temp.AchLateReject
     return nil
 }
 
-// invoiceRefund is a temporary struct used for validating the fields of InvoiceRefund.
-type invoiceRefund  struct {
+// tempInvoiceRefund is a temporary struct used for validating the fields of InvoiceRefund.
+type tempInvoiceRefund  struct {
     TransactionId        *int             `json:"transaction_id,omitempty"`
     PaymentId            *int             `json:"payment_id,omitempty"`
     Memo                 *string          `json:"memo,omitempty"`
@@ -100,4 +114,5 @@ type invoiceRefund  struct {
     GatewayTransactionId Optional[string] `json:"gateway_transaction_id"`
     GatewayUsed          *string          `json:"gateway_used,omitempty"`
     GatewayHandle        Optional[string] `json:"gateway_handle"`
+    AchLateReject        Optional[bool]   `json:"ach_late_reject"`
 }

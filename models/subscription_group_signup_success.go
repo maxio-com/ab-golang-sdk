@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -33,7 +38,7 @@ func (s SubscriptionGroupSignupSuccess) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for SubscriptionGroupSignupSuccess.
 // It customizes the JSON unmarshaling process for SubscriptionGroupSignupSuccess objects.
 func (s *SubscriptionGroupSignupSuccess) UnmarshalJSON(input []byte) error {
-    var temp subscriptionGroupSignupSuccess
+    var temp tempSubscriptionGroupSignupSuccess
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -53,13 +58,13 @@ func (s *SubscriptionGroupSignupSuccess) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// subscriptionGroupSignupSuccess is a temporary struct used for validating the fields of SubscriptionGroupSignupSuccess.
-type subscriptionGroupSignupSuccess  struct {
+// tempSubscriptionGroupSignupSuccess is a temporary struct used for validating the fields of SubscriptionGroupSignupSuccess.
+type tempSubscriptionGroupSignupSuccess  struct {
     SubscriptionGroup *SubscriptionGroupSignupSuccessData `json:"subscription_group"`
     Customer          *Customer                           `json:"customer"`
 }
 
-func (s *subscriptionGroupSignupSuccess) validate() error {
+func (s *tempSubscriptionGroupSignupSuccess) validate() error {
     var errs []string
     if s.SubscriptionGroup == nil {
         errs = append(errs, "required field `subscription_group` is missing for type `Subscription Group Signup Success`")
@@ -70,5 +75,5 @@ func (s *subscriptionGroupSignupSuccess) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -72,7 +77,7 @@ func (i InvoiceCustomer) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for InvoiceCustomer.
 // It customizes the JSON unmarshaling process for InvoiceCustomer objects.
 func (i *InvoiceCustomer) UnmarshalJSON(input []byte) error {
-    var temp invoiceCustomer
+    var temp tempInvoiceCustomer
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -93,8 +98,8 @@ func (i *InvoiceCustomer) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// invoiceCustomer is a temporary struct used for validating the fields of InvoiceCustomer.
-type invoiceCustomer  struct {
+// tempInvoiceCustomer is a temporary struct used for validating the fields of InvoiceCustomer.
+type tempInvoiceCustomer  struct {
     ChargifyId   Optional[int]    `json:"chargify_id"`
     FirstName    *string          `json:"first_name,omitempty"`
     LastName     *string          `json:"last_name,omitempty"`

@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -43,7 +48,7 @@ func (m MRRMovement) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for MRRMovement.
 // It customizes the JSON unmarshaling process for MRRMovement objects.
 func (m *MRRMovement) UnmarshalJSON(input []byte) error {
-    var temp mrrMovement
+    var temp tempMRRMovement
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -61,8 +66,8 @@ func (m *MRRMovement) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// mrrMovement is a temporary struct used for validating the fields of MRRMovement.
-type mrrMovement  struct {
+// tempMRRMovement is a temporary struct used for validating the fields of MRRMovement.
+type tempMRRMovement  struct {
     Amount          *int    `json:"amount,omitempty"`
     Category        *string `json:"category,omitempty"`
     SubscriberDelta *int    `json:"subscriber_delta,omitempty"`

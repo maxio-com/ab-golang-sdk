@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -43,7 +48,7 @@ func (i InvoiceTaxBreakout) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for InvoiceTaxBreakout.
 // It customizes the JSON unmarshaling process for InvoiceTaxBreakout objects.
 func (i *InvoiceTaxBreakout) UnmarshalJSON(input []byte) error {
-    var temp invoiceTaxBreakout
+    var temp tempInvoiceTaxBreakout
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -61,8 +66,8 @@ func (i *InvoiceTaxBreakout) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// invoiceTaxBreakout is a temporary struct used for validating the fields of InvoiceTaxBreakout.
-type invoiceTaxBreakout  struct {
+// tempInvoiceTaxBreakout is a temporary struct used for validating the fields of InvoiceTaxBreakout.
+type tempInvoiceTaxBreakout  struct {
     Uid             *string `json:"uid,omitempty"`
     TaxableAmount   *string `json:"taxable_amount,omitempty"`
     TaxAmount       *string `json:"tax_amount,omitempty"`

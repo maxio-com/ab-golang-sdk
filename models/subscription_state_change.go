@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -33,7 +38,7 @@ func (s SubscriptionStateChange) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for SubscriptionStateChange.
 // It customizes the JSON unmarshaling process for SubscriptionStateChange objects.
 func (s *SubscriptionStateChange) UnmarshalJSON(input []byte) error {
-    var temp subscriptionStateChange
+    var temp tempSubscriptionStateChange
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -53,13 +58,13 @@ func (s *SubscriptionStateChange) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// subscriptionStateChange is a temporary struct used for validating the fields of SubscriptionStateChange.
-type subscriptionStateChange  struct {
+// tempSubscriptionStateChange is a temporary struct used for validating the fields of SubscriptionStateChange.
+type tempSubscriptionStateChange  struct {
     PreviousSubscriptionState *string `json:"previous_subscription_state"`
     NewSubscriptionState      *string `json:"new_subscription_state"`
 }
 
-func (s *subscriptionStateChange) validate() error {
+func (s *tempSubscriptionStateChange) validate() error {
     var errs []string
     if s.PreviousSubscriptionState == nil {
         errs = append(errs, "required field `previous_subscription_state` is missing for type `Subscription State Change`")
@@ -70,5 +75,5 @@ func (s *subscriptionStateChange) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -53,7 +58,7 @@ func (s SubscriptionNote) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for SubscriptionNote.
 // It customizes the JSON unmarshaling process for SubscriptionNote objects.
 func (s *SubscriptionNote) UnmarshalJSON(input []byte) error {
-    var temp subscriptionNote
+    var temp tempSubscriptionNote
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -85,8 +90,8 @@ func (s *SubscriptionNote) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// subscriptionNote is a temporary struct used for validating the fields of SubscriptionNote.
-type subscriptionNote  struct {
+// tempSubscriptionNote is a temporary struct used for validating the fields of SubscriptionNote.
+type tempSubscriptionNote  struct {
     Id             *int    `json:"id,omitempty"`
     Body           *string `json:"body,omitempty"`
     SubscriptionId *int    `json:"subscription_id,omitempty"`

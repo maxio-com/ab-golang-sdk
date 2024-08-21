@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -33,7 +38,7 @@ func (p PaymentMethodPaypal) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for PaymentMethodPaypal.
 // It customizes the JSON unmarshaling process for PaymentMethodPaypal objects.
 func (p *PaymentMethodPaypal) UnmarshalJSON(input []byte) error {
-    var temp paymentMethodPaypal
+    var temp tempPaymentMethodPaypal
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -53,13 +58,13 @@ func (p *PaymentMethodPaypal) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// paymentMethodPaypal is a temporary struct used for validating the fields of PaymentMethodPaypal.
-type paymentMethodPaypal  struct {
+// tempPaymentMethodPaypal is a temporary struct used for validating the fields of PaymentMethodPaypal.
+type tempPaymentMethodPaypal  struct {
     Email *string                    `json:"email"`
     Type  *InvoiceEventPaymentMethod `json:"type"`
 }
 
-func (p *paymentMethodPaypal) validate() error {
+func (p *tempPaymentMethodPaypal) validate() error {
     var errs []string
     if p.Email == nil {
         errs = append(errs, "required field `email` is missing for type `Payment Method Paypal`")
@@ -70,5 +75,5 @@ func (p *paymentMethodPaypal) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

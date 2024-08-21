@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -31,7 +36,7 @@ func (u UpsertPrepaidConfigurationRequest) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for UpsertPrepaidConfigurationRequest.
 // It customizes the JSON unmarshaling process for UpsertPrepaidConfigurationRequest objects.
 func (u *UpsertPrepaidConfigurationRequest) UnmarshalJSON(input []byte) error {
-    var temp upsertPrepaidConfigurationRequest
+    var temp tempUpsertPrepaidConfigurationRequest
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -50,12 +55,12 @@ func (u *UpsertPrepaidConfigurationRequest) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// upsertPrepaidConfigurationRequest is a temporary struct used for validating the fields of UpsertPrepaidConfigurationRequest.
-type upsertPrepaidConfigurationRequest  struct {
+// tempUpsertPrepaidConfigurationRequest is a temporary struct used for validating the fields of UpsertPrepaidConfigurationRequest.
+type tempUpsertPrepaidConfigurationRequest  struct {
     PrepaidConfiguration *UpsertPrepaidConfiguration `json:"prepaid_configuration"`
 }
 
-func (u *upsertPrepaidConfigurationRequest) validate() error {
+func (u *tempUpsertPrepaidConfigurationRequest) validate() error {
     var errs []string
     if u.PrepaidConfiguration == nil {
         errs = append(errs, "required field `prepaid_configuration` is missing for type `Upsert Prepaid Configuration Request`")
@@ -63,5 +68,5 @@ func (u *upsertPrepaidConfigurationRequest) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

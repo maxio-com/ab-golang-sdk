@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package advancedbilling
 
 import (
@@ -24,7 +29,7 @@ func NewSubscriptionStatusController(baseController baseController) *Subscriptio
 // RetrySubscription takes context, subscriptionId as parameters and
 // returns an models.ApiResponse with models.SubscriptionResponse data and
 // an error if there was an issue with the request or response.
-// Chargify offers the ability to retry collecting the balance due on a past due Subscription without waiting for the next scheduled attempt.
+// Advanced Billing offers the ability to retry collecting the balance due on a past due Subscription without waiting for the next scheduled attempt.
 // ## Successful Reactivation
 // The response will be `200 OK` with the updated Subscription.
 // ## Failed Reactivation
@@ -198,9 +203,9 @@ func (s *SubscriptionStatusController) UpdateAutomaticSubscriptionResumption(
 // ReactivateSubscription takes context, subscriptionId, body as parameters and
 // returns an models.ApiResponse with models.SubscriptionResponse data and
 // an error if there was an issue with the request or response.
-// Chargify offers the ability to reactivate a previously canceled subscription. For details on how the reactivation works, and how to reactivate subscriptions through the application, see [reactivation](https://chargify.zendesk.com/hc/en-us/articles/4407898737691).
+// Advanced Billing offers the ability to reactivate a previously canceled subscription. For details on how the reactivation works, and how to reactivate subscriptions through the application, see [reactivation](https://maxio.zendesk.com/hc/en-us/articles/24252109503629-Reactivating-and-Resuming).
 // **Please note: The term
-// "resume" is used also during another process in Chargify. This occurs when an on-hold subscription is "resumed". This returns the subscription to an active state.**
+// "resume" is used also during another process in Advanced Billing. This occurs when an on-hold subscription is "resumed". This returns the subscription to an active state.**
 // + The response returns the subscription object in the `active` or `trialing` state.
 // + The `canceled_at` and `cancellation_message` fields do not have values.
 // + The method works for "Canceled" or "Trial Ended" subscriptions.
@@ -209,8 +214,8 @@ func (s *SubscriptionStatusController) UpdateAutomaticSubscriptionResumption(
 // A subscription is considered "resumable" if you are attempting to reactivate within the billing period the subscription was canceled in.
 // A resumed subscription's billing date remains the same as before it was canceled. In other words, it does not start a new billing period. Payment may or may not be collected for a resumed subscription, depending on whether or not the subscription had a balance when it was canceled (for example, if it was canceled because of dunning).
 // Consider a subscription which was created on June 1st, and would renew on July 1st. The subscription is then canceled on June 15.
-// If a reactivation with `resume: true` were attempted _before_ what would have been the next billing date of July 1st, then Chargify would resume the subscription.
-// If a reactivation with `resume: true` were attempted _after_ what would have been the next billing date of July 1st, then Chargify would not resume the subscription, and instead it would be reactivated with a new billing period.
+// If a reactivation with `resume: true` were attempted _before_ what would have been the next billing date of July 1st, then Advanced Billing would resume the subscription.
+// If a reactivation with `resume: true` were attempted _after_ what would have been the next billing date of July 1st, then Advanced Billing would not resume the subscription, and instead it would be reactivated with a new billing period.
 // | Canceled | Reactivation | Resumable? |
 // |---|---|---|
 // | Jun 15 | June 28 | Yes |
@@ -329,7 +334,7 @@ func (s *SubscriptionStatusController) ReactivateSubscription(
 // InitiateDelayedCancellation takes context, subscriptionId, body as parameters and
 // returns an models.ApiResponse with models.DelayedCancellationResponse data and
 // an error if there was an issue with the request or response.
-// Chargify offers the ability to cancel a subscription at the end of the current billing period. This period is set by its current product.
+// Advanced Billing offers the ability to cancel a subscription at the end of the current billing period. This period is set by its current product.
 // Requesting to cancel the subscription at the end of the period sets the `cancel_at_end_of_period` flag to true.
 // Note that you cannot set `cancel_at_end_of_period` at subscription creation, or if the subscription is past due.
 func (s *SubscriptionStatusController) InitiateDelayedCancellation(
@@ -422,7 +427,7 @@ func (s *SubscriptionStatusController) CancelDunning(
 // returns an models.ApiResponse with models.RenewalPreviewResponse data and
 // an error if there was an issue with the request or response.
 // The Chargify API allows you to preview a renewal by posting to the renewals endpoint. Renewal Preview is an object representing a subscription’s next assessment. You can retrieve it to see a snapshot of how much your customer will be charged on their next renewal.
-// The "Next Billing" amount and "Next Billing" date are already represented in the UI on each Subscriber's Summary. For more information, please see our documentation [here](https://chargify.zendesk.com/hc/en-us/articles/4407884887835#next-billing).
+// The "Next Billing" amount and "Next Billing" date are already represented in the UI on each Subscriber's Summary. For more information, please see our documentation [here](https://maxio.zendesk.com/hc/en-us/articles/24252493695757-Subscriber-Interface-Overview).
 // ## Optional Component Fields
 // This endpoint is particularly useful due to the fact that it will return the computed billing amount for the base product and the components which are in use by a subscriber.
 // By default, the preview will include billing details for all components _at their **current** quantities_. This means:

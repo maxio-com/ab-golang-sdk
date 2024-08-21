@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -31,7 +36,7 @@ func (c CreateEBBComponent) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for CreateEBBComponent.
 // It customizes the JSON unmarshaling process for CreateEBBComponent objects.
 func (c *CreateEBBComponent) UnmarshalJSON(input []byte) error {
-    var temp createEBBComponent
+    var temp tempCreateEBBComponent
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -50,12 +55,12 @@ func (c *CreateEBBComponent) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// createEBBComponent is a temporary struct used for validating the fields of CreateEBBComponent.
-type createEBBComponent  struct {
+// tempCreateEBBComponent is a temporary struct used for validating the fields of CreateEBBComponent.
+type tempCreateEBBComponent  struct {
     EventBasedComponent *EBBComponent `json:"event_based_component"`
 }
 
-func (c *createEBBComponent) validate() error {
+func (c *tempCreateEBBComponent) validate() error {
     var errs []string
     if c.EventBasedComponent == nil {
         errs = append(errs, "required field `event_based_component` is missing for type `Create EBB Component`")
@@ -63,5 +68,5 @@ func (c *createEBBComponent) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

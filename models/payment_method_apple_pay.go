@@ -36,7 +36,7 @@ func (p PaymentMethodApplePay) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for PaymentMethodApplePay.
 // It customizes the JSON unmarshaling process for PaymentMethodApplePay objects.
 func (p *PaymentMethodApplePay) UnmarshalJSON(input []byte) error {
-    var temp paymentMethodApplePay
+    var temp tempPaymentMethodApplePay
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -55,12 +55,12 @@ func (p *PaymentMethodApplePay) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// paymentMethodApplePay is a temporary struct used for validating the fields of PaymentMethodApplePay.
-type paymentMethodApplePay  struct {
+// tempPaymentMethodApplePay is a temporary struct used for validating the fields of PaymentMethodApplePay.
+type tempPaymentMethodApplePay  struct {
     Type *InvoiceEventPaymentMethod `json:"type"`
 }
 
-func (p *paymentMethodApplePay) validate() error {
+func (p *tempPaymentMethodApplePay) validate() error {
     var errs []string
     if p.Type == nil {
         errs = append(errs, "required field `type` is missing for type `Payment Method Apple Pay`")
@@ -68,5 +68,5 @@ func (p *paymentMethodApplePay) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

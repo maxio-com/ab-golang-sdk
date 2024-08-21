@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -42,7 +47,7 @@ func (i IssueInvoiceEvent) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for IssueInvoiceEvent.
 // It customizes the JSON unmarshaling process for IssueInvoiceEvent objects.
 func (i *IssueInvoiceEvent) UnmarshalJSON(input []byte) error {
-    var temp issueInvoiceEvent
+    var temp tempIssueInvoiceEvent
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -69,8 +74,8 @@ func (i *IssueInvoiceEvent) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// issueInvoiceEvent is a temporary struct used for validating the fields of IssueInvoiceEvent.
-type issueInvoiceEvent  struct {
+// tempIssueInvoiceEvent is a temporary struct used for validating the fields of IssueInvoiceEvent.
+type tempIssueInvoiceEvent  struct {
     Id        *int64                 `json:"id"`
     Timestamp *string                `json:"timestamp"`
     Invoice   *Invoice               `json:"invoice"`
@@ -78,7 +83,7 @@ type issueInvoiceEvent  struct {
     EventData *IssueInvoiceEventData `json:"event_data"`
 }
 
-func (i *issueInvoiceEvent) validate() error {
+func (i *tempIssueInvoiceEvent) validate() error {
     var errs []string
     if i.Id == nil {
         errs = append(errs, "required field `id` is missing for type `Issue Invoice Event`")
@@ -98,5 +103,5 @@ func (i *issueInvoiceEvent) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

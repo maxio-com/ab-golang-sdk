@@ -23,7 +23,7 @@
 | `InitialChargeInCents` | `models.Optional[int64]` | Optional | The product price point initial charge, in integer cents |
 | `InitialChargeAfterTrial` | `models.Optional[bool]` | Optional | - |
 | `ExpirationInterval` | `models.Optional[int]` | Optional | The numerical expiration interval. i.e. an expiration_interval of ‘30’ coupled with an expiration_interval_unit of day would mean this product price point would expire after 30 days |
-| `ExpirationIntervalUnit` | [`models.Optional[models.IntervalUnit]`](../../doc/models/interval-unit.md) | Optional | A string representing the expiration interval unit for this product price point, either month or day |
+| `ExpirationIntervalUnit` | [`models.Optional[models.ExpirationIntervalUnit]`](../../doc/models/expiration-interval-unit.md) | Optional | A string representing the expiration interval unit for this product price point, either month, day or never |
 | `ProductId` | `*int` | Optional | The product id this price point belongs to |
 | `ArchivedAt` | `models.Optional[time.Time]` | Optional | Timestamp indicating when this price point was archived |
 | `CreatedAt` | `*time.Time` | Optional | Timestamp indicating when this price point was created |

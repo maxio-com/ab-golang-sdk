@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package advancedbilling
 
 import (
@@ -40,7 +45,7 @@ type ListSalesCommissionSettingsInput struct {
 // Endpoint returns subscriptions with associated sales reps
 // ## Modified Authentication Process
 // The Sales Commission API differs from other Chargify API endpoints. This resource is associated with the seller itself. Up to now all available resources were at the level of the site, therefore creating the API Key per site was a sufficient solution. To share resources at the seller level, a new authentication method was introduced, which is user authentication. Creating an API Key for a user is a required step to correctly use the Sales Commission API, more details [here](https://developers.chargify.com/docs/developer-docs/ZG9jOjMyNzk5NTg0-2020-04-20-new-api-authentication).
-// Access to the Sales Commission API endpoints is available to users with financial access, where the seller has the Advanced Analytics component enabled. For further information on getting access to Advanced Analytics please contact Chargify support.
+// Access to the Sales Commission API endpoints is available to users with financial access, where the seller has the Advanced Analytics component enabled. For further information on getting access to Advanced Analytics please contact Maxio support.
 // > Note: The request is at seller level, it means `<<subdomain>>` variable will be replaced by `app`
 func (s *SalesCommissionsController) ListSalesCommissionSettings(
     ctx context.Context,
@@ -97,7 +102,7 @@ type ListSalesRepsInput struct {
 // Endpoint returns sales rep list with details
 // ## Modified Authentication Process
 // The Sales Commission API differs from other Chargify API endpoints. This resource is associated with the seller itself. Up to now all available resources were at the level of the site, therefore creating the API Key per site was a sufficient solution. To share resources at the seller level, a new authentication method was introduced, which is user authentication. Creating an API Key for a user is a required step to correctly use the Sales Commission API, more details [here](https://developers.chargify.com/docs/developer-docs/ZG9jOjMyNzk5NTg0-2020-04-20-new-api-authentication).
-// Access to the Sales Commission API endpoints is available to users with financial access, where the seller has the Advanced Analytics component enabled. For further information on getting access to Advanced Analytics please contact Chargify support.
+// Access to the Sales Commission API endpoints is available to users with financial access, where the seller has the Advanced Analytics component enabled. For further information on getting access to Advanced Analytics please contact Maxio support.
 // > Note: The request is at seller level, it means `<<subdomain>>` variable will be replaced by `app`
 func (s *SalesCommissionsController) ListSalesReps(
     ctx context.Context,
@@ -139,7 +144,7 @@ func (s *SalesCommissionsController) ListSalesReps(
 // Endpoint returns sales rep and attached subscriptions details.
 // ## Modified Authentication Process
 // The Sales Commission API differs from other Chargify API endpoints. This resource is associated with the seller itself. Up to now all available resources were at the level of the site, therefore creating the API Key per site was a sufficient solution. To share resources at the seller level, a new authentication method was introduced, which is user authentication. Creating an API Key for a user is a required step to correctly use the Sales Commission API, more details [here](https://developers.chargify.com/docs/developer-docs/ZG9jOjMyNzk5NTg0-2020-04-20-new-api-authentication).
-// Access to the Sales Commission API endpoints is available to users with financial access, where the seller has the Advanced Analytics component enabled. For further information on getting access to Advanced Analytics please contact Chargify support.
+// Access to the Sales Commission API endpoints is available to users with financial access, where the seller has the Advanced Analytics component enabled. For further information on getting access to Advanced Analytics please contact Maxio support.
 // > Note: The request is at seller level, it means `<<subdomain>>` variable will be replaced by `app`
 func (s *SalesCommissionsController) ReadSalesRep(
     ctx context.Context,

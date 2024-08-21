@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -35,7 +40,7 @@ func (b BillingSchedule) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for BillingSchedule.
 // It customizes the JSON unmarshaling process for BillingSchedule objects.
 func (b *BillingSchedule) UnmarshalJSON(input []byte) error {
-    var temp billingSchedule
+    var temp tempBillingSchedule
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -56,7 +61,7 @@ func (b *BillingSchedule) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// billingSchedule is a temporary struct used for validating the fields of BillingSchedule.
-type billingSchedule  struct {
+// tempBillingSchedule is a temporary struct used for validating the fields of BillingSchedule.
+type tempBillingSchedule  struct {
     InitialBillingAt *string `json:"initial_billing_at,omitempty"`
 }

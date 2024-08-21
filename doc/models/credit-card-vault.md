@@ -1,11 +1,11 @@
 
-# Current Vault
+# Credit Card Vault
 
 The vault that stores the payment profile with the provided `vault_token`. Use `bogus` for testing.
 
 ## Enumeration
 
-`CurrentVault`
+`CreditCardVault`
 
 ## Fields
 
@@ -13,29 +13,35 @@ The vault that stores the payment profile with the provided `vault_token`. Use `
 |  --- |
 | `ADYEN` |
 | `AUTHORIZENET` |
-| `AVALARA` |
 | `BEANSTREAM` |
 | `BLUESNAP` |
 | `BOGUS` |
+| `BRAINTREE1` |
 | `BRAINTREEBLUE` |
 | `CHECKOUT` |
 | `CYBERSOURCE` |
 | `ELAVON` |
 | `EWAY` |
+| `EWAYRAPID` |
 | `EWAYRAPIDSTD` |
 | `FIRSTDATA` |
 | `FORTE` |
-| `GOCARDLESS` |
 | `LITLE` |
 | `MAXIOPAYMENTS` |
+| `MAXP` |
 | `MODUSLINK` |
 | `MONERIS` |
 | `NMI` |
 | `ORBITAL` |
 | `PAYMENTEXPRESS` |
+| `PAYMILL` |
+| `PAYPAL` |
+| `PAYPALCOMPLETE` |
 | `PIN` |
 | `SQUARE` |
+| `STRIPE` |
 | `STRIPECONNECT` |
 | `TRUSTCOMMERCE` |
 | `UNIPAAS` |
+| `WIRECARD` |
 

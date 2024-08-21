@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -35,7 +40,7 @@ func (t TooManyManagementLinkRequests) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for TooManyManagementLinkRequests.
 // It customizes the JSON unmarshaling process for TooManyManagementLinkRequests objects.
 func (t *TooManyManagementLinkRequests) UnmarshalJSON(input []byte) error {
-    var temp tooManyManagementLinkRequests
+    var temp tempTooManyManagementLinkRequests
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -59,13 +64,13 @@ func (t *TooManyManagementLinkRequests) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// tooManyManagementLinkRequests is a temporary struct used for validating the fields of TooManyManagementLinkRequests.
-type tooManyManagementLinkRequests  struct {
+// tempTooManyManagementLinkRequests is a temporary struct used for validating the fields of TooManyManagementLinkRequests.
+type tempTooManyManagementLinkRequests  struct {
     Error              *string `json:"error"`
     NewLinkAvailableAt *string `json:"new_link_available_at"`
 }
 
-func (t *tooManyManagementLinkRequests) validate() error {
+func (t *tempTooManyManagementLinkRequests) validate() error {
     var errs []string
     if t.Error == nil {
         errs = append(errs, "required field `error` is missing for type `Too Many Management Link Requests`")
@@ -76,5 +81,5 @@ func (t *tooManyManagementLinkRequests) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }

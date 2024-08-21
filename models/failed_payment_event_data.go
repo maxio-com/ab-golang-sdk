@@ -1,3 +1,8 @@
+/*
+Package advancedbilling
+
+This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
+*/
 package models
 
 import (
@@ -50,7 +55,7 @@ func (f FailedPaymentEventData) toMap() map[string]any {
 // UnmarshalJSON implements the json.Unmarshaler interface for FailedPaymentEventData.
 // It customizes the JSON unmarshaling process for FailedPaymentEventData objects.
 func (f *FailedPaymentEventData) UnmarshalJSON(input []byte) error {
-    var temp failedPaymentEventData
+    var temp tempFailedPaymentEventData
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -73,8 +78,8 @@ func (f *FailedPaymentEventData) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// failedPaymentEventData is a temporary struct used for validating the fields of FailedPaymentEventData.
-type failedPaymentEventData  struct {
+// tempFailedPaymentEventData is a temporary struct used for validating the fields of FailedPaymentEventData.
+type tempFailedPaymentEventData  struct {
     AmountInCents *int                      `json:"amount_in_cents"`
     AppliedAmount *int                      `json:"applied_amount"`
     Memo          Optional[string]          `json:"memo"`
@@ -82,7 +87,7 @@ type failedPaymentEventData  struct {
     TransactionId *int                      `json:"transaction_id"`
 }
 
-func (f *failedPaymentEventData) validate() error {
+func (f *tempFailedPaymentEventData) validate() error {
     var errs []string
     if f.AmountInCents == nil {
         errs = append(errs, "required field `amount_in_cents` is missing for type `Failed Payment Event Data`")
@@ -99,5 +104,5 @@ func (f *failedPaymentEventData) validate() error {
     if len(errs) == 0 {
         return nil
     }
-    return errors.New(strings.Join(errs, "\n"))
+    return errors.New(strings.Join (errs, "\n"))
 }
