@@ -23,7 +23,7 @@ type AllocateComponents struct {
     DowngradeCredit          Optional[CreditType] `json:"downgrade_credit"`
     // (Optional) If not passed, the allocation(s) will use the payment collection method on the subscription
     PaymentCollectionMethod  *CollectionMethod    `json:"payment_collection_method,omitempty"`
-    // If true, if the immediate component payment fails, initiate dunning for the subscription. 
+    // If true, if the immediate component payment fails, initiate dunning for the subscription.
     // Otherwise, leave the charges on the subscription to pay for at renewal.
     InitiateDunning          *bool                `json:"initiate_dunning,omitempty"`
     AdditionalProperties     map[string]any       `json:"_"`

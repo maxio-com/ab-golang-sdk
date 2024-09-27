@@ -421,7 +421,7 @@ func (p *PaymentProfilesController) UpdatePaymentProfile(
 }
 
 // DeleteUnusedPaymentProfile takes context, paymentProfileId as parameters and
-// returns an models.ApiResponse with  data and
+// returns an *Response and
 // an error if there was an issue with the request or response.
 // Deletes an unused payment profile.
 // If the payment profile is in use by one or more subscriptions or groups, a 422 and error message will be returned.
@@ -441,15 +441,15 @@ func (p *PaymentProfilesController) DeleteUnusedPaymentProfile(
         "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
     })
     
-    context, err := req.Call()
+    httpCtx, err := req.Call()
     if err != nil {
-        return context.Response, err
+        return httpCtx.Response, err
     }
-    return context.Response, err
+    return httpCtx.Response, err
 }
 
 // DeleteSubscriptionsPaymentProfile takes context, subscriptionId, paymentProfileId as parameters and
-// returns an models.ApiResponse with  data and
+// returns an *Response and
 // an error if there was an issue with the request or response.
 // This will delete a payment profile belonging to the customer on the subscription.
 // + If the customer has multiple subscriptions, the payment profile will be removed from all of them.
@@ -467,11 +467,11 @@ func (p *PaymentProfilesController) DeleteSubscriptionsPaymentProfile(
     )
     req.Authenticate(NewAuth("BasicAuth"))
     
-    context, err := req.Call()
+    httpCtx, err := req.Call()
     if err != nil {
-        return context.Response, err
+        return httpCtx.Response, err
     }
-    return context.Response, err
+    return httpCtx.Response, err
 }
 
 // VerifyBankAccount takes context, bankAccountId, body as parameters and
@@ -510,7 +510,7 @@ func (p *PaymentProfilesController) VerifyBankAccount(
 }
 
 // DeleteSubscriptionGroupPaymentProfile takes context, uid, paymentProfileId as parameters and
-// returns an models.ApiResponse with  data and
+// returns an *Response and
 // an error if there was an issue with the request or response.
 // This will delete a Payment Profile belonging to a Subscription Group.
 // **Note**: If the Payment Profile belongs to multiple Subscription Groups and/or Subscriptions, it will be removed from all of them.
@@ -527,11 +527,11 @@ func (p *PaymentProfilesController) DeleteSubscriptionGroupPaymentProfile(
     )
     req.Authenticate(NewAuth("BasicAuth"))
     
-    context, err := req.Call()
+    httpCtx, err := req.Call()
     if err != nil {
-        return context.Response, err
+        return httpCtx.Response, err
     }
-    return context.Response, err
+    return httpCtx.Response, err
 }
 
 // ChangeSubscriptionDefaultPaymentProfile takes context, subscriptionId, paymentProfileId as parameters and
@@ -630,7 +630,7 @@ func (p *PaymentProfilesController) ReadOneTimeToken(
 }
 
 // SendRequestUpdatePaymentEmail takes context, subscriptionId as parameters and
-// returns an models.ApiResponse with  data and
+// returns an *Response and
 // an error if there was an issue with the request or response.
 // You can send a "request payment update" email to the customer associated with the subscription.
 // If you attempt to send a "request payment update" email more than five times within a 30-minute period, you will receive a `422` response with an error message in the body. This error message will indicate that the request has been rejected due to excessive attempts, and will provide instructions on how to resubmit the request.
@@ -652,9 +652,9 @@ func (p *PaymentProfilesController) SendRequestUpdatePaymentEmail(
         "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
     })
     
-    context, err := req.Call()
+    httpCtx, err := req.Call()
     if err != nil {
-        return context.Response, err
+        return httpCtx.Response, err
     }
-    return context.Response, err
+    return httpCtx.Response, err
 }

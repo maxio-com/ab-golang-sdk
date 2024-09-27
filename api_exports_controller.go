@@ -30,8 +30,8 @@ func NewAPIExportsController(baseController baseController) *APIExportsControlle
 type ListExportedProformaInvoicesInput struct {
     // Id of a Batch Job.
     BatchId string 
-    // This parameter indicates how many records to fetch in each request. 
-    // Default value is 100. 
+    // This parameter indicates how many records to fetch in each request.
+    // Default value is 100.
     // The maximum allowed values is 10000; any per_page value over 10000 will be changed to 10000.
     PerPage *int   
     // Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.
@@ -79,8 +79,8 @@ func (a *APIExportsController) ListExportedProformaInvoices(
 type ListExportedInvoicesInput struct {
     // Id of a Batch Job.
     BatchId string 
-    // This parameter indicates how many records to fetch in each request. 
-    // Default value is 100. 
+    // This parameter indicates how many records to fetch in each request.
+    // Default value is 100.
     // The maximum allowed values is 10000; any per_page value over 10000 will be changed to 10000.
     PerPage *int   
     // Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.
@@ -128,8 +128,8 @@ func (a *APIExportsController) ListExportedInvoices(
 type ListExportedSubscriptionsInput struct {
     // Id of a Batch Job.
     BatchId string 
-    // This parameter indicates how many records to fetch in each request. 
-    // Default value is 100. 
+    // This parameter indicates how many records to fetch in each request.
+    // Default value is 100.
     // The maximum allowed values is 10000; any per_page value over 10000 will be changed to 10000.
     PerPage *int   
     // Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.

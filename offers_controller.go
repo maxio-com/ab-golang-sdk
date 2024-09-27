@@ -126,7 +126,7 @@ func (o *OffersController) ReadOffer(
 }
 
 // ArchiveOffer takes context, offerId as parameters and
-// returns an models.ApiResponse with  data and
+// returns an *Response and
 // an error if there was an issue with the request or response.
 // Archive an existing offer. Please provide an `offer_id` in order to archive the correct item.
 func (o *OffersController) ArchiveOffer(
@@ -141,15 +141,15 @@ func (o *OffersController) ArchiveOffer(
     )
     req.Authenticate(NewAuth("BasicAuth"))
     
-    context, err := req.Call()
+    httpCtx, err := req.Call()
     if err != nil {
-        return context.Response, err
+        return httpCtx.Response, err
     }
-    return context.Response, err
+    return httpCtx.Response, err
 }
 
 // UnarchiveOffer takes context, offerId as parameters and
-// returns an models.ApiResponse with  data and
+// returns an *Response and
 // an error if there was an issue with the request or response.
 // Unarchive a previously archived offer. Please provide an `offer_id` in order to un-archive the correct item.
 func (o *OffersController) UnarchiveOffer(
@@ -164,9 +164,9 @@ func (o *OffersController) UnarchiveOffer(
     )
     req.Authenticate(NewAuth("BasicAuth"))
     
-    context, err := req.Call()
+    httpCtx, err := req.Call()
     if err != nil {
-        return context.Response, err
+        return httpCtx.Response, err
     }
-    return context.Response, err
+    return httpCtx.Response, err
 }

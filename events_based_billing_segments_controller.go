@@ -160,7 +160,7 @@ func (e *EventsBasedBillingSegmentsController) UpdateSegment(
 }
 
 // DeleteSegment takes context, componentId, pricePointId, id as parameters and
-// returns an models.ApiResponse with  data and
+// returns an *Response and
 // an error if there was an issue with the request or response.
 // This endpoint allows you to delete a Segment with specified ID.
 // You may specify component and/or price point by using either the numeric ID or the `handle:gold` syntax.
@@ -182,11 +182,11 @@ func (e *EventsBasedBillingSegmentsController) DeleteSegment(
         "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'."},
     })
     
-    context, err := req.Call()
+    httpCtx, err := req.Call()
     if err != nil {
-        return context.Response, err
+        return httpCtx.Response, err
     }
-    return context.Response, err
+    return httpCtx.Response, err
 }
 
 // BulkCreateSegments takes context, componentId, pricePointId, body as parameters and

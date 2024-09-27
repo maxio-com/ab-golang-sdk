@@ -20,9 +20,14 @@ func ToPointer[T any](value T) *T {
 // file content, file name, and file headers.
 type FileWrapper = https.FileWrapper
 
-// GetFile retrieves a file from the given fileUrl and returns it as a FileWrapper.
-// It makes an HTTP GET request to the fileUrl to fetch the file's content and metadata.
+// GetFile retrieves a file from the given filePath and returns it as a FileWrapper.
+// It makes an HTTP GET request to the filePath to fetch the file's content and metadata.
+// OR It uses os.ReadFile to read the file's content and metadata.
 var GetFile = https.GetFile 
+
+// GetFileWithContentType retrieves a file from the given filePath using GetFile and returns it as a FileWrapper.
+// It also sets the provided "content-type" in the file headers.
+var GetFileWithContentType = https.GetFileWithContentType 
 
 // Optional is a generic struct that allows any type to be used as optional and nullable.
 // Optional.set is true when Optional.value is to be used.

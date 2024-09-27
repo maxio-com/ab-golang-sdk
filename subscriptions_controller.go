@@ -737,7 +737,7 @@ func (s *SubscriptionsController) ReadSubscription(
 }
 
 // OverrideSubscription takes context, subscriptionId, body as parameters and
-// returns an models.ApiResponse with  data and
+// returns an *Response and
 // an error if there was an issue with the request or response.
 // This API endpoint allows you to set certain subscription fields that are usually managed for you automatically. Some of the fields can be set via the normal Subscriptions Update API, but others can only be set using this endpoint.
 // This endpoint is provided for cases where you need to “align” Advanced Billing data with data that happened in your system, perhaps before you started using Advanced Billing. For example, you may choose to import your historical subscription data, and would like the activation and cancellation dates in Advanced Billing to match your existing historical dates. Advanced Billing does not backfill historical events (i.e. from the Events API), but some static data can be changed via this API.
@@ -770,11 +770,11 @@ func (s *SubscriptionsController) OverrideSubscription(
         req.Json(body)
     }
     
-    context, err := req.Call()
+    httpCtx, err := req.Call()
     if err != nil {
-        return context.Response, err
+        return httpCtx.Response, err
     }
-    return context.Response, err
+    return httpCtx.Response, err
 }
 
 // FindSubscription takes context, reference as parameters and
@@ -802,7 +802,7 @@ func (s *SubscriptionsController) FindSubscription(
 }
 
 // PurgeSubscription takes context, subscriptionId, ack, cascade as parameters and
-// returns an models.ApiResponse with  data and
+// returns an *Response and
 // an error if there was an issue with the request or response.
 // For sites in test mode, you may purge individual subscriptions.
 // Provide the subscription ID in the url.  To confirm, supply the customer ID in the query string `ack` parameter. You may also delete the customer record and/or payment profiles by passing `cascade` parameters. For example, to delete just the customer record, the query params would be: `?ack={customer_id}&cascade[]=customer`
@@ -827,11 +827,11 @@ func (s *SubscriptionsController) PurgeSubscription(
         req.QueryParam("cascade", cascade)
     }
     
-    context, err := req.Call()
+    httpCtx, err := req.Call()
     if err != nil {
-        return context.Response, err
+        return httpCtx.Response, err
     }
-    return context.Response, err
+    return httpCtx.Response, err
 }
 
 // UpdatePrepaidSubscriptionConfiguration takes context, subscriptionId, body as parameters and

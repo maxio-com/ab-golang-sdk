@@ -164,7 +164,7 @@ func (s *SubscriptionNotesController) UpdateSubscriptionNote(
 }
 
 // DeleteSubscriptionNote takes context, subscriptionId, noteId as parameters and
-// returns an models.ApiResponse with  data and
+// returns an *Response and
 // an error if there was an issue with the request or response.
 // Use the following method to delete a note for a Subscription.
 func (s *SubscriptionNotesController) DeleteSubscriptionNote(
@@ -180,9 +180,9 @@ func (s *SubscriptionNotesController) DeleteSubscriptionNote(
     )
     req.Authenticate(NewAuth("BasicAuth"))
     
-    context, err := req.Call()
+    httpCtx, err := req.Call()
     if err != nil {
-        return context.Response, err
+        return httpCtx.Response, err
     }
-    return context.Response, err
+    return httpCtx.Response, err
 }

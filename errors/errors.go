@@ -20,12 +20,14 @@ type ComponentAllocationError struct {
 // NewComponentAllocationError is a constructor for ComponentAllocationError.
 // It creates and returns a pointer to a new ComponentAllocationError instance with the given statusCode and body.
 func NewComponentAllocationError(apiError https.ApiError) error {
-    return &ComponentAllocationError{ApiError: apiError}
+    return &ComponentAllocationError{
+		ApiError: apiError,
+    }
 }
 
 // Error implements the Error method for the error interface.
 // It returns a formatted error message for ComponentAllocationError.
-func (c *ComponentAllocationError) Error() string {
+func (c ComponentAllocationError) Error() string {
     return fmt.Sprintf("ComponentAllocationError occured: %v", c.Message)
 }
 
@@ -38,12 +40,14 @@ type ComponentPricePointError struct {
 // NewComponentPricePointError is a constructor for ComponentPricePointError.
 // It creates and returns a pointer to a new ComponentPricePointError instance with the given statusCode and body.
 func NewComponentPricePointError(apiError https.ApiError) error {
-    return &ComponentPricePointError{ApiError: apiError}
+    return &ComponentPricePointError{
+		ApiError: apiError,
+    }
 }
 
 // Error implements the Error method for the error interface.
 // It returns a formatted error message for ComponentPricePointError.
-func (c *ComponentPricePointError) Error() string {
+func (c ComponentPricePointError) Error() string {
     return fmt.Sprintf("ComponentPricePointError occured: %v", c.Message)
 }
 
@@ -56,12 +60,14 @@ type CustomerErrorResponse struct {
 // NewCustomerErrorResponse is a constructor for CustomerErrorResponse.
 // It creates and returns a pointer to a new CustomerErrorResponse instance with the given statusCode and body.
 func NewCustomerErrorResponse(apiError https.ApiError) error {
-    return &CustomerErrorResponse{ApiError: apiError}
+    return &CustomerErrorResponse{
+		ApiError: apiError,
+    }
 }
 
 // Error implements the Error method for the error interface.
 // It returns a formatted error message for CustomerErrorResponse.
-func (c *CustomerErrorResponse) Error() string {
+func (c CustomerErrorResponse) Error() string {
     return fmt.Sprintf("CustomerErrorResponse occured: %v", c.Message)
 }
 
@@ -74,12 +80,14 @@ type ErrorArrayMapResponse struct {
 // NewErrorArrayMapResponse is a constructor for ErrorArrayMapResponse.
 // It creates and returns a pointer to a new ErrorArrayMapResponse instance with the given statusCode and body.
 func NewErrorArrayMapResponse(apiError https.ApiError) error {
-    return &ErrorArrayMapResponse{ApiError: apiError}
+    return &ErrorArrayMapResponse{
+		ApiError: apiError,
+    }
 }
 
 // Error implements the Error method for the error interface.
 // It returns a formatted error message for ErrorArrayMapResponse.
-func (e *ErrorArrayMapResponse) Error() string {
+func (e ErrorArrayMapResponse) Error() string {
     return fmt.Sprintf("ErrorArrayMapResponse occured: %v", e.Message)
 }
 
@@ -93,12 +101,14 @@ type ErrorListResponse struct {
 // NewErrorListResponse is a constructor for ErrorListResponse.
 // It creates and returns a pointer to a new ErrorListResponse instance with the given statusCode and body.
 func NewErrorListResponse(apiError https.ApiError) error {
-    return &ErrorListResponse{ApiError: apiError}
+    return &ErrorListResponse{
+		ApiError: apiError,
+    }
 }
 
 // Error implements the Error method for the error interface.
 // It returns a formatted error message for ErrorListResponse.
-func (e *ErrorListResponse) Error() string {
+func (e ErrorListResponse) Error() string {
     return fmt.Sprintf("ErrorListResponse occured: %v", e.Message)
 }
 
@@ -111,12 +121,14 @@ type ErrorStringMapResponse struct {
 // NewErrorStringMapResponse is a constructor for ErrorStringMapResponse.
 // It creates and returns a pointer to a new ErrorStringMapResponse instance with the given statusCode and body.
 func NewErrorStringMapResponse(apiError https.ApiError) error {
-    return &ErrorStringMapResponse{ApiError: apiError}
+    return &ErrorStringMapResponse{
+		ApiError: apiError,
+    }
 }
 
 // Error implements the Error method for the error interface.
 // It returns a formatted error message for ErrorStringMapResponse.
-func (e *ErrorStringMapResponse) Error() string {
+func (e ErrorStringMapResponse) Error() string {
     return fmt.Sprintf("ErrorStringMapResponse occured: %v", e.Message)
 }
 
@@ -129,12 +141,14 @@ type EventBasedBillingListSegmentsErrors struct {
 // NewEventBasedBillingListSegmentsErrors is a constructor for EventBasedBillingListSegmentsErrors.
 // It creates and returns a pointer to a new EventBasedBillingListSegmentsErrors instance with the given statusCode and body.
 func NewEventBasedBillingListSegmentsErrors(apiError https.ApiError) error {
-    return &EventBasedBillingListSegmentsErrors{ApiError: apiError}
+    return &EventBasedBillingListSegmentsErrors{
+		ApiError: apiError,
+    }
 }
 
 // Error implements the Error method for the error interface.
 // It returns a formatted error message for EventBasedBillingListSegmentsErrors.
-func (e *EventBasedBillingListSegmentsErrors) Error() string {
+func (e EventBasedBillingListSegmentsErrors) Error() string {
     return fmt.Sprintf("EventBasedBillingListSegmentsErrors occured: %v", e.Message)
 }
 
@@ -147,12 +161,14 @@ type EventBasedBillingSegment struct {
 // NewEventBasedBillingSegment is a constructor for EventBasedBillingSegment.
 // It creates and returns a pointer to a new EventBasedBillingSegment instance with the given statusCode and body.
 func NewEventBasedBillingSegment(apiError https.ApiError) error {
-    return &EventBasedBillingSegment{ApiError: apiError}
+    return &EventBasedBillingSegment{
+		ApiError: apiError,
+    }
 }
 
 // Error implements the Error method for the error interface.
 // It returns a formatted error message for EventBasedBillingSegment.
-func (e *EventBasedBillingSegment) Error() string {
+func (e EventBasedBillingSegment) Error() string {
     return fmt.Sprintf("EventBasedBillingSegment occured: %v", e.Message)
 }
 
@@ -165,12 +181,14 @@ type EventBasedBillingSegmentErrors struct {
 // NewEventBasedBillingSegmentErrors is a constructor for EventBasedBillingSegmentErrors.
 // It creates and returns a pointer to a new EventBasedBillingSegmentErrors instance with the given statusCode and body.
 func NewEventBasedBillingSegmentErrors(apiError https.ApiError) error {
-    return &EventBasedBillingSegmentErrors{ApiError: apiError}
+    return &EventBasedBillingSegmentErrors{
+		ApiError: apiError,
+    }
 }
 
 // Error implements the Error method for the error interface.
 // It returns a formatted error message for EventBasedBillingSegmentErrors.
-func (e *EventBasedBillingSegmentErrors) Error() string {
+func (e EventBasedBillingSegmentErrors) Error() string {
     return fmt.Sprintf("EventBasedBillingSegmentErrors occured: %v", e.Message)
 }
 
@@ -183,12 +201,14 @@ type ProductPricePointErrorResponse struct {
 // NewProductPricePointErrorResponse is a constructor for ProductPricePointErrorResponse.
 // It creates and returns a pointer to a new ProductPricePointErrorResponse instance with the given statusCode and body.
 func NewProductPricePointErrorResponse(apiError https.ApiError) error {
-    return &ProductPricePointErrorResponse{ApiError: apiError}
+    return &ProductPricePointErrorResponse{
+		ApiError: apiError,
+    }
 }
 
 // Error implements the Error method for the error interface.
 // It returns a formatted error message for ProductPricePointErrorResponse.
-func (p *ProductPricePointErrorResponse) Error() string {
+func (p ProductPricePointErrorResponse) Error() string {
     return fmt.Sprintf("ProductPricePointErrorResponse occured: %v", p.Message)
 }
 
@@ -201,12 +221,14 @@ type ProformaBadRequestErrorResponse struct {
 // NewProformaBadRequestErrorResponse is a constructor for ProformaBadRequestErrorResponse.
 // It creates and returns a pointer to a new ProformaBadRequestErrorResponse instance with the given statusCode and body.
 func NewProformaBadRequestErrorResponse(apiError https.ApiError) error {
-    return &ProformaBadRequestErrorResponse{ApiError: apiError}
+    return &ProformaBadRequestErrorResponse{
+		ApiError: apiError,
+    }
 }
 
 // Error implements the Error method for the error interface.
 // It returns a formatted error message for ProformaBadRequestErrorResponse.
-func (p *ProformaBadRequestErrorResponse) Error() string {
+func (p ProformaBadRequestErrorResponse) Error() string {
     return fmt.Sprintf("ProformaBadRequestErrorResponse occured: %v", p.Message)
 }
 
@@ -220,12 +242,14 @@ type RefundPrepaymentBaseErrorsResponse struct {
 // NewRefundPrepaymentBaseErrorsResponse is a constructor for RefundPrepaymentBaseErrorsResponse.
 // It creates and returns a pointer to a new RefundPrepaymentBaseErrorsResponse instance with the given statusCode and body.
 func NewRefundPrepaymentBaseErrorsResponse(apiError https.ApiError) error {
-    return &RefundPrepaymentBaseErrorsResponse{ApiError: apiError}
+    return &RefundPrepaymentBaseErrorsResponse{
+		ApiError: apiError,
+    }
 }
 
 // Error implements the Error method for the error interface.
 // It returns a formatted error message for RefundPrepaymentBaseErrorsResponse.
-func (r *RefundPrepaymentBaseErrorsResponse) Error() string {
+func (r RefundPrepaymentBaseErrorsResponse) Error() string {
     return fmt.Sprintf("RefundPrepaymentBaseErrorsResponse occured: %v", r.Message)
 }
 
@@ -238,12 +262,14 @@ type SingleErrorResponse struct {
 // NewSingleErrorResponse is a constructor for SingleErrorResponse.
 // It creates and returns a pointer to a new SingleErrorResponse instance with the given statusCode and body.
 func NewSingleErrorResponse(apiError https.ApiError) error {
-    return &SingleErrorResponse{ApiError: apiError}
+    return &SingleErrorResponse{
+		ApiError: apiError,
+    }
 }
 
 // Error implements the Error method for the error interface.
 // It returns a formatted error message for SingleErrorResponse.
-func (s *SingleErrorResponse) Error() string {
+func (s SingleErrorResponse) Error() string {
     return fmt.Sprintf("SingleErrorResponse occured: %v", s.Message)
 }
 
@@ -256,12 +282,14 @@ type SingleStringErrorResponse struct {
 // NewSingleStringErrorResponse is a constructor for SingleStringErrorResponse.
 // It creates and returns a pointer to a new SingleStringErrorResponse instance with the given statusCode and body.
 func NewSingleStringErrorResponse(apiError https.ApiError) error {
-    return &SingleStringErrorResponse{ApiError: apiError}
+    return &SingleStringErrorResponse{
+		ApiError: apiError,
+    }
 }
 
 // Error implements the Error method for the error interface.
 // It returns a formatted error message for SingleStringErrorResponse.
-func (s *SingleStringErrorResponse) Error() string {
+func (s SingleStringErrorResponse) Error() string {
     return fmt.Sprintf("SingleStringErrorResponse occured: %v", s.Message)
 }
 
@@ -277,12 +305,14 @@ type SubscriptionAddCouponError struct {
 // NewSubscriptionAddCouponError is a constructor for SubscriptionAddCouponError.
 // It creates and returns a pointer to a new SubscriptionAddCouponError instance with the given statusCode and body.
 func NewSubscriptionAddCouponError(apiError https.ApiError) error {
-    return &SubscriptionAddCouponError{ApiError: apiError}
+    return &SubscriptionAddCouponError{
+		ApiError: apiError,
+    }
 }
 
 // Error implements the Error method for the error interface.
 // It returns a formatted error message for SubscriptionAddCouponError.
-func (s *SubscriptionAddCouponError) Error() string {
+func (s SubscriptionAddCouponError) Error() string {
     return fmt.Sprintf("SubscriptionAddCouponError occured: %v", s.Message)
 }
 
@@ -295,12 +325,14 @@ type SubscriptionComponentAllocationError struct {
 // NewSubscriptionComponentAllocationError is a constructor for SubscriptionComponentAllocationError.
 // It creates and returns a pointer to a new SubscriptionComponentAllocationError instance with the given statusCode and body.
 func NewSubscriptionComponentAllocationError(apiError https.ApiError) error {
-    return &SubscriptionComponentAllocationError{ApiError: apiError}
+    return &SubscriptionComponentAllocationError{
+		ApiError: apiError,
+    }
 }
 
 // Error implements the Error method for the error interface.
 // It returns a formatted error message for SubscriptionComponentAllocationError.
-func (s *SubscriptionComponentAllocationError) Error() string {
+func (s SubscriptionComponentAllocationError) Error() string {
     return fmt.Sprintf("SubscriptionComponentAllocationError occured: %v", s.Message)
 }
 
@@ -313,12 +345,14 @@ type SubscriptionGroupCreateErrorResponse struct {
 // NewSubscriptionGroupCreateErrorResponse is a constructor for SubscriptionGroupCreateErrorResponse.
 // It creates and returns a pointer to a new SubscriptionGroupCreateErrorResponse instance with the given statusCode and body.
 func NewSubscriptionGroupCreateErrorResponse(apiError https.ApiError) error {
-    return &SubscriptionGroupCreateErrorResponse{ApiError: apiError}
+    return &SubscriptionGroupCreateErrorResponse{
+		ApiError: apiError,
+    }
 }
 
 // Error implements the Error method for the error interface.
 // It returns a formatted error message for SubscriptionGroupCreateErrorResponse.
-func (s *SubscriptionGroupCreateErrorResponse) Error() string {
+func (s SubscriptionGroupCreateErrorResponse) Error() string {
     return fmt.Sprintf("SubscriptionGroupCreateErrorResponse occured: %v", s.Message)
 }
 
@@ -331,12 +365,14 @@ type SubscriptionGroupSignupErrorResponse struct {
 // NewSubscriptionGroupSignupErrorResponse is a constructor for SubscriptionGroupSignupErrorResponse.
 // It creates and returns a pointer to a new SubscriptionGroupSignupErrorResponse instance with the given statusCode and body.
 func NewSubscriptionGroupSignupErrorResponse(apiError https.ApiError) error {
-    return &SubscriptionGroupSignupErrorResponse{ApiError: apiError}
+    return &SubscriptionGroupSignupErrorResponse{
+		ApiError: apiError,
+    }
 }
 
 // Error implements the Error method for the error interface.
 // It returns a formatted error message for SubscriptionGroupSignupErrorResponse.
-func (s *SubscriptionGroupSignupErrorResponse) Error() string {
+func (s SubscriptionGroupSignupErrorResponse) Error() string {
     return fmt.Sprintf("SubscriptionGroupSignupErrorResponse occured: %v", s.Message)
 }
 
@@ -349,12 +385,14 @@ type SubscriptionGroupUpdateErrorResponse struct {
 // NewSubscriptionGroupUpdateErrorResponse is a constructor for SubscriptionGroupUpdateErrorResponse.
 // It creates and returns a pointer to a new SubscriptionGroupUpdateErrorResponse instance with the given statusCode and body.
 func NewSubscriptionGroupUpdateErrorResponse(apiError https.ApiError) error {
-    return &SubscriptionGroupUpdateErrorResponse{ApiError: apiError}
+    return &SubscriptionGroupUpdateErrorResponse{
+		ApiError: apiError,
+    }
 }
 
 // Error implements the Error method for the error interface.
 // It returns a formatted error message for SubscriptionGroupUpdateErrorResponse.
-func (s *SubscriptionGroupUpdateErrorResponse) Error() string {
+func (s SubscriptionGroupUpdateErrorResponse) Error() string {
     return fmt.Sprintf("SubscriptionGroupUpdateErrorResponse occured: %v", s.Message)
 }
 
@@ -367,12 +405,14 @@ type SubscriptionRemoveCouponErrors struct {
 // NewSubscriptionRemoveCouponErrors is a constructor for SubscriptionRemoveCouponErrors.
 // It creates and returns a pointer to a new SubscriptionRemoveCouponErrors instance with the given statusCode and body.
 func NewSubscriptionRemoveCouponErrors(apiError https.ApiError) error {
-    return &SubscriptionRemoveCouponErrors{ApiError: apiError}
+    return &SubscriptionRemoveCouponErrors{
+		ApiError: apiError,
+    }
 }
 
 // Error implements the Error method for the error interface.
 // It returns a formatted error message for SubscriptionRemoveCouponErrors.
-func (s *SubscriptionRemoveCouponErrors) Error() string {
+func (s SubscriptionRemoveCouponErrors) Error() string {
     return fmt.Sprintf("SubscriptionRemoveCouponErrors occured: %v", s.Message)
 }
 
@@ -385,12 +425,14 @@ type SubscriptionsMrrErrorResponse struct {
 // NewSubscriptionsMrrErrorResponse is a constructor for SubscriptionsMrrErrorResponse.
 // It creates and returns a pointer to a new SubscriptionsMrrErrorResponse instance with the given statusCode and body.
 func NewSubscriptionsMrrErrorResponse(apiError https.ApiError) error {
-    return &SubscriptionsMrrErrorResponse{ApiError: apiError}
+    return &SubscriptionsMrrErrorResponse{
+		ApiError: apiError,
+    }
 }
 
 // Error implements the Error method for the error interface.
 // It returns a formatted error message for SubscriptionsMrrErrorResponse.
-func (s *SubscriptionsMrrErrorResponse) Error() string {
+func (s SubscriptionsMrrErrorResponse) Error() string {
     return fmt.Sprintf("SubscriptionsMrrErrorResponse occured: %v", s.Message)
 }
 
@@ -403,11 +445,13 @@ type TooManyManagementLinkRequestsError struct {
 // NewTooManyManagementLinkRequestsError is a constructor for TooManyManagementLinkRequestsError.
 // It creates and returns a pointer to a new TooManyManagementLinkRequestsError instance with the given statusCode and body.
 func NewTooManyManagementLinkRequestsError(apiError https.ApiError) error {
-    return &TooManyManagementLinkRequestsError{ApiError: apiError}
+    return &TooManyManagementLinkRequestsError{
+		ApiError: apiError,
+    }
 }
 
 // Error implements the Error method for the error interface.
 // It returns a formatted error message for TooManyManagementLinkRequestsError.
-func (t *TooManyManagementLinkRequestsError) Error() string {
+func (t TooManyManagementLinkRequestsError) Error() string {
     return fmt.Sprintf("TooManyManagementLinkRequestsError occured: %v", t.Message)
 }

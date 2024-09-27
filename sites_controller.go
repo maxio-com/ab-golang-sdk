@@ -53,7 +53,7 @@ func (s *SitesController) ReadSite(ctx context.Context) (
 }
 
 // ClearSite takes context, cleanupScope as parameters and
-// returns an models.ApiResponse with  data and
+// returns an *Response and
 // an error if there was an issue with the request or response.
 // This call is asynchronous and there may be a delay before the site data is fully deleted. If you are clearing site data for an automated test, you will need to build in a delay and/or check that there are no products, etc., in the site before proceeding.
 // **This functionality will only work on sites in TEST mode. Attempts to perform this on sites in “live” mode will result in a response of 403 FORBIDDEN.**
@@ -67,11 +67,11 @@ func (s *SitesController) ClearSite(
     if cleanupScope != nil {
         req.QueryParam("cleanup_scope", *cleanupScope)
     }
-    context, err := req.Call()
+    httpCtx, err := req.Call()
     if err != nil {
-        return context.Response, err
+        return httpCtx.Response, err
     }
-    return context.Response, err
+    return httpCtx.Response, err
 }
 
 // ListChargifyJsPublicKeysInput represents the input of the ListChargifyJsPublicKeys endpoint.

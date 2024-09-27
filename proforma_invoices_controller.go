@@ -28,7 +28,7 @@ func NewProformaInvoicesController(baseController baseController) *ProformaInvoi
 }
 
 // CreateConsolidatedProformaInvoice takes context, uid as parameters and
-// returns an models.ApiResponse with  data and
+// returns an *Response and
 // an error if there was an issue with the request or response.
 // This endpoint will trigger the creation of a consolidated proforma invoice asynchronously. It will return a 201 with no message, or a 422 with any errors. To find and view the new consolidated proforma invoice, you may poll the subscription group listing for proforma invoices; only one consolidated proforma invoice may be created per group at a time.
 // If the information becomes outdated, simply void the old consolidated proforma invoice and generate a new one.
@@ -49,11 +49,11 @@ func (p *ProformaInvoicesController) CreateConsolidatedProformaInvoice(
         "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
     })
     
-    context, err := req.Call()
+    httpCtx, err := req.Call()
     if err != nil {
-        return context.Response, err
+        return httpCtx.Response, err
     }
-    return context.Response, err
+    return httpCtx.Response, err
 }
 
 // ListSubscriptionGroupProformaInvoicesInput represents the input of the ListSubscriptionGroupProformaInvoices endpoint.
