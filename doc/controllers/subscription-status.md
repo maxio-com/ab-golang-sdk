@@ -417,7 +417,7 @@ ResumeSubscription(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription |
-| `calendarBillingResumptionCharge` | [`*models.ResumptionCharge`](../../doc/models/resumption-charge.md) | Query, Optional | (For calendar billing subscriptions only) The way that the resumed subscription's charge should be handled |
+| `calendarBillingResumptionCharge` | [`*models.ResumptionCharge`](../../doc/models/resumption-charge.md) | Query, Optional | (For calendar billing subscriptions only) The way that the resumed subscription's charge should be handled<br>**Default**: `"prorated"` |
 
 ## Response Type
 

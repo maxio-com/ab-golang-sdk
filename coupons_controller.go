@@ -531,7 +531,7 @@ func (c *CouponsController) UpdateCouponSubcodes(
 }
 
 // DeleteCouponSubcode takes context, couponId, subcode as parameters and
-// returns an models.ApiResponse with  data and
+// returns an *Response and
 // an error if there was an issue with the request or response.
 // ## Example
 // Given a coupon with an ID of 567, and a coupon subcode of 20OFF, the URL to `DELETE` this coupon subcode would be:
@@ -565,9 +565,9 @@ func (c *CouponsController) DeleteCouponSubcode(
         "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
     })
     
-    context, err := req.Call()
+    httpCtx, err := req.Call()
     if err != nil {
-        return context.Response, err
+        return httpCtx.Response, err
     }
-    return context.Response, err
+    return httpCtx.Response, err
 }

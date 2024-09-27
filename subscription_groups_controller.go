@@ -295,7 +295,7 @@ func (s *SubscriptionGroupsController) AddSubscriptionToGroup(
 }
 
 // RemoveSubscriptionFromGroup takes context, subscriptionId as parameters and
-// returns an models.ApiResponse with  data and
+// returns an *Response and
 // an error if there was an issue with the request or response.
 // For sites making use of the [Relationship Billing](https://maxio.zendesk.com/hc/en-us/articles/24252287829645-Advanced-Billing-Invoices-Overview) and [Customer Hierarchy](https://maxio.zendesk.com/hc/en-us/articles/24252185211533-Customer-Hierarchies-WhoPays#customer-hierarchies) features, it is possible to remove existing subscription from subscription group.
 func (s *SubscriptionGroupsController) RemoveSubscriptionFromGroup(
@@ -314,9 +314,9 @@ func (s *SubscriptionGroupsController) RemoveSubscriptionFromGroup(
         "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
     })
     
-    context, err := req.Call()
+    httpCtx, err := req.Call()
     if err != nil {
-        return context.Response, err
+        return httpCtx.Response, err
     }
-    return context.Response, err
+    return httpCtx.Response, err
 }

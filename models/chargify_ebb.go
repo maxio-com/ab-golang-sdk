@@ -21,10 +21,10 @@ type ChargifyEBB struct {
     CreatedAt             *time.Time     `json:"created_at,omitempty"`
     // User-defined string scoped per-stream. Duplicate events within a stream will be silently ignored. Tokens expire after 31 days.
     UniquenessToken       *string        `json:"uniqueness_token,omitempty"`
-    // Id of Maxio Advanced Billing Subscription which is connected to this event. 
+    // Id of Maxio Advanced Billing Subscription which is connected to this event.
     // Provide `subscription_id` if you configured `chargify.subscription_id` as Subscription Identifier in your Event Stream.
     SubscriptionId        *int           `json:"subscription_id,omitempty"`
-    // Reference of Maxio Advanced Billing Subscription which is connected to this event. 
+    // Reference of Maxio Advanced Billing Subscription which is connected to this event.
     // Provide `subscription_reference` if you configured `chargify.subscription_reference` as Subscription Identifier in your Event Stream.
     SubscriptionReference *string        `json:"subscription_reference,omitempty"`
     AdditionalProperties  map[string]any `json:"_"`

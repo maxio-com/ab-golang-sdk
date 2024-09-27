@@ -408,7 +408,7 @@ func (s *SubscriptionComponentsController) PreviewAllocations(
 }
 
 // UpdatePrepaidUsageAllocationExpirationDate takes context, subscriptionId, componentId, allocationId, body as parameters and
-// returns an models.ApiResponse with  data and
+// returns an *Response and
 // an error if there was an issue with the request or response.
 // When the expiration interval options are selected on a prepaid usage component price point, all allocations will be created with an expiration date. This expiration date can be changed after the fact to allow for extending or shortening the allocation's active window.
 // In order to change a prepaid usage allocation's expiration date, a PUT call must be made to the allocation's endpoint with a new expiration date.
@@ -440,15 +440,15 @@ func (s *SubscriptionComponentsController) UpdatePrepaidUsageAllocationExpiratio
         req.Json(body)
     }
     
-    context, err := req.Call()
+    httpCtx, err := req.Call()
     if err != nil {
-        return context.Response, err
+        return httpCtx.Response, err
     }
-    return context.Response, err
+    return httpCtx.Response, err
 }
 
 // DeletePrepaidUsageAllocation takes context, subscriptionId, componentId, allocationId, body as parameters and
-// returns an models.ApiResponse with  data and
+// returns an *Response and
 // an error if there was an issue with the request or response.
 // Prepaid Usage components are unique in that their allocations are always additive. In order to reduce a subscription's allocated quantity for a prepaid usage component each allocation must be destroyed individually via this endpoint.
 // ## Credit Scheme
@@ -479,11 +479,11 @@ func (s *SubscriptionComponentsController) DeletePrepaidUsageAllocation(
         req.Json(body)
     }
     
-    context, err := req.Call()
+    httpCtx, err := req.Call()
     if err != nil {
-        return context.Response, err
+        return httpCtx.Response, err
     }
-    return context.Response, err
+    return httpCtx.Response, err
 }
 
 // CreateUsage takes context, subscriptionId, componentId, body as parameters and
@@ -631,7 +631,7 @@ func (s *SubscriptionComponentsController) ListUsages(
 }
 
 // ActivateEventBasedComponent takes context, subscriptionId, componentId, body as parameters and
-// returns an models.ApiResponse with  data and
+// returns an *Response and
 // an error if there was an issue with the request or response.
 // In order to bill your subscribers on your Events data under the Events-Based Billing feature, the components must be activated for the subscriber.
 // Learn more about the role of activation in the [Events-Based Billing docs](https://maxio.zendesk.com/hc/en-us/articles/24260323329805-Events-Based-Billing-Overview).
@@ -655,15 +655,15 @@ func (s *SubscriptionComponentsController) ActivateEventBasedComponent(
         req.Json(body)
     }
     
-    context, err := req.Call()
+    httpCtx, err := req.Call()
     if err != nil {
-        return context.Response, err
+        return httpCtx.Response, err
     }
-    return context.Response, err
+    return httpCtx.Response, err
 }
 
 // DeactivateEventBasedComponent takes context, subscriptionId, componentId as parameters and
-// returns an models.ApiResponse with  data and
+// returns an *Response and
 // an error if there was an issue with the request or response.
 // Use this endpoint to deactivate an event-based component for a single subscription. Deactivating the event-based component causes Advanced Billing to ignore related events at subscription renewal.
 func (s *SubscriptionComponentsController) DeactivateEventBasedComponent(
@@ -679,15 +679,15 @@ func (s *SubscriptionComponentsController) DeactivateEventBasedComponent(
     )
     req.Authenticate(NewAuth("BasicAuth"))
     
-    context, err := req.Call()
+    httpCtx, err := req.Call()
     if err != nil {
-        return context.Response, err
+        return httpCtx.Response, err
     }
-    return context.Response, err
+    return httpCtx.Response, err
 }
 
 // RecordEvent takes context, subdomain, apiHandle, storeUid, body as parameters and
-// returns an models.ApiResponse with  data and
+// returns an *Response and
 // an error if there was an issue with the request or response.
 // ## Documentation
 // Events-Based Billing is an evolved form of metered billing that is based on data-rich events streamed in real-time from your system to Advanced Billing.
@@ -722,15 +722,15 @@ func (s *SubscriptionComponentsController) RecordEvent(
         req.Json(body)
     }
     
-    context, err := req.Call()
+    httpCtx, err := req.Call()
     if err != nil {
-        return context.Response, err
+        return httpCtx.Response, err
     }
-    return context.Response, err
+    return httpCtx.Response, err
 }
 
 // BulkRecordEvents takes context, subdomain, apiHandle, storeUid, body as parameters and
-// returns an models.ApiResponse with  data and
+// returns an *Response and
 // an error if there was an issue with the request or response.
 // Use this endpoint to record a collection of events.
 // *Note: this endpoint differs from the standard Chargify API endpoints in that the subdomain will be `events` and your site subdomain will be included in the URL path.*
@@ -757,11 +757,11 @@ func (s *SubscriptionComponentsController) BulkRecordEvents(
         req.Json(body)
     }
     
-    context, err := req.Call()
+    httpCtx, err := req.Call()
     if err != nil {
-        return context.Response, err
+        return httpCtx.Response, err
     }
-    return context.Response, err
+    return httpCtx.Response, err
 }
 
 // ListSubscriptionComponentsForSiteInput represents the input of the ListSubscriptionComponentsForSite endpoint.

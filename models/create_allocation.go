@@ -31,7 +31,7 @@ type CreateAllocation struct {
     // The type of credit to be created when upgrading/downgrading. Defaults to the component and then site setting if one is not provided.
     // Available values: `full`, `prorated`, `none`.
     UpgradeCharge            Optional[CreditType]                   `json:"upgrade_charge"`
-    // If set to true, if the immediate component payment fails, initiate dunning for the subscription. 
+    // If set to true, if the immediate component payment fails, initiate dunning for the subscription.
     // Otherwise, leave the charges on the subscription to pay for at renewal. Defaults to false.
     InitiateDunning          *bool                                  `json:"initiate_dunning,omitempty"`
     // Price point that the allocation should be charged at. Accepts either the price point's id (integer) or handle (string). When not specified, the default price point will be used.

@@ -177,7 +177,7 @@ func (s *SubscriptionInvoiceAccountController) IssueServiceCredit(
 }
 
 // DeductServiceCredit takes context, subscriptionId, body as parameters and
-// returns an models.ApiResponse with  data and
+// returns an *Response and
 // an error if there was an issue with the request or response.
 // Credit will be removed from the subscription in the amount specified in the request body. The credit amount being deducted must be equal to or less than the current credit balance.
 func (s *SubscriptionInvoiceAccountController) DeductServiceCredit(
@@ -200,11 +200,11 @@ func (s *SubscriptionInvoiceAccountController) DeductServiceCredit(
         req.Json(body)
     }
     
-    context, err := req.Call()
+    httpCtx, err := req.Call()
     if err != nil {
-        return context.Response, err
+        return httpCtx.Response, err
     }
-    return context.Response, err
+    return httpCtx.Response, err
 }
 
 // RefundPrepayment takes context, subscriptionId, prepaymentId, body as parameters and

@@ -28,7 +28,7 @@ func NewSubscriptionGroupStatusController(baseController baseController) *Subscr
 }
 
 // CancelSubscriptionsInGroup takes context, uid, body as parameters and
-// returns an models.ApiResponse with  data and
+// returns an *Response and
 // an error if there was an issue with the request or response.
 // This endpoint will immediately cancel all subscriptions within the specified group. The group is identified by it's `uid` passed in the URL. To successfully cancel the group, the primary subscription must be on automatic billing. The group members as well must be on automatic billing or they must be prepaid.
 // In order to cancel a subscription group while also charging for any unbilled usage on metered or prepaid components, the `charge_unbilled_usage=true` parameter must be included in the request.
@@ -52,15 +52,15 @@ func (s *SubscriptionGroupStatusController) CancelSubscriptionsInGroup(
         req.Json(body)
     }
     
-    context, err := req.Call()
+    httpCtx, err := req.Call()
     if err != nil {
-        return context.Response, err
+        return httpCtx.Response, err
     }
-    return context.Response, err
+    return httpCtx.Response, err
 }
 
 // InitiateDelayedCancellationForGroup takes context, uid as parameters and
-// returns an models.ApiResponse with  data and
+// returns an *Response and
 // an error if there was an issue with the request or response.
 // This endpoint will schedule all subscriptions within the specified group to be canceled at the end of their billing period. The group is identified by it's uid passed in the URL.
 // All subscriptions in the group must be on automatic billing in order to successfully cancel them, and the group must not be in a "past_due" state.
@@ -79,15 +79,15 @@ func (s *SubscriptionGroupStatusController) InitiateDelayedCancellationForGroup(
         "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
     })
     
-    context, err := req.Call()
+    httpCtx, err := req.Call()
     if err != nil {
-        return context.Response, err
+        return httpCtx.Response, err
     }
-    return context.Response, err
+    return httpCtx.Response, err
 }
 
 // CancelDelayedCancellationForGroup takes context, uid as parameters and
-// returns an models.ApiResponse with  data and
+// returns an *Response and
 // an error if there was an issue with the request or response.
 // Removing the delayed cancellation on a subscription group will ensure that the subscriptions do not get canceled at the end of the period. The request will reset the `cancel_at_end_of_period` flag to false on each member in the group.
 func (s *SubscriptionGroupStatusController) CancelDelayedCancellationForGroup(
@@ -105,11 +105,11 @@ func (s *SubscriptionGroupStatusController) CancelDelayedCancellationForGroup(
         "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
     })
     
-    context, err := req.Call()
+    httpCtx, err := req.Call()
     if err != nil {
-        return context.Response, err
+        return httpCtx.Response, err
     }
-    return context.Response, err
+    return httpCtx.Response, err
 }
 
 // ReactivateSubscriptionGroup takes context, uid, body as parameters and

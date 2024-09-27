@@ -203,7 +203,7 @@ func (c *CustomersController) UpdateCustomer(
 }
 
 // DeleteCustomer takes context, id as parameters and
-// returns an models.ApiResponse with  data and
+// returns an *Response and
 // an error if there was an issue with the request or response.
 // This method allows you to delete the Customer.
 func (c *CustomersController) DeleteCustomer(
@@ -214,11 +214,11 @@ func (c *CustomersController) DeleteCustomer(
     req := c.prepareRequest(ctx, "DELETE", fmt.Sprintf("/customers/%v.json", id))
     req.Authenticate(NewAuth("BasicAuth"))
     
-    context, err := req.Call()
+    httpCtx, err := req.Call()
     if err != nil {
-        return context.Response, err
+        return httpCtx.Response, err
     }
-    return context.Response, err
+    return httpCtx.Response, err
 }
 
 // ReadCustomerByReference takes context, reference as parameters and

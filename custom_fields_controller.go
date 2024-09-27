@@ -164,7 +164,7 @@ func (c *CustomFieldsController) UpdateMetafield(
 }
 
 // DeleteMetafield takes context, resourceType, name as parameters and
-// returns an models.ApiResponse with  data and
+// returns an *Response and
 // an error if there was an issue with the request or response.
 // Use the following method to delete a metafield. This will remove the metafield from the Site.
 // Additionally, this will remove the metafield and associated metadata with all Subscriptions on the Site.
@@ -187,11 +187,11 @@ func (c *CustomFieldsController) DeleteMetafield(
         req.QueryParam("name", *name)
     }
     
-    context, err := req.Call()
+    httpCtx, err := req.Call()
     if err != nil {
-        return context.Response, err
+        return httpCtx.Response, err
     }
-    return context.Response, err
+    return httpCtx.Response, err
 }
 
 // CreateMetadata takes context, resourceType, resourceId, body as parameters and
@@ -324,7 +324,7 @@ func (c *CustomFieldsController) UpdateMetadata(
 }
 
 // DeleteMetadata takes context, resourceType, resourceId, name, names as parameters and
-// returns an models.ApiResponse with  data and
+// returns an *Response and
 // an error if there was an issue with the request or response.
 // This method removes the metadata from the subscriber/customer cited.
 // ## Query String Usage
@@ -364,11 +364,11 @@ func (c *CustomFieldsController) DeleteMetadata(
         req.QueryParamWithArraySerializationOption("names", names, https.UnIndexed)
     }
     
-    context, err := req.Call()
+    httpCtx, err := req.Call()
     if err != nil {
-        return context.Response, err
+        return httpCtx.Response, err
     }
-    return context.Response, err
+    return httpCtx.Response, err
 }
 
 // ListMetadataForResourceTypeInput represents the input of the ListMetadataForResourceType endpoint.

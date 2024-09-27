@@ -74,27 +74,27 @@ func WithBasicAuthCredentials(basicAuthCredentials BasicAuthCredentials) Configu
     }
 }
 
-// Environment returns the Environment from the Configuration.
+// Environment returns the environment from the Configuration.
 func (c Configuration) Environment() Environment {
     return c.environment
 }
 
-// Subdomain returns the Subdomain from the Configuration.
+// Subdomain returns the subdomain from the Configuration.
 func (c Configuration) Subdomain() string {
     return c.subdomain
 }
 
-// Domain returns the Domain from the Configuration.
+// Domain returns the domain from the Configuration.
 func (c Configuration) Domain() string {
     return c.domain
 }
 
-// HttpConfiguration returns the HttpConfiguration from the Configuration.
+// HttpConfiguration returns the httpConfiguration from the Configuration.
 func (c Configuration) HttpConfiguration() HttpConfiguration {
     return c.httpConfiguration
 }
 
-// BasicAuthCredentials returns the BasicAuthCredentials from the Configuration.
+// BasicAuthCredentials returns the basicAuthCredentials from the Configuration.
 func (c Configuration) BasicAuthCredentials() BasicAuthCredentials {
     return c.basicAuthCredentials
 }
