@@ -49,7 +49,7 @@ type Customer struct {
     CountryName                 Optional[string]    `json:"country_name"`
     // The phone number of the customer
     Phone                       Optional[string]    `json:"phone"`
-    // Is the customer verified to use ACH as a payment method. Available only on Authorize.Net gateway
+    // Is the customer verified to use ACH as a payment method.
     Verified                    Optional[bool]      `json:"verified"`
     // The timestamp of when the Billing Portal entry was created at for the customer
     PortalCustomerCreatedAt     Optional[time.Time] `json:"portal_customer_created_at"`
@@ -68,6 +68,10 @@ type Customer struct {
     DefaultSubscriptionGroupUid Optional[string]    `json:"default_subscription_group_uid"`
     // The Salesforce ID for the customer
     SalesforceId                Optional[string]    `json:"salesforce_id"`
+    // The Tax Exemption Reason Code for the customer
+    TaxExemptReason             Optional[string]    `json:"tax_exempt_reason"`
+    // The default auto-renewal profile ID for the customer
+    DefaultAutoRenewalProfileId Optional[int]       `json:"default_auto_renewal_profile_id"`
     AdditionalProperties        map[string]any      `json:"_"`
 }
 
@@ -266,6 +270,20 @@ func (c Customer) toMap() map[string]any {
             structMap["salesforce_id"] = nil
         }
     }
+    if c.TaxExemptReason.IsValueSet() {
+        if c.TaxExemptReason.Value() != nil {
+            structMap["tax_exempt_reason"] = c.TaxExemptReason.Value()
+        } else {
+            structMap["tax_exempt_reason"] = nil
+        }
+    }
+    if c.DefaultAutoRenewalProfileId.IsValueSet() {
+        if c.DefaultAutoRenewalProfileId.Value() != nil {
+            structMap["default_auto_renewal_profile_id"] = c.DefaultAutoRenewalProfileId.Value()
+        } else {
+            structMap["default_auto_renewal_profile_id"] = nil
+        }
+    }
     return structMap
 }
 
@@ -277,7 +295,7 @@ func (c *Customer) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "first_name", "last_name", "email", "cc_emails", "organization", "reference", "id", "created_at", "updated_at", "address", "address_2", "city", "state", "state_name", "zip", "country", "country_name", "phone", "verified", "portal_customer_created_at", "portal_invite_last_sent_at", "portal_invite_last_accepted_at", "tax_exempt", "vat_number", "parent_id", "locale", "default_subscription_group_uid", "salesforce_id")
+    additionalProperties, err := UnmarshalAdditionalProperties(input, "first_name", "last_name", "email", "cc_emails", "organization", "reference", "id", "created_at", "updated_at", "address", "address_2", "city", "state", "state_name", "zip", "country", "country_name", "phone", "verified", "portal_customer_created_at", "portal_invite_last_sent_at", "portal_invite_last_accepted_at", "tax_exempt", "vat_number", "parent_id", "locale", "default_subscription_group_uid", "salesforce_id", "tax_exempt_reason", "default_auto_renewal_profile_id")
     if err != nil {
     	return err
     }
@@ -344,6 +362,8 @@ func (c *Customer) UnmarshalJSON(input []byte) error {
     c.Locale = temp.Locale
     c.DefaultSubscriptionGroupUid = temp.DefaultSubscriptionGroupUid
     c.SalesforceId = temp.SalesforceId
+    c.TaxExemptReason = temp.TaxExemptReason
+    c.DefaultAutoRenewalProfileId = temp.DefaultAutoRenewalProfileId
     return nil
 }
 
@@ -377,4 +397,6 @@ type tempCustomer  struct {
     Locale                      Optional[string] `json:"locale"`
     DefaultSubscriptionGroupUid Optional[string] `json:"default_subscription_group_uid"`
     SalesforceId                Optional[string] `json:"salesforce_id"`
+    TaxExemptReason             Optional[string] `json:"tax_exempt_reason"`
+    DefaultAutoRenewalProfileId Optional[int]    `json:"default_auto_renewal_profile_id"`
 }

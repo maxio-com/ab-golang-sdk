@@ -26,6 +26,8 @@
 | `Components` | [`[]models.UpdateSubscriptionComponent`](../../doc/models/update-subscription-component.md) | Optional | (Optional) An array of component ids and custom prices to be added to the subscription. |
 | `DunningCommunicationDelayEnabled` | `models.Optional[bool]` | Optional | Enable Communication Delay feature, making sure no communication (email or SMS) is sent to the Customer between 9PM and 8AM in time zone set by the `dunning_communication_delay_time_zone` attribute. |
 | `DunningCommunicationDelayTimeZone` | `models.Optional[string]` | Optional | Time zone for the Dunning Communication Delay feature. |
+| `ProductPricePointId` | `*int` | Optional | Set to change the current product's price point. |
+| `ProductPricePointHandle` | `*string` | Optional | Set to change the current product's price point. |
 
 ## Example (as JSON)
 

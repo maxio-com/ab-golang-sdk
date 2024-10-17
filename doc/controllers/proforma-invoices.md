@@ -447,9 +447,9 @@ body := models.CreateSubscriptionRequest{
     Subscription: models.CreateSubscription{
         ProductHandle:                     models.ToPointer("gold-product"),
         CustomerAttributes:                models.ToPointer(models.CustomerAttributes{
-            FirstName:    models.ToPointer("Myra"),
-            LastName:     models.ToPointer("Maisel"),
-            Email:        models.ToPointer("mmaisel@example.com"),
+            FirstName:                   models.ToPointer("Myra"),
+            LastName:                    models.ToPointer("Maisel"),
+            Email:                       models.ToPointer("mmaisel@example.com"),
         }),
     },
 }
@@ -513,9 +513,9 @@ body := models.CreateSubscriptionRequest{
     Subscription: models.CreateSubscription{
         ProductHandle:                     models.ToPointer("gold-plan"),
         CustomerAttributes:                models.ToPointer(models.CustomerAttributes{
-            FirstName:    models.ToPointer("first"),
-            LastName:     models.ToPointer("last"),
-            Email:        models.ToPointer("flast@example.com"),
+            FirstName:                   models.ToPointer("first"),
+            LastName:                    models.ToPointer("last"),
+            Email:                       models.ToPointer("flast@example.com"),
         }),
     },
 }
