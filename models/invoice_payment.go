@@ -24,6 +24,10 @@ type InvoicePayment struct {
     GatewayUsed          *string               `json:"gateway_used,omitempty"`
     // The transaction ID for the payment as returned from the payment gateway
     GatewayTransactionId Optional[string]      `json:"gateway_transaction_id"`
+    // Date reflecting when the payment was received from a customer. Must be in the past. Applicable only to
+    // `external` payments.
+    ReceivedOn           Optional[time.Time]   `json:"received_on"`
+    Uid                  *string               `json:"uid,omitempty"`
     AdditionalProperties map[string]any        `json:"_"`
 }
 
@@ -77,6 +81,21 @@ func (i InvoicePayment) toMap() map[string]any {
             structMap["gateway_transaction_id"] = nil
         }
     }
+    if i.ReceivedOn.IsValueSet() {
+        var ReceivedOnVal *string = nil
+        if i.ReceivedOn.Value() != nil {
+            val := i.ReceivedOn.Value().Format(DEFAULT_DATE)
+            ReceivedOnVal = &val
+        }
+        if i.ReceivedOn.Value() != nil {
+            structMap["received_on"] = ReceivedOnVal
+        } else {
+            structMap["received_on"] = nil
+        }
+    }
+    if i.Uid != nil {
+        structMap["uid"] = i.Uid
+    }
     return structMap
 }
 
@@ -88,7 +107,7 @@ func (i *InvoicePayment) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "transaction_time", "memo", "original_amount", "applied_amount", "payment_method", "transaction_id", "prepayment", "gateway_handle", "gateway_used", "gateway_transaction_id")
+    additionalProperties, err := UnmarshalAdditionalProperties(input, "transaction_time", "memo", "original_amount", "applied_amount", "payment_method", "transaction_id", "prepayment", "gateway_handle", "gateway_used", "gateway_transaction_id", "received_on", "uid")
     if err != nil {
     	return err
     }
@@ -110,6 +129,15 @@ func (i *InvoicePayment) UnmarshalJSON(input []byte) error {
     i.GatewayHandle = temp.GatewayHandle
     i.GatewayUsed = temp.GatewayUsed
     i.GatewayTransactionId = temp.GatewayTransactionId
+    i.ReceivedOn.ShouldSetValue(temp.ReceivedOn.IsValueSet())
+    if temp.ReceivedOn.Value() != nil {
+        ReceivedOnVal, err := time.Parse(DEFAULT_DATE, (*temp.ReceivedOn.Value()))
+        if err != nil {
+            log.Fatalf("Cannot Parse received_on as % s format.", DEFAULT_DATE)
+        }
+        i.ReceivedOn.SetValue(&ReceivedOnVal)
+    }
+    i.Uid = temp.Uid
     return nil
 }
 
@@ -125,4 +153,6 @@ type tempInvoicePayment  struct {
     GatewayHandle        Optional[string]      `json:"gateway_handle"`
     GatewayUsed          *string               `json:"gateway_used,omitempty"`
     GatewayTransactionId Optional[string]      `json:"gateway_transaction_id"`
+    ReceivedOn           Optional[string]      `json:"received_on"`
+    Uid                  *string               `json:"uid,omitempty"`
 }

@@ -38,6 +38,10 @@ type UpdateSubscription struct {
     DunningCommunicationDelayEnabled  Optional[bool]                `json:"dunning_communication_delay_enabled"`
     // Time zone for the Dunning Communication Delay feature.
     DunningCommunicationDelayTimeZone Optional[string]              `json:"dunning_communication_delay_time_zone"`
+    // Set to change the current product's price point.
+    ProductPricePointId               *int                          `json:"product_price_point_id,omitempty"`
+    // Set to change the current product's price point.
+    ProductPricePointHandle           *string                       `json:"product_price_point_handle,omitempty"`
     AdditionalProperties              map[string]any                `json:"_"`
 }
 
@@ -112,6 +116,12 @@ func (u UpdateSubscription) toMap() map[string]any {
             structMap["dunning_communication_delay_time_zone"] = nil
         }
     }
+    if u.ProductPricePointId != nil {
+        structMap["product_price_point_id"] = u.ProductPricePointId
+    }
+    if u.ProductPricePointHandle != nil {
+        structMap["product_price_point_handle"] = u.ProductPricePointHandle
+    }
     return structMap
 }
 
@@ -123,7 +133,7 @@ func (u *UpdateSubscription) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "credit_card_attributes", "product_handle", "product_id", "product_change_delayed", "next_product_id", "next_product_price_point_id", "snap_day", "next_billing_at", "payment_collection_method", "receives_invoice_emails", "net_terms", "stored_credential_transaction_id", "reference", "custom_price", "components", "dunning_communication_delay_enabled", "dunning_communication_delay_time_zone")
+    additionalProperties, err := UnmarshalAdditionalProperties(input, "credit_card_attributes", "product_handle", "product_id", "product_change_delayed", "next_product_id", "next_product_price_point_id", "snap_day", "next_billing_at", "payment_collection_method", "receives_invoice_emails", "net_terms", "stored_credential_transaction_id", "reference", "custom_price", "components", "dunning_communication_delay_enabled", "dunning_communication_delay_time_zone", "product_price_point_id", "product_price_point_handle")
     if err != nil {
     	return err
     }
@@ -152,6 +162,8 @@ func (u *UpdateSubscription) UnmarshalJSON(input []byte) error {
     u.Components = temp.Components
     u.DunningCommunicationDelayEnabled = temp.DunningCommunicationDelayEnabled
     u.DunningCommunicationDelayTimeZone = temp.DunningCommunicationDelayTimeZone
+    u.ProductPricePointId = temp.ProductPricePointId
+    u.ProductPricePointHandle = temp.ProductPricePointHandle
     return nil
 }
 
@@ -174,4 +186,6 @@ type tempUpdateSubscription  struct {
     Components                        []UpdateSubscriptionComponent `json:"components,omitempty"`
     DunningCommunicationDelayEnabled  Optional[bool]                `json:"dunning_communication_delay_enabled"`
     DunningCommunicationDelayTimeZone Optional[string]              `json:"dunning_communication_delay_time_zone"`
+    ProductPricePointId               *int                          `json:"product_price_point_id,omitempty"`
+    ProductPricePointHandle           *string                       `json:"product_price_point_handle,omitempty"`
 }

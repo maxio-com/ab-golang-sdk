@@ -7,20 +7,25 @@ package models
 
 import (
     "encoding/json"
+    "log"
+    "time"
 )
 
 // CreateInvoicePayment represents a CreateInvoicePayment struct.
 type CreateInvoicePayment struct {
     // A string of the dollar amount to be refunded (eg. "10.50" => $10.50)
     Amount               *CreateInvoicePaymentAmount `json:"amount,omitempty"`
-    // A description to be attached to the payment.
+    // A description to be attached to the payment. Applicable only to `external` payments.
     Memo                 *string                     `json:"memo,omitempty"`
     // The type of payment method used. Defaults to other.
     Method               *InvoicePaymentMethodType   `json:"method,omitempty"`
-    // Additional information related to the payment method (eg. Check #)
+    // Additional information related to the payment method (eg. Check #). Applicable only to `external` payments.
     Details              *string                     `json:"details,omitempty"`
     // The ID of the payment profile to be used for the payment.
     PaymentProfileId     *int                        `json:"payment_profile_id,omitempty"`
+    // Date reflecting when the payment was received from a customer. Must be in the past. Applicable only to
+    // `external` payments.
+    ReceivedOn           *time.Time                  `json:"received_on,omitempty"`
     AdditionalProperties map[string]any              `json:"_"`
 }
 
@@ -51,6 +56,9 @@ func (c CreateInvoicePayment) toMap() map[string]any {
     if c.PaymentProfileId != nil {
         structMap["payment_profile_id"] = c.PaymentProfileId
     }
+    if c.ReceivedOn != nil {
+        structMap["received_on"] = c.ReceivedOn.Format(DEFAULT_DATE)
+    }
     return structMap
 }
 
@@ -62,7 +70,7 @@ func (c *CreateInvoicePayment) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "amount", "memo", "method", "details", "payment_profile_id")
+    additionalProperties, err := UnmarshalAdditionalProperties(input, "amount", "memo", "method", "details", "payment_profile_id", "received_on")
     if err != nil {
     	return err
     }
@@ -73,6 +81,13 @@ func (c *CreateInvoicePayment) UnmarshalJSON(input []byte) error {
     c.Method = temp.Method
     c.Details = temp.Details
     c.PaymentProfileId = temp.PaymentProfileId
+    if temp.ReceivedOn != nil {
+        ReceivedOnVal, err := time.Parse(DEFAULT_DATE, *temp.ReceivedOn)
+        if err != nil {
+            log.Fatalf("Cannot Parse received_on as % s format.", DEFAULT_DATE)
+        }
+        c.ReceivedOn = &ReceivedOnVal
+    }
     return nil
 }
 
@@ -83,4 +98,5 @@ type tempCreateInvoicePayment  struct {
     Method           *InvoicePaymentMethodType   `json:"method,omitempty"`
     Details          *string                     `json:"details,omitempty"`
     PaymentProfileId *int                        `json:"payment_profile_id,omitempty"`
+    ReceivedOn       *string                     `json:"received_on,omitempty"`
 }

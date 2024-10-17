@@ -27,7 +27,7 @@
 | `Country` | `models.Optional[string]` | Optional | The customer shipping address country |
 | `CountryName` | `models.Optional[string]` | Optional | The customer's full name of country |
 | `Phone` | `models.Optional[string]` | Optional | The phone number of the customer |
-| `Verified` | `models.Optional[bool]` | Optional | Is the customer verified to use ACH as a payment method. Available only on Authorize.Net gateway |
+| `Verified` | `models.Optional[bool]` | Optional | Is the customer verified to use ACH as a payment method. |
 | `PortalCustomerCreatedAt` | `models.Optional[time.Time]` | Optional | The timestamp of when the Billing Portal entry was created at for the customer |
 | `PortalInviteLastSentAt` | `models.Optional[time.Time]` | Optional | The timestamp of when the Billing Portal invite was last sent at |
 | `PortalInviteLastAcceptedAt` | `models.Optional[time.Time]` | Optional | The timestamp of when the Billing Portal invite was last accepted |
@@ -37,6 +37,8 @@
 | `Locale` | `models.Optional[string]` | Optional | The locale for the customer to identify language-region |
 | `DefaultSubscriptionGroupUid` | `models.Optional[string]` | Optional | - |
 | `SalesforceId` | `models.Optional[string]` | Optional | The Salesforce ID for the customer |
+| `TaxExemptReason` | `models.Optional[string]` | Optional | The Tax Exemption Reason Code for the customer |
+| `DefaultAutoRenewalProfileId` | `models.Optional[int]` | Optional | The default auto-renewal profile ID for the customer |
 
 ## Example (as JSON)
 
