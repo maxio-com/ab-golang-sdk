@@ -11,8 +11,8 @@ import (
 
 // UpdateMetadataRequest represents a UpdateMetadataRequest struct.
 type UpdateMetadataRequest struct {
-    Metadata             *UpdateMetadata `json:"metadata,omitempty"`
-    AdditionalProperties map[string]any  `json:"_"`
+    Metadata             *UpdateMetadata        `json:"metadata,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for UpdateMetadataRequest.
@@ -20,13 +20,17 @@ type UpdateMetadataRequest struct {
 func (u UpdateMetadataRequest) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(u.AdditionalProperties,
+        "metadata"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(u.toMap())
 }
 
 // toMap converts the UpdateMetadataRequest object to a map representation for JSON marshaling.
 func (u UpdateMetadataRequest) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, u.AdditionalProperties)
+    MergeAdditionalProperties(structMap, u.AdditionalProperties)
     if u.Metadata != nil {
         structMap["metadata"] = u.Metadata.toMap()
     }
@@ -41,12 +45,12 @@ func (u *UpdateMetadataRequest) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "metadata")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "metadata")
     if err != nil {
     	return err
     }
-    
     u.AdditionalProperties = additionalProperties
+    
     u.Metadata = temp.Metadata
     return nil
 }

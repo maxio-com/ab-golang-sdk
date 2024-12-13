@@ -12,10 +12,10 @@ import (
 // CancellationOptions represents a CancellationOptions struct.
 type CancellationOptions struct {
     // For your internal use. An indication as to why the subscription is being canceled.
-    CancellationMessage  *string        `json:"cancellation_message,omitempty"`
+    CancellationMessage  *string                `json:"cancellation_message,omitempty"`
     // The reason code associated with the cancellation. See the list of reason codes associated with your site.
-    ReasonCode           *string        `json:"reason_code,omitempty"`
-    AdditionalProperties map[string]any `json:"_"`
+    ReasonCode           *string                `json:"reason_code,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for CancellationOptions.
@@ -23,13 +23,17 @@ type CancellationOptions struct {
 func (c CancellationOptions) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(c.AdditionalProperties,
+        "cancellation_message", "reason_code"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(c.toMap())
 }
 
 // toMap converts the CancellationOptions object to a map representation for JSON marshaling.
 func (c CancellationOptions) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, c.AdditionalProperties)
+    MergeAdditionalProperties(structMap, c.AdditionalProperties)
     if c.CancellationMessage != nil {
         structMap["cancellation_message"] = c.CancellationMessage
     }
@@ -47,12 +51,12 @@ func (c *CancellationOptions) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "cancellation_message", "reason_code")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "cancellation_message", "reason_code")
     if err != nil {
     	return err
     }
-    
     c.AdditionalProperties = additionalProperties
+    
     c.CancellationMessage = temp.CancellationMessage
     c.ReasonCode = temp.ReasonCode
     return nil

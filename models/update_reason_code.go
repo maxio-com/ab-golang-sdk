@@ -12,12 +12,12 @@ import (
 // UpdateReasonCode represents a UpdateReasonCode struct.
 type UpdateReasonCode struct {
     // The unique identifier for the ReasonCode
-    Code                 *string        `json:"code,omitempty"`
+    Code                 *string                `json:"code,omitempty"`
     // The friendly summary of what the code signifies
-    Description          *string        `json:"description,omitempty"`
+    Description          *string                `json:"description,omitempty"`
     // The order that code appears in lists
-    Position             *int           `json:"position,omitempty"`
-    AdditionalProperties map[string]any `json:"_"`
+    Position             *int                   `json:"position,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for UpdateReasonCode.
@@ -25,13 +25,17 @@ type UpdateReasonCode struct {
 func (u UpdateReasonCode) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(u.AdditionalProperties,
+        "code", "description", "position"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(u.toMap())
 }
 
 // toMap converts the UpdateReasonCode object to a map representation for JSON marshaling.
 func (u UpdateReasonCode) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, u.AdditionalProperties)
+    MergeAdditionalProperties(structMap, u.AdditionalProperties)
     if u.Code != nil {
         structMap["code"] = u.Code
     }
@@ -52,12 +56,12 @@ func (u *UpdateReasonCode) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "code", "description", "position")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "code", "description", "position")
     if err != nil {
     	return err
     }
-    
     u.AdditionalProperties = additionalProperties
+    
     u.Code = temp.Code
     u.Description = temp.Description
     u.Position = temp.Position

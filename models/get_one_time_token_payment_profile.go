@@ -13,30 +13,30 @@ import (
 
 // GetOneTimeTokenPaymentProfile represents a GetOneTimeTokenPaymentProfile struct.
 type GetOneTimeTokenPaymentProfile struct {
-    Id                   Optional[string] `json:"id"`
-    FirstName            string           `json:"first_name"`
-    LastName             string           `json:"last_name"`
-    MaskedCardNumber     string           `json:"masked_card_number"`
+    Id                   Optional[string]       `json:"id"`
+    FirstName            string                 `json:"first_name"`
+    LastName             string                 `json:"last_name"`
+    MaskedCardNumber     string                 `json:"masked_card_number"`
     // The type of card used.
-    CardType             CardType         `json:"card_type"`
-    ExpirationMonth      float64          `json:"expiration_month"`
-    ExpirationYear       float64          `json:"expiration_year"`
-    CustomerId           Optional[string] `json:"customer_id"`
+    CardType             CardType               `json:"card_type"`
+    ExpirationMonth      float64                `json:"expiration_month"`
+    ExpirationYear       float64                `json:"expiration_year"`
+    CustomerId           Optional[string]       `json:"customer_id"`
     // The vault that stores the payment profile with the provided `vault_token`. Use `bogus` for testing.
-    CurrentVault         CreditCardVault  `json:"current_vault"`
-    VaultToken           string           `json:"vault_token"`
-    BillingAddress       string           `json:"billing_address"`
-    BillingAddress2      *string          `json:"billing_address_2,omitempty"`
-    BillingCity          string           `json:"billing_city"`
-    BillingCountry       string           `json:"billing_country"`
-    BillingState         string           `json:"billing_state"`
-    BillingZip           string           `json:"billing_zip"`
-    PaymentType          string           `json:"payment_type"`
-    Disabled             bool             `json:"disabled"`
-    SiteGatewaySettingId int              `json:"site_gateway_setting_id"`
-    CustomerVaultToken   Optional[string] `json:"customer_vault_token"`
-    GatewayHandle        Optional[string] `json:"gateway_handle"`
-    AdditionalProperties map[string]any   `json:"_"`
+    CurrentVault         CreditCardVault        `json:"current_vault"`
+    VaultToken           string                 `json:"vault_token"`
+    BillingAddress       string                 `json:"billing_address"`
+    BillingAddress2      *string                `json:"billing_address_2,omitempty"`
+    BillingCity          string                 `json:"billing_city"`
+    BillingCountry       string                 `json:"billing_country"`
+    BillingState         string                 `json:"billing_state"`
+    BillingZip           string                 `json:"billing_zip"`
+    PaymentType          string                 `json:"payment_type"`
+    Disabled             bool                   `json:"disabled"`
+    SiteGatewaySettingId int                    `json:"site_gateway_setting_id"`
+    CustomerVaultToken   Optional[string]       `json:"customer_vault_token"`
+    GatewayHandle        Optional[string]       `json:"gateway_handle"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for GetOneTimeTokenPaymentProfile.
@@ -44,13 +44,17 @@ type GetOneTimeTokenPaymentProfile struct {
 func (g GetOneTimeTokenPaymentProfile) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(g.AdditionalProperties,
+        "id", "first_name", "last_name", "masked_card_number", "card_type", "expiration_month", "expiration_year", "customer_id", "current_vault", "vault_token", "billing_address", "billing_address_2", "billing_city", "billing_country", "billing_state", "billing_zip", "payment_type", "disabled", "site_gateway_setting_id", "customer_vault_token", "gateway_handle"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(g.toMap())
 }
 
 // toMap converts the GetOneTimeTokenPaymentProfile object to a map representation for JSON marshaling.
 func (g GetOneTimeTokenPaymentProfile) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, g.AdditionalProperties)
+    MergeAdditionalProperties(structMap, g.AdditionalProperties)
     if g.Id.IsValueSet() {
         if g.Id.Value() != nil {
             structMap["id"] = g.Id.Value()
@@ -113,12 +117,12 @@ func (g *GetOneTimeTokenPaymentProfile) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "id", "first_name", "last_name", "masked_card_number", "card_type", "expiration_month", "expiration_year", "customer_id", "current_vault", "vault_token", "billing_address", "billing_address_2", "billing_city", "billing_country", "billing_state", "billing_zip", "payment_type", "disabled", "site_gateway_setting_id", "customer_vault_token", "gateway_handle")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "id", "first_name", "last_name", "masked_card_number", "card_type", "expiration_month", "expiration_year", "customer_id", "current_vault", "vault_token", "billing_address", "billing_address_2", "billing_city", "billing_country", "billing_state", "billing_zip", "payment_type", "disabled", "site_gateway_setting_id", "customer_vault_token", "gateway_handle")
     if err != nil {
     	return err
     }
-    
     g.AdditionalProperties = additionalProperties
+    
     g.Id = temp.Id
     g.FirstName = *temp.FirstName
     g.LastName = *temp.LastName

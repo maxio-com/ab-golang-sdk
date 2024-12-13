@@ -13,8 +13,8 @@ import (
 
 // DeductServiceCreditRequest represents a DeductServiceCreditRequest struct.
 type DeductServiceCreditRequest struct {
-    Deduction            DeductServiceCredit `json:"deduction"`
-    AdditionalProperties map[string]any      `json:"_"`
+    Deduction            DeductServiceCredit    `json:"deduction"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for DeductServiceCreditRequest.
@@ -22,13 +22,17 @@ type DeductServiceCreditRequest struct {
 func (d DeductServiceCreditRequest) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(d.AdditionalProperties,
+        "deduction"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(d.toMap())
 }
 
 // toMap converts the DeductServiceCreditRequest object to a map representation for JSON marshaling.
 func (d DeductServiceCreditRequest) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, d.AdditionalProperties)
+    MergeAdditionalProperties(structMap, d.AdditionalProperties)
     structMap["deduction"] = d.Deduction.toMap()
     return structMap
 }
@@ -45,12 +49,12 @@ func (d *DeductServiceCreditRequest) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "deduction")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "deduction")
     if err != nil {
     	return err
     }
-    
     d.AdditionalProperties = additionalProperties
+    
     d.Deduction = *temp.Deduction
     return nil
 }

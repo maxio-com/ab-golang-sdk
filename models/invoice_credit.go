@@ -13,14 +13,14 @@ import (
 
 // InvoiceCredit represents a InvoiceCredit struct.
 type InvoiceCredit struct {
-    Uid                  *string        `json:"uid,omitempty"`
-    CreditNoteNumber     *string        `json:"credit_note_number,omitempty"`
-    CreditNoteUid        *string        `json:"credit_note_uid,omitempty"`
-    TransactionTime      *time.Time     `json:"transaction_time,omitempty"`
-    Memo                 *string        `json:"memo,omitempty"`
-    OriginalAmount       *string        `json:"original_amount,omitempty"`
-    AppliedAmount        *string        `json:"applied_amount,omitempty"`
-    AdditionalProperties map[string]any `json:"_"`
+    Uid                  *string                `json:"uid,omitempty"`
+    CreditNoteNumber     *string                `json:"credit_note_number,omitempty"`
+    CreditNoteUid        *string                `json:"credit_note_uid,omitempty"`
+    TransactionTime      *time.Time             `json:"transaction_time,omitempty"`
+    Memo                 *string                `json:"memo,omitempty"`
+    OriginalAmount       *string                `json:"original_amount,omitempty"`
+    AppliedAmount        *string                `json:"applied_amount,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for InvoiceCredit.
@@ -28,13 +28,17 @@ type InvoiceCredit struct {
 func (i InvoiceCredit) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(i.AdditionalProperties,
+        "uid", "credit_note_number", "credit_note_uid", "transaction_time", "memo", "original_amount", "applied_amount"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(i.toMap())
 }
 
 // toMap converts the InvoiceCredit object to a map representation for JSON marshaling.
 func (i InvoiceCredit) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, i.AdditionalProperties)
+    MergeAdditionalProperties(structMap, i.AdditionalProperties)
     if i.Uid != nil {
         structMap["uid"] = i.Uid
     }
@@ -67,12 +71,12 @@ func (i *InvoiceCredit) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "uid", "credit_note_number", "credit_note_uid", "transaction_time", "memo", "original_amount", "applied_amount")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "uid", "credit_note_number", "credit_note_uid", "transaction_time", "memo", "original_amount", "applied_amount")
     if err != nil {
     	return err
     }
-    
     i.AdditionalProperties = additionalProperties
+    
     i.Uid = temp.Uid
     i.CreditNoteNumber = temp.CreditNoteNumber
     i.CreditNoteUid = temp.CreditNoteUid

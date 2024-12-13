@@ -23,7 +23,7 @@ type ChangeInvoiceStatusEventData struct {
     // The updated status of the invoice after changes have been made. See [Invoice Statuses](https://maxio.zendesk.com/hc/en-us/articles/24252287829645-Advanced-Billing-Invoices-Overview#invoice-statuses) for more.
     ToStatus             InvoiceStatus              `json:"to_status"`
     ConsolidationLevel   *InvoiceConsolidationLevel `json:"consolidation_level,omitempty"`
-    AdditionalProperties map[string]any             `json:"_"`
+    AdditionalProperties map[string]interface{}     `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for ChangeInvoiceStatusEventData.
@@ -31,13 +31,17 @@ type ChangeInvoiceStatusEventData struct {
 func (c ChangeInvoiceStatusEventData) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(c.AdditionalProperties,
+        "gateway_trans_id", "amount", "from_status", "to_status", "consolidation_level"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(c.toMap())
 }
 
 // toMap converts the ChangeInvoiceStatusEventData object to a map representation for JSON marshaling.
 func (c ChangeInvoiceStatusEventData) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, c.AdditionalProperties)
+    MergeAdditionalProperties(structMap, c.AdditionalProperties)
     if c.GatewayTransId != nil {
         structMap["gateway_trans_id"] = c.GatewayTransId
     }
@@ -64,12 +68,12 @@ func (c *ChangeInvoiceStatusEventData) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "gateway_trans_id", "amount", "from_status", "to_status", "consolidation_level")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "gateway_trans_id", "amount", "from_status", "to_status", "consolidation_level")
     if err != nil {
     	return err
     }
-    
     c.AdditionalProperties = additionalProperties
+    
     c.GatewayTransId = temp.GatewayTransId
     c.Amount = temp.Amount
     c.FromStatus = *temp.FromStatus

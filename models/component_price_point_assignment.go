@@ -13,7 +13,7 @@ import (
 type ComponentPricePointAssignment struct {
     ComponentId          *int                                     `json:"component_id,omitempty"`
     PricePoint           *ComponentPricePointAssignmentPricePoint `json:"price_point,omitempty"`
-    AdditionalProperties map[string]any                           `json:"_"`
+    AdditionalProperties map[string]interface{}                   `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for ComponentPricePointAssignment.
@@ -21,13 +21,17 @@ type ComponentPricePointAssignment struct {
 func (c ComponentPricePointAssignment) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(c.AdditionalProperties,
+        "component_id", "price_point"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(c.toMap())
 }
 
 // toMap converts the ComponentPricePointAssignment object to a map representation for JSON marshaling.
 func (c ComponentPricePointAssignment) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, c.AdditionalProperties)
+    MergeAdditionalProperties(structMap, c.AdditionalProperties)
     if c.ComponentId != nil {
         structMap["component_id"] = c.ComponentId
     }
@@ -45,12 +49,12 @@ func (c *ComponentPricePointAssignment) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "component_id", "price_point")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "component_id", "price_point")
     if err != nil {
     	return err
     }
-    
     c.AdditionalProperties = additionalProperties
+    
     c.ComponentId = temp.ComponentId
     c.PricePoint = temp.PricePoint
     return nil

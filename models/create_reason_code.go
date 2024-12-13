@@ -14,12 +14,12 @@ import (
 // CreateReasonCode represents a CreateReasonCode struct.
 type CreateReasonCode struct {
     // The unique identifier for the ReasonCode
-    Code                 string         `json:"code"`
+    Code                 string                 `json:"code"`
     // The friendly summary of what the code signifies
-    Description          string         `json:"description"`
+    Description          string                 `json:"description"`
     // The order that code appears in lists
-    Position             *int           `json:"position,omitempty"`
-    AdditionalProperties map[string]any `json:"_"`
+    Position             *int                   `json:"position,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreateReasonCode.
@@ -27,13 +27,17 @@ type CreateReasonCode struct {
 func (c CreateReasonCode) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(c.AdditionalProperties,
+        "code", "description", "position"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(c.toMap())
 }
 
 // toMap converts the CreateReasonCode object to a map representation for JSON marshaling.
 func (c CreateReasonCode) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, c.AdditionalProperties)
+    MergeAdditionalProperties(structMap, c.AdditionalProperties)
     structMap["code"] = c.Code
     structMap["description"] = c.Description
     if c.Position != nil {
@@ -54,12 +58,12 @@ func (c *CreateReasonCode) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "code", "description", "position")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "code", "description", "position")
     if err != nil {
     	return err
     }
-    
     c.AdditionalProperties = additionalProperties
+    
     c.Code = *temp.Code
     c.Description = *temp.Description
     c.Position = temp.Position

@@ -11,13 +11,13 @@ import (
 
 // ProductPricePointErrors represents a ProductPricePointErrors struct.
 type ProductPricePointErrors struct {
-    PricePoint           *string        `json:"price_point,omitempty"`
-    Interval             []string       `json:"interval,omitempty"`
-    IntervalUnit         []string       `json:"interval_unit,omitempty"`
-    Name                 []string       `json:"name,omitempty"`
-    Price                []string       `json:"price,omitempty"`
-    PriceInCents         []string       `json:"price_in_cents,omitempty"`
-    AdditionalProperties map[string]any `json:"_"`
+    PricePoint           *string                `json:"price_point,omitempty"`
+    Interval             []string               `json:"interval,omitempty"`
+    IntervalUnit         []string               `json:"interval_unit,omitempty"`
+    Name                 []string               `json:"name,omitempty"`
+    Price                []string               `json:"price,omitempty"`
+    PriceInCents         []string               `json:"price_in_cents,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for ProductPricePointErrors.
@@ -25,13 +25,17 @@ type ProductPricePointErrors struct {
 func (p ProductPricePointErrors) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(p.AdditionalProperties,
+        "price_point", "interval", "interval_unit", "name", "price", "price_in_cents"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(p.toMap())
 }
 
 // toMap converts the ProductPricePointErrors object to a map representation for JSON marshaling.
 func (p ProductPricePointErrors) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, p.AdditionalProperties)
+    MergeAdditionalProperties(structMap, p.AdditionalProperties)
     if p.PricePoint != nil {
         structMap["price_point"] = p.PricePoint
     }
@@ -61,12 +65,12 @@ func (p *ProductPricePointErrors) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "price_point", "interval", "interval_unit", "name", "price", "price_in_cents")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "price_point", "interval", "interval_unit", "name", "price", "price_in_cents")
     if err != nil {
     	return err
     }
-    
     p.AdditionalProperties = additionalProperties
+    
     p.PricePoint = temp.PricePoint
     p.Interval = temp.Interval
     p.IntervalUnit = temp.IntervalUnit

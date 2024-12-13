@@ -11,9 +11,9 @@ import (
 
 // SignupProformaPreview represents a SignupProformaPreview struct.
 type SignupProformaPreview struct {
-    CurrentProformaInvoice *ProformaInvoice `json:"current_proforma_invoice,omitempty"`
-    NextProformaInvoice    *ProformaInvoice `json:"next_proforma_invoice,omitempty"`
-    AdditionalProperties   map[string]any   `json:"_"`
+    CurrentProformaInvoice *ProformaInvoice       `json:"current_proforma_invoice,omitempty"`
+    NextProformaInvoice    *ProformaInvoice       `json:"next_proforma_invoice,omitempty"`
+    AdditionalProperties   map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for SignupProformaPreview.
@@ -21,13 +21,17 @@ type SignupProformaPreview struct {
 func (s SignupProformaPreview) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(s.AdditionalProperties,
+        "current_proforma_invoice", "next_proforma_invoice"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(s.toMap())
 }
 
 // toMap converts the SignupProformaPreview object to a map representation for JSON marshaling.
 func (s SignupProformaPreview) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, s.AdditionalProperties)
+    MergeAdditionalProperties(structMap, s.AdditionalProperties)
     if s.CurrentProformaInvoice != nil {
         structMap["current_proforma_invoice"] = s.CurrentProformaInvoice.toMap()
     }
@@ -45,12 +49,12 @@ func (s *SignupProformaPreview) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "current_proforma_invoice", "next_proforma_invoice")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "current_proforma_invoice", "next_proforma_invoice")
     if err != nil {
     	return err
     }
-    
     s.AdditionalProperties = additionalProperties
+    
     s.CurrentProformaInvoice = temp.CurrentProformaInvoice
     s.NextProformaInvoice = temp.NextProformaInvoice
     return nil

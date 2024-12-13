@@ -19,7 +19,7 @@
 ```json
 {
   "invoice_id": "invoice_id6",
-  "status": "draft",
+  "status": "open",
   "due_amount": "due_amount8",
   "paid_amount": "paid_amount8"
 }

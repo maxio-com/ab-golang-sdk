@@ -13,8 +13,8 @@ import (
 
 // UsageResponse represents a UsageResponse struct.
 type UsageResponse struct {
-    Usage                Usage          `json:"usage"`
-    AdditionalProperties map[string]any `json:"_"`
+    Usage                Usage                  `json:"usage"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for UsageResponse.
@@ -22,13 +22,17 @@ type UsageResponse struct {
 func (u UsageResponse) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(u.AdditionalProperties,
+        "usage"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(u.toMap())
 }
 
 // toMap converts the UsageResponse object to a map representation for JSON marshaling.
 func (u UsageResponse) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, u.AdditionalProperties)
+    MergeAdditionalProperties(structMap, u.AdditionalProperties)
     structMap["usage"] = u.Usage.toMap()
     return structMap
 }
@@ -45,12 +49,12 @@ func (u *UsageResponse) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "usage")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "usage")
     if err != nil {
     	return err
     }
-    
     u.AdditionalProperties = additionalProperties
+    
     u.Usage = *temp.Usage
     return nil
 }

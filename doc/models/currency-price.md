@@ -13,6 +13,8 @@
 | `Currency` | `*string` | Optional | - |
 | `Price` | `*float64` | Optional | - |
 | `FormattedPrice` | `*string` | Optional | - |
+| `PriceId` | `*int` | Optional | - |
+| `PricePointId` | `*int` | Optional | - |
 | `ProductPricePointId` | `*int` | Optional | - |
 | `Role` | [`*models.CurrencyPriceRole`](../../doc/models/currency-price-role.md) | Optional | Role for the price. |
 
@@ -24,7 +26,7 @@
   "currency": "currency6",
   "price": 41.36,
   "formatted_price": "formatted_price4",
-  "product_price_point_id": 210
+  "price_id": 178
 }
 ```
 

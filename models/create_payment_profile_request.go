@@ -13,8 +13,8 @@ import (
 
 // CreatePaymentProfileRequest represents a CreatePaymentProfileRequest struct.
 type CreatePaymentProfileRequest struct {
-    PaymentProfile       CreatePaymentProfile `json:"payment_profile"`
-    AdditionalProperties map[string]any       `json:"_"`
+    PaymentProfile       CreatePaymentProfile   `json:"payment_profile"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreatePaymentProfileRequest.
@@ -22,13 +22,17 @@ type CreatePaymentProfileRequest struct {
 func (c CreatePaymentProfileRequest) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(c.AdditionalProperties,
+        "payment_profile"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(c.toMap())
 }
 
 // toMap converts the CreatePaymentProfileRequest object to a map representation for JSON marshaling.
 func (c CreatePaymentProfileRequest) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, c.AdditionalProperties)
+    MergeAdditionalProperties(structMap, c.AdditionalProperties)
     structMap["payment_profile"] = c.PaymentProfile.toMap()
     return structMap
 }
@@ -45,12 +49,12 @@ func (c *CreatePaymentProfileRequest) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "payment_profile")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "payment_profile")
     if err != nil {
     	return err
     }
-    
     c.AdditionalProperties = additionalProperties
+    
     c.PaymentProfile = *temp.PaymentProfile
     return nil
 }

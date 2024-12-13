@@ -11,15 +11,15 @@ import (
 
 // InvoicePaymentMethod represents a InvoicePaymentMethod struct.
 type InvoicePaymentMethod struct {
-    Details              *string          `json:"details,omitempty"`
-    Kind                 *string          `json:"kind,omitempty"`
-    Memo                 *string          `json:"memo,omitempty"`
-    Type                 *string          `json:"type,omitempty"`
-    CardBrand            *string          `json:"card_brand,omitempty"`
-    CardExpiration       *string          `json:"card_expiration,omitempty"`
-    LastFour             Optional[string] `json:"last_four"`
-    MaskedCardNumber     *string          `json:"masked_card_number,omitempty"`
-    AdditionalProperties map[string]any   `json:"_"`
+    Details              *string                `json:"details,omitempty"`
+    Kind                 *string                `json:"kind,omitempty"`
+    Memo                 *string                `json:"memo,omitempty"`
+    Type                 *string                `json:"type,omitempty"`
+    CardBrand            *string                `json:"card_brand,omitempty"`
+    CardExpiration       *string                `json:"card_expiration,omitempty"`
+    LastFour             Optional[string]       `json:"last_four"`
+    MaskedCardNumber     *string                `json:"masked_card_number,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for InvoicePaymentMethod.
@@ -27,13 +27,17 @@ type InvoicePaymentMethod struct {
 func (i InvoicePaymentMethod) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(i.AdditionalProperties,
+        "details", "kind", "memo", "type", "card_brand", "card_expiration", "last_four", "masked_card_number"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(i.toMap())
 }
 
 // toMap converts the InvoicePaymentMethod object to a map representation for JSON marshaling.
 func (i InvoicePaymentMethod) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, i.AdditionalProperties)
+    MergeAdditionalProperties(structMap, i.AdditionalProperties)
     if i.Details != nil {
         structMap["details"] = i.Details
     }
@@ -73,12 +77,12 @@ func (i *InvoicePaymentMethod) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "details", "kind", "memo", "type", "card_brand", "card_expiration", "last_four", "masked_card_number")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "details", "kind", "memo", "type", "card_brand", "card_expiration", "last_four", "masked_card_number")
     if err != nil {
     	return err
     }
-    
     i.AdditionalProperties = additionalProperties
+    
     i.Details = temp.Details
     i.Kind = temp.Kind
     i.Memo = temp.Memo

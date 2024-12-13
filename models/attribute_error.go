@@ -13,8 +13,8 @@ import (
 
 // AttributeError represents a AttributeError struct.
 type AttributeError struct {
-    Attribute            []string       `json:"attribute"`
-    AdditionalProperties map[string]any `json:"_"`
+    Attribute            []string               `json:"attribute"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for AttributeError.
@@ -22,13 +22,17 @@ type AttributeError struct {
 func (a AttributeError) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(a.AdditionalProperties,
+        "attribute"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(a.toMap())
 }
 
 // toMap converts the AttributeError object to a map representation for JSON marshaling.
 func (a AttributeError) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, a.AdditionalProperties)
+    MergeAdditionalProperties(structMap, a.AdditionalProperties)
     structMap["attribute"] = a.Attribute
     return structMap
 }
@@ -45,12 +49,12 @@ func (a *AttributeError) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "attribute")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "attribute")
     if err != nil {
     	return err
     }
-    
     a.AdditionalProperties = additionalProperties
+    
     a.Attribute = *temp.Attribute
     return nil
 }

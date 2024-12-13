@@ -24,7 +24,7 @@ type ListSubscriptionGroupsItem struct {
     CancelAtEndOfPeriod   *bool                      `json:"cancel_at_end_of_period,omitempty"`
     AccountBalances       *SubscriptionGroupBalances `json:"account_balances,omitempty"`
     GroupType             *GroupType                 `json:"group_type,omitempty"`
-    AdditionalProperties  map[string]any             `json:"_"`
+    AdditionalProperties  map[string]interface{}     `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for ListSubscriptionGroupsItem.
@@ -32,13 +32,17 @@ type ListSubscriptionGroupsItem struct {
 func (l ListSubscriptionGroupsItem) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(l.AdditionalProperties,
+        "uid", "scheme", "customer_id", "payment_profile_id", "subscription_ids", "primary_subscription_id", "next_assessment_at", "state", "cancel_at_end_of_period", "account_balances", "group_type"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(l.toMap())
 }
 
 // toMap converts the ListSubscriptionGroupsItem object to a map representation for JSON marshaling.
 func (l ListSubscriptionGroupsItem) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, l.AdditionalProperties)
+    MergeAdditionalProperties(structMap, l.AdditionalProperties)
     if l.Uid != nil {
         structMap["uid"] = l.Uid
     }
@@ -83,12 +87,12 @@ func (l *ListSubscriptionGroupsItem) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "uid", "scheme", "customer_id", "payment_profile_id", "subscription_ids", "primary_subscription_id", "next_assessment_at", "state", "cancel_at_end_of_period", "account_balances", "group_type")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "uid", "scheme", "customer_id", "payment_profile_id", "subscription_ids", "primary_subscription_id", "next_assessment_at", "state", "cancel_at_end_of_period", "account_balances", "group_type")
     if err != nil {
     	return err
     }
-    
     l.AdditionalProperties = additionalProperties
+    
     l.Uid = temp.Uid
     l.Scheme = temp.Scheme
     l.CustomerId = temp.CustomerId

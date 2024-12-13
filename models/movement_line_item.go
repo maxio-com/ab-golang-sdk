@@ -11,18 +11,18 @@ import (
 
 // MovementLineItem represents a MovementLineItem struct.
 type MovementLineItem struct {
-    ProductId            *int           `json:"product_id,omitempty"`
+    ProductId            *int                   `json:"product_id,omitempty"`
     // For Product (or "baseline") line items, this field will have a value of `0`.
-    ComponentId          *int           `json:"component_id,omitempty"`
-    PricePointId         *int           `json:"price_point_id,omitempty"`
-    Name                 *string        `json:"name,omitempty"`
-    Mrr                  *int           `json:"mrr,omitempty"`
-    MrrMovements         []MRRMovement  `json:"mrr_movements,omitempty"`
-    Quantity             *int           `json:"quantity,omitempty"`
-    PrevQuantity         *int           `json:"prev_quantity,omitempty"`
+    ComponentId          *int                   `json:"component_id,omitempty"`
+    PricePointId         *int                   `json:"price_point_id,omitempty"`
+    Name                 *string                `json:"name,omitempty"`
+    Mrr                  *int                   `json:"mrr,omitempty"`
+    MrrMovements         []MRRMovement          `json:"mrr_movements,omitempty"`
+    Quantity             *int                   `json:"quantity,omitempty"`
+    PrevQuantity         *int                   `json:"prev_quantity,omitempty"`
     // When `true`, the line item's MRR value will contribute to the `plan` breakout. When `false`, the line item contributes to the `usage` breakout.
-    Recurring            *bool          `json:"recurring,omitempty"`
-    AdditionalProperties map[string]any `json:"_"`
+    Recurring            *bool                  `json:"recurring,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for MovementLineItem.
@@ -30,13 +30,17 @@ type MovementLineItem struct {
 func (m MovementLineItem) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(m.AdditionalProperties,
+        "product_id", "component_id", "price_point_id", "name", "mrr", "mrr_movements", "quantity", "prev_quantity", "recurring"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(m.toMap())
 }
 
 // toMap converts the MovementLineItem object to a map representation for JSON marshaling.
 func (m MovementLineItem) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, m.AdditionalProperties)
+    MergeAdditionalProperties(structMap, m.AdditionalProperties)
     if m.ProductId != nil {
         structMap["product_id"] = m.ProductId
     }
@@ -75,12 +79,12 @@ func (m *MovementLineItem) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "product_id", "component_id", "price_point_id", "name", "mrr", "mrr_movements", "quantity", "prev_quantity", "recurring")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "product_id", "component_id", "price_point_id", "name", "mrr", "mrr_movements", "quantity", "prev_quantity", "recurring")
     if err != nil {
     	return err
     }
-    
     m.AdditionalProperties = additionalProperties
+    
     m.ProductId = temp.ProductId
     m.ComponentId = temp.ComponentId
     m.PricePointId = temp.PricePointId

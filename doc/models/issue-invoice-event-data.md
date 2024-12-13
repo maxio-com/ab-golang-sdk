@@ -22,8 +22,8 @@ Example schema for an `issue_invoice` event
 ```json
 {
   "consolidation_level": "none",
-  "from_status": "draft",
-  "to_status": "voided",
+  "from_status": "voided",
+  "to_status": "draft",
   "due_amount": "due_amount6",
   "total_amount": "total_amount0"
 }

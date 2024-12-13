@@ -35,13 +35,13 @@ func NewCouponsController(baseController baseController) *CouponsController {
 // Additionally, for documentation on how to apply a coupon to a subscription within the Advanced Billing UI, please see our documentation [here](https://maxio.zendesk.com/hc/en-us/articles/24261259337101-Coupons-and-Subscriptions).
 // ## Create Coupon
 // This request will create a coupon, based on the provided information.
-// When creating a coupon, you must specify a product family using the `product_family_id`. If no `product_family_id` is passed, the first product family available is used. You will also need to formulate your URL to cite the Product Family ID in your request.
-// You can restrict a coupon to only apply to specific products / components by optionally passing in hashes of `restricted_products` and/or `restricted_components` in the format:
-// `{ "<product/component_id>": boolean_value }`
+// You can create either a flat amount coupon, by specyfing `amount_in_cents`, or percentage coupon by specyfing `percentage`.
+// You can restrict a coupon to only apply to specific products / components by optionally passing in `restricted_products` and/or `restricted_components` objects in the format:
+// `{ "<product_id/component_id>": boolean_value }`
 func (c *CouponsController) CreateCoupon(
     ctx context.Context,
     productFamilyId int,
-    body *models.CreateOrUpdateCoupon) (
+    body *models.CouponRequest) (
     models.ApiResponse[models.CouponResponse],
     error) {
     req := c.prepareRequest(
@@ -123,7 +123,7 @@ func (c *CouponsController) ListCouponsForProductFamily(
     return models.NewApiResponse(result, resp), err
 }
 
-// FindCoupon takes context, productFamilyId, code as parameters and
+// FindCoupon takes context, productFamilyId, code, currencyPrices as parameters and
 // returns an models.ApiResponse with models.CouponResponse data and
 // an error if there was an issue with the request or response.
 // You can search for a coupon via the API with the find method. By passing a code parameter, the find will attempt to locate a coupon that matches that code. If no coupon is found, a 404 is returned.
@@ -131,7 +131,8 @@ func (c *CouponsController) ListCouponsForProductFamily(
 func (c *CouponsController) FindCoupon(
     ctx context.Context,
     productFamilyId *int,
-    code *string) (
+    code *string,
+    currencyPrices *bool) (
     models.ApiResponse[models.CouponResponse],
     error) {
     req := c.prepareRequest(ctx, "GET", "/coupons/find.json")
@@ -141,6 +142,9 @@ func (c *CouponsController) FindCoupon(
     }
     if code != nil {
         req.QueryParam("code", *code)
+    }
+    if currencyPrices != nil {
+        req.QueryParam("currency_prices", *currencyPrices)
     }
     var result models.CouponResponse
     decoder, resp, err := req.CallAsJson()
@@ -152,7 +156,7 @@ func (c *CouponsController) FindCoupon(
     return models.NewApiResponse(result, resp), err
 }
 
-// ReadCoupon takes context, productFamilyId, couponId as parameters and
+// ReadCoupon takes context, productFamilyId, couponId, currencyPrices as parameters and
 // returns an models.ApiResponse with models.CouponResponse data and
 // an error if there was an issue with the request or response.
 // You can retrieve the Coupon via the API with the Show method. You must identify the Coupon in this call by the ID parameter that Advanced Billing assigns.
@@ -162,7 +166,8 @@ func (c *CouponsController) FindCoupon(
 func (c *CouponsController) ReadCoupon(
     ctx context.Context,
     productFamilyId int,
-    couponId int) (
+    couponId int,
+    currencyPrices *bool) (
     models.ApiResponse[models.CouponResponse],
     error) {
     req := c.prepareRequest(
@@ -171,6 +176,9 @@ func (c *CouponsController) ReadCoupon(
       fmt.Sprintf("/product_families/%v/coupons/%v.json", productFamilyId, couponId),
     )
     req.Authenticate(NewAuth("BasicAuth"))
+    if currencyPrices != nil {
+        req.QueryParam("currency_prices", *currencyPrices)
+    }
     
     var result models.CouponResponse
     decoder, resp, err := req.CallAsJson()
@@ -193,7 +201,7 @@ func (c *CouponsController) UpdateCoupon(
     ctx context.Context,
     productFamilyId int,
     couponId int,
-    body *models.CreateOrUpdateCoupon) (
+    body *models.CouponRequest) (
     models.ApiResponse[models.CouponResponse],
     error) {
     req := c.prepareRequest(
@@ -202,6 +210,9 @@ func (c *CouponsController) UpdateCoupon(
       fmt.Sprintf("/product_families/%v/coupons/%v.json", productFamilyId, couponId),
     )
     req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
+    })
     req.Header("Content-Type", "application/json")
     if body != nil {
         req.Json(body)
@@ -380,6 +391,9 @@ func (c *CouponsController) CreateOrUpdateCouponCurrencyPrices(
       fmt.Sprintf("/coupons/%v/currency_prices.json", couponId),
     )
     req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorStringMapResponse},
+    })
     req.Header("Content-Type", "application/json")
     if body != nil {
         req.Json(body)

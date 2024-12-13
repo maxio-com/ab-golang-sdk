@@ -14,52 +14,52 @@ import (
 // DebitNote represents a DebitNote struct.
 type DebitNote struct {
     // Unique identifier for the debit note. It is generated automatically by Chargify and has the prefix "db_" followed by alphanumeric characters.
-    Uid                    *string              `json:"uid,omitempty"`
+    Uid                    *string                `json:"uid,omitempty"`
     // ID of the site to which the debit note belongs.
-    SiteId                 *int                 `json:"site_id,omitempty"`
+    SiteId                 *int                   `json:"site_id,omitempty"`
     // ID of the customer to which the debit note belongs.
-    CustomerId             *int                 `json:"customer_id,omitempty"`
+    CustomerId             *int                   `json:"customer_id,omitempty"`
     // ID of the subscription that generated the debit note.
-    SubscriptionId         *int                 `json:"subscription_id,omitempty"`
+    SubscriptionId         *int                   `json:"subscription_id,omitempty"`
     // A unique, identifier that appears on the debit note and in places it is referenced.
-    Number                 *int                 `json:"number,omitempty"`
+    Number                 *int                   `json:"number,omitempty"`
     // A monotonically increasing number assigned to debit notes as they are created.
-    SequenceNumber         *int                 `json:"sequence_number,omitempty"`
+    SequenceNumber         *int                   `json:"sequence_number,omitempty"`
     // Unique identifier for the connected credit note. It is generated automatically by Chargify and has the prefix "cn_" followed by alphanumeric characters.
     // While the UID is long and not appropriate to show to customers, the number is usually shorter and consumable by the customer and the merchant alike.
-    OriginCreditNoteUid    *string              `json:"origin_credit_note_uid,omitempty"`
+    OriginCreditNoteUid    *string                `json:"origin_credit_note_uid,omitempty"`
     // A unique, identifying string of the connected credit note.
-    OriginCreditNoteNumber *string              `json:"origin_credit_note_number,omitempty"`
+    OriginCreditNoteNumber *string                `json:"origin_credit_note_number,omitempty"`
     // Date the document was issued to the customer. This is the date that the document was made available for payment.
     // The format is "YYYY-MM-DD".
-    IssueDate              *time.Time           `json:"issue_date,omitempty"`
+    IssueDate              *time.Time             `json:"issue_date,omitempty"`
     // Debit notes are applied to invoices to offset invoiced amounts - they adjust the amount due. This field is the date the debit note document became fully applied to the invoice.
     // The format is "YYYY-MM-DD".
-    AppliedDate            *time.Time           `json:"applied_date,omitempty"`
+    AppliedDate            *time.Time             `json:"applied_date,omitempty"`
     // Date the document is due for payment. The format is "YYYY-MM-DD".
-    DueDate                *time.Time           `json:"due_date,omitempty"`
+    DueDate                *time.Time             `json:"due_date,omitempty"`
     // Current status of the debit note.
-    Status                 *DebitNoteStatus     `json:"status,omitempty"`
+    Status                 *DebitNoteStatus       `json:"status,omitempty"`
     // The memo printed on debit note, which is a description of the reason for the debit.
-    Memo                   *string              `json:"memo,omitempty"`
+    Memo                   *string                `json:"memo,omitempty"`
     // The role of the debit note.
-    Role                   *DebitNoteRole       `json:"role,omitempty"`
+    Role                   *DebitNoteRole         `json:"role,omitempty"`
     // The ISO 4217 currency code (3 character string) representing the currency of the credit note amount fields.
-    Currency               *string              `json:"currency,omitempty"`
+    Currency               *string                `json:"currency,omitempty"`
     // Information about the seller (merchant) listed on the masthead of the debit note.
-    Seller                 *InvoiceSeller       `json:"seller,omitempty"`
+    Seller                 *InvoiceSeller         `json:"seller,omitempty"`
     // Information about the customer who is owner or recipient the debited subscription.
-    Customer               *InvoiceCustomer     `json:"customer,omitempty"`
+    Customer               *InvoiceCustomer       `json:"customer,omitempty"`
     // The billing address of the debited subscription.
-    BillingAddress         *InvoiceAddress      `json:"billing_address,omitempty"`
+    BillingAddress         *InvoiceAddress        `json:"billing_address,omitempty"`
     // The shipping address of the debited subscription.
-    ShippingAddress        *InvoiceAddress      `json:"shipping_address,omitempty"`
+    ShippingAddress        *InvoiceAddress        `json:"shipping_address,omitempty"`
     // Line items on the debit note.
-    LineItems              []CreditNoteLineItem `json:"line_items,omitempty"`
-    Discounts              []InvoiceDiscount    `json:"discounts,omitempty"`
-    Taxes                  []InvoiceTax         `json:"taxes,omitempty"`
-    Refunds                []InvoiceRefund      `json:"refunds,omitempty"`
-    AdditionalProperties   map[string]any       `json:"_"`
+    LineItems              []CreditNoteLineItem   `json:"line_items,omitempty"`
+    Discounts              []InvoiceDiscount      `json:"discounts,omitempty"`
+    Taxes                  []InvoiceTax           `json:"taxes,omitempty"`
+    Refunds                []InvoiceRefund        `json:"refunds,omitempty"`
+    AdditionalProperties   map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for DebitNote.
@@ -67,13 +67,17 @@ type DebitNote struct {
 func (d DebitNote) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(d.AdditionalProperties,
+        "uid", "site_id", "customer_id", "subscription_id", "number", "sequence_number", "origin_credit_note_uid", "origin_credit_note_number", "issue_date", "applied_date", "due_date", "status", "memo", "role", "currency", "seller", "customer", "billing_address", "shipping_address", "line_items", "discounts", "taxes", "refunds"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(d.toMap())
 }
 
 // toMap converts the DebitNote object to a map representation for JSON marshaling.
 func (d DebitNote) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, d.AdditionalProperties)
+    MergeAdditionalProperties(structMap, d.AdditionalProperties)
     if d.Uid != nil {
         structMap["uid"] = d.Uid
     }
@@ -154,12 +158,12 @@ func (d *DebitNote) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "uid", "site_id", "customer_id", "subscription_id", "number", "sequence_number", "origin_credit_note_uid", "origin_credit_note_number", "issue_date", "applied_date", "due_date", "status", "memo", "role", "currency", "seller", "customer", "billing_address", "shipping_address", "line_items", "discounts", "taxes", "refunds")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "uid", "site_id", "customer_id", "subscription_id", "number", "sequence_number", "origin_credit_note_uid", "origin_credit_note_number", "issue_date", "applied_date", "due_date", "status", "memo", "role", "currency", "seller", "customer", "billing_address", "shipping_address", "line_items", "discounts", "taxes", "refunds")
     if err != nil {
     	return err
     }
-    
     d.AdditionalProperties = additionalProperties
+    
     d.Uid = temp.Uid
     d.SiteId = temp.SiteId
     d.CustomerId = temp.CustomerId

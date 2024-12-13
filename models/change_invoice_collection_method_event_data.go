@@ -15,10 +15,10 @@ import (
 // Example schema for an `change_invoice_collection_method` event
 type ChangeInvoiceCollectionMethodEventData struct {
     // The previous collection method of the invoice.
-    FromCollectionMethod string         `json:"from_collection_method"`
+    FromCollectionMethod string                 `json:"from_collection_method"`
     // The new collection method of the invoice.
-    ToCollectionMethod   string         `json:"to_collection_method"`
-    AdditionalProperties map[string]any `json:"_"`
+    ToCollectionMethod   string                 `json:"to_collection_method"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for ChangeInvoiceCollectionMethodEventData.
@@ -26,13 +26,17 @@ type ChangeInvoiceCollectionMethodEventData struct {
 func (c ChangeInvoiceCollectionMethodEventData) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(c.AdditionalProperties,
+        "from_collection_method", "to_collection_method"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(c.toMap())
 }
 
 // toMap converts the ChangeInvoiceCollectionMethodEventData object to a map representation for JSON marshaling.
 func (c ChangeInvoiceCollectionMethodEventData) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, c.AdditionalProperties)
+    MergeAdditionalProperties(structMap, c.AdditionalProperties)
     structMap["from_collection_method"] = c.FromCollectionMethod
     structMap["to_collection_method"] = c.ToCollectionMethod
     return structMap
@@ -50,12 +54,12 @@ func (c *ChangeInvoiceCollectionMethodEventData) UnmarshalJSON(input []byte) err
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "from_collection_method", "to_collection_method")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "from_collection_method", "to_collection_method")
     if err != nil {
     	return err
     }
-    
     c.AdditionalProperties = additionalProperties
+    
     c.FromCollectionMethod = *temp.FromCollectionMethod
     c.ToCollectionMethod = *temp.ToCollectionMethod
     return nil

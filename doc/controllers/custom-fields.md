@@ -76,14 +76,14 @@ ctx := context.Background()
 resourceType := models.ResourceType("subscriptions")
 
 body := models.CreateMetafieldsRequest{
-    Metafields: models.CreateMetafieldsRequestMetafieldsContainer.FromCreateMetafield(models.CreateMetafield{
-        Name:      models.ToPointer("Dropdown field"),
-        Scope:     models.ToPointer(models.MetafieldScope{
-            PublicShow: models.ToPointer(models.IncludeOption("1")),
-            PublicEdit: models.ToPointer(models.IncludeOption("1")),
+    Metafields:           models.CreateMetafieldsRequestMetafieldsContainer.FromCreateMetafield(models.CreateMetafield{
+        Name:                 models.ToPointer("Dropdown field"),
+        Scope:                models.ToPointer(models.MetafieldScope{
+            PublicShow:           models.ToPointer(models.IncludeOption("1")),
+            PublicEdit:           models.ToPointer(models.IncludeOption("1")),
         }),
-        InputType: models.ToPointer(models.MetafieldInput("dropdown")),
-        Enum:      []string{
+        InputType:            models.ToPointer(models.MetafieldInput("dropdown")),
+        Enum:                 []string{
             "option 1",
             "option 2",
         },
@@ -371,14 +371,14 @@ resourceType := models.ResourceType("subscriptions")
 resourceId := 60
 
 body := models.CreateMetadataRequest{
-    Metadata: []models.CreateMetadata{
+    Metadata:             []models.CreateMetadata{
         models.CreateMetadata{
-            Name:  models.ToPointer("Color"),
-            Value: models.ToPointer("Blue"),
+            Name:                 models.ToPointer("Color"),
+            Value:                models.ToPointer("Blue"),
         },
         models.CreateMetadata{
-            Name:  models.ToPointer("Something"),
-            Value: models.ToPointer("Useful"),
+            Name:                 models.ToPointer("Something"),
+            Value:                models.ToPointer("Useful"),
         },
     },
 }

@@ -16,14 +16,14 @@ import (
 // VoidRemainderEventData represents a VoidRemainderEventData struct.
 // Example schema for an `void_remainder` event
 type VoidRemainderEventData struct {
-    CreditNoteAttributes CreditNote     `json:"credit_note_attributes"`
+    CreditNoteAttributes CreditNote             `json:"credit_note_attributes"`
     // The memo provided during invoice remainder voiding.
-    Memo                 string         `json:"memo"`
+    Memo                 string                 `json:"memo"`
     // The amount of the void.
-    AppliedAmount        string         `json:"applied_amount"`
+    AppliedAmount        string                 `json:"applied_amount"`
     // The time the refund was applied, in ISO 8601 format, i.e. "2019-06-07T17:20:06Z"
-    TransactionTime      time.Time      `json:"transaction_time"`
-    AdditionalProperties map[string]any `json:"_"`
+    TransactionTime      time.Time              `json:"transaction_time"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for VoidRemainderEventData.
@@ -31,13 +31,17 @@ type VoidRemainderEventData struct {
 func (v VoidRemainderEventData) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(v.AdditionalProperties,
+        "credit_note_attributes", "memo", "applied_amount", "transaction_time"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(v.toMap())
 }
 
 // toMap converts the VoidRemainderEventData object to a map representation for JSON marshaling.
 func (v VoidRemainderEventData) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, v.AdditionalProperties)
+    MergeAdditionalProperties(structMap, v.AdditionalProperties)
     structMap["credit_note_attributes"] = v.CreditNoteAttributes.toMap()
     structMap["memo"] = v.Memo
     structMap["applied_amount"] = v.AppliedAmount
@@ -57,12 +61,12 @@ func (v *VoidRemainderEventData) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "credit_note_attributes", "memo", "applied_amount", "transaction_time")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "credit_note_attributes", "memo", "applied_amount", "transaction_time")
     if err != nil {
     	return err
     }
-    
     v.AdditionalProperties = additionalProperties
+    
     v.CreditNoteAttributes = *temp.CreditNoteAttributes
     v.Memo = *temp.Memo
     v.AppliedAmount = *temp.AppliedAmount

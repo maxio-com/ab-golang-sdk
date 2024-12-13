@@ -21,7 +21,7 @@ type ApplyCreditNoteEvent struct {
     EventType            InvoiceEventType         `json:"event_type"`
     // Example schema for an `apply_credit_note` event
     EventData            ApplyCreditNoteEventData `json:"event_data"`
-    AdditionalProperties map[string]any           `json:"_"`
+    AdditionalProperties map[string]interface{}   `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for ApplyCreditNoteEvent.
@@ -29,13 +29,17 @@ type ApplyCreditNoteEvent struct {
 func (a ApplyCreditNoteEvent) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(a.AdditionalProperties,
+        "id", "timestamp", "invoice", "event_type", "event_data"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(a.toMap())
 }
 
 // toMap converts the ApplyCreditNoteEvent object to a map representation for JSON marshaling.
 func (a ApplyCreditNoteEvent) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, a.AdditionalProperties)
+    MergeAdditionalProperties(structMap, a.AdditionalProperties)
     structMap["id"] = a.Id
     structMap["timestamp"] = a.Timestamp.Format(time.RFC3339)
     structMap["invoice"] = a.Invoice.toMap()
@@ -56,12 +60,12 @@ func (a *ApplyCreditNoteEvent) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "id", "timestamp", "invoice", "event_type", "event_data")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "id", "timestamp", "invoice", "event_type", "event_data")
     if err != nil {
     	return err
     }
-    
     a.AdditionalProperties = additionalProperties
+    
     a.Id = *temp.Id
     TimestampVal, err := time.Parse(time.RFC3339, *temp.Timestamp)
     if err != nil {

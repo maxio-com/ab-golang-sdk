@@ -13,8 +13,8 @@ import (
 
 // CreditSchemeRequest represents a CreditSchemeRequest struct.
 type CreditSchemeRequest struct {
-    CreditScheme         CreditScheme   `json:"credit_scheme"`
-    AdditionalProperties map[string]any `json:"_"`
+    CreditScheme         CreditScheme           `json:"credit_scheme"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreditSchemeRequest.
@@ -22,13 +22,17 @@ type CreditSchemeRequest struct {
 func (c CreditSchemeRequest) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(c.AdditionalProperties,
+        "credit_scheme"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(c.toMap())
 }
 
 // toMap converts the CreditSchemeRequest object to a map representation for JSON marshaling.
 func (c CreditSchemeRequest) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, c.AdditionalProperties)
+    MergeAdditionalProperties(structMap, c.AdditionalProperties)
     structMap["credit_scheme"] = c.CreditScheme
     return structMap
 }
@@ -45,12 +49,12 @@ func (c *CreditSchemeRequest) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "credit_scheme")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "credit_scheme")
     if err != nil {
     	return err
     }
-    
     c.AdditionalProperties = additionalProperties
+    
     c.CreditScheme = *temp.CreditScheme
     return nil
 }

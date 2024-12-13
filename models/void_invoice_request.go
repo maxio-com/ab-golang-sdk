@@ -13,8 +13,8 @@ import (
 
 // VoidInvoiceRequest represents a VoidInvoiceRequest struct.
 type VoidInvoiceRequest struct {
-    Void                 VoidInvoice    `json:"void"`
-    AdditionalProperties map[string]any `json:"_"`
+    Void                 VoidInvoice            `json:"void"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for VoidInvoiceRequest.
@@ -22,13 +22,17 @@ type VoidInvoiceRequest struct {
 func (v VoidInvoiceRequest) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(v.AdditionalProperties,
+        "void"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(v.toMap())
 }
 
 // toMap converts the VoidInvoiceRequest object to a map representation for JSON marshaling.
 func (v VoidInvoiceRequest) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, v.AdditionalProperties)
+    MergeAdditionalProperties(structMap, v.AdditionalProperties)
     structMap["void"] = v.Void.toMap()
     return structMap
 }
@@ -45,12 +49,12 @@ func (v *VoidInvoiceRequest) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "void")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "void")
     if err != nil {
     	return err
     }
-    
     v.AdditionalProperties = additionalProperties
+    
     v.Void = *temp.Void
     return nil
 }

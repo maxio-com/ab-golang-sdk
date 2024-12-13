@@ -12,14 +12,14 @@ import (
 // NestedSubscriptionGroup represents a NestedSubscriptionGroup struct.
 type NestedSubscriptionGroup struct {
     // The UID for the group
-    Uid                   *string        `json:"uid,omitempty"`
+    Uid                   *string                `json:"uid,omitempty"`
     // Whether the group is configured to rely on a primary subscription for billing. At this time, it will always be 1.
-    Scheme                *int           `json:"scheme,omitempty"`
+    Scheme                *int                   `json:"scheme,omitempty"`
     // The subscription ID of the primary within the group. Applicable to scheme 1.
-    PrimarySubscriptionId *int           `json:"primary_subscription_id,omitempty"`
+    PrimarySubscriptionId *int                   `json:"primary_subscription_id,omitempty"`
     // A boolean indicating whether the subscription is the primary in the group. Applicable to scheme 1.
-    Primary               *bool          `json:"primary,omitempty"`
-    AdditionalProperties  map[string]any `json:"_"`
+    Primary               *bool                  `json:"primary,omitempty"`
+    AdditionalProperties  map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for NestedSubscriptionGroup.
@@ -27,13 +27,17 @@ type NestedSubscriptionGroup struct {
 func (n NestedSubscriptionGroup) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(n.AdditionalProperties,
+        "uid", "scheme", "primary_subscription_id", "primary"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(n.toMap())
 }
 
 // toMap converts the NestedSubscriptionGroup object to a map representation for JSON marshaling.
 func (n NestedSubscriptionGroup) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, n.AdditionalProperties)
+    MergeAdditionalProperties(structMap, n.AdditionalProperties)
     if n.Uid != nil {
         structMap["uid"] = n.Uid
     }
@@ -57,12 +61,12 @@ func (n *NestedSubscriptionGroup) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "uid", "scheme", "primary_subscription_id", "primary")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "uid", "scheme", "primary_subscription_id", "primary")
     if err != nil {
     	return err
     }
-    
     n.AdditionalProperties = additionalProperties
+    
     n.Uid = temp.Uid
     n.Scheme = temp.Scheme
     n.PrimarySubscriptionId = temp.PrimarySubscriptionId

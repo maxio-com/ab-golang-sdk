@@ -72,7 +72,7 @@ type CreatePaymentProfile struct {
     BankAccountHolderType *BankAccountHolderType               `json:"bank_account_holder_type,omitempty"`
     // (Optional) Used for creating subscription with payment profile imported using vault_token, for proper display in Advanced Billing UI
     LastFour              *string                              `json:"last_four,omitempty"`
-    AdditionalProperties  map[string]any                       `json:"_"`
+    AdditionalProperties  map[string]interface{}               `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreatePaymentProfile.
@@ -80,13 +80,17 @@ type CreatePaymentProfile struct {
 func (c CreatePaymentProfile) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(c.AdditionalProperties,
+        "chargify_token", "id", "payment_type", "first_name", "last_name", "masked_card_number", "full_number", "card_type", "expiration_month", "expiration_year", "billing_address", "billing_address_2", "billing_city", "billing_state", "billing_country", "billing_zip", "current_vault", "vault_token", "customer_vault_token", "customer_id", "paypal_email", "payment_method_nonce", "gateway_handle", "cvv", "bank_name", "bank_iban", "bank_routing_number", "bank_account_number", "bank_branch_code", "bank_account_type", "bank_account_holder_type", "last_four"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(c.toMap())
 }
 
 // toMap converts the CreatePaymentProfile object to a map representation for JSON marshaling.
 func (c CreatePaymentProfile) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, c.AdditionalProperties)
+    MergeAdditionalProperties(structMap, c.AdditionalProperties)
     if c.ChargifyToken != nil {
         structMap["chargify_token"] = c.ChargifyToken
     }
@@ -198,12 +202,12 @@ func (c *CreatePaymentProfile) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "chargify_token", "id", "payment_type", "first_name", "last_name", "masked_card_number", "full_number", "card_type", "expiration_month", "expiration_year", "billing_address", "billing_address_2", "billing_city", "billing_state", "billing_country", "billing_zip", "current_vault", "vault_token", "customer_vault_token", "customer_id", "paypal_email", "payment_method_nonce", "gateway_handle", "cvv", "bank_name", "bank_iban", "bank_routing_number", "bank_account_number", "bank_branch_code", "bank_account_type", "bank_account_holder_type", "last_four")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "chargify_token", "id", "payment_type", "first_name", "last_name", "masked_card_number", "full_number", "card_type", "expiration_month", "expiration_year", "billing_address", "billing_address_2", "billing_city", "billing_state", "billing_country", "billing_zip", "current_vault", "vault_token", "customer_vault_token", "customer_id", "paypal_email", "payment_method_nonce", "gateway_handle", "cvv", "bank_name", "bank_iban", "bank_routing_number", "bank_account_number", "bank_branch_code", "bank_account_type", "bank_account_holder_type", "last_four")
     if err != nil {
     	return err
     }
-    
     c.AdditionalProperties = additionalProperties
+    
     c.ChargifyToken = temp.ChargifyToken
     c.Id = temp.Id
     c.PaymentType = temp.PaymentType

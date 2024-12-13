@@ -11,17 +11,17 @@ import (
 
 // SaleRepSubscription represents a SaleRepSubscription struct.
 type SaleRepSubscription struct {
-    Id                   *int             `json:"id,omitempty"`
-    SiteName             *string          `json:"site_name,omitempty"`
-    SubscriptionUrl      *string          `json:"subscription_url,omitempty"`
-    CustomerName         *string          `json:"customer_name,omitempty"`
-    CreatedAt            *string          `json:"created_at,omitempty"`
-    Mrr                  *string          `json:"mrr,omitempty"`
-    Usage                *string          `json:"usage,omitempty"`
-    Recurring            *string          `json:"recurring,omitempty"`
-    LastPayment          *string          `json:"last_payment,omitempty"`
-    ChurnDate            Optional[string] `json:"churn_date"`
-    AdditionalProperties map[string]any   `json:"_"`
+    Id                   *int                   `json:"id,omitempty"`
+    SiteName             *string                `json:"site_name,omitempty"`
+    SubscriptionUrl      *string                `json:"subscription_url,omitempty"`
+    CustomerName         *string                `json:"customer_name,omitempty"`
+    CreatedAt            *string                `json:"created_at,omitempty"`
+    Mrr                  *string                `json:"mrr,omitempty"`
+    Usage                *string                `json:"usage,omitempty"`
+    Recurring            *string                `json:"recurring,omitempty"`
+    LastPayment          *string                `json:"last_payment,omitempty"`
+    ChurnDate            Optional[string]       `json:"churn_date"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for SaleRepSubscription.
@@ -29,13 +29,17 @@ type SaleRepSubscription struct {
 func (s SaleRepSubscription) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(s.AdditionalProperties,
+        "id", "site_name", "subscription_url", "customer_name", "created_at", "mrr", "usage", "recurring", "last_payment", "churn_date"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(s.toMap())
 }
 
 // toMap converts the SaleRepSubscription object to a map representation for JSON marshaling.
 func (s SaleRepSubscription) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, s.AdditionalProperties)
+    MergeAdditionalProperties(structMap, s.AdditionalProperties)
     if s.Id != nil {
         structMap["id"] = s.Id
     }
@@ -81,12 +85,12 @@ func (s *SaleRepSubscription) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "id", "site_name", "subscription_url", "customer_name", "created_at", "mrr", "usage", "recurring", "last_payment", "churn_date")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "id", "site_name", "subscription_url", "customer_name", "created_at", "mrr", "usage", "recurring", "last_payment", "churn_date")
     if err != nil {
     	return err
     }
-    
     s.AdditionalProperties = additionalProperties
+    
     s.Id = temp.Id
     s.SiteName = temp.SiteName
     s.SubscriptionUrl = temp.SubscriptionUrl

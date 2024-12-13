@@ -20,7 +20,7 @@ type Metafield struct {
     // Indicates how data should be added to the metafield. For example, a text type is just a string, so a given metafield of this type can have any value attached. On the other hand, dropdown and radio have a set of allowed values that can be input, and appear differently on a Public Signup Page. Defaults to 'text'
     InputType            *MetafieldInput         `json:"input_type,omitempty"`
     Enum                 Optional[MetafieldEnum] `json:"enum"`
-    AdditionalProperties map[string]any          `json:"_"`
+    AdditionalProperties map[string]interface{}  `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for Metafield.
@@ -28,13 +28,17 @@ type Metafield struct {
 func (m Metafield) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(m.AdditionalProperties,
+        "id", "name", "scope", "data_count", "input_type", "enum"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(m.toMap())
 }
 
 // toMap converts the Metafield object to a map representation for JSON marshaling.
 func (m Metafield) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, m.AdditionalProperties)
+    MergeAdditionalProperties(structMap, m.AdditionalProperties)
     if m.Id != nil {
         structMap["id"] = m.Id
     }
@@ -68,12 +72,12 @@ func (m *Metafield) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "id", "name", "scope", "data_count", "input_type", "enum")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "id", "name", "scope", "data_count", "input_type", "enum")
     if err != nil {
     	return err
     }
-    
     m.AdditionalProperties = additionalProperties
+    
     m.Id = temp.Id
     m.Name = temp.Name
     m.Scope = temp.Scope

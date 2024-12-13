@@ -13,26 +13,26 @@ import (
 
 // Offer represents a Offer struct.
 type Offer struct {
-    Id                     *int                `json:"id,omitempty"`
-    SiteId                 *int                `json:"site_id,omitempty"`
-    ProductFamilyId        *int                `json:"product_family_id,omitempty"`
-    ProductId              *int                `json:"product_id,omitempty"`
-    ProductPricePointId    *int                `json:"product_price_point_id,omitempty"`
-    ProductRevisableNumber *int                `json:"product_revisable_number,omitempty"`
-    Name                   *string             `json:"name,omitempty"`
-    Handle                 *string             `json:"handle,omitempty"`
-    Description            Optional[string]    `json:"description"`
-    CreatedAt              *time.Time          `json:"created_at,omitempty"`
-    UpdatedAt              *time.Time          `json:"updated_at,omitempty"`
-    ArchivedAt             Optional[time.Time] `json:"archived_at"`
-    OfferItems             []OfferItem         `json:"offer_items,omitempty"`
-    OfferDiscounts         []OfferDiscount     `json:"offer_discounts,omitempty"`
-    ProductFamilyName      *string             `json:"product_family_name,omitempty"`
-    ProductName            *string             `json:"product_name,omitempty"`
-    ProductPricePointName  *string             `json:"product_price_point_name,omitempty"`
-    ProductPriceInCents    *int64              `json:"product_price_in_cents,omitempty"`
-    OfferSignupPages       []OfferSignupPage   `json:"offer_signup_pages,omitempty"`
-    AdditionalProperties   map[string]any      `json:"_"`
+    Id                     *int                   `json:"id,omitempty"`
+    SiteId                 *int                   `json:"site_id,omitempty"`
+    ProductFamilyId        *int                   `json:"product_family_id,omitempty"`
+    ProductId              *int                   `json:"product_id,omitempty"`
+    ProductPricePointId    *int                   `json:"product_price_point_id,omitempty"`
+    ProductRevisableNumber *int                   `json:"product_revisable_number,omitempty"`
+    Name                   *string                `json:"name,omitempty"`
+    Handle                 *string                `json:"handle,omitempty"`
+    Description            Optional[string]       `json:"description"`
+    CreatedAt              *time.Time             `json:"created_at,omitempty"`
+    UpdatedAt              *time.Time             `json:"updated_at,omitempty"`
+    ArchivedAt             Optional[time.Time]    `json:"archived_at"`
+    OfferItems             []OfferItem            `json:"offer_items,omitempty"`
+    OfferDiscounts         []OfferDiscount        `json:"offer_discounts,omitempty"`
+    ProductFamilyName      *string                `json:"product_family_name,omitempty"`
+    ProductName            *string                `json:"product_name,omitempty"`
+    ProductPricePointName  *string                `json:"product_price_point_name,omitempty"`
+    ProductPriceInCents    *int64                 `json:"product_price_in_cents,omitempty"`
+    OfferSignupPages       []OfferSignupPage      `json:"offer_signup_pages,omitempty"`
+    AdditionalProperties   map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for Offer.
@@ -40,13 +40,17 @@ type Offer struct {
 func (o Offer) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(o.AdditionalProperties,
+        "id", "site_id", "product_family_id", "product_id", "product_price_point_id", "product_revisable_number", "name", "handle", "description", "created_at", "updated_at", "archived_at", "offer_items", "offer_discounts", "product_family_name", "product_name", "product_price_point_name", "product_price_in_cents", "offer_signup_pages"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(o.toMap())
 }
 
 // toMap converts the Offer object to a map representation for JSON marshaling.
 func (o Offer) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, o.AdditionalProperties)
+    MergeAdditionalProperties(structMap, o.AdditionalProperties)
     if o.Id != nil {
         structMap["id"] = o.Id
     }
@@ -128,12 +132,12 @@ func (o *Offer) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "id", "site_id", "product_family_id", "product_id", "product_price_point_id", "product_revisable_number", "name", "handle", "description", "created_at", "updated_at", "archived_at", "offer_items", "offer_discounts", "product_family_name", "product_name", "product_price_point_name", "product_price_in_cents", "offer_signup_pages")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "id", "site_id", "product_family_id", "product_id", "product_price_point_id", "product_revisable_number", "name", "handle", "description", "created_at", "updated_at", "archived_at", "offer_items", "offer_discounts", "product_family_name", "product_name", "product_price_point_name", "product_price_in_cents", "offer_signup_pages")
     if err != nil {
     	return err
     }
-    
     o.AdditionalProperties = additionalProperties
+    
     o.Id = temp.Id
     o.SiteId = temp.SiteId
     o.ProductFamilyId = temp.ProductFamilyId

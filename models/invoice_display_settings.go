@@ -11,9 +11,9 @@ import (
 
 // InvoiceDisplaySettings represents a InvoiceDisplaySettings struct.
 type InvoiceDisplaySettings struct {
-    HideZeroSubtotalLines   *bool          `json:"hide_zero_subtotal_lines,omitempty"`
-    IncludeDiscountsOnLines *bool          `json:"include_discounts_on_lines,omitempty"`
-    AdditionalProperties    map[string]any `json:"_"`
+    HideZeroSubtotalLines   *bool                  `json:"hide_zero_subtotal_lines,omitempty"`
+    IncludeDiscountsOnLines *bool                  `json:"include_discounts_on_lines,omitempty"`
+    AdditionalProperties    map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for InvoiceDisplaySettings.
@@ -21,13 +21,17 @@ type InvoiceDisplaySettings struct {
 func (i InvoiceDisplaySettings) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(i.AdditionalProperties,
+        "hide_zero_subtotal_lines", "include_discounts_on_lines"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(i.toMap())
 }
 
 // toMap converts the InvoiceDisplaySettings object to a map representation for JSON marshaling.
 func (i InvoiceDisplaySettings) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, i.AdditionalProperties)
+    MergeAdditionalProperties(structMap, i.AdditionalProperties)
     if i.HideZeroSubtotalLines != nil {
         structMap["hide_zero_subtotal_lines"] = i.HideZeroSubtotalLines
     }
@@ -45,12 +49,12 @@ func (i *InvoiceDisplaySettings) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "hide_zero_subtotal_lines", "include_discounts_on_lines")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "hide_zero_subtotal_lines", "include_discounts_on_lines")
     if err != nil {
     	return err
     }
-    
     i.AdditionalProperties = additionalProperties
+    
     i.HideZeroSubtotalLines = temp.HideZeroSubtotalLines
     i.IncludeDiscountsOnLines = temp.IncludeDiscountsOnLines
     return nil

@@ -11,17 +11,17 @@ import (
 
 // SubscriptionGroupItem represents a SubscriptionGroupItem struct.
 type SubscriptionGroupItem struct {
-    Id                      *int             `json:"id,omitempty"`
-    Reference               Optional[string] `json:"reference"`
-    ProductId               *int             `json:"product_id,omitempty"`
-    ProductHandle           Optional[string] `json:"product_handle"`
-    ProductPricePointId     *int             `json:"product_price_point_id,omitempty"`
-    ProductPricePointHandle *string          `json:"product_price_point_handle,omitempty"`
-    Currency                *string          `json:"currency,omitempty"`
-    CouponCode              Optional[string] `json:"coupon_code"`
-    TotalRevenueInCents     *int64           `json:"total_revenue_in_cents,omitempty"`
-    BalanceInCents          *int64           `json:"balance_in_cents,omitempty"`
-    AdditionalProperties    map[string]any   `json:"_"`
+    Id                      *int                   `json:"id,omitempty"`
+    Reference               Optional[string]       `json:"reference"`
+    ProductId               *int                   `json:"product_id,omitempty"`
+    ProductHandle           Optional[string]       `json:"product_handle"`
+    ProductPricePointId     *int                   `json:"product_price_point_id,omitempty"`
+    ProductPricePointHandle *string                `json:"product_price_point_handle,omitempty"`
+    Currency                *string                `json:"currency,omitempty"`
+    CouponCode              Optional[string]       `json:"coupon_code"`
+    TotalRevenueInCents     *int64                 `json:"total_revenue_in_cents,omitempty"`
+    BalanceInCents          *int64                 `json:"balance_in_cents,omitempty"`
+    AdditionalProperties    map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for SubscriptionGroupItem.
@@ -29,13 +29,17 @@ type SubscriptionGroupItem struct {
 func (s SubscriptionGroupItem) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(s.AdditionalProperties,
+        "id", "reference", "product_id", "product_handle", "product_price_point_id", "product_price_point_handle", "currency", "coupon_code", "total_revenue_in_cents", "balance_in_cents"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(s.toMap())
 }
 
 // toMap converts the SubscriptionGroupItem object to a map representation for JSON marshaling.
 func (s SubscriptionGroupItem) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, s.AdditionalProperties)
+    MergeAdditionalProperties(structMap, s.AdditionalProperties)
     if s.Id != nil {
         structMap["id"] = s.Id
     }
@@ -89,12 +93,12 @@ func (s *SubscriptionGroupItem) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "id", "reference", "product_id", "product_handle", "product_price_point_id", "product_price_point_handle", "currency", "coupon_code", "total_revenue_in_cents", "balance_in_cents")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "id", "reference", "product_id", "product_handle", "product_price_point_id", "product_price_point_handle", "currency", "coupon_code", "total_revenue_in_cents", "balance_in_cents")
     if err != nil {
     	return err
     }
-    
     s.AdditionalProperties = additionalProperties
+    
     s.Id = temp.Id
     s.Reference = temp.Reference
     s.ProductId = temp.ProductId

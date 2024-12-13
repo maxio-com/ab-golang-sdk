@@ -13,12 +13,12 @@ import (
 
 // CreditNoteApplication represents a CreditNoteApplication struct.
 type CreditNoteApplication struct {
-    Uid                  *string        `json:"uid,omitempty"`
-    TransactionTime      *time.Time     `json:"transaction_time,omitempty"`
-    InvoiceUid           *string        `json:"invoice_uid,omitempty"`
-    Memo                 *string        `json:"memo,omitempty"`
-    AppliedAmount        *string        `json:"applied_amount,omitempty"`
-    AdditionalProperties map[string]any `json:"_"`
+    Uid                  *string                `json:"uid,omitempty"`
+    TransactionTime      *time.Time             `json:"transaction_time,omitempty"`
+    InvoiceUid           *string                `json:"invoice_uid,omitempty"`
+    Memo                 *string                `json:"memo,omitempty"`
+    AppliedAmount        *string                `json:"applied_amount,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreditNoteApplication.
@@ -26,13 +26,17 @@ type CreditNoteApplication struct {
 func (c CreditNoteApplication) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(c.AdditionalProperties,
+        "uid", "transaction_time", "invoice_uid", "memo", "applied_amount"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(c.toMap())
 }
 
 // toMap converts the CreditNoteApplication object to a map representation for JSON marshaling.
 func (c CreditNoteApplication) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, c.AdditionalProperties)
+    MergeAdditionalProperties(structMap, c.AdditionalProperties)
     if c.Uid != nil {
         structMap["uid"] = c.Uid
     }
@@ -59,12 +63,12 @@ func (c *CreditNoteApplication) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "uid", "transaction_time", "invoice_uid", "memo", "applied_amount")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "uid", "transaction_time", "invoice_uid", "memo", "applied_amount")
     if err != nil {
     	return err
     }
-    
     c.AdditionalProperties = additionalProperties
+    
     c.Uid = temp.Uid
     if temp.TransactionTime != nil {
         TransactionTimeVal, err := time.Parse(time.RFC3339, *temp.TransactionTime)

@@ -906,6 +906,7 @@ const (
 )
 
 // CompoundingStrategy is a string enum.
+// Applicable only to stackable coupons. For `compound`, Percentage-based discounts will be calculated against the remaining price, after prior discounts have been calculated. For `full-price`, Percentage-based discounts will always be calculated against the original item price, before other discounts are applied.
 type CompoundingStrategy string
 
 // MarshalJSON implements the json.Marshaler interface for CompoundingStrategy.
@@ -1611,112 +1612,204 @@ const (
     DiscountType_PERCENT DiscountType = "percent"
 )
 
-// EventType is a string enum.
-type EventType string
+// EventKey is a string enum.
+type EventKey string
 
-// MarshalJSON implements the json.Marshaler interface for EventType.
-// It customizes the JSON marshaling process for EventType objects.
-func (e EventType) MarshalJSON() (
+// MarshalJSON implements the json.Marshaler interface for EventKey.
+// It customizes the JSON marshaling process for EventKey objects.
+func (e EventKey) MarshalJSON() (
     []byte,
     error) {
     if e.isValid() {
         return []byte(fmt.Sprintf("\"%v\"", e)), nil
     }
-    return nil, errors.New("the provided enum value is not allowed for EventType")
+    return nil, errors.New("the provided enum value is not allowed for EventKey")
 }
 
-// UnmarshalJSON implements the json.Unmarshaler interface for EventType.
-// It customizes the JSON unmarshaling process for EventType objects.
-func (e *EventType) UnmarshalJSON(input []byte) error {
+// UnmarshalJSON implements the json.Unmarshaler interface for EventKey.
+// It customizes the JSON unmarshaling process for EventKey objects.
+func (e *EventKey) UnmarshalJSON(input []byte) error {
     var enumValue string
     err := json.Unmarshal(input, &enumValue)
     if err != nil {
         return err
     }
-    *e = EventType(enumValue)
+    *e = EventKey(enumValue)
     if !e.isValid() {
-        return errors.New("the value " + string(input) + " cannot be unmarshalled to EventType")
+        return errors.New("the value " + string(input) + " cannot be unmarshalled to EventKey")
     }
     return nil
 }
 
-// Checks whether the value is actually a member of EventType.
-func (e EventType) isValid() bool {
+// Checks whether the value is actually a member of EventKey.
+func (e EventKey) isValid() bool {
     switch e {
-    case EventType_ACCOUNTTRANSACTIONCHANGED,
-        EventType_BILLINGDATECHANGE,
-        EventType_COMPONENTALLOCATIONCHANGE,
-        EventType_CUSTOMERUPDATE,
-        EventType_CUSTOMERCREATE,
-        EventType_DUNNINGSTEPREACHED,
-        EventType_EXPIRATIONDATECHANGE,
-        EventType_EXPIRINGCARD,
-        EventType_METEREDUSAGE,
-        EventType_PAYMENTSUCCESS,
-        EventType_PAYMENTSUCCESSRECREATED,
-        EventType_PAYMENTFAILURE,
-        EventType_PAYMENTFAILURERECREATED,
-        EventType_REFUNDFAILURE,
-        EventType_REFUNDSUCCESS,
-        EventType_RENEWALSUCCESS,
-        EventType_RENEWALSUCCESSRECREATED,
-        EventType_RENEWALFAILURE,
-        EventType_SIGNUPSUCCESS,
-        EventType_SIGNUPFAILURE,
-        EventType_STATEMENTCLOSED,
-        EventType_STATEMENTSETTLED,
-        EventType_SUBSCRIPTIONBANKACCOUNTUPDATE,
-        EventType_SUBSCRIPTIONDELETION,
-        EventType_SUBSCRIPTIONPAYPALACCOUNTUPDATE,
-        EventType_SUBSCRIPTIONPRODUCTCHANGE,
-        EventType_SUBSCRIPTIONSTATECHANGE,
-        EventType_TRIALENDNOTICE,
-        EventType_UPGRADEDOWNGRADESUCCESS,
-        EventType_UPGRADEDOWNGRADEFAILURE,
-        EventType_UPCOMINGRENEWALNOTICE,
-        EventType_CUSTOMFIELDVALUECHANGE,
-        EventType_SUBSCRIPTIONPREPAYMENTACCOUNTBALANCECHANGED,
-        EventType_SUBSCRIPTIONSERVICECREDITACCOUNTBALANCECHANGED:
+    case EventKey_PAYMENTSUCCESS,
+        EventKey_PAYMENTFAILURE,
+        EventKey_SIGNUPSUCCESS,
+        EventKey_SIGNUPFAILURE,
+        EventKey_DELAYEDSIGNUPCREATIONSUCCESS,
+        EventKey_DELAYEDSIGNUPCREATIONFAILURE,
+        EventKey_BILLINGDATECHANGE,
+        EventKey_EXPIRATIONDATECHANGE,
+        EventKey_RENEWALSUCCESS,
+        EventKey_RENEWALFAILURE,
+        EventKey_SUBSCRIPTIONSTATECHANGE,
+        EventKey_SUBSCRIPTIONPRODUCTCHANGE,
+        EventKey_PENDINGCANCELLATIONCHANGE,
+        EventKey_EXPIRINGCARD,
+        EventKey_CUSTOMERUPDATE,
+        EventKey_CUSTOMERCREATE,
+        EventKey_CUSTOMERDELETE,
+        EventKey_COMPONENTALLOCATIONCHANGE,
+        EventKey_METEREDUSAGE,
+        EventKey_PREPAIDUSAGE,
+        EventKey_UPGRADEDOWNGRADESUCCESS,
+        EventKey_UPGRADEDOWNGRADEFAILURE,
+        EventKey_STATEMENTCLOSED,
+        EventKey_STATEMENTSETTLED,
+        EventKey_SUBSCRIPTIONCARDUPDATE,
+        EventKey_SUBSCRIPTIONGROUPCARDUPDATE,
+        EventKey_SUBSCRIPTIONBANKACCOUNTUPDATE,
+        EventKey_REFUNDSUCCESS,
+        EventKey_REFUNDFAILURE,
+        EventKey_UPCOMINGRENEWALNOTICE,
+        EventKey_TRIALENDNOTICE,
+        EventKey_DUNNINGSTEPREACHED,
+        EventKey_INVOICEISSUED,
+        EventKey_PREPAIDSUBSCRIPTIONBALANCECHANGED,
+        EventKey_SUBSCRIPTIONGROUPSIGNUPSUCCESS,
+        EventKey_SUBSCRIPTIONGROUPSIGNUPFAILURE,
+        EventKey_DIRECTDEBITPAYMENTPAIDOUT,
+        EventKey_DIRECTDEBITPAYMENTREJECTED,
+        EventKey_DIRECTDEBITPAYMENTPENDING,
+        EventKey_PENDINGPAYMENTCREATED,
+        EventKey_PENDINGPAYMENTFAILED,
+        EventKey_PENDINGPAYMENTCOMPLETED,
+        EventKey_PROFORMAINVOICEISSUED,
+        EventKey_SUBSCRIPTIONPREPAYMENTACCOUNTBALANCECHANGED,
+        EventKey_SUBSCRIPTIONSERVICECREDITACCOUNTBALANCECHANGED,
+        EventKey_CUSTOMFIELDVALUECHANGE,
+        EventKey_ITEMPRICEPOINTCHANGED,
+        EventKey_RENEWALSUCCESSRECREATED,
+        EventKey_RENEWALFAILURERECREATED,
+        EventKey_PAYMENTSUCCESSRECREATED,
+        EventKey_PAYMENTFAILURERECREATED,
+        EventKey_SUBSCRIPTIONDELETION,
+        EventKey_SUBSCRIPTIONGROUPBANKACCOUNTUPDATE,
+        EventKey_SUBSCRIPTIONPAYPALACCOUNTUPDATE,
+        EventKey_SUBSCRIPTIONGROUPPAYPALACCOUNTUPDATE,
+        EventKey_SUBSCRIPTIONCUSTOMERCHANGE,
+        EventKey_ACCOUNTTRANSACTIONCHANGED,
+        EventKey_GOCARDLESSPAYMENTPAIDOUT,
+        EventKey_GOCARDLESSPAYMENTREJECTED,
+        EventKey_GOCARDLESSPAYMENTPENDING,
+        EventKey_STRIPEDIRECTDEBITPAYMENTPAIDOUT,
+        EventKey_STRIPEDIRECTDEBITPAYMENTREJECTED,
+        EventKey_STRIPEDIRECTDEBITPAYMENTPENDING,
+        EventKey_MAXIOPAYMENTSDIRECTDEBITPAYMENTPAIDOUT,
+        EventKey_MAXIOPAYMENTSDIRECTDEBITPAYMENTREJECTED,
+        EventKey_MAXIOPAYMENTSDIRECTDEBITPAYMENTPENDING,
+        EventKey_INVOICEINCOLLECTIONSCANCELED,
+        EventKey_SUBSCRIPTIONADDEDTOGROUP,
+        EventKey_SUBSCRIPTIONREMOVEDFROMGROUP,
+        EventKey_CHARGEBACKOPENED,
+        EventKey_CHARGEBACKLOST,
+        EventKey_CHARGEBACKACCEPTED,
+        EventKey_CHARGEBACKCLOSED,
+        EventKey_CHARGEBACKWON,
+        EventKey_PAYMENTCOLLECTIONMETHODCHANGED,
+        EventKey_COMPONENTBILLINGDATECHANGED,
+        EventKey_SUBSCRIPTIONTERMRENEWALSCHEDULED,
+        EventKey_SUBSCRIPTIONTERMRENEWALPENDING,
+        EventKey_SUBSCRIPTIONTERMRENEWALACTIVATED,
+        EventKey_SUBSCRIPTIONTERMRENEWALREMOVED:
         return true
     }
     return false
 }
 
 const (
-    EventType_ACCOUNTTRANSACTIONCHANGED                      EventType = "account_transaction_changed"
-    EventType_BILLINGDATECHANGE                              EventType = "billing_date_change"
-    EventType_COMPONENTALLOCATIONCHANGE                      EventType = "component_allocation_change"
-    EventType_CUSTOMERUPDATE                                 EventType = "customer_update"
-    EventType_CUSTOMERCREATE                                 EventType = "customer_create"
-    EventType_DUNNINGSTEPREACHED                             EventType = "dunning_step_reached"
-    EventType_EXPIRATIONDATECHANGE                           EventType = "expiration_date_change"
-    EventType_EXPIRINGCARD                                   EventType = "expiring_card"
-    EventType_METEREDUSAGE                                   EventType = "metered_usage"
-    EventType_PAYMENTSUCCESS                                 EventType = "payment_success"
-    EventType_PAYMENTSUCCESSRECREATED                        EventType = "payment_success_recreated"
-    EventType_PAYMENTFAILURE                                 EventType = "payment_failure"
-    EventType_PAYMENTFAILURERECREATED                        EventType = "payment_failure_recreated"
-    EventType_REFUNDFAILURE                                  EventType = "refund_failure"
-    EventType_REFUNDSUCCESS                                  EventType = "refund_success"
-    EventType_RENEWALSUCCESS                                 EventType = "renewal_success"
-    EventType_RENEWALSUCCESSRECREATED                        EventType = "renewal_success_recreated"
-    EventType_RENEWALFAILURE                                 EventType = "renewal_failure"
-    EventType_SIGNUPSUCCESS                                  EventType = "signup_success"
-    EventType_SIGNUPFAILURE                                  EventType = "signup_failure"
-    EventType_STATEMENTCLOSED                                EventType = "statement_closed"
-    EventType_STATEMENTSETTLED                               EventType = "statement_settled"
-    EventType_SUBSCRIPTIONBANKACCOUNTUPDATE                  EventType = "subscription_bank_account_update"
-    EventType_SUBSCRIPTIONDELETION                           EventType = "subscription_deletion"
-    EventType_SUBSCRIPTIONPAYPALACCOUNTUPDATE                EventType = "subscription_paypal_account_update"
-    EventType_SUBSCRIPTIONPRODUCTCHANGE                      EventType = "subscription_product_change"
-    EventType_SUBSCRIPTIONSTATECHANGE                        EventType = "subscription_state_change"
-    EventType_TRIALENDNOTICE                                 EventType = "trial_end_notice"
-    EventType_UPGRADEDOWNGRADESUCCESS                        EventType = "upgrade_downgrade_success"
-    EventType_UPGRADEDOWNGRADEFAILURE                        EventType = "upgrade_downgrade_failure"
-    EventType_UPCOMINGRENEWALNOTICE                          EventType = "upcoming_renewal_notice"
-    EventType_CUSTOMFIELDVALUECHANGE                         EventType = "custom_field_value_change"
-    EventType_SUBSCRIPTIONPREPAYMENTACCOUNTBALANCECHANGED    EventType = "subscription_prepayment_account_balance_changed"
-    EventType_SUBSCRIPTIONSERVICECREDITACCOUNTBALANCECHANGED EventType = "subscription_service_credit_account_balance_changed"
+    EventKey_PAYMENTSUCCESS                                 EventKey = "payment_success"
+    EventKey_PAYMENTFAILURE                                 EventKey = "payment_failure"
+    EventKey_SIGNUPSUCCESS                                  EventKey = "signup_success"
+    EventKey_SIGNUPFAILURE                                  EventKey = "signup_failure"
+    EventKey_DELAYEDSIGNUPCREATIONSUCCESS                   EventKey = "delayed_signup_creation_success"
+    EventKey_DELAYEDSIGNUPCREATIONFAILURE                   EventKey = "delayed_signup_creation_failure"
+    EventKey_BILLINGDATECHANGE                              EventKey = "billing_date_change"
+    EventKey_EXPIRATIONDATECHANGE                           EventKey = "expiration_date_change"
+    EventKey_RENEWALSUCCESS                                 EventKey = "renewal_success"
+    EventKey_RENEWALFAILURE                                 EventKey = "renewal_failure"
+    EventKey_SUBSCRIPTIONSTATECHANGE                        EventKey = "subscription_state_change"
+    EventKey_SUBSCRIPTIONPRODUCTCHANGE                      EventKey = "subscription_product_change"
+    EventKey_PENDINGCANCELLATIONCHANGE                      EventKey = "pending_cancellation_change"
+    EventKey_EXPIRINGCARD                                   EventKey = "expiring_card"
+    EventKey_CUSTOMERUPDATE                                 EventKey = "customer_update"
+    EventKey_CUSTOMERCREATE                                 EventKey = "customer_create"
+    EventKey_CUSTOMERDELETE                                 EventKey = "customer_delete"
+    EventKey_COMPONENTALLOCATIONCHANGE                      EventKey = "component_allocation_change"
+    EventKey_METEREDUSAGE                                   EventKey = "metered_usage"
+    EventKey_PREPAIDUSAGE                                   EventKey = "prepaid_usage"
+    EventKey_UPGRADEDOWNGRADESUCCESS                        EventKey = "upgrade_downgrade_success"
+    EventKey_UPGRADEDOWNGRADEFAILURE                        EventKey = "upgrade_downgrade_failure"
+    EventKey_STATEMENTCLOSED                                EventKey = "statement_closed"
+    EventKey_STATEMENTSETTLED                               EventKey = "statement_settled"
+    EventKey_SUBSCRIPTIONCARDUPDATE                         EventKey = "subscription_card_update"
+    EventKey_SUBSCRIPTIONGROUPCARDUPDATE                    EventKey = "subscription_group_card_update"
+    EventKey_SUBSCRIPTIONBANKACCOUNTUPDATE                  EventKey = "subscription_bank_account_update"
+    EventKey_REFUNDSUCCESS                                  EventKey = "refund_success"
+    EventKey_REFUNDFAILURE                                  EventKey = "refund_failure"
+    EventKey_UPCOMINGRENEWALNOTICE                          EventKey = "upcoming_renewal_notice"
+    EventKey_TRIALENDNOTICE                                 EventKey = "trial_end_notice"
+    EventKey_DUNNINGSTEPREACHED                             EventKey = "dunning_step_reached"
+    EventKey_INVOICEISSUED                                  EventKey = "invoice_issued"
+    EventKey_PREPAIDSUBSCRIPTIONBALANCECHANGED              EventKey = "prepaid_subscription_balance_changed"
+    EventKey_SUBSCRIPTIONGROUPSIGNUPSUCCESS                 EventKey = "subscription_group_signup_success"
+    EventKey_SUBSCRIPTIONGROUPSIGNUPFAILURE                 EventKey = "subscription_group_signup_failure"
+    EventKey_DIRECTDEBITPAYMENTPAIDOUT                      EventKey = "direct_debit_payment_paid_out"
+    EventKey_DIRECTDEBITPAYMENTREJECTED                     EventKey = "direct_debit_payment_rejected"
+    EventKey_DIRECTDEBITPAYMENTPENDING                      EventKey = "direct_debit_payment_pending"
+    EventKey_PENDINGPAYMENTCREATED                          EventKey = "pending_payment_created"
+    EventKey_PENDINGPAYMENTFAILED                           EventKey = "pending_payment_failed"
+    EventKey_PENDINGPAYMENTCOMPLETED                        EventKey = "pending_payment_completed"
+    EventKey_PROFORMAINVOICEISSUED                          EventKey = "proforma_invoice_issued"
+    EventKey_SUBSCRIPTIONPREPAYMENTACCOUNTBALANCECHANGED    EventKey = "subscription_prepayment_account_balance_changed"
+    EventKey_SUBSCRIPTIONSERVICECREDITACCOUNTBALANCECHANGED EventKey = "subscription_service_credit_account_balance_changed"
+    EventKey_CUSTOMFIELDVALUECHANGE                         EventKey = "custom_field_value_change"
+    EventKey_ITEMPRICEPOINTCHANGED                          EventKey = "item_price_point_changed"
+    EventKey_RENEWALSUCCESSRECREATED                        EventKey = "renewal_success_recreated"
+    EventKey_RENEWALFAILURERECREATED                        EventKey = "renewal_failure_recreated"
+    EventKey_PAYMENTSUCCESSRECREATED                        EventKey = "payment_success_recreated"
+    EventKey_PAYMENTFAILURERECREATED                        EventKey = "payment_failure_recreated"
+    EventKey_SUBSCRIPTIONDELETION                           EventKey = "subscription_deletion"
+    EventKey_SUBSCRIPTIONGROUPBANKACCOUNTUPDATE             EventKey = "subscription_group_bank_account_update"
+    EventKey_SUBSCRIPTIONPAYPALACCOUNTUPDATE                EventKey = "subscription_paypal_account_update"
+    EventKey_SUBSCRIPTIONGROUPPAYPALACCOUNTUPDATE           EventKey = "subscription_group_paypal_account_update"
+    EventKey_SUBSCRIPTIONCUSTOMERCHANGE                     EventKey = "subscription_customer_change"
+    EventKey_ACCOUNTTRANSACTIONCHANGED                      EventKey = "account_transaction_changed"
+    EventKey_GOCARDLESSPAYMENTPAIDOUT                       EventKey = "go_cardless_payment_paid_out"
+    EventKey_GOCARDLESSPAYMENTREJECTED                      EventKey = "go_cardless_payment_rejected"
+    EventKey_GOCARDLESSPAYMENTPENDING                       EventKey = "go_cardless_payment_pending"
+    EventKey_STRIPEDIRECTDEBITPAYMENTPAIDOUT                EventKey = "stripe_direct_debit_payment_paid_out"
+    EventKey_STRIPEDIRECTDEBITPAYMENTREJECTED               EventKey = "stripe_direct_debit_payment_rejected"
+    EventKey_STRIPEDIRECTDEBITPAYMENTPENDING                EventKey = "stripe_direct_debit_payment_pending"
+    EventKey_MAXIOPAYMENTSDIRECTDEBITPAYMENTPAIDOUT         EventKey = "maxio_payments_direct_debit_payment_paid_out"
+    EventKey_MAXIOPAYMENTSDIRECTDEBITPAYMENTREJECTED        EventKey = "maxio_payments_direct_debit_payment_rejected"
+    EventKey_MAXIOPAYMENTSDIRECTDEBITPAYMENTPENDING         EventKey = "maxio_payments_direct_debit_payment_pending"
+    EventKey_INVOICEINCOLLECTIONSCANCELED                   EventKey = "invoice_in_collections_canceled"
+    EventKey_SUBSCRIPTIONADDEDTOGROUP                       EventKey = "subscription_added_to_group"
+    EventKey_SUBSCRIPTIONREMOVEDFROMGROUP                   EventKey = "subscription_removed_from_group"
+    EventKey_CHARGEBACKOPENED                               EventKey = "chargeback_opened"
+    EventKey_CHARGEBACKLOST                                 EventKey = "chargeback_lost"
+    EventKey_CHARGEBACKACCEPTED                             EventKey = "chargeback_accepted"
+    EventKey_CHARGEBACKCLOSED                               EventKey = "chargeback_closed"
+    EventKey_CHARGEBACKWON                                  EventKey = "chargeback_won"
+    EventKey_PAYMENTCOLLECTIONMETHODCHANGED                 EventKey = "payment_collection_method_changed"
+    EventKey_COMPONENTBILLINGDATECHANGED                    EventKey = "component_billing_date_changed"
+    EventKey_SUBSCRIPTIONTERMRENEWALSCHEDULED               EventKey = "subscription_term_renewal_scheduled"
+    EventKey_SUBSCRIPTIONTERMRENEWALPENDING                 EventKey = "subscription_term_renewal_pending"
+    EventKey_SUBSCRIPTIONTERMRENEWALACTIVATED               EventKey = "subscription_term_renewal_activated"
+    EventKey_SUBSCRIPTIONTERMRENEWALREMOVED                 EventKey = "subscription_term_renewal_removed"
 )
 
 // ExpirationIntervalUnit is a string enum.
@@ -2703,19 +2796,21 @@ func (e InvoiceStatus) isValid() bool {
         InvoiceStatus_PAID,
         InvoiceStatus_PENDING,
         InvoiceStatus_VOIDED,
-        InvoiceStatus_CANCELED:
+        InvoiceStatus_CANCELED,
+        InvoiceStatus_PROCESSING:
         return true
     }
     return false
 }
 
 const (
-    InvoiceStatus_DRAFT    InvoiceStatus = "draft"
-    InvoiceStatus_OPEN     InvoiceStatus = "open"
-    InvoiceStatus_PAID     InvoiceStatus = "paid"
-    InvoiceStatus_PENDING  InvoiceStatus = "pending"
-    InvoiceStatus_VOIDED   InvoiceStatus = "voided"
-    InvoiceStatus_CANCELED InvoiceStatus = "canceled"
+    InvoiceStatus_DRAFT      InvoiceStatus = "draft"
+    InvoiceStatus_OPEN       InvoiceStatus = "open"
+    InvoiceStatus_PAID       InvoiceStatus = "paid"
+    InvoiceStatus_PENDING    InvoiceStatus = "pending"
+    InvoiceStatus_VOIDED     InvoiceStatus = "voided"
+    InvoiceStatus_CANCELED   InvoiceStatus = "canceled"
+    InvoiceStatus_PROCESSING InvoiceStatus = "processing"
 )
 
 // ItemCategory is a string enum.

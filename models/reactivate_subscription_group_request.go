@@ -11,9 +11,9 @@ import (
 
 // ReactivateSubscriptionGroupRequest represents a ReactivateSubscriptionGroupRequest struct.
 type ReactivateSubscriptionGroupRequest struct {
-    Resume               *bool          `json:"resume,omitempty"`
-    ResumeMembers        *bool          `json:"resume_members,omitempty"`
-    AdditionalProperties map[string]any `json:"_"`
+    Resume               *bool                  `json:"resume,omitempty"`
+    ResumeMembers        *bool                  `json:"resume_members,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for ReactivateSubscriptionGroupRequest.
@@ -21,13 +21,17 @@ type ReactivateSubscriptionGroupRequest struct {
 func (r ReactivateSubscriptionGroupRequest) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(r.AdditionalProperties,
+        "resume", "resume_members"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(r.toMap())
 }
 
 // toMap converts the ReactivateSubscriptionGroupRequest object to a map representation for JSON marshaling.
 func (r ReactivateSubscriptionGroupRequest) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, r.AdditionalProperties)
+    MergeAdditionalProperties(structMap, r.AdditionalProperties)
     if r.Resume != nil {
         structMap["resume"] = r.Resume
     }
@@ -45,12 +49,12 @@ func (r *ReactivateSubscriptionGroupRequest) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "resume", "resume_members")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "resume", "resume_members")
     if err != nil {
     	return err
     }
-    
     r.AdditionalProperties = additionalProperties
+    
     r.Resume = temp.Resume
     r.ResumeMembers = temp.ResumeMembers
     return nil

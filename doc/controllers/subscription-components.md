@@ -145,7 +145,7 @@ collectedInput := advancedbilling.ListSubscriptionComponentsInput{
     SubscriptionId:   222,
     DateField:        models.ToPointer(models.SubscriptionListDateField("updated_at")),
     Filter:           models.ToPointer(models.ListSubscriptionComponentsFilter{
-        Currencies:          []string{
+        Currencies:           []string{
             "EUR",
             "USD",
         },
@@ -242,18 +242,18 @@ ctx := context.Background()
 subscriptionId := 222
 
 body := models.BulkComponentsPricePointAssignment{
-    Components: []models.ComponentPricePointAssignment{
+    Components:           []models.ComponentPricePointAssignment{
         models.ComponentPricePointAssignment{
-            ComponentId: models.ToPointer(997),
-            PricePoint:  models.ToPointer(models.ComponentPricePointAssignmentPricePointContainer.FromNumber(1022)),
+            ComponentId:          models.ToPointer(997),
+            PricePoint:           models.ToPointer(models.ComponentPricePointAssignmentPricePointContainer.FromNumber(1022)),
         },
         models.ComponentPricePointAssignment{
-            ComponentId: models.ToPointer(998),
-            PricePoint:  models.ToPointer(models.ComponentPricePointAssignmentPricePointContainer.FromString("wholesale-handle")),
+            ComponentId:          models.ToPointer(998),
+            PricePoint:           models.ToPointer(models.ComponentPricePointAssignmentPricePointContainer.FromString("wholesale-handle")),
         },
         models.ComponentPricePointAssignment{
-            ComponentId: models.ToPointer(999),
-            PricePoint:  models.ToPointer(models.ComponentPricePointAssignmentPricePointContainer.FromString("_default")),
+            ComponentId:          models.ToPointer(999),
+            PricePoint:           models.ToPointer(models.ComponentPricePointAssignmentPricePointContainer.FromString("_default")),
         },
     },
 }
@@ -518,7 +518,7 @@ subscriptionId := 222
 componentId := 222
 
 body := models.CreateAllocationRequest{
-    Allocation: models.CreateAllocation{
+    Allocation:           models.CreateAllocation{
         Quantity:                 float64(5),
         Memo:                     models.ToPointer("Recoding component purchase of Acme Support"),
     },
@@ -1022,8 +1022,8 @@ componentId := 222
 allocationId := 24
 
 body := models.UpdateAllocationExpirationDate{
-    Allocation: models.ToPointer(models.AllocationExpirationDate{
-        ExpiresAt: models.ToPointer(parseTime(time.RFC3339, "2021-05-05T16:00:00", func(err error) { log.Fatalln(err) })),
+    Allocation:           models.ToPointer(models.AllocationExpirationDate{
+        ExpiresAt:            models.ToPointer(parseTime(time.RFC3339, "2021-05-05T16:00:00", func(err error) { log.Fatalln(err) })),
     }),
 }
 
@@ -1091,7 +1091,7 @@ componentId := 222
 allocationId := 24
 
 body := models.CreditSchemeRequest{
-    CreditScheme: models.CreditScheme("none"),
+    CreditScheme:         models.CreditScheme("none"),
 }
 
 resp, err := subscriptionComponentsController.DeletePrepaidUsageAllocation(ctx, subscriptionId, componentId, allocationId, &body)
@@ -1201,10 +1201,10 @@ subscriptionId := 222
 componentId := models.CreateUsageComponentIdContainer.FromNumber(144)
 
 body := models.CreateUsageRequest{
-    Usage: models.CreateUsage{
-        Quantity:        models.ToPointer(float64(1000)),
-        PricePointId:    models.ToPointer("149416"),
-        Memo:            models.ToPointer("My memo"),
+    Usage:                models.CreateUsage{
+        Quantity:             models.ToPointer(float64(1000)),
+        PricePointId:         models.ToPointer("149416"),
+        Memo:                 models.ToPointer("My memo"),
     },
 }
 
@@ -1381,19 +1381,19 @@ subscriptionId := 222
 componentId := 222
 
 body := models.ActivateEventBasedComponent{
-    PricePointId:    models.ToPointer(1),
-    BillingSchedule: models.ToPointer(models.BillingSchedule{
-        InitialBillingAt: models.ToPointer(parseTime(models.DEFAULT_DATE, "2022-01-01", func(err error) { log.Fatalln(err) })),
+    PricePointId:         models.ToPointer(1),
+    BillingSchedule:      models.ToPointer(models.BillingSchedule{
+        InitialBillingAt:     models.ToPointer(parseTime(models.DEFAULT_DATE, "2022-01-01", func(err error) { log.Fatalln(err) })),
     }),
-    CustomPrice:     models.ToPointer(models.ComponentCustomPrice{
-        TaxIncluded:   models.ToPointer(false),
-        PricingScheme: models.ToPointer(models.PricingScheme("per_unit")),
-        Interval:      models.ToPointer(30),
-        IntervalUnit:  models.NewOptional(models.ToPointer(models.IntervalUnit("day"))),
-        Prices:        []models.Price{
+    CustomPrice:          models.ToPointer(models.ComponentCustomPrice{
+        TaxIncluded:          models.ToPointer(false),
+        PricingScheme:        models.ToPointer(models.PricingScheme("per_unit")),
+        Interval:             models.ToPointer(30),
+        IntervalUnit:         models.NewOptional(models.ToPointer(models.IntervalUnit("day"))),
+        Prices:               []models.Price{
             models.Price{
-                StartingQuantity: models.PriceStartingQuantityContainer.FromNumber(1),
-                UnitPrice:        models.PriceUnitPriceContainer.FromString("5.0"),
+                StartingQuantity:     models.PriceStartingQuantityContainer.FromNumber(1),
+                UnitPrice:            models.PriceUnitPriceContainer.FromString("5.0"),
             },
         },
     }),
@@ -1475,7 +1475,6 @@ https://events.chargify.com/my-site-subdomain/events/my-stream-api-handle
 ```go
 RecordEvent(
     ctx context.Context,
-    subdomain string,
     apiHandle string,
     storeUid *string,
     body *models.EBBEvent) (
@@ -1487,7 +1486,6 @@ RecordEvent(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `subdomain` | `string` | Template, Required | Your site's subdomain |
 | `apiHandle` | `string` | Template, Required | Identifies the Stream for which the event should be published. |
 | `storeUid` | `*string` | Query, Optional | If you've attached your own Keen project as an Advanced Billing event data-store, use this parameter to indicate the data-store. |
 | `body` | [`*models.EBBEvent`](../../doc/models/ebb-event.md) | Body, Optional | - |
@@ -1501,20 +1499,18 @@ RecordEvent(
 ```go
 ctx := context.Background()
 
-subdomain := "subdomain4"
-
 apiHandle := "api_handle6"
 
 
 
 body := models.EBBEvent{
-    Chargify: models.ToPointer(models.ChargifyEBB{
+    Chargify:             models.ToPointer(models.ChargifyEBB{
         Timestamp:             models.ToPointer(parseTime(time.RFC3339, "2020-02-27T17:45:50-05:00", func(err error) { log.Fatalln(err) })),
         SubscriptionId:        models.ToPointer(1),
     }),
 }
 
-resp, err := subscriptionComponentsController.RecordEvent(ctx, subdomain, apiHandle, nil, &body)
+resp, err := subscriptionComponentsController.RecordEvent(ctx, apiHandle, nil, &body)
 if err != nil {
     log.Fatalln(err)
 } else {
@@ -1534,7 +1530,6 @@ A maximum of 1000 events can be published in a single request. A 422 will be ret
 ```go
 BulkRecordEvents(
     ctx context.Context,
-    subdomain string,
     apiHandle string,
     storeUid *string,
     body []models.EBBEvent) (
@@ -1546,7 +1541,6 @@ BulkRecordEvents(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `subdomain` | `string` | Template, Required | Your site's subdomain |
 | `apiHandle` | `string` | Template, Required | Identifies the Stream for which the events should be published. |
 | `storeUid` | `*string` | Query, Optional | If you've attached your own Keen project as an Advanced Billing event data-store, use this parameter to indicate the data-store. |
 | `body` | [`[]models.EBBEvent`](../../doc/models/ebb-event.md) | Body, Optional | - |
@@ -1560,22 +1554,20 @@ BulkRecordEvents(
 ```go
 ctx := context.Background()
 
-subdomain := "subdomain4"
-
 apiHandle := "api_handle6"
 
 
 
 body := []models.EBBEvent{
     models.EBBEvent{
-        Chargify: models.ToPointer(models.ChargifyEBB{
+        Chargify:             models.ToPointer(models.ChargifyEBB{
             Timestamp:             models.ToPointer(parseTime(time.RFC3339, "2020-02-27T17:45:50-05:00", func(err error) { log.Fatalln(err) })),
             SubscriptionId:        models.ToPointer(1),
         }),
     },
 }
 
-resp, err := subscriptionComponentsController.BulkRecordEvents(ctx, subdomain, apiHandle, nil, body)
+resp, err := subscriptionComponentsController.BulkRecordEvents(ctx, apiHandle, nil, body)
 if err != nil {
     log.Fatalln(err)
 } else {
@@ -1629,7 +1621,7 @@ collectedInput := advancedbilling.ListSubscriptionComponentsForSiteInput{
     PerPage:          models.ToPointer(50),
     Sort:             models.ToPointer(models.ListSubscriptionComponentsSort("updated_at")),
     Filter:           models.ToPointer(models.ListSubscriptionComponentsForSiteFilter{
-        Currencies:          []string{
+        Currencies:           []string{
             "EUR",
             "USD",
         },

@@ -14,22 +14,22 @@ import (
 // ListCouponsFilter represents a ListCouponsFilter struct.
 type ListCouponsFilter struct {
     // The type of filter you would like to apply to your search. Use in query `filter[date_field]=created_at`.
-    DateField            *BasicDateField `json:"date_field,omitempty"`
+    DateField            *BasicDateField        `json:"date_field,omitempty"`
     // The start date (format YYYY-MM-DD) with which to filter the date_field. Returns coupons with a timestamp at or after midnight (12:00:00 AM) in your site’s time zone on the date specified. Use in query `filter[start_date]=2011-12-17`.
-    StartDate            *time.Time      `json:"start_date,omitempty"`
+    StartDate            *time.Time             `json:"start_date,omitempty"`
     // The end date (format YYYY-MM-DD) with which to filter the date_field. Returns coupons with a timestamp up to and including 11:59:59PM in your site’s time zone on the date specified. Use in query `filter[end_date]=2011-12-15`.
-    EndDate              *time.Time      `json:"end_date,omitempty"`
+    EndDate              *time.Time             `json:"end_date,omitempty"`
     // The start date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns coupons with a timestamp at or after exact time provided in query. You can specify timezone in query - otherwise your site's time zone will be used. If provided, this parameter will be used instead of start_date. Use in query `filter[start_datetime]=2011-12-19T10:15:30+01:00`.
-    StartDatetime        *time.Time      `json:"start_datetime,omitempty"`
+    StartDatetime        *time.Time             `json:"start_datetime,omitempty"`
     // The end date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns coupons with a timestamp at or before exact time provided in query. You can specify timezone in query - otherwise your site's time zone will be used. If provided, this parameter will be used instead of end_date. Use in query `filter[end_datetime]=2011-12-1T10:15:30+01:00`.
-    EndDatetime          *time.Time      `json:"end_datetime,omitempty"`
+    EndDatetime          *time.Time             `json:"end_datetime,omitempty"`
     // Allows fetching coupons with matching id based on provided values. Use in query `filter[ids]=1,2,3`.
-    Ids                  []int           `json:"ids,omitempty"`
+    Ids                  []int                  `json:"ids,omitempty"`
     // Allows fetching coupons with matching codes based on provided values. Use in query `filter[codes]=free,free_trial`.
-    Codes                []string        `json:"codes,omitempty"`
+    Codes                []string               `json:"codes,omitempty"`
     // Allows fetching coupons with matching use_site_exchange_rate based on provided value. Use in query `filter[use_site_exchange_rate]=true`.
-    UseSiteExchangeRate  *bool           `json:"use_site_exchange_rate,omitempty"`
-    AdditionalProperties map[string]any  `json:"_"`
+    UseSiteExchangeRate  *bool                  `json:"use_site_exchange_rate,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for ListCouponsFilter.
@@ -37,13 +37,17 @@ type ListCouponsFilter struct {
 func (l ListCouponsFilter) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(l.AdditionalProperties,
+        "date_field", "start_date", "end_date", "start_datetime", "end_datetime", "ids", "codes", "use_site_exchange_rate"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(l.toMap())
 }
 
 // toMap converts the ListCouponsFilter object to a map representation for JSON marshaling.
 func (l ListCouponsFilter) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, l.AdditionalProperties)
+    MergeAdditionalProperties(structMap, l.AdditionalProperties)
     if l.DateField != nil {
         structMap["date_field"] = l.DateField
     }
@@ -79,12 +83,12 @@ func (l *ListCouponsFilter) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "date_field", "start_date", "end_date", "start_datetime", "end_datetime", "ids", "codes", "use_site_exchange_rate")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "date_field", "start_date", "end_date", "start_datetime", "end_datetime", "ids", "codes", "use_site_exchange_rate")
     if err != nil {
     	return err
     }
-    
     l.AdditionalProperties = additionalProperties
+    
     l.DateField = temp.DateField
     if temp.StartDate != nil {
         StartDateVal, err := time.Parse(DEFAULT_DATE, *temp.StartDate)

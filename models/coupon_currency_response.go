@@ -11,8 +11,8 @@ import (
 
 // CouponCurrencyResponse represents a CouponCurrencyResponse struct.
 type CouponCurrencyResponse struct {
-    CurrencyPrices       []CouponCurrency `json:"currency_prices,omitempty"`
-    AdditionalProperties map[string]any   `json:"_"`
+    CurrencyPrices       []CouponCurrency       `json:"currency_prices,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for CouponCurrencyResponse.
@@ -20,13 +20,17 @@ type CouponCurrencyResponse struct {
 func (c CouponCurrencyResponse) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(c.AdditionalProperties,
+        "currency_prices"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(c.toMap())
 }
 
 // toMap converts the CouponCurrencyResponse object to a map representation for JSON marshaling.
 func (c CouponCurrencyResponse) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, c.AdditionalProperties)
+    MergeAdditionalProperties(structMap, c.AdditionalProperties)
     if c.CurrencyPrices != nil {
         structMap["currency_prices"] = c.CurrencyPrices
     }
@@ -41,12 +45,12 @@ func (c *CouponCurrencyResponse) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "currency_prices")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "currency_prices")
     if err != nil {
     	return err
     }
-    
     c.AdditionalProperties = additionalProperties
+    
     c.CurrencyPrices = temp.CurrencyPrices
     return nil
 }

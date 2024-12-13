@@ -20,7 +20,7 @@ type ComponentAllocationChange struct {
     Memo                 string                                      `json:"memo"`
     AllocationId         int                                         `json:"allocation_id"`
     AllocatedQuantity    *ComponentAllocationChangeAllocatedQuantity `json:"allocated_quantity,omitempty"`
-    AdditionalProperties map[string]any                              `json:"_"`
+    AdditionalProperties map[string]interface{}                      `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for ComponentAllocationChange.
@@ -28,13 +28,17 @@ type ComponentAllocationChange struct {
 func (c ComponentAllocationChange) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(c.AdditionalProperties,
+        "previous_allocation", "new_allocation", "component_id", "component_handle", "memo", "allocation_id", "allocated_quantity"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(c.toMap())
 }
 
 // toMap converts the ComponentAllocationChange object to a map representation for JSON marshaling.
 func (c ComponentAllocationChange) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, c.AdditionalProperties)
+    MergeAdditionalProperties(structMap, c.AdditionalProperties)
     structMap["previous_allocation"] = c.PreviousAllocation
     structMap["new_allocation"] = c.NewAllocation
     structMap["component_id"] = c.ComponentId
@@ -59,12 +63,12 @@ func (c *ComponentAllocationChange) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "previous_allocation", "new_allocation", "component_id", "component_handle", "memo", "allocation_id", "allocated_quantity")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "previous_allocation", "new_allocation", "component_id", "component_handle", "memo", "allocation_id", "allocated_quantity")
     if err != nil {
     	return err
     }
-    
     c.AdditionalProperties = additionalProperties
+    
     c.PreviousAllocation = *temp.PreviousAllocation
     c.NewAllocation = *temp.NewAllocation
     c.ComponentId = *temp.ComponentId

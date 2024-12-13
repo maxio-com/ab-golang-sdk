@@ -14,7 +14,7 @@ import (
 // UpdateSubscriptionGroupRequest represents a UpdateSubscriptionGroupRequest struct.
 type UpdateSubscriptionGroupRequest struct {
     SubscriptionGroup    UpdateSubscriptionGroup `json:"subscription_group"`
-    AdditionalProperties map[string]any          `json:"_"`
+    AdditionalProperties map[string]interface{}  `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for UpdateSubscriptionGroupRequest.
@@ -22,13 +22,17 @@ type UpdateSubscriptionGroupRequest struct {
 func (u UpdateSubscriptionGroupRequest) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(u.AdditionalProperties,
+        "subscription_group"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(u.toMap())
 }
 
 // toMap converts the UpdateSubscriptionGroupRequest object to a map representation for JSON marshaling.
 func (u UpdateSubscriptionGroupRequest) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, u.AdditionalProperties)
+    MergeAdditionalProperties(structMap, u.AdditionalProperties)
     structMap["subscription_group"] = u.SubscriptionGroup.toMap()
     return structMap
 }
@@ -45,12 +49,12 @@ func (u *UpdateSubscriptionGroupRequest) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "subscription_group")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "subscription_group")
     if err != nil {
     	return err
     }
-    
     u.AdditionalProperties = additionalProperties
+    
     u.SubscriptionGroup = *temp.SubscriptionGroup
     return nil
 }

@@ -13,14 +13,14 @@ import (
 
 // CustomFieldValueChange represents a CustomFieldValueChange struct.
 type CustomFieldValueChange struct {
-    EventType            string         `json:"event_type"`
-    MetafieldName        string         `json:"metafield_name"`
-    MetafieldId          int            `json:"metafield_id"`
-    OldValue             *string        `json:"old_value"`
-    NewValue             *string        `json:"new_value"`
-    ResourceType         string         `json:"resource_type"`
-    ResourceId           int            `json:"resource_id"`
-    AdditionalProperties map[string]any `json:"_"`
+    EventType            string                 `json:"event_type"`
+    MetafieldName        string                 `json:"metafield_name"`
+    MetafieldId          int                    `json:"metafield_id"`
+    OldValue             *string                `json:"old_value"`
+    NewValue             *string                `json:"new_value"`
+    ResourceType         string                 `json:"resource_type"`
+    ResourceId           int                    `json:"resource_id"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for CustomFieldValueChange.
@@ -28,13 +28,17 @@ type CustomFieldValueChange struct {
 func (c CustomFieldValueChange) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(c.AdditionalProperties,
+        "event_type", "metafield_name", "metafield_id", "old_value", "new_value", "resource_type", "resource_id"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(c.toMap())
 }
 
 // toMap converts the CustomFieldValueChange object to a map representation for JSON marshaling.
 func (c CustomFieldValueChange) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, c.AdditionalProperties)
+    MergeAdditionalProperties(structMap, c.AdditionalProperties)
     structMap["event_type"] = c.EventType
     structMap["metafield_name"] = c.MetafieldName
     structMap["metafield_id"] = c.MetafieldId
@@ -65,12 +69,12 @@ func (c *CustomFieldValueChange) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "event_type", "metafield_name", "metafield_id", "old_value", "new_value", "resource_type", "resource_id")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "event_type", "metafield_name", "metafield_id", "old_value", "new_value", "resource_type", "resource_id")
     if err != nil {
     	return err
     }
-    
     c.AdditionalProperties = additionalProperties
+    
     c.EventType = *temp.EventType
     c.MetafieldName = *temp.MetafieldName
     c.MetafieldId = *temp.MetafieldId

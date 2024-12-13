@@ -11,8 +11,8 @@ import (
 
 // ReferralValidationResponse represents a ReferralValidationResponse struct.
 type ReferralValidationResponse struct {
-    ReferralCode         *ReferralCode  `json:"referral_code,omitempty"`
-    AdditionalProperties map[string]any `json:"_"`
+    ReferralCode         *ReferralCode          `json:"referral_code,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for ReferralValidationResponse.
@@ -20,13 +20,17 @@ type ReferralValidationResponse struct {
 func (r ReferralValidationResponse) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(r.AdditionalProperties,
+        "referral_code"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(r.toMap())
 }
 
 // toMap converts the ReferralValidationResponse object to a map representation for JSON marshaling.
 func (r ReferralValidationResponse) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, r.AdditionalProperties)
+    MergeAdditionalProperties(structMap, r.AdditionalProperties)
     if r.ReferralCode != nil {
         structMap["referral_code"] = r.ReferralCode.toMap()
     }
@@ -41,12 +45,12 @@ func (r *ReferralValidationResponse) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "referral_code")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "referral_code")
     if err != nil {
     	return err
     }
-    
     r.AdditionalProperties = additionalProperties
+    
     r.ReferralCode = temp.ReferralCode
     return nil
 }

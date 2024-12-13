@@ -57,7 +57,7 @@ SignupWithSubscriptionGroup(
 ctx := context.Background()
 
 body := models.SubscriptionGroupSignupRequest{
-    SubscriptionGroup: models.SubscriptionGroupSignup{
+    SubscriptionGroup:    models.SubscriptionGroupSignup{
         PaymentProfileId:        models.ToPointer(123),
         PayerId:                 models.ToPointer(123),
         Subscriptions:           []models.SubscriptionGroupSignupItem{
@@ -120,9 +120,9 @@ CreateSubscriptionGroup(
 ctx := context.Background()
 
 body := models.CreateSubscriptionGroupRequest{
-    SubscriptionGroup: models.CreateSubscriptionGroup{
-        SubscriptionId: 1,
-        MemberIds:      []int{
+    SubscriptionGroup:    models.CreateSubscriptionGroup{
+        SubscriptionId:       1,
+        MemberIds:            []int{
             2,
             3,
             4,
@@ -384,8 +384,8 @@ ctx := context.Background()
 uid := "uid0"
 
 body := models.UpdateSubscriptionGroupRequest{
-    SubscriptionGroup: models.UpdateSubscriptionGroup{
-        MemberIds: []int{
+    SubscriptionGroup:    models.UpdateSubscriptionGroup{
+        MemberIds:            []int{
             1,
             2,
             3,
@@ -621,17 +621,17 @@ ctx := context.Background()
 subscriptionId := 222
 
 body := models.AddSubscriptionToAGroup{
-    Group: models.ToPointer(models.AddSubscriptionToAGroupGroupContainer.FromGroupSettings(models.GroupSettings{
-        Target:  models.GroupTarget{
-            Type: models.GroupTargetType("subscription"),
-            Id:   models.ToPointer(32987),
+    Group:                models.ToPointer(models.GroupSettings{
+        Target:               models.GroupTarget{
+            Type:                 models.GroupTargetType("subscription"),
+            Id:                   models.ToPointer(32987),
         },
-        Billing: models.ToPointer(models.GroupBilling{
-            Accrue:    models.ToPointer(true),
-            AlignDate: models.ToPointer(true),
-            Prorate:   models.ToPointer(true),
+        Billing:              models.ToPointer(models.GroupBilling{
+            Accrue:               models.ToPointer(true),
+            AlignDate:            models.ToPointer(true),
+            Prorate:              models.ToPointer(true),
         }),
-    })),
+    }),
 }
 
 apiResponse, err := subscriptionGroupsController.AddSubscriptionToGroup(ctx, subscriptionId, &body)

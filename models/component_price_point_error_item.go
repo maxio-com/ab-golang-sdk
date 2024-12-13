@@ -11,10 +11,10 @@ import (
 
 // ComponentPricePointErrorItem represents a ComponentPricePointErrorItem struct.
 type ComponentPricePointErrorItem struct {
-    ComponentId          *int           `json:"component_id,omitempty"`
-    Message              *string        `json:"message,omitempty"`
-    PricePoint           *int           `json:"price_point,omitempty"`
-    AdditionalProperties map[string]any `json:"_"`
+    ComponentId          *int                   `json:"component_id,omitempty"`
+    Message              *string                `json:"message,omitempty"`
+    PricePoint           *int                   `json:"price_point,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for ComponentPricePointErrorItem.
@@ -22,13 +22,17 @@ type ComponentPricePointErrorItem struct {
 func (c ComponentPricePointErrorItem) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(c.AdditionalProperties,
+        "component_id", "message", "price_point"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(c.toMap())
 }
 
 // toMap converts the ComponentPricePointErrorItem object to a map representation for JSON marshaling.
 func (c ComponentPricePointErrorItem) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, c.AdditionalProperties)
+    MergeAdditionalProperties(structMap, c.AdditionalProperties)
     if c.ComponentId != nil {
         structMap["component_id"] = c.ComponentId
     }
@@ -49,12 +53,12 @@ func (c *ComponentPricePointErrorItem) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "component_id", "message", "price_point")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "component_id", "message", "price_point")
     if err != nil {
     	return err
     }
-    
     c.AdditionalProperties = additionalProperties
+    
     c.ComponentId = temp.ComponentId
     c.Message = temp.Message
     c.PricePoint = temp.PricePoint

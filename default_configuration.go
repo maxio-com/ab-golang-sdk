@@ -36,9 +36,8 @@ func DefaultHttpConfiguration() HttpConfiguration {
 // DefaultConfiguration returns the default Configuration.
 func DefaultConfiguration() Configuration {
     return newConfiguration(
-        WithEnvironment(PRODUCTION),
-        WithSubdomain("subdomain"),
-        WithDomain("chargify.com"),
+        WithEnvironment(US),
+        WithSite("subdomain"),
         WithHttpConfiguration(DefaultHttpConfiguration()),
     )
 }

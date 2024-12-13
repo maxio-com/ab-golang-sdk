@@ -33,7 +33,7 @@ type SubscriptionGroupCreditCard struct {
     CustomerVaultToken   *string                                     `json:"customer_vault_token,omitempty"`
     Cvv                  *string                                     `json:"cvv,omitempty"`
     PaymentType          *string                                     `json:"payment_type,omitempty"`
-    AdditionalProperties map[string]any                              `json:"_"`
+    AdditionalProperties map[string]interface{}                      `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for SubscriptionGroupCreditCard.
@@ -41,13 +41,17 @@ type SubscriptionGroupCreditCard struct {
 func (s SubscriptionGroupCreditCard) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(s.AdditionalProperties,
+        "full_number", "expiration_month", "expiration_year", "chargify_token", "vault_token", "current_vault", "gateway_handle", "first_name", "last_name", "billing_address", "billing_address_2", "billing_city", "billing_state", "billing_zip", "billing_country", "last_four", "card_type", "customer_vault_token", "cvv", "payment_type"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(s.toMap())
 }
 
 // toMap converts the SubscriptionGroupCreditCard object to a map representation for JSON marshaling.
 func (s SubscriptionGroupCreditCard) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, s.AdditionalProperties)
+    MergeAdditionalProperties(structMap, s.AdditionalProperties)
     if s.FullNumber != nil {
         structMap["full_number"] = s.FullNumber.toMap()
     }
@@ -119,12 +123,12 @@ func (s *SubscriptionGroupCreditCard) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "full_number", "expiration_month", "expiration_year", "chargify_token", "vault_token", "current_vault", "gateway_handle", "first_name", "last_name", "billing_address", "billing_address_2", "billing_city", "billing_state", "billing_zip", "billing_country", "last_four", "card_type", "customer_vault_token", "cvv", "payment_type")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "full_number", "expiration_month", "expiration_year", "chargify_token", "vault_token", "current_vault", "gateway_handle", "first_name", "last_name", "billing_address", "billing_address_2", "billing_city", "billing_state", "billing_zip", "billing_country", "last_four", "card_type", "customer_vault_token", "cvv", "payment_type")
     if err != nil {
     	return err
     }
-    
     s.AdditionalProperties = additionalProperties
+    
     s.FullNumber = temp.FullNumber
     s.ExpirationMonth = temp.ExpirationMonth
     s.ExpirationYear = temp.ExpirationYear

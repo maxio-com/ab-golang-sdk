@@ -71,6 +71,9 @@ func (c *ComponentPricePointsController) CreateComponentPricePoint(
       fmt.Sprintf("/components/%v/price_points.json", componentId),
     )
     req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorArrayMapResponse},
+    })
     req.Header("Content-Type", "application/json")
     if body != nil {
         req.Json(body)
@@ -159,6 +162,9 @@ func (c *ComponentPricePointsController) BulkCreateComponentPricePoints(
       fmt.Sprintf("/components/%v/price_points/bulk.json", componentId),
     )
     req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
+    })
     req.Header("Content-Type", "application/json")
     if body != nil {
         req.Json(body)
@@ -212,14 +218,15 @@ func (c *ComponentPricePointsController) UpdateComponentPricePoint(
     return models.NewApiResponse(result, resp), err
 }
 
-// ReadComponentPricePoint takes context, componentId, pricePointId as parameters and
+// ReadComponentPricePoint takes context, componentId, pricePointId, currencyPrices as parameters and
 // returns an models.ApiResponse with models.ComponentPricePointResponse data and
 // an error if there was an issue with the request or response.
 // Use this endpoint to retrieve details for a specific component price point. You can achieve this by using either the component price point ID or handle.
 func (c *ComponentPricePointsController) ReadComponentPricePoint(
     ctx context.Context,
     componentId models.ReadComponentPricePointComponentId,
-    pricePointId models.ReadComponentPricePointPricePointId) (
+    pricePointId models.ReadComponentPricePointPricePointId,
+    currencyPrices *bool) (
     models.ApiResponse[models.ComponentPricePointResponse],
     error) {
     req := c.prepareRequest(
@@ -228,6 +235,9 @@ func (c *ComponentPricePointsController) ReadComponentPricePoint(
       fmt.Sprintf("/components/%v/price_points/%v.json", componentId, pricePointId),
     )
     req.Authenticate(NewAuth("BasicAuth"))
+    if currencyPrices != nil {
+        req.QueryParam("currency_prices", *currencyPrices)
+    }
     
     var result models.ComponentPricePointResponse
     decoder, resp, err := req.CallAsJson()
@@ -315,7 +325,7 @@ func (c *ComponentPricePointsController) CreateCurrencyPrices(
     )
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
-        "422": {Message: "Unprocessable Entity (WebDAV)", Unmarshaller: errors.NewErrorArrayMapResponse},
+        "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorArrayMapResponse},
     })
     req.Header("Content-Type", "application/json")
     if body != nil {
@@ -350,7 +360,7 @@ func (c *ComponentPricePointsController) UpdateCurrencyPrices(
     )
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
-        "422": {Message: "Unprocessable Entity (WebDAV)", Unmarshaller: errors.NewErrorArrayMapResponse},
+        "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorArrayMapResponse},
     })
     req.Header("Content-Type", "application/json")
     if body != nil {

@@ -59,10 +59,10 @@ CreateReasonCode(
 ctx := context.Background()
 
 body := models.CreateReasonCodeRequest{
-    ReasonCode: models.CreateReasonCode{
-        Code:        "NOTHANKYOU",
-        Description: "No thank you!",
-        Position:    models.ToPointer(5),
+    ReasonCode:           models.CreateReasonCode{
+        Code:                 "NOTHANKYOU",
+        Description:          "No thank you!",
+        Position:             models.ToPointer(5),
     },
 }
 
@@ -166,6 +166,12 @@ if err != nil {
 ]
 ```
 
+## Errors
+
+| HTTP Status Code | Error Description | Exception Class |
+|  --- | --- | --- |
+| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../../doc/models/error-list-response-exception.md) |
+
 
 # Read Reason Code
 
@@ -261,6 +267,7 @@ if err != nil {
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
 | 404 | Not Found | `ApiError` |
+| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../../doc/models/error-list-response-exception.md) |
 
 
 # Delete Reason Code
@@ -271,7 +278,7 @@ This method gives a merchant the option to delete one reason code from the Churn
 DeleteReasonCode(
     ctx context.Context,
     reasonCodeId int) (
-    models.ApiResponse[models.ReasonCodesJsonResponse],
+    models.ApiResponse[models.OkResponse],
     error)
 ```
 
@@ -283,7 +290,7 @@ DeleteReasonCode(
 
 ## Response Type
 
-[`models.ReasonCodesJsonResponse`](../../doc/models/reason-codes-json-response.md)
+[`models.OkResponse`](../../doc/models/ok-response.md)
 
 ## Example Usage
 

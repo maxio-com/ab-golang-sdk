@@ -26,7 +26,7 @@ type Segment struct {
     CreatedAt                 *time.Time                    `json:"created_at,omitempty"`
     UpdatedAt                 *time.Time                    `json:"updated_at,omitempty"`
     Prices                    []SegmentPrice                `json:"prices,omitempty"`
-    AdditionalProperties      map[string]any                `json:"_"`
+    AdditionalProperties      map[string]interface{}        `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for Segment.
@@ -34,13 +34,17 @@ type Segment struct {
 func (s Segment) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(s.AdditionalProperties,
+        "id", "component_id", "price_point_id", "event_based_billing_metric_id", "pricing_scheme", "segment_property_1_value", "segment_property_2_value", "segment_property_3_value", "segment_property_4_value", "created_at", "updated_at", "prices"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(s.toMap())
 }
 
 // toMap converts the Segment object to a map representation for JSON marshaling.
 func (s Segment) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, s.AdditionalProperties)
+    MergeAdditionalProperties(structMap, s.AdditionalProperties)
     if s.Id != nil {
         structMap["id"] = s.Id
     }
@@ -88,12 +92,12 @@ func (s *Segment) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "id", "component_id", "price_point_id", "event_based_billing_metric_id", "pricing_scheme", "segment_property_1_value", "segment_property_2_value", "segment_property_3_value", "segment_property_4_value", "created_at", "updated_at", "prices")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "id", "component_id", "price_point_id", "event_based_billing_metric_id", "pricing_scheme", "segment_property_1_value", "segment_property_2_value", "segment_property_3_value", "segment_property_4_value", "created_at", "updated_at", "prices")
     if err != nil {
     	return err
     }
-    
     s.AdditionalProperties = additionalProperties
+    
     s.Id = temp.Id
     s.ComponentId = temp.ComponentId
     s.PricePointId = temp.PricePointId

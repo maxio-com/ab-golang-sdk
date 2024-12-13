@@ -17,7 +17,7 @@ type CreateOrUpdateSegmentPrice struct {
     EndingQuantity       *int                                `json:"ending_quantity,omitempty"`
     // The price can contain up to 8 decimal places. i.e. 1.00 or 0.0012 or 0.00000065
     UnitPrice            CreateOrUpdateSegmentPriceUnitPrice `json:"unit_price"`
-    AdditionalProperties map[string]any                      `json:"_"`
+    AdditionalProperties map[string]interface{}              `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreateOrUpdateSegmentPrice.
@@ -25,13 +25,17 @@ type CreateOrUpdateSegmentPrice struct {
 func (c CreateOrUpdateSegmentPrice) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(c.AdditionalProperties,
+        "starting_quantity", "ending_quantity", "unit_price"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(c.toMap())
 }
 
 // toMap converts the CreateOrUpdateSegmentPrice object to a map representation for JSON marshaling.
 func (c CreateOrUpdateSegmentPrice) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, c.AdditionalProperties)
+    MergeAdditionalProperties(structMap, c.AdditionalProperties)
     if c.StartingQuantity != nil {
         structMap["starting_quantity"] = c.StartingQuantity
     }
@@ -54,12 +58,12 @@ func (c *CreateOrUpdateSegmentPrice) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "starting_quantity", "ending_quantity", "unit_price")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "starting_quantity", "ending_quantity", "unit_price")
     if err != nil {
     	return err
     }
-    
     c.AdditionalProperties = additionalProperties
+    
     c.StartingQuantity = temp.StartingQuantity
     c.EndingQuantity = temp.EndingQuantity
     c.UnitPrice = *temp.UnitPrice

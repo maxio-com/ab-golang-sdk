@@ -12,6 +12,7 @@ import (
     "github.com/apimatic/go-core-runtime/utilities"
     "github.com/maxio-com/ab-golang-sdk/errors"
     "github.com/maxio-com/ab-golang-sdk/models"
+    "time"
 )
 
 // ProductFamiliesController represents a controller struct.
@@ -42,13 +43,13 @@ type ListProductsForProductFamilyInput struct {
     // Filter to use for List Products operations
     Filter          *models.ListProductsFilter  
     // The start date (format YYYY-MM-DD) with which to filter the date_field. Returns products with a timestamp at or after midnight (12:00:00 AM) in your site’s time zone on the date specified.
-    StartDate       *string                     
+    StartDate       *time.Time                  
     // The end date (format YYYY-MM-DD) with which to filter the date_field. Returns products with a timestamp up to and including 11:59:59PM in your site’s time zone on the date specified.
-    EndDate         *string                     
+    EndDate         *time.Time                  
     // The start date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns products with a timestamp at or after exact time provided in query. You can specify timezone in query - otherwise your site's time zone will be used. If provided, this parameter will be used instead of start_date.
-    StartDatetime   *string                     
+    StartDatetime   *time.Time                  
     // The end date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns products with a timestamp at or before exact time provided in query. You can specify timezone in query - otherwise your site's time zone will be used. If provided, this parameter will be used instead of end_date.
-    EndDatetime     *string                     
+    EndDatetime     *time.Time                  
     // Include archived products
     IncludeArchived *bool                       
     // Allows including additional data in the response. Use in query `include=prepaid_product_price_point`.
@@ -86,16 +87,16 @@ func (p *ProductFamiliesController) ListProductsForProductFamily(
         req.QueryParam("filter", *input.Filter)
     }
     if input.StartDate != nil {
-        req.QueryParam("start_date", *input.StartDate)
+        req.QueryParam("start_date", input.StartDate.Format(models.DEFAULT_DATE))
     }
     if input.EndDate != nil {
-        req.QueryParam("end_date", *input.EndDate)
+        req.QueryParam("end_date", input.EndDate.Format(models.DEFAULT_DATE))
     }
     if input.StartDatetime != nil {
-        req.QueryParam("start_datetime", *input.StartDatetime)
+        req.QueryParam("start_datetime", input.StartDatetime.Format(time.RFC3339))
     }
     if input.EndDatetime != nil {
-        req.QueryParam("end_datetime", *input.EndDatetime)
+        req.QueryParam("end_datetime", input.EndDatetime.Format(time.RFC3339))
     }
     if input.IncludeArchived != nil {
         req.QueryParam("include_archived", *input.IncludeArchived)
@@ -149,13 +150,13 @@ type ListProductFamiliesInput struct {
     // Use in query: `date_field=created_at`.
     DateField     *models.BasicDateField 
     // The start date (format YYYY-MM-DD) with which to filter the date_field. Returns products with a timestamp at or after midnight (12:00:00 AM) in your site’s time zone on the date specified.
-    StartDate     *string                
+    StartDate     *time.Time             
     // The end date (format YYYY-MM-DD) with which to filter the date_field. Returns products with a timestamp up to and including 11:59:59PM in your site’s time zone on the date specified.
-    EndDate       *string                
+    EndDate       *time.Time             
     // The start date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns products with a timestamp at or after exact time provided in query. You can specify timezone in query - otherwise your site's time zone will be used. If provided, this parameter will be used instead of start_date.
-    StartDatetime *string                
+    StartDatetime *time.Time             
     // The end date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns products with a timestamp at or before exact time provided in query. You can specify timezone in query - otherwise your site's time zone will be used. If provided, this parameter will be used instead of end_date.
-    EndDatetime   *string                
+    EndDatetime   *time.Time             
 }
 
 // ListProductFamilies takes context, dateField, startDate, endDate, startDatetime, endDatetime as parameters and
@@ -173,16 +174,16 @@ func (p *ProductFamiliesController) ListProductFamilies(
         req.QueryParam("date_field", *input.DateField)
     }
     if input.StartDate != nil {
-        req.QueryParam("start_date", *input.StartDate)
+        req.QueryParam("start_date", input.StartDate.Format(models.DEFAULT_DATE))
     }
     if input.EndDate != nil {
-        req.QueryParam("end_date", *input.EndDate)
+        req.QueryParam("end_date", input.EndDate.Format(models.DEFAULT_DATE))
     }
     if input.StartDatetime != nil {
-        req.QueryParam("start_datetime", *input.StartDatetime)
+        req.QueryParam("start_datetime", input.StartDatetime.Format(time.RFC3339))
     }
     if input.EndDatetime != nil {
-        req.QueryParam("end_datetime", *input.EndDatetime)
+        req.QueryParam("end_datetime", input.EndDatetime.Format(time.RFC3339))
     }
     var result []models.ProductFamilyResponse
     decoder, resp, err := req.CallAsJson()

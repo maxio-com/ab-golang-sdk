@@ -12,10 +12,10 @@ import (
 // OriginInvoice represents a OriginInvoice struct.
 type OriginInvoice struct {
     // The UID of the invoice serving as an origin invoice.
-    Uid                  *string        `json:"uid,omitempty"`
+    Uid                  *string                `json:"uid,omitempty"`
     // The number of the invoice serving as an origin invoice.
-    Number               *string        `json:"number,omitempty"`
-    AdditionalProperties map[string]any `json:"_"`
+    Number               *string                `json:"number,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for OriginInvoice.
@@ -23,13 +23,17 @@ type OriginInvoice struct {
 func (o OriginInvoice) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(o.AdditionalProperties,
+        "uid", "number"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(o.toMap())
 }
 
 // toMap converts the OriginInvoice object to a map representation for JSON marshaling.
 func (o OriginInvoice) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, o.AdditionalProperties)
+    MergeAdditionalProperties(structMap, o.AdditionalProperties)
     if o.Uid != nil {
         structMap["uid"] = o.Uid
     }
@@ -47,12 +51,12 @@ func (o *OriginInvoice) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "uid", "number")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "uid", "number")
     if err != nil {
     	return err
     }
-    
     o.AdditionalProperties = additionalProperties
+    
     o.Uid = temp.Uid
     o.Number = temp.Number
     return nil

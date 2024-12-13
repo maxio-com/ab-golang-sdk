@@ -19,19 +19,19 @@
     {
       "id": 50,
       "currency": "currency8",
-      "price": 78,
+      "price": 233.74,
       "coupon_id": 224
     },
     {
       "id": 50,
       "currency": "currency8",
-      "price": 78,
+      "price": 233.74,
       "coupon_id": 224
     },
     {
       "id": 50,
       "currency": "currency8",
-      "price": 78,
+      "price": 233.74,
       "coupon_id": 224
     }
   ]

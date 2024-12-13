@@ -11,11 +11,11 @@ import (
 
 // UpsertPrepaidConfiguration represents a UpsertPrepaidConfiguration struct.
 type UpsertPrepaidConfiguration struct {
-    InitialFundingAmountInCents     *int64         `json:"initial_funding_amount_in_cents,omitempty"`
-    ReplenishToAmountInCents        *int64         `json:"replenish_to_amount_in_cents,omitempty"`
-    AutoReplenish                   *bool          `json:"auto_replenish,omitempty"`
-    ReplenishThresholdAmountInCents *int64         `json:"replenish_threshold_amount_in_cents,omitempty"`
-    AdditionalProperties            map[string]any `json:"_"`
+    InitialFundingAmountInCents     *int64                 `json:"initial_funding_amount_in_cents,omitempty"`
+    ReplenishToAmountInCents        *int64                 `json:"replenish_to_amount_in_cents,omitempty"`
+    AutoReplenish                   *bool                  `json:"auto_replenish,omitempty"`
+    ReplenishThresholdAmountInCents *int64                 `json:"replenish_threshold_amount_in_cents,omitempty"`
+    AdditionalProperties            map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for UpsertPrepaidConfiguration.
@@ -23,13 +23,17 @@ type UpsertPrepaidConfiguration struct {
 func (u UpsertPrepaidConfiguration) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(u.AdditionalProperties,
+        "initial_funding_amount_in_cents", "replenish_to_amount_in_cents", "auto_replenish", "replenish_threshold_amount_in_cents"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(u.toMap())
 }
 
 // toMap converts the UpsertPrepaidConfiguration object to a map representation for JSON marshaling.
 func (u UpsertPrepaidConfiguration) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, u.AdditionalProperties)
+    MergeAdditionalProperties(structMap, u.AdditionalProperties)
     if u.InitialFundingAmountInCents != nil {
         structMap["initial_funding_amount_in_cents"] = u.InitialFundingAmountInCents
     }
@@ -53,12 +57,12 @@ func (u *UpsertPrepaidConfiguration) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "initial_funding_amount_in_cents", "replenish_to_amount_in_cents", "auto_replenish", "replenish_threshold_amount_in_cents")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "initial_funding_amount_in_cents", "replenish_to_amount_in_cents", "auto_replenish", "replenish_threshold_amount_in_cents")
     if err != nil {
     	return err
     }
-    
     u.AdditionalProperties = additionalProperties
+    
     u.InitialFundingAmountInCents = temp.InitialFundingAmountInCents
     u.ReplenishToAmountInCents = temp.ReplenishToAmountInCents
     u.AutoReplenish = temp.AutoReplenish

@@ -12,12 +12,12 @@ import (
 // ListSubscriptionComponentsForSiteFilter represents a ListSubscriptionComponentsForSiteFilter struct.
 type ListSubscriptionComponentsForSiteFilter struct {
     // Allows fetching components allocation with matching currency based on provided values. Use in query `filter[currencies]=USD,EUR`.
-    Currencies           []string            `json:"currencies,omitempty"`
+    Currencies           []string               `json:"currencies,omitempty"`
     // Allows fetching components allocation with matching use_site_exchange_rate based on provided value. Use in query `filter[use_site_exchange_rate]=true`.
-    UseSiteExchangeRate  *bool               `json:"use_site_exchange_rate,omitempty"`
+    UseSiteExchangeRate  *bool                  `json:"use_site_exchange_rate,omitempty"`
     // Nested filter used for List Subscription Components For Site Filter
-    Subscription         *SubscriptionFilter `json:"subscription,omitempty"`
-    AdditionalProperties map[string]any      `json:"_"`
+    Subscription         *SubscriptionFilter    `json:"subscription,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for ListSubscriptionComponentsForSiteFilter.
@@ -25,13 +25,17 @@ type ListSubscriptionComponentsForSiteFilter struct {
 func (l ListSubscriptionComponentsForSiteFilter) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(l.AdditionalProperties,
+        "currencies", "use_site_exchange_rate", "subscription"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(l.toMap())
 }
 
 // toMap converts the ListSubscriptionComponentsForSiteFilter object to a map representation for JSON marshaling.
 func (l ListSubscriptionComponentsForSiteFilter) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, l.AdditionalProperties)
+    MergeAdditionalProperties(structMap, l.AdditionalProperties)
     if l.Currencies != nil {
         structMap["currencies"] = l.Currencies
     }
@@ -52,12 +56,12 @@ func (l *ListSubscriptionComponentsForSiteFilter) UnmarshalJSON(input []byte) er
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "currencies", "use_site_exchange_rate", "subscription")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "currencies", "use_site_exchange_rate", "subscription")
     if err != nil {
     	return err
     }
-    
     l.AdditionalProperties = additionalProperties
+    
     l.Currencies = temp.Currencies
     l.UseSiteExchangeRate = temp.UseSiteExchangeRate
     l.Subscription = temp.Subscription

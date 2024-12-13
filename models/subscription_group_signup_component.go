@@ -18,7 +18,7 @@ type SubscriptionGroupSignupComponent struct {
     PricePointId         *SubscriptionGroupSignupComponentPricePointId      `json:"price_point_id,omitempty"`
     // Used in place of `price_point_id` to define a custom price point unique to the subscription. You still need to provide `component_id`.
     CustomPrice          *SubscriptionGroupComponentCustomPrice             `json:"custom_price,omitempty"`
-    AdditionalProperties map[string]any                                     `json:"_"`
+    AdditionalProperties map[string]interface{}                             `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for SubscriptionGroupSignupComponent.
@@ -26,13 +26,17 @@ type SubscriptionGroupSignupComponent struct {
 func (s SubscriptionGroupSignupComponent) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(s.AdditionalProperties,
+        "component_id", "allocated_quantity", "unit_balance", "price_point_id", "custom_price"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(s.toMap())
 }
 
 // toMap converts the SubscriptionGroupSignupComponent object to a map representation for JSON marshaling.
 func (s SubscriptionGroupSignupComponent) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, s.AdditionalProperties)
+    MergeAdditionalProperties(structMap, s.AdditionalProperties)
     if s.ComponentId != nil {
         structMap["component_id"] = s.ComponentId.toMap()
     }
@@ -59,12 +63,12 @@ func (s *SubscriptionGroupSignupComponent) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "component_id", "allocated_quantity", "unit_balance", "price_point_id", "custom_price")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "component_id", "allocated_quantity", "unit_balance", "price_point_id", "custom_price")
     if err != nil {
     	return err
     }
-    
     s.AdditionalProperties = additionalProperties
+    
     s.ComponentId = temp.ComponentId
     s.AllocatedQuantity = temp.AllocatedQuantity
     s.UnitBalance = temp.UnitBalance

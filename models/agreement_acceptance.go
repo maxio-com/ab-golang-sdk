@@ -13,14 +13,14 @@ import (
 // Required when creating a subscription with Maxio Payments.
 type AgreementAcceptance struct {
     // Required when providing agreement acceptance params.
-    IpAddress               *string        `json:"ip_address,omitempty"`
+    IpAddress               *string                `json:"ip_address,omitempty"`
     // Required when creating a subscription with Maxio Payments. Either terms_url or provacy_policy_url required when providing agreement_acceptance params.
-    TermsUrl                *string        `json:"terms_url,omitempty"`
-    PrivacyPolicyUrl        *string        `json:"privacy_policy_url,omitempty"`
-    ReturnRefundPolicyUrl   *string        `json:"return_refund_policy_url,omitempty"`
-    DeliveryPolicyUrl       *string        `json:"delivery_policy_url,omitempty"`
-    SecureCheckoutPolicyUrl *string        `json:"secure_checkout_policy_url,omitempty"`
-    AdditionalProperties    map[string]any `json:"_"`
+    TermsUrl                *string                `json:"terms_url,omitempty"`
+    PrivacyPolicyUrl        *string                `json:"privacy_policy_url,omitempty"`
+    ReturnRefundPolicyUrl   *string                `json:"return_refund_policy_url,omitempty"`
+    DeliveryPolicyUrl       *string                `json:"delivery_policy_url,omitempty"`
+    SecureCheckoutPolicyUrl *string                `json:"secure_checkout_policy_url,omitempty"`
+    AdditionalProperties    map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for AgreementAcceptance.
@@ -28,13 +28,17 @@ type AgreementAcceptance struct {
 func (a AgreementAcceptance) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(a.AdditionalProperties,
+        "ip_address", "terms_url", "privacy_policy_url", "return_refund_policy_url", "delivery_policy_url", "secure_checkout_policy_url"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(a.toMap())
 }
 
 // toMap converts the AgreementAcceptance object to a map representation for JSON marshaling.
 func (a AgreementAcceptance) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, a.AdditionalProperties)
+    MergeAdditionalProperties(structMap, a.AdditionalProperties)
     if a.IpAddress != nil {
         structMap["ip_address"] = a.IpAddress
     }
@@ -64,12 +68,12 @@ func (a *AgreementAcceptance) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "ip_address", "terms_url", "privacy_policy_url", "return_refund_policy_url", "delivery_policy_url", "secure_checkout_policy_url")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "ip_address", "terms_url", "privacy_policy_url", "return_refund_policy_url", "delivery_policy_url", "secure_checkout_policy_url")
     if err != nil {
     	return err
     }
-    
     a.AdditionalProperties = additionalProperties
+    
     a.IpAddress = temp.IpAddress
     a.TermsUrl = temp.TermsUrl
     a.PrivacyPolicyUrl = temp.PrivacyPolicyUrl

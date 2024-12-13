@@ -11,13 +11,13 @@ import (
 
 // OfferSignupPage represents a OfferSignupPage struct.
 type OfferSignupPage struct {
-    Id                   *int           `json:"id,omitempty"`
-    Nickname             *string        `json:"nickname,omitempty"`
-    Enabled              *bool          `json:"enabled,omitempty"`
-    ReturnUrl            *string        `json:"return_url,omitempty"`
-    ReturnParams         *string        `json:"return_params,omitempty"`
-    Url                  *string        `json:"url,omitempty"`
-    AdditionalProperties map[string]any `json:"_"`
+    Id                   *int                   `json:"id,omitempty"`
+    Nickname             *string                `json:"nickname,omitempty"`
+    Enabled              *bool                  `json:"enabled,omitempty"`
+    ReturnUrl            *string                `json:"return_url,omitempty"`
+    ReturnParams         *string                `json:"return_params,omitempty"`
+    Url                  *string                `json:"url,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for OfferSignupPage.
@@ -25,13 +25,17 @@ type OfferSignupPage struct {
 func (o OfferSignupPage) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(o.AdditionalProperties,
+        "id", "nickname", "enabled", "return_url", "return_params", "url"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(o.toMap())
 }
 
 // toMap converts the OfferSignupPage object to a map representation for JSON marshaling.
 func (o OfferSignupPage) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, o.AdditionalProperties)
+    MergeAdditionalProperties(structMap, o.AdditionalProperties)
     if o.Id != nil {
         structMap["id"] = o.Id
     }
@@ -61,12 +65,12 @@ func (o *OfferSignupPage) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "id", "nickname", "enabled", "return_url", "return_params", "url")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "id", "nickname", "enabled", "return_url", "return_params", "url")
     if err != nil {
     	return err
     }
-    
     o.AdditionalProperties = additionalProperties
+    
     o.Id = temp.Id
     o.Nickname = temp.Nickname
     o.Enabled = temp.Enabled

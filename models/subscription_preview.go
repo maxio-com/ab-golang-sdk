@@ -11,9 +11,9 @@ import (
 
 // SubscriptionPreview represents a SubscriptionPreview struct.
 type SubscriptionPreview struct {
-    CurrentBillingManifest *BillingManifest `json:"current_billing_manifest,omitempty"`
-    NextBillingManifest    *BillingManifest `json:"next_billing_manifest,omitempty"`
-    AdditionalProperties   map[string]any   `json:"_"`
+    CurrentBillingManifest *BillingManifest       `json:"current_billing_manifest,omitempty"`
+    NextBillingManifest    *BillingManifest       `json:"next_billing_manifest,omitempty"`
+    AdditionalProperties   map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for SubscriptionPreview.
@@ -21,13 +21,17 @@ type SubscriptionPreview struct {
 func (s SubscriptionPreview) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(s.AdditionalProperties,
+        "current_billing_manifest", "next_billing_manifest"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(s.toMap())
 }
 
 // toMap converts the SubscriptionPreview object to a map representation for JSON marshaling.
 func (s SubscriptionPreview) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, s.AdditionalProperties)
+    MergeAdditionalProperties(structMap, s.AdditionalProperties)
     if s.CurrentBillingManifest != nil {
         structMap["current_billing_manifest"] = s.CurrentBillingManifest.toMap()
     }
@@ -45,12 +49,12 @@ func (s *SubscriptionPreview) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "current_billing_manifest", "next_billing_manifest")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "current_billing_manifest", "next_billing_manifest")
     if err != nil {
     	return err
     }
-    
     s.AdditionalProperties = additionalProperties
+    
     s.CurrentBillingManifest = temp.CurrentBillingManifest
     s.NextBillingManifest = temp.NextBillingManifest
     return nil

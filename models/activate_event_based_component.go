@@ -12,12 +12,12 @@ import (
 // ActivateEventBasedComponent represents a ActivateEventBasedComponent struct.
 type ActivateEventBasedComponent struct {
     // The Chargify id of the price point
-    PricePointId         *int                  `json:"price_point_id,omitempty"`
+    PricePointId         *int                   `json:"price_point_id,omitempty"`
     // This attribute is particularly useful when you need to align billing events for different components on distinct schedules within a subscription. Please note this only works for site with Multifrequency enabled
-    BillingSchedule      *BillingSchedule      `json:"billing_schedule,omitempty"`
+    BillingSchedule      *BillingSchedule       `json:"billing_schedule,omitempty"`
     // Create or update custom pricing unique to the subscription. Used in place of `price_point_id`.
-    CustomPrice          *ComponentCustomPrice `json:"custom_price,omitempty"`
-    AdditionalProperties map[string]any        `json:"_"`
+    CustomPrice          *ComponentCustomPrice  `json:"custom_price,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for ActivateEventBasedComponent.
@@ -25,13 +25,17 @@ type ActivateEventBasedComponent struct {
 func (a ActivateEventBasedComponent) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(a.AdditionalProperties,
+        "price_point_id", "billing_schedule", "custom_price"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(a.toMap())
 }
 
 // toMap converts the ActivateEventBasedComponent object to a map representation for JSON marshaling.
 func (a ActivateEventBasedComponent) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, a.AdditionalProperties)
+    MergeAdditionalProperties(structMap, a.AdditionalProperties)
     if a.PricePointId != nil {
         structMap["price_point_id"] = a.PricePointId
     }
@@ -52,12 +56,12 @@ func (a *ActivateEventBasedComponent) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "price_point_id", "billing_schedule", "custom_price")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "price_point_id", "billing_schedule", "custom_price")
     if err != nil {
     	return err
     }
-    
     a.AdditionalProperties = additionalProperties
+    
     a.PricePointId = temp.PricePointId
     a.BillingSchedule = temp.BillingSchedule
     a.CustomPrice = temp.CustomPrice

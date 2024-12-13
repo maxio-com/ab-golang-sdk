@@ -26,7 +26,7 @@ type CreateInvoicePayment struct {
     // Date reflecting when the payment was received from a customer. Must be in the past. Applicable only to
     // `external` payments.
     ReceivedOn           *time.Time                  `json:"received_on,omitempty"`
-    AdditionalProperties map[string]any              `json:"_"`
+    AdditionalProperties map[string]interface{}      `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreateInvoicePayment.
@@ -34,13 +34,17 @@ type CreateInvoicePayment struct {
 func (c CreateInvoicePayment) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(c.AdditionalProperties,
+        "amount", "memo", "method", "details", "payment_profile_id", "received_on"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(c.toMap())
 }
 
 // toMap converts the CreateInvoicePayment object to a map representation for JSON marshaling.
 func (c CreateInvoicePayment) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, c.AdditionalProperties)
+    MergeAdditionalProperties(structMap, c.AdditionalProperties)
     if c.Amount != nil {
         structMap["amount"] = c.Amount.toMap()
     }
@@ -70,12 +74,12 @@ func (c *CreateInvoicePayment) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "amount", "memo", "method", "details", "payment_profile_id", "received_on")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "amount", "memo", "method", "details", "payment_profile_id", "received_on")
     if err != nil {
     	return err
     }
-    
     c.AdditionalProperties = additionalProperties
+    
     c.Amount = temp.Amount
     c.Memo = temp.Memo
     c.Method = temp.Method

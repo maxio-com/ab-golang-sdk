@@ -12,10 +12,10 @@ import (
 // AppliedCreditNoteData represents a AppliedCreditNoteData struct.
 type AppliedCreditNoteData struct {
     // The UID of the credit note
-    Uid                  *string        `json:"uid,omitempty"`
+    Uid                  *string                `json:"uid,omitempty"`
     // The number of the credit note
-    Number               *string        `json:"number,omitempty"`
-    AdditionalProperties map[string]any `json:"_"`
+    Number               *string                `json:"number,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for AppliedCreditNoteData.
@@ -23,13 +23,17 @@ type AppliedCreditNoteData struct {
 func (a AppliedCreditNoteData) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(a.AdditionalProperties,
+        "uid", "number"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(a.toMap())
 }
 
 // toMap converts the AppliedCreditNoteData object to a map representation for JSON marshaling.
 func (a AppliedCreditNoteData) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, a.AdditionalProperties)
+    MergeAdditionalProperties(structMap, a.AdditionalProperties)
     if a.Uid != nil {
         structMap["uid"] = a.Uid
     }
@@ -47,12 +51,12 @@ func (a *AppliedCreditNoteData) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "uid", "number")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "uid", "number")
     if err != nil {
     	return err
     }
-    
     a.AdditionalProperties = additionalProperties
+    
     a.Uid = temp.Uid
     a.Number = temp.Number
     return nil

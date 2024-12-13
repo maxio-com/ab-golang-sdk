@@ -12,7 +12,7 @@ import (
 // SubscriptionComponentResponse represents a SubscriptionComponentResponse struct.
 type SubscriptionComponentResponse struct {
     Component            *SubscriptionComponent `json:"component,omitempty"`
-    AdditionalProperties map[string]any         `json:"_"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for SubscriptionComponentResponse.
@@ -20,13 +20,17 @@ type SubscriptionComponentResponse struct {
 func (s SubscriptionComponentResponse) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(s.AdditionalProperties,
+        "component"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(s.toMap())
 }
 
 // toMap converts the SubscriptionComponentResponse object to a map representation for JSON marshaling.
 func (s SubscriptionComponentResponse) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, s.AdditionalProperties)
+    MergeAdditionalProperties(structMap, s.AdditionalProperties)
     if s.Component != nil {
         structMap["component"] = s.Component.toMap()
     }
@@ -41,12 +45,12 @@ func (s *SubscriptionComponentResponse) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "component")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "component")
     if err != nil {
     	return err
     }
-    
     s.AdditionalProperties = additionalProperties
+    
     s.Component = temp.Component
     return nil
 }

@@ -11,8 +11,8 @@ import (
 
 // BaseRefundError represents a BaseRefundError struct.
 type BaseRefundError struct {
-    Base                 []interface{}  `json:"base,omitempty"`
-    AdditionalProperties map[string]any `json:"_"`
+    Base                 []interface{}          `json:"base,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for BaseRefundError.
@@ -20,13 +20,17 @@ type BaseRefundError struct {
 func (b BaseRefundError) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(b.AdditionalProperties,
+        "base"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(b.toMap())
 }
 
 // toMap converts the BaseRefundError object to a map representation for JSON marshaling.
 func (b BaseRefundError) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, b.AdditionalProperties)
+    MergeAdditionalProperties(structMap, b.AdditionalProperties)
     if b.Base != nil {
         structMap["base"] = b.Base
     }
@@ -41,12 +45,12 @@ func (b *BaseRefundError) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "base")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "base")
     if err != nil {
     	return err
     }
-    
     b.AdditionalProperties = additionalProperties
+    
     b.Base = temp.Base
     return nil
 }

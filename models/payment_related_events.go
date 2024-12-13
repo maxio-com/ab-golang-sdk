@@ -13,9 +13,9 @@ import (
 
 // PaymentRelatedEvents represents a PaymentRelatedEvents struct.
 type PaymentRelatedEvents struct {
-    ProductId            int            `json:"product_id"`
-    AccountTransactionId int            `json:"account_transaction_id"`
-    AdditionalProperties map[string]any `json:"_"`
+    ProductId            int                    `json:"product_id"`
+    AccountTransactionId int                    `json:"account_transaction_id"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for PaymentRelatedEvents.
@@ -23,13 +23,17 @@ type PaymentRelatedEvents struct {
 func (p PaymentRelatedEvents) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(p.AdditionalProperties,
+        "product_id", "account_transaction_id"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(p.toMap())
 }
 
 // toMap converts the PaymentRelatedEvents object to a map representation for JSON marshaling.
 func (p PaymentRelatedEvents) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, p.AdditionalProperties)
+    MergeAdditionalProperties(structMap, p.AdditionalProperties)
     structMap["product_id"] = p.ProductId
     structMap["account_transaction_id"] = p.AccountTransactionId
     return structMap
@@ -47,12 +51,12 @@ func (p *PaymentRelatedEvents) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "product_id", "account_transaction_id")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "product_id", "account_transaction_id")
     if err != nil {
     	return err
     }
-    
     p.AdditionalProperties = additionalProperties
+    
     p.ProductId = *temp.ProductId
     p.AccountTransactionId = *temp.AccountTransactionId
     return nil

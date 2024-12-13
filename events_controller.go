@@ -40,7 +40,7 @@ type ListEventsInput struct {
     Direction     *models.Direction           
     // You can pass multiple event keys after comma.
     // Use in query `filter=signup_success,payment_success`.
-    Filter        []models.EventType          
+    Filter        []models.EventKey           
     // The type of filter you would like to apply to your search.
     DateField     *models.ListEventsDateField 
     // The start date (format YYYY-MM-DD) with which to filter the date_field. Returns components with a timestamp at or after midnight (12:00:00 AM) in your site’s time zone on the date specified.
@@ -69,9 +69,13 @@ type ListEventsInput struct {
 // + `renewal_success_recreated`
 // + `zferral_revenue_post_failure` - (Specific to the deprecated Zferral integration)
 // + `zferral_revenue_post_success` - (Specific to the deprecated Zferral integration)
+// ## Event Key
+// The event type is identified by the key property. You can check supported keys [here]($m/Event%20Key).
 // ## Event Specific Data
-// Event Specific Data
-// Each event type has its own `event_specific_data` specified.
+// Different event types may include additional data in `event_specific_data` property.
+// While some events share the same schema for `event_specific_data`, others may not include it at all.
+// For precise mappings from key to event_specific_data, refer to [Event]($m/Event).
+// ### Example
 // Here’s an example event for the `subscription_product_change` event:
 // ```
 // {
@@ -157,29 +161,34 @@ func (e *EventsController) ListEvents(
 // ListSubscriptionEventsInput represents the input of the ListSubscriptionEvents endpoint.
 type ListSubscriptionEventsInput struct {
     // The Chargify id of the subscription
-    SubscriptionId int                
+    SubscriptionId int               
     // Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.
     // Use in query `page=1`.
-    Page           *int               
+    Page           *int              
     // This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.
     // Use in query `per_page=200`.
-    PerPage        *int               
+    PerPage        *int              
     // Returns events with an id greater than or equal to the one specified
-    SinceId        *int64             
+    SinceId        *int64            
     // Returns events with an id less than or equal to the one specified
-    MaxId          *int64             
+    MaxId          *int64            
     // The sort direction of the returned events.
-    Direction      *models.Direction  
+    Direction      *models.Direction 
     // You can pass multiple event keys after comma.
     // Use in query `filter=signup_success,payment_success`.
-    Filter         []models.EventType 
+    Filter         []models.EventKey 
 }
 
 // ListSubscriptionEvents takes context, subscriptionId, page, perPage, sinceId, maxId, direction, filter as parameters and
 // returns an models.ApiResponse with []models.EventResponse data and
 // an error if there was an issue with the request or response.
 // The following request will return a list of events for a subscription.
-// Each event type has its own `event_specific_data` specified.
+// ## Event Key
+// The event type is identified by the key property. You can check supported keys [here]($m/Event%20Key).
+// ## Event Specific Data
+// Different event types may include additional data in `event_specific_data` property.
+// While some events share the same schema for `event_specific_data`, others may not include it at all.
+// For precise mappings from key to event_specific_data, refer to [Event]($m/Event).
 func (e *EventsController) ListSubscriptionEvents(
     ctx context.Context,
     input ListSubscriptionEventsInput) (
@@ -224,19 +233,19 @@ func (e *EventsController) ListSubscriptionEvents(
 type ReadEventsCountInput struct {
     // Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.
     // Use in query `page=1`.
-    Page      *int               
+    Page      *int              
     // This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.
     // Use in query `per_page=200`.
-    PerPage   *int               
+    PerPage   *int              
     // Returns events with an id greater than or equal to the one specified
-    SinceId   *int64             
+    SinceId   *int64            
     // Returns events with an id less than or equal to the one specified
-    MaxId     *int64             
+    MaxId     *int64            
     // The sort direction of the returned events.
-    Direction *models.Direction  
+    Direction *models.Direction 
     // You can pass multiple event keys after comma.
     // Use in query `filter=signup_success,payment_success`.
-    Filter    []models.EventType 
+    Filter    []models.EventKey 
 }
 
 // ReadEventsCount takes context, page, perPage, sinceId, maxId, direction, filter as parameters and

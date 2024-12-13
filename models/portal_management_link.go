@@ -13,13 +13,13 @@ import (
 
 // PortalManagementLink represents a PortalManagementLink struct.
 type PortalManagementLink struct {
-    Url                  *string             `json:"url,omitempty"`
-    FetchCount           *int                `json:"fetch_count,omitempty"`
-    CreatedAt            *time.Time          `json:"created_at,omitempty"`
-    NewLinkAvailableAt   *time.Time          `json:"new_link_available_at,omitempty"`
-    ExpiresAt            *time.Time          `json:"expires_at,omitempty"`
-    LastInviteSentAt     Optional[time.Time] `json:"last_invite_sent_at"`
-    AdditionalProperties map[string]any      `json:"_"`
+    Url                  *string                `json:"url,omitempty"`
+    FetchCount           *int                   `json:"fetch_count,omitempty"`
+    CreatedAt            *time.Time             `json:"created_at,omitempty"`
+    NewLinkAvailableAt   *time.Time             `json:"new_link_available_at,omitempty"`
+    ExpiresAt            *time.Time             `json:"expires_at,omitempty"`
+    LastInviteSentAt     Optional[time.Time]    `json:"last_invite_sent_at"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for PortalManagementLink.
@@ -27,13 +27,17 @@ type PortalManagementLink struct {
 func (p PortalManagementLink) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(p.AdditionalProperties,
+        "url", "fetch_count", "created_at", "new_link_available_at", "expires_at", "last_invite_sent_at"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(p.toMap())
 }
 
 // toMap converts the PortalManagementLink object to a map representation for JSON marshaling.
 func (p PortalManagementLink) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, p.AdditionalProperties)
+    MergeAdditionalProperties(structMap, p.AdditionalProperties)
     if p.Url != nil {
         structMap["url"] = p.Url
     }
@@ -72,12 +76,12 @@ func (p *PortalManagementLink) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "url", "fetch_count", "created_at", "new_link_available_at", "expires_at", "last_invite_sent_at")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "url", "fetch_count", "created_at", "new_link_available_at", "expires_at", "last_invite_sent_at")
     if err != nil {
     	return err
     }
-    
     p.AdditionalProperties = additionalProperties
+    
     p.Url = temp.Url
     p.FetchCount = temp.FetchCount
     if temp.CreatedAt != nil {

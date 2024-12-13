@@ -14,7 +14,7 @@ import (
 // BankAccountVerificationRequest represents a BankAccountVerificationRequest struct.
 type BankAccountVerificationRequest struct {
     BankAccountVerification BankAccountVerification `json:"bank_account_verification"`
-    AdditionalProperties    map[string]any          `json:"_"`
+    AdditionalProperties    map[string]interface{}  `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for BankAccountVerificationRequest.
@@ -22,13 +22,17 @@ type BankAccountVerificationRequest struct {
 func (b BankAccountVerificationRequest) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(b.AdditionalProperties,
+        "bank_account_verification"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(b.toMap())
 }
 
 // toMap converts the BankAccountVerificationRequest object to a map representation for JSON marshaling.
 func (b BankAccountVerificationRequest) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, b.AdditionalProperties)
+    MergeAdditionalProperties(structMap, b.AdditionalProperties)
     structMap["bank_account_verification"] = b.BankAccountVerification.toMap()
     return structMap
 }
@@ -45,12 +49,12 @@ func (b *BankAccountVerificationRequest) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "bank_account_verification")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "bank_account_verification")
     if err != nil {
     	return err
     }
-    
     b.AdditionalProperties = additionalProperties
+    
     b.BankAccountVerification = *temp.BankAccountVerification
     return nil
 }

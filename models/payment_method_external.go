@@ -17,7 +17,7 @@ type PaymentMethodExternal struct {
     Kind                 string                    `json:"kind"`
     Memo                 *string                   `json:"memo"`
     Type                 InvoiceEventPaymentMethod `json:"type"`
-    AdditionalProperties map[string]any            `json:"_"`
+    AdditionalProperties map[string]interface{}    `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for PaymentMethodExternal.
@@ -25,13 +25,17 @@ type PaymentMethodExternal struct {
 func (p PaymentMethodExternal) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(p.AdditionalProperties,
+        "details", "kind", "memo", "type"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(p.toMap())
 }
 
 // toMap converts the PaymentMethodExternal object to a map representation for JSON marshaling.
 func (p PaymentMethodExternal) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, p.AdditionalProperties)
+    MergeAdditionalProperties(structMap, p.AdditionalProperties)
     if p.Details != nil {
         structMap["details"] = p.Details
     } else {
@@ -59,12 +63,12 @@ func (p *PaymentMethodExternal) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "details", "kind", "memo", "type")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "details", "kind", "memo", "type")
     if err != nil {
     	return err
     }
-    
     p.AdditionalProperties = additionalProperties
+    
     p.Details = temp.Details
     p.Kind = *temp.Kind
     p.Memo = temp.Memo

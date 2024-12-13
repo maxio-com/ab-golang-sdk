@@ -17,20 +17,20 @@ import (
 // Example schema for an `remove_payment` event
 type RemovePaymentEventData struct {
     // Transaction ID of the original payment that was removed
-    TransactionId        int                 `json:"transaction_id"`
+    TransactionId        int                    `json:"transaction_id"`
     // Memo of the original payment
-    Memo                 string              `json:"memo"`
+    Memo                 string                 `json:"memo"`
     // Full amount of the original payment
-    OriginalAmount       *string             `json:"original_amount,omitempty"`
+    OriginalAmount       *string                `json:"original_amount,omitempty"`
     // Applied amount of the original payment
-    AppliedAmount        string              `json:"applied_amount"`
+    AppliedAmount        string                 `json:"applied_amount"`
     // Transaction time of the original payment, in ISO 8601 format, i.e. "2019-06-07T17:20:06Z"
-    TransactionTime      time.Time           `json:"transaction_time"`
+    TransactionTime      time.Time              `json:"transaction_time"`
     // A nested data structure detailing the method of payment
-    PaymentMethod        InvoiceEventPayment `json:"payment_method"`
+    PaymentMethod        InvoiceEventPayment    `json:"payment_method"`
     // The flag that shows whether the original payment was a prepayment or not
-    Prepayment           bool                `json:"prepayment"`
-    AdditionalProperties map[string]any      `json:"_"`
+    Prepayment           bool                   `json:"prepayment"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for RemovePaymentEventData.
@@ -38,13 +38,17 @@ type RemovePaymentEventData struct {
 func (r RemovePaymentEventData) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(r.AdditionalProperties,
+        "transaction_id", "memo", "original_amount", "applied_amount", "transaction_time", "payment_method", "prepayment"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(r.toMap())
 }
 
 // toMap converts the RemovePaymentEventData object to a map representation for JSON marshaling.
 func (r RemovePaymentEventData) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, r.AdditionalProperties)
+    MergeAdditionalProperties(structMap, r.AdditionalProperties)
     structMap["transaction_id"] = r.TransactionId
     structMap["memo"] = r.Memo
     if r.OriginalAmount != nil {
@@ -69,12 +73,12 @@ func (r *RemovePaymentEventData) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "transaction_id", "memo", "original_amount", "applied_amount", "transaction_time", "payment_method", "prepayment")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "transaction_id", "memo", "original_amount", "applied_amount", "transaction_time", "payment_method", "prepayment")
     if err != nil {
     	return err
     }
-    
     r.AdditionalProperties = additionalProperties
+    
     r.TransactionId = *temp.TransactionId
     r.Memo = *temp.Memo
     r.OriginalAmount = temp.OriginalAmount

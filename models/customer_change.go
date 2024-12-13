@@ -15,7 +15,7 @@ type CustomerChange struct {
     ShippingAddress      Optional[AddressChange]              `json:"shipping_address"`
     BillingAddress       Optional[AddressChange]              `json:"billing_address"`
     CustomFields         Optional[CustomerCustomFieldsChange] `json:"custom_fields"`
-    AdditionalProperties map[string]any                       `json:"_"`
+    AdditionalProperties map[string]interface{}               `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for CustomerChange.
@@ -23,13 +23,17 @@ type CustomerChange struct {
 func (c CustomerChange) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(c.AdditionalProperties,
+        "payer", "shipping_address", "billing_address", "custom_fields"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(c.toMap())
 }
 
 // toMap converts the CustomerChange object to a map representation for JSON marshaling.
 func (c CustomerChange) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, c.AdditionalProperties)
+    MergeAdditionalProperties(structMap, c.AdditionalProperties)
     if c.Payer.IsValueSet() {
         if c.Payer.Value() != nil {
             structMap["payer"] = c.Payer.Value().toMap()
@@ -69,12 +73,12 @@ func (c *CustomerChange) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "payer", "shipping_address", "billing_address", "custom_fields")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "payer", "shipping_address", "billing_address", "custom_fields")
     if err != nil {
     	return err
     }
-    
     c.AdditionalProperties = additionalProperties
+    
     c.Payer = temp.Payer
     c.ShippingAddress = temp.ShippingAddress
     c.BillingAddress = temp.BillingAddress

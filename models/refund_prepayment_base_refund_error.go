@@ -11,8 +11,8 @@ import (
 
 // RefundPrepaymentBaseRefundError represents a RefundPrepaymentBaseRefundError struct.
 type RefundPrepaymentBaseRefundError struct {
-    Refund               *BaseRefundError `json:"refund,omitempty"`
-    AdditionalProperties map[string]any   `json:"_"`
+    Refund               *BaseRefundError       `json:"refund,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for RefundPrepaymentBaseRefundError.
@@ -20,13 +20,17 @@ type RefundPrepaymentBaseRefundError struct {
 func (r RefundPrepaymentBaseRefundError) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(r.AdditionalProperties,
+        "refund"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(r.toMap())
 }
 
 // toMap converts the RefundPrepaymentBaseRefundError object to a map representation for JSON marshaling.
 func (r RefundPrepaymentBaseRefundError) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, r.AdditionalProperties)
+    MergeAdditionalProperties(structMap, r.AdditionalProperties)
     if r.Refund != nil {
         structMap["refund"] = r.Refund.toMap()
     }
@@ -41,12 +45,12 @@ func (r *RefundPrepaymentBaseRefundError) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "refund")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "refund")
     if err != nil {
     	return err
     }
-    
     r.AdditionalProperties = additionalProperties
+    
     r.Refund = temp.Refund
     return nil
 }

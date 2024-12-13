@@ -14,34 +14,34 @@ import (
 // ApplePayPaymentProfile represents a ApplePayPaymentProfile struct.
 type ApplePayPaymentProfile struct {
     // The Chargify-assigned ID of the Apple Pay payment profile.
-    Id                   *int             `json:"id,omitempty"`
+    Id                   *int                   `json:"id,omitempty"`
     // The first name of the Apple Pay account holder
-    FirstName            *string          `json:"first_name,omitempty"`
+    FirstName            *string                `json:"first_name,omitempty"`
     // The last name of the Apple Pay account holder
-    LastName             *string          `json:"last_name,omitempty"`
+    LastName             *string                `json:"last_name,omitempty"`
     // The Chargify-assigned id for the customer record to which the Apple Pay account belongs
-    CustomerId           *int             `json:"customer_id,omitempty"`
+    CustomerId           *int                   `json:"customer_id,omitempty"`
     // The vault that stores the payment profile with the provided vault_token.
-    CurrentVault         *ApplePayVault   `json:"current_vault,omitempty"`
+    CurrentVault         *ApplePayVault         `json:"current_vault,omitempty"`
     // The “token” provided by your vault storage for an already stored payment profile
-    VaultToken           *string          `json:"vault_token,omitempty"`
+    VaultToken           *string                `json:"vault_token,omitempty"`
     // The current billing street address for the Apple Pay account
-    BillingAddress       Optional[string] `json:"billing_address"`
+    BillingAddress       Optional[string]       `json:"billing_address"`
     // The current billing address city for the Apple Pay account
-    BillingCity          Optional[string] `json:"billing_city"`
+    BillingCity          Optional[string]       `json:"billing_city"`
     // The current billing address state for the Apple Pay account
-    BillingState         Optional[string] `json:"billing_state"`
+    BillingState         Optional[string]       `json:"billing_state"`
     // The current billing address zip code for the Apple Pay account
-    BillingZip           Optional[string] `json:"billing_zip"`
+    BillingZip           Optional[string]       `json:"billing_zip"`
     // The current billing address country for the Apple Pay account
-    BillingCountry       Optional[string] `json:"billing_country"`
-    CustomerVaultToken   Optional[string] `json:"customer_vault_token"`
+    BillingCountry       Optional[string]       `json:"billing_country"`
+    CustomerVaultToken   Optional[string]       `json:"customer_vault_token"`
     // The current billing street address, second line, for the Apple Pay account
-    BillingAddress2      Optional[string] `json:"billing_address_2"`
-    PaymentType          PaymentType      `json:"payment_type"`
-    SiteGatewaySettingId Optional[int]    `json:"site_gateway_setting_id"`
-    GatewayHandle        Optional[string] `json:"gateway_handle"`
-    AdditionalProperties map[string]any   `json:"_"`
+    BillingAddress2      Optional[string]       `json:"billing_address_2"`
+    PaymentType          PaymentType            `json:"payment_type"`
+    SiteGatewaySettingId Optional[int]          `json:"site_gateway_setting_id"`
+    GatewayHandle        Optional[string]       `json:"gateway_handle"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for ApplePayPaymentProfile.
@@ -49,13 +49,17 @@ type ApplePayPaymentProfile struct {
 func (a ApplePayPaymentProfile) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(a.AdditionalProperties,
+        "id", "first_name", "last_name", "customer_id", "current_vault", "vault_token", "billing_address", "billing_city", "billing_state", "billing_zip", "billing_country", "customer_vault_token", "billing_address_2", "payment_type", "site_gateway_setting_id", "gateway_handle"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(a.toMap())
 }
 
 // toMap converts the ApplePayPaymentProfile object to a map representation for JSON marshaling.
 func (a ApplePayPaymentProfile) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, a.AdditionalProperties)
+    MergeAdditionalProperties(structMap, a.AdditionalProperties)
     if a.Id != nil {
         structMap["id"] = a.Id
     }
@@ -153,12 +157,12 @@ func (a *ApplePayPaymentProfile) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "id", "first_name", "last_name", "customer_id", "current_vault", "vault_token", "billing_address", "billing_city", "billing_state", "billing_zip", "billing_country", "customer_vault_token", "billing_address_2", "payment_type", "site_gateway_setting_id", "gateway_handle")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "id", "first_name", "last_name", "customer_id", "current_vault", "vault_token", "billing_address", "billing_city", "billing_state", "billing_zip", "billing_country", "customer_vault_token", "billing_address_2", "payment_type", "site_gateway_setting_id", "gateway_handle")
     if err != nil {
     	return err
     }
-    
     a.AdditionalProperties = additionalProperties
+    
     a.Id = temp.Id
     a.FirstName = temp.FirstName
     a.LastName = temp.LastName

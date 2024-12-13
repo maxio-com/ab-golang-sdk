@@ -13,8 +13,8 @@ import (
 
 // ComponentResponse represents a ComponentResponse struct.
 type ComponentResponse struct {
-    Component            Component      `json:"component"`
-    AdditionalProperties map[string]any `json:"_"`
+    Component            Component              `json:"component"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for ComponentResponse.
@@ -22,13 +22,17 @@ type ComponentResponse struct {
 func (c ComponentResponse) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(c.AdditionalProperties,
+        "component"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(c.toMap())
 }
 
 // toMap converts the ComponentResponse object to a map representation for JSON marshaling.
 func (c ComponentResponse) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, c.AdditionalProperties)
+    MergeAdditionalProperties(structMap, c.AdditionalProperties)
     structMap["component"] = c.Component.toMap()
     return structMap
 }
@@ -45,12 +49,12 @@ func (c *ComponentResponse) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "component")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "component")
     if err != nil {
     	return err
     }
-    
     c.AdditionalProperties = additionalProperties
+    
     c.Component = *temp.Component
     return nil
 }

@@ -13,7 +13,7 @@ import (
 type RenewalPreviewRequest struct {
     // An optional array of component definitions to preview. Providing any component definitions here will override the actual components on the subscription (and their quantities), and the billing preview will contain only these components (in addition to any product base fees).
     Components           []RenewalPreviewComponent `json:"components,omitempty"`
-    AdditionalProperties map[string]any            `json:"_"`
+    AdditionalProperties map[string]interface{}    `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for RenewalPreviewRequest.
@@ -21,13 +21,17 @@ type RenewalPreviewRequest struct {
 func (r RenewalPreviewRequest) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(r.AdditionalProperties,
+        "components"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(r.toMap())
 }
 
 // toMap converts the RenewalPreviewRequest object to a map representation for JSON marshaling.
 func (r RenewalPreviewRequest) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, r.AdditionalProperties)
+    MergeAdditionalProperties(structMap, r.AdditionalProperties)
     if r.Components != nil {
         structMap["components"] = r.Components
     }
@@ -42,12 +46,12 @@ func (r *RenewalPreviewRequest) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "components")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "components")
     if err != nil {
     	return err
     }
-    
     r.AdditionalProperties = additionalProperties
+    
     r.Components = temp.Components
     return nil
 }

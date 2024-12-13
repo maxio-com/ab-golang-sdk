@@ -32,7 +32,7 @@ type BankAccountAttributes struct {
     VaultToken            *string                `json:"vault_token,omitempty"`
     // (only for Authorize.Net CIM storage or Square) The customerProfileId for the owner of the customerPaymentProfileId provided as the vault_token
     CustomerVaultToken    *string                `json:"customer_vault_token,omitempty"`
-    AdditionalProperties  map[string]any         `json:"_"`
+    AdditionalProperties  map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for BankAccountAttributes.
@@ -40,13 +40,17 @@ type BankAccountAttributes struct {
 func (b BankAccountAttributes) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(b.AdditionalProperties,
+        "chargify_token", "bank_name", "bank_routing_number", "bank_account_number", "bank_account_type", "bank_branch_code", "bank_iban", "bank_account_holder_type", "payment_type", "current_vault", "vault_token", "customer_vault_token"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(b.toMap())
 }
 
 // toMap converts the BankAccountAttributes object to a map representation for JSON marshaling.
 func (b BankAccountAttributes) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, b.AdditionalProperties)
+    MergeAdditionalProperties(structMap, b.AdditionalProperties)
     if b.ChargifyToken != nil {
         structMap["chargify_token"] = b.ChargifyToken
     }
@@ -94,12 +98,12 @@ func (b *BankAccountAttributes) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "chargify_token", "bank_name", "bank_routing_number", "bank_account_number", "bank_account_type", "bank_branch_code", "bank_iban", "bank_account_holder_type", "payment_type", "current_vault", "vault_token", "customer_vault_token")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "chargify_token", "bank_name", "bank_routing_number", "bank_account_number", "bank_account_type", "bank_branch_code", "bank_iban", "bank_account_holder_type", "payment_type", "current_vault", "vault_token", "customer_vault_token")
     if err != nil {
     	return err
     }
-    
     b.AdditionalProperties = additionalProperties
+    
     b.ChargifyToken = temp.ChargifyToken
     b.BankName = temp.BankName
     b.BankRoutingNumber = temp.BankRoutingNumber

@@ -13,16 +13,16 @@ import (
 
 // ReactivateSubscriptionGroupResponse represents a ReactivateSubscriptionGroupResponse struct.
 type ReactivateSubscriptionGroupResponse struct {
-    Uid                   *string        `json:"uid,omitempty"`
-    Scheme                *int           `json:"scheme,omitempty"`
-    CustomerId            *int           `json:"customer_id,omitempty"`
-    PaymentProfileId      *int           `json:"payment_profile_id,omitempty"`
-    SubscriptionIds       []int          `json:"subscription_ids,omitempty"`
-    PrimarySubscriptionId *int           `json:"primary_subscription_id,omitempty"`
-    NextAssessmentAt      *time.Time     `json:"next_assessment_at,omitempty"`
-    State                 *string        `json:"state,omitempty"`
-    CancelAtEndOfPeriod   *bool          `json:"cancel_at_end_of_period,omitempty"`
-    AdditionalProperties  map[string]any `json:"_"`
+    Uid                   *string                `json:"uid,omitempty"`
+    Scheme                *int                   `json:"scheme,omitempty"`
+    CustomerId            *int                   `json:"customer_id,omitempty"`
+    PaymentProfileId      *int                   `json:"payment_profile_id,omitempty"`
+    SubscriptionIds       []int                  `json:"subscription_ids,omitempty"`
+    PrimarySubscriptionId *int                   `json:"primary_subscription_id,omitempty"`
+    NextAssessmentAt      *time.Time             `json:"next_assessment_at,omitempty"`
+    State                 *string                `json:"state,omitempty"`
+    CancelAtEndOfPeriod   *bool                  `json:"cancel_at_end_of_period,omitempty"`
+    AdditionalProperties  map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for ReactivateSubscriptionGroupResponse.
@@ -30,13 +30,17 @@ type ReactivateSubscriptionGroupResponse struct {
 func (r ReactivateSubscriptionGroupResponse) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(r.AdditionalProperties,
+        "uid", "scheme", "customer_id", "payment_profile_id", "subscription_ids", "primary_subscription_id", "next_assessment_at", "state", "cancel_at_end_of_period"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(r.toMap())
 }
 
 // toMap converts the ReactivateSubscriptionGroupResponse object to a map representation for JSON marshaling.
 func (r ReactivateSubscriptionGroupResponse) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, r.AdditionalProperties)
+    MergeAdditionalProperties(structMap, r.AdditionalProperties)
     if r.Uid != nil {
         structMap["uid"] = r.Uid
     }
@@ -75,12 +79,12 @@ func (r *ReactivateSubscriptionGroupResponse) UnmarshalJSON(input []byte) error 
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "uid", "scheme", "customer_id", "payment_profile_id", "subscription_ids", "primary_subscription_id", "next_assessment_at", "state", "cancel_at_end_of_period")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "uid", "scheme", "customer_id", "payment_profile_id", "subscription_ids", "primary_subscription_id", "next_assessment_at", "state", "cancel_at_end_of_period")
     if err != nil {
     	return err
     }
-    
     r.AdditionalProperties = additionalProperties
+    
     r.Uid = temp.Uid
     r.Scheme = temp.Scheme
     r.CustomerId = temp.CustomerId

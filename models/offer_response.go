@@ -11,8 +11,8 @@ import (
 
 // OfferResponse represents a OfferResponse struct.
 type OfferResponse struct {
-    Offer                *Offer         `json:"offer,omitempty"`
-    AdditionalProperties map[string]any `json:"_"`
+    Offer                *Offer                 `json:"offer,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for OfferResponse.
@@ -20,13 +20,17 @@ type OfferResponse struct {
 func (o OfferResponse) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(o.AdditionalProperties,
+        "offer"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(o.toMap())
 }
 
 // toMap converts the OfferResponse object to a map representation for JSON marshaling.
 func (o OfferResponse) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, o.AdditionalProperties)
+    MergeAdditionalProperties(structMap, o.AdditionalProperties)
     if o.Offer != nil {
         structMap["offer"] = o.Offer.toMap()
     }
@@ -41,12 +45,12 @@ func (o *OfferResponse) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "offer")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "offer")
     if err != nil {
     	return err
     }
-    
     o.AdditionalProperties = additionalProperties
+    
     o.Offer = temp.Offer
     return nil
 }

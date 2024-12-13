@@ -35,7 +35,7 @@ type SubscriptionGroupBankAccount struct {
     // The vault that stores the payment profile with the provided vault_token. Use `bogus` for testing.
     CurrentVault          *BankAccountVault      `json:"current_vault,omitempty"`
     GatewayHandle         *string                `json:"gateway_handle,omitempty"`
-    AdditionalProperties  map[string]any         `json:"_"`
+    AdditionalProperties  map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for SubscriptionGroupBankAccount.
@@ -43,13 +43,17 @@ type SubscriptionGroupBankAccount struct {
 func (s SubscriptionGroupBankAccount) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(s.AdditionalProperties,
+        "bank_name", "bank_account_number", "bank_routing_number", "bank_iban", "bank_branch_code", "bank_account_type", "bank_account_holder_type", "payment_type", "billing_address", "billing_city", "billing_state", "billing_zip", "billing_country", "chargify_token", "current_vault", "gateway_handle"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(s.toMap())
 }
 
 // toMap converts the SubscriptionGroupBankAccount object to a map representation for JSON marshaling.
 func (s SubscriptionGroupBankAccount) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, s.AdditionalProperties)
+    MergeAdditionalProperties(structMap, s.AdditionalProperties)
     if s.BankName != nil {
         structMap["bank_name"] = s.BankName
     }
@@ -109,12 +113,12 @@ func (s *SubscriptionGroupBankAccount) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "bank_name", "bank_account_number", "bank_routing_number", "bank_iban", "bank_branch_code", "bank_account_type", "bank_account_holder_type", "payment_type", "billing_address", "billing_city", "billing_state", "billing_zip", "billing_country", "chargify_token", "current_vault", "gateway_handle")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "bank_name", "bank_account_number", "bank_routing_number", "bank_iban", "bank_branch_code", "bank_account_type", "bank_account_holder_type", "payment_type", "billing_address", "billing_city", "billing_state", "billing_zip", "billing_country", "chargify_token", "current_vault", "gateway_handle")
     if err != nil {
     	return err
     }
-    
     s.AdditionalProperties = additionalProperties
+    
     s.BankName = temp.BankName
     s.BankAccountNumber = temp.BankAccountNumber
     s.BankRoutingNumber = temp.BankRoutingNumber

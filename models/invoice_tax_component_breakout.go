@@ -11,21 +11,21 @@ import (
 
 // InvoiceTaxComponentBreakout represents a InvoiceTaxComponentBreakout struct.
 type InvoiceTaxComponentBreakout struct {
-    TaxRuleId            *int           `json:"tax_rule_id,omitempty"`
-    Percentage           *string        `json:"percentage,omitempty"`
-    CountryCode          *string        `json:"country_code,omitempty"`
-    SubdivisionCode      *string        `json:"subdivision_code,omitempty"`
-    TaxAmount            *string        `json:"tax_amount,omitempty"`
-    TaxableAmount        *string        `json:"taxable_amount,omitempty"`
-    TaxExemptAmount      *string        `json:"tax_exempt_amount,omitempty"`
-    NonTaxableAmount     *string        `json:"non_taxable_amount,omitempty"`
-    TaxName              *string        `json:"tax_name,omitempty"`
-    TaxType              *string        `json:"tax_type,omitempty"`
-    RateType             *string        `json:"rate_type,omitempty"`
-    TaxAuthorityType     *int           `json:"tax_authority_type,omitempty"`
-    StateAssignedNo      *string        `json:"state_assigned_no,omitempty"`
-    TaxSubType           *string        `json:"tax_sub_type,omitempty"`
-    AdditionalProperties map[string]any `json:"_"`
+    TaxRuleId            *int                   `json:"tax_rule_id,omitempty"`
+    Percentage           *string                `json:"percentage,omitempty"`
+    CountryCode          *string                `json:"country_code,omitempty"`
+    SubdivisionCode      *string                `json:"subdivision_code,omitempty"`
+    TaxAmount            *string                `json:"tax_amount,omitempty"`
+    TaxableAmount        *string                `json:"taxable_amount,omitempty"`
+    TaxExemptAmount      *string                `json:"tax_exempt_amount,omitempty"`
+    NonTaxableAmount     *string                `json:"non_taxable_amount,omitempty"`
+    TaxName              *string                `json:"tax_name,omitempty"`
+    TaxType              *string                `json:"tax_type,omitempty"`
+    RateType             *string                `json:"rate_type,omitempty"`
+    TaxAuthorityType     *int                   `json:"tax_authority_type,omitempty"`
+    StateAssignedNo      *string                `json:"state_assigned_no,omitempty"`
+    TaxSubType           *string                `json:"tax_sub_type,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for InvoiceTaxComponentBreakout.
@@ -33,13 +33,17 @@ type InvoiceTaxComponentBreakout struct {
 func (i InvoiceTaxComponentBreakout) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(i.AdditionalProperties,
+        "tax_rule_id", "percentage", "country_code", "subdivision_code", "tax_amount", "taxable_amount", "tax_exempt_amount", "non_taxable_amount", "tax_name", "tax_type", "rate_type", "tax_authority_type", "state_assigned_no", "tax_sub_type"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(i.toMap())
 }
 
 // toMap converts the InvoiceTaxComponentBreakout object to a map representation for JSON marshaling.
 func (i InvoiceTaxComponentBreakout) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, i.AdditionalProperties)
+    MergeAdditionalProperties(structMap, i.AdditionalProperties)
     if i.TaxRuleId != nil {
         structMap["tax_rule_id"] = i.TaxRuleId
     }
@@ -93,12 +97,12 @@ func (i *InvoiceTaxComponentBreakout) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "tax_rule_id", "percentage", "country_code", "subdivision_code", "tax_amount", "taxable_amount", "tax_exempt_amount", "non_taxable_amount", "tax_name", "tax_type", "rate_type", "tax_authority_type", "state_assigned_no", "tax_sub_type")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "tax_rule_id", "percentage", "country_code", "subdivision_code", "tax_amount", "taxable_amount", "tax_exempt_amount", "non_taxable_amount", "tax_name", "tax_type", "rate_type", "tax_authority_type", "state_assigned_no", "tax_sub_type")
     if err != nil {
     	return err
     }
-    
     i.AdditionalProperties = additionalProperties
+    
     i.TaxRuleId = temp.TaxRuleId
     i.Percentage = temp.Percentage
     i.CountryCode = temp.CountryCode

@@ -84,6 +84,9 @@ func (o *OffersController) ListOffers(
     error) {
     req := o.prepareRequest(ctx, "GET", "/offers.json")
     req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
+    })
     if input.Page != nil {
         req.QueryParam("page", *input.Page)
     }

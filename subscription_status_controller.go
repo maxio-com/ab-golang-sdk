@@ -351,6 +351,7 @@ func (s *SubscriptionStatusController) InitiateDelayedCancellation(
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
+        "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
     })
     req.Header("Content-Type", "application/json")
     if body != nil {
@@ -412,6 +413,9 @@ func (s *SubscriptionStatusController) CancelDunning(
       fmt.Sprintf("/subscriptions/%v/cancel_dunning.json", subscriptionId),
     )
     req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
+    })
     
     var result models.SubscriptionResponse
     decoder, resp, err := req.CallAsJson()

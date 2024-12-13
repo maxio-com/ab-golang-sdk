@@ -323,7 +323,7 @@ CreatePaymentProfile(
 ctx := context.Background()
 
 body := models.CreatePaymentProfileRequest{
-    PaymentProfile: models.CreatePaymentProfile{
+    PaymentProfile:       models.CreatePaymentProfile{
         PaymentType:           models.ToPointer(models.PaymentType("bank_account")),
         CustomerId:            models.ToPointer(123),
         BankName:              models.ToPointer("Best Bank"),
@@ -659,20 +659,20 @@ ctx := context.Background()
 paymentProfileId := 198
 
 body := models.UpdatePaymentProfileRequest{
-    PaymentProfile: models.UpdatePaymentProfile{
-        FirstName:       models.ToPointer("Graham"),
-        LastName:        models.ToPointer("Test"),
-        FullNumber:      models.ToPointer("4111111111111111"),
-        CardType:        models.ToPointer(models.CardType("master")),
-        ExpirationMonth: models.ToPointer("04"),
-        ExpirationYear:  models.ToPointer("2030"),
-        CurrentVault:    models.ToPointer(models.AllVaults("bogus")),
-        BillingAddress:  models.ToPointer("456 Juniper Court"),
-        BillingCity:     models.ToPointer("Boulder"),
-        BillingState:    models.ToPointer("CO"),
-        BillingZip:      models.ToPointer("80302"),
-        BillingCountry:  models.ToPointer("US"),
-        BillingAddress2: models.NewOptional(models.ToPointer("billing_address_22")),
+    PaymentProfile:       models.UpdatePaymentProfile{
+        FirstName:            models.ToPointer("Graham"),
+        LastName:             models.ToPointer("Test"),
+        FullNumber:           models.ToPointer("4111111111111111"),
+        CardType:             models.ToPointer(models.CardType("master")),
+        ExpirationMonth:      models.ToPointer("04"),
+        ExpirationYear:       models.ToPointer("2030"),
+        CurrentVault:         models.ToPointer(models.AllVaults("bogus")),
+        BillingAddress:       models.ToPointer("456 Juniper Court"),
+        BillingCity:          models.ToPointer("Boulder"),
+        BillingState:         models.ToPointer("CO"),
+        BillingZip:           models.ToPointer("80302"),
+        BillingCountry:       models.ToPointer("US"),
+        BillingAddress2:      models.NewOptional(models.ToPointer("billing_address_22")),
     },
 }
 
@@ -849,8 +849,8 @@ bankAccountId := 252
 
 body := models.BankAccountVerificationRequest{
     BankAccountVerification: models.BankAccountVerification{
-        Deposit1InCents: models.ToPointer(int64(32)),
-        Deposit2InCents: models.ToPointer(int64(45)),
+        Deposit1InCents:      models.ToPointer(int64(32)),
+        Deposit2InCents:      models.ToPointer(int64(45)),
     },
 }
 

@@ -444,7 +444,7 @@ CreateSignupProformaInvoice(
 ctx := context.Background()
 
 body := models.CreateSubscriptionRequest{
-    Subscription: models.CreateSubscription{
+    Subscription:         models.CreateSubscription{
         ProductHandle:                     models.ToPointer("gold-product"),
         CustomerAttributes:                models.ToPointer(models.CustomerAttributes{
             FirstName:                   models.ToPointer("Myra"),
@@ -510,7 +510,7 @@ ctx := context.Background()
 
 
 body := models.CreateSubscriptionRequest{
-    Subscription: models.CreateSubscription{
+    Subscription:         models.CreateSubscription{
         ProductHandle:                     models.ToPointer("gold-plan"),
         CustomerAttributes:                models.ToPointer(models.CustomerAttributes{
             FirstName:                   models.ToPointer("first"),

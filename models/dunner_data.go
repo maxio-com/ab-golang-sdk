@@ -15,13 +15,13 @@ import (
 
 // DunnerData represents a DunnerData struct.
 type DunnerData struct {
-    State                string         `json:"state"`
-    SubscriptionId       int            `json:"subscription_id"`
-    RevenueAtRiskInCents int64          `json:"revenue_at_risk_in_cents"`
-    CreatedAt            time.Time      `json:"created_at"`
-    Attempts             int            `json:"attempts"`
-    LastAttemptedAt      time.Time      `json:"last_attempted_at"`
-    AdditionalProperties map[string]any `json:"_"`
+    State                string                 `json:"state"`
+    SubscriptionId       int                    `json:"subscription_id"`
+    RevenueAtRiskInCents int64                  `json:"revenue_at_risk_in_cents"`
+    CreatedAt            time.Time              `json:"created_at"`
+    Attempts             int                    `json:"attempts"`
+    LastAttemptedAt      time.Time              `json:"last_attempted_at"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for DunnerData.
@@ -29,13 +29,17 @@ type DunnerData struct {
 func (d DunnerData) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(d.AdditionalProperties,
+        "state", "subscription_id", "revenue_at_risk_in_cents", "created_at", "attempts", "last_attempted_at"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(d.toMap())
 }
 
 // toMap converts the DunnerData object to a map representation for JSON marshaling.
 func (d DunnerData) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, d.AdditionalProperties)
+    MergeAdditionalProperties(structMap, d.AdditionalProperties)
     structMap["state"] = d.State
     structMap["subscription_id"] = d.SubscriptionId
     structMap["revenue_at_risk_in_cents"] = d.RevenueAtRiskInCents
@@ -57,12 +61,12 @@ func (d *DunnerData) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "state", "subscription_id", "revenue_at_risk_in_cents", "created_at", "attempts", "last_attempted_at")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "state", "subscription_id", "revenue_at_risk_in_cents", "created_at", "attempts", "last_attempted_at")
     if err != nil {
     	return err
     }
-    
     d.AdditionalProperties = additionalProperties
+    
     d.State = *temp.State
     d.SubscriptionId = *temp.SubscriptionId
     d.RevenueAtRiskInCents = *temp.RevenueAtRiskInCents

@@ -12,12 +12,12 @@ import (
 // AccountBalance represents a AccountBalance struct.
 type AccountBalance struct {
     // The balance in cents.
-    BalanceInCents           *int64          `json:"balance_in_cents,omitempty"`
+    BalanceInCents           *int64                 `json:"balance_in_cents,omitempty"`
     // The automatic balance in cents.
-    AutomaticBalanceInCents  Optional[int64] `json:"automatic_balance_in_cents"`
+    AutomaticBalanceInCents  Optional[int64]        `json:"automatic_balance_in_cents"`
     // The remittance balance in cents.
-    RemittanceBalanceInCents Optional[int64] `json:"remittance_balance_in_cents"`
-    AdditionalProperties     map[string]any  `json:"_"`
+    RemittanceBalanceInCents Optional[int64]        `json:"remittance_balance_in_cents"`
+    AdditionalProperties     map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for AccountBalance.
@@ -25,13 +25,17 @@ type AccountBalance struct {
 func (a AccountBalance) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(a.AdditionalProperties,
+        "balance_in_cents", "automatic_balance_in_cents", "remittance_balance_in_cents"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(a.toMap())
 }
 
 // toMap converts the AccountBalance object to a map representation for JSON marshaling.
 func (a AccountBalance) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, a.AdditionalProperties)
+    MergeAdditionalProperties(structMap, a.AdditionalProperties)
     if a.BalanceInCents != nil {
         structMap["balance_in_cents"] = a.BalanceInCents
     }
@@ -60,12 +64,12 @@ func (a *AccountBalance) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "balance_in_cents", "automatic_balance_in_cents", "remittance_balance_in_cents")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "balance_in_cents", "automatic_balance_in_cents", "remittance_balance_in_cents")
     if err != nil {
     	return err
     }
-    
     a.AdditionalProperties = additionalProperties
+    
     a.BalanceInCents = temp.BalanceInCents
     a.AutomaticBalanceInCents = temp.AutomaticBalanceInCents
     a.RemittanceBalanceInCents = temp.RemittanceBalanceInCents

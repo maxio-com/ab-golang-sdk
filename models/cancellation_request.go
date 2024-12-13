@@ -13,8 +13,8 @@ import (
 
 // CancellationRequest represents a CancellationRequest struct.
 type CancellationRequest struct {
-    Subscription         CancellationOptions `json:"subscription"`
-    AdditionalProperties map[string]any      `json:"_"`
+    Subscription         CancellationOptions    `json:"subscription"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for CancellationRequest.
@@ -22,13 +22,17 @@ type CancellationRequest struct {
 func (c CancellationRequest) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(c.AdditionalProperties,
+        "subscription"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(c.toMap())
 }
 
 // toMap converts the CancellationRequest object to a map representation for JSON marshaling.
 func (c CancellationRequest) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, c.AdditionalProperties)
+    MergeAdditionalProperties(structMap, c.AdditionalProperties)
     structMap["subscription"] = c.Subscription.toMap()
     return structMap
 }
@@ -45,12 +49,12 @@ func (c *CancellationRequest) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "subscription")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "subscription")
     if err != nil {
     	return err
     }
-    
     c.AdditionalProperties = additionalProperties
+    
     c.Subscription = *temp.Subscription
     return nil
 }

@@ -11,11 +11,11 @@ import (
 
 // CouponCurrency represents a CouponCurrency struct.
 type CouponCurrency struct {
-    Id                   *int           `json:"id,omitempty"`
-    Currency             *string        `json:"currency,omitempty"`
-    Price                *int           `json:"price,omitempty"`
-    CouponId             *int           `json:"coupon_id,omitempty"`
-    AdditionalProperties map[string]any `json:"_"`
+    Id                   Optional[int]          `json:"id"`
+    Currency             *string                `json:"currency,omitempty"`
+    Price                Optional[float64]      `json:"price"`
+    CouponId             *int                   `json:"coupon_id,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for CouponCurrency.
@@ -23,21 +23,33 @@ type CouponCurrency struct {
 func (c CouponCurrency) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(c.AdditionalProperties,
+        "id", "currency", "price", "coupon_id"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(c.toMap())
 }
 
 // toMap converts the CouponCurrency object to a map representation for JSON marshaling.
 func (c CouponCurrency) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, c.AdditionalProperties)
-    if c.Id != nil {
-        structMap["id"] = c.Id
+    MergeAdditionalProperties(structMap, c.AdditionalProperties)
+    if c.Id.IsValueSet() {
+        if c.Id.Value() != nil {
+            structMap["id"] = c.Id.Value()
+        } else {
+            structMap["id"] = nil
+        }
     }
     if c.Currency != nil {
         structMap["currency"] = c.Currency
     }
-    if c.Price != nil {
-        structMap["price"] = c.Price
+    if c.Price.IsValueSet() {
+        if c.Price.Value() != nil {
+            structMap["price"] = c.Price.Value()
+        } else {
+            structMap["price"] = nil
+        }
     }
     if c.CouponId != nil {
         structMap["coupon_id"] = c.CouponId
@@ -53,12 +65,12 @@ func (c *CouponCurrency) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "id", "currency", "price", "coupon_id")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "id", "currency", "price", "coupon_id")
     if err != nil {
     	return err
     }
-    
     c.AdditionalProperties = additionalProperties
+    
     c.Id = temp.Id
     c.Currency = temp.Currency
     c.Price = temp.Price
@@ -68,8 +80,8 @@ func (c *CouponCurrency) UnmarshalJSON(input []byte) error {
 
 // tempCouponCurrency is a temporary struct used for validating the fields of CouponCurrency.
 type tempCouponCurrency  struct {
-    Id       *int    `json:"id,omitempty"`
-    Currency *string `json:"currency,omitempty"`
-    Price    *int    `json:"price,omitempty"`
-    CouponId *int    `json:"coupon_id,omitempty"`
+    Id       Optional[int]     `json:"id"`
+    Currency *string           `json:"currency,omitempty"`
+    Price    Optional[float64] `json:"price"`
+    CouponId *int              `json:"coupon_id,omitempty"`
 }

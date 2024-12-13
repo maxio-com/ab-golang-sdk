@@ -13,8 +13,8 @@ import (
 
 // CustomerResponse represents a CustomerResponse struct.
 type CustomerResponse struct {
-    Customer             Customer       `json:"customer"`
-    AdditionalProperties map[string]any `json:"_"`
+    Customer             Customer               `json:"customer"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for CustomerResponse.
@@ -22,13 +22,17 @@ type CustomerResponse struct {
 func (c CustomerResponse) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(c.AdditionalProperties,
+        "customer"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(c.toMap())
 }
 
 // toMap converts the CustomerResponse object to a map representation for JSON marshaling.
 func (c CustomerResponse) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, c.AdditionalProperties)
+    MergeAdditionalProperties(structMap, c.AdditionalProperties)
     structMap["customer"] = c.Customer.toMap()
     return structMap
 }
@@ -45,12 +49,12 @@ func (c *CustomerResponse) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "customer")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "customer")
     if err != nil {
     	return err
     }
-    
     c.AdditionalProperties = additionalProperties
+    
     c.Customer = *temp.Customer
     return nil
 }

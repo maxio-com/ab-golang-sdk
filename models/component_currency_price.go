@@ -11,13 +11,13 @@ import (
 
 // ComponentCurrencyPrice represents a ComponentCurrencyPrice struct.
 type ComponentCurrencyPrice struct {
-    Id                   *int           `json:"id,omitempty"`
-    Currency             *string        `json:"currency,omitempty"`
-    Price                *string        `json:"price,omitempty"`
-    FormattedPrice       *string        `json:"formatted_price,omitempty"`
-    PriceId              *int           `json:"price_id,omitempty"`
-    PricePointId         *int           `json:"price_point_id,omitempty"`
-    AdditionalProperties map[string]any `json:"_"`
+    Id                   *int                   `json:"id,omitempty"`
+    Currency             *string                `json:"currency,omitempty"`
+    Price                *string                `json:"price,omitempty"`
+    FormattedPrice       *string                `json:"formatted_price,omitempty"`
+    PriceId              *int                   `json:"price_id,omitempty"`
+    PricePointId         *int                   `json:"price_point_id,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for ComponentCurrencyPrice.
@@ -25,13 +25,17 @@ type ComponentCurrencyPrice struct {
 func (c ComponentCurrencyPrice) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(c.AdditionalProperties,
+        "id", "currency", "price", "formatted_price", "price_id", "price_point_id"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(c.toMap())
 }
 
 // toMap converts the ComponentCurrencyPrice object to a map representation for JSON marshaling.
 func (c ComponentCurrencyPrice) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, c.AdditionalProperties)
+    MergeAdditionalProperties(structMap, c.AdditionalProperties)
     if c.Id != nil {
         structMap["id"] = c.Id
     }
@@ -61,12 +65,12 @@ func (c *ComponentCurrencyPrice) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "id", "currency", "price", "formatted_price", "price_id", "price_point_id")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "id", "currency", "price", "formatted_price", "price_id", "price_point_id")
     if err != nil {
     	return err
     }
-    
     c.AdditionalProperties = additionalProperties
+    
     c.Id = temp.Id
     c.Currency = temp.Currency
     c.Price = temp.Price

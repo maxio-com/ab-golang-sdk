@@ -23,7 +23,7 @@ type InvoiceDiscount struct {
     DiscountAmount       *string                    `json:"discount_amount,omitempty"`
     TransactionId        *int                       `json:"transaction_id,omitempty"`
     LineItemBreakouts    []InvoiceDiscountBreakout  `json:"line_item_breakouts,omitempty"`
-    AdditionalProperties map[string]any             `json:"_"`
+    AdditionalProperties map[string]interface{}     `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for InvoiceDiscount.
@@ -31,13 +31,17 @@ type InvoiceDiscount struct {
 func (i InvoiceDiscount) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(i.AdditionalProperties,
+        "uid", "title", "description", "code", "source_type", "source_id", "discount_type", "percentage", "eligible_amount", "discount_amount", "transaction_id", "line_item_breakouts"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(i.toMap())
 }
 
 // toMap converts the InvoiceDiscount object to a map representation for JSON marshaling.
 func (i InvoiceDiscount) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, i.AdditionalProperties)
+    MergeAdditionalProperties(structMap, i.AdditionalProperties)
     if i.Uid != nil {
         structMap["uid"] = i.Uid
     }
@@ -89,12 +93,12 @@ func (i *InvoiceDiscount) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "uid", "title", "description", "code", "source_type", "source_id", "discount_type", "percentage", "eligible_amount", "discount_amount", "transaction_id", "line_item_breakouts")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "uid", "title", "description", "code", "source_type", "source_id", "discount_type", "percentage", "eligible_amount", "discount_amount", "transaction_id", "line_item_breakouts")
     if err != nil {
     	return err
     }
-    
     i.AdditionalProperties = additionalProperties
+    
     i.Uid = temp.Uid
     i.Title = temp.Title
     i.Description = temp.Description

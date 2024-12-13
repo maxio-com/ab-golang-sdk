@@ -11,15 +11,15 @@ import (
 
 // SegmentPrice represents a SegmentPrice struct.
 type SegmentPrice struct {
-    Id                   *int           `json:"id,omitempty"`
-    ComponentId          *int           `json:"component_id,omitempty"`
-    StartingQuantity     *int           `json:"starting_quantity,omitempty"`
-    EndingQuantity       Optional[int]  `json:"ending_quantity"`
-    UnitPrice            *string        `json:"unit_price,omitempty"`
-    PricePointId         *int           `json:"price_point_id,omitempty"`
-    FormattedUnitPrice   *string        `json:"formatted_unit_price,omitempty"`
-    SegmentId            *int           `json:"segment_id,omitempty"`
-    AdditionalProperties map[string]any `json:"_"`
+    Id                   *int                   `json:"id,omitempty"`
+    ComponentId          *int                   `json:"component_id,omitempty"`
+    StartingQuantity     *int                   `json:"starting_quantity,omitempty"`
+    EndingQuantity       Optional[int]          `json:"ending_quantity"`
+    UnitPrice            *string                `json:"unit_price,omitempty"`
+    PricePointId         *int                   `json:"price_point_id,omitempty"`
+    FormattedUnitPrice   *string                `json:"formatted_unit_price,omitempty"`
+    SegmentId            *int                   `json:"segment_id,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for SegmentPrice.
@@ -27,13 +27,17 @@ type SegmentPrice struct {
 func (s SegmentPrice) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(s.AdditionalProperties,
+        "id", "component_id", "starting_quantity", "ending_quantity", "unit_price", "price_point_id", "formatted_unit_price", "segment_id"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(s.toMap())
 }
 
 // toMap converts the SegmentPrice object to a map representation for JSON marshaling.
 func (s SegmentPrice) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, s.AdditionalProperties)
+    MergeAdditionalProperties(structMap, s.AdditionalProperties)
     if s.Id != nil {
         structMap["id"] = s.Id
     }
@@ -73,12 +77,12 @@ func (s *SegmentPrice) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "id", "component_id", "starting_quantity", "ending_quantity", "unit_price", "price_point_id", "formatted_unit_price", "segment_id")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "id", "component_id", "starting_quantity", "ending_quantity", "unit_price", "price_point_id", "formatted_unit_price", "segment_id")
     if err != nil {
     	return err
     }
-    
     s.AdditionalProperties = additionalProperties
+    
     s.Id = temp.Id
     s.ComponentId = temp.ComponentId
     s.StartingQuantity = temp.StartingQuantity

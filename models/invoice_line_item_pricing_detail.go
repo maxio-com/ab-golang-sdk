@@ -11,9 +11,9 @@ import (
 
 // InvoiceLineItemPricingDetail represents a InvoiceLineItemPricingDetail struct.
 type InvoiceLineItemPricingDetail struct {
-    Label                *string        `json:"label,omitempty"`
-    Amount               *string        `json:"amount,omitempty"`
-    AdditionalProperties map[string]any `json:"_"`
+    Label                *string                `json:"label,omitempty"`
+    Amount               *string                `json:"amount,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for InvoiceLineItemPricingDetail.
@@ -21,13 +21,17 @@ type InvoiceLineItemPricingDetail struct {
 func (i InvoiceLineItemPricingDetail) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(i.AdditionalProperties,
+        "label", "amount"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(i.toMap())
 }
 
 // toMap converts the InvoiceLineItemPricingDetail object to a map representation for JSON marshaling.
 func (i InvoiceLineItemPricingDetail) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, i.AdditionalProperties)
+    MergeAdditionalProperties(structMap, i.AdditionalProperties)
     if i.Label != nil {
         structMap["label"] = i.Label
     }
@@ -45,12 +49,12 @@ func (i *InvoiceLineItemPricingDetail) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "label", "amount")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "label", "amount")
     if err != nil {
     	return err
     }
-    
     i.AdditionalProperties = additionalProperties
+    
     i.Label = temp.Label
     i.Amount = temp.Amount
     return nil

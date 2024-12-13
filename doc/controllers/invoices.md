@@ -67,13 +67,13 @@ ctx := context.Background()
 uid := "uid0"
 
 body := models.RefundInvoiceRequest{
-    Refund: models.RefundInvoiceRequestRefundContainer.FromRefundInvoice(models.RefundInvoice{
-        Amount:      "100.00",
-        Memo:        "Refund for Basic Plan renewal",
-        PaymentId:   12345,
-        External:    models.ToPointer(false),
-        ApplyCredit: models.ToPointer(false),
-        VoidInvoice: models.ToPointer(true),
+    Refund:               models.RefundInvoiceRequestRefundContainer.FromRefundInvoice(models.RefundInvoice{
+        Amount:               "100.00",
+        Memo:                 "Refund for Basic Plan renewal",
+        PaymentId:            12345,
+        External:             models.ToPointer(false),
+        ApplyCredit:          models.ToPointer(false),
+        VoidInvoice:          models.ToPointer(true),
     }),
 }
 
@@ -1146,11 +1146,11 @@ ctx := context.Background()
 uid := "uid0"
 
 body := models.CreateInvoicePaymentRequest{
-    Payment: models.CreateInvoicePayment{
-        Amount:           models.ToPointer(models.CreateInvoicePaymentAmountContainer.FromPrecision(float64(124.33))),
-        Memo:             models.ToPointer("for John Smith"),
-        Method:           models.ToPointer(models.InvoicePaymentMethodType("check")),
-        Details:          models.ToPointer("#0102"),
+    Payment:              models.CreateInvoicePayment{
+        Amount:               models.ToPointer(models.CreateInvoicePaymentAmountContainer.FromPrecision(float64(124.33))),
+        Memo:                 models.ToPointer("for John Smith"),
+        Method:               models.ToPointer(models.InvoicePaymentMethodType("check")),
+        Details:              models.ToPointer("#0102"),
     },
 }
 
@@ -1224,19 +1224,19 @@ RecordPaymentForMultipleInvoices(
 ctx := context.Background()
 
 body := models.CreateMultiInvoicePaymentRequest{
-    Payment: models.CreateMultiInvoicePayment{
-        Memo:         models.ToPointer("to pay the bills"),
-        Details:      models.ToPointer("check number 8675309"),
-        Method:       models.ToPointer(models.InvoicePaymentMethodType("check")),
-        Amount:       models.CreateMultiInvoicePaymentAmountContainer.FromString("100.00"),
-        Applications: []models.CreateInvoicePaymentApplication{
+    Payment:              models.CreateMultiInvoicePayment{
+        Memo:                 models.ToPointer("to pay the bills"),
+        Details:              models.ToPointer("check number 8675309"),
+        Method:               models.ToPointer(models.InvoicePaymentMethodType("check")),
+        Amount:               models.CreateMultiInvoicePaymentAmountContainer.FromString("100.00"),
+        Applications:         []models.CreateInvoicePaymentApplication{
             models.CreateInvoicePaymentApplication{
-                InvoiceUid: "inv_8gk5bwkct3gqt",
-                Amount:     "50.00",
+                InvoiceUid:           "inv_8gk5bwkct3gqt",
+                Amount:               "50.00",
             },
             models.CreateInvoicePaymentApplication{
-                InvoiceUid: "inv_7bc6bwkct3lyt",
-                Amount:     "50.00",
+                InvoiceUid:           "inv_7bc6bwkct3lyt",
+                Amount:               "50.00",
             },
         },
     },
@@ -2028,11 +2028,11 @@ ctx := context.Background()
 subscriptionId := 222
 
 body := models.RecordPaymentRequest{
-    Payment: models.CreatePayment{
-        Amount:         "10.0",
-        Memo:           "to pay the bills",
-        PaymentDetails: "check number 8675309",
-        PaymentMethod:  models.InvoicePaymentMethodType("check"),
+    Payment:              models.CreatePayment{
+        Amount:               "10.0",
+        Memo:                 "to pay the bills",
+        PaymentDetails:       "check number 8675309",
+        PaymentMethod:        models.InvoicePaymentMethodType("check"),
     },
 }
 
@@ -2165,8 +2165,8 @@ ctx := context.Background()
 uid := "uid0"
 
 body := models.VoidInvoiceRequest{
-    Void: models.VoidInvoice{
-        Reason: "Duplicate invoice",
+    Void:                 models.VoidInvoice{
+        Reason:               "Duplicate invoice",
     },
 }
 
@@ -2707,12 +2707,12 @@ ctx := context.Background()
 subscriptionId := 222
 
 body := models.CreateInvoiceRequest{
-    Invoice: models.CreateInvoice{
-        LineItems:           []models.CreateInvoiceItem{
+    Invoice:              models.CreateInvoice{
+        LineItems:            []models.CreateInvoiceItem{
             models.CreateInvoiceItem{
-                Title:               models.ToPointer("A Product"),
-                Quantity:            models.ToPointer(models.CreateInvoiceItemQuantityContainer.FromPrecision(float64(12))),
-                UnitPrice:           models.ToPointer(models.CreateInvoiceItemUnitPriceContainer.FromString("150.00")),
+                Title:                models.ToPointer("A Product"),
+                Quantity:             models.ToPointer(models.CreateInvoiceItemQuantityContainer.FromPrecision(float64(12))),
+                UnitPrice:            models.ToPointer(models.CreateInvoiceItemUnitPriceContainer.FromString("150.00")),
             },
         },
     },
@@ -2868,13 +2868,13 @@ ctx := context.Background()
 uid := "uid0"
 
 body := models.SendInvoiceRequest{
-    RecipientEmails:    []string{
+    RecipientEmails:      []string{
         "user0@example.com",
     },
-    CcRecipientEmails:  []string{
+    CcRecipientEmails:    []string{
         "user1@example.com",
     },
-    BccRecipientEmails: []string{
+    BccRecipientEmails:   []string{
         "user2@example.com",
     },
 }
@@ -3275,7 +3275,7 @@ ctx := context.Background()
 uid := "uid0"
 
 body := models.IssueInvoiceRequest{
-    OnFailedPayment: models.ToPointer(models.FailedPaymentAction("leave_open_invoice")),
+    OnFailedPayment:      models.ToPointer(models.FailedPaymentAction("leave_open_invoice")),
 }
 
 apiResponse, err := invoicesController.IssueInvoice(ctx, uid, &body)

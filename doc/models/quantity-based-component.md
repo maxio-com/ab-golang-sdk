@@ -22,7 +22,6 @@
 | `UnitPrice` | [`*models.QuantityBasedComponentUnitPrice`](../../doc/models/containers/quantity-based-component-unit-price.md) | Optional | This is a container for one-of cases. |
 | `TaxCode` | `*string` | Optional | A string representing the tax code related to the component type. This is especially important when using the Avalara service to tax based on locale. This attribute has a max length of 10 characters. |
 | `HideDateRangeOnInvoice` | `*bool` | Optional | (Only available on Relationship Invoicing sites) Boolean flag describing if the service date range should show for the component on generated invoices. |
-| `PriceInCents` | `*string` | Optional | deprecated May 2011 - use unit_price instead |
 | `Recurring` | `*bool` | Optional | - |
 | `DisplayOnHostedPage` | `*bool` | Optional | - |
 | `AllowFractionalQuantities` | `*bool` | Optional | - |

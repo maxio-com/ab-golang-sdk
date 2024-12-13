@@ -11,10 +11,10 @@ import (
 
 // OfferDiscount represents a OfferDiscount struct.
 type OfferDiscount struct {
-    CouponCode           *string        `json:"coupon_code,omitempty"`
-    CouponId             *int           `json:"coupon_id,omitempty"`
-    CouponName           *string        `json:"coupon_name,omitempty"`
-    AdditionalProperties map[string]any `json:"_"`
+    CouponCode           *string                `json:"coupon_code,omitempty"`
+    CouponId             *int                   `json:"coupon_id,omitempty"`
+    CouponName           *string                `json:"coupon_name,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for OfferDiscount.
@@ -22,13 +22,17 @@ type OfferDiscount struct {
 func (o OfferDiscount) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(o.AdditionalProperties,
+        "coupon_code", "coupon_id", "coupon_name"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(o.toMap())
 }
 
 // toMap converts the OfferDiscount object to a map representation for JSON marshaling.
 func (o OfferDiscount) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, o.AdditionalProperties)
+    MergeAdditionalProperties(structMap, o.AdditionalProperties)
     if o.CouponCode != nil {
         structMap["coupon_code"] = o.CouponCode
     }
@@ -49,12 +53,12 @@ func (o *OfferDiscount) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "coupon_code", "coupon_id", "coupon_name")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "coupon_code", "coupon_id", "coupon_name")
     if err != nil {
     	return err
     }
-    
     o.AdditionalProperties = additionalProperties
+    
     o.CouponCode = temp.CouponCode
     o.CouponId = temp.CouponId
     o.CouponName = temp.CouponName

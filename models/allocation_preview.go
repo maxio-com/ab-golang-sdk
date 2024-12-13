@@ -27,7 +27,7 @@ type AllocationPreview struct {
     PeriodType             *string                     `json:"period_type,omitempty"`
     // An integer representing the amount of the subscription's current balance
     ExistingBalanceInCents *int64                      `json:"existing_balance_in_cents,omitempty"`
-    AdditionalProperties   map[string]any              `json:"_"`
+    AdditionalProperties   map[string]interface{}      `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for AllocationPreview.
@@ -35,13 +35,17 @@ type AllocationPreview struct {
 func (a AllocationPreview) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(a.AdditionalProperties,
+        "start_date", "end_date", "subtotal_in_cents", "total_tax_in_cents", "total_discount_in_cents", "total_in_cents", "direction", "proration_scheme", "line_items", "accrue_charge", "allocations", "period_type", "existing_balance_in_cents"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(a.toMap())
 }
 
 // toMap converts the AllocationPreview object to a map representation for JSON marshaling.
 func (a AllocationPreview) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, a.AdditionalProperties)
+    MergeAdditionalProperties(structMap, a.AdditionalProperties)
     if a.StartDate != nil {
         structMap["start_date"] = a.StartDate.Format(time.RFC3339)
     }
@@ -92,12 +96,12 @@ func (a *AllocationPreview) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "start_date", "end_date", "subtotal_in_cents", "total_tax_in_cents", "total_discount_in_cents", "total_in_cents", "direction", "proration_scheme", "line_items", "accrue_charge", "allocations", "period_type", "existing_balance_in_cents")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "start_date", "end_date", "subtotal_in_cents", "total_tax_in_cents", "total_discount_in_cents", "total_in_cents", "direction", "proration_scheme", "line_items", "accrue_charge", "allocations", "period_type", "existing_balance_in_cents")
     if err != nil {
     	return err
     }
-    
     a.AdditionalProperties = additionalProperties
+    
     if temp.StartDate != nil {
         StartDateVal, err := time.Parse(time.RFC3339, *temp.StartDate)
         if err != nil {

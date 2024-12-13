@@ -11,9 +11,9 @@ import (
 
 // Errors represents a Errors struct.
 type Errors struct {
-    PerPage              []string       `json:"per_page,omitempty"`
-    PricePoint           []string       `json:"price_point,omitempty"`
-    AdditionalProperties map[string]any `json:"_"`
+    PerPage              []string               `json:"per_page,omitempty"`
+    PricePoint           []string               `json:"price_point,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for Errors.
@@ -21,13 +21,17 @@ type Errors struct {
 func (m Errors) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(m.AdditionalProperties,
+        "per_page", "price_point"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(m.toMap())
 }
 
 // toMap converts the Errors object to a map representation for JSON marshaling.
 func (m Errors) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, m.AdditionalProperties)
+    MergeAdditionalProperties(structMap, m.AdditionalProperties)
     if m.PerPage != nil {
         structMap["per_page"] = m.PerPage
     }
@@ -45,12 +49,12 @@ func (m *Errors) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "per_page", "price_point")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "per_page", "price_point")
     if err != nil {
     	return err
     }
-    
     m.AdditionalProperties = additionalProperties
+    
     m.PerPage = temp.PerPage
     m.PricePoint = temp.PricePoint
     return nil

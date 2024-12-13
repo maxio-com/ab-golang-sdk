@@ -58,7 +58,7 @@ type Allocation struct {
     ExpiresAt                *time.Time                     `json:"expires_at,omitempty"`
     UsedQuantity             *int64                         `json:"used_quantity,omitempty"`
     ChargeId                 *int64                         `json:"charge_id,omitempty"`
-    AdditionalProperties     map[string]any                 `json:"_"`
+    AdditionalProperties     map[string]interface{}         `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for Allocation.
@@ -66,13 +66,17 @@ type Allocation struct {
 func (a Allocation) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(a.AdditionalProperties,
+        "allocation_id", "component_id", "component_handle", "subscription_id", "quantity", "previous_quantity", "memo", "timestamp", "created_at", "proration_upgrade_scheme", "proration_downgrade_scheme", "price_point_id", "price_point_name", "price_point_handle", "interval", "interval_unit", "previous_price_point_id", "accrue_charge", "initiate_dunning", "upgrade_charge", "downgrade_credit", "payment", "expires_at", "used_quantity", "charge_id"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(a.toMap())
 }
 
 // toMap converts the Allocation object to a map representation for JSON marshaling.
 func (a Allocation) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, a.AdditionalProperties)
+    MergeAdditionalProperties(structMap, a.AdditionalProperties)
     if a.AllocationId != nil {
         structMap["allocation_id"] = a.AllocationId
     }
@@ -183,12 +187,12 @@ func (a *Allocation) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "allocation_id", "component_id", "component_handle", "subscription_id", "quantity", "previous_quantity", "memo", "timestamp", "created_at", "proration_upgrade_scheme", "proration_downgrade_scheme", "price_point_id", "price_point_name", "price_point_handle", "interval", "interval_unit", "previous_price_point_id", "accrue_charge", "initiate_dunning", "upgrade_charge", "downgrade_credit", "payment", "expires_at", "used_quantity", "charge_id")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "allocation_id", "component_id", "component_handle", "subscription_id", "quantity", "previous_quantity", "memo", "timestamp", "created_at", "proration_upgrade_scheme", "proration_downgrade_scheme", "price_point_id", "price_point_name", "price_point_handle", "interval", "interval_unit", "previous_price_point_id", "accrue_charge", "initiate_dunning", "upgrade_charge", "downgrade_credit", "payment", "expires_at", "used_quantity", "charge_id")
     if err != nil {
     	return err
     }
-    
     a.AdditionalProperties = additionalProperties
+    
     a.AllocationId = temp.AllocationId
     a.ComponentId = temp.ComponentId
     a.ComponentHandle = temp.ComponentHandle

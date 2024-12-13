@@ -13,10 +13,10 @@ import (
 
 // PublicKey represents a PublicKey struct.
 type PublicKey struct {
-    PublicKey             *string        `json:"public_key,omitempty"`
-    RequiresSecurityToken *bool          `json:"requires_security_token,omitempty"`
-    CreatedAt             *time.Time     `json:"created_at,omitempty"`
-    AdditionalProperties  map[string]any `json:"_"`
+    PublicKey             *string                `json:"public_key,omitempty"`
+    RequiresSecurityToken *bool                  `json:"requires_security_token,omitempty"`
+    CreatedAt             *time.Time             `json:"created_at,omitempty"`
+    AdditionalProperties  map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for PublicKey.
@@ -24,13 +24,17 @@ type PublicKey struct {
 func (p PublicKey) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(p.AdditionalProperties,
+        "public_key", "requires_security_token", "created_at"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(p.toMap())
 }
 
 // toMap converts the PublicKey object to a map representation for JSON marshaling.
 func (p PublicKey) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, p.AdditionalProperties)
+    MergeAdditionalProperties(structMap, p.AdditionalProperties)
     if p.PublicKey != nil {
         structMap["public_key"] = p.PublicKey
     }
@@ -51,12 +55,12 @@ func (p *PublicKey) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "public_key", "requires_security_token", "created_at")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "public_key", "requires_security_token", "created_at")
     if err != nil {
     	return err
     }
-    
     p.AdditionalProperties = additionalProperties
+    
     p.PublicKey = temp.PublicKey
     p.RequiresSecurityToken = temp.RequiresSecurityToken
     if temp.CreatedAt != nil {

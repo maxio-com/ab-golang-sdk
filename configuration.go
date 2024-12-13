@@ -15,8 +15,7 @@ type ConfigurationOptions func(*Configuration)
 // Configuration holds configuration settings.
 type Configuration struct {
     environment          Environment
-    subdomain            string
-    domain               string
+    site                 string
     httpConfiguration    HttpConfiguration
     basicAuthCredentials BasicAuthCredentials
 }
@@ -46,17 +45,10 @@ func WithEnvironment(environment Environment) ConfigurationOptions {
     }
 }
 
-// WithSubdomain is an option that sets the Subdomain in the Configuration.
-func WithSubdomain(subdomain string) ConfigurationOptions {
+// WithSite is an option that sets the Site in the Configuration.
+func WithSite(site string) ConfigurationOptions {
     return func(c *Configuration) {
-        c.subdomain = subdomain
-    }
-}
-
-// WithDomain is an option that sets the Domain in the Configuration.
-func WithDomain(domain string) ConfigurationOptions {
-    return func(c *Configuration) {
-        c.domain = domain
+        c.site = site
     }
 }
 
@@ -79,14 +71,9 @@ func (c Configuration) Environment() Environment {
     return c.environment
 }
 
-// Subdomain returns the subdomain from the Configuration.
-func (c Configuration) Subdomain() string {
-    return c.subdomain
-}
-
-// Domain returns the domain from the Configuration.
-func (c Configuration) Domain() string {
-    return c.domain
+// Site returns the site from the Configuration.
+func (c Configuration) Site() string {
+    return c.site
 }
 
 // HttpConfiguration returns the httpConfiguration from the Configuration.
@@ -108,13 +95,9 @@ func CreateConfigurationFromEnvironment(options ...ConfigurationOptions) Configu
     if environment != "" {
         config.environment = Environment(environment)
     }
-    subdomain := os.Getenv("ADVANCEDBILLING_SUBDOMAIN")
-    if subdomain != "" {
-        config.subdomain = subdomain
-    }
-    domain := os.Getenv("ADVANCEDBILLING_DOMAIN")
-    if domain != "" {
-        config.domain = domain
+    site := os.Getenv("ADVANCEDBILLING_SITE")
+    if site != "" {
+        config.site = site
     }
     basicAuthUserName := os.Getenv("ADVANCEDBILLING_BASIC_AUTH_USER_NAME")
     if basicAuthUserName != "" {
@@ -134,15 +117,16 @@ func CreateConfigurationFromEnvironment(options ...ConfigurationOptions) Configu
 type Server string
 
 const (
-    ENUMDEFAULT Server = "default"
+    PRODUCTION Server = "production"
+    EBB        Server = "ebb"
 )
 
 // Environment represents available environments.
 type Environment string
 
 const (
-    PRODUCTION   Environment = "production"
-    ENVIRONMENT2 Environment = "environment2"
+    US Environment = "US"
+    EU Environment = "EU"
 )
 
 // CreateRetryConfiguration creates a new RetryConfiguration with the provided options.

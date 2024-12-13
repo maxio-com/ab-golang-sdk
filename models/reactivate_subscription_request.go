@@ -23,7 +23,7 @@ type ReactivateSubscriptionRequest struct {
     UseCreditsAndPrepayments *bool                                `json:"use_credits_and_prepayments,omitempty"`
     // If `true`, Chargify will attempt to resume the subscription's billing period. if not resumable, the subscription will be reactivated with a new billing period. If `false`: Chargify will only attempt to reactivate the subscription.
     Resume                   *ReactivateSubscriptionRequestResume `json:"resume,omitempty"`
-    AdditionalProperties     map[string]any                       `json:"_"`
+    AdditionalProperties     map[string]interface{}               `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for ReactivateSubscriptionRequest.
@@ -31,13 +31,17 @@ type ReactivateSubscriptionRequest struct {
 func (r ReactivateSubscriptionRequest) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(r.AdditionalProperties,
+        "calendar_billing", "include_trial", "preserve_balance", "coupon_code", "use_credits_and_prepayments", "resume"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(r.toMap())
 }
 
 // toMap converts the ReactivateSubscriptionRequest object to a map representation for JSON marshaling.
 func (r ReactivateSubscriptionRequest) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, r.AdditionalProperties)
+    MergeAdditionalProperties(structMap, r.AdditionalProperties)
     if r.CalendarBilling != nil {
         structMap["calendar_billing"] = r.CalendarBilling.toMap()
     }
@@ -67,12 +71,12 @@ func (r *ReactivateSubscriptionRequest) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "calendar_billing", "include_trial", "preserve_balance", "coupon_code", "use_credits_and_prepayments", "resume")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "calendar_billing", "include_trial", "preserve_balance", "coupon_code", "use_credits_and_prepayments", "resume")
     if err != nil {
     	return err
     }
-    
     r.AdditionalProperties = additionalProperties
+    
     r.CalendarBilling = temp.CalendarBilling
     r.IncludeTrial = temp.IncludeTrial
     r.PreserveBalance = temp.PreserveBalance

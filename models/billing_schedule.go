@@ -15,8 +15,8 @@ import (
 // This attribute is particularly useful when you need to align billing events for different components on distinct schedules within a subscription. Please note this only works for site with Multifrequency enabled
 type BillingSchedule struct {
     // The initial_billing_at attribute in Maxio allows you to specify a custom starting date for billing cycles associated with components that have their own billing frequency set. Only ISO8601 format is supported.
-    InitialBillingAt     *time.Time     `json:"initial_billing_at,omitempty"`
-    AdditionalProperties map[string]any `json:"_"`
+    InitialBillingAt     *time.Time             `json:"initial_billing_at,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for BillingSchedule.
@@ -24,13 +24,17 @@ type BillingSchedule struct {
 func (b BillingSchedule) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(b.AdditionalProperties,
+        "initial_billing_at"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(b.toMap())
 }
 
 // toMap converts the BillingSchedule object to a map representation for JSON marshaling.
 func (b BillingSchedule) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, b.AdditionalProperties)
+    MergeAdditionalProperties(structMap, b.AdditionalProperties)
     if b.InitialBillingAt != nil {
         structMap["initial_billing_at"] = b.InitialBillingAt.Format(DEFAULT_DATE)
     }
@@ -45,12 +49,12 @@ func (b *BillingSchedule) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "initial_billing_at")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "initial_billing_at")
     if err != nil {
     	return err
     }
-    
     b.AdditionalProperties = additionalProperties
+    
     if temp.InitialBillingAt != nil {
         InitialBillingAtVal, err := time.Parse(DEFAULT_DATE, *temp.InitialBillingAt)
         if err != nil {

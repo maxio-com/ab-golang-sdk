@@ -55,7 +55,7 @@ type SubscriptionComponent struct {
     Interval                  *int                                    `json:"interval,omitempty"`
     // A string representing the interval unit for this component price point, either month or day. This property is only available for sites with Multifrequency enabled.
     IntervalUnit              Optional[IntervalUnit]                  `json:"interval_unit"`
-    AdditionalProperties      map[string]any                          `json:"_"`
+    AdditionalProperties      map[string]interface{}                  `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for SubscriptionComponent.
@@ -63,13 +63,17 @@ type SubscriptionComponent struct {
 func (s SubscriptionComponent) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(s.AdditionalProperties,
+        "id", "name", "kind", "unit_name", "enabled", "unit_balance", "currency", "allocated_quantity", "pricing_scheme", "component_id", "component_handle", "subscription_id", "recurring", "upgrade_charge", "downgrade_credit", "archived_at", "price_point_id", "price_point_handle", "price_point_type", "price_point_name", "product_family_id", "product_family_handle", "created_at", "updated_at", "use_site_exchange_rate", "description", "allow_fractional_quantities", "subscription", "historic_usages", "display_on_hosted_page", "interval", "interval_unit"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(s.toMap())
 }
 
 // toMap converts the SubscriptionComponent object to a map representation for JSON marshaling.
 func (s SubscriptionComponent) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, s.AdditionalProperties)
+    MergeAdditionalProperties(structMap, s.AdditionalProperties)
     if s.Id != nil {
         structMap["id"] = s.Id
     }
@@ -230,12 +234,12 @@ func (s *SubscriptionComponent) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "id", "name", "kind", "unit_name", "enabled", "unit_balance", "currency", "allocated_quantity", "pricing_scheme", "component_id", "component_handle", "subscription_id", "recurring", "upgrade_charge", "downgrade_credit", "archived_at", "price_point_id", "price_point_handle", "price_point_type", "price_point_name", "product_family_id", "product_family_handle", "created_at", "updated_at", "use_site_exchange_rate", "description", "allow_fractional_quantities", "subscription", "historic_usages", "display_on_hosted_page", "interval", "interval_unit")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "id", "name", "kind", "unit_name", "enabled", "unit_balance", "currency", "allocated_quantity", "pricing_scheme", "component_id", "component_handle", "subscription_id", "recurring", "upgrade_charge", "downgrade_credit", "archived_at", "price_point_id", "price_point_handle", "price_point_type", "price_point_name", "product_family_id", "product_family_handle", "created_at", "updated_at", "use_site_exchange_rate", "description", "allow_fractional_quantities", "subscription", "historic_usages", "display_on_hosted_page", "interval", "interval_unit")
     if err != nil {
     	return err
     }
-    
     s.AdditionalProperties = additionalProperties
+    
     s.Id = temp.Id
     s.Name = temp.Name
     s.Kind = temp.Kind

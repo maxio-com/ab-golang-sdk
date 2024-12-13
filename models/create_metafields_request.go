@@ -14,7 +14,7 @@ import (
 // CreateMetafieldsRequest represents a CreateMetafieldsRequest struct.
 type CreateMetafieldsRequest struct {
     Metafields           CreateMetafieldsRequestMetafields `json:"metafields"`
-    AdditionalProperties map[string]any                    `json:"_"`
+    AdditionalProperties map[string]interface{}            `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreateMetafieldsRequest.
@@ -22,13 +22,17 @@ type CreateMetafieldsRequest struct {
 func (c CreateMetafieldsRequest) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(c.AdditionalProperties,
+        "metafields"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(c.toMap())
 }
 
 // toMap converts the CreateMetafieldsRequest object to a map representation for JSON marshaling.
 func (c CreateMetafieldsRequest) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, c.AdditionalProperties)
+    MergeAdditionalProperties(structMap, c.AdditionalProperties)
     structMap["metafields"] = c.Metafields.toMap()
     return structMap
 }
@@ -45,12 +49,12 @@ func (c *CreateMetafieldsRequest) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "metafields")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "metafields")
     if err != nil {
     	return err
     }
-    
     c.AdditionalProperties = additionalProperties
+    
     c.Metafields = *temp.Metafields
     return nil
 }

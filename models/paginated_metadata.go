@@ -11,12 +11,12 @@ import (
 
 // PaginatedMetadata represents a PaginatedMetadata struct.
 type PaginatedMetadata struct {
-    TotalCount           *int           `json:"total_count,omitempty"`
-    CurrentPage          *int           `json:"current_page,omitempty"`
-    TotalPages           *int           `json:"total_pages,omitempty"`
-    PerPage              *int           `json:"per_page,omitempty"`
-    Metadata             []Metadata     `json:"metadata,omitempty"`
-    AdditionalProperties map[string]any `json:"_"`
+    TotalCount           *int                   `json:"total_count,omitempty"`
+    CurrentPage          *int                   `json:"current_page,omitempty"`
+    TotalPages           *int                   `json:"total_pages,omitempty"`
+    PerPage              *int                   `json:"per_page,omitempty"`
+    Metadata             []Metadata             `json:"metadata,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for PaginatedMetadata.
@@ -24,13 +24,17 @@ type PaginatedMetadata struct {
 func (p PaginatedMetadata) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(p.AdditionalProperties,
+        "total_count", "current_page", "total_pages", "per_page", "metadata"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(p.toMap())
 }
 
 // toMap converts the PaginatedMetadata object to a map representation for JSON marshaling.
 func (p PaginatedMetadata) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, p.AdditionalProperties)
+    MergeAdditionalProperties(structMap, p.AdditionalProperties)
     if p.TotalCount != nil {
         structMap["total_count"] = p.TotalCount
     }
@@ -57,12 +61,12 @@ func (p *PaginatedMetadata) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "total_count", "current_page", "total_pages", "per_page", "metadata")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "total_count", "current_page", "total_pages", "per_page", "metadata")
     if err != nil {
     	return err
     }
-    
     p.AdditionalProperties = additionalProperties
+    
     p.TotalCount = temp.TotalCount
     p.CurrentPage = temp.CurrentPage
     p.TotalPages = temp.TotalPages

@@ -11,14 +11,14 @@ import (
 
 // SaleRepSettings represents a SaleRepSettings struct.
 type SaleRepSettings struct {
-    CustomerName         *string        `json:"customer_name,omitempty"`
-    SubscriptionId       *int           `json:"subscription_id,omitempty"`
-    SiteLink             *string        `json:"site_link,omitempty"`
-    SiteName             *string        `json:"site_name,omitempty"`
-    SubscriptionMrr      *string        `json:"subscription_mrr,omitempty"`
-    SalesRepId           *int           `json:"sales_rep_id,omitempty"`
-    SalesRepName         *string        `json:"sales_rep_name,omitempty"`
-    AdditionalProperties map[string]any `json:"_"`
+    CustomerName         *string                `json:"customer_name,omitempty"`
+    SubscriptionId       *int                   `json:"subscription_id,omitempty"`
+    SiteLink             *string                `json:"site_link,omitempty"`
+    SiteName             *string                `json:"site_name,omitempty"`
+    SubscriptionMrr      *string                `json:"subscription_mrr,omitempty"`
+    SalesRepId           *int                   `json:"sales_rep_id,omitempty"`
+    SalesRepName         *string                `json:"sales_rep_name,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for SaleRepSettings.
@@ -26,13 +26,17 @@ type SaleRepSettings struct {
 func (s SaleRepSettings) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(s.AdditionalProperties,
+        "customer_name", "subscription_id", "site_link", "site_name", "subscription_mrr", "sales_rep_id", "sales_rep_name"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(s.toMap())
 }
 
 // toMap converts the SaleRepSettings object to a map representation for JSON marshaling.
 func (s SaleRepSettings) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, s.AdditionalProperties)
+    MergeAdditionalProperties(structMap, s.AdditionalProperties)
     if s.CustomerName != nil {
         structMap["customer_name"] = s.CustomerName
     }
@@ -65,12 +69,12 @@ func (s *SaleRepSettings) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "customer_name", "subscription_id", "site_link", "site_name", "subscription_mrr", "sales_rep_id", "sales_rep_name")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "customer_name", "subscription_id", "site_link", "site_name", "subscription_mrr", "sales_rep_id", "sales_rep_name")
     if err != nil {
     	return err
     }
-    
     s.AdditionalProperties = additionalProperties
+    
     s.CustomerName = temp.CustomerName
     s.SubscriptionId = temp.SubscriptionId
     s.SiteLink = temp.SiteLink

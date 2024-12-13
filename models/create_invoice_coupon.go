@@ -16,8 +16,9 @@ type CreateInvoiceCoupon struct {
     Amount               *CreateInvoiceCouponAmount          `json:"amount,omitempty"`
     Description          *string                             `json:"description,omitempty"`
     ProductFamilyId      *CreateInvoiceCouponProductFamilyId `json:"product_family_id,omitempty"`
+    // Applicable only to stackable coupons. For `compound`, Percentage-based discounts will be calculated against the remaining price, after prior discounts have been calculated. For `full-price`, Percentage-based discounts will always be calculated against the original item price, before other discounts are applied.
     CompoundingStrategy  *CompoundingStrategy                `json:"compounding_strategy,omitempty"`
-    AdditionalProperties map[string]any                      `json:"_"`
+    AdditionalProperties map[string]interface{}              `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreateInvoiceCoupon.
@@ -25,13 +26,17 @@ type CreateInvoiceCoupon struct {
 func (c CreateInvoiceCoupon) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(c.AdditionalProperties,
+        "code", "percentage", "amount", "description", "product_family_id", "compounding_strategy"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(c.toMap())
 }
 
 // toMap converts the CreateInvoiceCoupon object to a map representation for JSON marshaling.
 func (c CreateInvoiceCoupon) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, c.AdditionalProperties)
+    MergeAdditionalProperties(structMap, c.AdditionalProperties)
     if c.Code != nil {
         structMap["code"] = c.Code
     }
@@ -61,12 +66,12 @@ func (c *CreateInvoiceCoupon) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "code", "percentage", "amount", "description", "product_family_id", "compounding_strategy")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "code", "percentage", "amount", "description", "product_family_id", "compounding_strategy")
     if err != nil {
     	return err
     }
-    
     c.AdditionalProperties = additionalProperties
+    
     c.Code = temp.Code
     c.Percentage = temp.Percentage
     c.Amount = temp.Amount

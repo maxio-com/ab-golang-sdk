@@ -148,7 +148,7 @@ type Subscription struct {
     PrepaidConfiguration              Optional[PrepaidConfiguration]    `json:"prepaid_configuration"`
     // Returned only for list/read Subscription operation when `include[]=self_service_page_token` parameter is provided.
     SelfServicePageToken              *string                           `json:"self_service_page_token,omitempty"`
-    AdditionalProperties              map[string]any                    `json:"_"`
+    AdditionalProperties              map[string]interface{}            `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for Subscription.
@@ -156,13 +156,17 @@ type Subscription struct {
 func (s Subscription) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(s.AdditionalProperties,
+        "id", "state", "balance_in_cents", "total_revenue_in_cents", "product_price_in_cents", "product_version_number", "current_period_ends_at", "next_assessment_at", "trial_started_at", "trial_ended_at", "activated_at", "expires_at", "created_at", "updated_at", "cancellation_message", "cancellation_method", "cancel_at_end_of_period", "canceled_at", "current_period_started_at", "previous_state", "signup_payment_id", "signup_revenue", "delayed_cancel_at", "coupon_code", "snap_day", "payment_collection_method", "customer", "product", "credit_card", "group", "bank_account", "payment_type", "referral_code", "next_product_id", "next_product_handle", "coupon_use_count", "coupon_uses_allowed", "reason_code", "automatically_resume_at", "coupon_codes", "offer_id", "payer_id", "current_billing_amount_in_cents", "product_price_point_id", "product_price_point_type", "next_product_price_point_id", "net_terms", "stored_credential_transaction_id", "reference", "on_hold_at", "prepaid_dunning", "coupons", "dunning_communication_delay_enabled", "dunning_communication_delay_time_zone", "receives_invoice_emails", "locale", "currency", "scheduled_cancellation_at", "credit_balance_in_cents", "prepayment_balance_in_cents", "prepaid_configuration", "self_service_page_token"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(s.toMap())
 }
 
 // toMap converts the Subscription object to a map representation for JSON marshaling.
 func (s Subscription) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, s.AdditionalProperties)
+    MergeAdditionalProperties(structMap, s.AdditionalProperties)
     if s.Id != nil {
         structMap["id"] = s.Id
     }
@@ -560,12 +564,12 @@ func (s *Subscription) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "id", "state", "balance_in_cents", "total_revenue_in_cents", "product_price_in_cents", "product_version_number", "current_period_ends_at", "next_assessment_at", "trial_started_at", "trial_ended_at", "activated_at", "expires_at", "created_at", "updated_at", "cancellation_message", "cancellation_method", "cancel_at_end_of_period", "canceled_at", "current_period_started_at", "previous_state", "signup_payment_id", "signup_revenue", "delayed_cancel_at", "coupon_code", "snap_day", "payment_collection_method", "customer", "product", "credit_card", "group", "bank_account", "payment_type", "referral_code", "next_product_id", "next_product_handle", "coupon_use_count", "coupon_uses_allowed", "reason_code", "automatically_resume_at", "coupon_codes", "offer_id", "payer_id", "current_billing_amount_in_cents", "product_price_point_id", "product_price_point_type", "next_product_price_point_id", "net_terms", "stored_credential_transaction_id", "reference", "on_hold_at", "prepaid_dunning", "coupons", "dunning_communication_delay_enabled", "dunning_communication_delay_time_zone", "receives_invoice_emails", "locale", "currency", "scheduled_cancellation_at", "credit_balance_in_cents", "prepayment_balance_in_cents", "prepaid_configuration", "self_service_page_token")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "id", "state", "balance_in_cents", "total_revenue_in_cents", "product_price_in_cents", "product_version_number", "current_period_ends_at", "next_assessment_at", "trial_started_at", "trial_ended_at", "activated_at", "expires_at", "created_at", "updated_at", "cancellation_message", "cancellation_method", "cancel_at_end_of_period", "canceled_at", "current_period_started_at", "previous_state", "signup_payment_id", "signup_revenue", "delayed_cancel_at", "coupon_code", "snap_day", "payment_collection_method", "customer", "product", "credit_card", "group", "bank_account", "payment_type", "referral_code", "next_product_id", "next_product_handle", "coupon_use_count", "coupon_uses_allowed", "reason_code", "automatically_resume_at", "coupon_codes", "offer_id", "payer_id", "current_billing_amount_in_cents", "product_price_point_id", "product_price_point_type", "next_product_price_point_id", "net_terms", "stored_credential_transaction_id", "reference", "on_hold_at", "prepaid_dunning", "coupons", "dunning_communication_delay_enabled", "dunning_communication_delay_time_zone", "receives_invoice_emails", "locale", "currency", "scheduled_cancellation_at", "credit_balance_in_cents", "prepayment_balance_in_cents", "prepaid_configuration", "self_service_page_token")
     if err != nil {
     	return err
     }
-    
     s.AdditionalProperties = additionalProperties
+    
     s.Id = temp.Id
     s.State = temp.State
     s.BalanceInCents = temp.BalanceInCents

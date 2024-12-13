@@ -13,9 +13,9 @@ import (
 
 // PaymentCollectionMethodChanged represents a PaymentCollectionMethodChanged struct.
 type PaymentCollectionMethodChanged struct {
-    PreviousValue        string         `json:"previous_value"`
-    CurrentValue         string         `json:"current_value"`
-    AdditionalProperties map[string]any `json:"_"`
+    PreviousValue        string                 `json:"previous_value"`
+    CurrentValue         string                 `json:"current_value"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for PaymentCollectionMethodChanged.
@@ -23,13 +23,17 @@ type PaymentCollectionMethodChanged struct {
 func (p PaymentCollectionMethodChanged) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(p.AdditionalProperties,
+        "previous_value", "current_value"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(p.toMap())
 }
 
 // toMap converts the PaymentCollectionMethodChanged object to a map representation for JSON marshaling.
 func (p PaymentCollectionMethodChanged) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, p.AdditionalProperties)
+    MergeAdditionalProperties(structMap, p.AdditionalProperties)
     structMap["previous_value"] = p.PreviousValue
     structMap["current_value"] = p.CurrentValue
     return structMap
@@ -47,12 +51,12 @@ func (p *PaymentCollectionMethodChanged) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "previous_value", "current_value")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "previous_value", "current_value")
     if err != nil {
     	return err
     }
-    
     p.AdditionalProperties = additionalProperties
+    
     p.PreviousValue = *temp.PreviousValue
     p.CurrentValue = *temp.CurrentValue
     return nil

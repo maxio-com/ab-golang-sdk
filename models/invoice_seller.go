@@ -12,11 +12,11 @@ import (
 // InvoiceSeller represents a InvoiceSeller struct.
 // Information about the seller (merchant) listed on the masthead of the invoice.
 type InvoiceSeller struct {
-    Name                 *string          `json:"name,omitempty"`
-    Address              *InvoiceAddress  `json:"address,omitempty"`
-    Phone                *string          `json:"phone,omitempty"`
-    LogoUrl              Optional[string] `json:"logo_url"`
-    AdditionalProperties map[string]any   `json:"_"`
+    Name                 *string                `json:"name,omitempty"`
+    Address              *InvoiceAddress        `json:"address,omitempty"`
+    Phone                *string                `json:"phone,omitempty"`
+    LogoUrl              Optional[string]       `json:"logo_url"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for InvoiceSeller.
@@ -24,13 +24,17 @@ type InvoiceSeller struct {
 func (i InvoiceSeller) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(i.AdditionalProperties,
+        "name", "address", "phone", "logo_url"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(i.toMap())
 }
 
 // toMap converts the InvoiceSeller object to a map representation for JSON marshaling.
 func (i InvoiceSeller) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, i.AdditionalProperties)
+    MergeAdditionalProperties(structMap, i.AdditionalProperties)
     if i.Name != nil {
         structMap["name"] = i.Name
     }
@@ -58,12 +62,12 @@ func (i *InvoiceSeller) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "name", "address", "phone", "logo_url")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "name", "address", "phone", "logo_url")
     if err != nil {
     	return err
     }
-    
     i.AdditionalProperties = additionalProperties
+    
     i.Name = temp.Name
     i.Address = temp.Address
     i.Phone = temp.Phone

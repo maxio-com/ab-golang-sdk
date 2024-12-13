@@ -11,11 +11,11 @@ import (
 
 // InvoiceTaxBreakout represents a InvoiceTaxBreakout struct.
 type InvoiceTaxBreakout struct {
-    Uid                  *string        `json:"uid,omitempty"`
-    TaxableAmount        *string        `json:"taxable_amount,omitempty"`
-    TaxAmount            *string        `json:"tax_amount,omitempty"`
-    TaxExemptAmount      *string        `json:"tax_exempt_amount,omitempty"`
-    AdditionalProperties map[string]any `json:"_"`
+    Uid                  *string                `json:"uid,omitempty"`
+    TaxableAmount        *string                `json:"taxable_amount,omitempty"`
+    TaxAmount            *string                `json:"tax_amount,omitempty"`
+    TaxExemptAmount      *string                `json:"tax_exempt_amount,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for InvoiceTaxBreakout.
@@ -23,13 +23,17 @@ type InvoiceTaxBreakout struct {
 func (i InvoiceTaxBreakout) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(i.AdditionalProperties,
+        "uid", "taxable_amount", "tax_amount", "tax_exempt_amount"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(i.toMap())
 }
 
 // toMap converts the InvoiceTaxBreakout object to a map representation for JSON marshaling.
 func (i InvoiceTaxBreakout) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, i.AdditionalProperties)
+    MergeAdditionalProperties(structMap, i.AdditionalProperties)
     if i.Uid != nil {
         structMap["uid"] = i.Uid
     }
@@ -53,12 +57,12 @@ func (i *InvoiceTaxBreakout) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "uid", "taxable_amount", "tax_amount", "tax_exempt_amount")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "uid", "taxable_amount", "tax_amount", "tax_exempt_amount")
     if err != nil {
     	return err
     }
-    
     i.AdditionalProperties = additionalProperties
+    
     i.Uid = temp.Uid
     i.TaxableAmount = temp.TaxableAmount
     i.TaxAmount = temp.TaxAmount

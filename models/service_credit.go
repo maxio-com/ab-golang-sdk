@@ -11,16 +11,16 @@ import (
 
 // ServiceCredit represents a ServiceCredit struct.
 type ServiceCredit struct {
-    Id                   *int               `json:"id,omitempty"`
+    Id                   *int                   `json:"id,omitempty"`
     // The amount in cents of the entry
-    AmountInCents        *int64             `json:"amount_in_cents,omitempty"`
+    AmountInCents        *int64                 `json:"amount_in_cents,omitempty"`
     // The new balance for the credit account
-    EndingBalanceInCents *int64             `json:"ending_balance_in_cents,omitempty"`
+    EndingBalanceInCents *int64                 `json:"ending_balance_in_cents,omitempty"`
     // The type of entry
-    EntryType            *ServiceCreditType `json:"entry_type,omitempty"`
+    EntryType            *ServiceCreditType     `json:"entry_type,omitempty"`
     // The memo attached to the entry
-    Memo                 *string            `json:"memo,omitempty"`
-    AdditionalProperties map[string]any     `json:"_"`
+    Memo                 *string                `json:"memo,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for ServiceCredit.
@@ -28,13 +28,17 @@ type ServiceCredit struct {
 func (s ServiceCredit) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(s.AdditionalProperties,
+        "id", "amount_in_cents", "ending_balance_in_cents", "entry_type", "memo"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(s.toMap())
 }
 
 // toMap converts the ServiceCredit object to a map representation for JSON marshaling.
 func (s ServiceCredit) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, s.AdditionalProperties)
+    MergeAdditionalProperties(structMap, s.AdditionalProperties)
     if s.Id != nil {
         structMap["id"] = s.Id
     }
@@ -61,12 +65,12 @@ func (s *ServiceCredit) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "id", "amount_in_cents", "ending_balance_in_cents", "entry_type", "memo")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "id", "amount_in_cents", "ending_balance_in_cents", "entry_type", "memo")
     if err != nil {
     	return err
     }
-    
     s.AdditionalProperties = additionalProperties
+    
     s.Id = temp.Id
     s.AmountInCents = temp.AmountInCents
     s.EndingBalanceInCents = temp.EndingBalanceInCents

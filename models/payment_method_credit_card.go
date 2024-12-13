@@ -18,7 +18,7 @@ type PaymentMethodCreditCard struct {
     LastFour             Optional[string]          `json:"last_four"`
     MaskedCardNumber     string                    `json:"masked_card_number"`
     Type                 InvoiceEventPaymentMethod `json:"type"`
-    AdditionalProperties map[string]any            `json:"_"`
+    AdditionalProperties map[string]interface{}    `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for PaymentMethodCreditCard.
@@ -26,13 +26,17 @@ type PaymentMethodCreditCard struct {
 func (p PaymentMethodCreditCard) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(p.AdditionalProperties,
+        "card_brand", "card_expiration", "last_four", "masked_card_number", "type"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(p.toMap())
 }
 
 // toMap converts the PaymentMethodCreditCard object to a map representation for JSON marshaling.
 func (p PaymentMethodCreditCard) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, p.AdditionalProperties)
+    MergeAdditionalProperties(structMap, p.AdditionalProperties)
     structMap["card_brand"] = p.CardBrand
     if p.CardExpiration != nil {
         structMap["card_expiration"] = p.CardExpiration
@@ -61,12 +65,12 @@ func (p *PaymentMethodCreditCard) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "card_brand", "card_expiration", "last_four", "masked_card_number", "type")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "card_brand", "card_expiration", "last_four", "masked_card_number", "type")
     if err != nil {
     	return err
     }
-    
     p.AdditionalProperties = additionalProperties
+    
     p.CardBrand = *temp.CardBrand
     p.CardExpiration = temp.CardExpiration
     p.LastFour = temp.LastFour

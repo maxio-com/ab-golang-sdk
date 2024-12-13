@@ -13,19 +13,19 @@ import (
 // Warning: When updating a metafield's scope attribute, all scope attributes must be passed. Partially complete scope attributes will override the existing settings.
 type MetafieldScope struct {
     // Include (1) or exclude (0) metafields from the csv export.
-    Csv                  *IncludeOption `json:"csv,omitempty"`
+    Csv                  *IncludeOption         `json:"csv,omitempty"`
     // Include (1) or exclude (0) metafields from invoices.
-    Invoices             *IncludeOption `json:"invoices,omitempty"`
+    Invoices             *IncludeOption         `json:"invoices,omitempty"`
     // Include (1) or exclude (0) metafields from statements.
-    Statements           *IncludeOption `json:"statements,omitempty"`
+    Statements           *IncludeOption         `json:"statements,omitempty"`
     // Include (1) or exclude (0) metafields from the portal.
-    Portal               *IncludeOption `json:"portal,omitempty"`
+    Portal               *IncludeOption         `json:"portal,omitempty"`
     // Include (1) or exclude (0) metafields from being viewable by your ecosystem.
-    PublicShow           *IncludeOption `json:"public_show,omitempty"`
+    PublicShow           *IncludeOption         `json:"public_show,omitempty"`
     // Include (1) or exclude (0) metafields from being edited by your ecosystem.
-    PublicEdit           *IncludeOption `json:"public_edit,omitempty"`
-    Hosted               []string       `json:"hosted,omitempty"`
-    AdditionalProperties map[string]any `json:"_"`
+    PublicEdit           *IncludeOption         `json:"public_edit,omitempty"`
+    Hosted               []string               `json:"hosted,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for MetafieldScope.
@@ -33,13 +33,17 @@ type MetafieldScope struct {
 func (m MetafieldScope) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(m.AdditionalProperties,
+        "csv", "invoices", "statements", "portal", "public_show", "public_edit", "hosted"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(m.toMap())
 }
 
 // toMap converts the MetafieldScope object to a map representation for JSON marshaling.
 func (m MetafieldScope) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, m.AdditionalProperties)
+    MergeAdditionalProperties(structMap, m.AdditionalProperties)
     if m.Csv != nil {
         structMap["csv"] = m.Csv
     }
@@ -72,12 +76,12 @@ func (m *MetafieldScope) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "csv", "invoices", "statements", "portal", "public_show", "public_edit", "hosted")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "csv", "invoices", "statements", "portal", "public_show", "public_edit", "hosted")
     if err != nil {
     	return err
     }
-    
     m.AdditionalProperties = additionalProperties
+    
     m.Csv = temp.Csv
     m.Invoices = temp.Invoices
     m.Statements = temp.Statements

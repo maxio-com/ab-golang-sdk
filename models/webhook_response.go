@@ -11,8 +11,8 @@ import (
 
 // WebhookResponse represents a WebhookResponse struct.
 type WebhookResponse struct {
-    Webhook              *Webhook       `json:"webhook,omitempty"`
-    AdditionalProperties map[string]any `json:"_"`
+    Webhook              *Webhook               `json:"webhook,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for WebhookResponse.
@@ -20,13 +20,17 @@ type WebhookResponse struct {
 func (w WebhookResponse) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(w.AdditionalProperties,
+        "webhook"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(w.toMap())
 }
 
 // toMap converts the WebhookResponse object to a map representation for JSON marshaling.
 func (w WebhookResponse) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, w.AdditionalProperties)
+    MergeAdditionalProperties(structMap, w.AdditionalProperties)
     if w.Webhook != nil {
         structMap["webhook"] = w.Webhook.toMap()
     }
@@ -41,12 +45,12 @@ func (w *WebhookResponse) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "webhook")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "webhook")
     if err != nil {
     	return err
     }
-    
     w.AdditionalProperties = additionalProperties
+    
     w.Webhook = temp.Webhook
     return nil
 }

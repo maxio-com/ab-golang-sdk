@@ -38,7 +38,7 @@ type CreateAllocation struct {
     PricePointId             Optional[CreateAllocationPricePointId] `json:"price_point_id"`
     // This attribute is particularly useful when you need to align billing events for different components on distinct schedules within a subscription. Please note this only works for site with Multifrequency enabled
     BillingSchedule          *BillingSchedule                       `json:"billing_schedule,omitempty"`
-    AdditionalProperties     map[string]any                         `json:"_"`
+    AdditionalProperties     map[string]interface{}                 `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreateAllocation.
@@ -46,13 +46,17 @@ type CreateAllocation struct {
 func (c CreateAllocation) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(c.AdditionalProperties,
+        "quantity", "component_id", "memo", "proration_downgrade_scheme", "proration_upgrade_scheme", "accrue_charge", "downgrade_credit", "upgrade_charge", "initiate_dunning", "price_point_id", "billing_schedule"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(c.toMap())
 }
 
 // toMap converts the CreateAllocation object to a map representation for JSON marshaling.
 func (c CreateAllocation) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, c.AdditionalProperties)
+    MergeAdditionalProperties(structMap, c.AdditionalProperties)
     structMap["quantity"] = c.Quantity
     if c.ComponentId != nil {
         structMap["component_id"] = c.ComponentId
@@ -111,12 +115,12 @@ func (c *CreateAllocation) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "quantity", "component_id", "memo", "proration_downgrade_scheme", "proration_upgrade_scheme", "accrue_charge", "downgrade_credit", "upgrade_charge", "initiate_dunning", "price_point_id", "billing_schedule")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "quantity", "component_id", "memo", "proration_downgrade_scheme", "proration_upgrade_scheme", "accrue_charge", "downgrade_credit", "upgrade_charge", "initiate_dunning", "price_point_id", "billing_schedule")
     if err != nil {
     	return err
     }
-    
     c.AdditionalProperties = additionalProperties
+    
     c.Quantity = *temp.Quantity
     c.ComponentId = temp.ComponentId
     c.Memo = temp.Memo

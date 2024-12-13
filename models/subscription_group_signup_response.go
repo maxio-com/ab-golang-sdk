@@ -45,7 +45,7 @@ type SubscriptionGroupSignupResponse struct {
     Subscriptions           []SubscriptionGroupItem `json:"subscriptions,omitempty"`
     // The type of payment collection to be used in the subscription. For legacy Statements Architecture valid options are - `invoice`, `automatic`. For current Relationship Invoicing Architecture valid options are - `remittance`, `automatic`, `prepaid`.
     PaymentCollectionMethod *CollectionMethod       `json:"payment_collection_method,omitempty"`
-    AdditionalProperties    map[string]any          `json:"_"`
+    AdditionalProperties    map[string]interface{}  `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for SubscriptionGroupSignupResponse.
@@ -53,13 +53,17 @@ type SubscriptionGroupSignupResponse struct {
 func (s SubscriptionGroupSignupResponse) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(s.AdditionalProperties,
+        "uid", "scheme", "customer_id", "payment_profile_id", "subscription_ids", "primary_subscription_id", "next_assessment_at", "state", "cancel_at_end_of_period", "subscriptions", "payment_collection_method"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(s.toMap())
 }
 
 // toMap converts the SubscriptionGroupSignupResponse object to a map representation for JSON marshaling.
 func (s SubscriptionGroupSignupResponse) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, s.AdditionalProperties)
+    MergeAdditionalProperties(structMap, s.AdditionalProperties)
     if s.Uid != nil {
         structMap["uid"] = s.Uid
     }
@@ -104,12 +108,12 @@ func (s *SubscriptionGroupSignupResponse) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "uid", "scheme", "customer_id", "payment_profile_id", "subscription_ids", "primary_subscription_id", "next_assessment_at", "state", "cancel_at_end_of_period", "subscriptions", "payment_collection_method")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "uid", "scheme", "customer_id", "payment_profile_id", "subscription_ids", "primary_subscription_id", "next_assessment_at", "state", "cancel_at_end_of_period", "subscriptions", "payment_collection_method")
     if err != nil {
     	return err
     }
-    
     s.AdditionalProperties = additionalProperties
+    
     s.Uid = temp.Uid
     s.Scheme = temp.Scheme
     s.CustomerId = temp.CustomerId

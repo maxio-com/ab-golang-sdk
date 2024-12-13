@@ -13,8 +13,8 @@ import (
 
 // AllocationPreviewResponse represents a AllocationPreviewResponse struct.
 type AllocationPreviewResponse struct {
-    AllocationPreview    AllocationPreview `json:"allocation_preview"`
-    AdditionalProperties map[string]any    `json:"_"`
+    AllocationPreview    AllocationPreview      `json:"allocation_preview"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for AllocationPreviewResponse.
@@ -22,13 +22,17 @@ type AllocationPreviewResponse struct {
 func (a AllocationPreviewResponse) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(a.AdditionalProperties,
+        "allocation_preview"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(a.toMap())
 }
 
 // toMap converts the AllocationPreviewResponse object to a map representation for JSON marshaling.
 func (a AllocationPreviewResponse) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, a.AdditionalProperties)
+    MergeAdditionalProperties(structMap, a.AdditionalProperties)
     structMap["allocation_preview"] = a.AllocationPreview.toMap()
     return structMap
 }
@@ -45,12 +49,12 @@ func (a *AllocationPreviewResponse) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "allocation_preview")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "allocation_preview")
     if err != nil {
     	return err
     }
-    
     a.AdditionalProperties = additionalProperties
+    
     a.AllocationPreview = *temp.AllocationPreview
     return nil
 }

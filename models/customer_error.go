@@ -11,8 +11,8 @@ import (
 
 // CustomerError represents a CustomerError struct.
 type CustomerError struct {
-    Customer             *string        `json:"customer,omitempty"`
-    AdditionalProperties map[string]any `json:"_"`
+    Customer             *string                `json:"customer,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for CustomerError.
@@ -20,13 +20,17 @@ type CustomerError struct {
 func (c CustomerError) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(c.AdditionalProperties,
+        "customer"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(c.toMap())
 }
 
 // toMap converts the CustomerError object to a map representation for JSON marshaling.
 func (c CustomerError) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, c.AdditionalProperties)
+    MergeAdditionalProperties(structMap, c.AdditionalProperties)
     if c.Customer != nil {
         structMap["customer"] = c.Customer
     }
@@ -41,12 +45,12 @@ func (c *CustomerError) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "customer")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "customer")
     if err != nil {
     	return err
     }
-    
     c.AdditionalProperties = additionalProperties
+    
     c.Customer = temp.Customer
     return nil
 }

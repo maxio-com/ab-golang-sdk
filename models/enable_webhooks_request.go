@@ -13,8 +13,8 @@ import (
 
 // EnableWebhooksRequest represents a EnableWebhooksRequest struct.
 type EnableWebhooksRequest struct {
-    WebhooksEnabled      bool           `json:"webhooks_enabled"`
-    AdditionalProperties map[string]any `json:"_"`
+    WebhooksEnabled      bool                   `json:"webhooks_enabled"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for EnableWebhooksRequest.
@@ -22,13 +22,17 @@ type EnableWebhooksRequest struct {
 func (e EnableWebhooksRequest) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(e.AdditionalProperties,
+        "webhooks_enabled"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(e.toMap())
 }
 
 // toMap converts the EnableWebhooksRequest object to a map representation for JSON marshaling.
 func (e EnableWebhooksRequest) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, e.AdditionalProperties)
+    MergeAdditionalProperties(structMap, e.AdditionalProperties)
     structMap["webhooks_enabled"] = e.WebhooksEnabled
     return structMap
 }
@@ -45,12 +49,12 @@ func (e *EnableWebhooksRequest) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "webhooks_enabled")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "webhooks_enabled")
     if err != nil {
     	return err
     }
-    
     e.AdditionalProperties = additionalProperties
+    
     e.WebhooksEnabled = *temp.WebhooksEnabled
     return nil
 }

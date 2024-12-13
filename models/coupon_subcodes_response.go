@@ -11,10 +11,10 @@ import (
 
 // CouponSubcodesResponse represents a CouponSubcodesResponse struct.
 type CouponSubcodesResponse struct {
-    CreatedCodes         []string       `json:"created_codes,omitempty"`
-    DuplicateCodes       []string       `json:"duplicate_codes,omitempty"`
-    InvalidCodes         []string       `json:"invalid_codes,omitempty"`
-    AdditionalProperties map[string]any `json:"_"`
+    CreatedCodes         []string               `json:"created_codes,omitempty"`
+    DuplicateCodes       []string               `json:"duplicate_codes,omitempty"`
+    InvalidCodes         []string               `json:"invalid_codes,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for CouponSubcodesResponse.
@@ -22,13 +22,17 @@ type CouponSubcodesResponse struct {
 func (c CouponSubcodesResponse) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(c.AdditionalProperties,
+        "created_codes", "duplicate_codes", "invalid_codes"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(c.toMap())
 }
 
 // toMap converts the CouponSubcodesResponse object to a map representation for JSON marshaling.
 func (c CouponSubcodesResponse) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, c.AdditionalProperties)
+    MergeAdditionalProperties(structMap, c.AdditionalProperties)
     if c.CreatedCodes != nil {
         structMap["created_codes"] = c.CreatedCodes
     }
@@ -49,12 +53,12 @@ func (c *CouponSubcodesResponse) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "created_codes", "duplicate_codes", "invalid_codes")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "created_codes", "duplicate_codes", "invalid_codes")
     if err != nil {
     	return err
     }
-    
     c.AdditionalProperties = additionalProperties
+    
     c.CreatedCodes = temp.CreatedCodes
     c.DuplicateCodes = temp.DuplicateCodes
     c.InvalidCodes = temp.InvalidCodes

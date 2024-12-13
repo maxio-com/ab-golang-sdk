@@ -12,8 +12,8 @@ import (
 // ProformaError represents a ProformaError struct.
 type ProformaError struct {
     // The error is base if it is not directly associated with a single attribute.
-    Subscription         *BaseStringError `json:"subscription,omitempty"`
-    AdditionalProperties map[string]any   `json:"_"`
+    Subscription         *BaseStringError       `json:"subscription,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for ProformaError.
@@ -21,13 +21,17 @@ type ProformaError struct {
 func (p ProformaError) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(p.AdditionalProperties,
+        "subscription"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(p.toMap())
 }
 
 // toMap converts the ProformaError object to a map representation for JSON marshaling.
 func (p ProformaError) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, p.AdditionalProperties)
+    MergeAdditionalProperties(structMap, p.AdditionalProperties)
     if p.Subscription != nil {
         structMap["subscription"] = p.Subscription.toMap()
     }
@@ -42,12 +46,12 @@ func (p *ProformaError) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "subscription")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "subscription")
     if err != nil {
     	return err
     }
-    
     p.AdditionalProperties = additionalProperties
+    
     p.Subscription = temp.Subscription
     return nil
 }

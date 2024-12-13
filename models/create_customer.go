@@ -13,29 +13,29 @@ import (
 
 // CreateCustomer represents a CreateCustomer struct.
 type CreateCustomer struct {
-    FirstName            string           `json:"first_name"`
-    LastName             string           `json:"last_name"`
-    Email                string           `json:"email"`
-    CcEmails             *string          `json:"cc_emails,omitempty"`
-    Organization         *string          `json:"organization,omitempty"`
-    Reference            *string          `json:"reference,omitempty"`
-    Address              *string          `json:"address,omitempty"`
-    Address2             *string          `json:"address_2,omitempty"`
-    City                 *string          `json:"city,omitempty"`
-    State                *string          `json:"state,omitempty"`
-    Zip                  *string          `json:"zip,omitempty"`
-    Country              *string          `json:"country,omitempty"`
-    Phone                *string          `json:"phone,omitempty"`
+    FirstName            string                 `json:"first_name"`
+    LastName             string                 `json:"last_name"`
+    Email                string                 `json:"email"`
+    CcEmails             *string                `json:"cc_emails,omitempty"`
+    Organization         *string                `json:"organization,omitempty"`
+    Reference            *string                `json:"reference,omitempty"`
+    Address              *string                `json:"address,omitempty"`
+    Address2             *string                `json:"address_2,omitempty"`
+    City                 *string                `json:"city,omitempty"`
+    State                *string                `json:"state,omitempty"`
+    Zip                  *string                `json:"zip,omitempty"`
+    Country              *string                `json:"country,omitempty"`
+    Phone                *string                `json:"phone,omitempty"`
     // Set a specific language on a customer record.
-    Locale               *string          `json:"locale,omitempty"`
-    VatNumber            *string          `json:"vat_number,omitempty"`
-    TaxExempt            *bool            `json:"tax_exempt,omitempty"`
-    TaxExemptReason      *string          `json:"tax_exempt_reason,omitempty"`
+    Locale               *string                `json:"locale,omitempty"`
+    VatNumber            *string                `json:"vat_number,omitempty"`
+    TaxExempt            *bool                  `json:"tax_exempt,omitempty"`
+    TaxExemptReason      *string                `json:"tax_exempt_reason,omitempty"`
     // The parent ID in Chargify if applicable. Parent is another Customer object.
-    ParentId             Optional[int]    `json:"parent_id"`
+    ParentId             Optional[int]          `json:"parent_id"`
     // The Salesforce ID of the customer
-    SalesforceId         Optional[string] `json:"salesforce_id"`
-    AdditionalProperties map[string]any   `json:"_"`
+    SalesforceId         Optional[string]       `json:"salesforce_id"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreateCustomer.
@@ -43,13 +43,17 @@ type CreateCustomer struct {
 func (c CreateCustomer) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(c.AdditionalProperties,
+        "first_name", "last_name", "email", "cc_emails", "organization", "reference", "address", "address_2", "city", "state", "zip", "country", "phone", "locale", "vat_number", "tax_exempt", "tax_exempt_reason", "parent_id", "salesforce_id"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(c.toMap())
 }
 
 // toMap converts the CreateCustomer object to a map representation for JSON marshaling.
 func (c CreateCustomer) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, c.AdditionalProperties)
+    MergeAdditionalProperties(structMap, c.AdditionalProperties)
     structMap["first_name"] = c.FirstName
     structMap["last_name"] = c.LastName
     structMap["email"] = c.Email
@@ -124,12 +128,12 @@ func (c *CreateCustomer) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "first_name", "last_name", "email", "cc_emails", "organization", "reference", "address", "address_2", "city", "state", "zip", "country", "phone", "locale", "vat_number", "tax_exempt", "tax_exempt_reason", "parent_id", "salesforce_id")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "first_name", "last_name", "email", "cc_emails", "organization", "reference", "address", "address_2", "city", "state", "zip", "country", "phone", "locale", "vat_number", "tax_exempt", "tax_exempt_reason", "parent_id", "salesforce_id")
     if err != nil {
     	return err
     }
-    
     c.AdditionalProperties = additionalProperties
+    
     c.FirstName = *temp.FirstName
     c.LastName = *temp.LastName
     c.Email = *temp.Email

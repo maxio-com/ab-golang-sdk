@@ -13,13 +13,13 @@ import (
 
 // SubscriptionNote represents a SubscriptionNote struct.
 type SubscriptionNote struct {
-    Id                   *int           `json:"id,omitempty"`
-    Body                 *string        `json:"body,omitempty"`
-    SubscriptionId       *int           `json:"subscription_id,omitempty"`
-    CreatedAt            *time.Time     `json:"created_at,omitempty"`
-    UpdatedAt            *time.Time     `json:"updated_at,omitempty"`
-    Sticky               *bool          `json:"sticky,omitempty"`
-    AdditionalProperties map[string]any `json:"_"`
+    Id                   *int                   `json:"id,omitempty"`
+    Body                 *string                `json:"body,omitempty"`
+    SubscriptionId       *int                   `json:"subscription_id,omitempty"`
+    CreatedAt            *time.Time             `json:"created_at,omitempty"`
+    UpdatedAt            *time.Time             `json:"updated_at,omitempty"`
+    Sticky               *bool                  `json:"sticky,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for SubscriptionNote.
@@ -27,13 +27,17 @@ type SubscriptionNote struct {
 func (s SubscriptionNote) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(s.AdditionalProperties,
+        "id", "body", "subscription_id", "created_at", "updated_at", "sticky"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(s.toMap())
 }
 
 // toMap converts the SubscriptionNote object to a map representation for JSON marshaling.
 func (s SubscriptionNote) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, s.AdditionalProperties)
+    MergeAdditionalProperties(structMap, s.AdditionalProperties)
     if s.Id != nil {
         structMap["id"] = s.Id
     }
@@ -63,12 +67,12 @@ func (s *SubscriptionNote) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "id", "body", "subscription_id", "created_at", "updated_at", "sticky")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "id", "body", "subscription_id", "created_at", "updated_at", "sticky")
     if err != nil {
     	return err
     }
-    
     s.AdditionalProperties = additionalProperties
+    
     s.Id = temp.Id
     s.Body = temp.Body
     s.SubscriptionId = temp.SubscriptionId

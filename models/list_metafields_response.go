@@ -11,12 +11,12 @@ import (
 
 // ListMetafieldsResponse represents a ListMetafieldsResponse struct.
 type ListMetafieldsResponse struct {
-    TotalCount           *int           `json:"total_count,omitempty"`
-    CurrentPage          *int           `json:"current_page,omitempty"`
-    TotalPages           *int           `json:"total_pages,omitempty"`
-    PerPage              *int           `json:"per_page,omitempty"`
-    Metafields           []Metafield    `json:"metafields,omitempty"`
-    AdditionalProperties map[string]any `json:"_"`
+    TotalCount           *int                   `json:"total_count,omitempty"`
+    CurrentPage          *int                   `json:"current_page,omitempty"`
+    TotalPages           *int                   `json:"total_pages,omitempty"`
+    PerPage              *int                   `json:"per_page,omitempty"`
+    Metafields           []Metafield            `json:"metafields,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for ListMetafieldsResponse.
@@ -24,13 +24,17 @@ type ListMetafieldsResponse struct {
 func (l ListMetafieldsResponse) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(l.AdditionalProperties,
+        "total_count", "current_page", "total_pages", "per_page", "metafields"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(l.toMap())
 }
 
 // toMap converts the ListMetafieldsResponse object to a map representation for JSON marshaling.
 func (l ListMetafieldsResponse) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, l.AdditionalProperties)
+    MergeAdditionalProperties(structMap, l.AdditionalProperties)
     if l.TotalCount != nil {
         structMap["total_count"] = l.TotalCount
     }
@@ -57,12 +61,12 @@ func (l *ListMetafieldsResponse) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "total_count", "current_page", "total_pages", "per_page", "metafields")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "total_count", "current_page", "total_pages", "per_page", "metafields")
     if err != nil {
     	return err
     }
-    
     l.AdditionalProperties = additionalProperties
+    
     l.TotalCount = temp.TotalCount
     l.CurrentPage = temp.CurrentPage
     l.TotalPages = temp.TotalPages

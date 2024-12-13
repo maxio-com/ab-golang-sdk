@@ -12,8 +12,8 @@ import (
 // ActivateSubscriptionRequest represents a ActivateSubscriptionRequest struct.
 type ActivateSubscriptionRequest struct {
     // You may choose how to handle the activation failure. `true` means do not change the subscription’s state and billing period. `false`  means to continue through with the activation and enter an end of life state. If this parameter is omitted or `null` is passed it will default to value set in the  site settings (default: `true`)
-    RevertOnFailure      Optional[bool] `json:"revert_on_failure"`
-    AdditionalProperties map[string]any `json:"_"`
+    RevertOnFailure      Optional[bool]         `json:"revert_on_failure"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for ActivateSubscriptionRequest.
@@ -21,13 +21,17 @@ type ActivateSubscriptionRequest struct {
 func (a ActivateSubscriptionRequest) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(a.AdditionalProperties,
+        "revert_on_failure"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(a.toMap())
 }
 
 // toMap converts the ActivateSubscriptionRequest object to a map representation for JSON marshaling.
 func (a ActivateSubscriptionRequest) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, a.AdditionalProperties)
+    MergeAdditionalProperties(structMap, a.AdditionalProperties)
     if a.RevertOnFailure.IsValueSet() {
         if a.RevertOnFailure.Value() != nil {
             structMap["revert_on_failure"] = a.RevertOnFailure.Value()
@@ -46,12 +50,12 @@ func (a *ActivateSubscriptionRequest) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "revert_on_failure")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "revert_on_failure")
     if err != nil {
     	return err
     }
-    
     a.AdditionalProperties = additionalProperties
+    
     a.RevertOnFailure = temp.RevertOnFailure
     return nil
 }

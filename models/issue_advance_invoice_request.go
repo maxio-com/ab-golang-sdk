@@ -11,8 +11,8 @@ import (
 
 // IssueAdvanceInvoiceRequest represents a IssueAdvanceInvoiceRequest struct.
 type IssueAdvanceInvoiceRequest struct {
-    Force                *bool          `json:"force,omitempty"`
-    AdditionalProperties map[string]any `json:"_"`
+    Force                *bool                  `json:"force,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for IssueAdvanceInvoiceRequest.
@@ -20,13 +20,17 @@ type IssueAdvanceInvoiceRequest struct {
 func (i IssueAdvanceInvoiceRequest) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(i.AdditionalProperties,
+        "force"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(i.toMap())
 }
 
 // toMap converts the IssueAdvanceInvoiceRequest object to a map representation for JSON marshaling.
 func (i IssueAdvanceInvoiceRequest) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, i.AdditionalProperties)
+    MergeAdditionalProperties(structMap, i.AdditionalProperties)
     if i.Force != nil {
         structMap["force"] = i.Force
     }
@@ -41,12 +45,12 @@ func (i *IssueAdvanceInvoiceRequest) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "force")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "force")
     if err != nil {
     	return err
     }
-    
     i.AdditionalProperties = additionalProperties
+    
     i.Force = temp.Force
     return nil
 }

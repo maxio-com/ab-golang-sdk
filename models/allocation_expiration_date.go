@@ -13,8 +13,8 @@ import (
 
 // AllocationExpirationDate represents a AllocationExpirationDate struct.
 type AllocationExpirationDate struct {
-    ExpiresAt            *time.Time     `json:"expires_at,omitempty"`
-    AdditionalProperties map[string]any `json:"_"`
+    ExpiresAt            *time.Time             `json:"expires_at,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for AllocationExpirationDate.
@@ -22,13 +22,17 @@ type AllocationExpirationDate struct {
 func (a AllocationExpirationDate) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(a.AdditionalProperties,
+        "expires_at"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(a.toMap())
 }
 
 // toMap converts the AllocationExpirationDate object to a map representation for JSON marshaling.
 func (a AllocationExpirationDate) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, a.AdditionalProperties)
+    MergeAdditionalProperties(structMap, a.AdditionalProperties)
     if a.ExpiresAt != nil {
         structMap["expires_at"] = a.ExpiresAt.Format(time.RFC3339)
     }
@@ -43,12 +47,12 @@ func (a *AllocationExpirationDate) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "expires_at")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "expires_at")
     if err != nil {
     	return err
     }
-    
     a.AdditionalProperties = additionalProperties
+    
     if temp.ExpiresAt != nil {
         ExpiresAtVal, err := time.Parse(time.RFC3339, *temp.ExpiresAt)
         if err != nil {

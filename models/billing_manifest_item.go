@@ -27,7 +27,7 @@ type BillingManifestItem struct {
     ProductName           *string                      `json:"product_name,omitempty"`
     PeriodRangeStart      *string                      `json:"period_range_start,omitempty"`
     PeriodRangeEnd        *string                      `json:"period_range_end,omitempty"`
-    AdditionalProperties  map[string]any               `json:"_"`
+    AdditionalProperties  map[string]interface{}       `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for BillingManifestItem.
@@ -35,13 +35,17 @@ type BillingManifestItem struct {
 func (b BillingManifestItem) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(b.AdditionalProperties,
+        "transaction_type", "kind", "amount_in_cents", "memo", "discount_amount_in_cents", "taxable_amount_in_cents", "component_id", "component_handle", "component_name", "product_id", "product_handle", "product_name", "period_range_start", "period_range_end"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(b.toMap())
 }
 
 // toMap converts the BillingManifestItem object to a map representation for JSON marshaling.
 func (b BillingManifestItem) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, b.AdditionalProperties)
+    MergeAdditionalProperties(structMap, b.AdditionalProperties)
     if b.TransactionType != nil {
         structMap["transaction_type"] = b.TransactionType
     }
@@ -95,12 +99,12 @@ func (b *BillingManifestItem) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "transaction_type", "kind", "amount_in_cents", "memo", "discount_amount_in_cents", "taxable_amount_in_cents", "component_id", "component_handle", "component_name", "product_id", "product_handle", "product_name", "period_range_start", "period_range_end")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "transaction_type", "kind", "amount_in_cents", "memo", "discount_amount_in_cents", "taxable_amount_in_cents", "component_id", "component_handle", "component_name", "product_id", "product_handle", "product_name", "period_range_start", "period_range_end")
     if err != nil {
     	return err
     }
-    
     b.AdditionalProperties = additionalProperties
+    
     b.TransactionType = temp.TransactionType
     b.Kind = temp.Kind
     b.AmountInCents = temp.AmountInCents

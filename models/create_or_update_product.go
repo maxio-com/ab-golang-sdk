@@ -43,7 +43,7 @@ type CreateOrUpdateProduct struct {
     AutoCreateSignupPage   *bool                            `json:"auto_create_signup_page,omitempty"`
     // A string representing the tax code related to the product type. This is especially important when using the Avalara service to tax based on locale. This attribute has a max length of 10 characters.
     TaxCode                *string                          `json:"tax_code,omitempty"`
-    AdditionalProperties   map[string]any                   `json:"_"`
+    AdditionalProperties   map[string]interface{}           `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreateOrUpdateProduct.
@@ -51,13 +51,17 @@ type CreateOrUpdateProduct struct {
 func (c CreateOrUpdateProduct) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(c.AdditionalProperties,
+        "name", "handle", "description", "accounting_code", "require_credit_card", "price_in_cents", "interval", "interval_unit", "trial_price_in_cents", "trial_interval", "trial_interval_unit", "trial_type", "expiration_interval", "expiration_interval_unit", "auto_create_signup_page", "tax_code"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(c.toMap())
 }
 
 // toMap converts the CreateOrUpdateProduct object to a map representation for JSON marshaling.
 func (c CreateOrUpdateProduct) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, c.AdditionalProperties)
+    MergeAdditionalProperties(structMap, c.AdditionalProperties)
     structMap["name"] = c.Name
     if c.Handle != nil {
         structMap["handle"] = c.Handle
@@ -119,12 +123,12 @@ func (c *CreateOrUpdateProduct) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "name", "handle", "description", "accounting_code", "require_credit_card", "price_in_cents", "interval", "interval_unit", "trial_price_in_cents", "trial_interval", "trial_interval_unit", "trial_type", "expiration_interval", "expiration_interval_unit", "auto_create_signup_page", "tax_code")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "name", "handle", "description", "accounting_code", "require_credit_card", "price_in_cents", "interval", "interval_unit", "trial_price_in_cents", "trial_interval", "trial_interval_unit", "trial_type", "expiration_interval", "expiration_interval_unit", "auto_create_signup_page", "tax_code")
     if err != nil {
     	return err
     }
-    
     c.AdditionalProperties = additionalProperties
+    
     c.Name = *temp.Name
     c.Handle = temp.Handle
     c.Description = *temp.Description

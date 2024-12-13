@@ -55,7 +55,7 @@ ctx := context.Background()
 productId := models.CreateProductPricePointProductIdContainer.FromNumber(124)
 
 body := models.CreateProductPricePointRequest{
-    PricePoint: models.CreateProductPricePoint{
+    PricePoint:           models.CreateProductPricePoint{
         Name:                    "Educational",
         Handle:                  models.ToPointer("educational"),
         PriceInCents:            int64(1000),
@@ -137,6 +137,7 @@ ListProductPricePoints(
 | `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 10. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>**Default**: `10`<br>**Constraints**: `<= 200` |
 | `currencyPrices` | `*bool` | Query, Optional | When fetching a product's price points, if you have defined multiple currencies at the site level, you can optionally pass the ?currency_prices=true query param to include an array of currency price data in the response. If the product price point is set to use_site_exchange_rate: true, it will return pricing based on the current exchange rate. If the flag is set to false, it will return all of the defined prices for each currency. |
 | `filterType` | [`[]models.PricePointType`](../../doc/models/price-point-type.md) | Query, Optional | Use in query: `filter[type]=catalog,default`. |
+| `archived` | `*bool` | Query, Optional | Set to include archived price points in the response. |
 
 ## Response Type
 
@@ -231,9 +232,9 @@ productId := models.UpdateProductPricePointProductIdContainer.FromNumber(124)
 pricePointId := models.UpdateProductPricePointPricePointIdContainer.FromNumber(188)
 
 body := models.UpdateProductPricePointRequest{
-    PricePoint: models.UpdateProductPricePoint{
-        Handle:       models.ToPointer("educational"),
-        PriceInCents: models.ToPointer(int64(1250)),
+    PricePoint:           models.UpdateProductPricePoint{
+        Handle:               models.ToPointer("educational"),
+        PriceInCents:         models.ToPointer(int64(1250)),
     },
 }
 
@@ -629,7 +630,7 @@ ctx := context.Background()
 productId := 202
 
 body := models.BulkCreateProductPricePointsRequest{
-    PricePoints: []models.CreateProductPricePoint{
+    PricePoints:          []models.CreateProductPricePoint{
         models.CreateProductPricePoint{
             Name:                    "Educational",
             Handle:                  models.ToPointer("educational"),
@@ -745,21 +746,21 @@ ctx := context.Background()
 productPricePointId := 234
 
 body := models.CreateProductCurrencyPricesRequest{
-    CurrencyPrices: []models.CreateProductCurrencyPrice{
+    CurrencyPrices:       []models.CreateProductCurrencyPrice{
         models.CreateProductCurrencyPrice{
-            Currency: "EUR",
-            Price:    60,
-            Role:     models.CurrencyPriceRole("baseline"),
+            Currency:             "EUR",
+            Price:                60,
+            Role:                 models.CurrencyPriceRole("baseline"),
         },
         models.CreateProductCurrencyPrice{
-            Currency: "EUR",
-            Price:    30,
-            Role:     models.CurrencyPriceRole("trial"),
+            Currency:             "EUR",
+            Price:                30,
+            Role:                 models.CurrencyPriceRole("trial"),
         },
         models.CreateProductCurrencyPrice{
-            Currency: "EUR",
-            Price:    100,
-            Role:     models.CurrencyPriceRole("initial"),
+            Currency:             "EUR",
+            Price:                100,
+            Role:                 models.CurrencyPriceRole("initial"),
         },
     },
 }
@@ -834,14 +835,14 @@ ctx := context.Background()
 productPricePointId := 234
 
 body := models.UpdateCurrencyPricesRequest{
-    CurrencyPrices: []models.UpdateCurrencyPrice{
+    CurrencyPrices:       []models.UpdateCurrencyPrice{
         models.UpdateCurrencyPrice{
-            Id:    200,
-            Price: 15,
+            Id:                   200,
+            Price:                float64(15),
         },
         models.UpdateCurrencyPrice{
-            Id:    201,
-            Price: 5,
+            Id:                   201,
+            Price:                float64(5),
         },
     },
 }
@@ -913,16 +914,16 @@ ctx := context.Background()
 
 collectedInput := advancedbilling.ListAllProductPricePointsInput{
     Filter:    models.ToPointer(models.ListPricePointsFilter{
-        StartDate:     models.ToPointer(parseTime(models.DEFAULT_DATE, "2011-12-17", func(err error) { log.Fatalln(err) })),
-        EndDate:       models.ToPointer(parseTime(models.DEFAULT_DATE, "2011-12-15", func(err error) { log.Fatalln(err) })),
-        StartDatetime: models.ToPointer(parseTime(time.RFC3339, "12/19/2011 09:15:30", func(err error) { log.Fatalln(err) })),
-        EndDatetime:   models.ToPointer(parseTime(time.RFC3339, "06/07/2019 17:20:06", func(err error) { log.Fatalln(err) })),
-        Type:          []models.PricePointType{
+        StartDate:            models.ToPointer(parseTime(models.DEFAULT_DATE, "2011-12-17", func(err error) { log.Fatalln(err) })),
+        EndDate:              models.ToPointer(parseTime(models.DEFAULT_DATE, "2011-12-15", func(err error) { log.Fatalln(err) })),
+        StartDatetime:        models.ToPointer(parseTime(time.RFC3339, "12/19/2011 09:15:30", func(err error) { log.Fatalln(err) })),
+        EndDatetime:          models.ToPointer(parseTime(time.RFC3339, "06/07/2019 17:20:06", func(err error) { log.Fatalln(err) })),
+        Type:                 []models.PricePointType{
             models.PricePointType("catalog"),
             models.PricePointType("default"),
             models.PricePointType("custom"),
         },
-        Ids:           []int{
+        Ids:                  []int{
             1,
             2,
             3,

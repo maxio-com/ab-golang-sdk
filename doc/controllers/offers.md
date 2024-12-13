@@ -57,19 +57,19 @@ CreateOffer(
 ctx := context.Background()
 
 body := models.CreateOfferRequest{
-    Offer: models.CreateOffer{
-        Name:                "Solo",
-        Handle:              "han_shot_first",
-        Description:         models.ToPointer("A Star Wars Story"),
-        ProductId:           31,
-        ProductPricePointId: models.ToPointer(102),
-        Components:          []models.CreateOfferComponent{
+    Offer:                models.CreateOffer{
+        Name:                 "Solo",
+        Handle:               "han_shot_first",
+        Description:          models.ToPointer("A Star Wars Story"),
+        ProductId:            31,
+        ProductPricePointId:  models.ToPointer(102),
+        Components:           []models.CreateOfferComponent{
             models.CreateOfferComponent{
-                ComponentId:      models.ToPointer(24),
-                StartingQuantity: models.ToPointer(1),
+                ComponentId:          models.ToPointer(24),
+                StartingQuantity:     models.ToPointer(1),
             },
         },
-        Coupons:             []string{
+        Coupons:              []string{
             "DEF456",
         },
     },
@@ -233,6 +233,12 @@ if err != nil {
   ]
 }
 ```
+
+## Errors
+
+| HTTP Status Code | Error Description | Exception Class |
+|  --- | --- | --- |
+| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../../doc/models/error-list-response-exception.md) |
 
 
 # Read Offer

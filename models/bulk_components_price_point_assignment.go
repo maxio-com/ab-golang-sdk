@@ -12,7 +12,7 @@ import (
 // BulkComponentsPricePointAssignment represents a BulkComponentsPricePointAssignment struct.
 type BulkComponentsPricePointAssignment struct {
     Components           []ComponentPricePointAssignment `json:"components,omitempty"`
-    AdditionalProperties map[string]any                  `json:"_"`
+    AdditionalProperties map[string]interface{}          `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for BulkComponentsPricePointAssignment.
@@ -20,13 +20,17 @@ type BulkComponentsPricePointAssignment struct {
 func (b BulkComponentsPricePointAssignment) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(b.AdditionalProperties,
+        "components"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(b.toMap())
 }
 
 // toMap converts the BulkComponentsPricePointAssignment object to a map representation for JSON marshaling.
 func (b BulkComponentsPricePointAssignment) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, b.AdditionalProperties)
+    MergeAdditionalProperties(structMap, b.AdditionalProperties)
     if b.Components != nil {
         structMap["components"] = b.Components
     }
@@ -41,12 +45,12 @@ func (b *BulkComponentsPricePointAssignment) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "components")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "components")
     if err != nil {
     	return err
     }
-    
     b.AdditionalProperties = additionalProperties
+    
     b.Components = temp.Components
     return nil
 }

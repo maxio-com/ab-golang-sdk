@@ -13,9 +13,9 @@ import (
 
 // CreateSubscriptionGroup represents a CreateSubscriptionGroup struct.
 type CreateSubscriptionGroup struct {
-    SubscriptionId       int            `json:"subscription_id"`
-    MemberIds            []int          `json:"member_ids,omitempty"`
-    AdditionalProperties map[string]any `json:"_"`
+    SubscriptionId       int                    `json:"subscription_id"`
+    MemberIds            []int                  `json:"member_ids,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreateSubscriptionGroup.
@@ -23,13 +23,17 @@ type CreateSubscriptionGroup struct {
 func (c CreateSubscriptionGroup) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(c.AdditionalProperties,
+        "subscription_id", "member_ids"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(c.toMap())
 }
 
 // toMap converts the CreateSubscriptionGroup object to a map representation for JSON marshaling.
 func (c CreateSubscriptionGroup) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, c.AdditionalProperties)
+    MergeAdditionalProperties(structMap, c.AdditionalProperties)
     structMap["subscription_id"] = c.SubscriptionId
     if c.MemberIds != nil {
         structMap["member_ids"] = c.MemberIds
@@ -49,12 +53,12 @@ func (c *CreateSubscriptionGroup) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "subscription_id", "member_ids")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "subscription_id", "member_ids")
     if err != nil {
     	return err
     }
-    
     c.AdditionalProperties = additionalProperties
+    
     c.SubscriptionId = *temp.SubscriptionId
     c.MemberIds = temp.MemberIds
     return nil

@@ -26,7 +26,7 @@ type ProformaInvoiceIssued struct {
     TotalAmount          string                     `json:"total_amount"`
     ProductName          string                     `json:"product_name"`
     LineItems            []InvoiceLineItemEventData `json:"line_items"`
-    AdditionalProperties map[string]any             `json:"_"`
+    AdditionalProperties map[string]interface{}     `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for ProformaInvoiceIssued.
@@ -34,13 +34,17 @@ type ProformaInvoiceIssued struct {
 func (p ProformaInvoiceIssued) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(p.AdditionalProperties,
+        "uid", "number", "role", "delivery_date", "created_at", "due_amount", "paid_amount", "tax_amount", "total_amount", "product_name", "line_items"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(p.toMap())
 }
 
 // toMap converts the ProformaInvoiceIssued object to a map representation for JSON marshaling.
 func (p ProformaInvoiceIssued) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, p.AdditionalProperties)
+    MergeAdditionalProperties(structMap, p.AdditionalProperties)
     structMap["uid"] = p.Uid
     structMap["number"] = p.Number
     structMap["role"] = p.Role
@@ -67,12 +71,12 @@ func (p *ProformaInvoiceIssued) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "uid", "number", "role", "delivery_date", "created_at", "due_amount", "paid_amount", "tax_amount", "total_amount", "product_name", "line_items")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "uid", "number", "role", "delivery_date", "created_at", "due_amount", "paid_amount", "tax_amount", "total_amount", "product_name", "line_items")
     if err != nil {
     	return err
     }
-    
     p.AdditionalProperties = additionalProperties
+    
     p.Uid = *temp.Uid
     p.Number = *temp.Number
     p.Role = *temp.Role

@@ -92,6 +92,7 @@ type Invoice struct {
     // The amount of credit (from credit notes) applied to this invoice.
     // Credits offset the amount due from the customer.
     CreditAmount               *string                    `json:"credit_amount,omitempty"`
+    DebitAmount                *string                    `json:"debit_amount,omitempty"`
     RefundAmount               *string                    `json:"refund_amount,omitempty"`
     // The amount paid on the invoice by the customer.
     PaidAmount                 *string                    `json:"paid_amount,omitempty"`
@@ -102,16 +103,18 @@ type Invoice struct {
     Discounts                  []InvoiceDiscount          `json:"discounts,omitempty"`
     Taxes                      []InvoiceTax               `json:"taxes,omitempty"`
     Credits                    []InvoiceCredit            `json:"credits,omitempty"`
+    Debits                     []InvoiceDebit             `json:"debits,omitempty"`
     Refunds                    []InvoiceRefund            `json:"refunds,omitempty"`
     Payments                   []InvoicePayment           `json:"payments,omitempty"`
     CustomFields               []InvoiceCustomField       `json:"custom_fields,omitempty"`
     DisplaySettings            *InvoiceDisplaySettings    `json:"display_settings,omitempty"`
+    AvataxDetails              *InvoiceAvataxDetails      `json:"avatax_details,omitempty"`
     // The public URL of the invoice
     PublicUrl                  *string                    `json:"public_url,omitempty"`
     PreviousBalanceData        *InvoicePreviousBalance    `json:"previous_balance_data,omitempty"`
     // The format is `"YYYY-MM-DD"`.
     PublicUrlExpiresOn         *time.Time                 `json:"public_url_expires_on,omitempty"`
-    AdditionalProperties       map[string]any             `json:"_"`
+    AdditionalProperties       map[string]interface{}     `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for Invoice.
@@ -119,13 +122,17 @@ type Invoice struct {
 func (i Invoice) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(i.AdditionalProperties,
+        "id", "uid", "site_id", "customer_id", "subscription_id", "number", "sequence_number", "transaction_time", "created_at", "updated_at", "issue_date", "due_date", "paid_date", "status", "role", "parent_invoice_id", "collection_method", "payment_instructions", "currency", "consolidation_level", "parent_invoice_uid", "subscription_group_id", "parent_invoice_number", "group_primary_subscription_id", "product_name", "product_family_name", "seller", "customer", "payer", "recipient_emails", "net_terms", "memo", "billing_address", "shipping_address", "subtotal_amount", "discount_amount", "tax_amount", "total_amount", "credit_amount", "debit_amount", "refund_amount", "paid_amount", "due_amount", "line_items", "discounts", "taxes", "credits", "debits", "refunds", "payments", "custom_fields", "display_settings", "avatax_details", "public_url", "previous_balance_data", "public_url_expires_on"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(i.toMap())
 }
 
 // toMap converts the Invoice object to a map representation for JSON marshaling.
 func (i Invoice) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, i.AdditionalProperties)
+    MergeAdditionalProperties(structMap, i.AdditionalProperties)
     if i.Id != nil {
         structMap["id"] = i.Id
     }
@@ -272,6 +279,9 @@ func (i Invoice) toMap() map[string]any {
     if i.CreditAmount != nil {
         structMap["credit_amount"] = i.CreditAmount
     }
+    if i.DebitAmount != nil {
+        structMap["debit_amount"] = i.DebitAmount
+    }
     if i.RefundAmount != nil {
         structMap["refund_amount"] = i.RefundAmount
     }
@@ -293,6 +303,9 @@ func (i Invoice) toMap() map[string]any {
     if i.Credits != nil {
         structMap["credits"] = i.Credits
     }
+    if i.Debits != nil {
+        structMap["debits"] = i.Debits
+    }
     if i.Refunds != nil {
         structMap["refunds"] = i.Refunds
     }
@@ -304,6 +317,9 @@ func (i Invoice) toMap() map[string]any {
     }
     if i.DisplaySettings != nil {
         structMap["display_settings"] = i.DisplaySettings.toMap()
+    }
+    if i.AvataxDetails != nil {
+        structMap["avatax_details"] = i.AvataxDetails.toMap()
     }
     if i.PublicUrl != nil {
         structMap["public_url"] = i.PublicUrl
@@ -325,12 +341,12 @@ func (i *Invoice) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "id", "uid", "site_id", "customer_id", "subscription_id", "number", "sequence_number", "transaction_time", "created_at", "updated_at", "issue_date", "due_date", "paid_date", "status", "role", "parent_invoice_id", "collection_method", "payment_instructions", "currency", "consolidation_level", "parent_invoice_uid", "subscription_group_id", "parent_invoice_number", "group_primary_subscription_id", "product_name", "product_family_name", "seller", "customer", "payer", "recipient_emails", "net_terms", "memo", "billing_address", "shipping_address", "subtotal_amount", "discount_amount", "tax_amount", "total_amount", "credit_amount", "refund_amount", "paid_amount", "due_amount", "line_items", "discounts", "taxes", "credits", "refunds", "payments", "custom_fields", "display_settings", "public_url", "previous_balance_data", "public_url_expires_on")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "id", "uid", "site_id", "customer_id", "subscription_id", "number", "sequence_number", "transaction_time", "created_at", "updated_at", "issue_date", "due_date", "paid_date", "status", "role", "parent_invoice_id", "collection_method", "payment_instructions", "currency", "consolidation_level", "parent_invoice_uid", "subscription_group_id", "parent_invoice_number", "group_primary_subscription_id", "product_name", "product_family_name", "seller", "customer", "payer", "recipient_emails", "net_terms", "memo", "billing_address", "shipping_address", "subtotal_amount", "discount_amount", "tax_amount", "total_amount", "credit_amount", "debit_amount", "refund_amount", "paid_amount", "due_amount", "line_items", "discounts", "taxes", "credits", "debits", "refunds", "payments", "custom_fields", "display_settings", "avatax_details", "public_url", "previous_balance_data", "public_url_expires_on")
     if err != nil {
     	return err
     }
-    
     i.AdditionalProperties = additionalProperties
+    
     i.Id = temp.Id
     i.Uid = temp.Uid
     i.SiteId = temp.SiteId
@@ -407,6 +423,7 @@ func (i *Invoice) UnmarshalJSON(input []byte) error {
     i.TaxAmount = temp.TaxAmount
     i.TotalAmount = temp.TotalAmount
     i.CreditAmount = temp.CreditAmount
+    i.DebitAmount = temp.DebitAmount
     i.RefundAmount = temp.RefundAmount
     i.PaidAmount = temp.PaidAmount
     i.DueAmount = temp.DueAmount
@@ -414,10 +431,12 @@ func (i *Invoice) UnmarshalJSON(input []byte) error {
     i.Discounts = temp.Discounts
     i.Taxes = temp.Taxes
     i.Credits = temp.Credits
+    i.Debits = temp.Debits
     i.Refunds = temp.Refunds
     i.Payments = temp.Payments
     i.CustomFields = temp.CustomFields
     i.DisplaySettings = temp.DisplaySettings
+    i.AvataxDetails = temp.AvataxDetails
     i.PublicUrl = temp.PublicUrl
     i.PreviousBalanceData = temp.PreviousBalanceData
     if temp.PublicUrlExpiresOn != nil {
@@ -471,6 +490,7 @@ type tempInvoice  struct {
     TaxAmount                  *string                    `json:"tax_amount,omitempty"`
     TotalAmount                *string                    `json:"total_amount,omitempty"`
     CreditAmount               *string                    `json:"credit_amount,omitempty"`
+    DebitAmount                *string                    `json:"debit_amount,omitempty"`
     RefundAmount               *string                    `json:"refund_amount,omitempty"`
     PaidAmount                 *string                    `json:"paid_amount,omitempty"`
     DueAmount                  *string                    `json:"due_amount,omitempty"`
@@ -478,10 +498,12 @@ type tempInvoice  struct {
     Discounts                  []InvoiceDiscount          `json:"discounts,omitempty"`
     Taxes                      []InvoiceTax               `json:"taxes,omitempty"`
     Credits                    []InvoiceCredit            `json:"credits,omitempty"`
+    Debits                     []InvoiceDebit             `json:"debits,omitempty"`
     Refunds                    []InvoiceRefund            `json:"refunds,omitempty"`
     Payments                   []InvoicePayment           `json:"payments,omitempty"`
     CustomFields               []InvoiceCustomField       `json:"custom_fields,omitempty"`
     DisplaySettings            *InvoiceDisplaySettings    `json:"display_settings,omitempty"`
+    AvataxDetails              *InvoiceAvataxDetails      `json:"avatax_details,omitempty"`
     PublicUrl                  *string                    `json:"public_url,omitempty"`
     PreviousBalanceData        *InvoicePreviousBalance    `json:"previous_balance_data,omitempty"`
     PublicUrlExpiresOn         *string                    `json:"public_url_expires_on,omitempty"`

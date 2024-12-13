@@ -16,7 +16,7 @@ import (
 type UpdateSubscriptionNoteRequest struct {
     // Updatable fields for Subscription Note
     Note                 UpdateSubscriptionNote `json:"note"`
-    AdditionalProperties map[string]any         `json:"_"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for UpdateSubscriptionNoteRequest.
@@ -24,13 +24,17 @@ type UpdateSubscriptionNoteRequest struct {
 func (u UpdateSubscriptionNoteRequest) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(u.AdditionalProperties,
+        "note"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(u.toMap())
 }
 
 // toMap converts the UpdateSubscriptionNoteRequest object to a map representation for JSON marshaling.
 func (u UpdateSubscriptionNoteRequest) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, u.AdditionalProperties)
+    MergeAdditionalProperties(structMap, u.AdditionalProperties)
     structMap["note"] = u.Note.toMap()
     return structMap
 }
@@ -47,12 +51,12 @@ func (u *UpdateSubscriptionNoteRequest) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "note")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "note")
     if err != nil {
     	return err
     }
-    
     u.AdditionalProperties = additionalProperties
+    
     u.Note = *temp.Note
     return nil
 }

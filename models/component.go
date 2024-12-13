@@ -39,7 +39,7 @@ type Component struct {
     // The description of the component.
     Description               Optional[string]           `json:"description"`
     DefaultPricePointId       Optional[int]              `json:"default_price_point_id"`
-    // An array of price brackets. If the component uses the ‘per_unit’ pricing scheme, this array will be empty.
+    // Applicable only to prepaid usage components. An array of overage price brackets.
     OveragePrices             Optional[[]ComponentPrice] `json:"overage_prices"`
     // An array of price brackets. If the component uses the ‘per_unit’ pricing scheme, this array will be empty.
     Prices                    Optional[[]ComponentPrice] `json:"prices"`
@@ -77,7 +77,7 @@ type Component struct {
     Interval                  *int                       `json:"interval,omitempty"`
     // A string representing the interval unit for this component's default price point, either month or day. This property is only available for sites with Multifrequency enabled.
     IntervalUnit              Optional[IntervalUnit]     `json:"interval_unit"`
-    AdditionalProperties      map[string]any             `json:"_"`
+    AdditionalProperties      map[string]interface{}     `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for Component.
@@ -85,13 +85,17 @@ type Component struct {
 func (c Component) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(c.AdditionalProperties,
+        "id", "name", "handle", "pricing_scheme", "unit_name", "unit_price", "product_family_id", "product_family_name", "price_per_unit_in_cents", "kind", "archived", "taxable", "description", "default_price_point_id", "overage_prices", "prices", "price_point_count", "price_points_url", "default_price_point_name", "tax_code", "recurring", "upgrade_charge", "downgrade_credit", "created_at", "updated_at", "archived_at", "hide_date_range_on_invoice", "allow_fractional_quantities", "item_category", "use_site_exchange_rate", "accounting_code", "event_based_billing_metric_id", "interval", "interval_unit"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(c.toMap())
 }
 
 // toMap converts the Component object to a map representation for JSON marshaling.
 func (c Component) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, c.AdditionalProperties)
+    MergeAdditionalProperties(structMap, c.AdditionalProperties)
     if c.Id != nil {
         structMap["id"] = c.Id
     }
@@ -278,12 +282,12 @@ func (c *Component) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "id", "name", "handle", "pricing_scheme", "unit_name", "unit_price", "product_family_id", "product_family_name", "price_per_unit_in_cents", "kind", "archived", "taxable", "description", "default_price_point_id", "overage_prices", "prices", "price_point_count", "price_points_url", "default_price_point_name", "tax_code", "recurring", "upgrade_charge", "downgrade_credit", "created_at", "updated_at", "archived_at", "hide_date_range_on_invoice", "allow_fractional_quantities", "item_category", "use_site_exchange_rate", "accounting_code", "event_based_billing_metric_id", "interval", "interval_unit")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "id", "name", "handle", "pricing_scheme", "unit_name", "unit_price", "product_family_id", "product_family_name", "price_per_unit_in_cents", "kind", "archived", "taxable", "description", "default_price_point_id", "overage_prices", "prices", "price_point_count", "price_points_url", "default_price_point_name", "tax_code", "recurring", "upgrade_charge", "downgrade_credit", "created_at", "updated_at", "archived_at", "hide_date_range_on_invoice", "allow_fractional_quantities", "item_category", "use_site_exchange_rate", "accounting_code", "event_based_billing_metric_id", "interval", "interval_unit")
     if err != nil {
     	return err
     }
-    
     c.AdditionalProperties = additionalProperties
+    
     c.Id = temp.Id
     c.Name = temp.Name
     c.Handle = temp.Handle

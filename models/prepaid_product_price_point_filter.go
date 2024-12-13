@@ -14,8 +14,8 @@ import (
 // PrepaidProductPricePointFilter represents a PrepaidProductPricePointFilter struct.
 type PrepaidProductPricePointFilter struct {
     // Passed as a parameter to list methods to return only non null values.
-    ProductPricePointId  string         `json:"product_price_point_id"`
-    AdditionalProperties map[string]any `json:"_"`
+    ProductPricePointId  string                 `json:"product_price_point_id"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for PrepaidProductPricePointFilter.
@@ -23,13 +23,17 @@ type PrepaidProductPricePointFilter struct {
 func (p PrepaidProductPricePointFilter) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(p.AdditionalProperties,
+        "product_price_point_id"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(p.toMap())
 }
 
 // toMap converts the PrepaidProductPricePointFilter object to a map representation for JSON marshaling.
 func (p PrepaidProductPricePointFilter) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, p.AdditionalProperties)
+    MergeAdditionalProperties(structMap, p.AdditionalProperties)
     structMap["product_price_point_id"] = p.ProductPricePointId
     return structMap
 }
@@ -46,12 +50,12 @@ func (p *PrepaidProductPricePointFilter) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "product_price_point_id")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "product_price_point_id")
     if err != nil {
     	return err
     }
-    
     p.AdditionalProperties = additionalProperties
+    
     p.ProductPricePointId = *temp.ProductPricePointId
     return nil
 }

@@ -13,8 +13,8 @@ import (
 
 // CreatePrepaidComponent represents a CreatePrepaidComponent struct.
 type CreatePrepaidComponent struct {
-    PrepaidUsageComponent PrepaidUsageComponent `json:"prepaid_usage_component"`
-    AdditionalProperties  map[string]any        `json:"_"`
+    PrepaidUsageComponent PrepaidUsageComponent  `json:"prepaid_usage_component"`
+    AdditionalProperties  map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreatePrepaidComponent.
@@ -22,13 +22,17 @@ type CreatePrepaidComponent struct {
 func (c CreatePrepaidComponent) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(c.AdditionalProperties,
+        "prepaid_usage_component"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(c.toMap())
 }
 
 // toMap converts the CreatePrepaidComponent object to a map representation for JSON marshaling.
 func (c CreatePrepaidComponent) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, c.AdditionalProperties)
+    MergeAdditionalProperties(structMap, c.AdditionalProperties)
     structMap["prepaid_usage_component"] = c.PrepaidUsageComponent.toMap()
     return structMap
 }
@@ -45,12 +49,12 @@ func (c *CreatePrepaidComponent) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "prepaid_usage_component")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "prepaid_usage_component")
     if err != nil {
     	return err
     }
-    
     c.AdditionalProperties = additionalProperties
+    
     c.PrepaidUsageComponent = *temp.PrepaidUsageComponent
     return nil
 }

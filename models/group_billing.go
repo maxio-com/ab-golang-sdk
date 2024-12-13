@@ -13,12 +13,12 @@ import (
 // Optional attributes related to billing date and accrual. Note: Only applicable for new subscriptions.
 type GroupBilling struct {
     // A flag indicating whether or not to accrue charges on the new subscription.
-    Accrue               *bool          `json:"accrue,omitempty"`
+    Accrue               *bool                  `json:"accrue,omitempty"`
     // A flag indicating whether or not to align the billing date of the new subscription with the billing date of the primary subscription of the hierarchy's default subscription group. Required to be true if prorate is also true.
-    AlignDate            *bool          `json:"align_date,omitempty"`
+    AlignDate            *bool                  `json:"align_date,omitempty"`
     // A flag indicating whether or not to prorate billing of the new subscription for the current period. A value of true is ignored unless align_date is also true.
-    Prorate              *bool          `json:"prorate,omitempty"`
-    AdditionalProperties map[string]any `json:"_"`
+    Prorate              *bool                  `json:"prorate,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for GroupBilling.
@@ -26,13 +26,17 @@ type GroupBilling struct {
 func (g GroupBilling) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(g.AdditionalProperties,
+        "accrue", "align_date", "prorate"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(g.toMap())
 }
 
 // toMap converts the GroupBilling object to a map representation for JSON marshaling.
 func (g GroupBilling) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, g.AdditionalProperties)
+    MergeAdditionalProperties(structMap, g.AdditionalProperties)
     if g.Accrue != nil {
         structMap["accrue"] = g.Accrue
     }
@@ -53,12 +57,12 @@ func (g *GroupBilling) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "accrue", "align_date", "prorate")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "accrue", "align_date", "prorate")
     if err != nil {
     	return err
     }
-    
     g.AdditionalProperties = additionalProperties
+    
     g.Accrue = temp.Accrue
     g.AlignDate = temp.AlignDate
     g.Prorate = temp.Prorate

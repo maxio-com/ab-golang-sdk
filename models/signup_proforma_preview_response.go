@@ -13,8 +13,8 @@ import (
 
 // SignupProformaPreviewResponse represents a SignupProformaPreviewResponse struct.
 type SignupProformaPreviewResponse struct {
-    ProformaInvoicePreview SignupProformaPreview `json:"proforma_invoice_preview"`
-    AdditionalProperties   map[string]any        `json:"_"`
+    ProformaInvoicePreview SignupProformaPreview  `json:"proforma_invoice_preview"`
+    AdditionalProperties   map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for SignupProformaPreviewResponse.
@@ -22,13 +22,17 @@ type SignupProformaPreviewResponse struct {
 func (s SignupProformaPreviewResponse) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(s.AdditionalProperties,
+        "proforma_invoice_preview"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(s.toMap())
 }
 
 // toMap converts the SignupProformaPreviewResponse object to a map representation for JSON marshaling.
 func (s SignupProformaPreviewResponse) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, s.AdditionalProperties)
+    MergeAdditionalProperties(structMap, s.AdditionalProperties)
     structMap["proforma_invoice_preview"] = s.ProformaInvoicePreview.toMap()
     return structMap
 }
@@ -45,12 +49,12 @@ func (s *SignupProformaPreviewResponse) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "proforma_invoice_preview")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "proforma_invoice_preview")
     if err != nil {
     	return err
     }
-    
     s.AdditionalProperties = additionalProperties
+    
     s.ProformaInvoicePreview = *temp.ProformaInvoicePreview
     return nil
 }

@@ -13,8 +13,8 @@ import (
 
 // BatchJobResponse represents a BatchJobResponse struct.
 type BatchJobResponse struct {
-    Batchjob             BatchJob       `json:"batchjob"`
-    AdditionalProperties map[string]any `json:"_"`
+    Batchjob             BatchJob               `json:"batchjob"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for BatchJobResponse.
@@ -22,13 +22,17 @@ type BatchJobResponse struct {
 func (b BatchJobResponse) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(b.AdditionalProperties,
+        "batchjob"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(b.toMap())
 }
 
 // toMap converts the BatchJobResponse object to a map representation for JSON marshaling.
 func (b BatchJobResponse) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, b.AdditionalProperties)
+    MergeAdditionalProperties(structMap, b.AdditionalProperties)
     structMap["batchjob"] = b.Batchjob.toMap()
     return structMap
 }
@@ -45,12 +49,12 @@ func (b *BatchJobResponse) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "batchjob")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "batchjob")
     if err != nil {
     	return err
     }
-    
     b.AdditionalProperties = additionalProperties
+    
     b.Batchjob = *temp.Batchjob
     return nil
 }

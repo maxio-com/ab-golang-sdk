@@ -13,9 +13,9 @@ import (
 
 // AddressChange represents a AddressChange struct.
 type AddressChange struct {
-    Before               InvoiceAddress `json:"before"`
-    After                InvoiceAddress `json:"after"`
-    AdditionalProperties map[string]any `json:"_"`
+    Before               InvoiceAddress         `json:"before"`
+    After                InvoiceAddress         `json:"after"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for AddressChange.
@@ -23,13 +23,17 @@ type AddressChange struct {
 func (a AddressChange) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(a.AdditionalProperties,
+        "before", "after"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(a.toMap())
 }
 
 // toMap converts the AddressChange object to a map representation for JSON marshaling.
 func (a AddressChange) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, a.AdditionalProperties)
+    MergeAdditionalProperties(structMap, a.AdditionalProperties)
     structMap["before"] = a.Before.toMap()
     structMap["after"] = a.After.toMap()
     return structMap
@@ -47,12 +51,12 @@ func (a *AddressChange) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "before", "after")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "before", "after")
     if err != nil {
     	return err
     }
-    
     a.AdditionalProperties = additionalProperties
+    
     a.Before = *temp.Before
     a.After = *temp.After
     return nil

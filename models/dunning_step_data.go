@@ -13,15 +13,15 @@ import (
 
 // DunningStepData represents a DunningStepData struct.
 type DunningStepData struct {
-    DayThreshold         int              `json:"day_threshold"`
-    Action               string           `json:"action"`
-    EmailBody            Optional[string] `json:"email_body"`
-    EmailSubject         Optional[string] `json:"email_subject"`
-    SendEmail            bool             `json:"send_email"`
-    SendBccEmail         bool             `json:"send_bcc_email"`
-    SendSms              bool             `json:"send_sms"`
-    SmsBody              Optional[string] `json:"sms_body"`
-    AdditionalProperties map[string]any   `json:"_"`
+    DayThreshold         int                    `json:"day_threshold"`
+    Action               string                 `json:"action"`
+    EmailBody            Optional[string]       `json:"email_body"`
+    EmailSubject         Optional[string]       `json:"email_subject"`
+    SendEmail            bool                   `json:"send_email"`
+    SendBccEmail         bool                   `json:"send_bcc_email"`
+    SendSms              bool                   `json:"send_sms"`
+    SmsBody              Optional[string]       `json:"sms_body"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for DunningStepData.
@@ -29,13 +29,17 @@ type DunningStepData struct {
 func (d DunningStepData) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(d.AdditionalProperties,
+        "day_threshold", "action", "email_body", "email_subject", "send_email", "send_bcc_email", "send_sms", "sms_body"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(d.toMap())
 }
 
 // toMap converts the DunningStepData object to a map representation for JSON marshaling.
 func (d DunningStepData) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, d.AdditionalProperties)
+    MergeAdditionalProperties(structMap, d.AdditionalProperties)
     structMap["day_threshold"] = d.DayThreshold
     structMap["action"] = d.Action
     if d.EmailBody.IsValueSet() {
@@ -77,12 +81,12 @@ func (d *DunningStepData) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "day_threshold", "action", "email_body", "email_subject", "send_email", "send_bcc_email", "send_sms", "sms_body")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "day_threshold", "action", "email_body", "email_subject", "send_email", "send_bcc_email", "send_sms", "sms_body")
     if err != nil {
     	return err
     }
-    
     d.AdditionalProperties = additionalProperties
+    
     d.DayThreshold = *temp.DayThreshold
     d.Action = *temp.Action
     d.EmailBody = temp.EmailBody

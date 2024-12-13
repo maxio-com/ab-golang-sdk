@@ -102,7 +102,7 @@ func NewClient(configuration Configuration) ClientInterface {
     client.callBuilderFactory = callBuilderHandler(
     	func(server string) string {
     		if server == "" {
-    			server = "default"
+    			server = "production"
     		}
     		return getBaseUri(Server(server), client.configuration)
     	},
@@ -334,14 +334,20 @@ func (c *client) GetCallBuilder() https.CallBuilderFactory {
 func getBaseUri(
     server Server,
     configuration Configuration) string {
-    if configuration.Environment() == Environment(PRODUCTION) {
-        if server == Server(ENUMDEFAULT) {
-            return fmt.Sprintf("https://%v.%v", configuration.Subdomain(), configuration.Domain())
+    if configuration.Environment() == Environment(US) {
+        if server == Server(PRODUCTION) {
+            return fmt.Sprintf("https://%v.chargify.com", configuration.Site())
+        }
+        if server == Server(EBB) {
+            return fmt.Sprintf("https://events.chargify.com/%v", configuration.Site())
         }
     }
-    if configuration.Environment() == Environment(ENVIRONMENT2) {
-        if server == Server(ENUMDEFAULT) {
-            return "https://events.chargify.com"
+    if configuration.Environment() == Environment(EU) {
+        if server == Server(PRODUCTION) {
+            return fmt.Sprintf("https://%v.ebilling.maxio.com", configuration.Site())
+        }
+        if server == Server(EBB) {
+            return fmt.Sprintf("https://events.chargify.com/%v", configuration.Site())
         }
     }
     return "TODO: Select a valid server."

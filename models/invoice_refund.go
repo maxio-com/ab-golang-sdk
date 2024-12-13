@@ -11,17 +11,17 @@ import (
 
 // InvoiceRefund represents a InvoiceRefund struct.
 type InvoiceRefund struct {
-    TransactionId        *int             `json:"transaction_id,omitempty"`
-    PaymentId            *int             `json:"payment_id,omitempty"`
-    Memo                 *string          `json:"memo,omitempty"`
-    OriginalAmount       *string          `json:"original_amount,omitempty"`
-    AppliedAmount        *string          `json:"applied_amount,omitempty"`
+    TransactionId        *int                   `json:"transaction_id,omitempty"`
+    PaymentId            *int                   `json:"payment_id,omitempty"`
+    Memo                 *string                `json:"memo,omitempty"`
+    OriginalAmount       *string                `json:"original_amount,omitempty"`
+    AppliedAmount        *string                `json:"applied_amount,omitempty"`
     // The transaction ID for the refund as returned from the payment gateway
-    GatewayTransactionId Optional[string] `json:"gateway_transaction_id"`
-    GatewayUsed          *string          `json:"gateway_used,omitempty"`
-    GatewayHandle        Optional[string] `json:"gateway_handle"`
-    AchLateReject        Optional[bool]   `json:"ach_late_reject"`
-    AdditionalProperties map[string]any   `json:"_"`
+    GatewayTransactionId Optional[string]       `json:"gateway_transaction_id"`
+    GatewayUsed          *string                `json:"gateway_used,omitempty"`
+    GatewayHandle        Optional[string]       `json:"gateway_handle"`
+    AchLateReject        Optional[bool]         `json:"ach_late_reject"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for InvoiceRefund.
@@ -29,13 +29,17 @@ type InvoiceRefund struct {
 func (i InvoiceRefund) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(i.AdditionalProperties,
+        "transaction_id", "payment_id", "memo", "original_amount", "applied_amount", "gateway_transaction_id", "gateway_used", "gateway_handle", "ach_late_reject"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(i.toMap())
 }
 
 // toMap converts the InvoiceRefund object to a map representation for JSON marshaling.
 func (i InvoiceRefund) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, i.AdditionalProperties)
+    MergeAdditionalProperties(structMap, i.AdditionalProperties)
     if i.TransactionId != nil {
         structMap["transaction_id"] = i.TransactionId
     }
@@ -86,12 +90,12 @@ func (i *InvoiceRefund) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "transaction_id", "payment_id", "memo", "original_amount", "applied_amount", "gateway_transaction_id", "gateway_used", "gateway_handle", "ach_late_reject")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "transaction_id", "payment_id", "memo", "original_amount", "applied_amount", "gateway_transaction_id", "gateway_used", "gateway_handle", "ach_late_reject")
     if err != nil {
     	return err
     }
-    
     i.AdditionalProperties = additionalProperties
+    
     i.TransactionId = temp.TransactionId
     i.PaymentId = temp.PaymentId
     i.Memo = temp.Memo

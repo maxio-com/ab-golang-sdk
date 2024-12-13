@@ -13,10 +13,10 @@ import (
 
 // RefundSuccess represents a RefundSuccess struct.
 type RefundSuccess struct {
-    RefundId             int            `json:"refund_id"`
-    GatewayTransactionId int            `json:"gateway_transaction_id"`
-    ProductId            int            `json:"product_id"`
-    AdditionalProperties map[string]any `json:"_"`
+    RefundId             int                    `json:"refund_id"`
+    GatewayTransactionId int                    `json:"gateway_transaction_id"`
+    ProductId            int                    `json:"product_id"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for RefundSuccess.
@@ -24,13 +24,17 @@ type RefundSuccess struct {
 func (r RefundSuccess) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(r.AdditionalProperties,
+        "refund_id", "gateway_transaction_id", "product_id"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(r.toMap())
 }
 
 // toMap converts the RefundSuccess object to a map representation for JSON marshaling.
 func (r RefundSuccess) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, r.AdditionalProperties)
+    MergeAdditionalProperties(structMap, r.AdditionalProperties)
     structMap["refund_id"] = r.RefundId
     structMap["gateway_transaction_id"] = r.GatewayTransactionId
     structMap["product_id"] = r.ProductId
@@ -49,12 +53,12 @@ func (r *RefundSuccess) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "refund_id", "gateway_transaction_id", "product_id")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "refund_id", "gateway_transaction_id", "product_id")
     if err != nil {
     	return err
     }
-    
     r.AdditionalProperties = additionalProperties
+    
     r.RefundId = *temp.RefundId
     r.GatewayTransactionId = *temp.GatewayTransactionId
     r.ProductId = *temp.ProductId

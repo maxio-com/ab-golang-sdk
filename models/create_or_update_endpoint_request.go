@@ -16,7 +16,7 @@ import (
 type CreateOrUpdateEndpointRequest struct {
     // Used to Create or Update Endpoint
     Endpoint             CreateOrUpdateEndpoint `json:"endpoint"`
-    AdditionalProperties map[string]any         `json:"_"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreateOrUpdateEndpointRequest.
@@ -24,13 +24,17 @@ type CreateOrUpdateEndpointRequest struct {
 func (c CreateOrUpdateEndpointRequest) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(c.AdditionalProperties,
+        "endpoint"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(c.toMap())
 }
 
 // toMap converts the CreateOrUpdateEndpointRequest object to a map representation for JSON marshaling.
 func (c CreateOrUpdateEndpointRequest) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, c.AdditionalProperties)
+    MergeAdditionalProperties(structMap, c.AdditionalProperties)
     structMap["endpoint"] = c.Endpoint.toMap()
     return structMap
 }
@@ -47,12 +51,12 @@ func (c *CreateOrUpdateEndpointRequest) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "endpoint")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "endpoint")
     if err != nil {
     	return err
     }
-    
     c.AdditionalProperties = additionalProperties
+    
     c.Endpoint = *temp.Endpoint
     return nil
 }

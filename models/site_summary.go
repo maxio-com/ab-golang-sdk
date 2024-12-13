@@ -11,12 +11,12 @@ import (
 
 // SiteSummary represents a SiteSummary struct.
 type SiteSummary struct {
-    SellerName           *string         `json:"seller_name,omitempty"`
-    SiteName             *string         `json:"site_name,omitempty"`
-    SiteId               *int            `json:"site_id,omitempty"`
-    SiteCurrency         *string         `json:"site_currency,omitempty"`
-    Stats                *SiteStatistics `json:"stats,omitempty"`
-    AdditionalProperties map[string]any  `json:"_"`
+    SellerName           *string                `json:"seller_name,omitempty"`
+    SiteName             *string                `json:"site_name,omitempty"`
+    SiteId               *int                   `json:"site_id,omitempty"`
+    SiteCurrency         *string                `json:"site_currency,omitempty"`
+    Stats                *SiteStatistics        `json:"stats,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for SiteSummary.
@@ -24,13 +24,17 @@ type SiteSummary struct {
 func (s SiteSummary) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(s.AdditionalProperties,
+        "seller_name", "site_name", "site_id", "site_currency", "stats"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(s.toMap())
 }
 
 // toMap converts the SiteSummary object to a map representation for JSON marshaling.
 func (s SiteSummary) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, s.AdditionalProperties)
+    MergeAdditionalProperties(structMap, s.AdditionalProperties)
     if s.SellerName != nil {
         structMap["seller_name"] = s.SellerName
     }
@@ -57,12 +61,12 @@ func (s *SiteSummary) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "seller_name", "site_name", "site_id", "site_currency", "stats")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "seller_name", "site_name", "site_id", "site_currency", "stats")
     if err != nil {
     	return err
     }
-    
     s.AdditionalProperties = additionalProperties
+    
     s.SellerName = temp.SellerName
     s.SiteName = temp.SiteName
     s.SiteId = temp.SiteId

@@ -12,7 +12,7 @@ import (
 // UpdateComponentPricePointRequest represents a UpdateComponentPricePointRequest struct.
 type UpdateComponentPricePointRequest struct {
     PricePoint           *UpdateComponentPricePoint `json:"price_point,omitempty"`
-    AdditionalProperties map[string]any             `json:"_"`
+    AdditionalProperties map[string]interface{}     `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for UpdateComponentPricePointRequest.
@@ -20,13 +20,17 @@ type UpdateComponentPricePointRequest struct {
 func (u UpdateComponentPricePointRequest) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(u.AdditionalProperties,
+        "price_point"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(u.toMap())
 }
 
 // toMap converts the UpdateComponentPricePointRequest object to a map representation for JSON marshaling.
 func (u UpdateComponentPricePointRequest) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, u.AdditionalProperties)
+    MergeAdditionalProperties(structMap, u.AdditionalProperties)
     if u.PricePoint != nil {
         structMap["price_point"] = u.PricePoint.toMap()
     }
@@ -41,12 +45,12 @@ func (u *UpdateComponentPricePointRequest) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "price_point")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "price_point")
     if err != nil {
     	return err
     }
-    
     u.AdditionalProperties = additionalProperties
+    
     u.PricePoint = temp.PricePoint
     return nil
 }

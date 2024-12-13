@@ -8,7 +8,9 @@ package advancedbilling
 import (
     "context"
     "fmt"
+    "github.com/apimatic/go-core-runtime/https"
     "github.com/apimatic/go-core-runtime/utilities"
+    "github.com/maxio-com/ab-golang-sdk/errors"
     "github.com/maxio-com/ab-golang-sdk/models"
     "net/http"
 )
@@ -45,6 +47,9 @@ func (s *SubscriptionNotesController) CreateSubscriptionNote(
       fmt.Sprintf("/subscriptions/%v/notes.json", subscriptionId),
     )
     req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
+    })
     req.Header("Content-Type", "application/json")
     if body != nil {
         req.Json(body)
@@ -87,6 +92,9 @@ func (s *SubscriptionNotesController) ListSubscriptionNotes(
       fmt.Sprintf("/subscriptions/%v/notes.json", input.SubscriptionId),
     )
     req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
+    })
     if input.Page != nil {
         req.QueryParam("page", *input.Page)
     }
@@ -148,6 +156,9 @@ func (s *SubscriptionNotesController) UpdateSubscriptionNote(
       fmt.Sprintf("/subscriptions/%v/notes/%v.json", subscriptionId, noteId),
     )
     req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
+    })
     req.Header("Content-Type", "application/json")
     if body != nil {
         req.Json(body)

@@ -12,7 +12,7 @@ import (
 // UpdateAllocationExpirationDate represents a UpdateAllocationExpirationDate struct.
 type UpdateAllocationExpirationDate struct {
     Allocation           *AllocationExpirationDate `json:"allocation,omitempty"`
-    AdditionalProperties map[string]any            `json:"_"`
+    AdditionalProperties map[string]interface{}    `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for UpdateAllocationExpirationDate.
@@ -20,13 +20,17 @@ type UpdateAllocationExpirationDate struct {
 func (u UpdateAllocationExpirationDate) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(u.AdditionalProperties,
+        "allocation"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(u.toMap())
 }
 
 // toMap converts the UpdateAllocationExpirationDate object to a map representation for JSON marshaling.
 func (u UpdateAllocationExpirationDate) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, u.AdditionalProperties)
+    MergeAdditionalProperties(structMap, u.AdditionalProperties)
     if u.Allocation != nil {
         structMap["allocation"] = u.Allocation.toMap()
     }
@@ -41,12 +45,12 @@ func (u *UpdateAllocationExpirationDate) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "allocation")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "allocation")
     if err != nil {
     	return err
     }
-    
     u.AdditionalProperties = additionalProperties
+    
     u.Allocation = temp.Allocation
     return nil
 }

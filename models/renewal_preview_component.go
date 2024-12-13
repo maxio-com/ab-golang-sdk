@@ -22,7 +22,7 @@ type RenewalPreviewComponent struct {
     Quantity             *int                                 `json:"quantity,omitempty"`
     // Either the component price point's Chargify id or its handle prefixed with `handle:`
     PricePointId         *RenewalPreviewComponentPricePointId `json:"price_point_id,omitempty"`
-    AdditionalProperties map[string]any                       `json:"_"`
+    AdditionalProperties map[string]interface{}               `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for RenewalPreviewComponent.
@@ -30,13 +30,17 @@ type RenewalPreviewComponent struct {
 func (r RenewalPreviewComponent) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(r.AdditionalProperties,
+        "component_id", "quantity", "price_point_id"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(r.toMap())
 }
 
 // toMap converts the RenewalPreviewComponent object to a map representation for JSON marshaling.
 func (r RenewalPreviewComponent) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, r.AdditionalProperties)
+    MergeAdditionalProperties(structMap, r.AdditionalProperties)
     if r.ComponentId != nil {
         structMap["component_id"] = r.ComponentId.toMap()
     }
@@ -57,12 +61,12 @@ func (r *RenewalPreviewComponent) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "component_id", "quantity", "price_point_id")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "component_id", "quantity", "price_point_id")
     if err != nil {
     	return err
     }
-    
     r.AdditionalProperties = additionalProperties
+    
     r.ComponentId = temp.ComponentId
     r.Quantity = temp.Quantity
     r.PricePointId = temp.PricePointId

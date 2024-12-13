@@ -10,7 +10,7 @@
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `Id` | `int64` | Required | - |
-| `Key` | `string` | Required | **Constraints**: *Minimum Length*: `1` |
+| `Key` | [`models.EventKey`](../../doc/models/event-key.md) | Required | - |
 | `Message` | `string` | Required | **Constraints**: *Minimum Length*: `1` |
 | `SubscriptionId` | `*int` | Required | - |
 | `CustomerId` | `*int` | Required | - |
@@ -22,7 +22,7 @@
 ```json
 {
   "id": 40,
-  "key": "key2",
+  "key": "invoice_issued",
   "message": "message8",
   "subscription_id": 150,
   "customer_id": 78,

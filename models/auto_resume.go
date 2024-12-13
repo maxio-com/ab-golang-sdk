@@ -13,8 +13,8 @@ import (
 
 // AutoResume represents a AutoResume struct.
 type AutoResume struct {
-    AutomaticallyResumeAt Optional[time.Time] `json:"automatically_resume_at"`
-    AdditionalProperties  map[string]any      `json:"_"`
+    AutomaticallyResumeAt Optional[time.Time]    `json:"automatically_resume_at"`
+    AdditionalProperties  map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for AutoResume.
@@ -22,13 +22,17 @@ type AutoResume struct {
 func (a AutoResume) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(a.AdditionalProperties,
+        "automatically_resume_at"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(a.toMap())
 }
 
 // toMap converts the AutoResume object to a map representation for JSON marshaling.
 func (a AutoResume) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, a.AdditionalProperties)
+    MergeAdditionalProperties(structMap, a.AdditionalProperties)
     if a.AutomaticallyResumeAt.IsValueSet() {
         var AutomaticallyResumeAtVal *string = nil
         if a.AutomaticallyResumeAt.Value() != nil {
@@ -52,12 +56,12 @@ func (a *AutoResume) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "automatically_resume_at")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "automatically_resume_at")
     if err != nil {
     	return err
     }
-    
     a.AdditionalProperties = additionalProperties
+    
     a.AutomaticallyResumeAt.ShouldSetValue(temp.AutomaticallyResumeAt.IsValueSet())
     if temp.AutomaticallyResumeAt.Value() != nil {
         AutomaticallyResumeAtVal, err := time.Parse(time.RFC3339, (*temp.AutomaticallyResumeAt.Value()))

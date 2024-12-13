@@ -5,9 +5,8 @@ The following parameters are configurable for the API Client:
 
 | Parameter | Type | Description |
 |  --- | --- | --- |
-| `subdomain` | `string` | The subdomain for your Advanced Billing site.<br>*Default*: `"subdomain"` |
-| `domain` | `string` | The Advanced Billing server domain.<br>*Default*: `"chargify.com"` |
-| `environment` | `Environment` | The API environment. <br> **Default: `Environment.PRODUCTION`** |
+| `site` | `string` | The subdomain for your Advanced Billing site.<br>*Default*: `"subdomain"` |
+| `environment` | `Environment` | The API environment. <br> **Default: `Environment.US`** |
 | `httpConfiguration` | [`HttpConfiguration`](http-configuration.md) | Configurable http client options like timeout and retries. |
 | `basicAuthCredentials` | [`BasicAuthCredentials`](auth/basic-authentication.md) | The Credentials Setter for Basic Authentication |
 
@@ -21,15 +20,14 @@ client := advancedbilling.NewClient(
                 advancedbilling.WithTimeout(120),
             ),
         ),
-        advancedbilling.WithEnvironment(advancedbilling.PRODUCTION),
+        advancedbilling.WithEnvironment(advancedbilling.US),
         advancedbilling.WithBasicAuthCredentials(
             advancedbilling.NewBasicAuthCredentials(
                 "BasicAuthUserName",
                 "BasicAuthPassword",
             ),
         ),
-        advancedbilling.WithSubdomain("subdomain"),
-        advancedbilling.WithDomain("chargify.com"),
+        advancedbilling.WithSite("subdomain"),
     ),
 )
 ```

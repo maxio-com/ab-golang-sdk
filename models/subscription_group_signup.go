@@ -22,7 +22,7 @@ type SubscriptionGroupSignup struct {
     CreditCardAttributes    *SubscriptionGroupCreditCard  `json:"credit_card_attributes,omitempty"`
     BankAccountAttributes   *SubscriptionGroupBankAccount `json:"bank_account_attributes,omitempty"`
     Subscriptions           []SubscriptionGroupSignupItem `json:"subscriptions"`
-    AdditionalProperties    map[string]any                `json:"_"`
+    AdditionalProperties    map[string]interface{}        `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for SubscriptionGroupSignup.
@@ -30,13 +30,17 @@ type SubscriptionGroupSignup struct {
 func (s SubscriptionGroupSignup) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(s.AdditionalProperties,
+        "payment_profile_id", "payer_id", "payer_reference", "payment_collection_method", "payer_attributes", "credit_card_attributes", "bank_account_attributes", "subscriptions"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(s.toMap())
 }
 
 // toMap converts the SubscriptionGroupSignup object to a map representation for JSON marshaling.
 func (s SubscriptionGroupSignup) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, s.AdditionalProperties)
+    MergeAdditionalProperties(structMap, s.AdditionalProperties)
     if s.PaymentProfileId != nil {
         structMap["payment_profile_id"] = s.PaymentProfileId
     }
@@ -74,12 +78,12 @@ func (s *SubscriptionGroupSignup) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "payment_profile_id", "payer_id", "payer_reference", "payment_collection_method", "payer_attributes", "credit_card_attributes", "bank_account_attributes", "subscriptions")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "payment_profile_id", "payer_id", "payer_reference", "payment_collection_method", "payer_attributes", "credit_card_attributes", "bank_account_attributes", "subscriptions")
     if err != nil {
     	return err
     }
-    
     s.AdditionalProperties = additionalProperties
+    
     s.PaymentProfileId = temp.PaymentProfileId
     s.PayerId = temp.PayerId
     s.PayerReference = temp.PayerReference

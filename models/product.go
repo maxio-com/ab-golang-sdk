@@ -76,7 +76,7 @@ type Product struct {
     ItemCategory               Optional[string]                 `json:"item_category"`
     ProductPricePointId        *int                             `json:"product_price_point_id,omitempty"`
     ProductPricePointHandle    Optional[string]                 `json:"product_price_point_handle"`
-    AdditionalProperties       map[string]any                   `json:"_"`
+    AdditionalProperties       map[string]interface{}           `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for Product.
@@ -84,13 +84,17 @@ type Product struct {
 func (p Product) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(p.AdditionalProperties,
+        "id", "name", "handle", "description", "accounting_code", "request_credit_card", "expiration_interval", "expiration_interval_unit", "created_at", "updated_at", "price_in_cents", "interval", "interval_unit", "initial_charge_in_cents", "trial_price_in_cents", "trial_interval", "trial_interval_unit", "archived_at", "require_credit_card", "return_params", "taxable", "update_return_url", "initial_charge_after_trial", "version_number", "update_return_params", "product_family", "public_signup_pages", "product_price_point_name", "request_billing_address", "require_billing_address", "require_shipping_address", "tax_code", "default_product_price_point_id", "use_site_exchange_rate", "item_category", "product_price_point_id", "product_price_point_handle"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(p.toMap())
 }
 
 // toMap converts the Product object to a map representation for JSON marshaling.
 func (p Product) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, p.AdditionalProperties)
+    MergeAdditionalProperties(structMap, p.AdditionalProperties)
     if p.Id != nil {
         structMap["id"] = p.Id
     }
@@ -290,12 +294,12 @@ func (p *Product) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "id", "name", "handle", "description", "accounting_code", "request_credit_card", "expiration_interval", "expiration_interval_unit", "created_at", "updated_at", "price_in_cents", "interval", "interval_unit", "initial_charge_in_cents", "trial_price_in_cents", "trial_interval", "trial_interval_unit", "archived_at", "require_credit_card", "return_params", "taxable", "update_return_url", "initial_charge_after_trial", "version_number", "update_return_params", "product_family", "public_signup_pages", "product_price_point_name", "request_billing_address", "require_billing_address", "require_shipping_address", "tax_code", "default_product_price_point_id", "use_site_exchange_rate", "item_category", "product_price_point_id", "product_price_point_handle")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "id", "name", "handle", "description", "accounting_code", "request_credit_card", "expiration_interval", "expiration_interval_unit", "created_at", "updated_at", "price_in_cents", "interval", "interval_unit", "initial_charge_in_cents", "trial_price_in_cents", "trial_interval", "trial_interval_unit", "archived_at", "require_credit_card", "return_params", "taxable", "update_return_url", "initial_charge_after_trial", "version_number", "update_return_params", "product_family", "public_signup_pages", "product_price_point_name", "request_billing_address", "require_billing_address", "require_shipping_address", "tax_code", "default_product_price_point_id", "use_site_exchange_rate", "item_category", "product_price_point_id", "product_price_point_handle")
     if err != nil {
     	return err
     }
-    
     p.AdditionalProperties = additionalProperties
+    
     p.Id = temp.Id
     p.Name = temp.Name
     p.Handle = temp.Handle

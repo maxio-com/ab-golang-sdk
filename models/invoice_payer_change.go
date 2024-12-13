@@ -11,11 +11,11 @@ import (
 
 // InvoicePayerChange represents a InvoicePayerChange struct.
 type InvoicePayerChange struct {
-    FirstName            *string        `json:"first_name,omitempty"`
-    LastName             *string        `json:"last_name,omitempty"`
-    Organization         *string        `json:"organization,omitempty"`
-    Email                *string        `json:"email,omitempty"`
-    AdditionalProperties map[string]any `json:"_"`
+    FirstName            *string                `json:"first_name,omitempty"`
+    LastName             *string                `json:"last_name,omitempty"`
+    Organization         *string                `json:"organization,omitempty"`
+    Email                *string                `json:"email,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for InvoicePayerChange.
@@ -23,13 +23,17 @@ type InvoicePayerChange struct {
 func (i InvoicePayerChange) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(i.AdditionalProperties,
+        "first_name", "last_name", "organization", "email"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(i.toMap())
 }
 
 // toMap converts the InvoicePayerChange object to a map representation for JSON marshaling.
 func (i InvoicePayerChange) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, i.AdditionalProperties)
+    MergeAdditionalProperties(structMap, i.AdditionalProperties)
     if i.FirstName != nil {
         structMap["first_name"] = i.FirstName
     }
@@ -53,12 +57,12 @@ func (i *InvoicePayerChange) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "first_name", "last_name", "organization", "email")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "first_name", "last_name", "organization", "email")
     if err != nil {
     	return err
     }
-    
     i.AdditionalProperties = additionalProperties
+    
     i.FirstName = temp.FirstName
     i.LastName = temp.LastName
     i.Organization = temp.Organization

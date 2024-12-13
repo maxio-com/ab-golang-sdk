@@ -101,7 +101,7 @@ ctx := context.Background()
 subscriptionId := 222
 
 body := models.SubscriptionProductMigrationRequest{
-    Migration: models.SubscriptionProductMigration{
+    Migration:            models.SubscriptionProductMigration{
         ProductId:               models.ToPointer(3801242),
         IncludeTrial:            models.ToPointer(false),
         IncludeInitialCharge:    models.ToPointer(false),
@@ -287,7 +287,7 @@ ctx := context.Background()
 subscriptionId := 222
 
 body := models.SubscriptionMigrationPreviewRequest{
-    Migration: models.SubscriptionMigrationPreviewOptions{
+    Migration:            models.SubscriptionMigrationPreviewOptions{
         IncludeTrial:            models.ToPointer(false),
         IncludeInitialCharge:    models.ToPointer(false),
         IncludeCoupons:          models.ToPointer(true),

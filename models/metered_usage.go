@@ -13,13 +13,13 @@ import (
 
 // MeteredUsage represents a MeteredUsage struct.
 type MeteredUsage struct {
-    PreviousUnitBalance  string         `json:"previous_unit_balance"`
-    NewUnitBalance       int            `json:"new_unit_balance"`
-    UsageQuantity        int            `json:"usage_quantity"`
-    ComponentId          int            `json:"component_id"`
-    ComponentHandle      string         `json:"component_handle"`
-    Memo                 string         `json:"memo"`
-    AdditionalProperties map[string]any `json:"_"`
+    PreviousUnitBalance  string                 `json:"previous_unit_balance"`
+    NewUnitBalance       int                    `json:"new_unit_balance"`
+    UsageQuantity        int                    `json:"usage_quantity"`
+    ComponentId          int                    `json:"component_id"`
+    ComponentHandle      string                 `json:"component_handle"`
+    Memo                 string                 `json:"memo"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for MeteredUsage.
@@ -27,13 +27,17 @@ type MeteredUsage struct {
 func (m MeteredUsage) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(m.AdditionalProperties,
+        "previous_unit_balance", "new_unit_balance", "usage_quantity", "component_id", "component_handle", "memo"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(m.toMap())
 }
 
 // toMap converts the MeteredUsage object to a map representation for JSON marshaling.
 func (m MeteredUsage) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, m.AdditionalProperties)
+    MergeAdditionalProperties(structMap, m.AdditionalProperties)
     structMap["previous_unit_balance"] = m.PreviousUnitBalance
     structMap["new_unit_balance"] = m.NewUnitBalance
     structMap["usage_quantity"] = m.UsageQuantity
@@ -55,12 +59,12 @@ func (m *MeteredUsage) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "previous_unit_balance", "new_unit_balance", "usage_quantity", "component_id", "component_handle", "memo")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "previous_unit_balance", "new_unit_balance", "usage_quantity", "component_id", "component_handle", "memo")
     if err != nil {
     	return err
     }
-    
     m.AdditionalProperties = additionalProperties
+    
     m.PreviousUnitBalance = *temp.PreviousUnitBalance
     m.NewUnitBalance = *temp.NewUnitBalance
     m.UsageQuantity = *temp.UsageQuantity

@@ -73,9 +73,11 @@ type ListProductPricePointsInput struct {
     CurrencyPrices *bool                                       
     // Use in query: `filter[type]=catalog,default`.
     FilterType     []models.PricePointType                     
+    // Set to include archived price points in the response.
+    Archived       *bool                                       
 }
 
-// ListProductPricePoints takes context, productId, page, perPage, currencyPrices, filterType as parameters and
+// ListProductPricePoints takes context, productId, page, perPage, currencyPrices, filterType, archived as parameters and
 // returns an models.ApiResponse with models.ListProductPricePointsResponse data and
 // an error if there was an issue with the request or response.
 // Use this endpoint to retrieve a list of product price points.
@@ -101,6 +103,9 @@ func (p *ProductPricePointsController) ListProductPricePoints(
     }
     if input.FilterType != nil {
         req.QueryParam("filter[type]", input.FilterType)
+    }
+    if input.Archived != nil {
+        req.QueryParam("archived", *input.Archived)
     }
     
     var result models.ListProductPricePointsResponse

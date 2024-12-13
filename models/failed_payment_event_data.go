@@ -23,7 +23,7 @@ type FailedPaymentEventData struct {
     PaymentMethod        InvoicePaymentMethodType `json:"payment_method"`
     // The transaction ID of the failed payment.
     TransactionId        int                      `json:"transaction_id"`
-    AdditionalProperties map[string]any           `json:"_"`
+    AdditionalProperties map[string]interface{}   `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for FailedPaymentEventData.
@@ -31,13 +31,17 @@ type FailedPaymentEventData struct {
 func (f FailedPaymentEventData) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(f.AdditionalProperties,
+        "amount_in_cents", "applied_amount", "memo", "payment_method", "transaction_id"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(f.toMap())
 }
 
 // toMap converts the FailedPaymentEventData object to a map representation for JSON marshaling.
 func (f FailedPaymentEventData) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, f.AdditionalProperties)
+    MergeAdditionalProperties(structMap, f.AdditionalProperties)
     structMap["amount_in_cents"] = f.AmountInCents
     structMap["applied_amount"] = f.AppliedAmount
     if f.Memo.IsValueSet() {
@@ -64,12 +68,12 @@ func (f *FailedPaymentEventData) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "amount_in_cents", "applied_amount", "memo", "payment_method", "transaction_id")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "amount_in_cents", "applied_amount", "memo", "payment_method", "transaction_id")
     if err != nil {
     	return err
     }
-    
     f.AdditionalProperties = additionalProperties
+    
     f.AmountInCents = *temp.AmountInCents
     f.AppliedAmount = *temp.AppliedAmount
     f.Memo = temp.Memo

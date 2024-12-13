@@ -18,10 +18,11 @@ type Coupon struct {
     Code                          *string                       `json:"code,omitempty"`
     Description                   *string                       `json:"description,omitempty"`
     Amount                        Optional[float64]             `json:"amount"`
-    AmountInCents                 Optional[int]                 `json:"amount_in_cents"`
+    AmountInCents                 Optional[int64]               `json:"amount_in_cents"`
     ProductFamilyId               *int                          `json:"product_family_id,omitempty"`
     ProductFamilyName             Optional[string]              `json:"product_family_name"`
     StartDate                     *time.Time                    `json:"start_date,omitempty"`
+    // After the given time, this coupon code will be invalid for new signups. Recurring discounts started before this date will continue to recur even after this date.
     EndDate                       Optional[time.Time]           `json:"end_date"`
     Percentage                    Optional[string]              `json:"percentage"`
     Recurring                     *bool                         `json:"recurring,omitempty"`
@@ -30,10 +31,13 @@ type Coupon struct {
     DurationInterval              Optional[int]                 `json:"duration_interval"`
     DurationIntervalUnit          Optional[string]              `json:"duration_interval_unit"`
     DurationIntervalSpan          Optional[string]              `json:"duration_interval_span"`
+    // If set to true, discount is not limited (credits will carry forward to next billing).
     AllowNegativeBalance          *bool                         `json:"allow_negative_balance,omitempty"`
     ArchivedAt                    Optional[time.Time]           `json:"archived_at"`
     ConversionLimit               Optional[string]              `json:"conversion_limit"`
+    // A stackable coupon can be combined with other coupons on a Subscription.
     Stackable                     *bool                         `json:"stackable,omitempty"`
+    // Applicable only to stackable coupons. For `compound`, Percentage-based discounts will be calculated against the remaining price, after prior discounts have been calculated. For `full-price`, Percentage-based discounts will always be calculated against the original item price, before other discounts are applied.
     CompoundingStrategy           Optional[CompoundingStrategy] `json:"compounding_strategy"`
     UseSiteExchangeRate           *bool                         `json:"use_site_exchange_rate,omitempty"`
     CreatedAt                     *time.Time                    `json:"created_at,omitempty"`
@@ -43,7 +47,9 @@ type Coupon struct {
     ApplyOnCancelAtEndOfPeriod    *bool                         `json:"apply_on_cancel_at_end_of_period,omitempty"`
     ApplyOnSubscriptionExpiration *bool                         `json:"apply_on_subscription_expiration,omitempty"`
     CouponRestrictions            []CouponRestriction           `json:"coupon_restrictions,omitempty"`
-    AdditionalProperties          map[string]any                `json:"_"`
+    // Returned in read, find, and list endpoints if the query parameter is provided.
+    CurrencyPrices                []CouponCurrency              `json:"currency_prices,omitempty"`
+    AdditionalProperties          map[string]interface{}        `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for Coupon.
@@ -51,13 +57,17 @@ type Coupon struct {
 func (c Coupon) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(c.AdditionalProperties,
+        "id", "name", "code", "description", "amount", "amount_in_cents", "product_family_id", "product_family_name", "start_date", "end_date", "percentage", "recurring", "recurring_scheme", "duration_period_count", "duration_interval", "duration_interval_unit", "duration_interval_span", "allow_negative_balance", "archived_at", "conversion_limit", "stackable", "compounding_strategy", "use_site_exchange_rate", "created_at", "updated_at", "discount_type", "exclude_mid_period_allocations", "apply_on_cancel_at_end_of_period", "apply_on_subscription_expiration", "coupon_restrictions", "currency_prices"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(c.toMap())
 }
 
 // toMap converts the Coupon object to a map representation for JSON marshaling.
 func (c Coupon) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, c.AdditionalProperties)
+    MergeAdditionalProperties(structMap, c.AdditionalProperties)
     if c.Id != nil {
         structMap["id"] = c.Id
     }
@@ -206,6 +216,9 @@ func (c Coupon) toMap() map[string]any {
     if c.CouponRestrictions != nil {
         structMap["coupon_restrictions"] = c.CouponRestrictions
     }
+    if c.CurrencyPrices != nil {
+        structMap["currency_prices"] = c.CurrencyPrices
+    }
     return structMap
 }
 
@@ -217,12 +230,12 @@ func (c *Coupon) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "id", "name", "code", "description", "amount", "amount_in_cents", "product_family_id", "product_family_name", "start_date", "end_date", "percentage", "recurring", "recurring_scheme", "duration_period_count", "duration_interval", "duration_interval_unit", "duration_interval_span", "allow_negative_balance", "archived_at", "conversion_limit", "stackable", "compounding_strategy", "use_site_exchange_rate", "created_at", "updated_at", "discount_type", "exclude_mid_period_allocations", "apply_on_cancel_at_end_of_period", "apply_on_subscription_expiration", "coupon_restrictions")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "id", "name", "code", "description", "amount", "amount_in_cents", "product_family_id", "product_family_name", "start_date", "end_date", "percentage", "recurring", "recurring_scheme", "duration_period_count", "duration_interval", "duration_interval_unit", "duration_interval_span", "allow_negative_balance", "archived_at", "conversion_limit", "stackable", "compounding_strategy", "use_site_exchange_rate", "created_at", "updated_at", "discount_type", "exclude_mid_period_allocations", "apply_on_cancel_at_end_of_period", "apply_on_subscription_expiration", "coupon_restrictions", "currency_prices")
     if err != nil {
     	return err
     }
-    
     c.AdditionalProperties = additionalProperties
+    
     c.Id = temp.Id
     c.Name = temp.Name
     c.Code = temp.Code
@@ -285,6 +298,7 @@ func (c *Coupon) UnmarshalJSON(input []byte) error {
     c.ApplyOnCancelAtEndOfPeriod = temp.ApplyOnCancelAtEndOfPeriod
     c.ApplyOnSubscriptionExpiration = temp.ApplyOnSubscriptionExpiration
     c.CouponRestrictions = temp.CouponRestrictions
+    c.CurrencyPrices = temp.CurrencyPrices
     return nil
 }
 
@@ -295,7 +309,7 @@ type tempCoupon  struct {
     Code                          *string                       `json:"code,omitempty"`
     Description                   *string                       `json:"description,omitempty"`
     Amount                        Optional[float64]             `json:"amount"`
-    AmountInCents                 Optional[int]                 `json:"amount_in_cents"`
+    AmountInCents                 Optional[int64]               `json:"amount_in_cents"`
     ProductFamilyId               *int                          `json:"product_family_id,omitempty"`
     ProductFamilyName             Optional[string]              `json:"product_family_name"`
     StartDate                     *string                       `json:"start_date,omitempty"`
@@ -320,4 +334,5 @@ type tempCoupon  struct {
     ApplyOnCancelAtEndOfPeriod    *bool                         `json:"apply_on_cancel_at_end_of_period,omitempty"`
     ApplyOnSubscriptionExpiration *bool                         `json:"apply_on_subscription_expiration,omitempty"`
     CouponRestrictions            []CouponRestriction           `json:"coupon_restrictions,omitempty"`
+    CurrencyPrices                []CouponCurrency              `json:"currency_prices,omitempty"`
 }

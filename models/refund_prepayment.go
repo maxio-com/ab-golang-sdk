@@ -20,7 +20,7 @@ type RefundPrepayment struct {
     Memo                 string                 `json:"memo"`
     // Specify the type of refund you wish to initiate. When the prepayment is external, the `external` flag is optional. But if the prepayment was made through a payment profile, the `external` flag is required.
     External             *bool                  `json:"external,omitempty"`
-    AdditionalProperties map[string]any         `json:"_"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for RefundPrepayment.
@@ -28,13 +28,17 @@ type RefundPrepayment struct {
 func (r RefundPrepayment) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(r.AdditionalProperties,
+        "amount_in_cents", "amount", "memo", "external"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(r.toMap())
 }
 
 // toMap converts the RefundPrepayment object to a map representation for JSON marshaling.
 func (r RefundPrepayment) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, r.AdditionalProperties)
+    MergeAdditionalProperties(structMap, r.AdditionalProperties)
     if r.AmountInCents != nil {
         structMap["amount_in_cents"] = r.AmountInCents
     } else {
@@ -60,12 +64,12 @@ func (r *RefundPrepayment) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "amount_in_cents", "amount", "memo", "external")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "amount_in_cents", "amount", "memo", "external")
     if err != nil {
     	return err
     }
-    
     r.AdditionalProperties = additionalProperties
+    
     r.AmountInCents = temp.AmountInCents
     r.Amount = *temp.Amount
     r.Memo = *temp.Memo

@@ -13,14 +13,14 @@ import (
 
 // ProductFamily represents a ProductFamily struct.
 type ProductFamily struct {
-    Id                   *int             `json:"id,omitempty"`
-    Name                 *string          `json:"name,omitempty"`
-    Handle               *string          `json:"handle,omitempty"`
-    AccountingCode       Optional[string] `json:"accounting_code"`
-    Description          Optional[string] `json:"description"`
-    CreatedAt            *time.Time       `json:"created_at,omitempty"`
-    UpdatedAt            *time.Time       `json:"updated_at,omitempty"`
-    AdditionalProperties map[string]any   `json:"_"`
+    Id                   *int                   `json:"id,omitempty"`
+    Name                 *string                `json:"name,omitempty"`
+    Handle               *string                `json:"handle,omitempty"`
+    AccountingCode       Optional[string]       `json:"accounting_code"`
+    Description          Optional[string]       `json:"description"`
+    CreatedAt            *time.Time             `json:"created_at,omitempty"`
+    UpdatedAt            *time.Time             `json:"updated_at,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for ProductFamily.
@@ -28,13 +28,17 @@ type ProductFamily struct {
 func (p ProductFamily) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(p.AdditionalProperties,
+        "id", "name", "handle", "accounting_code", "description", "created_at", "updated_at"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(p.toMap())
 }
 
 // toMap converts the ProductFamily object to a map representation for JSON marshaling.
 func (p ProductFamily) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, p.AdditionalProperties)
+    MergeAdditionalProperties(structMap, p.AdditionalProperties)
     if p.Id != nil {
         structMap["id"] = p.Id
     }
@@ -75,12 +79,12 @@ func (p *ProductFamily) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "id", "name", "handle", "accounting_code", "description", "created_at", "updated_at")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "id", "name", "handle", "accounting_code", "description", "created_at", "updated_at")
     if err != nil {
     	return err
     }
-    
     p.AdditionalProperties = additionalProperties
+    
     p.Id = temp.Id
     p.Name = temp.Name
     p.Handle = temp.Handle

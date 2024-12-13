@@ -13,22 +13,22 @@ import (
 
 // CreateInvoice represents a CreateInvoice struct.
 type CreateInvoice struct {
-    LineItems            []CreateInvoiceItem   `json:"line_items,omitempty"`
-    IssueDate            *time.Time            `json:"issue_date,omitempty"`
+    LineItems            []CreateInvoiceItem    `json:"line_items,omitempty"`
+    IssueDate            *time.Time             `json:"issue_date,omitempty"`
     // By default, invoices will be created with a due date matching the date of invoice creation. If a different due date is desired, the net_terms parameter can be sent indicating the number of days in advance the due date should be.
-    NetTerms             *int                  `json:"net_terms,omitempty"`
-    PaymentInstructions  *string               `json:"payment_instructions,omitempty"`
+    NetTerms             *int                   `json:"net_terms,omitempty"`
+    PaymentInstructions  *string                `json:"payment_instructions,omitempty"`
     // A custom memo can be sent to override the site's default.
-    Memo                 *string               `json:"memo,omitempty"`
+    Memo                 *string                `json:"memo,omitempty"`
     // Overrides the defaults for the site
-    SellerAddress        *CreateInvoiceAddress `json:"seller_address,omitempty"`
+    SellerAddress        *CreateInvoiceAddress  `json:"seller_address,omitempty"`
     // Overrides the default for the customer
-    BillingAddress       *CreateInvoiceAddress `json:"billing_address,omitempty"`
+    BillingAddress       *CreateInvoiceAddress  `json:"billing_address,omitempty"`
     // Overrides the default for the customer
-    ShippingAddress      *CreateInvoiceAddress `json:"shipping_address,omitempty"`
-    Coupons              []CreateInvoiceCoupon `json:"coupons,omitempty"`
-    Status               *CreateInvoiceStatus  `json:"status,omitempty"`
-    AdditionalProperties map[string]any        `json:"_"`
+    ShippingAddress      *CreateInvoiceAddress  `json:"shipping_address,omitempty"`
+    Coupons              []CreateInvoiceCoupon  `json:"coupons,omitempty"`
+    Status               *CreateInvoiceStatus   `json:"status,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreateInvoice.
@@ -36,13 +36,17 @@ type CreateInvoice struct {
 func (c CreateInvoice) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(c.AdditionalProperties,
+        "line_items", "issue_date", "net_terms", "payment_instructions", "memo", "seller_address", "billing_address", "shipping_address", "coupons", "status"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(c.toMap())
 }
 
 // toMap converts the CreateInvoice object to a map representation for JSON marshaling.
 func (c CreateInvoice) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, c.AdditionalProperties)
+    MergeAdditionalProperties(structMap, c.AdditionalProperties)
     if c.LineItems != nil {
         structMap["line_items"] = c.LineItems
     }
@@ -84,12 +88,12 @@ func (c *CreateInvoice) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "line_items", "issue_date", "net_terms", "payment_instructions", "memo", "seller_address", "billing_address", "shipping_address", "coupons", "status")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "line_items", "issue_date", "net_terms", "payment_instructions", "memo", "seller_address", "billing_address", "shipping_address", "coupons", "status")
     if err != nil {
     	return err
     }
-    
     c.AdditionalProperties = additionalProperties
+    
     c.LineItems = temp.LineItems
     if temp.IssueDate != nil {
         IssueDateVal, err := time.Parse(DEFAULT_DATE, *temp.IssueDate)

@@ -12,11 +12,11 @@ import (
 // PaymentForAllocation represents a PaymentForAllocation struct.
 // Information for captured payment, if applicable
 type PaymentForAllocation struct {
-    Id                   *int           `json:"id,omitempty"`
-    AmountInCents        *int64         `json:"amount_in_cents,omitempty"`
-    Success              *bool          `json:"success,omitempty"`
-    Memo                 *string        `json:"memo,omitempty"`
-    AdditionalProperties map[string]any `json:"_"`
+    Id                   *int                   `json:"id,omitempty"`
+    AmountInCents        *int64                 `json:"amount_in_cents,omitempty"`
+    Success              *bool                  `json:"success,omitempty"`
+    Memo                 *string                `json:"memo,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for PaymentForAllocation.
@@ -24,13 +24,17 @@ type PaymentForAllocation struct {
 func (p PaymentForAllocation) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(p.AdditionalProperties,
+        "id", "amount_in_cents", "success", "memo"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(p.toMap())
 }
 
 // toMap converts the PaymentForAllocation object to a map representation for JSON marshaling.
 func (p PaymentForAllocation) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, p.AdditionalProperties)
+    MergeAdditionalProperties(structMap, p.AdditionalProperties)
     if p.Id != nil {
         structMap["id"] = p.Id
     }
@@ -54,12 +58,12 @@ func (p *PaymentForAllocation) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "id", "amount_in_cents", "success", "memo")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "id", "amount_in_cents", "success", "memo")
     if err != nil {
     	return err
     }
-    
     p.AdditionalProperties = additionalProperties
+    
     p.Id = temp.Id
     p.AmountInCents = temp.AmountInCents
     p.Success = temp.Success

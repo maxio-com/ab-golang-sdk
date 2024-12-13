@@ -18,15 +18,15 @@ type CreateComponentPricePoint struct {
     // The identifier for the pricing scheme. See [Product Components](https://help.chargify.com/products/product-components.html) for an overview of pricing schemes.
     PricingScheme        PricingScheme          `json:"pricing_scheme"`
     Prices               []Price                `json:"prices"`
-    // Whether to use the site level exchange rate or define your own prices for each currency if you have multiple currencies defined on the site.
+    // Whether to use the site level exchange rate or define your own prices for each currency if you have multiple currencies defined on the site. Setting not supported when creating price points in bulk.
     UseSiteExchangeRate  *bool                  `json:"use_site_exchange_rate,omitempty"`
-    // Whether or not the price point includes tax
+    // Whether or not the price point includes tax. Setting not supported when creating price points in bulk.
     TaxIncluded          *bool                  `json:"tax_included,omitempty"`
     // The numerical interval. i.e. an interval of ‘30’ coupled with an interval_unit of day would mean this price point would renew every 30 days. This property is only available for sites with Multifrequency enabled.
     Interval             *int                   `json:"interval,omitempty"`
     // A string representing the interval unit for this price point, either month or day. This property is only available for sites with Multifrequency enabled.
     IntervalUnit         Optional[IntervalUnit] `json:"interval_unit"`
-    AdditionalProperties map[string]any         `json:"_"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreateComponentPricePoint.
@@ -34,13 +34,17 @@ type CreateComponentPricePoint struct {
 func (c CreateComponentPricePoint) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(c.AdditionalProperties,
+        "name", "handle", "pricing_scheme", "prices", "use_site_exchange_rate", "tax_included", "interval", "interval_unit"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(c.toMap())
 }
 
 // toMap converts the CreateComponentPricePoint object to a map representation for JSON marshaling.
 func (c CreateComponentPricePoint) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, c.AdditionalProperties)
+    MergeAdditionalProperties(structMap, c.AdditionalProperties)
     structMap["name"] = c.Name
     if c.Handle != nil {
         structMap["handle"] = c.Handle
@@ -78,12 +82,12 @@ func (c *CreateComponentPricePoint) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "name", "handle", "pricing_scheme", "prices", "use_site_exchange_rate", "tax_included", "interval", "interval_unit")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "name", "handle", "pricing_scheme", "prices", "use_site_exchange_rate", "tax_included", "interval", "interval_unit")
     if err != nil {
     	return err
     }
-    
     c.AdditionalProperties = additionalProperties
+    
     c.Name = *temp.Name
     c.Handle = temp.Handle
     c.PricingScheme = *temp.PricingScheme

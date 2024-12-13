@@ -13,16 +13,16 @@ import (
 
 // Usage represents a Usage struct.
 type Usage struct {
-    Id                   *int64           `json:"id,omitempty"`
-    Memo                 Optional[string] `json:"memo"`
-    CreatedAt            *time.Time       `json:"created_at,omitempty"`
-    PricePointId         *int             `json:"price_point_id,omitempty"`
-    Quantity             *UsageQuantity   `json:"quantity,omitempty"`
-    OverageQuantity      *int             `json:"overage_quantity,omitempty"`
-    ComponentId          *int             `json:"component_id,omitempty"`
-    ComponentHandle      *string          `json:"component_handle,omitempty"`
-    SubscriptionId       *int             `json:"subscription_id,omitempty"`
-    AdditionalProperties map[string]any   `json:"_"`
+    Id                   *int64                 `json:"id,omitempty"`
+    Memo                 Optional[string]       `json:"memo"`
+    CreatedAt            *time.Time             `json:"created_at,omitempty"`
+    PricePointId         *int                   `json:"price_point_id,omitempty"`
+    Quantity             *UsageQuantity         `json:"quantity,omitempty"`
+    OverageQuantity      *int                   `json:"overage_quantity,omitempty"`
+    ComponentId          *int                   `json:"component_id,omitempty"`
+    ComponentHandle      *string                `json:"component_handle,omitempty"`
+    SubscriptionId       *int                   `json:"subscription_id,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for Usage.
@@ -30,13 +30,17 @@ type Usage struct {
 func (u Usage) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(u.AdditionalProperties,
+        "id", "memo", "created_at", "price_point_id", "quantity", "overage_quantity", "component_id", "component_handle", "subscription_id"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(u.toMap())
 }
 
 // toMap converts the Usage object to a map representation for JSON marshaling.
 func (u Usage) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, u.AdditionalProperties)
+    MergeAdditionalProperties(structMap, u.AdditionalProperties)
     if u.Id != nil {
         structMap["id"] = u.Id
     }
@@ -79,12 +83,12 @@ func (u *Usage) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "id", "memo", "created_at", "price_point_id", "quantity", "overage_quantity", "component_id", "component_handle", "subscription_id")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "id", "memo", "created_at", "price_point_id", "quantity", "overage_quantity", "component_id", "component_handle", "subscription_id")
     if err != nil {
     	return err
     }
-    
     u.AdditionalProperties = additionalProperties
+    
     u.Id = temp.Id
     u.Memo = temp.Memo
     if temp.CreatedAt != nil {

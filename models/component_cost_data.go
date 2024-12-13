@@ -19,7 +19,7 @@ type ComponentCostData struct {
     // The identifier for the pricing scheme. See [Product Components](https://help.chargify.com/products/product-components.html) for an overview of pricing schemes.
     PricingScheme        *PricingScheme              `json:"pricing_scheme,omitempty"`
     Tiers                []ComponentCostDataRateTier `json:"tiers,omitempty"`
-    AdditionalProperties map[string]any              `json:"_"`
+    AdditionalProperties map[string]interface{}      `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for ComponentCostData.
@@ -27,13 +27,17 @@ type ComponentCostData struct {
 func (c ComponentCostData) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(c.AdditionalProperties,
+        "component_code_id", "price_point_id", "product_id", "quantity", "amount", "pricing_scheme", "tiers"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(c.toMap())
 }
 
 // toMap converts the ComponentCostData object to a map representation for JSON marshaling.
 func (c ComponentCostData) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, c.AdditionalProperties)
+    MergeAdditionalProperties(structMap, c.AdditionalProperties)
     if c.ComponentCodeId.IsValueSet() {
         if c.ComponentCodeId.Value() != nil {
             structMap["component_code_id"] = c.ComponentCodeId.Value()
@@ -70,12 +74,12 @@ func (c *ComponentCostData) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "component_code_id", "price_point_id", "product_id", "quantity", "amount", "pricing_scheme", "tiers")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "component_code_id", "price_point_id", "product_id", "quantity", "amount", "pricing_scheme", "tiers")
     if err != nil {
     	return err
     }
-    
     c.AdditionalProperties = additionalProperties
+    
     c.ComponentCodeId = temp.ComponentCodeId
     c.PricePointId = temp.PricePointId
     c.ProductId = temp.ProductId

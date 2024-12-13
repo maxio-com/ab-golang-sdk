@@ -11,8 +11,8 @@ import (
 
 // CouponResponse represents a CouponResponse struct.
 type CouponResponse struct {
-    Coupon               *Coupon        `json:"coupon,omitempty"`
-    AdditionalProperties map[string]any `json:"_"`
+    Coupon               *Coupon                `json:"coupon,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for CouponResponse.
@@ -20,13 +20,17 @@ type CouponResponse struct {
 func (c CouponResponse) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(c.AdditionalProperties,
+        "coupon"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(c.toMap())
 }
 
 // toMap converts the CouponResponse object to a map representation for JSON marshaling.
 func (c CouponResponse) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, c.AdditionalProperties)
+    MergeAdditionalProperties(structMap, c.AdditionalProperties)
     if c.Coupon != nil {
         structMap["coupon"] = c.Coupon.toMap()
     }
@@ -41,12 +45,12 @@ func (c *CouponResponse) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "coupon")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "coupon")
     if err != nil {
     	return err
     }
-    
     c.AdditionalProperties = additionalProperties
+    
     c.Coupon = temp.Coupon
     return nil
 }

@@ -14,30 +14,30 @@ import (
 // Webhook represents a Webhook struct.
 type Webhook struct {
     // A string describing which event type produced the given webhook
-    Event                *string             `json:"event,omitempty"`
+    Event                *string                `json:"event,omitempty"`
     // The unique identifier for the webhooks (unique across all of Chargify). This is not changed on a retry/replay of the same webhook, so it may be used to avoid duplicate action for the same event.
-    Id                   *int64              `json:"id,omitempty"`
+    Id                   *int64                 `json:"id,omitempty"`
     // Timestamp indicating when the webhook was created
-    CreatedAt            *time.Time          `json:"created_at,omitempty"`
+    CreatedAt            *time.Time             `json:"created_at,omitempty"`
     // Text describing the status code and/or error from the last failed attempt to send the Webhook. When a webhook is retried and accepted, this field will be cleared.
-    LastError            *string             `json:"last_error,omitempty"`
+    LastError            *string                `json:"last_error,omitempty"`
     // Timestamp indicating when the last non-acceptance occurred. If a webhook is later resent and accepted, this field will be cleared.
-    LastErrorAt          *time.Time          `json:"last_error_at,omitempty"`
+    LastErrorAt          *time.Time             `json:"last_error_at,omitempty"`
     // Timestamp indicating when the webhook was accepted by the merchant endpoint. When a webhook is explicitly replayed by the merchant, this value will be cleared until it is accepted again.
-    AcceptedAt           Optional[time.Time] `json:"accepted_at"`
+    AcceptedAt           Optional[time.Time]    `json:"accepted_at"`
     // Timestamp indicating when the most recent attempt was made to send the webhook
-    LastSentAt           *time.Time          `json:"last_sent_at,omitempty"`
+    LastSentAt           *time.Time             `json:"last_sent_at,omitempty"`
     // The url that the endpoint was last sent to.
-    LastSentUrl          *string             `json:"last_sent_url,omitempty"`
+    LastSentUrl          *string                `json:"last_sent_url,omitempty"`
     // A boolean flag describing whether the webhook was accepted by the webhook endpoint for the most recent attempt. (Acceptance is defined by receiving a “200 OK” HTTP response within a reasonable timeframe, i.e. 15 seconds)
-    Successful           *bool               `json:"successful,omitempty"`
+    Successful           *bool                  `json:"successful,omitempty"`
     // The data sent within the webhook post
-    Body                 *string             `json:"body,omitempty"`
+    Body                 *string                `json:"body,omitempty"`
     // The calculated webhook signature
-    Signature            *string             `json:"signature,omitempty"`
+    Signature            *string                `json:"signature,omitempty"`
     // The calculated HMAC-SHA-256 webhook signature
-    SignatureHmacSha256  *string             `json:"signature_hmac_sha_256,omitempty"`
-    AdditionalProperties map[string]any      `json:"_"`
+    SignatureHmacSha256  *string                `json:"signature_hmac_sha_256,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for Webhook.
@@ -45,13 +45,17 @@ type Webhook struct {
 func (w Webhook) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(w.AdditionalProperties,
+        "event", "id", "created_at", "last_error", "last_error_at", "accepted_at", "last_sent_at", "last_sent_url", "successful", "body", "signature", "signature_hmac_sha_256"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(w.toMap())
 }
 
 // toMap converts the Webhook object to a map representation for JSON marshaling.
 func (w Webhook) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, w.AdditionalProperties)
+    MergeAdditionalProperties(structMap, w.AdditionalProperties)
     if w.Event != nil {
         structMap["event"] = w.Event
     }
@@ -108,12 +112,12 @@ func (w *Webhook) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "event", "id", "created_at", "last_error", "last_error_at", "accepted_at", "last_sent_at", "last_sent_url", "successful", "body", "signature", "signature_hmac_sha_256")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "event", "id", "created_at", "last_error", "last_error_at", "accepted_at", "last_sent_at", "last_sent_url", "successful", "body", "signature", "signature_hmac_sha_256")
     if err != nil {
     	return err
     }
-    
     w.AdditionalProperties = additionalProperties
+    
     w.Event = temp.Event
     w.Id = temp.Id
     if temp.CreatedAt != nil {

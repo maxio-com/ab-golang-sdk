@@ -16,7 +16,7 @@ type PaymentMethodBankAccount struct {
     MaskedAccountNumber  string                    `json:"masked_account_number"`
     MaskedRoutingNumber  string                    `json:"masked_routing_number"`
     Type                 InvoiceEventPaymentMethod `json:"type"`
-    AdditionalProperties map[string]any            `json:"_"`
+    AdditionalProperties map[string]interface{}    `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for PaymentMethodBankAccount.
@@ -24,13 +24,17 @@ type PaymentMethodBankAccount struct {
 func (p PaymentMethodBankAccount) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(p.AdditionalProperties,
+        "masked_account_number", "masked_routing_number", "type"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(p.toMap())
 }
 
 // toMap converts the PaymentMethodBankAccount object to a map representation for JSON marshaling.
 func (p PaymentMethodBankAccount) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, p.AdditionalProperties)
+    MergeAdditionalProperties(structMap, p.AdditionalProperties)
     structMap["masked_account_number"] = p.MaskedAccountNumber
     structMap["masked_routing_number"] = p.MaskedRoutingNumber
     structMap["type"] = p.Type
@@ -49,12 +53,12 @@ func (p *PaymentMethodBankAccount) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "masked_account_number", "masked_routing_number", "type")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "masked_account_number", "masked_routing_number", "type")
     if err != nil {
     	return err
     }
-    
     p.AdditionalProperties = additionalProperties
+    
     p.MaskedAccountNumber = *temp.MaskedAccountNumber
     p.MaskedRoutingNumber = *temp.MaskedRoutingNumber
     p.Type = *temp.Type

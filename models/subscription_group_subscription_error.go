@@ -12,15 +12,15 @@ import (
 // SubscriptionGroupSubscriptionError represents a SubscriptionGroupSubscriptionError struct.
 // Object which contains subscription errors.
 type SubscriptionGroupSubscriptionError struct {
-    Product                       []string       `json:"product,omitempty"`
-    ProductPricePointId           []string       `json:"product_price_point_id,omitempty"`
-    PaymentProfile                []string       `json:"payment_profile,omitempty"`
-    PaymentProfileChargifyToken   []string       `json:"payment_profile.chargify_token,omitempty"`
-    Base                          []string       `json:"base,omitempty"`
-    PaymentProfileExpirationMonth []string       `json:"payment_profile.expiration_month,omitempty"`
-    PaymentProfileExpirationYear  []string       `json:"payment_profile.expiration_year,omitempty"`
-    PaymentProfileFullNumber      []string       `json:"payment_profile.full_number,omitempty"`
-    AdditionalProperties          map[string]any `json:"_"`
+    Product                       []string               `json:"product,omitempty"`
+    ProductPricePointId           []string               `json:"product_price_point_id,omitempty"`
+    PaymentProfile                []string               `json:"payment_profile,omitempty"`
+    PaymentProfileChargifyToken   []string               `json:"payment_profile.chargify_token,omitempty"`
+    Base                          []string               `json:"base,omitempty"`
+    PaymentProfileExpirationMonth []string               `json:"payment_profile.expiration_month,omitempty"`
+    PaymentProfileExpirationYear  []string               `json:"payment_profile.expiration_year,omitempty"`
+    PaymentProfileFullNumber      []string               `json:"payment_profile.full_number,omitempty"`
+    AdditionalProperties          map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for SubscriptionGroupSubscriptionError.
@@ -28,13 +28,17 @@ type SubscriptionGroupSubscriptionError struct {
 func (s SubscriptionGroupSubscriptionError) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(s.AdditionalProperties,
+        "product", "product_price_point_id", "payment_profile", "payment_profile.chargify_token", "base", "payment_profile.expiration_month", "payment_profile.expiration_year", "payment_profile.full_number"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(s.toMap())
 }
 
 // toMap converts the SubscriptionGroupSubscriptionError object to a map representation for JSON marshaling.
 func (s SubscriptionGroupSubscriptionError) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, s.AdditionalProperties)
+    MergeAdditionalProperties(structMap, s.AdditionalProperties)
     if s.Product != nil {
         structMap["product"] = s.Product
     }
@@ -70,12 +74,12 @@ func (s *SubscriptionGroupSubscriptionError) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "product", "product_price_point_id", "payment_profile", "payment_profile.chargify_token", "base", "payment_profile.expiration_month", "payment_profile.expiration_year", "payment_profile.full_number")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "product", "product_price_point_id", "payment_profile", "payment_profile.chargify_token", "base", "payment_profile.expiration_month", "payment_profile.expiration_year", "payment_profile.full_number")
     if err != nil {
     	return err
     }
-    
     s.AdditionalProperties = additionalProperties
+    
     s.Product = temp.Product
     s.ProductPricePointId = temp.ProductPricePointId
     s.PaymentProfile = temp.PaymentProfile

@@ -58,7 +58,7 @@ type ProductPricePoint struct {
     SubscriptionId          Optional[int]                    `json:"subscription_id"`
     // An array of currency pricing data is available when multiple currencies are defined for the site. It varies based on the use_site_exchange_rate setting for the price point. This parameter is present only in the response of read endpoints, after including the appropriate query parameter.
     CurrencyPrices          []CurrencyPrice                  `json:"currency_prices,omitempty"`
-    AdditionalProperties    map[string]any                   `json:"_"`
+    AdditionalProperties    map[string]interface{}           `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for ProductPricePoint.
@@ -66,13 +66,17 @@ type ProductPricePoint struct {
 func (p ProductPricePoint) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(p.AdditionalProperties,
+        "id", "name", "handle", "price_in_cents", "interval", "interval_unit", "trial_price_in_cents", "trial_interval", "trial_interval_unit", "trial_type", "introductory_offer", "initial_charge_in_cents", "initial_charge_after_trial", "expiration_interval", "expiration_interval_unit", "product_id", "archived_at", "created_at", "updated_at", "use_site_exchange_rate", "type", "tax_included", "subscription_id", "currency_prices"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(p.toMap())
 }
 
 // toMap converts the ProductPricePoint object to a map representation for JSON marshaling.
 func (p ProductPricePoint) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, p.AdditionalProperties)
+    MergeAdditionalProperties(structMap, p.AdditionalProperties)
     if p.Id != nil {
         structMap["id"] = p.Id
     }
@@ -205,12 +209,12 @@ func (p *ProductPricePoint) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "id", "name", "handle", "price_in_cents", "interval", "interval_unit", "trial_price_in_cents", "trial_interval", "trial_interval_unit", "trial_type", "introductory_offer", "initial_charge_in_cents", "initial_charge_after_trial", "expiration_interval", "expiration_interval_unit", "product_id", "archived_at", "created_at", "updated_at", "use_site_exchange_rate", "type", "tax_included", "subscription_id", "currency_prices")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "id", "name", "handle", "price_in_cents", "interval", "interval_unit", "trial_price_in_cents", "trial_interval", "trial_interval_unit", "trial_type", "introductory_offer", "initial_charge_in_cents", "initial_charge_after_trial", "expiration_interval", "expiration_interval_unit", "product_id", "archived_at", "created_at", "updated_at", "use_site_exchange_rate", "type", "tax_included", "subscription_id", "currency_prices")
     if err != nil {
     	return err
     }
-    
     p.AdditionalProperties = additionalProperties
+    
     p.Id = temp.Id
     p.Name = temp.Name
     p.Handle = temp.Handle

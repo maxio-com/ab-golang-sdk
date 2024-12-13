@@ -16,7 +16,7 @@ type UpdateSegment struct {
     // The identifier for the pricing scheme. See [Product Components](https://help.chargify.com/products/product-components.html) for an overview of pricing schemes.
     PricingScheme        PricingScheme                `json:"pricing_scheme"`
     Prices               []CreateOrUpdateSegmentPrice `json:"prices,omitempty"`
-    AdditionalProperties map[string]any               `json:"_"`
+    AdditionalProperties map[string]interface{}       `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for UpdateSegment.
@@ -24,13 +24,17 @@ type UpdateSegment struct {
 func (u UpdateSegment) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(u.AdditionalProperties,
+        "pricing_scheme", "prices"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(u.toMap())
 }
 
 // toMap converts the UpdateSegment object to a map representation for JSON marshaling.
 func (u UpdateSegment) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, u.AdditionalProperties)
+    MergeAdditionalProperties(structMap, u.AdditionalProperties)
     structMap["pricing_scheme"] = u.PricingScheme
     if u.Prices != nil {
         structMap["prices"] = u.Prices
@@ -50,12 +54,12 @@ func (u *UpdateSegment) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "pricing_scheme", "prices")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "pricing_scheme", "prices")
     if err != nil {
     	return err
     }
-    
     u.AdditionalProperties = additionalProperties
+    
     u.PricingScheme = *temp.PricingScheme
     u.Prices = temp.Prices
     return nil

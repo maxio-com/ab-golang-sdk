@@ -11,8 +11,8 @@ import (
 
 // AddCouponsRequest represents a AddCouponsRequest struct.
 type AddCouponsRequest struct {
-    Codes                []string       `json:"codes,omitempty"`
-    AdditionalProperties map[string]any `json:"_"`
+    Codes                []string               `json:"codes,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for AddCouponsRequest.
@@ -20,13 +20,17 @@ type AddCouponsRequest struct {
 func (a AddCouponsRequest) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(a.AdditionalProperties,
+        "codes"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(a.toMap())
 }
 
 // toMap converts the AddCouponsRequest object to a map representation for JSON marshaling.
 func (a AddCouponsRequest) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, a.AdditionalProperties)
+    MergeAdditionalProperties(structMap, a.AdditionalProperties)
     if a.Codes != nil {
         structMap["codes"] = a.Codes
     }
@@ -41,12 +45,12 @@ func (a *AddCouponsRequest) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "codes")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "codes")
     if err != nil {
     	return err
     }
-    
     a.AdditionalProperties = additionalProperties
+    
     a.Codes = temp.Codes
     return nil
 }

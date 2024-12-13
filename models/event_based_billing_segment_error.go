@@ -15,7 +15,7 @@ import (
 type EventBasedBillingSegmentError struct {
     // The key of the object would be a number (an index in the request array) where the error occurred. In the value object, the key represents the field and the value is an array with error messages. In most cases, this object would contain just one key.
     Segments             map[string]interface{} `json:"segments"`
-    AdditionalProperties map[string]any         `json:"_"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for EventBasedBillingSegmentError.
@@ -23,13 +23,17 @@ type EventBasedBillingSegmentError struct {
 func (e EventBasedBillingSegmentError) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(e.AdditionalProperties,
+        "segments"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(e.toMap())
 }
 
 // toMap converts the EventBasedBillingSegmentError object to a map representation for JSON marshaling.
 func (e EventBasedBillingSegmentError) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, e.AdditionalProperties)
+    MergeAdditionalProperties(structMap, e.AdditionalProperties)
     structMap["segments"] = e.Segments
     return structMap
 }
@@ -46,12 +50,12 @@ func (e *EventBasedBillingSegmentError) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "segments")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "segments")
     if err != nil {
     	return err
     }
-    
     e.AdditionalProperties = additionalProperties
+    
     e.Segments = *temp.Segments
     return nil
 }

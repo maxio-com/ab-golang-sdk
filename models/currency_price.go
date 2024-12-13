@@ -11,14 +11,16 @@ import (
 
 // CurrencyPrice represents a CurrencyPrice struct.
 type CurrencyPrice struct {
-    Id                   *int               `json:"id,omitempty"`
-    Currency             *string            `json:"currency,omitempty"`
-    Price                *float64           `json:"price,omitempty"`
-    FormattedPrice       *string            `json:"formatted_price,omitempty"`
-    ProductPricePointId  *int               `json:"product_price_point_id,omitempty"`
+    Id                   *int                   `json:"id,omitempty"`
+    Currency             *string                `json:"currency,omitempty"`
+    Price                *float64               `json:"price,omitempty"`
+    FormattedPrice       *string                `json:"formatted_price,omitempty"`
+    PriceId              *int                   `json:"price_id,omitempty"`
+    PricePointId         *int                   `json:"price_point_id,omitempty"`
+    ProductPricePointId  *int                   `json:"product_price_point_id,omitempty"`
     // Role for the price.
-    Role                 *CurrencyPriceRole `json:"role,omitempty"`
-    AdditionalProperties map[string]any     `json:"_"`
+    Role                 *CurrencyPriceRole     `json:"role,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for CurrencyPrice.
@@ -26,13 +28,17 @@ type CurrencyPrice struct {
 func (c CurrencyPrice) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(c.AdditionalProperties,
+        "id", "currency", "price", "formatted_price", "price_id", "price_point_id", "product_price_point_id", "role"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(c.toMap())
 }
 
 // toMap converts the CurrencyPrice object to a map representation for JSON marshaling.
 func (c CurrencyPrice) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, c.AdditionalProperties)
+    MergeAdditionalProperties(structMap, c.AdditionalProperties)
     if c.Id != nil {
         structMap["id"] = c.Id
     }
@@ -44,6 +50,12 @@ func (c CurrencyPrice) toMap() map[string]any {
     }
     if c.FormattedPrice != nil {
         structMap["formatted_price"] = c.FormattedPrice
+    }
+    if c.PriceId != nil {
+        structMap["price_id"] = c.PriceId
+    }
+    if c.PricePointId != nil {
+        structMap["price_point_id"] = c.PricePointId
     }
     if c.ProductPricePointId != nil {
         structMap["product_price_point_id"] = c.ProductPricePointId
@@ -62,16 +74,18 @@ func (c *CurrencyPrice) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "id", "currency", "price", "formatted_price", "product_price_point_id", "role")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "id", "currency", "price", "formatted_price", "price_id", "price_point_id", "product_price_point_id", "role")
     if err != nil {
     	return err
     }
-    
     c.AdditionalProperties = additionalProperties
+    
     c.Id = temp.Id
     c.Currency = temp.Currency
     c.Price = temp.Price
     c.FormattedPrice = temp.FormattedPrice
+    c.PriceId = temp.PriceId
+    c.PricePointId = temp.PricePointId
     c.ProductPricePointId = temp.ProductPricePointId
     c.Role = temp.Role
     return nil
@@ -83,6 +97,8 @@ type tempCurrencyPrice  struct {
     Currency            *string            `json:"currency,omitempty"`
     Price               *float64           `json:"price,omitempty"`
     FormattedPrice      *string            `json:"formatted_price,omitempty"`
+    PriceId             *int               `json:"price_id,omitempty"`
+    PricePointId        *int               `json:"price_point_id,omitempty"`
     ProductPricePointId *int               `json:"product_price_point_id,omitempty"`
     Role                *CurrencyPriceRole `json:"role,omitempty"`
 }

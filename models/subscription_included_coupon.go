@@ -11,14 +11,14 @@ import (
 
 // SubscriptionIncludedCoupon represents a SubscriptionIncludedCoupon struct.
 type SubscriptionIncludedCoupon struct {
-    Code                 *string          `json:"code,omitempty"`
-    UseCount             *int             `json:"use_count,omitempty"`
-    UsesAllowed          *int             `json:"uses_allowed,omitempty"`
-    ExpiresAt            Optional[string] `json:"expires_at"`
-    Recurring            *bool            `json:"recurring,omitempty"`
-    AmountInCents        Optional[int64]  `json:"amount_in_cents"`
-    Percentage           Optional[string] `json:"percentage"`
-    AdditionalProperties map[string]any   `json:"_"`
+    Code                 *string                `json:"code,omitempty"`
+    UseCount             *int                   `json:"use_count,omitempty"`
+    UsesAllowed          *int                   `json:"uses_allowed,omitempty"`
+    ExpiresAt            Optional[string]       `json:"expires_at"`
+    Recurring            *bool                  `json:"recurring,omitempty"`
+    AmountInCents        Optional[int64]        `json:"amount_in_cents"`
+    Percentage           Optional[string]       `json:"percentage"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for SubscriptionIncludedCoupon.
@@ -26,13 +26,17 @@ type SubscriptionIncludedCoupon struct {
 func (s SubscriptionIncludedCoupon) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(s.AdditionalProperties,
+        "code", "use_count", "uses_allowed", "expires_at", "recurring", "amount_in_cents", "percentage"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(s.toMap())
 }
 
 // toMap converts the SubscriptionIncludedCoupon object to a map representation for JSON marshaling.
 func (s SubscriptionIncludedCoupon) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, s.AdditionalProperties)
+    MergeAdditionalProperties(structMap, s.AdditionalProperties)
     if s.Code != nil {
         structMap["code"] = s.Code
     }
@@ -77,12 +81,12 @@ func (s *SubscriptionIncludedCoupon) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "code", "use_count", "uses_allowed", "expires_at", "recurring", "amount_in_cents", "percentage")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "code", "use_count", "uses_allowed", "expires_at", "recurring", "amount_in_cents", "percentage")
     if err != nil {
     	return err
     }
-    
     s.AdditionalProperties = additionalProperties
+    
     s.Code = temp.Code
     s.UseCount = temp.UseCount
     s.UsesAllowed = temp.UsesAllowed

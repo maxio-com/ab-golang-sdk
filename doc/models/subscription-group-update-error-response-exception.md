@@ -17,16 +17,8 @@
 {
   "errors": {
     "members": [
-      {
-        "id": 204,
-        "type": "type2",
-        "message": "message8"
-      },
-      {
-        "id": 204,
-        "type": "type2",
-        "message": "message8"
-      }
+      "members2",
+      "members1"
     ]
   }
 }

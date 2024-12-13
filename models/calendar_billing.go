@@ -15,7 +15,7 @@ type CalendarBilling struct {
     // A day of month that subscription will be processed on. Can be 1 up to 28 or 'end'.
     SnapDay                    *CalendarBillingSnapDay `json:"snap_day,omitempty"`
     CalendarBillingFirstCharge *FirstChargeType        `json:"calendar_billing_first_charge,omitempty"`
-    AdditionalProperties       map[string]any          `json:"_"`
+    AdditionalProperties       map[string]interface{}  `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for CalendarBilling.
@@ -23,13 +23,17 @@ type CalendarBilling struct {
 func (c CalendarBilling) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(c.AdditionalProperties,
+        "snap_day", "calendar_billing_first_charge"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(c.toMap())
 }
 
 // toMap converts the CalendarBilling object to a map representation for JSON marshaling.
 func (c CalendarBilling) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, c.AdditionalProperties)
+    MergeAdditionalProperties(structMap, c.AdditionalProperties)
     if c.SnapDay != nil {
         structMap["snap_day"] = c.SnapDay.toMap()
     }
@@ -47,12 +51,12 @@ func (c *CalendarBilling) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "snap_day", "calendar_billing_first_charge")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "snap_day", "calendar_billing_first_charge")
     if err != nil {
     	return err
     }
-    
     c.AdditionalProperties = additionalProperties
+    
     c.SnapDay = temp.SnapDay
     c.CalendarBillingFirstCharge = temp.CalendarBillingFirstCharge
     return nil

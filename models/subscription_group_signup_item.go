@@ -36,7 +36,7 @@ type SubscriptionGroupSignupItem struct {
     CalendarBilling         *CalendarBilling                   `json:"calendar_billing,omitempty"`
     // (Optional) A set of key/value pairs representing custom fields and their values. Metafields will be created “on-the-fly” in your site for a given key, if they have not been created yet.
     Metafields              map[string]string                  `json:"metafields,omitempty"`
-    AdditionalProperties    map[string]any                     `json:"_"`
+    AdditionalProperties    map[string]interface{}             `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for SubscriptionGroupSignupItem.
@@ -44,13 +44,17 @@ type SubscriptionGroupSignupItem struct {
 func (s SubscriptionGroupSignupItem) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(s.AdditionalProperties,
+        "product_handle", "product_id", "product_price_point_id", "product_price_point_handle", "offer_id", "reference", "primary", "currency", "coupon_codes", "components", "custom_price", "calendar_billing", "metafields"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(s.toMap())
 }
 
 // toMap converts the SubscriptionGroupSignupItem object to a map representation for JSON marshaling.
 func (s SubscriptionGroupSignupItem) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, s.AdditionalProperties)
+    MergeAdditionalProperties(structMap, s.AdditionalProperties)
     if s.ProductHandle != nil {
         structMap["product_handle"] = s.ProductHandle
     }
@@ -101,12 +105,12 @@ func (s *SubscriptionGroupSignupItem) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "product_handle", "product_id", "product_price_point_id", "product_price_point_handle", "offer_id", "reference", "primary", "currency", "coupon_codes", "components", "custom_price", "calendar_billing", "metafields")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "product_handle", "product_id", "product_price_point_id", "product_price_point_handle", "offer_id", "reference", "primary", "currency", "coupon_codes", "components", "custom_price", "calendar_billing", "metafields")
     if err != nil {
     	return err
     }
-    
     s.AdditionalProperties = additionalProperties
+    
     s.ProductHandle = temp.ProductHandle
     s.ProductId = temp.ProductId
     s.ProductPricePointId = temp.ProductPricePointId

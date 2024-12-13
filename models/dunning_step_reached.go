@@ -13,10 +13,10 @@ import (
 
 // DunningStepReached represents a DunningStepReached struct.
 type DunningStepReached struct {
-    Dunner               DunnerData      `json:"dunner"`
-    CurrentStep          DunningStepData `json:"current_step"`
-    NextStep             DunningStepData `json:"next_step"`
-    AdditionalProperties map[string]any  `json:"_"`
+    Dunner               DunnerData             `json:"dunner"`
+    CurrentStep          DunningStepData        `json:"current_step"`
+    NextStep             DunningStepData        `json:"next_step"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for DunningStepReached.
@@ -24,13 +24,17 @@ type DunningStepReached struct {
 func (d DunningStepReached) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(d.AdditionalProperties,
+        "dunner", "current_step", "next_step"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(d.toMap())
 }
 
 // toMap converts the DunningStepReached object to a map representation for JSON marshaling.
 func (d DunningStepReached) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, d.AdditionalProperties)
+    MergeAdditionalProperties(structMap, d.AdditionalProperties)
     structMap["dunner"] = d.Dunner.toMap()
     structMap["current_step"] = d.CurrentStep.toMap()
     structMap["next_step"] = d.NextStep.toMap()
@@ -49,12 +53,12 @@ func (d *DunningStepReached) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "dunner", "current_step", "next_step")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "dunner", "current_step", "next_step")
     if err != nil {
     	return err
     }
-    
     d.AdditionalProperties = additionalProperties
+    
     d.Dunner = *temp.Dunner
     d.CurrentStep = *temp.CurrentStep
     d.NextStep = *temp.NextStep

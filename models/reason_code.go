@@ -13,14 +13,14 @@ import (
 
 // ReasonCode represents a ReasonCode struct.
 type ReasonCode struct {
-    Id                   *int           `json:"id,omitempty"`
-    SiteId               *int           `json:"site_id,omitempty"`
-    Code                 *string        `json:"code,omitempty"`
-    Description          *string        `json:"description,omitempty"`
-    Position             *int           `json:"position,omitempty"`
-    CreatedAt            *time.Time     `json:"created_at,omitempty"`
-    UpdatedAt            *time.Time     `json:"updated_at,omitempty"`
-    AdditionalProperties map[string]any `json:"_"`
+    Id                   *int                   `json:"id,omitempty"`
+    SiteId               *int                   `json:"site_id,omitempty"`
+    Code                 *string                `json:"code,omitempty"`
+    Description          *string                `json:"description,omitempty"`
+    Position             *int                   `json:"position,omitempty"`
+    CreatedAt            *time.Time             `json:"created_at,omitempty"`
+    UpdatedAt            *time.Time             `json:"updated_at,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for ReasonCode.
@@ -28,13 +28,17 @@ type ReasonCode struct {
 func (r ReasonCode) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(r.AdditionalProperties,
+        "id", "site_id", "code", "description", "position", "created_at", "updated_at"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(r.toMap())
 }
 
 // toMap converts the ReasonCode object to a map representation for JSON marshaling.
 func (r ReasonCode) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, r.AdditionalProperties)
+    MergeAdditionalProperties(structMap, r.AdditionalProperties)
     if r.Id != nil {
         structMap["id"] = r.Id
     }
@@ -67,12 +71,12 @@ func (r *ReasonCode) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "id", "site_id", "code", "description", "position", "created_at", "updated_at")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "id", "site_id", "code", "description", "position", "created_at", "updated_at")
     if err != nil {
     	return err
     }
-    
     r.AdditionalProperties = additionalProperties
+    
     r.Id = temp.Id
     r.SiteId = temp.SiteId
     r.Code = temp.Code

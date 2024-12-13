@@ -11,8 +11,8 @@ import (
 
 // BulkCreateProductPricePointsResponse represents a BulkCreateProductPricePointsResponse struct.
 type BulkCreateProductPricePointsResponse struct {
-    PricePoints          []ProductPricePoint `json:"price_points,omitempty"`
-    AdditionalProperties map[string]any      `json:"_"`
+    PricePoints          []ProductPricePoint    `json:"price_points,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for BulkCreateProductPricePointsResponse.
@@ -20,13 +20,17 @@ type BulkCreateProductPricePointsResponse struct {
 func (b BulkCreateProductPricePointsResponse) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(b.AdditionalProperties,
+        "price_points"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(b.toMap())
 }
 
 // toMap converts the BulkCreateProductPricePointsResponse object to a map representation for JSON marshaling.
 func (b BulkCreateProductPricePointsResponse) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, b.AdditionalProperties)
+    MergeAdditionalProperties(structMap, b.AdditionalProperties)
     if b.PricePoints != nil {
         structMap["price_points"] = b.PricePoints
     }
@@ -41,12 +45,12 @@ func (b *BulkCreateProductPricePointsResponse) UnmarshalJSON(input []byte) error
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "price_points")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "price_points")
     if err != nil {
     	return err
     }
-    
     b.AdditionalProperties = additionalProperties
+    
     b.PricePoints = temp.PricePoints
     return nil
 }

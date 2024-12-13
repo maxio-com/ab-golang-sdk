@@ -31,7 +31,7 @@ type RenewalPreview struct {
     UncalculatedTaxes      *bool                    `json:"uncalculated_taxes,omitempty"`
     // An array of objects representing the individual transactions that will be created at the next renewal
     LineItems              []RenewalPreviewLineItem `json:"line_items,omitempty"`
-    AdditionalProperties   map[string]any           `json:"_"`
+    AdditionalProperties   map[string]interface{}   `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for RenewalPreview.
@@ -39,13 +39,17 @@ type RenewalPreview struct {
 func (r RenewalPreview) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(r.AdditionalProperties,
+        "next_assessment_at", "subtotal_in_cents", "total_tax_in_cents", "total_discount_in_cents", "total_in_cents", "existing_balance_in_cents", "total_amount_due_in_cents", "uncalculated_taxes", "line_items"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(r.toMap())
 }
 
 // toMap converts the RenewalPreview object to a map representation for JSON marshaling.
 func (r RenewalPreview) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, r.AdditionalProperties)
+    MergeAdditionalProperties(structMap, r.AdditionalProperties)
     if r.NextAssessmentAt != nil {
         structMap["next_assessment_at"] = r.NextAssessmentAt.Format(time.RFC3339)
     }
@@ -84,12 +88,12 @@ func (r *RenewalPreview) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "next_assessment_at", "subtotal_in_cents", "total_tax_in_cents", "total_discount_in_cents", "total_in_cents", "existing_balance_in_cents", "total_amount_due_in_cents", "uncalculated_taxes", "line_items")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "next_assessment_at", "subtotal_in_cents", "total_tax_in_cents", "total_discount_in_cents", "total_in_cents", "existing_balance_in_cents", "total_amount_due_in_cents", "uncalculated_taxes", "line_items")
     if err != nil {
     	return err
     }
-    
     r.AdditionalProperties = additionalProperties
+    
     if temp.NextAssessmentAt != nil {
         NextAssessmentAtVal, err := time.Parse(time.RFC3339, *temp.NextAssessmentAt)
         if err != nil {

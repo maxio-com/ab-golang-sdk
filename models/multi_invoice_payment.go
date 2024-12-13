@@ -18,7 +18,7 @@ type MultiInvoicePayment struct {
     // The ISO 4217 currency code (3 character string) representing the currency of invoice transaction.
     CurrencyCode         *string                     `json:"currency_code,omitempty"`
     Applications         []InvoicePaymentApplication `json:"applications,omitempty"`
-    AdditionalProperties map[string]any              `json:"_"`
+    AdditionalProperties map[string]interface{}      `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for MultiInvoicePayment.
@@ -26,13 +26,17 @@ type MultiInvoicePayment struct {
 func (m MultiInvoicePayment) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(m.AdditionalProperties,
+        "transaction_id", "total_amount", "currency_code", "applications"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(m.toMap())
 }
 
 // toMap converts the MultiInvoicePayment object to a map representation for JSON marshaling.
 func (m MultiInvoicePayment) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, m.AdditionalProperties)
+    MergeAdditionalProperties(structMap, m.AdditionalProperties)
     if m.TransactionId != nil {
         structMap["transaction_id"] = m.TransactionId
     }
@@ -56,12 +60,12 @@ func (m *MultiInvoicePayment) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "transaction_id", "total_amount", "currency_code", "applications")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "transaction_id", "total_amount", "currency_code", "applications")
     if err != nil {
     	return err
     }
-    
     m.AdditionalProperties = additionalProperties
+    
     m.TransactionId = temp.TransactionId
     m.TotalAmount = temp.TotalAmount
     m.CurrencyCode = temp.CurrencyCode

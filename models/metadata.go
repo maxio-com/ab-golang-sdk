@@ -13,13 +13,13 @@ import (
 
 // Metadata represents a Metadata struct.
 type Metadata struct {
-    Id                   Optional[int]       `json:"id"`
-    Value                Optional[string]    `json:"value"`
-    ResourceId           Optional[int]       `json:"resource_id"`
-    Name                 *string             `json:"name,omitempty"`
-    DeletedAt            Optional[time.Time] `json:"deleted_at"`
-    MetafieldId          Optional[int]       `json:"metafield_id"`
-    AdditionalProperties map[string]any      `json:"_"`
+    Id                   Optional[int]          `json:"id"`
+    Value                Optional[string]       `json:"value"`
+    ResourceId           Optional[int]          `json:"resource_id"`
+    Name                 *string                `json:"name,omitempty"`
+    DeletedAt            Optional[time.Time]    `json:"deleted_at"`
+    MetafieldId          Optional[int]          `json:"metafield_id"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for Metadata.
@@ -27,13 +27,17 @@ type Metadata struct {
 func (m Metadata) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(m.AdditionalProperties,
+        "id", "value", "resource_id", "name", "deleted_at", "metafield_id"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(m.toMap())
 }
 
 // toMap converts the Metadata object to a map representation for JSON marshaling.
 func (m Metadata) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, m.AdditionalProperties)
+    MergeAdditionalProperties(structMap, m.AdditionalProperties)
     if m.Id.IsValueSet() {
         if m.Id.Value() != nil {
             structMap["id"] = m.Id.Value()
@@ -88,12 +92,12 @@ func (m *Metadata) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "id", "value", "resource_id", "name", "deleted_at", "metafield_id")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "id", "value", "resource_id", "name", "deleted_at", "metafield_id")
     if err != nil {
     	return err
     }
-    
     m.AdditionalProperties = additionalProperties
+    
     m.Id = temp.Id
     m.Value = temp.Value
     m.ResourceId = temp.ResourceId

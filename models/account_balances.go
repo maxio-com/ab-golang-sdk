@@ -12,16 +12,16 @@ import (
 // AccountBalances represents a AccountBalances struct.
 type AccountBalances struct {
     // The balance, in cents, of the sum of the subscription's  open, payable invoices.
-    OpenInvoices         *AccountBalance `json:"open_invoices,omitempty"`
+    OpenInvoices         *AccountBalance        `json:"open_invoices,omitempty"`
     // The balance, in cents, of the sum of the subscription's  pending, payable invoices.
-    PendingInvoices      *AccountBalance `json:"pending_invoices,omitempty"`
+    PendingInvoices      *AccountBalance        `json:"pending_invoices,omitempty"`
     // The balance, in cents, of the subscription's Pending Discount account.
-    PendingDiscounts     *AccountBalance `json:"pending_discounts,omitempty"`
+    PendingDiscounts     *AccountBalance        `json:"pending_discounts,omitempty"`
     // The balance, in cents, of the subscription's Service Credit account.
-    ServiceCredits       *AccountBalance `json:"service_credits,omitempty"`
+    ServiceCredits       *AccountBalance        `json:"service_credits,omitempty"`
     // The balance, in cents, of the subscription's Prepayment account.
-    Prepayments          *AccountBalance `json:"prepayments,omitempty"`
-    AdditionalProperties map[string]any  `json:"_"`
+    Prepayments          *AccountBalance        `json:"prepayments,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for AccountBalances.
@@ -29,13 +29,17 @@ type AccountBalances struct {
 func (a AccountBalances) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(a.AdditionalProperties,
+        "open_invoices", "pending_invoices", "pending_discounts", "service_credits", "prepayments"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(a.toMap())
 }
 
 // toMap converts the AccountBalances object to a map representation for JSON marshaling.
 func (a AccountBalances) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, a.AdditionalProperties)
+    MergeAdditionalProperties(structMap, a.AdditionalProperties)
     if a.OpenInvoices != nil {
         structMap["open_invoices"] = a.OpenInvoices.toMap()
     }
@@ -62,12 +66,12 @@ func (a *AccountBalances) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "open_invoices", "pending_invoices", "pending_discounts", "service_credits", "prepayments")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "open_invoices", "pending_invoices", "pending_discounts", "service_credits", "prepayments")
     if err != nil {
     	return err
     }
-    
     a.AdditionalProperties = additionalProperties
+    
     a.OpenInvoices = temp.OpenInvoices
     a.PendingInvoices = temp.PendingInvoices
     a.PendingDiscounts = temp.PendingDiscounts

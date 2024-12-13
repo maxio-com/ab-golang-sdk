@@ -57,7 +57,7 @@ type PaymentProfileAttributes struct {
     Cvv                  *string                                  `json:"cvv,omitempty"`
     // (Optional, used only for Subscription Import) If you have the last 4 digits of the credit card number, you may supply them here so that we may create a masked card number (i.e. XXXX-XXXX-XXXX-1234) for display in the UI. Last 4 digits are required for refunds in Auth.Net.
     LastFour             *string                                  `json:"last_four,omitempty"`
-    AdditionalProperties map[string]any                           `json:"_"`
+    AdditionalProperties map[string]interface{}                   `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for PaymentProfileAttributes.
@@ -65,13 +65,17 @@ type PaymentProfileAttributes struct {
 func (p PaymentProfileAttributes) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(p.AdditionalProperties,
+        "chargify_token", "id", "payment_type", "first_name", "last_name", "masked_card_number", "full_number", "card_type", "expiration_month", "expiration_year", "billing_address", "billing_address_2", "billing_city", "billing_state", "billing_country", "billing_zip", "current_vault", "vault_token", "customer_vault_token", "customer_id", "paypal_email", "payment_method_nonce", "gateway_handle", "cvv", "last_four"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(p.toMap())
 }
 
 // toMap converts the PaymentProfileAttributes object to a map representation for JSON marshaling.
 func (p PaymentProfileAttributes) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, p.AdditionalProperties)
+    MergeAdditionalProperties(structMap, p.AdditionalProperties)
     if p.ChargifyToken != nil {
         structMap["chargify_token"] = p.ChargifyToken
     }
@@ -162,12 +166,12 @@ func (p *PaymentProfileAttributes) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "chargify_token", "id", "payment_type", "first_name", "last_name", "masked_card_number", "full_number", "card_type", "expiration_month", "expiration_year", "billing_address", "billing_address_2", "billing_city", "billing_state", "billing_country", "billing_zip", "current_vault", "vault_token", "customer_vault_token", "customer_id", "paypal_email", "payment_method_nonce", "gateway_handle", "cvv", "last_four")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "chargify_token", "id", "payment_type", "first_name", "last_name", "masked_card_number", "full_number", "card_type", "expiration_month", "expiration_year", "billing_address", "billing_address_2", "billing_city", "billing_state", "billing_country", "billing_zip", "current_vault", "vault_token", "customer_vault_token", "customer_id", "paypal_email", "payment_method_nonce", "gateway_handle", "cvv", "last_four")
     if err != nil {
     	return err
     }
-    
     p.AdditionalProperties = additionalProperties
+    
     p.ChargifyToken = temp.ChargifyToken
     p.Id = temp.Id
     p.PaymentType = temp.PaymentType
