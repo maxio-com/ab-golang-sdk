@@ -35,7 +35,7 @@ type AllocationPreviewItem struct {
     PricePointHandle         *string                                `json:"price_point_handle,omitempty"`
     PricePointName           *string                                `json:"price_point_name,omitempty"`
     ComponentHandle          Optional[string]                       `json:"component_handle"`
-    AdditionalProperties     map[string]any                         `json:"_"`
+    AdditionalProperties     map[string]interface{}                 `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for AllocationPreviewItem.
@@ -43,13 +43,17 @@ type AllocationPreviewItem struct {
 func (a AllocationPreviewItem) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(a.AdditionalProperties,
+        "component_id", "subscription_id", "quantity", "previous_quantity", "memo", "timestamp", "proration_upgrade_scheme", "proration_downgrade_scheme", "accrue_charge", "upgrade_charge", "downgrade_credit", "price_point_id", "interval", "interval_unit", "previous_price_point_id", "price_point_handle", "price_point_name", "component_handle"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(a.toMap())
 }
 
 // toMap converts the AllocationPreviewItem object to a map representation for JSON marshaling.
 func (a AllocationPreviewItem) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, a.AdditionalProperties)
+    MergeAdditionalProperties(structMap, a.AdditionalProperties)
     if a.ComponentId != nil {
         structMap["component_id"] = a.ComponentId
     }
@@ -139,12 +143,12 @@ func (a *AllocationPreviewItem) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "component_id", "subscription_id", "quantity", "previous_quantity", "memo", "timestamp", "proration_upgrade_scheme", "proration_downgrade_scheme", "accrue_charge", "upgrade_charge", "downgrade_credit", "price_point_id", "interval", "interval_unit", "previous_price_point_id", "price_point_handle", "price_point_name", "component_handle")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "component_id", "subscription_id", "quantity", "previous_quantity", "memo", "timestamp", "proration_upgrade_scheme", "proration_downgrade_scheme", "accrue_charge", "upgrade_charge", "downgrade_credit", "price_point_id", "interval", "interval_unit", "previous_price_point_id", "price_point_handle", "price_point_name", "component_handle")
     if err != nil {
     	return err
     }
-    
     a.AdditionalProperties = additionalProperties
+    
     a.ComponentId = temp.ComponentId
     a.SubscriptionId = temp.SubscriptionId
     a.Quantity = temp.Quantity

@@ -13,8 +13,8 @@ import (
 
 // SubscriptionNoteResponse represents a SubscriptionNoteResponse struct.
 type SubscriptionNoteResponse struct {
-    Note                 SubscriptionNote `json:"note"`
-    AdditionalProperties map[string]any   `json:"_"`
+    Note                 SubscriptionNote       `json:"note"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for SubscriptionNoteResponse.
@@ -22,13 +22,17 @@ type SubscriptionNoteResponse struct {
 func (s SubscriptionNoteResponse) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(s.AdditionalProperties,
+        "note"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(s.toMap())
 }
 
 // toMap converts the SubscriptionNoteResponse object to a map representation for JSON marshaling.
 func (s SubscriptionNoteResponse) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, s.AdditionalProperties)
+    MergeAdditionalProperties(structMap, s.AdditionalProperties)
     structMap["note"] = s.Note.toMap()
     return structMap
 }
@@ -45,12 +49,12 @@ func (s *SubscriptionNoteResponse) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "note")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "note")
     if err != nil {
     	return err
     }
-    
     s.AdditionalProperties = additionalProperties
+    
     s.Note = *temp.Note
     return nil
 }

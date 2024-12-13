@@ -16,7 +16,7 @@ type SubscriptionGroupComponentCustomPrice struct {
     PricingScheme        *PricingScheme         `json:"pricing_scheme,omitempty"`
     Prices               []Price                `json:"prices,omitempty"`
     OveragePricing       []ComponentCustomPrice `json:"overage_pricing,omitempty"`
-    AdditionalProperties map[string]any         `json:"_"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for SubscriptionGroupComponentCustomPrice.
@@ -24,13 +24,17 @@ type SubscriptionGroupComponentCustomPrice struct {
 func (s SubscriptionGroupComponentCustomPrice) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(s.AdditionalProperties,
+        "pricing_scheme", "prices", "overage_pricing"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(s.toMap())
 }
 
 // toMap converts the SubscriptionGroupComponentCustomPrice object to a map representation for JSON marshaling.
 func (s SubscriptionGroupComponentCustomPrice) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, s.AdditionalProperties)
+    MergeAdditionalProperties(structMap, s.AdditionalProperties)
     if s.PricingScheme != nil {
         structMap["pricing_scheme"] = s.PricingScheme
     }
@@ -51,12 +55,12 @@ func (s *SubscriptionGroupComponentCustomPrice) UnmarshalJSON(input []byte) erro
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "pricing_scheme", "prices", "overage_pricing")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "pricing_scheme", "prices", "overage_pricing")
     if err != nil {
     	return err
     }
-    
     s.AdditionalProperties = additionalProperties
+    
     s.PricingScheme = temp.PricingScheme
     s.Prices = temp.Prices
     s.OveragePricing = temp.OveragePricing

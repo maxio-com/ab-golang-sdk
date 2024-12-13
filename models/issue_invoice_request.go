@@ -15,8 +15,8 @@ type IssueInvoiceRequest struct {
     // - `leave_open_invoice` - prepayments and credits applied to invoice; invoice status set to "open"; email sent to the customer for the issued invoice (if setting applies); payment failure recorded in the invoice history. This is the default option.
     // - `rollback_to_pending` - prepayments and credits not applied; invoice remains in "pending" status; no email sent to the customer; payment failure recorded in the invoice history.
     // - `initiate_dunning` - prepayments and credits applied to the invoice; invoice status set to "open"; email sent to the customer for the issued invoice (if setting applies); payment failure recorded in the invoice history; subscription will  most likely go into "past_due" or "canceled" state (depending upon net terms and dunning settings).
-    OnFailedPayment      *FailedPaymentAction `json:"on_failed_payment,omitempty"`
-    AdditionalProperties map[string]any       `json:"_"`
+    OnFailedPayment      *FailedPaymentAction   `json:"on_failed_payment,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for IssueInvoiceRequest.
@@ -24,13 +24,17 @@ type IssueInvoiceRequest struct {
 func (i IssueInvoiceRequest) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(i.AdditionalProperties,
+        "on_failed_payment"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(i.toMap())
 }
 
 // toMap converts the IssueInvoiceRequest object to a map representation for JSON marshaling.
 func (i IssueInvoiceRequest) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, i.AdditionalProperties)
+    MergeAdditionalProperties(structMap, i.AdditionalProperties)
     if i.OnFailedPayment != nil {
         structMap["on_failed_payment"] = i.OnFailedPayment
     }
@@ -45,12 +49,12 @@ func (i *IssueInvoiceRequest) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "on_failed_payment")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "on_failed_payment")
     if err != nil {
     	return err
     }
-    
     i.AdditionalProperties = additionalProperties
+    
     i.OnFailedPayment = temp.OnFailedPayment
     return nil
 }

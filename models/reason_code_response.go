@@ -13,8 +13,8 @@ import (
 
 // ReasonCodeResponse represents a ReasonCodeResponse struct.
 type ReasonCodeResponse struct {
-    ReasonCode           ReasonCode     `json:"reason_code"`
-    AdditionalProperties map[string]any `json:"_"`
+    ReasonCode           ReasonCode             `json:"reason_code"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for ReasonCodeResponse.
@@ -22,13 +22,17 @@ type ReasonCodeResponse struct {
 func (r ReasonCodeResponse) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(r.AdditionalProperties,
+        "reason_code"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(r.toMap())
 }
 
 // toMap converts the ReasonCodeResponse object to a map representation for JSON marshaling.
 func (r ReasonCodeResponse) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, r.AdditionalProperties)
+    MergeAdditionalProperties(structMap, r.AdditionalProperties)
     structMap["reason_code"] = r.ReasonCode.toMap()
     return structMap
 }
@@ -45,12 +49,12 @@ func (r *ReasonCodeResponse) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "reason_code")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "reason_code")
     if err != nil {
     	return err
     }
-    
     r.AdditionalProperties = additionalProperties
+    
     r.ReasonCode = *temp.ReasonCode
     return nil
 }

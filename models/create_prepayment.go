@@ -19,7 +19,7 @@ type CreatePrepayment struct {
     // :- When the `method` specified is `"credit_card_on_file"`, the prepayment amount will be collected using the default credit card payment profile and applied to the prepayment account balance. This is especially useful for manual replenishment of prepaid subscriptions.
     Method               CreatePrepaymentMethod `json:"method"`
     PaymentProfileId     *int                   `json:"payment_profile_id,omitempty"`
-    AdditionalProperties map[string]any         `json:"_"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreatePrepayment.
@@ -27,13 +27,17 @@ type CreatePrepayment struct {
 func (c CreatePrepayment) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(c.AdditionalProperties,
+        "amount", "details", "memo", "method", "payment_profile_id"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(c.toMap())
 }
 
 // toMap converts the CreatePrepayment object to a map representation for JSON marshaling.
 func (c CreatePrepayment) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, c.AdditionalProperties)
+    MergeAdditionalProperties(structMap, c.AdditionalProperties)
     structMap["amount"] = c.Amount
     structMap["details"] = c.Details
     structMap["memo"] = c.Memo
@@ -56,12 +60,12 @@ func (c *CreatePrepayment) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "amount", "details", "memo", "method", "payment_profile_id")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "amount", "details", "memo", "method", "payment_profile_id")
     if err != nil {
     	return err
     }
-    
     c.AdditionalProperties = additionalProperties
+    
     c.Amount = *temp.Amount
     c.Details = *temp.Details
     c.Memo = *temp.Memo

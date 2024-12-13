@@ -14,10 +14,10 @@ import (
 // CreateInvoicePaymentApplication represents a CreateInvoicePaymentApplication struct.
 type CreateInvoicePaymentApplication struct {
     // Unique identifier for the invoice. It has the prefix "inv_" followed by alphanumeric characters.
-    InvoiceUid           string         `json:"invoice_uid"`
+    InvoiceUid           string                 `json:"invoice_uid"`
     // Dollar amount of the invoice payment (eg. "10.50" => $10.50).
-    Amount               string         `json:"amount"`
-    AdditionalProperties map[string]any `json:"_"`
+    Amount               string                 `json:"amount"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreateInvoicePaymentApplication.
@@ -25,13 +25,17 @@ type CreateInvoicePaymentApplication struct {
 func (c CreateInvoicePaymentApplication) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(c.AdditionalProperties,
+        "invoice_uid", "amount"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(c.toMap())
 }
 
 // toMap converts the CreateInvoicePaymentApplication object to a map representation for JSON marshaling.
 func (c CreateInvoicePaymentApplication) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, c.AdditionalProperties)
+    MergeAdditionalProperties(structMap, c.AdditionalProperties)
     structMap["invoice_uid"] = c.InvoiceUid
     structMap["amount"] = c.Amount
     return structMap
@@ -49,12 +53,12 @@ func (c *CreateInvoicePaymentApplication) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "invoice_uid", "amount")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "invoice_uid", "amount")
     if err != nil {
     	return err
     }
-    
     c.AdditionalProperties = additionalProperties
+    
     c.InvoiceUid = *temp.InvoiceUid
     c.Amount = *temp.Amount
     return nil

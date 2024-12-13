@@ -13,8 +13,8 @@ import (
 
 // SiteResponse represents a SiteResponse struct.
 type SiteResponse struct {
-    Site                 Site           `json:"site"`
-    AdditionalProperties map[string]any `json:"_"`
+    Site                 Site                   `json:"site"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for SiteResponse.
@@ -22,13 +22,17 @@ type SiteResponse struct {
 func (s SiteResponse) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(s.AdditionalProperties,
+        "site"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(s.toMap())
 }
 
 // toMap converts the SiteResponse object to a map representation for JSON marshaling.
 func (s SiteResponse) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, s.AdditionalProperties)
+    MergeAdditionalProperties(structMap, s.AdditionalProperties)
     structMap["site"] = s.Site.toMap()
     return structMap
 }
@@ -45,12 +49,12 @@ func (s *SiteResponse) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "site")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "site")
     if err != nil {
     	return err
     }
-    
     s.AdditionalProperties = additionalProperties
+    
     s.Site = *temp.Site
     return nil
 }

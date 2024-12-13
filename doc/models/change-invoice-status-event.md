@@ -36,8 +36,8 @@
   "event_data": {
     "gateway_trans_id": "gateway_trans_id2",
     "amount": "amount8",
-    "from_status": "paid",
-    "to_status": "paid",
+    "from_status": "open",
+    "to_status": "pending",
     "consolidation_level": "child"
   }
 }

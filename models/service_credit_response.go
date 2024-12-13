@@ -13,8 +13,8 @@ import (
 
 // ServiceCreditResponse represents a ServiceCreditResponse struct.
 type ServiceCreditResponse struct {
-    ServiceCredit        ServiceCredit  `json:"service_credit"`
-    AdditionalProperties map[string]any `json:"_"`
+    ServiceCredit        ServiceCredit          `json:"service_credit"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for ServiceCreditResponse.
@@ -22,13 +22,17 @@ type ServiceCreditResponse struct {
 func (s ServiceCreditResponse) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(s.AdditionalProperties,
+        "service_credit"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(s.toMap())
 }
 
 // toMap converts the ServiceCreditResponse object to a map representation for JSON marshaling.
 func (s ServiceCreditResponse) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, s.AdditionalProperties)
+    MergeAdditionalProperties(structMap, s.AdditionalProperties)
     structMap["service_credit"] = s.ServiceCredit.toMap()
     return structMap
 }
@@ -45,12 +49,12 @@ func (s *ServiceCreditResponse) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "service_credit")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "service_credit")
     if err != nil {
     	return err
     }
-    
     s.AdditionalProperties = additionalProperties
+    
     s.ServiceCredit = *temp.ServiceCredit
     return nil
 }

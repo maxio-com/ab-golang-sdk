@@ -13,7 +13,7 @@ import (
 type ListSubscriptionGroupsResponse struct {
     SubscriptionGroups   []ListSubscriptionGroupsItem `json:"subscription_groups,omitempty"`
     Meta                 *ListSubscriptionGroupsMeta  `json:"meta,omitempty"`
-    AdditionalProperties map[string]any               `json:"_"`
+    AdditionalProperties map[string]interface{}       `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for ListSubscriptionGroupsResponse.
@@ -21,13 +21,17 @@ type ListSubscriptionGroupsResponse struct {
 func (l ListSubscriptionGroupsResponse) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(l.AdditionalProperties,
+        "subscription_groups", "meta"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(l.toMap())
 }
 
 // toMap converts the ListSubscriptionGroupsResponse object to a map representation for JSON marshaling.
 func (l ListSubscriptionGroupsResponse) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, l.AdditionalProperties)
+    MergeAdditionalProperties(structMap, l.AdditionalProperties)
     if l.SubscriptionGroups != nil {
         structMap["subscription_groups"] = l.SubscriptionGroups
     }
@@ -45,12 +49,12 @@ func (l *ListSubscriptionGroupsResponse) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "subscription_groups", "meta")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "subscription_groups", "meta")
     if err != nil {
     	return err
     }
-    
     l.AdditionalProperties = additionalProperties
+    
     l.SubscriptionGroups = temp.SubscriptionGroups
     l.Meta = temp.Meta
     return nil

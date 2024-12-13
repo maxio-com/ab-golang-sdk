@@ -15,16 +15,16 @@ import (
 
 // PreviewAllocationsRequest represents a PreviewAllocationsRequest struct.
 type PreviewAllocationsRequest struct {
-    Allocations            []CreateAllocation   `json:"allocations"`
+    Allocations            []CreateAllocation     `json:"allocations"`
     // To calculate proration amounts for a future time. Only within a current subscription period. Only ISO8601 format is supported.
-    EffectiveProrationDate *time.Time           `json:"effective_proration_date,omitempty"`
+    EffectiveProrationDate *time.Time             `json:"effective_proration_date,omitempty"`
     // The type of credit to be created when upgrading/downgrading. Defaults to the component and then site setting if one is not provided.
     // Available values: `full`, `prorated`, `none`.
-    UpgradeCharge          Optional[CreditType] `json:"upgrade_charge"`
+    UpgradeCharge          Optional[CreditType]   `json:"upgrade_charge"`
     // The type of credit to be created when upgrading/downgrading. Defaults to the component and then site setting if one is not provided.
     // Available values: `full`, `prorated`, `none`.
-    DowngradeCredit        Optional[CreditType] `json:"downgrade_credit"`
-    AdditionalProperties   map[string]any       `json:"_"`
+    DowngradeCredit        Optional[CreditType]   `json:"downgrade_credit"`
+    AdditionalProperties   map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for PreviewAllocationsRequest.
@@ -32,13 +32,17 @@ type PreviewAllocationsRequest struct {
 func (p PreviewAllocationsRequest) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(p.AdditionalProperties,
+        "allocations", "effective_proration_date", "upgrade_charge", "downgrade_credit"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(p.toMap())
 }
 
 // toMap converts the PreviewAllocationsRequest object to a map representation for JSON marshaling.
 func (p PreviewAllocationsRequest) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, p.AdditionalProperties)
+    MergeAdditionalProperties(structMap, p.AdditionalProperties)
     structMap["allocations"] = p.Allocations
     if p.EffectiveProrationDate != nil {
         structMap["effective_proration_date"] = p.EffectiveProrationDate.Format(DEFAULT_DATE)
@@ -72,12 +76,12 @@ func (p *PreviewAllocationsRequest) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "allocations", "effective_proration_date", "upgrade_charge", "downgrade_credit")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "allocations", "effective_proration_date", "upgrade_charge", "downgrade_credit")
     if err != nil {
     	return err
     }
-    
     p.AdditionalProperties = additionalProperties
+    
     p.Allocations = *temp.Allocations
     if temp.EffectiveProrationDate != nil {
         EffectiveProrationDateVal, err := time.Parse(DEFAULT_DATE, *temp.EffectiveProrationDate)

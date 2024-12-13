@@ -13,8 +13,8 @@ import (
 
 // ReplayWebhooksRequest represents a ReplayWebhooksRequest struct.
 type ReplayWebhooksRequest struct {
-    Ids                  []int64        `json:"ids"`
-    AdditionalProperties map[string]any `json:"_"`
+    Ids                  []int64                `json:"ids"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for ReplayWebhooksRequest.
@@ -22,13 +22,17 @@ type ReplayWebhooksRequest struct {
 func (r ReplayWebhooksRequest) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(r.AdditionalProperties,
+        "ids"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(r.toMap())
 }
 
 // toMap converts the ReplayWebhooksRequest object to a map representation for JSON marshaling.
 func (r ReplayWebhooksRequest) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, r.AdditionalProperties)
+    MergeAdditionalProperties(structMap, r.AdditionalProperties)
     structMap["ids"] = r.Ids
     return structMap
 }
@@ -45,12 +49,12 @@ func (r *ReplayWebhooksRequest) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "ids")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "ids")
     if err != nil {
     	return err
     }
-    
     r.AdditionalProperties = additionalProperties
+    
     r.Ids = *temp.Ids
     return nil
 }

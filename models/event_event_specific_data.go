@@ -27,8 +27,7 @@ type EventEventSpecificData struct {
     isPendingCancellationChange         bool
     isPrepaidSubscriptionBalanceChanged bool
     isProformaInvoiceIssued             bool
-    isSubscriptionGroupSignupSuccess    bool
-    isSubscriptionGroupSignupFailure    bool
+    isSubscriptionGroupSignupEventData  bool
     isCreditAccountBalanceChanged       bool
     isPrepaymentAccountBalanceChanged   bool
     isPaymentCollectionMethodChanged    bool
@@ -82,9 +81,7 @@ func (e *EventEventSpecificData) toMap() any {
         return obj.toMap()
     case *ProformaInvoiceIssued:
         return obj.toMap()
-    case *SubscriptionGroupSignupSuccess:
-        return obj.toMap()
-    case *SubscriptionGroupSignupFailure:
+    case *SubscriptionGroupSignupEventData:
         return obj.toMap()
     case *CreditAccountBalanceChanged:
         return obj.toMap()
@@ -116,8 +113,7 @@ func (e *EventEventSpecificData) UnmarshalJSON(input []byte) error {
         NewTypeHolder(&PendingCancellationChange{}, false, &e.isPendingCancellationChange),
         NewTypeHolder(&PrepaidSubscriptionBalanceChanged{}, false, &e.isPrepaidSubscriptionBalanceChanged),
         NewTypeHolder(&ProformaInvoiceIssued{}, false, &e.isProformaInvoiceIssued),
-        NewTypeHolder(&SubscriptionGroupSignupSuccess{}, false, &e.isSubscriptionGroupSignupSuccess),
-        NewTypeHolder(&SubscriptionGroupSignupFailure{}, false, &e.isSubscriptionGroupSignupFailure),
+        NewTypeHolder(&SubscriptionGroupSignupEventData{}, false, &e.isSubscriptionGroupSignupEventData),
         NewTypeHolder(&CreditAccountBalanceChanged{}, false, &e.isCreditAccountBalanceChanged),
         NewTypeHolder(&PrepaymentAccountBalanceChanged{}, false, &e.isPrepaymentAccountBalanceChanged),
         NewTypeHolder(&PaymentCollectionMethodChanged{}, false, &e.isPaymentCollectionMethodChanged),
@@ -237,22 +233,13 @@ func (e *EventEventSpecificData) AsProformaInvoiceIssued() (
     return e.value.(*ProformaInvoiceIssued), true
 }
 
-func (e *EventEventSpecificData) AsSubscriptionGroupSignupSuccess() (
-    *SubscriptionGroupSignupSuccess,
+func (e *EventEventSpecificData) AsSubscriptionGroupSignupEventData() (
+    *SubscriptionGroupSignupEventData,
     bool) {
-    if !e.isSubscriptionGroupSignupSuccess {
+    if !e.isSubscriptionGroupSignupEventData {
         return nil, false
     }
-    return e.value.(*SubscriptionGroupSignupSuccess), true
-}
-
-func (e *EventEventSpecificData) AsSubscriptionGroupSignupFailure() (
-    *SubscriptionGroupSignupFailure,
-    bool) {
-    if !e.isSubscriptionGroupSignupFailure {
-        return nil, false
-    }
-    return e.value.(*SubscriptionGroupSignupFailure), true
+    return e.value.(*SubscriptionGroupSignupEventData), true
 }
 
 func (e *EventEventSpecificData) AsCreditAccountBalanceChanged() (
@@ -366,13 +353,8 @@ func (e *internalEventEventSpecificData) FromProformaInvoiceIssued(val ProformaI
     return EventEventSpecificData{value: &val}
 }
 
-// The internalEventEventSpecificData instance, wrapping the provided SubscriptionGroupSignupSuccess value.
-func (e *internalEventEventSpecificData) FromSubscriptionGroupSignupSuccess(val SubscriptionGroupSignupSuccess) EventEventSpecificData {
-    return EventEventSpecificData{value: &val}
-}
-
-// The internalEventEventSpecificData instance, wrapping the provided SubscriptionGroupSignupFailure value.
-func (e *internalEventEventSpecificData) FromSubscriptionGroupSignupFailure(val SubscriptionGroupSignupFailure) EventEventSpecificData {
+// The internalEventEventSpecificData instance, wrapping the provided SubscriptionGroupSignupEventData value.
+func (e *internalEventEventSpecificData) FromSubscriptionGroupSignupEventData(val SubscriptionGroupSignupEventData) EventEventSpecificData {
     return EventEventSpecificData{value: &val}
 }
 

@@ -17,7 +17,7 @@ type SubscriptionGroupPrepayment struct {
     Details              string                            `json:"details"`
     Memo                 string                            `json:"memo"`
     Method               SubscriptionGroupPrepaymentMethod `json:"method"`
-    AdditionalProperties map[string]any                    `json:"_"`
+    AdditionalProperties map[string]interface{}            `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for SubscriptionGroupPrepayment.
@@ -25,13 +25,17 @@ type SubscriptionGroupPrepayment struct {
 func (s SubscriptionGroupPrepayment) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(s.AdditionalProperties,
+        "amount", "details", "memo", "method"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(s.toMap())
 }
 
 // toMap converts the SubscriptionGroupPrepayment object to a map representation for JSON marshaling.
 func (s SubscriptionGroupPrepayment) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, s.AdditionalProperties)
+    MergeAdditionalProperties(structMap, s.AdditionalProperties)
     structMap["amount"] = s.Amount
     structMap["details"] = s.Details
     structMap["memo"] = s.Memo
@@ -51,12 +55,12 @@ func (s *SubscriptionGroupPrepayment) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "amount", "details", "memo", "method")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "amount", "details", "memo", "method")
     if err != nil {
     	return err
     }
-    
     s.AdditionalProperties = additionalProperties
+    
     s.Amount = *temp.Amount
     s.Details = *temp.Details
     s.Memo = *temp.Memo

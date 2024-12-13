@@ -36,7 +36,7 @@ type ApplyCreditNoteEventData struct {
     ConsolidatedInvoice  *bool                   `json:"consolidated_invoice,omitempty"`
     // List of credit notes applied to children invoices (if consolidated invoice)
     AppliedCreditNotes   []AppliedCreditNoteData `json:"applied_credit_notes,omitempty"`
-    AdditionalProperties map[string]any          `json:"_"`
+    AdditionalProperties map[string]interface{}  `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for ApplyCreditNoteEventData.
@@ -44,13 +44,17 @@ type ApplyCreditNoteEventData struct {
 func (a ApplyCreditNoteEventData) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(a.AdditionalProperties,
+        "uid", "credit_note_number", "credit_note_uid", "original_amount", "applied_amount", "transaction_time", "memo", "role", "consolidated_invoice", "applied_credit_notes"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(a.toMap())
 }
 
 // toMap converts the ApplyCreditNoteEventData object to a map representation for JSON marshaling.
 func (a ApplyCreditNoteEventData) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, a.AdditionalProperties)
+    MergeAdditionalProperties(structMap, a.AdditionalProperties)
     structMap["uid"] = a.Uid
     structMap["credit_note_number"] = a.CreditNoteNumber
     structMap["credit_note_uid"] = a.CreditNoteUid
@@ -90,12 +94,12 @@ func (a *ApplyCreditNoteEventData) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "uid", "credit_note_number", "credit_note_uid", "original_amount", "applied_amount", "transaction_time", "memo", "role", "consolidated_invoice", "applied_credit_notes")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "uid", "credit_note_number", "credit_note_uid", "original_amount", "applied_amount", "transaction_time", "memo", "role", "consolidated_invoice", "applied_credit_notes")
     if err != nil {
     	return err
     }
-    
     a.AdditionalProperties = additionalProperties
+    
     a.Uid = *temp.Uid
     a.CreditNoteNumber = *temp.CreditNoteNumber
     a.CreditNoteUid = *temp.CreditNoteUid

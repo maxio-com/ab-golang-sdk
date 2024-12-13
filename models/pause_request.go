@@ -12,8 +12,8 @@ import (
 // PauseRequest represents a PauseRequest struct.
 // Allows to pause a Subscription
 type PauseRequest struct {
-    Hold                 *AutoResume    `json:"hold,omitempty"`
-    AdditionalProperties map[string]any `json:"_"`
+    Hold                 *AutoResume            `json:"hold,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for PauseRequest.
@@ -21,13 +21,17 @@ type PauseRequest struct {
 func (p PauseRequest) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(p.AdditionalProperties,
+        "hold"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(p.toMap())
 }
 
 // toMap converts the PauseRequest object to a map representation for JSON marshaling.
 func (p PauseRequest) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, p.AdditionalProperties)
+    MergeAdditionalProperties(structMap, p.AdditionalProperties)
     if p.Hold != nil {
         structMap["hold"] = p.Hold.toMap()
     }
@@ -42,12 +46,12 @@ func (p *PauseRequest) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "hold")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "hold")
     if err != nil {
     	return err
     }
-    
     p.AdditionalProperties = additionalProperties
+    
     p.Hold = temp.Hold
     return nil
 }

@@ -11,16 +11,16 @@ import (
 
 // SubscriptionGroupPrepaymentResponse represents a SubscriptionGroupPrepaymentResponse struct.
 type SubscriptionGroupPrepaymentResponse struct {
-    Id                   *int               `json:"id,omitempty"`
+    Id                   *int                   `json:"id,omitempty"`
     // The amount in cents of the entry.
-    AmountInCents        *int64             `json:"amount_in_cents,omitempty"`
+    AmountInCents        *int64                 `json:"amount_in_cents,omitempty"`
     // The ending balance in cents of the account.
-    EndingBalanceInCents *int64             `json:"ending_balance_in_cents,omitempty"`
+    EndingBalanceInCents *int64                 `json:"ending_balance_in_cents,omitempty"`
     // The type of entry
-    EntryType            *ServiceCreditType `json:"entry_type,omitempty"`
+    EntryType            *ServiceCreditType     `json:"entry_type,omitempty"`
     // A memo attached to the entry.
-    Memo                 Optional[string]   `json:"memo"`
-    AdditionalProperties map[string]any     `json:"_"`
+    Memo                 Optional[string]       `json:"memo"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for SubscriptionGroupPrepaymentResponse.
@@ -28,13 +28,17 @@ type SubscriptionGroupPrepaymentResponse struct {
 func (s SubscriptionGroupPrepaymentResponse) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(s.AdditionalProperties,
+        "id", "amount_in_cents", "ending_balance_in_cents", "entry_type", "memo"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(s.toMap())
 }
 
 // toMap converts the SubscriptionGroupPrepaymentResponse object to a map representation for JSON marshaling.
 func (s SubscriptionGroupPrepaymentResponse) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, s.AdditionalProperties)
+    MergeAdditionalProperties(structMap, s.AdditionalProperties)
     if s.Id != nil {
         structMap["id"] = s.Id
     }
@@ -65,12 +69,12 @@ func (s *SubscriptionGroupPrepaymentResponse) UnmarshalJSON(input []byte) error 
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "id", "amount_in_cents", "ending_balance_in_cents", "entry_type", "memo")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "id", "amount_in_cents", "ending_balance_in_cents", "entry_type", "memo")
     if err != nil {
     	return err
     }
-    
     s.AdditionalProperties = additionalProperties
+    
     s.Id = temp.Id
     s.AmountInCents = temp.AmountInCents
     s.EndingBalanceInCents = temp.EndingBalanceInCents

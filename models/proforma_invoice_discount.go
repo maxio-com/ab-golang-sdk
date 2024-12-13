@@ -19,7 +19,7 @@ type ProformaInvoiceDiscount struct {
     EligibleAmount       *string                            `json:"eligible_amount,omitempty"`
     DiscountAmount       *string                            `json:"discount_amount,omitempty"`
     LineItemBreakouts    []InvoiceDiscountBreakout          `json:"line_item_breakouts,omitempty"`
-    AdditionalProperties map[string]any                     `json:"_"`
+    AdditionalProperties map[string]interface{}             `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for ProformaInvoiceDiscount.
@@ -27,13 +27,17 @@ type ProformaInvoiceDiscount struct {
 func (p ProformaInvoiceDiscount) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(p.AdditionalProperties,
+        "uid", "title", "code", "source_type", "discount_type", "eligible_amount", "discount_amount", "line_item_breakouts"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(p.toMap())
 }
 
 // toMap converts the ProformaInvoiceDiscount object to a map representation for JSON marshaling.
 func (p ProformaInvoiceDiscount) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, p.AdditionalProperties)
+    MergeAdditionalProperties(structMap, p.AdditionalProperties)
     if p.Uid != nil {
         structMap["uid"] = p.Uid
     }
@@ -69,12 +73,12 @@ func (p *ProformaInvoiceDiscount) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "uid", "title", "code", "source_type", "discount_type", "eligible_amount", "discount_amount", "line_item_breakouts")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "uid", "title", "code", "source_type", "discount_type", "eligible_amount", "discount_amount", "line_item_breakouts")
     if err != nil {
     	return err
     }
-    
     p.AdditionalProperties = additionalProperties
+    
     p.Uid = temp.Uid
     p.Title = temp.Title
     p.Code = temp.Code

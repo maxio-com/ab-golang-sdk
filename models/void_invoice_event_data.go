@@ -16,18 +16,18 @@ import (
 // VoidInvoiceEventData represents a VoidInvoiceEventData struct.
 // Example schema for an `void_invoice` event
 type VoidInvoiceEventData struct {
-    CreditNoteAttributes *CreditNote    `json:"credit_note_attributes"`
+    CreditNoteAttributes *CreditNote            `json:"credit_note_attributes"`
     // The memo provided during invoice voiding.
-    Memo                 *string        `json:"memo"`
+    Memo                 *string                `json:"memo"`
     // The amount of the void.
-    AppliedAmount        *string        `json:"applied_amount"`
+    AppliedAmount        *string                `json:"applied_amount"`
     // The time the refund was applied, in ISO 8601 format, i.e. "2019-06-07T17:20:06Z"
-    TransactionTime      *time.Time     `json:"transaction_time"`
+    TransactionTime      *time.Time             `json:"transaction_time"`
     // If true, the invoice is an advance invoice.
-    IsAdvanceInvoice     bool           `json:"is_advance_invoice"`
+    IsAdvanceInvoice     bool                   `json:"is_advance_invoice"`
     // The reason for the void.
-    Reason               string         `json:"reason"`
-    AdditionalProperties map[string]any `json:"_"`
+    Reason               string                 `json:"reason"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for VoidInvoiceEventData.
@@ -35,13 +35,17 @@ type VoidInvoiceEventData struct {
 func (v VoidInvoiceEventData) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(v.AdditionalProperties,
+        "credit_note_attributes", "memo", "applied_amount", "transaction_time", "is_advance_invoice", "reason"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(v.toMap())
 }
 
 // toMap converts the VoidInvoiceEventData object to a map representation for JSON marshaling.
 func (v VoidInvoiceEventData) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, v.AdditionalProperties)
+    MergeAdditionalProperties(structMap, v.AdditionalProperties)
     if v.CreditNoteAttributes != nil {
         structMap["credit_note_attributes"] = v.CreditNoteAttributes.toMap()
     } else {
@@ -79,12 +83,12 @@ func (v *VoidInvoiceEventData) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "credit_note_attributes", "memo", "applied_amount", "transaction_time", "is_advance_invoice", "reason")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "credit_note_attributes", "memo", "applied_amount", "transaction_time", "is_advance_invoice", "reason")
     if err != nil {
     	return err
     }
-    
     v.AdditionalProperties = additionalProperties
+    
     v.CreditNoteAttributes = temp.CreditNoteAttributes
     v.Memo = temp.Memo
     v.AppliedAmount = temp.AppliedAmount

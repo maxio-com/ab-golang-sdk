@@ -12,20 +12,20 @@ import (
 // CouponUsage represents a CouponUsage struct.
 type CouponUsage struct {
     // The Chargify id of the product
-    Id                   *int            `json:"id,omitempty"`
+    Id                   *int                   `json:"id,omitempty"`
     // Name of the product
-    Name                 *string         `json:"name,omitempty"`
+    Name                 *string                `json:"name,omitempty"`
     // Number of times the coupon has been applied
-    Signups              *int            `json:"signups,omitempty"`
+    Signups              *int                   `json:"signups,omitempty"`
     // Dollar amount of customer savings as a result of the coupon.
-    Savings              Optional[int]   `json:"savings"`
+    Savings              Optional[int]          `json:"savings"`
     // Dollar amount of customer savings as a result of the coupon.
-    SavingsInCents       Optional[int64] `json:"savings_in_cents"`
+    SavingsInCents       Optional[int64]        `json:"savings_in_cents"`
     // Total revenue of the all subscriptions that have received a discount from this coupon.
-    Revenue              Optional[int]   `json:"revenue"`
+    Revenue              Optional[int]          `json:"revenue"`
     // Total revenue of the all subscriptions that have received a discount from this coupon.
-    RevenueInCents       *int64          `json:"revenue_in_cents,omitempty"`
-    AdditionalProperties map[string]any  `json:"_"`
+    RevenueInCents       *int64                 `json:"revenue_in_cents,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for CouponUsage.
@@ -33,13 +33,17 @@ type CouponUsage struct {
 func (c CouponUsage) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(c.AdditionalProperties,
+        "id", "name", "signups", "savings", "savings_in_cents", "revenue", "revenue_in_cents"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(c.toMap())
 }
 
 // toMap converts the CouponUsage object to a map representation for JSON marshaling.
 func (c CouponUsage) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, c.AdditionalProperties)
+    MergeAdditionalProperties(structMap, c.AdditionalProperties)
     if c.Id != nil {
         structMap["id"] = c.Id
     }
@@ -84,12 +88,12 @@ func (c *CouponUsage) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "id", "name", "signups", "savings", "savings_in_cents", "revenue", "revenue_in_cents")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "id", "name", "signups", "savings", "savings_in_cents", "revenue", "revenue_in_cents")
     if err != nil {
     	return err
     }
-    
     c.AdditionalProperties = additionalProperties
+    
     c.Id = temp.Id
     c.Name = temp.Name
     c.Signups = temp.Signups

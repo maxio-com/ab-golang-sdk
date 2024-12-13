@@ -13,8 +13,8 @@ import (
 
 // UpdateCustomerRequest represents a UpdateCustomerRequest struct.
 type UpdateCustomerRequest struct {
-    Customer             UpdateCustomer `json:"customer"`
-    AdditionalProperties map[string]any `json:"_"`
+    Customer             UpdateCustomer         `json:"customer"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for UpdateCustomerRequest.
@@ -22,13 +22,17 @@ type UpdateCustomerRequest struct {
 func (u UpdateCustomerRequest) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(u.AdditionalProperties,
+        "customer"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(u.toMap())
 }
 
 // toMap converts the UpdateCustomerRequest object to a map representation for JSON marshaling.
 func (u UpdateCustomerRequest) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, u.AdditionalProperties)
+    MergeAdditionalProperties(structMap, u.AdditionalProperties)
     structMap["customer"] = u.Customer.toMap()
     return structMap
 }
@@ -45,12 +49,12 @@ func (u *UpdateCustomerRequest) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "customer")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "customer")
     if err != nil {
     	return err
     }
-    
     u.AdditionalProperties = additionalProperties
+    
     u.Customer = *temp.Customer
     return nil
 }

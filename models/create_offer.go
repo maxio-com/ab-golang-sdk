@@ -20,7 +20,7 @@ type CreateOffer struct {
     ProductPricePointId  *int                   `json:"product_price_point_id,omitempty"`
     Components           []CreateOfferComponent `json:"components,omitempty"`
     Coupons              []string               `json:"coupons,omitempty"`
-    AdditionalProperties map[string]any         `json:"_"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreateOffer.
@@ -28,13 +28,17 @@ type CreateOffer struct {
 func (c CreateOffer) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(c.AdditionalProperties,
+        "name", "handle", "description", "product_id", "product_price_point_id", "components", "coupons"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(c.toMap())
 }
 
 // toMap converts the CreateOffer object to a map representation for JSON marshaling.
 func (c CreateOffer) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, c.AdditionalProperties)
+    MergeAdditionalProperties(structMap, c.AdditionalProperties)
     structMap["name"] = c.Name
     structMap["handle"] = c.Handle
     if c.Description != nil {
@@ -65,12 +69,12 @@ func (c *CreateOffer) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "name", "handle", "description", "product_id", "product_price_point_id", "components", "coupons")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "name", "handle", "description", "product_id", "product_price_point_id", "components", "coupons")
     if err != nil {
     	return err
     }
-    
     c.AdditionalProperties = additionalProperties
+    
     c.Name = *temp.Name
     c.Handle = *temp.Handle
     c.Description = temp.Description

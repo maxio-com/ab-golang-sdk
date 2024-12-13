@@ -298,7 +298,7 @@ ctx := context.Background()
 
 collectedInput := advancedbilling.ListMrrPerSubscriptionInput{
     Filter:    models.ToPointer(models.ListMrrFilter{
-        SubscriptionIds: []int{
+        SubscriptionIds:      []int{
             1,
             2,
             3,

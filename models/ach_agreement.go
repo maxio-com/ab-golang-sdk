@@ -13,14 +13,14 @@ import (
 // (Optional) If passed, the proof of the authorized ACH agreement terms will be persisted.
 type ACHAgreement struct {
     // (Required when providing ACH agreement params) The ACH authorization agreement terms.
-    AgreementTerms       *string        `json:"agreement_terms,omitempty"`
+    AgreementTerms       *string                `json:"agreement_terms,omitempty"`
     // (Required when providing ACH agreement params) The first name of the person authorizing the ACH agreement.
-    AuthorizerFirstName  *string        `json:"authorizer_first_name,omitempty"`
+    AuthorizerFirstName  *string                `json:"authorizer_first_name,omitempty"`
     // (Required when providing ACH agreement params) The last name of the person authorizing the ACH agreement.
-    AuthorizerLastName   *string        `json:"authorizer_last_name,omitempty"`
+    AuthorizerLastName   *string                `json:"authorizer_last_name,omitempty"`
     // (Required when providing ACH agreement params) The IP address of the person authorizing the ACH agreement.
-    IpAddress            *string        `json:"ip_address,omitempty"`
-    AdditionalProperties map[string]any `json:"_"`
+    IpAddress            *string                `json:"ip_address,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for ACHAgreement.
@@ -28,13 +28,17 @@ type ACHAgreement struct {
 func (a ACHAgreement) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(a.AdditionalProperties,
+        "agreement_terms", "authorizer_first_name", "authorizer_last_name", "ip_address"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(a.toMap())
 }
 
 // toMap converts the ACHAgreement object to a map representation for JSON marshaling.
 func (a ACHAgreement) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, a.AdditionalProperties)
+    MergeAdditionalProperties(structMap, a.AdditionalProperties)
     if a.AgreementTerms != nil {
         structMap["agreement_terms"] = a.AgreementTerms
     }
@@ -58,12 +62,12 @@ func (a *ACHAgreement) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "agreement_terms", "authorizer_first_name", "authorizer_last_name", "ip_address")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "agreement_terms", "authorizer_first_name", "authorizer_last_name", "ip_address")
     if err != nil {
     	return err
     }
-    
     a.AdditionalProperties = additionalProperties
+    
     a.AgreementTerms = temp.AgreementTerms
     a.AuthorizerFirstName = temp.AuthorizerFirstName
     a.AuthorizerLastName = temp.AuthorizerLastName

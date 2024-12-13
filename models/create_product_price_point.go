@@ -39,7 +39,7 @@ type CreateProductPricePoint struct {
     ExpirationIntervalUnit  Optional[ExpirationIntervalUnit] `json:"expiration_interval_unit"`
     // Whether or not to use the site's exchange rate or define your own pricing when your site has multiple currencies defined.
     UseSiteExchangeRate     *bool                            `json:"use_site_exchange_rate,omitempty"`
-    AdditionalProperties    map[string]any                   `json:"_"`
+    AdditionalProperties    map[string]interface{}           `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreateProductPricePoint.
@@ -47,13 +47,17 @@ type CreateProductPricePoint struct {
 func (c CreateProductPricePoint) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(c.AdditionalProperties,
+        "name", "handle", "price_in_cents", "interval", "interval_unit", "trial_price_in_cents", "trial_interval", "trial_interval_unit", "trial_type", "initial_charge_in_cents", "initial_charge_after_trial", "expiration_interval", "expiration_interval_unit", "use_site_exchange_rate"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(c.toMap())
 }
 
 // toMap converts the CreateProductPricePoint object to a map representation for JSON marshaling.
 func (c CreateProductPricePoint) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, c.AdditionalProperties)
+    MergeAdditionalProperties(structMap, c.AdditionalProperties)
     structMap["name"] = c.Name
     if c.Handle != nil {
         structMap["handle"] = c.Handle
@@ -107,12 +111,12 @@ func (c *CreateProductPricePoint) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "name", "handle", "price_in_cents", "interval", "interval_unit", "trial_price_in_cents", "trial_interval", "trial_interval_unit", "trial_type", "initial_charge_in_cents", "initial_charge_after_trial", "expiration_interval", "expiration_interval_unit", "use_site_exchange_rate")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "name", "handle", "price_in_cents", "interval", "interval_unit", "trial_price_in_cents", "trial_interval", "trial_interval_unit", "trial_type", "initial_charge_in_cents", "initial_charge_after_trial", "expiration_interval", "expiration_interval_unit", "use_site_exchange_rate")
     if err != nil {
     	return err
     }
-    
     c.AdditionalProperties = additionalProperties
+    
     c.Name = *temp.Name
     c.Handle = temp.Handle
     c.PriceInCents = *temp.PriceInCents

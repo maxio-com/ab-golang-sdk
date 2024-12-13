@@ -11,12 +11,12 @@ import (
 
 // SubscriptionGroupCustomer represents a SubscriptionGroupCustomer struct.
 type SubscriptionGroupCustomer struct {
-    FirstName            *string        `json:"first_name,omitempty"`
-    LastName             *string        `json:"last_name,omitempty"`
-    Organization         *string        `json:"organization,omitempty"`
-    Email                *string        `json:"email,omitempty"`
-    Reference            *string        `json:"reference,omitempty"`
-    AdditionalProperties map[string]any `json:"_"`
+    FirstName            *string                `json:"first_name,omitempty"`
+    LastName             *string                `json:"last_name,omitempty"`
+    Organization         *string                `json:"organization,omitempty"`
+    Email                *string                `json:"email,omitempty"`
+    Reference            *string                `json:"reference,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for SubscriptionGroupCustomer.
@@ -24,13 +24,17 @@ type SubscriptionGroupCustomer struct {
 func (s SubscriptionGroupCustomer) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(s.AdditionalProperties,
+        "first_name", "last_name", "organization", "email", "reference"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(s.toMap())
 }
 
 // toMap converts the SubscriptionGroupCustomer object to a map representation for JSON marshaling.
 func (s SubscriptionGroupCustomer) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, s.AdditionalProperties)
+    MergeAdditionalProperties(structMap, s.AdditionalProperties)
     if s.FirstName != nil {
         structMap["first_name"] = s.FirstName
     }
@@ -57,12 +61,12 @@ func (s *SubscriptionGroupCustomer) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "first_name", "last_name", "organization", "email", "reference")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "first_name", "last_name", "organization", "email", "reference")
     if err != nil {
     	return err
     }
-    
     s.AdditionalProperties = additionalProperties
+    
     s.FirstName = temp.FirstName
     s.LastName = temp.LastName
     s.Organization = temp.Organization

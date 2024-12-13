@@ -11,8 +11,8 @@ import (
 
 // SegmentResponse represents a SegmentResponse struct.
 type SegmentResponse struct {
-    Segment              *Segment       `json:"segment,omitempty"`
-    AdditionalProperties map[string]any `json:"_"`
+    Segment              *Segment               `json:"segment,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for SegmentResponse.
@@ -20,13 +20,17 @@ type SegmentResponse struct {
 func (s SegmentResponse) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(s.AdditionalProperties,
+        "segment"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(s.toMap())
 }
 
 // toMap converts the SegmentResponse object to a map representation for JSON marshaling.
 func (s SegmentResponse) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, s.AdditionalProperties)
+    MergeAdditionalProperties(structMap, s.AdditionalProperties)
     if s.Segment != nil {
         structMap["segment"] = s.Segment.toMap()
     }
@@ -41,12 +45,12 @@ func (s *SegmentResponse) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "segment")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "segment")
     if err != nil {
     	return err
     }
-    
     s.AdditionalProperties = additionalProperties
+    
     s.Segment = temp.Segment
     return nil
 }

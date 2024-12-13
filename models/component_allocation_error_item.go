@@ -11,11 +11,11 @@ import (
 
 // ComponentAllocationErrorItem represents a ComponentAllocationErrorItem struct.
 type ComponentAllocationErrorItem struct {
-    ComponentId          *int           `json:"component_id,omitempty"`
-    Message              *string        `json:"message,omitempty"`
-    Kind                 *string        `json:"kind,omitempty"`
-    On                   *string        `json:"on,omitempty"`
-    AdditionalProperties map[string]any `json:"_"`
+    ComponentId          *int                   `json:"component_id,omitempty"`
+    Message              *string                `json:"message,omitempty"`
+    Kind                 *string                `json:"kind,omitempty"`
+    On                   *string                `json:"on,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for ComponentAllocationErrorItem.
@@ -23,13 +23,17 @@ type ComponentAllocationErrorItem struct {
 func (c ComponentAllocationErrorItem) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(c.AdditionalProperties,
+        "component_id", "message", "kind", "on"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(c.toMap())
 }
 
 // toMap converts the ComponentAllocationErrorItem object to a map representation for JSON marshaling.
 func (c ComponentAllocationErrorItem) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, c.AdditionalProperties)
+    MergeAdditionalProperties(structMap, c.AdditionalProperties)
     if c.ComponentId != nil {
         structMap["component_id"] = c.ComponentId
     }
@@ -53,12 +57,12 @@ func (c *ComponentAllocationErrorItem) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "component_id", "message", "kind", "on")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "component_id", "message", "kind", "on")
     if err != nil {
     	return err
     }
-    
     c.AdditionalProperties = additionalProperties
+    
     c.ComponentId = temp.ComponentId
     c.Message = temp.Message
     c.Kind = temp.Kind

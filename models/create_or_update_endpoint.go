@@ -14,9 +14,9 @@ import (
 // CreateOrUpdateEndpoint represents a CreateOrUpdateEndpoint struct.
 // Used to Create or Update Endpoint
 type CreateOrUpdateEndpoint struct {
-    Url                  string                `json:"url"`
-    WebhookSubscriptions []WebhookSubscription `json:"webhook_subscriptions"`
-    AdditionalProperties map[string]any        `json:"_"`
+    Url                  string                 `json:"url"`
+    WebhookSubscriptions []WebhookSubscription  `json:"webhook_subscriptions"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreateOrUpdateEndpoint.
@@ -24,13 +24,17 @@ type CreateOrUpdateEndpoint struct {
 func (c CreateOrUpdateEndpoint) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(c.AdditionalProperties,
+        "url", "webhook_subscriptions"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(c.toMap())
 }
 
 // toMap converts the CreateOrUpdateEndpoint object to a map representation for JSON marshaling.
 func (c CreateOrUpdateEndpoint) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, c.AdditionalProperties)
+    MergeAdditionalProperties(structMap, c.AdditionalProperties)
     structMap["url"] = c.Url
     structMap["webhook_subscriptions"] = c.WebhookSubscriptions
     return structMap
@@ -48,12 +52,12 @@ func (c *CreateOrUpdateEndpoint) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "url", "webhook_subscriptions")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "url", "webhook_subscriptions")
     if err != nil {
     	return err
     }
-    
     c.AdditionalProperties = additionalProperties
+    
     c.Url = *temp.Url
     c.WebhookSubscriptions = *temp.WebhookSubscriptions
     return nil

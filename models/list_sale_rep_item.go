@@ -16,7 +16,7 @@ type ListSaleRepItem struct {
     SubscriptionsCount   *int                      `json:"subscriptions_count,omitempty"`
     MrrData              map[string]SaleRepItemMrr `json:"mrr_data,omitempty"`
     TestMode             *bool                     `json:"test_mode,omitempty"`
-    AdditionalProperties map[string]any            `json:"_"`
+    AdditionalProperties map[string]interface{}    `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for ListSaleRepItem.
@@ -24,13 +24,17 @@ type ListSaleRepItem struct {
 func (l ListSaleRepItem) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(l.AdditionalProperties,
+        "id", "full_name", "subscriptions_count", "mrr_data", "test_mode"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(l.toMap())
 }
 
 // toMap converts the ListSaleRepItem object to a map representation for JSON marshaling.
 func (l ListSaleRepItem) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, l.AdditionalProperties)
+    MergeAdditionalProperties(structMap, l.AdditionalProperties)
     if l.Id != nil {
         structMap["id"] = l.Id
     }
@@ -57,12 +61,12 @@ func (l *ListSaleRepItem) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "id", "full_name", "subscriptions_count", "mrr_data", "test_mode")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "id", "full_name", "subscriptions_count", "mrr_data", "test_mode")
     if err != nil {
     	return err
     }
-    
     l.AdditionalProperties = additionalProperties
+    
     l.Id = temp.Id
     l.FullName = temp.FullName
     l.SubscriptionsCount = temp.SubscriptionsCount

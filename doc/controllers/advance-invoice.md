@@ -50,7 +50,7 @@ ctx := context.Background()
 subscriptionId := 222
 
 body := models.IssueAdvanceInvoiceRequest{
-    Force: models.ToPointer(true),
+    Force:                models.ToPointer(true),
 }
 
 apiResponse, err := advanceInvoiceController.IssueAdvanceInvoice(ctx, subscriptionId, &body)

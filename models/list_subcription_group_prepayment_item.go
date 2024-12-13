@@ -13,16 +13,16 @@ import (
 
 // ListSubcriptionGroupPrepaymentItem represents a ListSubcriptionGroupPrepaymentItem struct.
 type ListSubcriptionGroupPrepaymentItem struct {
-    Id                     *int              `json:"id,omitempty"`
-    SubscriptionGroupUid   *string           `json:"subscription_group_uid,omitempty"`
-    AmountInCents          *int64            `json:"amount_in_cents,omitempty"`
-    RemainingAmountInCents *int64            `json:"remaining_amount_in_cents,omitempty"`
-    Details                *string           `json:"details,omitempty"`
-    External               *bool             `json:"external,omitempty"`
-    Memo                   *string           `json:"memo,omitempty"`
-    PaymentType            *PrepaymentMethod `json:"payment_type,omitempty"`
-    CreatedAt              *time.Time        `json:"created_at,omitempty"`
-    AdditionalProperties   map[string]any    `json:"_"`
+    Id                     *int                   `json:"id,omitempty"`
+    SubscriptionGroupUid   *string                `json:"subscription_group_uid,omitempty"`
+    AmountInCents          *int64                 `json:"amount_in_cents,omitempty"`
+    RemainingAmountInCents *int64                 `json:"remaining_amount_in_cents,omitempty"`
+    Details                *string                `json:"details,omitempty"`
+    External               *bool                  `json:"external,omitempty"`
+    Memo                   *string                `json:"memo,omitempty"`
+    PaymentType            *PrepaymentMethod      `json:"payment_type,omitempty"`
+    CreatedAt              *time.Time             `json:"created_at,omitempty"`
+    AdditionalProperties   map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for ListSubcriptionGroupPrepaymentItem.
@@ -30,13 +30,17 @@ type ListSubcriptionGroupPrepaymentItem struct {
 func (l ListSubcriptionGroupPrepaymentItem) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(l.AdditionalProperties,
+        "id", "subscription_group_uid", "amount_in_cents", "remaining_amount_in_cents", "details", "external", "memo", "payment_type", "created_at"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(l.toMap())
 }
 
 // toMap converts the ListSubcriptionGroupPrepaymentItem object to a map representation for JSON marshaling.
 func (l ListSubcriptionGroupPrepaymentItem) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, l.AdditionalProperties)
+    MergeAdditionalProperties(structMap, l.AdditionalProperties)
     if l.Id != nil {
         structMap["id"] = l.Id
     }
@@ -75,12 +79,12 @@ func (l *ListSubcriptionGroupPrepaymentItem) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "id", "subscription_group_uid", "amount_in_cents", "remaining_amount_in_cents", "details", "external", "memo", "payment_type", "created_at")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "id", "subscription_group_uid", "amount_in_cents", "remaining_amount_in_cents", "details", "external", "memo", "payment_type", "created_at")
     if err != nil {
     	return err
     }
-    
     l.AdditionalProperties = additionalProperties
+    
     l.Id = temp.Id
     l.SubscriptionGroupUid = temp.SubscriptionGroupUid
     l.AmountInCents = temp.AmountInCents

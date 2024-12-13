@@ -11,8 +11,8 @@ import (
 
 // DelayedCancellationResponse represents a DelayedCancellationResponse struct.
 type DelayedCancellationResponse struct {
-    Message              *string        `json:"message,omitempty"`
-    AdditionalProperties map[string]any `json:"_"`
+    Message              *string                `json:"message,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for DelayedCancellationResponse.
@@ -20,13 +20,17 @@ type DelayedCancellationResponse struct {
 func (d DelayedCancellationResponse) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(d.AdditionalProperties,
+        "message"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(d.toMap())
 }
 
 // toMap converts the DelayedCancellationResponse object to a map representation for JSON marshaling.
 func (d DelayedCancellationResponse) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, d.AdditionalProperties)
+    MergeAdditionalProperties(structMap, d.AdditionalProperties)
     if d.Message != nil {
         structMap["message"] = d.Message
     }
@@ -41,12 +45,12 @@ func (d *DelayedCancellationResponse) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "message")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "message")
     if err != nil {
     	return err
     }
-    
     d.AdditionalProperties = additionalProperties
+    
     d.Message = temp.Message
     return nil
 }

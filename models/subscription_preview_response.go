@@ -13,8 +13,8 @@ import (
 
 // SubscriptionPreviewResponse represents a SubscriptionPreviewResponse struct.
 type SubscriptionPreviewResponse struct {
-    SubscriptionPreview  SubscriptionPreview `json:"subscription_preview"`
-    AdditionalProperties map[string]any      `json:"_"`
+    SubscriptionPreview  SubscriptionPreview    `json:"subscription_preview"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for SubscriptionPreviewResponse.
@@ -22,13 +22,17 @@ type SubscriptionPreviewResponse struct {
 func (s SubscriptionPreviewResponse) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(s.AdditionalProperties,
+        "subscription_preview"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(s.toMap())
 }
 
 // toMap converts the SubscriptionPreviewResponse object to a map representation for JSON marshaling.
 func (s SubscriptionPreviewResponse) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, s.AdditionalProperties)
+    MergeAdditionalProperties(structMap, s.AdditionalProperties)
     structMap["subscription_preview"] = s.SubscriptionPreview.toMap()
     return structMap
 }
@@ -45,12 +49,12 @@ func (s *SubscriptionPreviewResponse) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "subscription_preview")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "subscription_preview")
     if err != nil {
     	return err
     }
-    
     s.AdditionalProperties = additionalProperties
+    
     s.SubscriptionPreview = *temp.SubscriptionPreview
     return nil
 }

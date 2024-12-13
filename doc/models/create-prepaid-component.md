@@ -21,7 +21,25 @@
     "description": "description2",
     "handle": "handle8",
     "taxable": false,
-    "pricing_scheme": "per_unit"
+    "pricing_scheme": "per_unit",
+    "prices": [
+      {
+        "starting_quantity": 242,
+        "ending_quantity": 40,
+        "unit_price": 23.26
+      }
+    ],
+    "upgrade_charge": "full",
+    "overage_pricing": {
+      "pricing_scheme": "stairstep",
+      "prices": [
+        {
+          "starting_quantity": 242,
+          "ending_quantity": 40,
+          "unit_price": 23.26
+        }
+      ]
+    }
   }
 }
 ```

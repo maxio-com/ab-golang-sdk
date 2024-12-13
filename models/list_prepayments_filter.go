@@ -19,7 +19,7 @@ type ListPrepaymentsFilter struct {
     StartDate            *time.Time               `json:"start_date,omitempty"`
     // The end date (format YYYY-MM-DD) with which to filter the date_field. Returns prepayments with a timestamp up to and including 11:59:59PM in your site's time zone on the date specified. Use in query: `filter[end_date]=2011-12-15`.
     EndDate              *time.Time               `json:"end_date,omitempty"`
-    AdditionalProperties map[string]any           `json:"_"`
+    AdditionalProperties map[string]interface{}   `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for ListPrepaymentsFilter.
@@ -27,13 +27,17 @@ type ListPrepaymentsFilter struct {
 func (l ListPrepaymentsFilter) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(l.AdditionalProperties,
+        "date_field", "start_date", "end_date"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(l.toMap())
 }
 
 // toMap converts the ListPrepaymentsFilter object to a map representation for JSON marshaling.
 func (l ListPrepaymentsFilter) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, l.AdditionalProperties)
+    MergeAdditionalProperties(structMap, l.AdditionalProperties)
     if l.DateField != nil {
         structMap["date_field"] = l.DateField
     }
@@ -54,12 +58,12 @@ func (l *ListPrepaymentsFilter) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "date_field", "start_date", "end_date")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "date_field", "start_date", "end_date")
     if err != nil {
     	return err
     }
-    
     l.AdditionalProperties = additionalProperties
+    
     l.DateField = temp.DateField
     if temp.StartDate != nil {
         StartDateVal, err := time.Parse(DEFAULT_DATE, *temp.StartDate)

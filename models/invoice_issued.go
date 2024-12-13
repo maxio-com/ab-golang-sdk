@@ -32,7 +32,7 @@ type InvoiceIssued struct {
     ProductName          string                     `json:"product_name"`
     ConsolidationLevel   string                     `json:"consolidation_level"`
     LineItems            []InvoiceLineItemEventData `json:"line_items"`
-    AdditionalProperties map[string]any             `json:"_"`
+    AdditionalProperties map[string]interface{}     `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for InvoiceIssued.
@@ -40,13 +40,17 @@ type InvoiceIssued struct {
 func (i InvoiceIssued) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(i.AdditionalProperties,
+        "uid", "number", "role", "due_date", "issue_date", "paid_date", "due_amount", "paid_amount", "tax_amount", "refund_amount", "total_amount", "status_amount", "product_name", "consolidation_level", "line_items"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(i.toMap())
 }
 
 // toMap converts the InvoiceIssued object to a map representation for JSON marshaling.
 func (i InvoiceIssued) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, i.AdditionalProperties)
+    MergeAdditionalProperties(structMap, i.AdditionalProperties)
     structMap["uid"] = i.Uid
     structMap["number"] = i.Number
     structMap["role"] = i.Role
@@ -81,12 +85,12 @@ func (i *InvoiceIssued) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "uid", "number", "role", "due_date", "issue_date", "paid_date", "due_amount", "paid_amount", "tax_amount", "refund_amount", "total_amount", "status_amount", "product_name", "consolidation_level", "line_items")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "uid", "number", "role", "due_date", "issue_date", "paid_date", "due_amount", "paid_amount", "tax_amount", "refund_amount", "total_amount", "status_amount", "product_name", "consolidation_level", "line_items")
     if err != nil {
     	return err
     }
-    
     i.AdditionalProperties = additionalProperties
+    
     i.Uid = *temp.Uid
     i.Number = *temp.Number
     i.Role = *temp.Role

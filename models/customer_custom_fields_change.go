@@ -13,9 +13,9 @@ import (
 
 // CustomerCustomFieldsChange represents a CustomerCustomFieldsChange struct.
 type CustomerCustomFieldsChange struct {
-    Before               []InvoiceCustomField `json:"before"`
-    After                []InvoiceCustomField `json:"after"`
-    AdditionalProperties map[string]any       `json:"_"`
+    Before               []InvoiceCustomField   `json:"before"`
+    After                []InvoiceCustomField   `json:"after"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for CustomerCustomFieldsChange.
@@ -23,13 +23,17 @@ type CustomerCustomFieldsChange struct {
 func (c CustomerCustomFieldsChange) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(c.AdditionalProperties,
+        "before", "after"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(c.toMap())
 }
 
 // toMap converts the CustomerCustomFieldsChange object to a map representation for JSON marshaling.
 func (c CustomerCustomFieldsChange) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, c.AdditionalProperties)
+    MergeAdditionalProperties(structMap, c.AdditionalProperties)
     structMap["before"] = c.Before
     structMap["after"] = c.After
     return structMap
@@ -47,12 +51,12 @@ func (c *CustomerCustomFieldsChange) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "before", "after")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "before", "after")
     if err != nil {
     	return err
     }
-    
     c.AdditionalProperties = additionalProperties
+    
     c.Before = *temp.Before
     c.After = *temp.After
     return nil

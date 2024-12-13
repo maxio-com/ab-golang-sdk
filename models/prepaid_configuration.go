@@ -11,12 +11,12 @@ import (
 
 // PrepaidConfiguration represents a PrepaidConfiguration struct.
 type PrepaidConfiguration struct {
-    Id                              *int           `json:"id,omitempty"`
-    InitialFundingAmountInCents     *int64         `json:"initial_funding_amount_in_cents,omitempty"`
-    ReplenishToAmountInCents        *int64         `json:"replenish_to_amount_in_cents,omitempty"`
-    AutoReplenish                   *bool          `json:"auto_replenish,omitempty"`
-    ReplenishThresholdAmountInCents *int64         `json:"replenish_threshold_amount_in_cents,omitempty"`
-    AdditionalProperties            map[string]any `json:"_"`
+    Id                              *int                   `json:"id,omitempty"`
+    InitialFundingAmountInCents     *int64                 `json:"initial_funding_amount_in_cents,omitempty"`
+    ReplenishToAmountInCents        *int64                 `json:"replenish_to_amount_in_cents,omitempty"`
+    AutoReplenish                   *bool                  `json:"auto_replenish,omitempty"`
+    ReplenishThresholdAmountInCents *int64                 `json:"replenish_threshold_amount_in_cents,omitempty"`
+    AdditionalProperties            map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for PrepaidConfiguration.
@@ -24,13 +24,17 @@ type PrepaidConfiguration struct {
 func (p PrepaidConfiguration) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(p.AdditionalProperties,
+        "id", "initial_funding_amount_in_cents", "replenish_to_amount_in_cents", "auto_replenish", "replenish_threshold_amount_in_cents"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(p.toMap())
 }
 
 // toMap converts the PrepaidConfiguration object to a map representation for JSON marshaling.
 func (p PrepaidConfiguration) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, p.AdditionalProperties)
+    MergeAdditionalProperties(structMap, p.AdditionalProperties)
     if p.Id != nil {
         structMap["id"] = p.Id
     }
@@ -57,12 +61,12 @@ func (p *PrepaidConfiguration) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "id", "initial_funding_amount_in_cents", "replenish_to_amount_in_cents", "auto_replenish", "replenish_threshold_amount_in_cents")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "id", "initial_funding_amount_in_cents", "replenish_to_amount_in_cents", "auto_replenish", "replenish_threshold_amount_in_cents")
     if err != nil {
     	return err
     }
-    
     p.AdditionalProperties = additionalProperties
+    
     p.Id = temp.Id
     p.InitialFundingAmountInCents = temp.InitialFundingAmountInCents
     p.ReplenishToAmountInCents = temp.ReplenishToAmountInCents

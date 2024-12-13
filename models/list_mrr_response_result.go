@@ -11,14 +11,14 @@ import (
 
 // ListMRRResponseResult represents a ListMRRResponseResult struct.
 type ListMRRResponseResult struct {
-    Page                 *int           `json:"page,omitempty"`
-    PerPage              *int           `json:"per_page,omitempty"`
-    TotalPages           *int           `json:"total_pages,omitempty"`
-    TotalEntries         *int           `json:"total_entries,omitempty"`
-    Currency             *string        `json:"currency,omitempty"`
-    CurrencySymbol       *string        `json:"currency_symbol,omitempty"`
-    Movements            []Movement     `json:"movements,omitempty"`
-    AdditionalProperties map[string]any `json:"_"`
+    Page                 *int                   `json:"page,omitempty"`
+    PerPage              *int                   `json:"per_page,omitempty"`
+    TotalPages           *int                   `json:"total_pages,omitempty"`
+    TotalEntries         *int                   `json:"total_entries,omitempty"`
+    Currency             *string                `json:"currency,omitempty"`
+    CurrencySymbol       *string                `json:"currency_symbol,omitempty"`
+    Movements            []Movement             `json:"movements,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for ListMRRResponseResult.
@@ -26,13 +26,17 @@ type ListMRRResponseResult struct {
 func (l ListMRRResponseResult) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(l.AdditionalProperties,
+        "page", "per_page", "total_pages", "total_entries", "currency", "currency_symbol", "movements"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(l.toMap())
 }
 
 // toMap converts the ListMRRResponseResult object to a map representation for JSON marshaling.
 func (l ListMRRResponseResult) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, l.AdditionalProperties)
+    MergeAdditionalProperties(structMap, l.AdditionalProperties)
     if l.Page != nil {
         structMap["page"] = l.Page
     }
@@ -65,12 +69,12 @@ func (l *ListMRRResponseResult) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "page", "per_page", "total_pages", "total_entries", "currency", "currency_symbol", "movements")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "page", "per_page", "total_pages", "total_entries", "currency", "currency_symbol", "movements")
     if err != nil {
     	return err
     }
-    
     l.AdditionalProperties = additionalProperties
+    
     l.Page = temp.Page
     l.PerPage = temp.PerPage
     l.TotalPages = temp.TotalPages

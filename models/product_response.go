@@ -13,8 +13,8 @@ import (
 
 // ProductResponse represents a ProductResponse struct.
 type ProductResponse struct {
-    Product              Product        `json:"product"`
-    AdditionalProperties map[string]any `json:"_"`
+    Product              Product                `json:"product"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for ProductResponse.
@@ -22,13 +22,17 @@ type ProductResponse struct {
 func (p ProductResponse) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(p.AdditionalProperties,
+        "product"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(p.toMap())
 }
 
 // toMap converts the ProductResponse object to a map representation for JSON marshaling.
 func (p ProductResponse) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, p.AdditionalProperties)
+    MergeAdditionalProperties(structMap, p.AdditionalProperties)
     structMap["product"] = p.Product.toMap()
     return structMap
 }
@@ -45,12 +49,12 @@ func (p *ProductResponse) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "product")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "product")
     if err != nil {
     	return err
     }
-    
     p.AdditionalProperties = additionalProperties
+    
     p.Product = *temp.Product
     return nil
 }

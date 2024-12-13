@@ -11,11 +11,11 @@ import (
 
 // ListPublicKeysMeta represents a ListPublicKeysMeta struct.
 type ListPublicKeysMeta struct {
-    TotalCount           *int           `json:"total_count,omitempty"`
-    CurrentPage          *int           `json:"current_page,omitempty"`
-    TotalPages           *int           `json:"total_pages,omitempty"`
-    PerPage              *int           `json:"per_page,omitempty"`
-    AdditionalProperties map[string]any `json:"_"`
+    TotalCount           *int                   `json:"total_count,omitempty"`
+    CurrentPage          *int                   `json:"current_page,omitempty"`
+    TotalPages           *int                   `json:"total_pages,omitempty"`
+    PerPage              *int                   `json:"per_page,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for ListPublicKeysMeta.
@@ -23,13 +23,17 @@ type ListPublicKeysMeta struct {
 func (l ListPublicKeysMeta) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(l.AdditionalProperties,
+        "total_count", "current_page", "total_pages", "per_page"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(l.toMap())
 }
 
 // toMap converts the ListPublicKeysMeta object to a map representation for JSON marshaling.
 func (l ListPublicKeysMeta) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, l.AdditionalProperties)
+    MergeAdditionalProperties(structMap, l.AdditionalProperties)
     if l.TotalCount != nil {
         structMap["total_count"] = l.TotalCount
     }
@@ -53,12 +57,12 @@ func (l *ListPublicKeysMeta) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "total_count", "current_page", "total_pages", "per_page")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "total_count", "current_page", "total_pages", "per_page")
     if err != nil {
     	return err
     }
-    
     l.AdditionalProperties = additionalProperties
+    
     l.TotalCount = temp.TotalCount
     l.CurrentPage = temp.CurrentPage
     l.TotalPages = temp.TotalPages

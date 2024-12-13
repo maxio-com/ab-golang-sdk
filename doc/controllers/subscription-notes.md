@@ -57,9 +57,9 @@ ctx := context.Background()
 subscriptionId := 222
 
 body := models.UpdateSubscriptionNoteRequest{
-    Note: models.UpdateSubscriptionNote{
-        Body:   "New test note.",
-        Sticky: true,
+    Note:                 models.UpdateSubscriptionNote{
+        Body:                 "New test note.",
+        Sticky:               true,
     },
 }
 
@@ -72,6 +72,12 @@ if err != nil {
     fmt.Println(apiResponse.Response.StatusCode)
 }
 ```
+
+## Errors
+
+| HTTP Status Code | Error Description | Exception Class |
+|  --- | --- | --- |
+| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../../doc/models/error-list-response-exception.md) |
 
 
 # List Subscription Notes
@@ -145,6 +151,12 @@ if err != nil {
   }
 ]
 ```
+
+## Errors
+
+| HTTP Status Code | Error Description | Exception Class |
+|  --- | --- | --- |
+| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../../doc/models/error-list-response-exception.md) |
 
 
 # Read Subscription Note
@@ -242,9 +254,9 @@ subscriptionId := 222
 noteId := 66
 
 body := models.UpdateSubscriptionNoteRequest{
-    Note: models.UpdateSubscriptionNote{
-        Body:   "Modified test note.",
-        Sticky: true,
+    Note:                 models.UpdateSubscriptionNote{
+        Body:                 "Modified test note.",
+        Sticky:               true,
     },
 }
 
@@ -257,6 +269,12 @@ if err != nil {
     fmt.Println(apiResponse.Response.StatusCode)
 }
 ```
+
+## Errors
+
+| HTTP Status Code | Error Description | Exception Class |
+|  --- | --- | --- |
+| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../../doc/models/error-list-response-exception.md) |
 
 
 # Delete Subscription Note

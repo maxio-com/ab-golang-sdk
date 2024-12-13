@@ -14,7 +14,7 @@ import (
 // SubscriptionProductMigrationRequest represents a SubscriptionProductMigrationRequest struct.
 type SubscriptionProductMigrationRequest struct {
     Migration            SubscriptionProductMigration `json:"migration"`
-    AdditionalProperties map[string]any               `json:"_"`
+    AdditionalProperties map[string]interface{}       `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for SubscriptionProductMigrationRequest.
@@ -22,13 +22,17 @@ type SubscriptionProductMigrationRequest struct {
 func (s SubscriptionProductMigrationRequest) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(s.AdditionalProperties,
+        "migration"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(s.toMap())
 }
 
 // toMap converts the SubscriptionProductMigrationRequest object to a map representation for JSON marshaling.
 func (s SubscriptionProductMigrationRequest) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, s.AdditionalProperties)
+    MergeAdditionalProperties(structMap, s.AdditionalProperties)
     structMap["migration"] = s.Migration.toMap()
     return structMap
 }
@@ -45,12 +49,12 @@ func (s *SubscriptionProductMigrationRequest) UnmarshalJSON(input []byte) error 
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "migration")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "migration")
     if err != nil {
     	return err
     }
-    
     s.AdditionalProperties = additionalProperties
+    
     s.Migration = *temp.Migration
     return nil
 }

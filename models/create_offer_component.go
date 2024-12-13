@@ -11,10 +11,10 @@ import (
 
 // CreateOfferComponent represents a CreateOfferComponent struct.
 type CreateOfferComponent struct {
-    ComponentId          *int           `json:"component_id,omitempty"`
-    PricePointId         *int           `json:"price_point_id,omitempty"`
-    StartingQuantity     *int           `json:"starting_quantity,omitempty"`
-    AdditionalProperties map[string]any `json:"_"`
+    ComponentId          *int                   `json:"component_id,omitempty"`
+    PricePointId         *int                   `json:"price_point_id,omitempty"`
+    StartingQuantity     *int                   `json:"starting_quantity,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreateOfferComponent.
@@ -22,13 +22,17 @@ type CreateOfferComponent struct {
 func (c CreateOfferComponent) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(c.AdditionalProperties,
+        "component_id", "price_point_id", "starting_quantity"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(c.toMap())
 }
 
 // toMap converts the CreateOfferComponent object to a map representation for JSON marshaling.
 func (c CreateOfferComponent) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, c.AdditionalProperties)
+    MergeAdditionalProperties(structMap, c.AdditionalProperties)
     if c.ComponentId != nil {
         structMap["component_id"] = c.ComponentId
     }
@@ -49,12 +53,12 @@ func (c *CreateOfferComponent) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "component_id", "price_point_id", "starting_quantity")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "component_id", "price_point_id", "starting_quantity")
     if err != nil {
     	return err
     }
-    
     c.AdditionalProperties = additionalProperties
+    
     c.ComponentId = temp.ComponentId
     c.PricePointId = temp.PricePointId
     c.StartingQuantity = temp.StartingQuantity

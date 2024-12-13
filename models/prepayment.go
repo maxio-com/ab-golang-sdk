@@ -15,18 +15,18 @@ import (
 
 // Prepayment represents a Prepayment struct.
 type Prepayment struct {
-    Id                     int               `json:"id"`
-    SubscriptionId         int               `json:"subscription_id"`
-    AmountInCents          int64             `json:"amount_in_cents"`
-    RemainingAmountInCents int64             `json:"remaining_amount_in_cents"`
-    RefundedAmountInCents  *int64            `json:"refunded_amount_in_cents,omitempty"`
-    Details                *string           `json:"details,omitempty"`
-    External               bool              `json:"external"`
-    Memo                   string            `json:"memo"`
+    Id                     int                    `json:"id"`
+    SubscriptionId         int                    `json:"subscription_id"`
+    AmountInCents          int64                  `json:"amount_in_cents"`
+    RemainingAmountInCents int64                  `json:"remaining_amount_in_cents"`
+    RefundedAmountInCents  *int64                 `json:"refunded_amount_in_cents,omitempty"`
+    Details                *string                `json:"details,omitempty"`
+    External               bool                   `json:"external"`
+    Memo                   string                 `json:"memo"`
     // The payment type of the prepayment.
-    PaymentType            *PrepaymentMethod `json:"payment_type,omitempty"`
-    CreatedAt              time.Time         `json:"created_at"`
-    AdditionalProperties   map[string]any    `json:"_"`
+    PaymentType            *PrepaymentMethod      `json:"payment_type,omitempty"`
+    CreatedAt              time.Time              `json:"created_at"`
+    AdditionalProperties   map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for Prepayment.
@@ -34,13 +34,17 @@ type Prepayment struct {
 func (p Prepayment) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(p.AdditionalProperties,
+        "id", "subscription_id", "amount_in_cents", "remaining_amount_in_cents", "refunded_amount_in_cents", "details", "external", "memo", "payment_type", "created_at"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(p.toMap())
 }
 
 // toMap converts the Prepayment object to a map representation for JSON marshaling.
 func (p Prepayment) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, p.AdditionalProperties)
+    MergeAdditionalProperties(structMap, p.AdditionalProperties)
     structMap["id"] = p.Id
     structMap["subscription_id"] = p.SubscriptionId
     structMap["amount_in_cents"] = p.AmountInCents
@@ -72,12 +76,12 @@ func (p *Prepayment) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "id", "subscription_id", "amount_in_cents", "remaining_amount_in_cents", "refunded_amount_in_cents", "details", "external", "memo", "payment_type", "created_at")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "id", "subscription_id", "amount_in_cents", "remaining_amount_in_cents", "refunded_amount_in_cents", "details", "external", "memo", "payment_type", "created_at")
     if err != nil {
     	return err
     }
-    
     p.AdditionalProperties = additionalProperties
+    
     p.Id = *temp.Id
     p.SubscriptionId = *temp.SubscriptionId
     p.AmountInCents = *temp.AmountInCents

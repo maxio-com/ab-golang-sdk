@@ -23,7 +23,7 @@ type PrepaidUsage struct {
     ComponentHandle            string                         `json:"component_handle"`
     Memo                       string                         `json:"memo"`
     AllocationDetails          []PrepaidUsageAllocationDetail `json:"allocation_details"`
-    AdditionalProperties       map[string]any                 `json:"_"`
+    AdditionalProperties       map[string]interface{}         `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for PrepaidUsage.
@@ -31,13 +31,17 @@ type PrepaidUsage struct {
 func (p PrepaidUsage) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(p.AdditionalProperties,
+        "previous_unit_balance", "previous_overage_unit_balance", "new_unit_balance", "new_overage_unit_balance", "usage_quantity", "overage_usage_quantity", "component_id", "component_handle", "memo", "allocation_details"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(p.toMap())
 }
 
 // toMap converts the PrepaidUsage object to a map representation for JSON marshaling.
 func (p PrepaidUsage) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, p.AdditionalProperties)
+    MergeAdditionalProperties(structMap, p.AdditionalProperties)
     structMap["previous_unit_balance"] = p.PreviousUnitBalance
     structMap["previous_overage_unit_balance"] = p.PreviousOverageUnitBalance
     structMap["new_unit_balance"] = p.NewUnitBalance
@@ -63,12 +67,12 @@ func (p *PrepaidUsage) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "previous_unit_balance", "previous_overage_unit_balance", "new_unit_balance", "new_overage_unit_balance", "usage_quantity", "overage_usage_quantity", "component_id", "component_handle", "memo", "allocation_details")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "previous_unit_balance", "previous_overage_unit_balance", "new_unit_balance", "new_overage_unit_balance", "usage_quantity", "overage_usage_quantity", "component_id", "component_handle", "memo", "allocation_details")
     if err != nil {
     	return err
     }
-    
     p.AdditionalProperties = additionalProperties
+    
     p.PreviousUnitBalance = *temp.PreviousUnitBalance
     p.PreviousOverageUnitBalance = *temp.PreviousOverageUnitBalance
     p.NewUnitBalance = *temp.NewUnitBalance

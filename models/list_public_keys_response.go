@@ -11,9 +11,9 @@ import (
 
 // ListPublicKeysResponse represents a ListPublicKeysResponse struct.
 type ListPublicKeysResponse struct {
-    ChargifyJsKeys       []PublicKey         `json:"chargify_js_keys,omitempty"`
-    Meta                 *ListPublicKeysMeta `json:"meta,omitempty"`
-    AdditionalProperties map[string]any      `json:"_"`
+    ChargifyJsKeys       []PublicKey            `json:"chargify_js_keys,omitempty"`
+    Meta                 *ListPublicKeysMeta    `json:"meta,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for ListPublicKeysResponse.
@@ -21,13 +21,17 @@ type ListPublicKeysResponse struct {
 func (l ListPublicKeysResponse) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(l.AdditionalProperties,
+        "chargify_js_keys", "meta"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(l.toMap())
 }
 
 // toMap converts the ListPublicKeysResponse object to a map representation for JSON marshaling.
 func (l ListPublicKeysResponse) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, l.AdditionalProperties)
+    MergeAdditionalProperties(structMap, l.AdditionalProperties)
     if l.ChargifyJsKeys != nil {
         structMap["chargify_js_keys"] = l.ChargifyJsKeys
     }
@@ -45,12 +49,12 @@ func (l *ListPublicKeysResponse) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "chargify_js_keys", "meta")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "chargify_js_keys", "meta")
     if err != nil {
     	return err
     }
-    
     l.AdditionalProperties = additionalProperties
+    
     l.ChargifyJsKeys = temp.ChargifyJsKeys
     l.Meta = temp.Meta
     return nil

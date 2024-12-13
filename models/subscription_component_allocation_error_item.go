@@ -11,9 +11,9 @@ import (
 
 // SubscriptionComponentAllocationErrorItem represents a SubscriptionComponentAllocationErrorItem struct.
 type SubscriptionComponentAllocationErrorItem struct {
-    Kind                 *string        `json:"kind,omitempty"`
-    Message              *string        `json:"message,omitempty"`
-    AdditionalProperties map[string]any `json:"_"`
+    Kind                 *string                `json:"kind,omitempty"`
+    Message              *string                `json:"message,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for SubscriptionComponentAllocationErrorItem.
@@ -21,13 +21,17 @@ type SubscriptionComponentAllocationErrorItem struct {
 func (s SubscriptionComponentAllocationErrorItem) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(s.AdditionalProperties,
+        "kind", "message"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(s.toMap())
 }
 
 // toMap converts the SubscriptionComponentAllocationErrorItem object to a map representation for JSON marshaling.
 func (s SubscriptionComponentAllocationErrorItem) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, s.AdditionalProperties)
+    MergeAdditionalProperties(structMap, s.AdditionalProperties)
     if s.Kind != nil {
         structMap["kind"] = s.Kind
     }
@@ -45,12 +49,12 @@ func (s *SubscriptionComponentAllocationErrorItem) UnmarshalJSON(input []byte) e
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "kind", "message")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "kind", "message")
     if err != nil {
     	return err
     }
-    
     s.AdditionalProperties = additionalProperties
+    
     s.Kind = temp.Kind
     s.Message = temp.Message
     return nil

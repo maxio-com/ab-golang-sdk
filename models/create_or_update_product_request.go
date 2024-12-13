@@ -13,8 +13,8 @@ import (
 
 // CreateOrUpdateProductRequest represents a CreateOrUpdateProductRequest struct.
 type CreateOrUpdateProductRequest struct {
-    Product              CreateOrUpdateProduct `json:"product"`
-    AdditionalProperties map[string]any        `json:"_"`
+    Product              CreateOrUpdateProduct  `json:"product"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreateOrUpdateProductRequest.
@@ -22,13 +22,17 @@ type CreateOrUpdateProductRequest struct {
 func (c CreateOrUpdateProductRequest) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(c.AdditionalProperties,
+        "product"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(c.toMap())
 }
 
 // toMap converts the CreateOrUpdateProductRequest object to a map representation for JSON marshaling.
 func (c CreateOrUpdateProductRequest) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, c.AdditionalProperties)
+    MergeAdditionalProperties(structMap, c.AdditionalProperties)
     structMap["product"] = c.Product.toMap()
     return structMap
 }
@@ -45,12 +49,12 @@ func (c *CreateOrUpdateProductRequest) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "product")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "product")
     if err != nil {
     	return err
     }
-    
     c.AdditionalProperties = additionalProperties
+    
     c.Product = *temp.Product
     return nil
 }

@@ -14,35 +14,35 @@ import (
 // PaypalPaymentProfile represents a PaypalPaymentProfile struct.
 type PaypalPaymentProfile struct {
     // The Chargify-assigned ID of the stored PayPal payment profile.
-    Id                   *int             `json:"id,omitempty"`
+    Id                   *int                   `json:"id,omitempty"`
     // The first name of the PayPal account holder
-    FirstName            *string          `json:"first_name,omitempty"`
+    FirstName            *string                `json:"first_name,omitempty"`
     // The last name of the PayPal account holder
-    LastName             *string          `json:"last_name,omitempty"`
+    LastName             *string                `json:"last_name,omitempty"`
     // The Chargify-assigned id for the customer record to which the PayPal account belongs
-    CustomerId           *int             `json:"customer_id,omitempty"`
+    CustomerId           *int                   `json:"customer_id,omitempty"`
     // The vault that stores the payment profile with the provided vault_token.
-    CurrentVault         *PayPalVault     `json:"current_vault,omitempty"`
+    CurrentVault         *PayPalVault           `json:"current_vault,omitempty"`
     // The “token” provided by your vault storage for an already stored payment profile
-    VaultToken           *string          `json:"vault_token,omitempty"`
+    VaultToken           *string                `json:"vault_token,omitempty"`
     // The current billing street address for the PayPal account
-    BillingAddress       Optional[string] `json:"billing_address"`
+    BillingAddress       Optional[string]       `json:"billing_address"`
     // The current billing address city for the PayPal account
-    BillingCity          Optional[string] `json:"billing_city"`
+    BillingCity          Optional[string]       `json:"billing_city"`
     // The current billing address state for the PayPal account
-    BillingState         Optional[string] `json:"billing_state"`
+    BillingState         Optional[string]       `json:"billing_state"`
     // The current billing address zip code for the PayPal account
-    BillingZip           Optional[string] `json:"billing_zip"`
+    BillingZip           Optional[string]       `json:"billing_zip"`
     // The current billing address country for the PayPal account
-    BillingCountry       Optional[string] `json:"billing_country"`
-    CustomerVaultToken   Optional[string] `json:"customer_vault_token"`
+    BillingCountry       Optional[string]       `json:"billing_country"`
+    CustomerVaultToken   Optional[string]       `json:"customer_vault_token"`
     // The current billing street address, second line, for the PayPal account
-    BillingAddress2      Optional[string] `json:"billing_address_2"`
-    PaymentType          PaymentType      `json:"payment_type"`
-    SiteGatewaySettingId Optional[int]    `json:"site_gateway_setting_id"`
-    GatewayHandle        Optional[string] `json:"gateway_handle"`
-    PaypalEmail          *string          `json:"paypal_email,omitempty"`
-    AdditionalProperties map[string]any   `json:"_"`
+    BillingAddress2      Optional[string]       `json:"billing_address_2"`
+    PaymentType          PaymentType            `json:"payment_type"`
+    SiteGatewaySettingId Optional[int]          `json:"site_gateway_setting_id"`
+    GatewayHandle        Optional[string]       `json:"gateway_handle"`
+    PaypalEmail          *string                `json:"paypal_email,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for PaypalPaymentProfile.
@@ -50,13 +50,17 @@ type PaypalPaymentProfile struct {
 func (p PaypalPaymentProfile) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(p.AdditionalProperties,
+        "id", "first_name", "last_name", "customer_id", "current_vault", "vault_token", "billing_address", "billing_city", "billing_state", "billing_zip", "billing_country", "customer_vault_token", "billing_address_2", "payment_type", "site_gateway_setting_id", "gateway_handle", "paypal_email"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(p.toMap())
 }
 
 // toMap converts the PaypalPaymentProfile object to a map representation for JSON marshaling.
 func (p PaypalPaymentProfile) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, p.AdditionalProperties)
+    MergeAdditionalProperties(structMap, p.AdditionalProperties)
     if p.Id != nil {
         structMap["id"] = p.Id
     }
@@ -157,12 +161,12 @@ func (p *PaypalPaymentProfile) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "id", "first_name", "last_name", "customer_id", "current_vault", "vault_token", "billing_address", "billing_city", "billing_state", "billing_zip", "billing_country", "customer_vault_token", "billing_address_2", "payment_type", "site_gateway_setting_id", "gateway_handle", "paypal_email")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "id", "first_name", "last_name", "customer_id", "current_vault", "vault_token", "billing_address", "billing_city", "billing_state", "billing_zip", "billing_country", "customer_vault_token", "billing_address_2", "payment_type", "site_gateway_setting_id", "gateway_handle", "paypal_email")
     if err != nil {
     	return err
     }
-    
     p.AdditionalProperties = additionalProperties
+    
     p.Id = temp.Id
     p.FirstName = temp.FirstName
     p.LastName = temp.LastName

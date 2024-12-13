@@ -12,10 +12,10 @@ import (
 // ResumeOptions represents a ResumeOptions struct.
 type ResumeOptions struct {
     // Chargify will only attempt to resume the subscription's billing period. If not resumable, the subscription will be left in it's current state.
-    RequireResume        *bool          `json:"require_resume,omitempty"`
+    RequireResume        *bool                  `json:"require_resume,omitempty"`
     // Indicates whether or not Chargify should clear the subscription's existing balance before attempting to resume the subscription. If subscription cannot be resumed, the balance will remain as it was before the attempt to resume was made.
-    ForgiveBalance       *bool          `json:"forgive_balance,omitempty"`
-    AdditionalProperties map[string]any `json:"_"`
+    ForgiveBalance       *bool                  `json:"forgive_balance,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for ResumeOptions.
@@ -23,13 +23,17 @@ type ResumeOptions struct {
 func (r ResumeOptions) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(r.AdditionalProperties,
+        "require_resume", "forgive_balance"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(r.toMap())
 }
 
 // toMap converts the ResumeOptions object to a map representation for JSON marshaling.
 func (r ResumeOptions) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, r.AdditionalProperties)
+    MergeAdditionalProperties(structMap, r.AdditionalProperties)
     if r.RequireResume != nil {
         structMap["require_resume"] = r.RequireResume
     }
@@ -47,12 +51,12 @@ func (r *ResumeOptions) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "require_resume", "forgive_balance")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "require_resume", "forgive_balance")
     if err != nil {
     	return err
     }
-    
     r.AdditionalProperties = additionalProperties
+    
     r.RequireResume = temp.RequireResume
     r.ForgiveBalance = temp.ForgiveBalance
     return nil

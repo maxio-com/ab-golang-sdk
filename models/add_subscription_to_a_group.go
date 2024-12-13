@@ -11,8 +11,8 @@ import (
 
 // AddSubscriptionToAGroup represents a AddSubscriptionToAGroup struct.
 type AddSubscriptionToAGroup struct {
-    Group                *AddSubscriptionToAGroupGroup `json:"group,omitempty"`
-    AdditionalProperties map[string]any                `json:"_"`
+    Group                *GroupSettings         `json:"group,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for AddSubscriptionToAGroup.
@@ -20,13 +20,17 @@ type AddSubscriptionToAGroup struct {
 func (a AddSubscriptionToAGroup) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(a.AdditionalProperties,
+        "group"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(a.toMap())
 }
 
 // toMap converts the AddSubscriptionToAGroup object to a map representation for JSON marshaling.
 func (a AddSubscriptionToAGroup) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, a.AdditionalProperties)
+    MergeAdditionalProperties(structMap, a.AdditionalProperties)
     if a.Group != nil {
         structMap["group"] = a.Group.toMap()
     }
@@ -41,17 +45,17 @@ func (a *AddSubscriptionToAGroup) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "group")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "group")
     if err != nil {
     	return err
     }
-    
     a.AdditionalProperties = additionalProperties
+    
     a.Group = temp.Group
     return nil
 }
 
 // tempAddSubscriptionToAGroup is a temporary struct used for validating the fields of AddSubscriptionToAGroup.
 type tempAddSubscriptionToAGroup  struct {
-    Group *AddSubscriptionToAGroupGroup `json:"group,omitempty"`
+    Group *GroupSettings `json:"group,omitempty"`
 }

@@ -39,7 +39,29 @@
         "unit_price": 23.26
       }
     ],
-    "upgrade_charge": "none"
+    "price_points": [
+      {
+        "name": "name2",
+        "handle": "handle8",
+        "pricing_scheme": "per_unit",
+        "interval": 92,
+        "interval_unit": "day"
+      },
+      {
+        "name": "name2",
+        "handle": "handle8",
+        "pricing_scheme": "per_unit",
+        "interval": 92,
+        "interval_unit": "day"
+      },
+      {
+        "name": "name2",
+        "handle": "handle8",
+        "pricing_scheme": "per_unit",
+        "interval": 92,
+        "interval_unit": "day"
+      }
+    ]
   }
 }
 ```

@@ -13,7 +13,7 @@ import (
 type ListProformaInvoicesResponse struct {
     ProformaInvoices     []ProformaInvoice         `json:"proforma_invoices,omitempty"`
     Meta                 *ListProformaInvoicesMeta `json:"meta,omitempty"`
-    AdditionalProperties map[string]any            `json:"_"`
+    AdditionalProperties map[string]interface{}    `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for ListProformaInvoicesResponse.
@@ -21,13 +21,17 @@ type ListProformaInvoicesResponse struct {
 func (l ListProformaInvoicesResponse) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(l.AdditionalProperties,
+        "proforma_invoices", "meta"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(l.toMap())
 }
 
 // toMap converts the ListProformaInvoicesResponse object to a map representation for JSON marshaling.
 func (l ListProformaInvoicesResponse) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, l.AdditionalProperties)
+    MergeAdditionalProperties(structMap, l.AdditionalProperties)
     if l.ProformaInvoices != nil {
         structMap["proforma_invoices"] = l.ProformaInvoices
     }
@@ -45,12 +49,12 @@ func (l *ListProformaInvoicesResponse) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "proforma_invoices", "meta")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "proforma_invoices", "meta")
     if err != nil {
     	return err
     }
-    
     l.AdditionalProperties = additionalProperties
+    
     l.ProformaInvoices = temp.ProformaInvoices
     l.Meta = temp.Meta
     return nil

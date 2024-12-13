@@ -14,7 +14,7 @@ import (
 // RefundInvoiceRequest represents a RefundInvoiceRequest struct.
 type RefundInvoiceRequest struct {
     Refund               RefundInvoiceRequestRefund `json:"refund"`
-    AdditionalProperties map[string]any             `json:"_"`
+    AdditionalProperties map[string]interface{}     `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for RefundInvoiceRequest.
@@ -22,13 +22,17 @@ type RefundInvoiceRequest struct {
 func (r RefundInvoiceRequest) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(r.AdditionalProperties,
+        "refund"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(r.toMap())
 }
 
 // toMap converts the RefundInvoiceRequest object to a map representation for JSON marshaling.
 func (r RefundInvoiceRequest) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, r.AdditionalProperties)
+    MergeAdditionalProperties(structMap, r.AdditionalProperties)
     structMap["refund"] = r.Refund.toMap()
     return structMap
 }
@@ -45,12 +49,12 @@ func (r *RefundInvoiceRequest) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "refund")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "refund")
     if err != nil {
     	return err
     }
-    
     r.AdditionalProperties = additionalProperties
+    
     r.Refund = *temp.Refund
     return nil
 }

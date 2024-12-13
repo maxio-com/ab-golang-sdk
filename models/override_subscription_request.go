@@ -13,8 +13,8 @@ import (
 
 // OverrideSubscriptionRequest represents a OverrideSubscriptionRequest struct.
 type OverrideSubscriptionRequest struct {
-    Subscription         OverrideSubscription `json:"subscription"`
-    AdditionalProperties map[string]any       `json:"_"`
+    Subscription         OverrideSubscription   `json:"subscription"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for OverrideSubscriptionRequest.
@@ -22,13 +22,17 @@ type OverrideSubscriptionRequest struct {
 func (o OverrideSubscriptionRequest) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(o.AdditionalProperties,
+        "subscription"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(o.toMap())
 }
 
 // toMap converts the OverrideSubscriptionRequest object to a map representation for JSON marshaling.
 func (o OverrideSubscriptionRequest) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, o.AdditionalProperties)
+    MergeAdditionalProperties(structMap, o.AdditionalProperties)
     structMap["subscription"] = o.Subscription.toMap()
     return structMap
 }
@@ -45,12 +49,12 @@ func (o *OverrideSubscriptionRequest) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "subscription")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "subscription")
     if err != nil {
     	return err
     }
-    
     o.AdditionalProperties = additionalProperties
+    
     o.Subscription = *temp.Subscription
     return nil
 }

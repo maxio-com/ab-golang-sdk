@@ -54,7 +54,7 @@ type BankAccountPaymentProfile struct {
     Verified                *bool                  `json:"verified,omitempty"`
     SiteGatewaySettingId    Optional[int]          `json:"site_gateway_setting_id"`
     GatewayHandle           Optional[string]       `json:"gateway_handle"`
-    AdditionalProperties    map[string]any         `json:"_"`
+    AdditionalProperties    map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for BankAccountPaymentProfile.
@@ -62,13 +62,17 @@ type BankAccountPaymentProfile struct {
 func (b BankAccountPaymentProfile) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(b.AdditionalProperties,
+        "id", "first_name", "last_name", "customer_id", "current_vault", "vault_token", "billing_address", "billing_city", "billing_state", "billing_zip", "billing_country", "customer_vault_token", "billing_address_2", "bank_name", "masked_bank_routing_number", "masked_bank_account_number", "bank_account_type", "bank_account_holder_type", "payment_type", "verified", "site_gateway_setting_id", "gateway_handle"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(b.toMap())
 }
 
 // toMap converts the BankAccountPaymentProfile object to a map representation for JSON marshaling.
 func (b BankAccountPaymentProfile) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, b.AdditionalProperties)
+    MergeAdditionalProperties(structMap, b.AdditionalProperties)
     if b.Id != nil {
         structMap["id"] = b.Id
     }
@@ -182,12 +186,12 @@ func (b *BankAccountPaymentProfile) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "id", "first_name", "last_name", "customer_id", "current_vault", "vault_token", "billing_address", "billing_city", "billing_state", "billing_zip", "billing_country", "customer_vault_token", "billing_address_2", "bank_name", "masked_bank_routing_number", "masked_bank_account_number", "bank_account_type", "bank_account_holder_type", "payment_type", "verified", "site_gateway_setting_id", "gateway_handle")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "id", "first_name", "last_name", "customer_id", "current_vault", "vault_token", "billing_address", "billing_city", "billing_state", "billing_zip", "billing_country", "customer_vault_token", "billing_address_2", "bank_name", "masked_bank_routing_number", "masked_bank_account_number", "bank_account_type", "bank_account_holder_type", "payment_type", "verified", "site_gateway_setting_id", "gateway_handle")
     if err != nil {
     	return err
     }
-    
     b.AdditionalProperties = additionalProperties
+    
     b.Id = temp.Id
     b.FirstName = temp.FirstName
     b.LastName = temp.LastName

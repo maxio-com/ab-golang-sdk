@@ -15,12 +15,12 @@ import (
 // Optional for Event Based Components. If the `include=historic_usages` query param is provided, the last ten billing periods will be returned.
 type HistoricUsage struct {
     // Total usage of a component for billing period
-    TotalUsageQuantity    *float64       `json:"total_usage_quantity,omitempty"`
+    TotalUsageQuantity    *float64               `json:"total_usage_quantity,omitempty"`
     // Start date of billing period
-    BillingPeriodStartsAt *time.Time     `json:"billing_period_starts_at,omitempty"`
+    BillingPeriodStartsAt *time.Time             `json:"billing_period_starts_at,omitempty"`
     // End date of billing period
-    BillingPeriodEndsAt   *time.Time     `json:"billing_period_ends_at,omitempty"`
-    AdditionalProperties  map[string]any `json:"_"`
+    BillingPeriodEndsAt   *time.Time             `json:"billing_period_ends_at,omitempty"`
+    AdditionalProperties  map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for HistoricUsage.
@@ -28,13 +28,17 @@ type HistoricUsage struct {
 func (h HistoricUsage) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(h.AdditionalProperties,
+        "total_usage_quantity", "billing_period_starts_at", "billing_period_ends_at"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(h.toMap())
 }
 
 // toMap converts the HistoricUsage object to a map representation for JSON marshaling.
 func (h HistoricUsage) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, h.AdditionalProperties)
+    MergeAdditionalProperties(structMap, h.AdditionalProperties)
     if h.TotalUsageQuantity != nil {
         structMap["total_usage_quantity"] = h.TotalUsageQuantity
     }
@@ -55,12 +59,12 @@ func (h *HistoricUsage) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "total_usage_quantity", "billing_period_starts_at", "billing_period_ends_at")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "total_usage_quantity", "billing_period_starts_at", "billing_period_ends_at")
     if err != nil {
     	return err
     }
-    
     h.AdditionalProperties = additionalProperties
+    
     h.TotalUsageQuantity = temp.TotalUsageQuantity
     if temp.BillingPeriodStartsAt != nil {
         BillingPeriodStartsAtVal, err := time.Parse(time.RFC3339, *temp.BillingPeriodStartsAt)

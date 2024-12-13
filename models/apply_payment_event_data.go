@@ -33,7 +33,7 @@ type ApplyPaymentEventData struct {
     RemainingPrepaymentAmount Optional[string]          `json:"remaining_prepayment_amount"`
     Prepayment                *bool                     `json:"prepayment,omitempty"`
     External                  *bool                     `json:"external,omitempty"`
-    AdditionalProperties      map[string]any            `json:"_"`
+    AdditionalProperties      map[string]interface{}    `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for ApplyPaymentEventData.
@@ -41,13 +41,17 @@ type ApplyPaymentEventData struct {
 func (a ApplyPaymentEventData) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(a.AdditionalProperties,
+        "consolidation_level", "memo", "original_amount", "applied_amount", "transaction_time", "payment_method", "transaction_id", "parent_invoice_number", "remaining_prepayment_amount", "prepayment", "external"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(a.toMap())
 }
 
 // toMap converts the ApplyPaymentEventData object to a map representation for JSON marshaling.
 func (a ApplyPaymentEventData) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, a.AdditionalProperties)
+    MergeAdditionalProperties(structMap, a.AdditionalProperties)
     structMap["consolidation_level"] = a.ConsolidationLevel
     structMap["memo"] = a.Memo
     structMap["original_amount"] = a.OriginalAmount
@@ -92,12 +96,12 @@ func (a *ApplyPaymentEventData) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "consolidation_level", "memo", "original_amount", "applied_amount", "transaction_time", "payment_method", "transaction_id", "parent_invoice_number", "remaining_prepayment_amount", "prepayment", "external")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "consolidation_level", "memo", "original_amount", "applied_amount", "transaction_time", "payment_method", "transaction_id", "parent_invoice_number", "remaining_prepayment_amount", "prepayment", "external")
     if err != nil {
     	return err
     }
-    
     a.AdditionalProperties = additionalProperties
+    
     a.ConsolidationLevel = *temp.ConsolidationLevel
     a.Memo = *temp.Memo
     a.OriginalAmount = *temp.OriginalAmount

@@ -13,9 +13,9 @@ import (
 
 // CustomerPayerChange represents a CustomerPayerChange struct.
 type CustomerPayerChange struct {
-    Before               InvoicePayerChange `json:"before"`
-    After                InvoicePayerChange `json:"after"`
-    AdditionalProperties map[string]any     `json:"_"`
+    Before               InvoicePayerChange     `json:"before"`
+    After                InvoicePayerChange     `json:"after"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for CustomerPayerChange.
@@ -23,13 +23,17 @@ type CustomerPayerChange struct {
 func (c CustomerPayerChange) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(c.AdditionalProperties,
+        "before", "after"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(c.toMap())
 }
 
 // toMap converts the CustomerPayerChange object to a map representation for JSON marshaling.
 func (c CustomerPayerChange) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, c.AdditionalProperties)
+    MergeAdditionalProperties(structMap, c.AdditionalProperties)
     structMap["before"] = c.Before.toMap()
     structMap["after"] = c.After.toMap()
     return structMap
@@ -47,12 +51,12 @@ func (c *CustomerPayerChange) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "before", "after")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "before", "after")
     if err != nil {
     	return err
     }
-    
     c.AdditionalProperties = additionalProperties
+    
     c.Before = *temp.Before
     c.After = *temp.After
     return nil

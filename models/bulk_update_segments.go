@@ -12,7 +12,7 @@ import (
 // BulkUpdateSegments represents a BulkUpdateSegments struct.
 type BulkUpdateSegments struct {
     Segments             []BulkUpdateSegmentsItem `json:"segments,omitempty"`
-    AdditionalProperties map[string]any           `json:"_"`
+    AdditionalProperties map[string]interface{}   `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for BulkUpdateSegments.
@@ -20,13 +20,17 @@ type BulkUpdateSegments struct {
 func (b BulkUpdateSegments) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(b.AdditionalProperties,
+        "segments"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(b.toMap())
 }
 
 // toMap converts the BulkUpdateSegments object to a map representation for JSON marshaling.
 func (b BulkUpdateSegments) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, b.AdditionalProperties)
+    MergeAdditionalProperties(structMap, b.AdditionalProperties)
     if b.Segments != nil {
         structMap["segments"] = b.Segments
     }
@@ -41,12 +45,12 @@ func (b *BulkUpdateSegments) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "segments")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "segments")
     if err != nil {
     	return err
     }
-    
     b.AdditionalProperties = additionalProperties
+    
     b.Segments = temp.Segments
     return nil
 }

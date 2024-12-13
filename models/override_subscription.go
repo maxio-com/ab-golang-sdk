@@ -14,16 +14,16 @@ import (
 // OverrideSubscription represents a OverrideSubscription struct.
 type OverrideSubscription struct {
     // Can be used to record an external signup date. Chargify uses this field to record when a subscription first goes active (either at signup or at trial end). Only ISO8601 format is supported.
-    ActivatedAt           *time.Time     `json:"activated_at,omitempty"`
+    ActivatedAt           *time.Time             `json:"activated_at,omitempty"`
     // Can be used to record an external cancellation date. Chargify sets this field automatically when a subscription is canceled, whether by request or via dunning. Only ISO8601 format is supported.
-    CanceledAt            *time.Time     `json:"canceled_at,omitempty"`
+    CanceledAt            *time.Time             `json:"canceled_at,omitempty"`
     // Can be used to record a reason for the original cancellation.
-    CancellationMessage   *string        `json:"cancellation_message,omitempty"`
+    CancellationMessage   *string                `json:"cancellation_message,omitempty"`
     // Can be used to record an external expiration date. Chargify sets this field automatically when a subscription expires (ceases billing) after a prescribed amount of time. Only ISO8601 format is supported.
-    ExpiresAt             *time.Time     `json:"expires_at,omitempty"`
+    ExpiresAt             *time.Time             `json:"expires_at,omitempty"`
     // Can only be used when a subscription is unbilled, which happens when a future initial billing date is passed at subscription creation. The value passed must be before the current date and time. Allows you to set when the period started so mid period component allocations have the correct proration. Only ISO8601 format is supported.
-    CurrentPeriodStartsAt *time.Time     `json:"current_period_starts_at,omitempty"`
-    AdditionalProperties  map[string]any `json:"_"`
+    CurrentPeriodStartsAt *time.Time             `json:"current_period_starts_at,omitempty"`
+    AdditionalProperties  map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for OverrideSubscription.
@@ -31,13 +31,17 @@ type OverrideSubscription struct {
 func (o OverrideSubscription) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(o.AdditionalProperties,
+        "activated_at", "canceled_at", "cancellation_message", "expires_at", "current_period_starts_at"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(o.toMap())
 }
 
 // toMap converts the OverrideSubscription object to a map representation for JSON marshaling.
 func (o OverrideSubscription) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, o.AdditionalProperties)
+    MergeAdditionalProperties(structMap, o.AdditionalProperties)
     if o.ActivatedAt != nil {
         structMap["activated_at"] = o.ActivatedAt.Format(time.RFC3339)
     }
@@ -64,12 +68,12 @@ func (o *OverrideSubscription) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "activated_at", "canceled_at", "cancellation_message", "expires_at", "current_period_starts_at")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "activated_at", "canceled_at", "cancellation_message", "expires_at", "current_period_starts_at")
     if err != nil {
     	return err
     }
-    
     o.AdditionalProperties = additionalProperties
+    
     if temp.ActivatedAt != nil {
         ActivatedAtVal, err := time.Parse(time.RFC3339, *temp.ActivatedAt)
         if err != nil {

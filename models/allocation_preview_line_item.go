@@ -23,7 +23,7 @@ type AllocationPreviewLineItem struct {
     ComponentHandle       *string                        `json:"component_handle,omitempty"`
     // Visible when using Fine-grained Component Control
     Direction             *AllocationPreviewDirection    `json:"direction,omitempty"`
-    AdditionalProperties  map[string]any                 `json:"_"`
+    AdditionalProperties  map[string]interface{}         `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for AllocationPreviewLineItem.
@@ -31,13 +31,17 @@ type AllocationPreviewLineItem struct {
 func (a AllocationPreviewLineItem) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(a.AdditionalProperties,
+        "transaction_type", "kind", "amount_in_cents", "memo", "discount_amount_in_cents", "taxable_amount_in_cents", "component_id", "component_handle", "direction"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(a.toMap())
 }
 
 // toMap converts the AllocationPreviewLineItem object to a map representation for JSON marshaling.
 func (a AllocationPreviewLineItem) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, a.AdditionalProperties)
+    MergeAdditionalProperties(structMap, a.AdditionalProperties)
     if a.TransactionType != nil {
         structMap["transaction_type"] = a.TransactionType
     }
@@ -76,12 +80,12 @@ func (a *AllocationPreviewLineItem) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "transaction_type", "kind", "amount_in_cents", "memo", "discount_amount_in_cents", "taxable_amount_in_cents", "component_id", "component_handle", "direction")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "transaction_type", "kind", "amount_in_cents", "memo", "discount_amount_in_cents", "taxable_amount_in_cents", "component_id", "component_handle", "direction")
     if err != nil {
     	return err
     }
-    
     a.AdditionalProperties = additionalProperties
+    
     a.TransactionType = temp.TransactionType
     a.Kind = temp.Kind
     a.AmountInCents = temp.AmountInCents

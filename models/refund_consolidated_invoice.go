@@ -26,7 +26,7 @@ type RefundConsolidatedInvoice struct {
     ApplyCredit          *bool                                `json:"apply_credit,omitempty"`
     // The amount of payment to be refunded in decimal format. Example: "10.50". This will default to the full amount of the payment if not provided.
     Amount               *string                              `json:"amount,omitempty"`
-    AdditionalProperties map[string]any                       `json:"_"`
+    AdditionalProperties map[string]interface{}               `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for RefundConsolidatedInvoice.
@@ -34,13 +34,17 @@ type RefundConsolidatedInvoice struct {
 func (r RefundConsolidatedInvoice) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(r.AdditionalProperties,
+        "memo", "payment_id", "segment_uids", "external", "apply_credit", "amount"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(r.toMap())
 }
 
 // toMap converts the RefundConsolidatedInvoice object to a map representation for JSON marshaling.
 func (r RefundConsolidatedInvoice) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, r.AdditionalProperties)
+    MergeAdditionalProperties(structMap, r.AdditionalProperties)
     structMap["memo"] = r.Memo
     structMap["payment_id"] = r.PaymentId
     structMap["segment_uids"] = r.SegmentUids.toMap()
@@ -68,12 +72,12 @@ func (r *RefundConsolidatedInvoice) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "memo", "payment_id", "segment_uids", "external", "apply_credit", "amount")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "memo", "payment_id", "segment_uids", "external", "apply_credit", "amount")
     if err != nil {
     	return err
     }
-    
     r.AdditionalProperties = additionalProperties
+    
     r.Memo = *temp.Memo
     r.PaymentId = *temp.PaymentId
     r.SegmentUids = *temp.SegmentUids

@@ -13,8 +13,8 @@ import (
 
 // CustomerChangesPreviewResponse represents a CustomerChangesPreviewResponse struct.
 type CustomerChangesPreviewResponse struct {
-    Changes              CustomerChange `json:"changes"`
-    AdditionalProperties map[string]any `json:"_"`
+    Changes              CustomerChange         `json:"changes"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for CustomerChangesPreviewResponse.
@@ -22,13 +22,17 @@ type CustomerChangesPreviewResponse struct {
 func (c CustomerChangesPreviewResponse) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(c.AdditionalProperties,
+        "changes"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(c.toMap())
 }
 
 // toMap converts the CustomerChangesPreviewResponse object to a map representation for JSON marshaling.
 func (c CustomerChangesPreviewResponse) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, c.AdditionalProperties)
+    MergeAdditionalProperties(structMap, c.AdditionalProperties)
     structMap["changes"] = c.Changes.toMap()
     return structMap
 }
@@ -45,12 +49,12 @@ func (c *CustomerChangesPreviewResponse) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "changes")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "changes")
     if err != nil {
     	return err
     }
-    
     c.AdditionalProperties = additionalProperties
+    
     c.Changes = *temp.Changes
     return nil
 }

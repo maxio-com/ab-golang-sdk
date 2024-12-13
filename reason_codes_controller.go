@@ -82,6 +82,9 @@ func (r *ReasonCodesController) ListReasonCodes(
     error) {
     req := r.prepareRequest(ctx, "GET", "/reason_codes.json")
     req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
+    })
     if input.Page != nil {
         req.QueryParam("page", *input.Page)
     }
@@ -145,6 +148,7 @@ func (r *ReasonCodesController) UpdateReasonCode(
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
+        "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
     })
     req.Header("Content-Type", "application/json")
     if body != nil {
@@ -162,13 +166,13 @@ func (r *ReasonCodesController) UpdateReasonCode(
 }
 
 // DeleteReasonCode takes context, reasonCodeId as parameters and
-// returns an models.ApiResponse with models.ReasonCodesJsonResponse data and
+// returns an models.ApiResponse with models.OkResponse data and
 // an error if there was an issue with the request or response.
 // This method gives a merchant the option to delete one reason code from the Churn Reason Codes. This code will be immediately removed. This action is not reversable.
 func (r *ReasonCodesController) DeleteReasonCode(
     ctx context.Context,
     reasonCodeId int) (
-    models.ApiResponse[models.ReasonCodesJsonResponse],
+    models.ApiResponse[models.OkResponse],
     error) {
     req := r.prepareRequest(
       ctx,
@@ -180,12 +184,12 @@ func (r *ReasonCodesController) DeleteReasonCode(
         "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
     })
     
-    var result models.ReasonCodesJsonResponse
+    var result models.OkResponse
     decoder, resp, err := req.CallAsJson()
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
     
-    result, err = utilities.DecodeResults[models.ReasonCodesJsonResponse](decoder)
+    result, err = utilities.DecodeResults[models.OkResponse](decoder)
     return models.NewApiResponse(result, resp), err
 }

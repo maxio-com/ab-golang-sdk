@@ -40,7 +40,7 @@ type SubscriptionCustomPrice struct {
     ExpirationIntervalUnit  Optional[ExpirationIntervalUnit]             `json:"expiration_interval_unit"`
     // (Optional)
     TaxIncluded             *bool                                        `json:"tax_included,omitempty"`
-    AdditionalProperties    map[string]any                               `json:"_"`
+    AdditionalProperties    map[string]interface{}                       `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for SubscriptionCustomPrice.
@@ -48,13 +48,17 @@ type SubscriptionCustomPrice struct {
 func (s SubscriptionCustomPrice) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(s.AdditionalProperties,
+        "name", "handle", "price_in_cents", "interval", "interval_unit", "trial_price_in_cents", "trial_interval", "trial_interval_unit", "initial_charge_in_cents", "initial_charge_after_trial", "expiration_interval", "expiration_interval_unit", "tax_included"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(s.toMap())
 }
 
 // toMap converts the SubscriptionCustomPrice object to a map representation for JSON marshaling.
 func (s SubscriptionCustomPrice) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, s.AdditionalProperties)
+    MergeAdditionalProperties(structMap, s.AdditionalProperties)
     if s.Name != nil {
         structMap["name"] = s.Name
     }
@@ -111,12 +115,12 @@ func (s *SubscriptionCustomPrice) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "name", "handle", "price_in_cents", "interval", "interval_unit", "trial_price_in_cents", "trial_interval", "trial_interval_unit", "initial_charge_in_cents", "initial_charge_after_trial", "expiration_interval", "expiration_interval_unit", "tax_included")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "name", "handle", "price_in_cents", "interval", "interval_unit", "trial_price_in_cents", "trial_interval", "trial_interval_unit", "initial_charge_in_cents", "initial_charge_after_trial", "expiration_interval", "expiration_interval_unit", "tax_included")
     if err != nil {
     	return err
     }
-    
     s.AdditionalProperties = additionalProperties
+    
     s.Name = temp.Name
     s.Handle = temp.Handle
     s.PriceInCents = *temp.PriceInCents

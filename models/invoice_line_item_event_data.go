@@ -31,7 +31,7 @@ type InvoiceLineItemEventData struct {
     ComponentId           Optional[int]                  `json:"component_id"`
     BillingScheduleItemId Optional[int]                  `json:"billing_schedule_item_id"`
     CustomItem            Optional[bool]                 `json:"custom_item"`
-    AdditionalProperties  map[string]any                 `json:"_"`
+    AdditionalProperties  map[string]interface{}         `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for InvoiceLineItemEventData.
@@ -39,13 +39,17 @@ type InvoiceLineItemEventData struct {
 func (i InvoiceLineItemEventData) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(i.AdditionalProperties,
+        "uid", "title", "description", "quantity", "quantity_delta", "unit_price", "period_range_start", "period_range_end", "amount", "line_references", "pricing_details_index", "pricing_details", "tax_code", "tax_amount", "product_id", "product_price_point_id", "price_point_id", "component_id", "billing_schedule_item_id", "custom_item"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(i.toMap())
 }
 
 // toMap converts the InvoiceLineItemEventData object to a map representation for JSON marshaling.
 func (i InvoiceLineItemEventData) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, i.AdditionalProperties)
+    MergeAdditionalProperties(structMap, i.AdditionalProperties)
     if i.Uid != nil {
         structMap["uid"] = i.Uid
     }
@@ -149,12 +153,12 @@ func (i *InvoiceLineItemEventData) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "uid", "title", "description", "quantity", "quantity_delta", "unit_price", "period_range_start", "period_range_end", "amount", "line_references", "pricing_details_index", "pricing_details", "tax_code", "tax_amount", "product_id", "product_price_point_id", "price_point_id", "component_id", "billing_schedule_item_id", "custom_item")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "uid", "title", "description", "quantity", "quantity_delta", "unit_price", "period_range_start", "period_range_end", "amount", "line_references", "pricing_details_index", "pricing_details", "tax_code", "tax_amount", "product_id", "product_price_point_id", "price_point_id", "component_id", "billing_schedule_item_id", "custom_item")
     if err != nil {
     	return err
     }
-    
     i.AdditionalProperties = additionalProperties
+    
     i.Uid = temp.Uid
     i.Title = temp.Title
     i.Description = temp.Description

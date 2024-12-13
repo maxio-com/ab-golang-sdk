@@ -13,13 +13,13 @@ import (
 type AllocationSettings struct {
     // The type of credit to be created when upgrading/downgrading. Defaults to the component and then site setting if one is not provided.
     // Available values: `full`, `prorated`, `none`.
-    UpgradeCharge        Optional[CreditType] `json:"upgrade_charge"`
+    UpgradeCharge        Optional[CreditType]   `json:"upgrade_charge"`
     // The type of credit to be created when upgrading/downgrading. Defaults to the component and then site setting if one is not provided.
     // Available values: `full`, `prorated`, `none`.
-    DowngradeCredit      Optional[CreditType] `json:"downgrade_credit"`
+    DowngradeCredit      Optional[CreditType]   `json:"downgrade_credit"`
     // Either "true" or "false".
-    AccrueCharge         *string              `json:"accrue_charge,omitempty"`
-    AdditionalProperties map[string]any       `json:"_"`
+    AccrueCharge         *string                `json:"accrue_charge,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for AllocationSettings.
@@ -27,13 +27,17 @@ type AllocationSettings struct {
 func (a AllocationSettings) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(a.AdditionalProperties,
+        "upgrade_charge", "downgrade_credit", "accrue_charge"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(a.toMap())
 }
 
 // toMap converts the AllocationSettings object to a map representation for JSON marshaling.
 func (a AllocationSettings) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, a.AdditionalProperties)
+    MergeAdditionalProperties(structMap, a.AdditionalProperties)
     if a.UpgradeCharge.IsValueSet() {
         if a.UpgradeCharge.Value() != nil {
             structMap["upgrade_charge"] = a.UpgradeCharge.Value()
@@ -62,12 +66,12 @@ func (a *AllocationSettings) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "upgrade_charge", "downgrade_credit", "accrue_charge")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "upgrade_charge", "downgrade_credit", "accrue_charge")
     if err != nil {
     	return err
     }
-    
     a.AdditionalProperties = additionalProperties
+    
     a.UpgradeCharge = temp.UpgradeCharge
     a.DowngradeCredit = temp.DowngradeCredit
     a.AccrueCharge = temp.AccrueCharge

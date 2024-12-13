@@ -14,8 +14,8 @@ import (
 // ChangeChargebackStatusEventData represents a ChangeChargebackStatusEventData struct.
 // Example schema for an `change_chargeback_status` event
 type ChangeChargebackStatusEventData struct {
-    ChargebackStatus     ChargebackStatus `json:"chargeback_status"`
-    AdditionalProperties map[string]any   `json:"_"`
+    ChargebackStatus     ChargebackStatus       `json:"chargeback_status"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for ChangeChargebackStatusEventData.
@@ -23,13 +23,17 @@ type ChangeChargebackStatusEventData struct {
 func (c ChangeChargebackStatusEventData) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(c.AdditionalProperties,
+        "chargeback_status"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(c.toMap())
 }
 
 // toMap converts the ChangeChargebackStatusEventData object to a map representation for JSON marshaling.
 func (c ChangeChargebackStatusEventData) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, c.AdditionalProperties)
+    MergeAdditionalProperties(structMap, c.AdditionalProperties)
     structMap["chargeback_status"] = c.ChargebackStatus
     return structMap
 }
@@ -46,12 +50,12 @@ func (c *ChangeChargebackStatusEventData) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "chargeback_status")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "chargeback_status")
     if err != nil {
     	return err
     }
-    
     c.AdditionalProperties = additionalProperties
+    
     c.ChargebackStatus = *temp.ChargebackStatus
     return nil
 }

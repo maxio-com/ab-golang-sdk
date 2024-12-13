@@ -11,26 +11,26 @@ import (
 
 // PayerAttributes represents a PayerAttributes struct.
 type PayerAttributes struct {
-    FirstName            *string           `json:"first_name,omitempty"`
-    LastName             *string           `json:"last_name,omitempty"`
-    Email                *string           `json:"email,omitempty"`
-    CcEmails             *string           `json:"cc_emails,omitempty"`
-    Organization         *string           `json:"organization,omitempty"`
-    Reference            *string           `json:"reference,omitempty"`
-    Address              *string           `json:"address,omitempty"`
-    Address2             *string           `json:"address_2,omitempty"`
-    City                 *string           `json:"city,omitempty"`
-    State                *string           `json:"state,omitempty"`
-    Zip                  *string           `json:"zip,omitempty"`
-    Country              *string           `json:"country,omitempty"`
-    Phone                *string           `json:"phone,omitempty"`
-    Locale               *string           `json:"locale,omitempty"`
-    VatNumber            *string           `json:"vat_number,omitempty"`
-    TaxExempt            *bool             `json:"tax_exempt,omitempty"`
-    TaxExemptReason      *string           `json:"tax_exempt_reason,omitempty"`
+    FirstName            *string                `json:"first_name,omitempty"`
+    LastName             *string                `json:"last_name,omitempty"`
+    Email                *string                `json:"email,omitempty"`
+    CcEmails             *string                `json:"cc_emails,omitempty"`
+    Organization         *string                `json:"organization,omitempty"`
+    Reference            *string                `json:"reference,omitempty"`
+    Address              *string                `json:"address,omitempty"`
+    Address2             *string                `json:"address_2,omitempty"`
+    City                 *string                `json:"city,omitempty"`
+    State                *string                `json:"state,omitempty"`
+    Zip                  *string                `json:"zip,omitempty"`
+    Country              *string                `json:"country,omitempty"`
+    Phone                *string                `json:"phone,omitempty"`
+    Locale               *string                `json:"locale,omitempty"`
+    VatNumber            *string                `json:"vat_number,omitempty"`
+    TaxExempt            *bool                  `json:"tax_exempt,omitempty"`
+    TaxExemptReason      *string                `json:"tax_exempt_reason,omitempty"`
     // (Optional) A set of key/value pairs representing custom fields and their values. Metafields will be created “on-the-fly” in your site for a given key, if they have not been created yet.
-    Metafields           map[string]string `json:"metafields,omitempty"`
-    AdditionalProperties map[string]any    `json:"_"`
+    Metafields           map[string]string      `json:"metafields,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for PayerAttributes.
@@ -38,13 +38,17 @@ type PayerAttributes struct {
 func (p PayerAttributes) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(p.AdditionalProperties,
+        "first_name", "last_name", "email", "cc_emails", "organization", "reference", "address", "address_2", "city", "state", "zip", "country", "phone", "locale", "vat_number", "tax_exempt", "tax_exempt_reason", "metafields"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(p.toMap())
 }
 
 // toMap converts the PayerAttributes object to a map representation for JSON marshaling.
 func (p PayerAttributes) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, p.AdditionalProperties)
+    MergeAdditionalProperties(structMap, p.AdditionalProperties)
     if p.FirstName != nil {
         structMap["first_name"] = p.FirstName
     }
@@ -110,12 +114,12 @@ func (p *PayerAttributes) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "first_name", "last_name", "email", "cc_emails", "organization", "reference", "address", "address_2", "city", "state", "zip", "country", "phone", "locale", "vat_number", "tax_exempt", "tax_exempt_reason", "metafields")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "first_name", "last_name", "email", "cc_emails", "organization", "reference", "address", "address_2", "city", "state", "zip", "country", "phone", "locale", "vat_number", "tax_exempt", "tax_exempt_reason", "metafields")
     if err != nil {
     	return err
     }
-    
     p.AdditionalProperties = additionalProperties
+    
     p.FirstName = temp.FirstName
     p.LastName = temp.LastName
     p.Email = temp.Email

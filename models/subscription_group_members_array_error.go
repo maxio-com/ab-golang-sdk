@@ -13,8 +13,8 @@ import (
 
 // SubscriptionGroupMembersArrayError represents a SubscriptionGroupMembersArrayError struct.
 type SubscriptionGroupMembersArrayError struct {
-    Members              []string       `json:"members"`
-    AdditionalProperties map[string]any `json:"_"`
+    Members              []string               `json:"members"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for SubscriptionGroupMembersArrayError.
@@ -22,13 +22,17 @@ type SubscriptionGroupMembersArrayError struct {
 func (s SubscriptionGroupMembersArrayError) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(s.AdditionalProperties,
+        "members"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(s.toMap())
 }
 
 // toMap converts the SubscriptionGroupMembersArrayError object to a map representation for JSON marshaling.
 func (s SubscriptionGroupMembersArrayError) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, s.AdditionalProperties)
+    MergeAdditionalProperties(structMap, s.AdditionalProperties)
     structMap["members"] = s.Members
     return structMap
 }
@@ -45,12 +49,12 @@ func (s *SubscriptionGroupMembersArrayError) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "members")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "members")
     if err != nil {
     	return err
     }
-    
     s.AdditionalProperties = additionalProperties
+    
     s.Members = *temp.Members
     return nil
 }

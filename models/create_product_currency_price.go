@@ -14,12 +14,12 @@ import (
 // CreateProductCurrencyPrice represents a CreateProductCurrencyPrice struct.
 type CreateProductCurrencyPrice struct {
     // ISO code for one of the site level currencies.
-    Currency             string            `json:"currency"`
+    Currency             string                 `json:"currency"`
     // Price for the given role.
-    Price                int               `json:"price"`
+    Price                int                    `json:"price"`
     // Role for the price.
-    Role                 CurrencyPriceRole `json:"role"`
-    AdditionalProperties map[string]any    `json:"_"`
+    Role                 CurrencyPriceRole      `json:"role"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreateProductCurrencyPrice.
@@ -27,13 +27,17 @@ type CreateProductCurrencyPrice struct {
 func (c CreateProductCurrencyPrice) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(c.AdditionalProperties,
+        "currency", "price", "role"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(c.toMap())
 }
 
 // toMap converts the CreateProductCurrencyPrice object to a map representation for JSON marshaling.
 func (c CreateProductCurrencyPrice) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, c.AdditionalProperties)
+    MergeAdditionalProperties(structMap, c.AdditionalProperties)
     structMap["currency"] = c.Currency
     structMap["price"] = c.Price
     structMap["role"] = c.Role
@@ -52,12 +56,12 @@ func (c *CreateProductCurrencyPrice) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "currency", "price", "role")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "currency", "price", "role")
     if err != nil {
     	return err
     }
-    
     c.AdditionalProperties = additionalProperties
+    
     c.Currency = *temp.Currency
     c.Price = *temp.Price
     c.Role = *temp.Role

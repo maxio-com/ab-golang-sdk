@@ -594,7 +594,7 @@ ctx := context.Background()
 subscriptionId := 222
 
 body := models.PauseRequest{
-    Hold: models.ToPointer(models.AutoResume{
+    Hold:                 models.ToPointer(models.AutoResume{
         AutomaticallyResumeAt: models.NewOptional(models.ToPointer(parseTime(time.RFC3339, "2017-05-25T11:25:00Z", func(err error) { log.Fatalln(err) }))),
     }),
 }
@@ -763,7 +763,7 @@ ctx := context.Background()
 subscriptionId := 222
 
 body := models.PauseRequest{
-    Hold: models.ToPointer(models.AutoResume{
+    Hold:                 models.ToPointer(models.AutoResume{
         AutomaticallyResumeAt: models.NewOptional(models.ToPointer(parseTime(time.RFC3339, "2019-01-20T00:00:00", func(err error) { log.Fatalln(err) }))),
     }),
 }
@@ -1096,7 +1096,7 @@ subscriptionId := 222
 
 body := models.ReactivateSubscriptionRequest{
     CalendarBilling:          models.ToPointer(models.ReactivationBilling{
-        ReactivationCharge: models.ToPointer(models.ReactivationCharge("prorated")),
+        ReactivationCharge:   models.ToPointer(models.ReactivationCharge("prorated")),
     }),
     IncludeTrial:             models.ToPointer(true),
     PreserveBalance:          models.ToPointer(true),
@@ -1284,6 +1284,7 @@ if err != nil {
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
 | 404 | Not Found | `ApiError` |
+| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../../doc/models/error-list-response-exception.md) |
 
 
 # Cancel Delayed Cancellation
@@ -1381,6 +1382,12 @@ if err != nil {
 }
 ```
 
+## Errors
+
+| HTTP Status Code | Error Description | Exception Class |
+|  --- | --- | --- |
+| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../../doc/models/error-list-response-exception.md) |
+
 
 # Preview Renewal
 
@@ -1435,20 +1442,20 @@ ctx := context.Background()
 subscriptionId := 222
 
 body := models.RenewalPreviewRequest{
-    Components: []models.RenewalPreviewComponent{
+    Components:           []models.RenewalPreviewComponent{
         models.RenewalPreviewComponent{
-            ComponentId:  models.ToPointer(models.RenewalPreviewComponentComponentIdContainer.FromNumber(10708)),
-            Quantity:     models.ToPointer(10000),
+            ComponentId:          models.ToPointer(models.RenewalPreviewComponentComponentIdContainer.FromNumber(10708)),
+            Quantity:             models.ToPointer(10000),
         },
         models.RenewalPreviewComponent{
-            ComponentId:  models.ToPointer(models.RenewalPreviewComponentComponentIdContainer.FromString("handle:small-instance-hours")),
-            Quantity:     models.ToPointer(10000),
-            PricePointId: models.ToPointer(models.RenewalPreviewComponentPricePointIdContainer.FromNumber(8712)),
+            ComponentId:          models.ToPointer(models.RenewalPreviewComponentComponentIdContainer.FromString("handle:small-instance-hours")),
+            Quantity:             models.ToPointer(10000),
+            PricePointId:         models.ToPointer(models.RenewalPreviewComponentPricePointIdContainer.FromNumber(8712)),
         },
         models.RenewalPreviewComponent{
-            ComponentId:  models.ToPointer(models.RenewalPreviewComponentComponentIdContainer.FromString("handle:large-instance-hours")),
-            Quantity:     models.ToPointer(100),
-            PricePointId: models.ToPointer(models.RenewalPreviewComponentPricePointIdContainer.FromString("handle:startup-pricing")),
+            ComponentId:          models.ToPointer(models.RenewalPreviewComponentComponentIdContainer.FromString("handle:large-instance-hours")),
+            Quantity:             models.ToPointer(100),
+            PricePointId:         models.ToPointer(models.RenewalPreviewComponentPricePointIdContainer.FromString("handle:startup-pricing")),
         },
     },
 }

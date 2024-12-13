@@ -18,7 +18,7 @@ type CreatePayment struct {
     PaymentDetails       string                   `json:"payment_details"`
     // The type of payment method used. Defaults to other.
     PaymentMethod        InvoicePaymentMethodType `json:"payment_method"`
-    AdditionalProperties map[string]any           `json:"_"`
+    AdditionalProperties map[string]interface{}   `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreatePayment.
@@ -26,13 +26,17 @@ type CreatePayment struct {
 func (c CreatePayment) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(c.AdditionalProperties,
+        "amount", "memo", "payment_details", "payment_method"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(c.toMap())
 }
 
 // toMap converts the CreatePayment object to a map representation for JSON marshaling.
 func (c CreatePayment) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, c.AdditionalProperties)
+    MergeAdditionalProperties(structMap, c.AdditionalProperties)
     structMap["amount"] = c.Amount
     structMap["memo"] = c.Memo
     structMap["payment_details"] = c.PaymentDetails
@@ -52,12 +56,12 @@ func (c *CreatePayment) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "amount", "memo", "payment_details", "payment_method")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "amount", "memo", "payment_details", "payment_method")
     if err != nil {
     	return err
     }
-    
     c.AdditionalProperties = additionalProperties
+    
     c.Amount = *temp.Amount
     c.Memo = *temp.Memo
     c.PaymentDetails = *temp.PaymentDetails

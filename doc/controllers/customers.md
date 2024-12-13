@@ -70,21 +70,21 @@ CreateCustomer(
 ctx := context.Background()
 
 body := models.CreateCustomerRequest{
-    Customer: models.CreateCustomer{
-        FirstName:       "Martha",
-        LastName:        "Washington",
-        Email:           "martha@example.com",
-        CcEmails:        models.ToPointer("george@example.com"),
-        Organization:    models.ToPointer("ABC, Inc."),
-        Reference:       models.ToPointer("1234567890"),
-        Address:         models.ToPointer("123 Main Street"),
-        Address2:        models.ToPointer("Unit 10"),
-        City:            models.ToPointer("Anytown"),
-        State:           models.ToPointer("MA"),
-        Zip:             models.ToPointer("02120"),
-        Country:         models.ToPointer("US"),
-        Phone:           models.ToPointer("555-555-1212"),
-        Locale:          models.ToPointer("es-MX"),
+    Customer:             models.CreateCustomer{
+        FirstName:            "Martha",
+        LastName:             "Washington",
+        Email:                "martha@example.com",
+        CcEmails:             models.ToPointer("george@example.com"),
+        Organization:         models.ToPointer("ABC, Inc."),
+        Reference:            models.ToPointer("1234567890"),
+        Address:              models.ToPointer("123 Main Street"),
+        Address2:             models.ToPointer("Unit 10"),
+        City:                 models.ToPointer("Anytown"),
+        State:                models.ToPointer("MA"),
+        Zip:                  models.ToPointer("02120"),
+        Country:              models.ToPointer("US"),
+        Phone:                models.ToPointer("555-555-1212"),
+        Locale:               models.ToPointer("es-MX"),
     },
 }
 
@@ -362,10 +362,10 @@ ctx := context.Background()
 id := 112
 
 body := models.UpdateCustomerRequest{
-    Customer: models.UpdateCustomer{
-        FirstName:       models.ToPointer("Martha"),
-        LastName:        models.ToPointer("Washington"),
-        Email:           models.ToPointer("martha.washington@example.com"),
+    Customer:             models.UpdateCustomer{
+        FirstName:            models.ToPointer("Martha"),
+        LastName:             models.ToPointer("Washington"),
+        Email:                models.ToPointer("martha.washington@example.com"),
     },
 }
 

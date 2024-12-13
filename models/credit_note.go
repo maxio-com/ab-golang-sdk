@@ -67,7 +67,7 @@ type CreditNote struct {
     Refunds              []InvoiceRefund         `json:"refunds,omitempty"`
     // An array of origin invoices for the credit note. Learn more about [Origin Invoice from our docs](https://maxio.zendesk.com/hc/en-us/articles/24252261284749-Credit-Notes-Proration#origin-invoices)
     OriginInvoices       []OriginInvoice         `json:"origin_invoices,omitempty"`
-    AdditionalProperties map[string]any          `json:"_"`
+    AdditionalProperties map[string]interface{}  `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreditNote.
@@ -75,13 +75,17 @@ type CreditNote struct {
 func (c CreditNote) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(c.AdditionalProperties,
+        "uid", "site_id", "customer_id", "subscription_id", "number", "sequence_number", "issue_date", "applied_date", "status", "currency", "memo", "seller", "customer", "billing_address", "shipping_address", "subtotal_amount", "discount_amount", "tax_amount", "total_amount", "applied_amount", "remaining_amount", "line_items", "discounts", "taxes", "applications", "refunds", "origin_invoices"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(c.toMap())
 }
 
 // toMap converts the CreditNote object to a map representation for JSON marshaling.
 func (c CreditNote) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, c.AdditionalProperties)
+    MergeAdditionalProperties(structMap, c.AdditionalProperties)
     if c.Uid != nil {
         structMap["uid"] = c.Uid
     }
@@ -174,12 +178,12 @@ func (c *CreditNote) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "uid", "site_id", "customer_id", "subscription_id", "number", "sequence_number", "issue_date", "applied_date", "status", "currency", "memo", "seller", "customer", "billing_address", "shipping_address", "subtotal_amount", "discount_amount", "tax_amount", "total_amount", "applied_amount", "remaining_amount", "line_items", "discounts", "taxes", "applications", "refunds", "origin_invoices")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "uid", "site_id", "customer_id", "subscription_id", "number", "sequence_number", "issue_date", "applied_date", "status", "currency", "memo", "seller", "customer", "billing_address", "shipping_address", "subtotal_amount", "discount_amount", "tax_amount", "total_amount", "applied_amount", "remaining_amount", "line_items", "discounts", "taxes", "applications", "refunds", "origin_invoices")
     if err != nil {
     	return err
     }
-    
     c.AdditionalProperties = additionalProperties
+    
     c.Uid = temp.Uid
     c.SiteId = temp.SiteId
     c.CustomerId = temp.CustomerId

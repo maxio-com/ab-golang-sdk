@@ -11,10 +11,10 @@ import (
 
 // InvoiceDiscountBreakout represents a InvoiceDiscountBreakout struct.
 type InvoiceDiscountBreakout struct {
-    Uid                  *string        `json:"uid,omitempty"`
-    EligibleAmount       *string        `json:"eligible_amount,omitempty"`
-    DiscountAmount       *string        `json:"discount_amount,omitempty"`
-    AdditionalProperties map[string]any `json:"_"`
+    Uid                  *string                `json:"uid,omitempty"`
+    EligibleAmount       *string                `json:"eligible_amount,omitempty"`
+    DiscountAmount       *string                `json:"discount_amount,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for InvoiceDiscountBreakout.
@@ -22,13 +22,17 @@ type InvoiceDiscountBreakout struct {
 func (i InvoiceDiscountBreakout) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(i.AdditionalProperties,
+        "uid", "eligible_amount", "discount_amount"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(i.toMap())
 }
 
 // toMap converts the InvoiceDiscountBreakout object to a map representation for JSON marshaling.
 func (i InvoiceDiscountBreakout) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, i.AdditionalProperties)
+    MergeAdditionalProperties(structMap, i.AdditionalProperties)
     if i.Uid != nil {
         structMap["uid"] = i.Uid
     }
@@ -49,12 +53,12 @@ func (i *InvoiceDiscountBreakout) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "uid", "eligible_amount", "discount_amount")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "uid", "eligible_amount", "discount_amount")
     if err != nil {
     	return err
     }
-    
     i.AdditionalProperties = additionalProperties
+    
     i.Uid = temp.Uid
     i.EligibleAmount = temp.EligibleAmount
     i.DiscountAmount = temp.DiscountAmount

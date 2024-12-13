@@ -35,8 +35,8 @@
   "event_type": "issue_invoice",
   "event_data": {
     "consolidation_level": "child",
-    "from_status": "paid",
-    "to_status": "paid",
+    "from_status": "open",
+    "to_status": "pending",
     "due_amount": "due_amount8",
     "total_amount": "total_amount2"
   }

@@ -11,15 +11,15 @@ import (
 
 // OrganizationAddress represents a OrganizationAddress struct.
 type OrganizationAddress struct {
-    Street               Optional[string] `json:"street"`
-    Line2                Optional[string] `json:"line2"`
-    City                 Optional[string] `json:"city"`
-    State                Optional[string] `json:"state"`
-    Zip                  Optional[string] `json:"zip"`
-    Country              Optional[string] `json:"country"`
-    Name                 Optional[string] `json:"name"`
-    Phone                Optional[string] `json:"phone"`
-    AdditionalProperties map[string]any   `json:"_"`
+    Street               Optional[string]       `json:"street"`
+    Line2                Optional[string]       `json:"line2"`
+    City                 Optional[string]       `json:"city"`
+    State                Optional[string]       `json:"state"`
+    Zip                  Optional[string]       `json:"zip"`
+    Country              Optional[string]       `json:"country"`
+    Name                 Optional[string]       `json:"name"`
+    Phone                Optional[string]       `json:"phone"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for OrganizationAddress.
@@ -27,13 +27,17 @@ type OrganizationAddress struct {
 func (o OrganizationAddress) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(o.AdditionalProperties,
+        "street", "line2", "city", "state", "zip", "country", "name", "phone"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(o.toMap())
 }
 
 // toMap converts the OrganizationAddress object to a map representation for JSON marshaling.
 func (o OrganizationAddress) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, o.AdditionalProperties)
+    MergeAdditionalProperties(structMap, o.AdditionalProperties)
     if o.Street.IsValueSet() {
         if o.Street.Value() != nil {
             structMap["street"] = o.Street.Value()
@@ -101,12 +105,12 @@ func (o *OrganizationAddress) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "street", "line2", "city", "state", "zip", "country", "name", "phone")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "street", "line2", "city", "state", "zip", "country", "name", "phone")
     if err != nil {
     	return err
     }
-    
     o.AdditionalProperties = additionalProperties
+    
     o.Street = temp.Street
     o.Line2 = temp.Line2
     o.City = temp.City

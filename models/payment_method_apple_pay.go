@@ -14,7 +14,7 @@ import (
 // PaymentMethodApplePay represents a PaymentMethodApplePay struct.
 type PaymentMethodApplePay struct {
     Type                 InvoiceEventPaymentMethod `json:"type"`
-    AdditionalProperties map[string]any            `json:"_"`
+    AdditionalProperties map[string]interface{}    `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for PaymentMethodApplePay.
@@ -22,13 +22,17 @@ type PaymentMethodApplePay struct {
 func (p PaymentMethodApplePay) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(p.AdditionalProperties,
+        "type"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(p.toMap())
 }
 
 // toMap converts the PaymentMethodApplePay object to a map representation for JSON marshaling.
 func (p PaymentMethodApplePay) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, p.AdditionalProperties)
+    MergeAdditionalProperties(structMap, p.AdditionalProperties)
     structMap["type"] = p.Type
     return structMap
 }
@@ -45,12 +49,12 @@ func (p *PaymentMethodApplePay) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "type")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "type")
     if err != nil {
     	return err
     }
-    
     p.AdditionalProperties = additionalProperties
+    
     p.Type = *temp.Type
     return nil
 }

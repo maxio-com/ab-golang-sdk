@@ -11,11 +11,11 @@ import (
 
 // ListInvoiceEventsResponse represents a ListInvoiceEventsResponse struct.
 type ListInvoiceEventsResponse struct {
-    Events               []InvoiceEvent `json:"events,omitempty"`
-    Page                 *int           `json:"page,omitempty"`
-    PerPage              *int           `json:"per_page,omitempty"`
-    TotalPages           *int           `json:"total_pages,omitempty"`
-    AdditionalProperties map[string]any `json:"_"`
+    Events               []InvoiceEvent         `json:"events,omitempty"`
+    Page                 *int                   `json:"page,omitempty"`
+    PerPage              *int                   `json:"per_page,omitempty"`
+    TotalPages           *int                   `json:"total_pages,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for ListInvoiceEventsResponse.
@@ -23,13 +23,17 @@ type ListInvoiceEventsResponse struct {
 func (l ListInvoiceEventsResponse) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(l.AdditionalProperties,
+        "events", "page", "per_page", "total_pages"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(l.toMap())
 }
 
 // toMap converts the ListInvoiceEventsResponse object to a map representation for JSON marshaling.
 func (l ListInvoiceEventsResponse) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, l.AdditionalProperties)
+    MergeAdditionalProperties(structMap, l.AdditionalProperties)
     if l.Events != nil {
         structMap["events"] = l.Events
     }
@@ -53,12 +57,12 @@ func (l *ListInvoiceEventsResponse) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "events", "page", "per_page", "total_pages")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "events", "page", "per_page", "total_pages")
     if err != nil {
     	return err
     }
-    
     l.AdditionalProperties = additionalProperties
+    
     l.Events = temp.Events
     l.Page = temp.Page
     l.PerPage = temp.PerPage

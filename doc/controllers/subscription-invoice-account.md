@@ -96,11 +96,11 @@ ctx := context.Background()
 subscriptionId := 222
 
 body := models.CreatePrepaymentRequest{
-    Prepayment: models.CreatePrepayment{
-        Amount:           float64(100),
-        Details:          "John Doe signup for $100",
-        Memo:             "Signup for $100",
-        Method:           models.CreatePrepaymentMethod("check"),
+    Prepayment:           models.CreatePrepayment{
+        Amount:               float64(100),
+        Details:              "John Doe signup for $100",
+        Memo:                 "Signup for $100",
+        Method:               models.CreatePrepaymentMethod("check"),
     },
 }
 
@@ -172,9 +172,9 @@ collectedInput := advancedbilling.ListPrepaymentsInput{
     Page:           models.ToPointer(2),
     PerPage:        models.ToPointer(50),
     Filter:         models.ToPointer(models.ListPrepaymentsFilter{
-        DateField: models.ToPointer(models.ListPrepaymentDateField("created_at")),
-        StartDate: models.ToPointer(parseTime(models.DEFAULT_DATE, "2024-01-01", func(err error) { log.Fatalln(err) })),
-        EndDate:   models.ToPointer(parseTime(models.DEFAULT_DATE, "2024-01-31", func(err error) { log.Fatalln(err) })),
+        DateField:            models.ToPointer(models.ListPrepaymentDateField("created_at")),
+        StartDate:            models.ToPointer(parseTime(models.DEFAULT_DATE, "2024-01-01", func(err error) { log.Fatalln(err) })),
+        EndDate:              models.ToPointer(parseTime(models.DEFAULT_DATE, "2024-01-31", func(err error) { log.Fatalln(err) })),
     }),
 }
 
@@ -248,8 +248,8 @@ ctx := context.Background()
 subscriptionId := 222
 
 body := models.IssueServiceCreditRequest{
-    ServiceCredit: models.IssueServiceCredit{
-        Amount: models.IssueServiceCreditAmountContainer.FromString("1"),
+    ServiceCredit:        models.IssueServiceCredit{
+        Amount:               models.IssueServiceCreditAmountContainer.FromString("1"),
     },
 }
 
@@ -314,9 +314,9 @@ ctx := context.Background()
 subscriptionId := 222
 
 body := models.DeductServiceCreditRequest{
-    Deduction: models.DeductServiceCredit{
-        Amount: models.DeductServiceCreditAmountContainer.FromString("1"),
-        Memo:   models.ToPointer("Deduction"),
+    Deduction:            models.DeductServiceCredit{
+        Amount:               models.DeductServiceCreditAmountContainer.FromString("1"),
+        Memo:                 models.ToPointer("Deduction"),
     },
 }
 

@@ -21,7 +21,7 @@
       "currency": "currency8",
       "price": 233.74,
       "formatted_price": "formatted_price6",
-      "product_price_point_id": 172
+      "price_id": 116
     }
   ]
 }

@@ -18,7 +18,7 @@ type SubscriptionGroupSignupError struct {
     SubscriptionGroup    []string                                      `json:"subscription_group,omitempty"`
     PaymentProfileId     *string                                       `json:"payment_profile_id,omitempty"`
     PayerId              *string                                       `json:"payer_id,omitempty"`
-    AdditionalProperties map[string]any                                `json:"_"`
+    AdditionalProperties map[string]interface{}                        `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for SubscriptionGroupSignupError.
@@ -26,13 +26,17 @@ type SubscriptionGroupSignupError struct {
 func (s SubscriptionGroupSignupError) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(s.AdditionalProperties,
+        "subscriptions", "payer_reference", "payer", "subscription_group", "payment_profile_id", "payer_id"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(s.toMap())
 }
 
 // toMap converts the SubscriptionGroupSignupError object to a map representation for JSON marshaling.
 func (s SubscriptionGroupSignupError) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, s.AdditionalProperties)
+    MergeAdditionalProperties(structMap, s.AdditionalProperties)
     if s.Subscriptions != nil {
         structMap["subscriptions"] = s.Subscriptions
     }
@@ -62,12 +66,12 @@ func (s *SubscriptionGroupSignupError) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "subscriptions", "payer_reference", "payer", "subscription_group", "payment_profile_id", "payer_id")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "subscriptions", "payer_reference", "payer", "subscription_group", "payment_profile_id", "payer_id")
     if err != nil {
     	return err
     }
-    
     s.AdditionalProperties = additionalProperties
+    
     s.Subscriptions = temp.Subscriptions
     s.PayerReference = temp.PayerReference
     s.Payer = temp.Payer

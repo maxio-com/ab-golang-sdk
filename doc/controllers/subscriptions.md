@@ -44,6 +44,14 @@ Credit card details may be required, depending on the options for the product be
 
 If you are creating a subscription with a payment profile, the attribute to send will be `credit_card_attributes` or `bank_account_attributes` for ACH and Direct Debit. That said, when you read the subscription after creation, we return the profile details under `credit_card` or `bank_account`.
 
+## Bulk creation of subscriptions
+
+Bulk creation of subscriptions is currently not supported. For scenarios where multiple subscriptions must be added, particularly when assigning to the same subscription group, it is essential to switch to a single-threaded approach.
+
+To avoid data conflicts or inaccuracies, incorporate a sleep interval between requests.
+
+While this single-threaded approach may impact performance, it ensures data consistency and accuracy in cases where concurrent creation attempts could otherwise lead to issues with subscription alignment and integrity.
+
 ## Taxable Subscriptions
 
 If your intent is to charge your subscribers tax via [Avalara Taxes](https://maxio.zendesk.com/hc/en-us/articles/24287043035661-Avalara-VAT-Tax) or [Custom Taxes](https://maxio.zendesk.com/hc/en-us/articles/24287044212749-Custom-Taxes), there are a few considerations to be made regarding collecting subscription data.
@@ -364,13 +372,13 @@ For more information on Stripe Direct Debit, please view the following two resou
 
 For more information on Stripe Direct Debit, please view the following two resources:
 
-+ [Payment Profiles via API for Stripe BECS Direct Debit]($e/Payment%20Profiles/createPaymentProfile)
++ [Payment Profiles via API for Stripe BECS Direct Debit](../../doc/controllers/payment-profiles.md#create-payment-profile)
 
 + [Full documentation on Stripe Direct Debit](https://maxio.zendesk.com/hc/en-us/articles/24176170430093-Stripe-SEPA-and-BECS-Direct-Debit)
 
-+ [Using Chargify.js with Stripe SEPA, BECS or BACS Direct Debit - minimal example](page:development-tools/chargify-js/examples#minimal-example-with-sepa-becs-or-bacs-direct-debit-stripe-gateway)
++ [Using Chargify.js with Stripe SEPA, BECS or BACS Direct Debit - minimal example](http://localhost:8080/go)
 
-+ [Using Chargify.js with Stripe BECS Direct Debit - full example](page:development-tools/chargify-js/examples#full-example-with-becs-direct-debit-stripe-gateway)
++ [Using Chargify.js with Stripe BECS Direct Debit - full example](http://localhost:8080/go)
 
 ```json
 {
@@ -395,13 +403,13 @@ For more information on Stripe Direct Debit, please view the following two resou
 
 For more information on Stripe Direct Debit, please view the following two resources:
 
-+ [Payment Profiles via API for Stripe BACS Direct Debit]($e/Payment%20Profiles/createPaymentProfile)
++ [Payment Profiles via API for Stripe BACS Direct Debit](../../doc/controllers/payment-profiles.md#create-payment-profile)
 
 + [Full documentation on Stripe Direct Debit](https://maxio.zendesk.com/hc/en-us/articles/24176170430093-Stripe-SEPA-and-BECS-Direct-Debit)
 
-+ [Using Chargify.js with Stripe SEPA, BECS or BACS Direct Debit - minimal example](page:development-tools/chargify-js/examples#minimal-example-with-sepa-becs-or-bacs-direct-debit-stripe-gateway)
++ [Using Chargify.js with Stripe SEPA, BECS or BACS Direct Debit - minimal example](http://localhost:8080/go)
 
-+ [Using Chargify.js with Stripe BACS Direct Debit - full example](page:development-tools/chargify-js/examples#full-example-with-bacs-direct-debit-stripe-gateway)
++ [Using Chargify.js with Stripe BACS Direct Debit - full example](http://localhost:8080/go)
 
 ```json
 {
@@ -697,8 +705,9 @@ CreateSubscription(
 ctx := context.Background()
 
 body := models.CreateSubscriptionRequest{
-    Subscription: models.CreateSubscription{
+    Subscription:         models.CreateSubscription{
         ProductHandle:                     models.ToPointer("basic"),
+        PaymentCollectionMethod:           models.ToPointer(models.CollectionMethod("remittance")),
         CustomerAttributes:                models.ToPointer(models.CustomerAttributes{
             FirstName:                   models.ToPointer("Joe"),
             LastName:                    models.ToPointer("Blow"),
@@ -712,20 +721,6 @@ body := models.CreateSubscriptionRequest{
             Zip:                         models.ToPointer("02120"),
             Country:                     models.ToPointer("US"),
             Phone:                       models.ToPointer("(617) 111 - 0000"),
-        }),
-        CreditCardAttributes:              models.ToPointer(models.PaymentProfileAttributes{
-            FirstName:          models.ToPointer("Joe"),
-            LastName:           models.ToPointer("Smith"),
-            FullNumber:         models.ToPointer("4111111111111111"),
-            CardType:           models.ToPointer(models.CardType("visa")),
-            ExpirationMonth:    models.ToPointer(models.PaymentProfileAttributesExpirationMonthContainer.FromString("1")),
-            ExpirationYear:     models.ToPointer(models.PaymentProfileAttributesExpirationYearContainer.FromString("2021")),
-            BillingAddress:     models.ToPointer("123 Mass Ave."),
-            BillingAddress2:    models.NewOptional(models.ToPointer("billing_address_22")),
-            BillingCity:        models.ToPointer("Boston"),
-            BillingState:       models.ToPointer("MA"),
-            BillingCountry:     models.ToPointer("US"),
-            BillingZip:         models.ToPointer("02120"),
         }),
     },
 }
@@ -1031,11 +1026,11 @@ ctx := context.Background()
 subscriptionId := 222
 
 body := models.UpdateSubscriptionRequest{
-    Subscription: models.UpdateSubscription{
+    Subscription:         models.UpdateSubscription{
         CreditCardAttributes:              models.ToPointer(models.CreditCardAttributes{
-            FullNumber:      models.ToPointer("4111111111111111"),
-            ExpirationMonth: models.ToPointer("10"),
-            ExpirationYear:  models.ToPointer("2030"),
+            FullNumber:           models.ToPointer("4111111111111111"),
+            ExpirationMonth:      models.ToPointer("10"),
+            ExpirationYear:       models.ToPointer("2030"),
         }),
         NextBillingAt:                     models.ToPointer(parseTime(time.RFC3339, "2010-08-06T15:34:00Z", func(err error) { log.Fatalln(err) })),
     },
@@ -1408,7 +1403,7 @@ ctx := context.Background()
 subscriptionId := 222
 
 body := models.OverrideSubscriptionRequest{
-    Subscription: models.OverrideSubscription{
+    Subscription:         models.OverrideSubscription{
         ActivatedAt:           models.ToPointer(parseTime(time.RFC3339, "1999-12-01T10:28:34-05:00", func(err error) { log.Fatalln(err) })),
         CanceledAt:            models.ToPointer(parseTime(time.RFC3339, "2000-12-31T10:28:34-05:00", func(err error) { log.Fatalln(err) })),
         CancellationMessage:   models.ToPointer("Original cancellation in 2000"),
@@ -1470,6 +1465,12 @@ if err != nil {
 }
 ```
 
+## Errors
+
+| HTTP Status Code | Error Description | Exception Class |
+|  --- | --- | --- |
+| 404 | Not Found | `ApiError` |
+
 
 # Purge Subscription
 
@@ -1489,7 +1490,7 @@ PurgeSubscription(
     subscriptionId int,
     ack int,
     cascade []models.SubscriptionPurgeType) (
-    http.Response,
+    models.ApiResponse[models.SubscriptionResponse],
     error)
 ```
 
@@ -1503,7 +1504,7 @@ PurgeSubscription(
 
 ## Response Type
 
-``
+[`models.SubscriptionResponse`](../../doc/models/subscription-response.md)
 
 ## Example Usage
 
@@ -1519,13 +1520,21 @@ cascade := []models.SubscriptionPurgeType{
     models.SubscriptionPurgeType("payment_profile"),
 }
 
-resp, err := subscriptionsController.PurgeSubscription(ctx, subscriptionId, ack, cascade)
+apiResponse, err := subscriptionsController.PurgeSubscription(ctx, subscriptionId, ack, cascade)
 if err != nil {
     log.Fatalln(err)
 } else {
-    fmt.Println(resp.StatusCode)
+    // Printing the result and response
+    fmt.Println(apiResponse.Data)
+    fmt.Println(apiResponse.Response.StatusCode)
 }
 ```
+
+## Errors
+
+| HTTP Status Code | Error Description | Exception Class |
+|  --- | --- | --- |
+| 400 | Bad Request | [`SubscriptionResponseErrorException`](../../doc/models/subscription-response-error-exception.md) |
 
 
 # Update Prepaid Subscription Configuration
@@ -1592,6 +1601,12 @@ if err != nil {
 }
 ```
 
+## Errors
+
+| HTTP Status Code | Error Description | Exception Class |
+|  --- | --- | --- |
+| 422 | Unprocessable Entity (WebDAV) | `ApiError` |
+
 
 # Preview Subscription
 
@@ -1645,7 +1660,7 @@ PreviewSubscription(
 ctx := context.Background()
 
 body := models.CreateSubscriptionRequest{
-    Subscription: models.CreateSubscription{
+    Subscription:         models.CreateSubscription{
         ProductHandle:                     models.ToPointer("gold-product"),
     },
 }
@@ -1823,7 +1838,7 @@ subscriptionId := 222
 
 
 body := models.AddCouponsRequest{
-    Codes: []string{
+    Codes:                []string{
         "COUPON_1",
         "COUPON_2",
     },

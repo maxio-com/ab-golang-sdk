@@ -13,8 +13,8 @@ import (
 
 // CreateReasonCodeRequest represents a CreateReasonCodeRequest struct.
 type CreateReasonCodeRequest struct {
-    ReasonCode           CreateReasonCode `json:"reason_code"`
-    AdditionalProperties map[string]any   `json:"_"`
+    ReasonCode           CreateReasonCode       `json:"reason_code"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreateReasonCodeRequest.
@@ -22,13 +22,17 @@ type CreateReasonCodeRequest struct {
 func (c CreateReasonCodeRequest) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(c.AdditionalProperties,
+        "reason_code"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(c.toMap())
 }
 
 // toMap converts the CreateReasonCodeRequest object to a map representation for JSON marshaling.
 func (c CreateReasonCodeRequest) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, c.AdditionalProperties)
+    MergeAdditionalProperties(structMap, c.AdditionalProperties)
     structMap["reason_code"] = c.ReasonCode.toMap()
     return structMap
 }
@@ -45,12 +49,12 @@ func (c *CreateReasonCodeRequest) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "reason_code")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "reason_code")
     if err != nil {
     	return err
     }
-    
     c.AdditionalProperties = additionalProperties
+    
     c.ReasonCode = *temp.ReasonCode
     return nil
 }

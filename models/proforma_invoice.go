@@ -59,7 +59,7 @@ type ProformaInvoice struct {
     Payments             []ProformaInvoicePayment   `json:"payments,omitempty"`
     CustomFields         []InvoiceCustomField       `json:"custom_fields,omitempty"`
     PublicUrl            Optional[string]           `json:"public_url"`
-    AdditionalProperties map[string]any             `json:"_"`
+    AdditionalProperties map[string]interface{}     `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for ProformaInvoice.
@@ -67,13 +67,17 @@ type ProformaInvoice struct {
 func (p ProformaInvoice) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(p.AdditionalProperties,
+        "uid", "site_id", "customer_id", "subscription_id", "number", "sequence_number", "created_at", "delivery_date", "status", "collection_method", "payment_instructions", "currency", "consolidation_level", "product_name", "product_family_name", "role", "seller", "customer", "memo", "billing_address", "shipping_address", "subtotal_amount", "discount_amount", "tax_amount", "total_amount", "credit_amount", "paid_amount", "refund_amount", "due_amount", "line_items", "discounts", "taxes", "credits", "payments", "custom_fields", "public_url"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(p.toMap())
 }
 
 // toMap converts the ProformaInvoice object to a map representation for JSON marshaling.
 func (p ProformaInvoice) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, p.AdditionalProperties)
+    MergeAdditionalProperties(structMap, p.AdditionalProperties)
     if p.Uid != nil {
         structMap["uid"] = p.Uid
     }
@@ -213,12 +217,12 @@ func (p *ProformaInvoice) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "uid", "site_id", "customer_id", "subscription_id", "number", "sequence_number", "created_at", "delivery_date", "status", "collection_method", "payment_instructions", "currency", "consolidation_level", "product_name", "product_family_name", "role", "seller", "customer", "memo", "billing_address", "shipping_address", "subtotal_amount", "discount_amount", "tax_amount", "total_amount", "credit_amount", "paid_amount", "refund_amount", "due_amount", "line_items", "discounts", "taxes", "credits", "payments", "custom_fields", "public_url")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "uid", "site_id", "customer_id", "subscription_id", "number", "sequence_number", "created_at", "delivery_date", "status", "collection_method", "payment_instructions", "currency", "consolidation_level", "product_name", "product_family_name", "role", "seller", "customer", "memo", "billing_address", "shipping_address", "subtotal_amount", "discount_amount", "tax_amount", "total_amount", "credit_amount", "paid_amount", "refund_amount", "due_amount", "line_items", "discounts", "taxes", "credits", "payments", "custom_fields", "public_url")
     if err != nil {
     	return err
     }
-    
     p.AdditionalProperties = additionalProperties
+    
     p.Uid = temp.Uid
     p.SiteId = temp.SiteId
     p.CustomerId = temp.CustomerId

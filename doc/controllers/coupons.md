@@ -38,16 +38,16 @@ Additionally, for documentation on how to apply a coupon to a subscription withi
 
 This request will create a coupon, based on the provided information.
 
-When creating a coupon, you must specify a product family using the `product_family_id`. If no `product_family_id` is passed, the first product family available is used. You will also need to formulate your URL to cite the Product Family ID in your request.
+You can create either a flat amount coupon, by specyfing `amount_in_cents`, or percentage coupon by specyfing `percentage`.
 
-You can restrict a coupon to only apply to specific products / components by optionally passing in hashes of `restricted_products` and/or `restricted_components` in the format:
-`{ "<product/component_id>": boolean_value }`
+You can restrict a coupon to only apply to specific products / components by optionally passing in `restricted_products` and/or `restricted_components` objects in the format:
+`{ "<product_id/component_id>": boolean_value }`
 
 ```go
 CreateCoupon(
     ctx context.Context,
     productFamilyId int,
-    body *models.CreateOrUpdateCoupon) (
+    body *models.CouponRequest) (
     models.ApiResponse[models.CouponResponse],
     error)
 ```
@@ -57,7 +57,7 @@ CreateCoupon(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `productFamilyId` | `int` | Template, Required | The Advanced Billing id of the product family to which the coupon belongs |
-| `body` | [`*models.CreateOrUpdateCoupon`](../../doc/models/create-or-update-coupon.md) | Body, Optional | - |
+| `body` | [`*models.CouponRequest`](../../doc/models/coupon-request.md) | Body, Optional | - |
 
 ## Response Type
 
@@ -70,21 +70,21 @@ ctx := context.Background()
 
 productFamilyId := 140
 
-body := models.CreateOrUpdateCoupon{
-    Coupon:               models.ToPointer(models.CreateOrUpdateCouponCouponContainer.FromCreateOrUpdatePercentageCoupon(models.CreateOrUpdatePercentageCoupon{
-        Name:                          "15% off",
-        Code:                          "15OFF",
+body := models.CouponRequest{
+    Coupon:               models.ToPointer(models.CouponPayload{
+        Name:                          models.ToPointer("15% off"),
+        Code:                          models.ToPointer("15OFF"),
         Description:                   models.ToPointer("15% off for life"),
-        Percentage:                    models.CreateOrUpdatePercentageCouponPercentageContainer.FromPrecision(float64(15)),
+        Percentage:                    models.ToPointer(models.CouponPayloadPercentageContainer.FromPrecision(float64(15))),
         AllowNegativeBalance:          models.ToPointer(false),
         Recurring:                     models.ToPointer(false),
-        EndDate:                       models.ToPointer(parseTime(time.RFC3339, "2012-08-29T12:00:00-04:00", func(err error) { log.Fatalln(err) })),
+        EndDate:                       models.ToPointer(parseTime(models.DEFAULT_DATE, "2012-08-29", func(err error) { log.Fatalln(err) })),
         ProductFamilyId:               models.ToPointer("2"),
         Stackable:                     models.ToPointer(true),
         CompoundingStrategy:           models.ToPointer(models.CompoundingStrategy("compound")),
         ExcludeMidPeriodAllocations:   models.ToPointer(true),
         ApplyOnCancelAtEndOfPeriod:    models.ToPointer(true),
-    })),
+    }),
     RestrictedProducts:   map[string]bool{
         "1": true,
     },
@@ -149,16 +149,16 @@ collectedInput := advancedbilling.ListCouponsForProductFamilyInput{
     Page:            models.ToPointer(2),
     PerPage:         models.ToPointer(50),
     Filter:          models.ToPointer(models.ListCouponsFilter{
-        StartDate:           models.ToPointer(parseTime(models.DEFAULT_DATE, "2011-12-17", func(err error) { log.Fatalln(err) })),
-        EndDate:             models.ToPointer(parseTime(models.DEFAULT_DATE, "2011-12-15", func(err error) { log.Fatalln(err) })),
-        StartDatetime:       models.ToPointer(parseTime(time.RFC3339, "12/19/2011 09:15:30", func(err error) { log.Fatalln(err) })),
-        EndDatetime:         models.ToPointer(parseTime(time.RFC3339, "06/07/2019 17:20:06", func(err error) { log.Fatalln(err) })),
-        Ids:                 []int{
+        StartDate:            models.ToPointer(parseTime(models.DEFAULT_DATE, "2011-12-17", func(err error) { log.Fatalln(err) })),
+        EndDate:              models.ToPointer(parseTime(models.DEFAULT_DATE, "2011-12-15", func(err error) { log.Fatalln(err) })),
+        StartDatetime:        models.ToPointer(parseTime(time.RFC3339, "12/19/2011 09:15:30", func(err error) { log.Fatalln(err) })),
+        EndDatetime:          models.ToPointer(parseTime(time.RFC3339, "06/07/2019 17:20:06", func(err error) { log.Fatalln(err) })),
+        Ids:                  []int{
             1,
             2,
             3,
         },
-        Codes:               []string{
+        Codes:                []string{
             "free",
             "free_trial",
         },
@@ -278,7 +278,8 @@ If you have more than one product family and if the coupon you are trying to fin
 FindCoupon(
     ctx context.Context,
     productFamilyId *int,
-    code *string) (
+    code *string,
+    currencyPrices *bool) (
     models.ApiResponse[models.CouponResponse],
     error)
 ```
@@ -289,6 +290,7 @@ FindCoupon(
 |  --- | --- | --- | --- |
 | `productFamilyId` | `*int` | Query, Optional | The Advanced Billing id of the product family to which the coupon belongs |
 | `code` | `*string` | Query, Optional | The code of the coupon |
+| `currencyPrices` | `*bool` | Query, Optional | When fetching coupons, if you have defined multiple currencies at the site level, you can optionally pass the `?currency_prices=true` query param to include an array of currency price data in the response. |
 
 ## Response Type
 
@@ -303,7 +305,9 @@ ctx := context.Background()
 
 
 
-apiResponse, err := couponsController.FindCoupon(ctx, nil, nil)
+currencyPrices := true
+
+apiResponse, err := couponsController.FindCoupon(ctx, nil, nil, &currencyPrices)
 if err != nil {
     log.Fatalln(err)
 } else {
@@ -327,7 +331,8 @@ If the coupon is set to `use_site_exchange_rate: true`, it will return pricing b
 ReadCoupon(
     ctx context.Context,
     productFamilyId int,
-    couponId int) (
+    couponId int,
+    currencyPrices *bool) (
     models.ApiResponse[models.CouponResponse],
     error)
 ```
@@ -338,6 +343,7 @@ ReadCoupon(
 |  --- | --- | --- | --- |
 | `productFamilyId` | `int` | Template, Required | The Advanced Billing id of the product family to which the coupon belongs |
 | `couponId` | `int` | Template, Required | The Advanced Billing id of the coupon |
+| `currencyPrices` | `*bool` | Query, Optional | When fetching coupons, if you have defined multiple currencies at the site level, you can optionally pass the `?currency_prices=true` query param to include an array of currency price data in the response. |
 
 ## Response Type
 
@@ -352,7 +358,9 @@ productFamilyId := 140
 
 couponId := 162
 
-apiResponse, err := couponsController.ReadCoupon(ctx, productFamilyId, couponId)
+currencyPrices := true
+
+apiResponse, err := couponsController.ReadCoupon(ctx, productFamilyId, couponId, &currencyPrices)
 if err != nil {
     log.Fatalln(err)
 } else {
@@ -406,7 +414,7 @@ UpdateCoupon(
     ctx context.Context,
     productFamilyId int,
     couponId int,
-    body *models.CreateOrUpdateCoupon) (
+    body *models.CouponRequest) (
     models.ApiResponse[models.CouponResponse],
     error)
 ```
@@ -417,7 +425,7 @@ UpdateCoupon(
 |  --- | --- | --- | --- |
 | `productFamilyId` | `int` | Template, Required | The Advanced Billing id of the product family to which the coupon belongs |
 | `couponId` | `int` | Template, Required | The Advanced Billing id of the coupon |
-| `body` | [`*models.CreateOrUpdateCoupon`](../../doc/models/create-or-update-coupon.md) | Body, Optional | - |
+| `body` | [`*models.CouponRequest`](../../doc/models/coupon-request.md) | Body, Optional | - |
 
 ## Response Type
 
@@ -432,19 +440,19 @@ productFamilyId := 140
 
 couponId := 162
 
-body := models.CreateOrUpdateCoupon{
-    Coupon:               models.ToPointer(models.CreateOrUpdateCouponCouponContainer.FromCreateOrUpdatePercentageCoupon(models.CreateOrUpdatePercentageCoupon{
-        Name:                          "15% off",
-        Code:                          "15OFF",
+body := models.CouponRequest{
+    Coupon:               models.ToPointer(models.CouponPayload{
+        Name:                          models.ToPointer("15% off"),
+        Code:                          models.ToPointer("15OFF"),
         Description:                   models.ToPointer("15% off for life"),
-        Percentage:                    models.CreateOrUpdatePercentageCouponPercentageContainer.FromPrecision(float64(15)),
+        Percentage:                    models.ToPointer(models.CouponPayloadPercentageContainer.FromPrecision(float64(15))),
         AllowNegativeBalance:          models.ToPointer(false),
         Recurring:                     models.ToPointer(false),
-        EndDate:                       models.ToPointer(parseTime(time.RFC3339, "2012-08-29T12:00:00-04:00", func(err error) { log.Fatalln(err) })),
+        EndDate:                       models.ToPointer(parseTime(models.DEFAULT_DATE, "2012-08-29", func(err error) { log.Fatalln(err) })),
         ProductFamilyId:               models.ToPointer("2"),
         Stackable:                     models.ToPointer(true),
         CompoundingStrategy:           models.ToPointer(models.CompoundingStrategy("compound")),
-    })),
+    }),
     RestrictedProducts:   map[string]bool{
         "1": true,
     },
@@ -492,6 +500,12 @@ if err != nil {
   }
 }
 ```
+
+## Errors
+
+| HTTP Status Code | Error Description | Exception Class |
+|  --- | --- | --- |
+| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../../doc/models/error-list-response-exception.md) |
 
 
 # Archive Coupon
@@ -605,16 +619,16 @@ collectedInput := advancedbilling.ListCouponsInput{
     Page:           models.ToPointer(2),
     PerPage:        models.ToPointer(50),
     Filter:         models.ToPointer(models.ListCouponsFilter{
-        StartDate:           models.ToPointer(parseTime(models.DEFAULT_DATE, "2011-12-17", func(err error) { log.Fatalln(err) })),
-        EndDate:             models.ToPointer(parseTime(models.DEFAULT_DATE, "2011-12-15", func(err error) { log.Fatalln(err) })),
-        StartDatetime:       models.ToPointer(parseTime(time.RFC3339, "12/19/2011 09:15:30", func(err error) { log.Fatalln(err) })),
-        EndDatetime:         models.ToPointer(parseTime(time.RFC3339, "06/07/2019 17:20:06", func(err error) { log.Fatalln(err) })),
-        Ids:                 []int{
+        StartDate:            models.ToPointer(parseTime(models.DEFAULT_DATE, "2011-12-17", func(err error) { log.Fatalln(err) })),
+        EndDate:              models.ToPointer(parseTime(models.DEFAULT_DATE, "2011-12-15", func(err error) { log.Fatalln(err) })),
+        StartDatetime:        models.ToPointer(parseTime(time.RFC3339, "12/19/2011 09:15:30", func(err error) { log.Fatalln(err) })),
+        EndDatetime:          models.ToPointer(parseTime(time.RFC3339, "06/07/2019 17:20:06", func(err error) { log.Fatalln(err) })),
+        Ids:                  []int{
             1,
             2,
             3,
         },
-        Codes:               []string{
+        Codes:                []string{
             "free",
             "free_trial",
         },
@@ -892,14 +906,14 @@ ctx := context.Background()
 couponId := 162
 
 body := models.CouponCurrencyRequest{
-    CurrencyPrices: []models.UpdateCouponCurrency{
+    CurrencyPrices:       []models.UpdateCouponCurrency{
         models.UpdateCouponCurrency{
-            Currency: "EUR",
-            Price:    10,
+            Currency:             "EUR",
+            Price:                10,
         },
         models.UpdateCouponCurrency{
-            Currency: "GBP",
-            Price:    9,
+            Currency:             "GBP",
+            Price:                9,
         },
     },
 }
@@ -913,6 +927,12 @@ if err != nil {
     fmt.Println(apiResponse.Response.StatusCode)
 }
 ```
+
+## Errors
+
+| HTTP Status Code | Error Description | Exception Class |
+|  --- | --- | --- |
+| 422 | Unprocessable Entity (WebDAV) | [`ErrorStringMapResponseException`](../../doc/models/error-string-map-response-exception.md) |
 
 
 # Create Coupon Subcodes
@@ -986,7 +1006,7 @@ ctx := context.Background()
 couponId := 162
 
 body := models.CouponSubcodes{
-    Codes: []string{
+    Codes:                []string{
         "BALTIMOREFALL",
         "ORLANDOFALL",
         "DETROITFALL",
@@ -1133,7 +1153,7 @@ ctx := context.Background()
 couponId := 162
 
 body := models.CouponSubcodes{
-    Codes: []string{
+    Codes:                []string{
         "AAAA",
         "BBBB",
         "CCCC",

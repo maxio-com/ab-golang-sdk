@@ -99,12 +99,12 @@ type CreateSubscription struct {
     // (Optional) If passed, the proof of the authorized ACH agreement terms will be persisted.
     AchAgreement                      *ACHAgreement                 `json:"ach_agreement,omitempty"`
     // Enable Communication Delay feature, making sure no communication (email or SMS) is sent to the Customer between 9PM and 8AM in time zone set by the `dunning_communication_delay_time_zone` attribute.
-    DunningCommunicationDelayEnabled  Optional[bool]                `json:"dunning_communication_delay_enabled"`
+    DunningCommunicationDelayEnabled  *bool                         `json:"dunning_communication_delay_enabled,omitempty"`
     // Time zone for the Dunning Communication Delay feature.
     DunningCommunicationDelayTimeZone Optional[string]              `json:"dunning_communication_delay_time_zone"`
     // Valid only for the Subscription Preview endpoint. When set to `true` it skips calculating taxes for the current and next billing manifests.
     SkipBillingManifestTaxes          *bool                         `json:"skip_billing_manifest_taxes,omitempty"`
-    AdditionalProperties              map[string]any                `json:"_"`
+    AdditionalProperties              map[string]interface{}        `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreateSubscription.
@@ -112,13 +112,17 @@ type CreateSubscription struct {
 func (c CreateSubscription) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(c.AdditionalProperties,
+        "product_handle", "product_id", "product_price_point_handle", "product_price_point_id", "custom_price", "coupon_code", "coupon_codes", "payment_collection_method", "receives_invoice_emails", "net_terms", "customer_id", "next_billing_at", "initial_billing_at", "stored_credential_transaction_id", "sales_rep_id", "payment_profile_id", "reference", "customer_attributes", "payment_profile_attributes", "credit_card_attributes", "bank_account_attributes", "components", "calendar_billing", "metafields", "customer_reference", "group", "ref", "cancellation_message", "cancellation_method", "currency", "expires_at", "expiration_tracks_next_billing_change", "agreement_terms", "authorizer_first_name", "authorizer_last_name", "calendar_billing_first_charge", "reason_code", "product_change_delayed", "offer_id", "prepaid_configuration", "previous_billing_at", "import_mrr", "canceled_at", "activated_at", "agreement_acceptance", "ach_agreement", "dunning_communication_delay_enabled", "dunning_communication_delay_time_zone", "skip_billing_manifest_taxes"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(c.toMap())
 }
 
 // toMap converts the CreateSubscription object to a map representation for JSON marshaling.
 func (c CreateSubscription) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, c.AdditionalProperties)
+    MergeAdditionalProperties(structMap, c.AdditionalProperties)
     if c.ProductHandle != nil {
         structMap["product_handle"] = c.ProductHandle
     }
@@ -257,12 +261,8 @@ func (c CreateSubscription) toMap() map[string]any {
     if c.AchAgreement != nil {
         structMap["ach_agreement"] = c.AchAgreement.toMap()
     }
-    if c.DunningCommunicationDelayEnabled.IsValueSet() {
-        if c.DunningCommunicationDelayEnabled.Value() != nil {
-            structMap["dunning_communication_delay_enabled"] = c.DunningCommunicationDelayEnabled.Value()
-        } else {
-            structMap["dunning_communication_delay_enabled"] = nil
-        }
+    if c.DunningCommunicationDelayEnabled != nil {
+        structMap["dunning_communication_delay_enabled"] = c.DunningCommunicationDelayEnabled
     }
     if c.DunningCommunicationDelayTimeZone.IsValueSet() {
         if c.DunningCommunicationDelayTimeZone.Value() != nil {
@@ -285,12 +285,12 @@ func (c *CreateSubscription) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "product_handle", "product_id", "product_price_point_handle", "product_price_point_id", "custom_price", "coupon_code", "coupon_codes", "payment_collection_method", "receives_invoice_emails", "net_terms", "customer_id", "next_billing_at", "initial_billing_at", "stored_credential_transaction_id", "sales_rep_id", "payment_profile_id", "reference", "customer_attributes", "payment_profile_attributes", "credit_card_attributes", "bank_account_attributes", "components", "calendar_billing", "metafields", "customer_reference", "group", "ref", "cancellation_message", "cancellation_method", "currency", "expires_at", "expiration_tracks_next_billing_change", "agreement_terms", "authorizer_first_name", "authorizer_last_name", "calendar_billing_first_charge", "reason_code", "product_change_delayed", "offer_id", "prepaid_configuration", "previous_billing_at", "import_mrr", "canceled_at", "activated_at", "agreement_acceptance", "ach_agreement", "dunning_communication_delay_enabled", "dunning_communication_delay_time_zone", "skip_billing_manifest_taxes")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "product_handle", "product_id", "product_price_point_handle", "product_price_point_id", "custom_price", "coupon_code", "coupon_codes", "payment_collection_method", "receives_invoice_emails", "net_terms", "customer_id", "next_billing_at", "initial_billing_at", "stored_credential_transaction_id", "sales_rep_id", "payment_profile_id", "reference", "customer_attributes", "payment_profile_attributes", "credit_card_attributes", "bank_account_attributes", "components", "calendar_billing", "metafields", "customer_reference", "group", "ref", "cancellation_message", "cancellation_method", "currency", "expires_at", "expiration_tracks_next_billing_change", "agreement_terms", "authorizer_first_name", "authorizer_last_name", "calendar_billing_first_charge", "reason_code", "product_change_delayed", "offer_id", "prepaid_configuration", "previous_billing_at", "import_mrr", "canceled_at", "activated_at", "agreement_acceptance", "ach_agreement", "dunning_communication_delay_enabled", "dunning_communication_delay_time_zone", "skip_billing_manifest_taxes")
     if err != nil {
     	return err
     }
-    
     c.AdditionalProperties = additionalProperties
+    
     c.ProductHandle = temp.ProductHandle
     c.ProductId = temp.ProductId
     c.ProductPricePointHandle = temp.ProductPricePointHandle
@@ -427,7 +427,7 @@ type tempCreateSubscription  struct {
     ActivatedAt                       *string                       `json:"activated_at,omitempty"`
     AgreementAcceptance               *AgreementAcceptance          `json:"agreement_acceptance,omitempty"`
     AchAgreement                      *ACHAgreement                 `json:"ach_agreement,omitempty"`
-    DunningCommunicationDelayEnabled  Optional[bool]                `json:"dunning_communication_delay_enabled"`
+    DunningCommunicationDelayEnabled  *bool                         `json:"dunning_communication_delay_enabled,omitempty"`
     DunningCommunicationDelayTimeZone Optional[string]              `json:"dunning_communication_delay_time_zone"`
     SkipBillingManifestTaxes          *bool                         `json:"skip_billing_manifest_taxes,omitempty"`
 }

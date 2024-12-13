@@ -17,7 +17,7 @@ type ListProductsFilter struct {
     PrepaidProductPricePoint *PrepaidProductPricePointFilter `json:"prepaid_product_price_point,omitempty"`
     // Allows fetching products with matching use_site_exchange_rate based on provided value (refers to default price point). Use in query `filter[use_site_exchange_rate]=true`.
     UseSiteExchangeRate      *bool                           `json:"use_site_exchange_rate,omitempty"`
-    AdditionalProperties     map[string]any                  `json:"_"`
+    AdditionalProperties     map[string]interface{}          `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for ListProductsFilter.
@@ -25,13 +25,17 @@ type ListProductsFilter struct {
 func (l ListProductsFilter) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(l.AdditionalProperties,
+        "ids", "prepaid_product_price_point", "use_site_exchange_rate"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(l.toMap())
 }
 
 // toMap converts the ListProductsFilter object to a map representation for JSON marshaling.
 func (l ListProductsFilter) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, l.AdditionalProperties)
+    MergeAdditionalProperties(structMap, l.AdditionalProperties)
     if l.Ids != nil {
         structMap["ids"] = l.Ids
     }
@@ -52,12 +56,12 @@ func (l *ListProductsFilter) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "ids", "prepaid_product_price_point", "use_site_exchange_rate")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "ids", "prepaid_product_price_point", "use_site_exchange_rate")
     if err != nil {
     	return err
     }
-    
     l.AdditionalProperties = additionalProperties
+    
     l.Ids = temp.Ids
     l.PrepaidProductPricePoint = temp.PrepaidProductPricePoint
     l.UseSiteExchangeRate = temp.UseSiteExchangeRate

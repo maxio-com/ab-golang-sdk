@@ -13,8 +13,8 @@ import (
 
 // RenewalPreviewResponse represents a RenewalPreviewResponse struct.
 type RenewalPreviewResponse struct {
-    RenewalPreview       RenewalPreview `json:"renewal_preview"`
-    AdditionalProperties map[string]any `json:"_"`
+    RenewalPreview       RenewalPreview         `json:"renewal_preview"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for RenewalPreviewResponse.
@@ -22,13 +22,17 @@ type RenewalPreviewResponse struct {
 func (r RenewalPreviewResponse) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(r.AdditionalProperties,
+        "renewal_preview"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(r.toMap())
 }
 
 // toMap converts the RenewalPreviewResponse object to a map representation for JSON marshaling.
 func (r RenewalPreviewResponse) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, r.AdditionalProperties)
+    MergeAdditionalProperties(structMap, r.AdditionalProperties)
     structMap["renewal_preview"] = r.RenewalPreview.toMap()
     return structMap
 }
@@ -45,12 +49,12 @@ func (r *RenewalPreviewResponse) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "renewal_preview")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "renewal_preview")
     if err != nil {
     	return err
     }
-    
     r.AdditionalProperties = additionalProperties
+    
     r.RenewalPreview = *temp.RenewalPreview
     return nil
 }

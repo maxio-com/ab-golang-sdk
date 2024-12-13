@@ -13,16 +13,16 @@ import (
 
 // BillingManifest represents a BillingManifest struct.
 type BillingManifest struct {
-    LineItems              []BillingManifestItem `json:"line_items,omitempty"`
-    TotalInCents           *int64                `json:"total_in_cents,omitempty"`
-    TotalDiscountInCents   *int64                `json:"total_discount_in_cents,omitempty"`
-    TotalTaxInCents        *int64                `json:"total_tax_in_cents,omitempty"`
-    SubtotalInCents        *int64                `json:"subtotal_in_cents,omitempty"`
-    StartDate              Optional[time.Time]   `json:"start_date"`
-    EndDate                Optional[time.Time]   `json:"end_date"`
-    PeriodType             Optional[string]      `json:"period_type"`
-    ExistingBalanceInCents *int64                `json:"existing_balance_in_cents,omitempty"`
-    AdditionalProperties   map[string]any        `json:"_"`
+    LineItems              []BillingManifestItem  `json:"line_items,omitempty"`
+    TotalInCents           *int64                 `json:"total_in_cents,omitempty"`
+    TotalDiscountInCents   *int64                 `json:"total_discount_in_cents,omitempty"`
+    TotalTaxInCents        *int64                 `json:"total_tax_in_cents,omitempty"`
+    SubtotalInCents        *int64                 `json:"subtotal_in_cents,omitempty"`
+    StartDate              Optional[time.Time]    `json:"start_date"`
+    EndDate                Optional[time.Time]    `json:"end_date"`
+    PeriodType             Optional[string]       `json:"period_type"`
+    ExistingBalanceInCents *int64                 `json:"existing_balance_in_cents,omitempty"`
+    AdditionalProperties   map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for BillingManifest.
@@ -30,13 +30,17 @@ type BillingManifest struct {
 func (b BillingManifest) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(b.AdditionalProperties,
+        "line_items", "total_in_cents", "total_discount_in_cents", "total_tax_in_cents", "subtotal_in_cents", "start_date", "end_date", "period_type", "existing_balance_in_cents"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(b.toMap())
 }
 
 // toMap converts the BillingManifest object to a map representation for JSON marshaling.
 func (b BillingManifest) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, b.AdditionalProperties)
+    MergeAdditionalProperties(structMap, b.AdditionalProperties)
     if b.LineItems != nil {
         structMap["line_items"] = b.LineItems
     }
@@ -97,12 +101,12 @@ func (b *BillingManifest) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "line_items", "total_in_cents", "total_discount_in_cents", "total_tax_in_cents", "subtotal_in_cents", "start_date", "end_date", "period_type", "existing_balance_in_cents")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "line_items", "total_in_cents", "total_discount_in_cents", "total_tax_in_cents", "subtotal_in_cents", "start_date", "end_date", "period_type", "existing_balance_in_cents")
     if err != nil {
     	return err
     }
-    
     b.AdditionalProperties = additionalProperties
+    
     b.LineItems = temp.LineItems
     b.TotalInCents = temp.TotalInCents
     b.TotalDiscountInCents = temp.TotalDiscountInCents

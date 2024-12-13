@@ -12,14 +12,14 @@ import (
 // InvoiceCustomer represents a InvoiceCustomer struct.
 // Information about the customer who is owner or recipient the invoiced subscription.
 type InvoiceCustomer struct {
-    ChargifyId           Optional[int]    `json:"chargify_id"`
-    FirstName            *string          `json:"first_name,omitempty"`
-    LastName             *string          `json:"last_name,omitempty"`
-    Organization         Optional[string] `json:"organization"`
-    Email                *string          `json:"email,omitempty"`
-    VatNumber            Optional[string] `json:"vat_number"`
-    Reference            Optional[string] `json:"reference"`
-    AdditionalProperties map[string]any   `json:"_"`
+    ChargifyId           Optional[int]          `json:"chargify_id"`
+    FirstName            *string                `json:"first_name,omitempty"`
+    LastName             *string                `json:"last_name,omitempty"`
+    Organization         Optional[string]       `json:"organization"`
+    Email                *string                `json:"email,omitempty"`
+    VatNumber            Optional[string]       `json:"vat_number"`
+    Reference            Optional[string]       `json:"reference"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for InvoiceCustomer.
@@ -27,13 +27,17 @@ type InvoiceCustomer struct {
 func (i InvoiceCustomer) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(i.AdditionalProperties,
+        "chargify_id", "first_name", "last_name", "organization", "email", "vat_number", "reference"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(i.toMap())
 }
 
 // toMap converts the InvoiceCustomer object to a map representation for JSON marshaling.
 func (i InvoiceCustomer) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, i.AdditionalProperties)
+    MergeAdditionalProperties(structMap, i.AdditionalProperties)
     if i.ChargifyId.IsValueSet() {
         if i.ChargifyId.Value() != nil {
             structMap["chargify_id"] = i.ChargifyId.Value()
@@ -82,12 +86,12 @@ func (i *InvoiceCustomer) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "chargify_id", "first_name", "last_name", "organization", "email", "vat_number", "reference")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "chargify_id", "first_name", "last_name", "organization", "email", "vat_number", "reference")
     if err != nil {
     	return err
     }
-    
     i.AdditionalProperties = additionalProperties
+    
     i.ChargifyId = temp.ChargifyId
     i.FirstName = temp.FirstName
     i.LastName = temp.LastName

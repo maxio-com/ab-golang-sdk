@@ -20,14 +20,9 @@
     "description": "description6",
     "handle": "handle2",
     "taxable": false,
-    "prices": [
-      {
-        "starting_quantity": 242,
-        "ending_quantity": 40,
-        "unit_price": 23.26
-      }
-    ],
-    "upgrade_charge": "full"
+    "upgrade_charge": "full",
+    "downgrade_credit": "full",
+    "unit_price": "String5"
   }
 }
 ```

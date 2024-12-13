@@ -11,23 +11,23 @@ import (
 
 // Site represents a Site struct.
 type Site struct {
-    Id                             *int                 `json:"id,omitempty"`
-    Name                           *string              `json:"name,omitempty"`
-    Subdomain                      *string              `json:"subdomain,omitempty"`
-    Currency                       *string              `json:"currency,omitempty"`
-    SellerId                       *int                 `json:"seller_id,omitempty"`
-    NonPrimaryCurrencies           []string             `json:"non_primary_currencies,omitempty"`
-    RelationshipInvoicingEnabled   *bool                `json:"relationship_invoicing_enabled,omitempty"`
-    CustomerHierarchyEnabled       *bool                `json:"customer_hierarchy_enabled,omitempty"`
-    WhopaysEnabled                 *bool                `json:"whopays_enabled,omitempty"`
-    WhopaysDefaultPayer            *string              `json:"whopays_default_payer,omitempty"`
-    AllocationSettings             *AllocationSettings  `json:"allocation_settings,omitempty"`
-    DefaultPaymentCollectionMethod *string              `json:"default_payment_collection_method,omitempty"`
-    OrganizationAddress            *OrganizationAddress `json:"organization_address,omitempty"`
-    TaxConfiguration               *TaxConfiguration    `json:"tax_configuration,omitempty"`
-    NetTerms                       *NetTerms            `json:"net_terms,omitempty"`
-    Test                           *bool                `json:"test,omitempty"`
-    AdditionalProperties           map[string]any       `json:"_"`
+    Id                             *int                   `json:"id,omitempty"`
+    Name                           *string                `json:"name,omitempty"`
+    Subdomain                      *string                `json:"subdomain,omitempty"`
+    Currency                       *string                `json:"currency,omitempty"`
+    SellerId                       *int                   `json:"seller_id,omitempty"`
+    NonPrimaryCurrencies           []string               `json:"non_primary_currencies,omitempty"`
+    RelationshipInvoicingEnabled   *bool                  `json:"relationship_invoicing_enabled,omitempty"`
+    CustomerHierarchyEnabled       *bool                  `json:"customer_hierarchy_enabled,omitempty"`
+    WhopaysEnabled                 *bool                  `json:"whopays_enabled,omitempty"`
+    WhopaysDefaultPayer            *string                `json:"whopays_default_payer,omitempty"`
+    AllocationSettings             *AllocationSettings    `json:"allocation_settings,omitempty"`
+    DefaultPaymentCollectionMethod *string                `json:"default_payment_collection_method,omitempty"`
+    OrganizationAddress            *OrganizationAddress   `json:"organization_address,omitempty"`
+    TaxConfiguration               *TaxConfiguration      `json:"tax_configuration,omitempty"`
+    NetTerms                       *NetTerms              `json:"net_terms,omitempty"`
+    Test                           *bool                  `json:"test,omitempty"`
+    AdditionalProperties           map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for Site.
@@ -35,13 +35,17 @@ type Site struct {
 func (s Site) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(s.AdditionalProperties,
+        "id", "name", "subdomain", "currency", "seller_id", "non_primary_currencies", "relationship_invoicing_enabled", "customer_hierarchy_enabled", "whopays_enabled", "whopays_default_payer", "allocation_settings", "default_payment_collection_method", "organization_address", "tax_configuration", "net_terms", "test"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(s.toMap())
 }
 
 // toMap converts the Site object to a map representation for JSON marshaling.
 func (s Site) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, s.AdditionalProperties)
+    MergeAdditionalProperties(structMap, s.AdditionalProperties)
     if s.Id != nil {
         structMap["id"] = s.Id
     }
@@ -101,12 +105,12 @@ func (s *Site) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "id", "name", "subdomain", "currency", "seller_id", "non_primary_currencies", "relationship_invoicing_enabled", "customer_hierarchy_enabled", "whopays_enabled", "whopays_default_payer", "allocation_settings", "default_payment_collection_method", "organization_address", "tax_configuration", "net_terms", "test")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "id", "name", "subdomain", "currency", "seller_id", "non_primary_currencies", "relationship_invoicing_enabled", "customer_hierarchy_enabled", "whopays_enabled", "whopays_default_payer", "allocation_settings", "default_payment_collection_method", "organization_address", "tax_configuration", "net_terms", "test")
     if err != nil {
     	return err
     }
-    
     s.AdditionalProperties = additionalProperties
+    
     s.Id = temp.Id
     s.Name = temp.Name
     s.Subdomain = temp.Subdomain

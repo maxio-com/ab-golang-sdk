@@ -38,7 +38,7 @@ type RefundInvoiceEventData struct {
     RefundId             int                        `json:"refund_id"`
     // The time the refund was applied, in ISO 8601 format, i.e. "2019-06-07T17:20:06Z"
     TransactionTime      time.Time                  `json:"transaction_time"`
-    AdditionalProperties map[string]any             `json:"_"`
+    AdditionalProperties map[string]interface{}     `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for RefundInvoiceEventData.
@@ -46,13 +46,17 @@ type RefundInvoiceEventData struct {
 func (r RefundInvoiceEventData) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(r.AdditionalProperties,
+        "apply_credit", "consolidation_level", "credit_note_attributes", "memo", "original_amount", "payment_id", "refund_amount", "refund_id", "transaction_time"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(r.toMap())
 }
 
 // toMap converts the RefundInvoiceEventData object to a map representation for JSON marshaling.
 func (r RefundInvoiceEventData) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, r.AdditionalProperties)
+    MergeAdditionalProperties(structMap, r.AdditionalProperties)
     structMap["apply_credit"] = r.ApplyCredit
     if r.ConsolidationLevel != nil {
         structMap["consolidation_level"] = r.ConsolidationLevel
@@ -83,12 +87,12 @@ func (r *RefundInvoiceEventData) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "apply_credit", "consolidation_level", "credit_note_attributes", "memo", "original_amount", "payment_id", "refund_amount", "refund_id", "transaction_time")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "apply_credit", "consolidation_level", "credit_note_attributes", "memo", "original_amount", "payment_id", "refund_amount", "refund_id", "transaction_time")
     if err != nil {
     	return err
     }
-    
     r.AdditionalProperties = additionalProperties
+    
     r.ApplyCredit = *temp.ApplyCredit
     r.ConsolidationLevel = temp.ConsolidationLevel
     r.CreditNoteAttributes = *temp.CreditNoteAttributes

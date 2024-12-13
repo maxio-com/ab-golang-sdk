@@ -11,30 +11,30 @@ import (
 
 // UpdateCustomer represents a UpdateCustomer struct.
 type UpdateCustomer struct {
-    FirstName            *string          `json:"first_name,omitempty"`
-    LastName             *string          `json:"last_name,omitempty"`
-    Email                *string          `json:"email,omitempty"`
-    CcEmails             *string          `json:"cc_emails,omitempty"`
-    Organization         *string          `json:"organization,omitempty"`
-    Reference            *string          `json:"reference,omitempty"`
-    Address              *string          `json:"address,omitempty"`
-    Address2             *string          `json:"address_2,omitempty"`
-    City                 *string          `json:"city,omitempty"`
-    State                *string          `json:"state,omitempty"`
-    Zip                  *string          `json:"zip,omitempty"`
-    Country              *string          `json:"country,omitempty"`
-    Phone                *string          `json:"phone,omitempty"`
+    FirstName            *string                `json:"first_name,omitempty"`
+    LastName             *string                `json:"last_name,omitempty"`
+    Email                *string                `json:"email,omitempty"`
+    CcEmails             *string                `json:"cc_emails,omitempty"`
+    Organization         *string                `json:"organization,omitempty"`
+    Reference            *string                `json:"reference,omitempty"`
+    Address              *string                `json:"address,omitempty"`
+    Address2             *string                `json:"address_2,omitempty"`
+    City                 *string                `json:"city,omitempty"`
+    State                *string                `json:"state,omitempty"`
+    Zip                  *string                `json:"zip,omitempty"`
+    Country              *string                `json:"country,omitempty"`
+    Phone                *string                `json:"phone,omitempty"`
     // Set a specific language on a customer record.
-    Locale               *string          `json:"locale,omitempty"`
-    VatNumber            *string          `json:"vat_number,omitempty"`
-    TaxExempt            *bool            `json:"tax_exempt,omitempty"`
-    TaxExemptReason      *string          `json:"tax_exempt_reason,omitempty"`
-    ParentId             Optional[int]    `json:"parent_id"`
+    Locale               *string                `json:"locale,omitempty"`
+    VatNumber            *string                `json:"vat_number,omitempty"`
+    TaxExempt            *bool                  `json:"tax_exempt,omitempty"`
+    TaxExemptReason      *string                `json:"tax_exempt_reason,omitempty"`
+    ParentId             Optional[int]          `json:"parent_id"`
     // Is the customer verified to use ACH as a payment method. Available only on Authorize.Net gateway
-    Verified             Optional[bool]   `json:"verified"`
+    Verified             Optional[bool]         `json:"verified"`
     // The Salesforce ID of the customer
-    SalesforceId         Optional[string] `json:"salesforce_id"`
-    AdditionalProperties map[string]any   `json:"_"`
+    SalesforceId         Optional[string]       `json:"salesforce_id"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for UpdateCustomer.
@@ -42,13 +42,17 @@ type UpdateCustomer struct {
 func (u UpdateCustomer) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(u.AdditionalProperties,
+        "first_name", "last_name", "email", "cc_emails", "organization", "reference", "address", "address_2", "city", "state", "zip", "country", "phone", "locale", "vat_number", "tax_exempt", "tax_exempt_reason", "parent_id", "verified", "salesforce_id"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(u.toMap())
 }
 
 // toMap converts the UpdateCustomer object to a map representation for JSON marshaling.
 func (u UpdateCustomer) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, u.AdditionalProperties)
+    MergeAdditionalProperties(structMap, u.AdditionalProperties)
     if u.FirstName != nil {
         structMap["first_name"] = u.FirstName
     }
@@ -132,12 +136,12 @@ func (u *UpdateCustomer) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "first_name", "last_name", "email", "cc_emails", "organization", "reference", "address", "address_2", "city", "state", "zip", "country", "phone", "locale", "vat_number", "tax_exempt", "tax_exempt_reason", "parent_id", "verified", "salesforce_id")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "first_name", "last_name", "email", "cc_emails", "organization", "reference", "address", "address_2", "city", "state", "zip", "country", "phone", "locale", "vat_number", "tax_exempt", "tax_exempt_reason", "parent_id", "verified", "salesforce_id")
     if err != nil {
     	return err
     }
-    
     u.AdditionalProperties = additionalProperties
+    
     u.FirstName = temp.FirstName
     u.LastName = temp.LastName
     u.Email = temp.Email

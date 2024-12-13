@@ -24,7 +24,7 @@ type UpdateComponentPricePoint struct {
     // A string representing the interval unit for this component price point, either month or day. This property is only available for sites with Multifrequency enabled.
     IntervalUnit         Optional[IntervalUnit] `json:"interval_unit"`
     Prices               []UpdatePrice          `json:"prices,omitempty"`
-    AdditionalProperties map[string]any         `json:"_"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for UpdateComponentPricePoint.
@@ -32,13 +32,17 @@ type UpdateComponentPricePoint struct {
 func (u UpdateComponentPricePoint) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(u.AdditionalProperties,
+        "name", "handle", "pricing_scheme", "use_site_exchange_rate", "tax_included", "interval", "interval_unit", "prices"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(u.toMap())
 }
 
 // toMap converts the UpdateComponentPricePoint object to a map representation for JSON marshaling.
 func (u UpdateComponentPricePoint) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, u.AdditionalProperties)
+    MergeAdditionalProperties(structMap, u.AdditionalProperties)
     if u.Name != nil {
         structMap["name"] = u.Name
     }
@@ -78,12 +82,12 @@ func (u *UpdateComponentPricePoint) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "name", "handle", "pricing_scheme", "use_site_exchange_rate", "tax_included", "interval", "interval_unit", "prices")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "name", "handle", "pricing_scheme", "use_site_exchange_rate", "tax_included", "interval", "interval_unit", "prices")
     if err != nil {
     	return err
     }
-    
     u.AdditionalProperties = additionalProperties
+    
     u.Name = temp.Name
     u.Handle = temp.Handle
     u.PricingScheme = temp.PricingScheme

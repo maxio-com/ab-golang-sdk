@@ -11,12 +11,12 @@ import (
 
 // ComponentCostDataRateTier represents a ComponentCostDataRateTier struct.
 type ComponentCostDataRateTier struct {
-    StartingQuantity     *int           `json:"starting_quantity,omitempty"`
-    EndingQuantity       Optional[int]  `json:"ending_quantity"`
-    Quantity             *string        `json:"quantity,omitempty"`
-    UnitPrice            *string        `json:"unit_price,omitempty"`
-    Amount               *string        `json:"amount,omitempty"`
-    AdditionalProperties map[string]any `json:"_"`
+    StartingQuantity     *int                   `json:"starting_quantity,omitempty"`
+    EndingQuantity       Optional[int]          `json:"ending_quantity"`
+    Quantity             *string                `json:"quantity,omitempty"`
+    UnitPrice            *string                `json:"unit_price,omitempty"`
+    Amount               *string                `json:"amount,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for ComponentCostDataRateTier.
@@ -24,13 +24,17 @@ type ComponentCostDataRateTier struct {
 func (c ComponentCostDataRateTier) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(c.AdditionalProperties,
+        "starting_quantity", "ending_quantity", "quantity", "unit_price", "amount"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(c.toMap())
 }
 
 // toMap converts the ComponentCostDataRateTier object to a map representation for JSON marshaling.
 func (c ComponentCostDataRateTier) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, c.AdditionalProperties)
+    MergeAdditionalProperties(structMap, c.AdditionalProperties)
     if c.StartingQuantity != nil {
         structMap["starting_quantity"] = c.StartingQuantity
     }
@@ -61,12 +65,12 @@ func (c *ComponentCostDataRateTier) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "starting_quantity", "ending_quantity", "quantity", "unit_price", "amount")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "starting_quantity", "ending_quantity", "quantity", "unit_price", "amount")
     if err != nil {
     	return err
     }
-    
     c.AdditionalProperties = additionalProperties
+    
     c.StartingQuantity = temp.StartingQuantity
     c.EndingQuantity = temp.EndingQuantity
     c.Quantity = temp.Quantity

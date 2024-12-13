@@ -23,7 +23,7 @@ type CreateSubscriptionComponent struct {
     PricePointId         *CreateSubscriptionComponentPricePointId      `json:"price_point_id,omitempty"`
     // Create or update custom pricing unique to the subscription. Used in place of `price_point_id`.
     CustomPrice          *ComponentCustomPrice                         `json:"custom_price,omitempty"`
-    AdditionalProperties map[string]any                                `json:"_"`
+    AdditionalProperties map[string]interface{}                        `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreateSubscriptionComponent.
@@ -31,13 +31,17 @@ type CreateSubscriptionComponent struct {
 func (c CreateSubscriptionComponent) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(c.AdditionalProperties,
+        "component_id", "enabled", "unit_balance", "allocated_quantity", "quantity", "price_point_id", "custom_price"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(c.toMap())
 }
 
 // toMap converts the CreateSubscriptionComponent object to a map representation for JSON marshaling.
 func (c CreateSubscriptionComponent) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, c.AdditionalProperties)
+    MergeAdditionalProperties(structMap, c.AdditionalProperties)
     if c.ComponentId != nil {
         structMap["component_id"] = c.ComponentId.toMap()
     }
@@ -70,12 +74,12 @@ func (c *CreateSubscriptionComponent) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "component_id", "enabled", "unit_balance", "allocated_quantity", "quantity", "price_point_id", "custom_price")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "component_id", "enabled", "unit_balance", "allocated_quantity", "quantity", "price_point_id", "custom_price")
     if err != nil {
     	return err
     }
-    
     c.AdditionalProperties = additionalProperties
+    
     c.ComponentId = temp.ComponentId
     c.Enabled = temp.Enabled
     c.UnitBalance = temp.UnitBalance

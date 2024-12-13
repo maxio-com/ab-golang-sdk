@@ -13,8 +13,8 @@ import (
 
 // CreateAllocationRequest represents a CreateAllocationRequest struct.
 type CreateAllocationRequest struct {
-    Allocation           CreateAllocation `json:"allocation"`
-    AdditionalProperties map[string]any   `json:"_"`
+    Allocation           CreateAllocation       `json:"allocation"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreateAllocationRequest.
@@ -22,13 +22,17 @@ type CreateAllocationRequest struct {
 func (c CreateAllocationRequest) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(c.AdditionalProperties,
+        "allocation"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(c.toMap())
 }
 
 // toMap converts the CreateAllocationRequest object to a map representation for JSON marshaling.
 func (c CreateAllocationRequest) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, c.AdditionalProperties)
+    MergeAdditionalProperties(structMap, c.AdditionalProperties)
     structMap["allocation"] = c.Allocation.toMap()
     return structMap
 }
@@ -45,12 +49,12 @@ func (c *CreateAllocationRequest) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "allocation")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "allocation")
     if err != nil {
     	return err
     }
-    
     c.AdditionalProperties = additionalProperties
+    
     c.Allocation = *temp.Allocation
     return nil
 }

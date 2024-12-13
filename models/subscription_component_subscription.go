@@ -34,9 +34,9 @@ type SubscriptionComponentSubscription struct {
     // * `suspended` - Indicates that a prepaid subscription has used up all their prepayment balance. If a prepayment is applied, it will return to an active state.
     // * `trial_ended` - A subscription in a trial_ended state is a subscription that completed a no-obligation trial and did not have a card on file at the expiration of the trial period. See [Product Pricing – No Obligation Trials](https://maxio.zendesk.com/hc/en-us/articles/24261076617869-Product-Editing) for more details.
     // See [Subscription States](https://maxio.zendesk.com/hc/en-us/articles/24252119027853-Subscription-States) for more info about subscription states and state transitions.
-    State                *SubscriptionState `json:"state,omitempty"`
-    UpdatedAt            *time.Time         `json:"updated_at,omitempty"`
-    AdditionalProperties map[string]any     `json:"_"`
+    State                *SubscriptionState     `json:"state,omitempty"`
+    UpdatedAt            *time.Time             `json:"updated_at,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for SubscriptionComponentSubscription.
@@ -44,13 +44,17 @@ type SubscriptionComponentSubscription struct {
 func (s SubscriptionComponentSubscription) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(s.AdditionalProperties,
+        "state", "updated_at"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(s.toMap())
 }
 
 // toMap converts the SubscriptionComponentSubscription object to a map representation for JSON marshaling.
 func (s SubscriptionComponentSubscription) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, s.AdditionalProperties)
+    MergeAdditionalProperties(structMap, s.AdditionalProperties)
     if s.State != nil {
         structMap["state"] = s.State
     }
@@ -68,12 +72,12 @@ func (s *SubscriptionComponentSubscription) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "state", "updated_at")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "state", "updated_at")
     if err != nil {
     	return err
     }
-    
     s.AdditionalProperties = additionalProperties
+    
     s.State = temp.State
     if temp.UpdatedAt != nil {
         UpdatedAtVal, err := time.Parse(time.RFC3339, *temp.UpdatedAt)

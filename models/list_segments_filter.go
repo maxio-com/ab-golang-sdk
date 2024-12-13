@@ -12,14 +12,14 @@ import (
 // ListSegmentsFilter represents a ListSegmentsFilter struct.
 type ListSegmentsFilter struct {
     // The value passed here would be used to filter segments. Pass a value related to `segment_property_1` on attached Metric. If empty string is passed, this filter would be rejected. Use in query `filter[segment_property_1_value]=EU`.
-    SegmentProperty1Value *string        `json:"segment_property_1_value,omitempty"`
+    SegmentProperty1Value *string                `json:"segment_property_1_value,omitempty"`
     // The value passed here would be used to filter segments. Pass a value related to `segment_property_2` on attached Metric. If empty string is passed, this filter would be rejected.
-    SegmentProperty2Value *string        `json:"segment_property_2_value,omitempty"`
+    SegmentProperty2Value *string                `json:"segment_property_2_value,omitempty"`
     // The value passed here would be used to filter segments. Pass a value related to `segment_property_3` on attached Metric. If empty string is passed, this filter would be rejected.
-    SegmentProperty3Value *string        `json:"segment_property_3_value,omitempty"`
+    SegmentProperty3Value *string                `json:"segment_property_3_value,omitempty"`
     // The value passed here would be used to filter segments. Pass a value related to `segment_property_4` on attached Metric. If empty string is passed, this filter would be rejected.
-    SegmentProperty4Value *string        `json:"segment_property_4_value,omitempty"`
-    AdditionalProperties  map[string]any `json:"_"`
+    SegmentProperty4Value *string                `json:"segment_property_4_value,omitempty"`
+    AdditionalProperties  map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for ListSegmentsFilter.
@@ -27,13 +27,17 @@ type ListSegmentsFilter struct {
 func (l ListSegmentsFilter) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(l.AdditionalProperties,
+        "segment_property_1_value", "segment_property_2_value", "segment_property_3_value", "segment_property_4_value"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(l.toMap())
 }
 
 // toMap converts the ListSegmentsFilter object to a map representation for JSON marshaling.
 func (l ListSegmentsFilter) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, l.AdditionalProperties)
+    MergeAdditionalProperties(structMap, l.AdditionalProperties)
     if l.SegmentProperty1Value != nil {
         structMap["segment_property_1_value"] = l.SegmentProperty1Value
     }
@@ -57,12 +61,12 @@ func (l *ListSegmentsFilter) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "segment_property_1_value", "segment_property_2_value", "segment_property_3_value", "segment_property_4_value")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "segment_property_1_value", "segment_property_2_value", "segment_property_3_value", "segment_property_4_value")
     if err != nil {
     	return err
     }
-    
     l.AdditionalProperties = additionalProperties
+    
     l.SegmentProperty1Value = temp.SegmentProperty1Value
     l.SegmentProperty2Value = temp.SegmentProperty2Value
     l.SegmentProperty3Value = temp.SegmentProperty3Value

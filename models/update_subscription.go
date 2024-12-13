@@ -35,14 +35,14 @@ type UpdateSubscription struct {
     // (Optional) An array of component ids and custom prices to be added to the subscription.
     Components                        []UpdateSubscriptionComponent `json:"components,omitempty"`
     // Enable Communication Delay feature, making sure no communication (email or SMS) is sent to the Customer between 9PM and 8AM in time zone set by the `dunning_communication_delay_time_zone` attribute.
-    DunningCommunicationDelayEnabled  Optional[bool]                `json:"dunning_communication_delay_enabled"`
+    DunningCommunicationDelayEnabled  *bool                         `json:"dunning_communication_delay_enabled,omitempty"`
     // Time zone for the Dunning Communication Delay feature.
     DunningCommunicationDelayTimeZone Optional[string]              `json:"dunning_communication_delay_time_zone"`
     // Set to change the current product's price point.
     ProductPricePointId               *int                          `json:"product_price_point_id,omitempty"`
     // Set to change the current product's price point.
     ProductPricePointHandle           *string                       `json:"product_price_point_handle,omitempty"`
-    AdditionalProperties              map[string]any                `json:"_"`
+    AdditionalProperties              map[string]interface{}        `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for UpdateSubscription.
@@ -50,13 +50,17 @@ type UpdateSubscription struct {
 func (u UpdateSubscription) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(u.AdditionalProperties,
+        "credit_card_attributes", "product_handle", "product_id", "product_change_delayed", "next_product_id", "next_product_price_point_id", "snap_day", "next_billing_at", "payment_collection_method", "receives_invoice_emails", "net_terms", "stored_credential_transaction_id", "reference", "custom_price", "components", "dunning_communication_delay_enabled", "dunning_communication_delay_time_zone", "product_price_point_id", "product_price_point_handle"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(u.toMap())
 }
 
 // toMap converts the UpdateSubscription object to a map representation for JSON marshaling.
 func (u UpdateSubscription) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, u.AdditionalProperties)
+    MergeAdditionalProperties(structMap, u.AdditionalProperties)
     if u.CreditCardAttributes != nil {
         structMap["credit_card_attributes"] = u.CreditCardAttributes.toMap()
     }
@@ -102,12 +106,8 @@ func (u UpdateSubscription) toMap() map[string]any {
     if u.Components != nil {
         structMap["components"] = u.Components
     }
-    if u.DunningCommunicationDelayEnabled.IsValueSet() {
-        if u.DunningCommunicationDelayEnabled.Value() != nil {
-            structMap["dunning_communication_delay_enabled"] = u.DunningCommunicationDelayEnabled.Value()
-        } else {
-            structMap["dunning_communication_delay_enabled"] = nil
-        }
+    if u.DunningCommunicationDelayEnabled != nil {
+        structMap["dunning_communication_delay_enabled"] = u.DunningCommunicationDelayEnabled
     }
     if u.DunningCommunicationDelayTimeZone.IsValueSet() {
         if u.DunningCommunicationDelayTimeZone.Value() != nil {
@@ -133,12 +133,12 @@ func (u *UpdateSubscription) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "credit_card_attributes", "product_handle", "product_id", "product_change_delayed", "next_product_id", "next_product_price_point_id", "snap_day", "next_billing_at", "payment_collection_method", "receives_invoice_emails", "net_terms", "stored_credential_transaction_id", "reference", "custom_price", "components", "dunning_communication_delay_enabled", "dunning_communication_delay_time_zone", "product_price_point_id", "product_price_point_handle")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "credit_card_attributes", "product_handle", "product_id", "product_change_delayed", "next_product_id", "next_product_price_point_id", "snap_day", "next_billing_at", "payment_collection_method", "receives_invoice_emails", "net_terms", "stored_credential_transaction_id", "reference", "custom_price", "components", "dunning_communication_delay_enabled", "dunning_communication_delay_time_zone", "product_price_point_id", "product_price_point_handle")
     if err != nil {
     	return err
     }
-    
     u.AdditionalProperties = additionalProperties
+    
     u.CreditCardAttributes = temp.CreditCardAttributes
     u.ProductHandle = temp.ProductHandle
     u.ProductId = temp.ProductId
@@ -184,7 +184,7 @@ type tempUpdateSubscription  struct {
     Reference                         *string                       `json:"reference,omitempty"`
     CustomPrice                       *SubscriptionCustomPrice      `json:"custom_price,omitempty"`
     Components                        []UpdateSubscriptionComponent `json:"components,omitempty"`
-    DunningCommunicationDelayEnabled  Optional[bool]                `json:"dunning_communication_delay_enabled"`
+    DunningCommunicationDelayEnabled  *bool                         `json:"dunning_communication_delay_enabled,omitempty"`
     DunningCommunicationDelayTimeZone Optional[string]              `json:"dunning_communication_delay_time_zone"`
     ProductPricePointId               *int                          `json:"product_price_point_id,omitempty"`
     ProductPricePointHandle           *string                       `json:"product_price_point_handle,omitempty"`

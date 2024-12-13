@@ -13,8 +13,8 @@ import (
 
 // CreatePrepaymentRequest represents a CreatePrepaymentRequest struct.
 type CreatePrepaymentRequest struct {
-    Prepayment           CreatePrepayment `json:"prepayment"`
-    AdditionalProperties map[string]any   `json:"_"`
+    Prepayment           CreatePrepayment       `json:"prepayment"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreatePrepaymentRequest.
@@ -22,13 +22,17 @@ type CreatePrepaymentRequest struct {
 func (c CreatePrepaymentRequest) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(c.AdditionalProperties,
+        "prepayment"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(c.toMap())
 }
 
 // toMap converts the CreatePrepaymentRequest object to a map representation for JSON marshaling.
 func (c CreatePrepaymentRequest) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, c.AdditionalProperties)
+    MergeAdditionalProperties(structMap, c.AdditionalProperties)
     structMap["prepayment"] = c.Prepayment.toMap()
     return structMap
 }
@@ -45,12 +49,12 @@ func (c *CreatePrepaymentRequest) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "prepayment")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "prepayment")
     if err != nil {
     	return err
     }
-    
     c.AdditionalProperties = additionalProperties
+    
     c.Prepayment = *temp.Prepayment
     return nil
 }

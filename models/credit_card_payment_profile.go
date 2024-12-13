@@ -14,47 +14,47 @@ import (
 // CreditCardPaymentProfile represents a CreditCardPaymentProfile struct.
 type CreditCardPaymentProfile struct {
     // The Chargify-assigned ID of the stored card. This value can be used as an input to payment_profile_id when creating a subscription, in order to re-use a stored payment profile for the same customer.
-    Id                   *int             `json:"id,omitempty"`
+    Id                   *int                   `json:"id,omitempty"`
     // The first name of the card holder.
-    FirstName            *string          `json:"first_name,omitempty"`
+    FirstName            *string                `json:"first_name,omitempty"`
     // The last name of the card holder.
-    LastName             *string          `json:"last_name,omitempty"`
+    LastName             *string                `json:"last_name,omitempty"`
     // A string representation of the credit card number with all but the last 4 digits masked with X’s (i.e. ‘XXXX-XXXX-XXXX-1234’).
-    MaskedCardNumber     *string          `json:"masked_card_number,omitempty"`
+    MaskedCardNumber     *string                `json:"masked_card_number,omitempty"`
     // The type of card used.
-    CardType             *CardType        `json:"card_type,omitempty"`
+    CardType             *CardType              `json:"card_type,omitempty"`
     // An integer representing the expiration month of the card(1 – 12).
-    ExpirationMonth      *int             `json:"expiration_month,omitempty"`
+    ExpirationMonth      *int                   `json:"expiration_month,omitempty"`
     // An integer representing the 4-digit expiration year of the card(i.e. ‘2012’).
-    ExpirationYear       *int             `json:"expiration_year,omitempty"`
+    ExpirationYear       *int                   `json:"expiration_year,omitempty"`
     // The Chargify-assigned id for the customer record to which the card belongs.
-    CustomerId           *int             `json:"customer_id,omitempty"`
+    CustomerId           *int                   `json:"customer_id,omitempty"`
     // The vault that stores the payment profile with the provided `vault_token`. Use `bogus` for testing.
-    CurrentVault         *CreditCardVault `json:"current_vault,omitempty"`
+    CurrentVault         *CreditCardVault       `json:"current_vault,omitempty"`
     // The “token” provided by your vault storage for an already stored payment profile.
-    VaultToken           Optional[string] `json:"vault_token"`
+    VaultToken           Optional[string]       `json:"vault_token"`
     // The current billing street address for the card.
-    BillingAddress       Optional[string] `json:"billing_address"`
+    BillingAddress       Optional[string]       `json:"billing_address"`
     // The current billing address city for the card.
-    BillingCity          Optional[string] `json:"billing_city"`
+    BillingCity          Optional[string]       `json:"billing_city"`
     // The current billing address state for the card.
-    BillingState         Optional[string] `json:"billing_state"`
+    BillingState         Optional[string]       `json:"billing_state"`
     // The current billing address zip code for the card.
-    BillingZip           Optional[string] `json:"billing_zip"`
+    BillingZip           Optional[string]       `json:"billing_zip"`
     // The current billing address country for the card.
-    BillingCountry       Optional[string] `json:"billing_country"`
+    BillingCountry       Optional[string]       `json:"billing_country"`
     // (only for Authorize.Net CIM storage): the customerProfileId for the owner of the customerPaymentProfileId provided as the vault_token.
-    CustomerVaultToken   Optional[string] `json:"customer_vault_token"`
+    CustomerVaultToken   Optional[string]       `json:"customer_vault_token"`
     // The current billing street address, second line, for the card.
-    BillingAddress2      Optional[string] `json:"billing_address_2"`
-    PaymentType          PaymentType      `json:"payment_type"`
-    Disabled             *bool            `json:"disabled,omitempty"`
+    BillingAddress2      Optional[string]       `json:"billing_address_2"`
+    PaymentType          PaymentType            `json:"payment_type"`
+    Disabled             *bool                  `json:"disabled,omitempty"`
     // Token received after sending billing information using chargify.js. This token will only be received if passed as a sole attribute of credit_card_attributes (i.e. tok_9g6hw85pnpt6knmskpwp4ttt)
-    ChargifyToken        *string          `json:"chargify_token,omitempty"`
-    SiteGatewaySettingId Optional[int]    `json:"site_gateway_setting_id"`
+    ChargifyToken        *string                `json:"chargify_token,omitempty"`
+    SiteGatewaySettingId Optional[int]          `json:"site_gateway_setting_id"`
     // An identifier of connected gateway.
-    GatewayHandle        Optional[string] `json:"gateway_handle"`
-    AdditionalProperties map[string]any   `json:"_"`
+    GatewayHandle        Optional[string]       `json:"gateway_handle"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreditCardPaymentProfile.
@@ -62,13 +62,17 @@ type CreditCardPaymentProfile struct {
 func (c CreditCardPaymentProfile) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(c.AdditionalProperties,
+        "id", "first_name", "last_name", "masked_card_number", "card_type", "expiration_month", "expiration_year", "customer_id", "current_vault", "vault_token", "billing_address", "billing_city", "billing_state", "billing_zip", "billing_country", "customer_vault_token", "billing_address_2", "payment_type", "disabled", "chargify_token", "site_gateway_setting_id", "gateway_handle"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(c.toMap())
 }
 
 // toMap converts the CreditCardPaymentProfile object to a map representation for JSON marshaling.
 func (c CreditCardPaymentProfile) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, c.AdditionalProperties)
+    MergeAdditionalProperties(structMap, c.AdditionalProperties)
     if c.Id != nil {
         structMap["id"] = c.Id
     }
@@ -188,12 +192,12 @@ func (c *CreditCardPaymentProfile) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "id", "first_name", "last_name", "masked_card_number", "card_type", "expiration_month", "expiration_year", "customer_id", "current_vault", "vault_token", "billing_address", "billing_city", "billing_state", "billing_zip", "billing_country", "customer_vault_token", "billing_address_2", "payment_type", "disabled", "chargify_token", "site_gateway_setting_id", "gateway_handle")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "id", "first_name", "last_name", "masked_card_number", "card_type", "expiration_month", "expiration_year", "customer_id", "current_vault", "vault_token", "billing_address", "billing_city", "billing_state", "billing_zip", "billing_country", "customer_vault_token", "billing_address_2", "payment_type", "disabled", "chargify_token", "site_gateway_setting_id", "gateway_handle")
     if err != nil {
     	return err
     }
-    
     c.AdditionalProperties = additionalProperties
+    
     c.Id = temp.Id
     c.FirstName = temp.FirstName
     c.LastName = temp.LastName

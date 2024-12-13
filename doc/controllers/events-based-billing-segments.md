@@ -56,19 +56,19 @@ componentId := "component_id8"
 pricePointId := "price_point_id8"
 
 body := models.CreateSegmentRequest{
-    Segment: models.CreateSegment{
+    Segment:              models.CreateSegment{
         SegmentProperty1Value: models.ToPointer(models.CreateSegmentSegmentProperty1ValueContainer.FromString("France")),
         SegmentProperty2Value: models.ToPointer(models.CreateSegmentSegmentProperty2ValueContainer.FromString("Spain")),
         PricingScheme:         models.PricingScheme("volume"),
         Prices:                []models.CreateOrUpdateSegmentPrice{
             models.CreateOrUpdateSegmentPrice{
-                StartingQuantity: models.ToPointer(1),
-                EndingQuantity:   models.ToPointer(10000),
-                UnitPrice:        models.CreateOrUpdateSegmentPriceUnitPriceContainer.FromPrecision(float64(0.19)),
+                StartingQuantity:     models.ToPointer(1),
+                EndingQuantity:       models.ToPointer(10000),
+                UnitPrice:            models.CreateOrUpdateSegmentPriceUnitPriceContainer.FromPrecision(float64(0.19)),
             },
             models.CreateOrUpdateSegmentPrice{
-                StartingQuantity: models.ToPointer(10001),
-                UnitPrice:        models.CreateOrUpdateSegmentPriceUnitPriceContainer.FromPrecision(float64(0.09)),
+                StartingQuantity:     models.ToPointer(10001),
+                UnitPrice:            models.CreateOrUpdateSegmentPriceUnitPriceContainer.FromPrecision(float64(0.09)),
             },
         },
     },

@@ -27,12 +27,6 @@ type MeteredComponent struct {
     PricingScheme             PricingScheme              `json:"pricing_scheme"`
     // (Not required for ‘per_unit’ pricing schemes) One or more price brackets. See [Price Bracket Rules](https://maxio.zendesk.com/hc/en-us/articles/24261149166733-Component-Pricing-Schemes#price-bracket-rules) for an overview of how price brackets work for different pricing schemes.
     Prices                    []Price                    `json:"prices,omitempty"`
-    // The type of credit to be created when upgrading/downgrading. Defaults to the component and then site setting if one is not provided.
-    // Available values: `full`, `prorated`, `none`.
-    UpgradeCharge             Optional[CreditType]       `json:"upgrade_charge"`
-    // The type of credit to be created when upgrading/downgrading. Defaults to the component and then site setting if one is not provided.
-    // Available values: `full`, `prorated`, `none`.
-    DowngradeCredit           Optional[CreditType]       `json:"downgrade_credit"`
     PricePoints               []ComponentPricePointItem  `json:"price_points,omitempty"`
     // The amount the customer will be charged per unit when the pricing scheme is “per_unit”. For On/Off Components, this is the amount that the customer will be charged when they turn the component on for the subscription. The price can contain up to 8 decimal places. i.e. 1.00 or 0.0012 or 0.00000065
     UnitPrice                 *MeteredComponentUnitPrice `json:"unit_price,omitempty"`
@@ -40,8 +34,6 @@ type MeteredComponent struct {
     TaxCode                   *string                    `json:"tax_code,omitempty"`
     // (Only available on Relationship Invoicing sites) Boolean flag describing if the service date range should show for the component on generated invoices.
     HideDateRangeOnInvoice    *bool                      `json:"hide_date_range_on_invoice,omitempty"`
-    // deprecated May 2011 - use unit_price instead
-    PriceInCents              *string                    `json:"price_in_cents,omitempty"`
     DisplayOnHostedPage       *bool                      `json:"display_on_hosted_page,omitempty"`
     AllowFractionalQuantities *bool                      `json:"allow_fractional_quantities,omitempty"`
     PublicSignupPageIds       []int                      `json:"public_signup_page_ids,omitempty"`
@@ -49,7 +41,7 @@ type MeteredComponent struct {
     Interval                  *int                       `json:"interval,omitempty"`
     // A string representing the interval unit for this component's default price point, either month or day. This property is only available for sites with Multifrequency enabled.
     IntervalUnit              Optional[IntervalUnit]     `json:"interval_unit"`
-    AdditionalProperties      map[string]any             `json:"_"`
+    AdditionalProperties      map[string]interface{}     `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for MeteredComponent.
@@ -57,13 +49,17 @@ type MeteredComponent struct {
 func (m MeteredComponent) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(m.AdditionalProperties,
+        "name", "unit_name", "description", "handle", "taxable", "pricing_scheme", "prices", "price_points", "unit_price", "tax_code", "hide_date_range_on_invoice", "display_on_hosted_page", "allow_fractional_quantities", "public_signup_page_ids", "interval", "interval_unit"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(m.toMap())
 }
 
 // toMap converts the MeteredComponent object to a map representation for JSON marshaling.
 func (m MeteredComponent) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, m.AdditionalProperties)
+    MergeAdditionalProperties(structMap, m.AdditionalProperties)
     structMap["name"] = m.Name
     structMap["unit_name"] = m.UnitName
     if m.Description != nil {
@@ -79,20 +75,6 @@ func (m MeteredComponent) toMap() map[string]any {
     if m.Prices != nil {
         structMap["prices"] = m.Prices
     }
-    if m.UpgradeCharge.IsValueSet() {
-        if m.UpgradeCharge.Value() != nil {
-            structMap["upgrade_charge"] = m.UpgradeCharge.Value()
-        } else {
-            structMap["upgrade_charge"] = nil
-        }
-    }
-    if m.DowngradeCredit.IsValueSet() {
-        if m.DowngradeCredit.Value() != nil {
-            structMap["downgrade_credit"] = m.DowngradeCredit.Value()
-        } else {
-            structMap["downgrade_credit"] = nil
-        }
-    }
     if m.PricePoints != nil {
         structMap["price_points"] = m.PricePoints
     }
@@ -104,9 +86,6 @@ func (m MeteredComponent) toMap() map[string]any {
     }
     if m.HideDateRangeOnInvoice != nil {
         structMap["hide_date_range_on_invoice"] = m.HideDateRangeOnInvoice
-    }
-    if m.PriceInCents != nil {
-        structMap["price_in_cents"] = m.PriceInCents
     }
     if m.DisplayOnHostedPage != nil {
         structMap["display_on_hosted_page"] = m.DisplayOnHostedPage
@@ -142,12 +121,12 @@ func (m *MeteredComponent) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "name", "unit_name", "description", "handle", "taxable", "pricing_scheme", "prices", "upgrade_charge", "downgrade_credit", "price_points", "unit_price", "tax_code", "hide_date_range_on_invoice", "price_in_cents", "display_on_hosted_page", "allow_fractional_quantities", "public_signup_page_ids", "interval", "interval_unit")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "name", "unit_name", "description", "handle", "taxable", "pricing_scheme", "prices", "price_points", "unit_price", "tax_code", "hide_date_range_on_invoice", "display_on_hosted_page", "allow_fractional_quantities", "public_signup_page_ids", "interval", "interval_unit")
     if err != nil {
     	return err
     }
-    
     m.AdditionalProperties = additionalProperties
+    
     m.Name = *temp.Name
     m.UnitName = *temp.UnitName
     m.Description = temp.Description
@@ -155,13 +134,10 @@ func (m *MeteredComponent) UnmarshalJSON(input []byte) error {
     m.Taxable = temp.Taxable
     m.PricingScheme = *temp.PricingScheme
     m.Prices = temp.Prices
-    m.UpgradeCharge = temp.UpgradeCharge
-    m.DowngradeCredit = temp.DowngradeCredit
     m.PricePoints = temp.PricePoints
     m.UnitPrice = temp.UnitPrice
     m.TaxCode = temp.TaxCode
     m.HideDateRangeOnInvoice = temp.HideDateRangeOnInvoice
-    m.PriceInCents = temp.PriceInCents
     m.DisplayOnHostedPage = temp.DisplayOnHostedPage
     m.AllowFractionalQuantities = temp.AllowFractionalQuantities
     m.PublicSignupPageIds = temp.PublicSignupPageIds
@@ -179,13 +155,10 @@ type tempMeteredComponent  struct {
     Taxable                   *bool                      `json:"taxable,omitempty"`
     PricingScheme             *PricingScheme             `json:"pricing_scheme"`
     Prices                    []Price                    `json:"prices,omitempty"`
-    UpgradeCharge             Optional[CreditType]       `json:"upgrade_charge"`
-    DowngradeCredit           Optional[CreditType]       `json:"downgrade_credit"`
     PricePoints               []ComponentPricePointItem  `json:"price_points,omitempty"`
     UnitPrice                 *MeteredComponentUnitPrice `json:"unit_price,omitempty"`
     TaxCode                   *string                    `json:"tax_code,omitempty"`
     HideDateRangeOnInvoice    *bool                      `json:"hide_date_range_on_invoice,omitempty"`
-    PriceInCents              *string                    `json:"price_in_cents,omitempty"`
     DisplayOnHostedPage       *bool                      `json:"display_on_hosted_page,omitempty"`
     AllowFractionalQuantities *bool                      `json:"allow_fractional_quantities,omitempty"`
     PublicSignupPageIds       []int                      `json:"public_signup_page_ids,omitempty"`

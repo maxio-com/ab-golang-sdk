@@ -13,8 +13,8 @@ import (
 
 // CreateMeteredComponent represents a CreateMeteredComponent struct.
 type CreateMeteredComponent struct {
-    MeteredComponent     MeteredComponent `json:"metered_component"`
-    AdditionalProperties map[string]any   `json:"_"`
+    MeteredComponent     MeteredComponent       `json:"metered_component"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreateMeteredComponent.
@@ -22,13 +22,17 @@ type CreateMeteredComponent struct {
 func (c CreateMeteredComponent) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(c.AdditionalProperties,
+        "metered_component"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(c.toMap())
 }
 
 // toMap converts the CreateMeteredComponent object to a map representation for JSON marshaling.
 func (c CreateMeteredComponent) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, c.AdditionalProperties)
+    MergeAdditionalProperties(structMap, c.AdditionalProperties)
     structMap["metered_component"] = c.MeteredComponent.toMap()
     return structMap
 }
@@ -45,12 +49,12 @@ func (c *CreateMeteredComponent) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "metered_component")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "metered_component")
     if err != nil {
     	return err
     }
-    
     c.AdditionalProperties = additionalProperties
+    
     c.MeteredComponent = *temp.MeteredComponent
     return nil
 }

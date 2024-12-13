@@ -11,8 +11,8 @@ import (
 
 // ConsolidatedInvoice represents a ConsolidatedInvoice struct.
 type ConsolidatedInvoice struct {
-    Invoices             []Invoice      `json:"invoices,omitempty"`
-    AdditionalProperties map[string]any `json:"_"`
+    Invoices             []Invoice              `json:"invoices,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for ConsolidatedInvoice.
@@ -20,13 +20,17 @@ type ConsolidatedInvoice struct {
 func (c ConsolidatedInvoice) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(c.AdditionalProperties,
+        "invoices"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(c.toMap())
 }
 
 // toMap converts the ConsolidatedInvoice object to a map representation for JSON marshaling.
 func (c ConsolidatedInvoice) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, c.AdditionalProperties)
+    MergeAdditionalProperties(structMap, c.AdditionalProperties)
     if c.Invoices != nil {
         structMap["invoices"] = c.Invoices
     }
@@ -41,12 +45,12 @@ func (c *ConsolidatedInvoice) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "invoices")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "invoices")
     if err != nil {
     	return err
     }
-    
     c.AdditionalProperties = additionalProperties
+    
     c.Invoices = temp.Invoices
     return nil
 }

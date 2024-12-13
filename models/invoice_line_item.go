@@ -14,58 +14,59 @@ import (
 // InvoiceLineItem represents a InvoiceLineItem struct.
 type InvoiceLineItem struct {
     // Unique identifier for the line item.  Useful when cross-referencing the line against individual discounts in the `discounts` or `taxes` lists.
-    Uid                  *string                                    `json:"uid,omitempty"`
+    Uid                   *string                                    `json:"uid,omitempty"`
     // A short descriptor for the charge or item represented by this line.
-    Title                *string                                    `json:"title,omitempty"`
+    Title                 *string                                    `json:"title,omitempty"`
     // Detailed description for the charge or item represented by this line.  May include proration details in plain text.
     // Note: this string may contain line breaks that are hints for the best display format on the invoice.
-    Description          *string                                    `json:"description,omitempty"`
+    Description           *string                                    `json:"description,omitempty"`
     // The quantity or count of units billed by the line item.
     // This is a decimal number represented as a string. (See "About Decimal Numbers".)
-    Quantity             *string                                    `json:"quantity,omitempty"`
+    Quantity              *string                                    `json:"quantity,omitempty"`
     // The price per unit for the line item.
     // When tiered pricing was used (i.e. not every unit was actually priced at the same price) this will be the blended average cost per unit and the `tiered_unit_price` field will be set to `true`.
-    UnitPrice            *string                                    `json:"unit_price,omitempty"`
+    UnitPrice             *string                                    `json:"unit_price,omitempty"`
     // The line subtotal, generally calculated as `quantity * unit_price`. This is the canonical amount of record for the line - when rounding differences are in play, `subtotal_amount` takes precedence over the value derived from `quantity * unit_price` (which may not have the proper precision to exactly equal this amount).
-    SubtotalAmount       *string                                    `json:"subtotal_amount,omitempty"`
+    SubtotalAmount        *string                                    `json:"subtotal_amount,omitempty"`
     // The approximate discount applied to just this line.
     // The value is approximated in cases where rounding errors make it difficult to apportion exactly a total discount among many lines. Several lines may have been summed prior to applying the discount to arrive at `discount_amount` for the invoice - backing that out to the discount on a single line may introduce rounding or precision errors.
-    DiscountAmount       *string                                    `json:"discount_amount,omitempty"`
+    DiscountAmount        *string                                    `json:"discount_amount,omitempty"`
     // The approximate tax applied to just this line.
     // The value is approximated in cases where rounding errors make it difficult to apportion exactly a total tax among many lines. Several lines may have been summed prior to applying the tax rate to arrive at `tax_amount` for the invoice - backing that out to the tax on a single line may introduce rounding or precision errors.
-    TaxAmount            *string                                    `json:"tax_amount,omitempty"`
+    TaxAmount             *string                                    `json:"tax_amount,omitempty"`
     // The non-canonical total amount for the line.
     // `subtotal_amount` is the canonical amount for a line. The invoice `total_amount` is derived from the sum of the line `subtotal_amount`s and discounts or taxes applied thereafter.  Therefore, due to rounding or precision errors, the sum of line `total_amount`s may not equal the invoice `total_amount`.
-    TotalAmount          *string                                    `json:"total_amount,omitempty"`
+    TotalAmount           *string                                    `json:"total_amount,omitempty"`
     // When `true`, indicates that the actual pricing scheme for the line was tiered, so the `unit_price` shown is the blended average for all units.
-    TieredUnitPrice      *bool                                      `json:"tiered_unit_price,omitempty"`
+    TieredUnitPrice       *bool                                      `json:"tiered_unit_price,omitempty"`
     // Start date for the period covered by this line. The format is `"YYYY-MM-DD"`.
     // * For periodic charges paid in advance, this date will match the billing date, and the end date will be in the future.
     // * For periodic charges paid in arrears (e.g. metered charges), this date will be the date of the previous billing, and the end date will be the current billing date.
     // * For non-periodic charges, this date and the end date will match.
-    PeriodRangeStart     *time.Time                                 `json:"period_range_start,omitempty"`
+    PeriodRangeStart      *time.Time                                 `json:"period_range_start,omitempty"`
     // End date for the period covered by this line. The format is `"YYYY-MM-DD"`.
     // * For periodic charges paid in advance, this date will match the next (future) billing date.
     // * For periodic charges paid in arrears (e.g. metered charges), this date will be the date of the current billing date.
     // * For non-periodic charges, this date and the start date will match.
-    PeriodRangeEnd       *time.Time                                 `json:"period_range_end,omitempty"`
-    TransactionId        *int                                       `json:"transaction_id,omitempty"`
+    PeriodRangeEnd        *time.Time                                 `json:"period_range_end,omitempty"`
+    TransactionId         *int                                       `json:"transaction_id,omitempty"`
     // The ID of the product subscribed when the charge was made.
     // This may be set even for component charges, so true product-only (non-component) charges will also have a nil `component_id`.
-    ProductId            Optional[int]                              `json:"product_id"`
+    ProductId             Optional[int]                              `json:"product_id"`
     // The version of the product subscribed when the charge was made.
-    ProductVersion       Optional[int]                              `json:"product_version"`
+    ProductVersion        Optional[int]                              `json:"product_version"`
     // The ID of the component being billed. Will be `nil` for non-component charges.
-    ComponentId          Optional[int]                              `json:"component_id"`
+    ComponentId           Optional[int]                              `json:"component_id"`
     // The price point ID of the component being billed. Will be `nil` for non-component charges.
-    PricePointId         Optional[int]                              `json:"price_point_id"`
-    Hide                 *bool                                      `json:"hide,omitempty"`
-    ComponentCostData    Optional[InvoiceLineItemComponentCostData] `json:"component_cost_data"`
+    PricePointId          Optional[int]                              `json:"price_point_id"`
+    BillingScheduleItemId Optional[int]                              `json:"billing_schedule_item_id"`
+    Hide                  *bool                                      `json:"hide,omitempty"`
+    ComponentCostData     Optional[InvoiceLineItemComponentCostData] `json:"component_cost_data"`
     // The price point ID of the line item's product
-    ProductPricePointId  Optional[int]                              `json:"product_price_point_id"`
-    CustomItem           *bool                                      `json:"custom_item,omitempty"`
-    Kind                 *string                                    `json:"kind,omitempty"`
-    AdditionalProperties map[string]any                             `json:"_"`
+    ProductPricePointId   Optional[int]                              `json:"product_price_point_id"`
+    CustomItem            *bool                                      `json:"custom_item,omitempty"`
+    Kind                  *string                                    `json:"kind,omitempty"`
+    AdditionalProperties  map[string]interface{}                     `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for InvoiceLineItem.
@@ -73,13 +74,17 @@ type InvoiceLineItem struct {
 func (i InvoiceLineItem) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(i.AdditionalProperties,
+        "uid", "title", "description", "quantity", "unit_price", "subtotal_amount", "discount_amount", "tax_amount", "total_amount", "tiered_unit_price", "period_range_start", "period_range_end", "transaction_id", "product_id", "product_version", "component_id", "price_point_id", "billing_schedule_item_id", "hide", "component_cost_data", "product_price_point_id", "custom_item", "kind"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(i.toMap())
 }
 
 // toMap converts the InvoiceLineItem object to a map representation for JSON marshaling.
 func (i InvoiceLineItem) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, i.AdditionalProperties)
+    MergeAdditionalProperties(structMap, i.AdditionalProperties)
     if i.Uid != nil {
         structMap["uid"] = i.Uid
     }
@@ -147,6 +152,13 @@ func (i InvoiceLineItem) toMap() map[string]any {
             structMap["price_point_id"] = nil
         }
     }
+    if i.BillingScheduleItemId.IsValueSet() {
+        if i.BillingScheduleItemId.Value() != nil {
+            structMap["billing_schedule_item_id"] = i.BillingScheduleItemId.Value()
+        } else {
+            structMap["billing_schedule_item_id"] = nil
+        }
+    }
     if i.Hide != nil {
         structMap["hide"] = i.Hide
     }
@@ -181,12 +193,12 @@ func (i *InvoiceLineItem) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "uid", "title", "description", "quantity", "unit_price", "subtotal_amount", "discount_amount", "tax_amount", "total_amount", "tiered_unit_price", "period_range_start", "period_range_end", "transaction_id", "product_id", "product_version", "component_id", "price_point_id", "hide", "component_cost_data", "product_price_point_id", "custom_item", "kind")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "uid", "title", "description", "quantity", "unit_price", "subtotal_amount", "discount_amount", "tax_amount", "total_amount", "tiered_unit_price", "period_range_start", "period_range_end", "transaction_id", "product_id", "product_version", "component_id", "price_point_id", "billing_schedule_item_id", "hide", "component_cost_data", "product_price_point_id", "custom_item", "kind")
     if err != nil {
     	return err
     }
-    
     i.AdditionalProperties = additionalProperties
+    
     i.Uid = temp.Uid
     i.Title = temp.Title
     i.Description = temp.Description
@@ -216,6 +228,7 @@ func (i *InvoiceLineItem) UnmarshalJSON(input []byte) error {
     i.ProductVersion = temp.ProductVersion
     i.ComponentId = temp.ComponentId
     i.PricePointId = temp.PricePointId
+    i.BillingScheduleItemId = temp.BillingScheduleItemId
     i.Hide = temp.Hide
     i.ComponentCostData = temp.ComponentCostData
     i.ProductPricePointId = temp.ProductPricePointId
@@ -226,26 +239,27 @@ func (i *InvoiceLineItem) UnmarshalJSON(input []byte) error {
 
 // tempInvoiceLineItem is a temporary struct used for validating the fields of InvoiceLineItem.
 type tempInvoiceLineItem  struct {
-    Uid                 *string                                    `json:"uid,omitempty"`
-    Title               *string                                    `json:"title,omitempty"`
-    Description         *string                                    `json:"description,omitempty"`
-    Quantity            *string                                    `json:"quantity,omitempty"`
-    UnitPrice           *string                                    `json:"unit_price,omitempty"`
-    SubtotalAmount      *string                                    `json:"subtotal_amount,omitempty"`
-    DiscountAmount      *string                                    `json:"discount_amount,omitempty"`
-    TaxAmount           *string                                    `json:"tax_amount,omitempty"`
-    TotalAmount         *string                                    `json:"total_amount,omitempty"`
-    TieredUnitPrice     *bool                                      `json:"tiered_unit_price,omitempty"`
-    PeriodRangeStart    *string                                    `json:"period_range_start,omitempty"`
-    PeriodRangeEnd      *string                                    `json:"period_range_end,omitempty"`
-    TransactionId       *int                                       `json:"transaction_id,omitempty"`
-    ProductId           Optional[int]                              `json:"product_id"`
-    ProductVersion      Optional[int]                              `json:"product_version"`
-    ComponentId         Optional[int]                              `json:"component_id"`
-    PricePointId        Optional[int]                              `json:"price_point_id"`
-    Hide                *bool                                      `json:"hide,omitempty"`
-    ComponentCostData   Optional[InvoiceLineItemComponentCostData] `json:"component_cost_data"`
-    ProductPricePointId Optional[int]                              `json:"product_price_point_id"`
-    CustomItem          *bool                                      `json:"custom_item,omitempty"`
-    Kind                *string                                    `json:"kind,omitempty"`
+    Uid                   *string                                    `json:"uid,omitempty"`
+    Title                 *string                                    `json:"title,omitempty"`
+    Description           *string                                    `json:"description,omitempty"`
+    Quantity              *string                                    `json:"quantity,omitempty"`
+    UnitPrice             *string                                    `json:"unit_price,omitempty"`
+    SubtotalAmount        *string                                    `json:"subtotal_amount,omitempty"`
+    DiscountAmount        *string                                    `json:"discount_amount,omitempty"`
+    TaxAmount             *string                                    `json:"tax_amount,omitempty"`
+    TotalAmount           *string                                    `json:"total_amount,omitempty"`
+    TieredUnitPrice       *bool                                      `json:"tiered_unit_price,omitempty"`
+    PeriodRangeStart      *string                                    `json:"period_range_start,omitempty"`
+    PeriodRangeEnd        *string                                    `json:"period_range_end,omitempty"`
+    TransactionId         *int                                       `json:"transaction_id,omitempty"`
+    ProductId             Optional[int]                              `json:"product_id"`
+    ProductVersion        Optional[int]                              `json:"product_version"`
+    ComponentId           Optional[int]                              `json:"component_id"`
+    PricePointId          Optional[int]                              `json:"price_point_id"`
+    BillingScheduleItemId Optional[int]                              `json:"billing_schedule_item_id"`
+    Hide                  *bool                                      `json:"hide,omitempty"`
+    ComponentCostData     Optional[InvoiceLineItemComponentCostData] `json:"component_cost_data"`
+    ProductPricePointId   Optional[int]                              `json:"product_price_point_id"`
+    CustomItem            *bool                                      `json:"custom_item,omitempty"`
+    Kind                  *string                                    `json:"kind,omitempty"`
 }

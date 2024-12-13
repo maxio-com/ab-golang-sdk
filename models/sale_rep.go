@@ -11,12 +11,12 @@ import (
 
 // SaleRep represents a SaleRep struct.
 type SaleRep struct {
-    Id                   *int                  `json:"id,omitempty"`
-    FullName             *string               `json:"full_name,omitempty"`
-    SubscriptionsCount   *int                  `json:"subscriptions_count,omitempty"`
-    TestMode             *bool                 `json:"test_mode,omitempty"`
-    Subscriptions        []SaleRepSubscription `json:"subscriptions,omitempty"`
-    AdditionalProperties map[string]any        `json:"_"`
+    Id                   *int                   `json:"id,omitempty"`
+    FullName             *string                `json:"full_name,omitempty"`
+    SubscriptionsCount   *int                   `json:"subscriptions_count,omitempty"`
+    TestMode             *bool                  `json:"test_mode,omitempty"`
+    Subscriptions        []SaleRepSubscription  `json:"subscriptions,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for SaleRep.
@@ -24,13 +24,17 @@ type SaleRep struct {
 func (s SaleRep) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(s.AdditionalProperties,
+        "id", "full_name", "subscriptions_count", "test_mode", "subscriptions"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(s.toMap())
 }
 
 // toMap converts the SaleRep object to a map representation for JSON marshaling.
 func (s SaleRep) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, s.AdditionalProperties)
+    MergeAdditionalProperties(structMap, s.AdditionalProperties)
     if s.Id != nil {
         structMap["id"] = s.Id
     }
@@ -57,12 +61,12 @@ func (s *SaleRep) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "id", "full_name", "subscriptions_count", "test_mode", "subscriptions")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "id", "full_name", "subscriptions_count", "test_mode", "subscriptions")
     if err != nil {
     	return err
     }
-    
     s.AdditionalProperties = additionalProperties
+    
     s.Id = temp.Id
     s.FullName = temp.FullName
     s.SubscriptionsCount = temp.SubscriptionsCount

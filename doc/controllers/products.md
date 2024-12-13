@@ -53,7 +53,7 @@ ctx := context.Background()
 productFamilyId := "product_family_id4"
 
 body := models.CreateOrUpdateProductRequest{
-    Product: models.CreateOrUpdateProduct{
+    Product:              models.CreateOrUpdateProduct{
         Name:                   "Gold Plan",
         Handle:                 models.ToPointer("gold"),
         Description:            "This is our gold plan.",

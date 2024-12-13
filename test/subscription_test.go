@@ -99,38 +99,38 @@ func (s *SubscriptionSuite) TestSubscriptionCreate() {
 					ctx,
 					advancedbilling.ListSubscriptionComponentsForSiteInput{
 						SubscriptionIds: []int{*createdSubscription.Id},
-						Include: models.ToPointer(models.ListSubscriptionComponentsInclude_SUBSCRIPTION),
+						Include:         models.ToPointer(models.ListSubscriptionComponentsInclude_SUBSCRIPTION),
 						Filter: models.ToPointer(models.ListSubscriptionComponentsForSiteFilter{
-						    Subscription: models.ToPointer(models.SubscriptionFilter{
-                                DateField: models.ToPointer(models.SubscriptionListDateField_UPDATEDAT),
-                                StartDate: timePtr(time.Now().AddDate(-1, 0, 0)),
-						    }),
+							Subscription: models.ToPointer(models.SubscriptionFilter{
+								DateField: models.ToPointer(models.SubscriptionListDateField_UPDATEDAT),
+								StartDate: timePtr(time.Now().AddDate(-1, 0, 0)),
+							}),
 						}),
 					},
 				)
 
 				s.NoError(err)
-                s.Equal(http.StatusOK, listComponentsFilteredResp1.Response.StatusCode)
-                s.Len(listComponentsFilteredResp1.Data.SubscriptionsComponents, 1)
-                s.Equal(component.Id, listComponentsFilteredResp1.Data.SubscriptionsComponents[0].ComponentId)
+				s.Equal(http.StatusOK, listComponentsFilteredResp1.Response.StatusCode)
+				s.Len(listComponentsFilteredResp1.Data.SubscriptionsComponents, 1)
+				s.Equal(component.Id, listComponentsFilteredResp1.Data.SubscriptionsComponents[0].ComponentId)
 
-                listComponentsFilteredResp2, err := s.client.SubscriptionComponentsController().ListSubscriptionComponentsForSite(
+				listComponentsFilteredResp2, err := s.client.SubscriptionComponentsController().ListSubscriptionComponentsForSite(
 					ctx,
 					advancedbilling.ListSubscriptionComponentsForSiteInput{
 						SubscriptionIds: []int{*createdSubscription.Id},
-						Include: models.ToPointer(models.ListSubscriptionComponentsInclude_SUBSCRIPTION),
+						Include:         models.ToPointer(models.ListSubscriptionComponentsInclude_SUBSCRIPTION),
 						Filter: models.ToPointer(models.ListSubscriptionComponentsForSiteFilter{
-						    Subscription: models.ToPointer(models.SubscriptionFilter{
-                                DateField: models.ToPointer(models.SubscriptionListDateField_UPDATEDAT),
-                                EndDate: timePtr(time.Now().AddDate(-1, 0, 0)),
-						    }),
+							Subscription: models.ToPointer(models.SubscriptionFilter{
+								DateField: models.ToPointer(models.SubscriptionListDateField_UPDATEDAT),
+								EndDate:   timePtr(time.Now().AddDate(-1, 0, 0)),
+							}),
 						}),
 					},
 				)
 
 				s.NoError(err)
-                s.Equal(http.StatusOK, listComponentsFilteredResp2.Response.StatusCode)
-                s.Len(listComponentsFilteredResp2.Data.SubscriptionsComponents, 0)
+				s.Equal(http.StatusOK, listComponentsFilteredResp2.Response.StatusCode)
+				s.Len(listComponentsFilteredResp2.Data.SubscriptionsComponents, 0)
 			},
 		},
 		{
@@ -168,7 +168,7 @@ func (s *SubscriptionSuite) TestSubscriptionCreate() {
 				},
 			),
 			assert: func(t *testing.T, ar models.ApiResponse[models.SubscriptionResponse], cs models.CreateSubscription, err error) {
-				s.Equal("ApiError occured: HTTP Response Not OK. Status code: 401. Response: 'HTTP Basic: Access denied.\n'.",
+				s.Equal("ApiError occurred: HTTP Response Not OK. Status code: 401. Response: 'HTTP Basic: Access denied.\n'.",
 					err.Error())
 
 				actualErr, ok := err.(https.ApiError)

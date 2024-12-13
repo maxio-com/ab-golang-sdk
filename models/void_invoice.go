@@ -13,8 +13,8 @@ import (
 
 // VoidInvoice represents a VoidInvoice struct.
 type VoidInvoice struct {
-    Reason               string         `json:"reason"`
-    AdditionalProperties map[string]any `json:"_"`
+    Reason               string                 `json:"reason"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for VoidInvoice.
@@ -22,13 +22,17 @@ type VoidInvoice struct {
 func (v VoidInvoice) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(v.AdditionalProperties,
+        "reason"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(v.toMap())
 }
 
 // toMap converts the VoidInvoice object to a map representation for JSON marshaling.
 func (v VoidInvoice) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, v.AdditionalProperties)
+    MergeAdditionalProperties(structMap, v.AdditionalProperties)
     structMap["reason"] = v.Reason
     return structMap
 }
@@ -45,12 +49,12 @@ func (v *VoidInvoice) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "reason")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "reason")
     if err != nil {
     	return err
     }
-    
     v.AdditionalProperties = additionalProperties
+    
     v.Reason = *temp.Reason
     return nil
 }

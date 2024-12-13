@@ -17,7 +17,7 @@ type Price struct {
     EndingQuantity       Optional[PriceEndingQuantity] `json:"ending_quantity"`
     // The price can contain up to 8 decimal places. i.e. 1.00 or 0.0012 or 0.00000065
     UnitPrice            PriceUnitPrice                `json:"unit_price"`
-    AdditionalProperties map[string]any                `json:"_"`
+    AdditionalProperties map[string]interface{}        `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for Price.
@@ -25,13 +25,17 @@ type Price struct {
 func (p Price) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(p.AdditionalProperties,
+        "starting_quantity", "ending_quantity", "unit_price"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(p.toMap())
 }
 
 // toMap converts the Price object to a map representation for JSON marshaling.
 func (p Price) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, p.AdditionalProperties)
+    MergeAdditionalProperties(structMap, p.AdditionalProperties)
     structMap["starting_quantity"] = p.StartingQuantity.toMap()
     if p.EndingQuantity.IsValueSet() {
         if p.EndingQuantity.Value() != nil {
@@ -56,12 +60,12 @@ func (p *Price) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "starting_quantity", "ending_quantity", "unit_price")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "starting_quantity", "ending_quantity", "unit_price")
     if err != nil {
     	return err
     }
-    
     p.AdditionalProperties = additionalProperties
+    
     p.StartingQuantity = *temp.StartingQuantity
     p.EndingQuantity = temp.EndingQuantity
     p.UnitPrice = *temp.UnitPrice

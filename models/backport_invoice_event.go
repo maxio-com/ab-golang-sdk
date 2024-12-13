@@ -15,13 +15,13 @@ import (
 
 // BackportInvoiceEvent represents a BackportInvoiceEvent struct.
 type BackportInvoiceEvent struct {
-    Id                   int64            `json:"id"`
-    Timestamp            time.Time        `json:"timestamp"`
-    Invoice              Invoice          `json:"invoice"`
-    EventType            InvoiceEventType `json:"event_type"`
+    Id                   int64                  `json:"id"`
+    Timestamp            time.Time              `json:"timestamp"`
+    Invoice              Invoice                `json:"invoice"`
+    EventType            InvoiceEventType       `json:"event_type"`
     // Example schema for an `backport_invoice` event
-    EventData            Invoice          `json:"event_data"`
-    AdditionalProperties map[string]any   `json:"_"`
+    EventData            Invoice                `json:"event_data"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for BackportInvoiceEvent.
@@ -29,13 +29,17 @@ type BackportInvoiceEvent struct {
 func (b BackportInvoiceEvent) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(b.AdditionalProperties,
+        "id", "timestamp", "invoice", "event_type", "event_data"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(b.toMap())
 }
 
 // toMap converts the BackportInvoiceEvent object to a map representation for JSON marshaling.
 func (b BackportInvoiceEvent) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, b.AdditionalProperties)
+    MergeAdditionalProperties(structMap, b.AdditionalProperties)
     structMap["id"] = b.Id
     structMap["timestamp"] = b.Timestamp.Format(time.RFC3339)
     structMap["invoice"] = b.Invoice.toMap()
@@ -56,12 +60,12 @@ func (b *BackportInvoiceEvent) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "id", "timestamp", "invoice", "event_type", "event_data")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "id", "timestamp", "invoice", "event_type", "event_data")
     if err != nil {
     	return err
     }
-    
     b.AdditionalProperties = additionalProperties
+    
     b.Id = *temp.Id
     TimestampVal, err := time.Parse(time.RFC3339, *temp.Timestamp)
     if err != nil {

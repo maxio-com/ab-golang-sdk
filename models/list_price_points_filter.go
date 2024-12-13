@@ -14,22 +14,22 @@ import (
 // ListPricePointsFilter represents a ListPricePointsFilter struct.
 type ListPricePointsFilter struct {
     // The type of filter you would like to apply to your search. Use in query: `filter[date_field]=created_at`.
-    DateField            *BasicDateField       `json:"date_field,omitempty"`
+    DateField            *BasicDateField        `json:"date_field,omitempty"`
     // The start date (format YYYY-MM-DD) with which to filter the date_field. Returns price points with a timestamp at or after midnight (12:00:00 AM) in your site’s time zone on the date specified.
-    StartDate            *time.Time            `json:"start_date,omitempty"`
+    StartDate            *time.Time             `json:"start_date,omitempty"`
     // The end date (format YYYY-MM-DD) with which to filter the date_field. Returns price points with a timestamp up to and including 11:59:59PM in your site’s time zone on the date specified.
-    EndDate              *time.Time            `json:"end_date,omitempty"`
+    EndDate              *time.Time             `json:"end_date,omitempty"`
     // The start date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns price points with a timestamp at or after exact time provided in query. You can specify timezone in query - otherwise your site's time zone will be used. If provided, this parameter will be used instead of start_date.
-    StartDatetime        *time.Time            `json:"start_datetime,omitempty"`
+    StartDatetime        *time.Time             `json:"start_datetime,omitempty"`
     // The end date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns price points with a timestamp at or before exact time provided in query. You can specify timezone in query - otherwise your site's time zone will be used. If provided, this parameter will be used instead of end_date.
-    EndDatetime          *time.Time            `json:"end_datetime,omitempty"`
+    EndDatetime          *time.Time             `json:"end_datetime,omitempty"`
     // Allows fetching price points with matching type. Use in query: `filter[type]=custom,catalog`.
-    Type                 []PricePointType      `json:"type,omitempty"`
+    Type                 []PricePointType       `json:"type,omitempty"`
     // Allows fetching price points with matching id based on provided values. Use in query: `filter[ids]=1,2,3`.
-    Ids                  []int                 `json:"ids,omitempty"`
+    Ids                  []int                  `json:"ids,omitempty"`
     // Allows fetching price points only if archived_at is present or not. Use in query: `filter[archived_at]=not_null`.
-    ArchivedAt           *IncludeNullOrNotNull `json:"archived_at,omitempty"`
-    AdditionalProperties map[string]any        `json:"_"`
+    ArchivedAt           *IncludeNullOrNotNull  `json:"archived_at,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for ListPricePointsFilter.
@@ -37,13 +37,17 @@ type ListPricePointsFilter struct {
 func (l ListPricePointsFilter) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(l.AdditionalProperties,
+        "date_field", "start_date", "end_date", "start_datetime", "end_datetime", "type", "ids", "archived_at"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(l.toMap())
 }
 
 // toMap converts the ListPricePointsFilter object to a map representation for JSON marshaling.
 func (l ListPricePointsFilter) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, l.AdditionalProperties)
+    MergeAdditionalProperties(structMap, l.AdditionalProperties)
     if l.DateField != nil {
         structMap["date_field"] = l.DateField
     }
@@ -79,12 +83,12 @@ func (l *ListPricePointsFilter) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "date_field", "start_date", "end_date", "start_datetime", "end_datetime", "type", "ids", "archived_at")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "date_field", "start_date", "end_date", "start_datetime", "end_datetime", "type", "ids", "archived_at")
     if err != nil {
     	return err
     }
-    
     l.AdditionalProperties = additionalProperties
+    
     l.DateField = temp.DateField
     if temp.StartDate != nil {
         StartDateVal, err := time.Parse(DEFAULT_DATE, *temp.StartDate)

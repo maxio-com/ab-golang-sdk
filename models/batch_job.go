@@ -13,12 +13,12 @@ import (
 
 // BatchJob represents a BatchJob struct.
 type BatchJob struct {
-    Id                   *int                `json:"id,omitempty"`
-    FinishedAt           Optional[time.Time] `json:"finished_at"`
-    RowCount             Optional[int]       `json:"row_count"`
-    CreatedAt            Optional[time.Time] `json:"created_at"`
-    Completed            *string             `json:"completed,omitempty"`
-    AdditionalProperties map[string]any      `json:"_"`
+    Id                   *int                   `json:"id,omitempty"`
+    FinishedAt           Optional[time.Time]    `json:"finished_at"`
+    RowCount             Optional[int]          `json:"row_count"`
+    CreatedAt            Optional[time.Time]    `json:"created_at"`
+    Completed            *string                `json:"completed,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for BatchJob.
@@ -26,13 +26,17 @@ type BatchJob struct {
 func (b BatchJob) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(b.AdditionalProperties,
+        "id", "finished_at", "row_count", "created_at", "completed"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(b.toMap())
 }
 
 // toMap converts the BatchJob object to a map representation for JSON marshaling.
 func (b BatchJob) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, b.AdditionalProperties)
+    MergeAdditionalProperties(structMap, b.AdditionalProperties)
     if b.Id != nil {
         structMap["id"] = b.Id
     }
@@ -81,12 +85,12 @@ func (b *BatchJob) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "id", "finished_at", "row_count", "created_at", "completed")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "id", "finished_at", "row_count", "created_at", "completed")
     if err != nil {
     	return err
     }
-    
     b.AdditionalProperties = additionalProperties
+    
     b.Id = temp.Id
     b.FinishedAt.ShouldSetValue(temp.FinishedAt.IsValueSet())
     if temp.FinishedAt.Value() != nil {

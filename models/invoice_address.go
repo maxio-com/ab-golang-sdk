@@ -11,13 +11,13 @@ import (
 
 // InvoiceAddress represents a InvoiceAddress struct.
 type InvoiceAddress struct {
-    Street               Optional[string] `json:"street"`
-    Line2                Optional[string] `json:"line2"`
-    City                 Optional[string] `json:"city"`
-    State                Optional[string] `json:"state"`
-    Zip                  Optional[string] `json:"zip"`
-    Country              Optional[string] `json:"country"`
-    AdditionalProperties map[string]any   `json:"_"`
+    Street               Optional[string]       `json:"street"`
+    Line2                Optional[string]       `json:"line2"`
+    City                 Optional[string]       `json:"city"`
+    State                Optional[string]       `json:"state"`
+    Zip                  Optional[string]       `json:"zip"`
+    Country              Optional[string]       `json:"country"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for InvoiceAddress.
@@ -25,13 +25,17 @@ type InvoiceAddress struct {
 func (i InvoiceAddress) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(i.AdditionalProperties,
+        "street", "line2", "city", "state", "zip", "country"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(i.toMap())
 }
 
 // toMap converts the InvoiceAddress object to a map representation for JSON marshaling.
 func (i InvoiceAddress) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, i.AdditionalProperties)
+    MergeAdditionalProperties(structMap, i.AdditionalProperties)
     if i.Street.IsValueSet() {
         if i.Street.Value() != nil {
             structMap["street"] = i.Street.Value()
@@ -85,12 +89,12 @@ func (i *InvoiceAddress) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "street", "line2", "city", "state", "zip", "country")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "street", "line2", "city", "state", "zip", "country")
     if err != nil {
     	return err
     }
-    
     i.AdditionalProperties = additionalProperties
+    
     i.Street = temp.Street
     i.Line2 = temp.Line2
     i.City = temp.City

@@ -13,8 +13,8 @@ import (
 
 // MRRResponse represents a MRRResponse struct.
 type MRRResponse struct {
-    Mrr                  MRR            `json:"mrr"`
-    AdditionalProperties map[string]any `json:"_"`
+    Mrr                  MRR                    `json:"mrr"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for MRRResponse.
@@ -22,13 +22,17 @@ type MRRResponse struct {
 func (m MRRResponse) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(m.AdditionalProperties,
+        "mrr"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(m.toMap())
 }
 
 // toMap converts the MRRResponse object to a map representation for JSON marshaling.
 func (m MRRResponse) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, m.AdditionalProperties)
+    MergeAdditionalProperties(structMap, m.AdditionalProperties)
     structMap["mrr"] = m.Mrr.toMap()
     return structMap
 }
@@ -45,12 +49,12 @@ func (m *MRRResponse) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "mrr")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "mrr")
     if err != nil {
     	return err
     }
-    
     m.AdditionalProperties = additionalProperties
+    
     m.Mrr = *temp.Mrr
     return nil
 }

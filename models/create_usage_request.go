@@ -13,8 +13,8 @@ import (
 
 // CreateUsageRequest represents a CreateUsageRequest struct.
 type CreateUsageRequest struct {
-    Usage                CreateUsage    `json:"usage"`
-    AdditionalProperties map[string]any `json:"_"`
+    Usage                CreateUsage            `json:"usage"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreateUsageRequest.
@@ -22,13 +22,17 @@ type CreateUsageRequest struct {
 func (c CreateUsageRequest) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(c.AdditionalProperties,
+        "usage"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(c.toMap())
 }
 
 // toMap converts the CreateUsageRequest object to a map representation for JSON marshaling.
 func (c CreateUsageRequest) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, c.AdditionalProperties)
+    MergeAdditionalProperties(structMap, c.AdditionalProperties)
     structMap["usage"] = c.Usage.toMap()
     return structMap
 }
@@ -45,12 +49,12 @@ func (c *CreateUsageRequest) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "usage")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "usage")
     if err != nil {
     	return err
     }
-    
     c.AdditionalProperties = additionalProperties
+    
     c.Usage = *temp.Usage
     return nil
 }

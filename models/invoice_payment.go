@@ -13,22 +13,22 @@ import (
 
 // InvoicePayment represents a InvoicePayment struct.
 type InvoicePayment struct {
-    TransactionTime      *time.Time            `json:"transaction_time,omitempty"`
-    Memo                 *string               `json:"memo,omitempty"`
-    OriginalAmount       *string               `json:"original_amount,omitempty"`
-    AppliedAmount        *string               `json:"applied_amount,omitempty"`
-    PaymentMethod        *InvoicePaymentMethod `json:"payment_method,omitempty"`
-    TransactionId        *int                  `json:"transaction_id,omitempty"`
-    Prepayment           *bool                 `json:"prepayment,omitempty"`
-    GatewayHandle        Optional[string]      `json:"gateway_handle"`
-    GatewayUsed          *string               `json:"gateway_used,omitempty"`
+    TransactionTime      *time.Time             `json:"transaction_time,omitempty"`
+    Memo                 *string                `json:"memo,omitempty"`
+    OriginalAmount       *string                `json:"original_amount,omitempty"`
+    AppliedAmount        *string                `json:"applied_amount,omitempty"`
+    PaymentMethod        *InvoicePaymentMethod  `json:"payment_method,omitempty"`
+    TransactionId        *int                   `json:"transaction_id,omitempty"`
+    Prepayment           *bool                  `json:"prepayment,omitempty"`
+    GatewayHandle        Optional[string]       `json:"gateway_handle"`
+    GatewayUsed          *string                `json:"gateway_used,omitempty"`
     // The transaction ID for the payment as returned from the payment gateway
-    GatewayTransactionId Optional[string]      `json:"gateway_transaction_id"`
+    GatewayTransactionId Optional[string]       `json:"gateway_transaction_id"`
     // Date reflecting when the payment was received from a customer. Must be in the past. Applicable only to
     // `external` payments.
-    ReceivedOn           Optional[time.Time]   `json:"received_on"`
-    Uid                  *string               `json:"uid,omitempty"`
-    AdditionalProperties map[string]any        `json:"_"`
+    ReceivedOn           Optional[time.Time]    `json:"received_on"`
+    Uid                  *string                `json:"uid,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for InvoicePayment.
@@ -36,13 +36,17 @@ type InvoicePayment struct {
 func (i InvoicePayment) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(i.AdditionalProperties,
+        "transaction_time", "memo", "original_amount", "applied_amount", "payment_method", "transaction_id", "prepayment", "gateway_handle", "gateway_used", "gateway_transaction_id", "received_on", "uid"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(i.toMap())
 }
 
 // toMap converts the InvoicePayment object to a map representation for JSON marshaling.
 func (i InvoicePayment) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, i.AdditionalProperties)
+    MergeAdditionalProperties(structMap, i.AdditionalProperties)
     if i.TransactionTime != nil {
         structMap["transaction_time"] = i.TransactionTime.Format(time.RFC3339)
     }
@@ -107,12 +111,12 @@ func (i *InvoicePayment) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "transaction_time", "memo", "original_amount", "applied_amount", "payment_method", "transaction_id", "prepayment", "gateway_handle", "gateway_used", "gateway_transaction_id", "received_on", "uid")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "transaction_time", "memo", "original_amount", "applied_amount", "payment_method", "transaction_id", "prepayment", "gateway_handle", "gateway_used", "gateway_transaction_id", "received_on", "uid")
     if err != nil {
     	return err
     }
-    
     i.AdditionalProperties = additionalProperties
+    
     if temp.TransactionTime != nil {
         TransactionTimeVal, err := time.Parse(time.RFC3339, *temp.TransactionTime)
         if err != nil {

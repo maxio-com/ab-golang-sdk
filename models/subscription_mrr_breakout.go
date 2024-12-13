@@ -13,9 +13,9 @@ import (
 
 // SubscriptionMRRBreakout represents a SubscriptionMRRBreakout struct.
 type SubscriptionMRRBreakout struct {
-    PlanAmountInCents    int64          `json:"plan_amount_in_cents"`
-    UsageAmountInCents   int64          `json:"usage_amount_in_cents"`
-    AdditionalProperties map[string]any `json:"_"`
+    PlanAmountInCents    int64                  `json:"plan_amount_in_cents"`
+    UsageAmountInCents   int64                  `json:"usage_amount_in_cents"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for SubscriptionMRRBreakout.
@@ -23,13 +23,17 @@ type SubscriptionMRRBreakout struct {
 func (s SubscriptionMRRBreakout) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(s.AdditionalProperties,
+        "plan_amount_in_cents", "usage_amount_in_cents"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(s.toMap())
 }
 
 // toMap converts the SubscriptionMRRBreakout object to a map representation for JSON marshaling.
 func (s SubscriptionMRRBreakout) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, s.AdditionalProperties)
+    MergeAdditionalProperties(structMap, s.AdditionalProperties)
     structMap["plan_amount_in_cents"] = s.PlanAmountInCents
     structMap["usage_amount_in_cents"] = s.UsageAmountInCents
     return structMap
@@ -47,12 +51,12 @@ func (s *SubscriptionMRRBreakout) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "plan_amount_in_cents", "usage_amount_in_cents")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "plan_amount_in_cents", "usage_amount_in_cents")
     if err != nil {
     	return err
     }
-    
     s.AdditionalProperties = additionalProperties
+    
     s.PlanAmountInCents = *temp.PlanAmountInCents
     s.UsageAmountInCents = *temp.UsageAmountInCents
     return nil

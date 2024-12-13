@@ -11,10 +11,10 @@ import (
 
 // CreditCardAttributes represents a CreditCardAttributes struct.
 type CreditCardAttributes struct {
-    FullNumber           *string        `json:"full_number,omitempty"`
-    ExpirationMonth      *string        `json:"expiration_month,omitempty"`
-    ExpirationYear       *string        `json:"expiration_year,omitempty"`
-    AdditionalProperties map[string]any `json:"_"`
+    FullNumber           *string                `json:"full_number,omitempty"`
+    ExpirationMonth      *string                `json:"expiration_month,omitempty"`
+    ExpirationYear       *string                `json:"expiration_year,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreditCardAttributes.
@@ -22,13 +22,17 @@ type CreditCardAttributes struct {
 func (c CreditCardAttributes) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(c.AdditionalProperties,
+        "full_number", "expiration_month", "expiration_year"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(c.toMap())
 }
 
 // toMap converts the CreditCardAttributes object to a map representation for JSON marshaling.
 func (c CreditCardAttributes) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, c.AdditionalProperties)
+    MergeAdditionalProperties(structMap, c.AdditionalProperties)
     if c.FullNumber != nil {
         structMap["full_number"] = c.FullNumber
     }
@@ -49,12 +53,12 @@ func (c *CreditCardAttributes) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "full_number", "expiration_month", "expiration_year")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "full_number", "expiration_month", "expiration_year")
     if err != nil {
     	return err
     }
-    
     c.AdditionalProperties = additionalProperties
+    
     c.FullNumber = temp.FullNumber
     c.ExpirationMonth = temp.ExpirationMonth
     c.ExpirationYear = temp.ExpirationYear

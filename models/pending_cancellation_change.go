@@ -15,9 +15,9 @@ import (
 
 // PendingCancellationChange represents a PendingCancellationChange struct.
 type PendingCancellationChange struct {
-    CancellationState    string         `json:"cancellation_state"`
-    CancelsAt            time.Time      `json:"cancels_at"`
-    AdditionalProperties map[string]any `json:"_"`
+    CancellationState    string                 `json:"cancellation_state"`
+    CancelsAt            time.Time              `json:"cancels_at"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for PendingCancellationChange.
@@ -25,13 +25,17 @@ type PendingCancellationChange struct {
 func (p PendingCancellationChange) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(p.AdditionalProperties,
+        "cancellation_state", "cancels_at"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(p.toMap())
 }
 
 // toMap converts the PendingCancellationChange object to a map representation for JSON marshaling.
 func (p PendingCancellationChange) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, p.AdditionalProperties)
+    MergeAdditionalProperties(structMap, p.AdditionalProperties)
     structMap["cancellation_state"] = p.CancellationState
     structMap["cancels_at"] = p.CancelsAt.Format(time.RFC3339)
     return structMap
@@ -49,12 +53,12 @@ func (p *PendingCancellationChange) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "cancellation_state", "cancels_at")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "cancellation_state", "cancels_at")
     if err != nil {
     	return err
     }
-    
     p.AdditionalProperties = additionalProperties
+    
     p.CancellationState = *temp.CancellationState
     CancelsAtVal, err := time.Parse(time.RFC3339, *temp.CancelsAt)
     if err != nil {

@@ -14,7 +14,7 @@ import (
 // CreateQuantityBasedComponent represents a CreateQuantityBasedComponent struct.
 type CreateQuantityBasedComponent struct {
     QuantityBasedComponent QuantityBasedComponent `json:"quantity_based_component"`
-    AdditionalProperties   map[string]any         `json:"_"`
+    AdditionalProperties   map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreateQuantityBasedComponent.
@@ -22,13 +22,17 @@ type CreateQuantityBasedComponent struct {
 func (c CreateQuantityBasedComponent) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(c.AdditionalProperties,
+        "quantity_based_component"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(c.toMap())
 }
 
 // toMap converts the CreateQuantityBasedComponent object to a map representation for JSON marshaling.
 func (c CreateQuantityBasedComponent) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, c.AdditionalProperties)
+    MergeAdditionalProperties(structMap, c.AdditionalProperties)
     structMap["quantity_based_component"] = c.QuantityBasedComponent.toMap()
     return structMap
 }
@@ -45,12 +49,12 @@ func (c *CreateQuantityBasedComponent) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "quantity_based_component")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "quantity_based_component")
     if err != nil {
     	return err
     }
-    
     c.AdditionalProperties = additionalProperties
+    
     c.QuantityBasedComponent = *temp.QuantityBasedComponent
     return nil
 }

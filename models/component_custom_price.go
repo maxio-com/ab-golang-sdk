@@ -24,7 +24,7 @@ type ComponentCustomPrice struct {
     IntervalUnit         Optional[IntervalUnit] `json:"interval_unit"`
     // On/off components only need one price bracket starting at 1
     Prices               []Price                `json:"prices"`
-    AdditionalProperties map[string]any         `json:"_"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for ComponentCustomPrice.
@@ -32,13 +32,17 @@ type ComponentCustomPrice struct {
 func (c ComponentCustomPrice) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(c.AdditionalProperties,
+        "tax_included", "pricing_scheme", "interval", "interval_unit", "prices"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(c.toMap())
 }
 
 // toMap converts the ComponentCustomPrice object to a map representation for JSON marshaling.
 func (c ComponentCustomPrice) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, c.AdditionalProperties)
+    MergeAdditionalProperties(structMap, c.AdditionalProperties)
     if c.TaxIncluded != nil {
         structMap["tax_included"] = c.TaxIncluded
     }
@@ -71,12 +75,12 @@ func (c *ComponentCustomPrice) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "tax_included", "pricing_scheme", "interval", "interval_unit", "prices")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "tax_included", "pricing_scheme", "interval", "interval_unit", "prices")
     if err != nil {
     	return err
     }
-    
     c.AdditionalProperties = additionalProperties
+    
     c.TaxIncluded = temp.TaxIncluded
     c.PricingScheme = temp.PricingScheme
     c.Interval = temp.Interval

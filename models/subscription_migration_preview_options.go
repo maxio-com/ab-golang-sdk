@@ -14,25 +14,25 @@ import (
 // SubscriptionMigrationPreviewOptions represents a SubscriptionMigrationPreviewOptions struct.
 type SubscriptionMigrationPreviewOptions struct {
     // The ID of the target Product. Either a product_id or product_handle must be present. A Subscription can be migrated to another product for both the current Product Family and another Product Family. Note: Going to another Product Family, components will not be migrated as well.
-    ProductId               *int           `json:"product_id,omitempty"`
+    ProductId               *int                   `json:"product_id,omitempty"`
     // The ID of the specified product's price point. This can be passed to migrate to a non-default price point.
-    ProductPricePointId     *int           `json:"product_price_point_id,omitempty"`
+    ProductPricePointId     *int                   `json:"product_price_point_id,omitempty"`
     // Whether to include the trial period configured for the product price point when starting a new billing period. Note that if preserve_period is set, then include_trial will be ignored.
-    IncludeTrial            *bool          `json:"include_trial,omitempty"`
+    IncludeTrial            *bool                  `json:"include_trial,omitempty"`
     // If `true` is sent initial charges will be assessed.
-    IncludeInitialCharge    *bool          `json:"include_initial_charge,omitempty"`
+    IncludeInitialCharge    *bool                  `json:"include_initial_charge,omitempty"`
     // If `true` is sent, any coupons associated with the subscription will be applied to the migration. If `false` is sent, coupons will not be applied. Note: When migrating to a new product family, the coupon cannot migrate.
-    IncludeCoupons          *bool          `json:"include_coupons,omitempty"`
+    IncludeCoupons          *bool                  `json:"include_coupons,omitempty"`
     // If `false` is sent, the subscription's billing period will be reset to today and the full price of the new product will be charged. If `true` is sent, the billing period will not change and a prorated charge will be issued for the new product.
-    PreservePeriod          *bool          `json:"preserve_period,omitempty"`
+    PreservePeriod          *bool                  `json:"preserve_period,omitempty"`
     // The handle of the target Product. Either a product_id or product_handle must be present. A Subscription can be migrated to another product for both the current Product Family and another Product Family. Note: Going to another Product Family, components will not be migrated as well.
-    ProductHandle           *string        `json:"product_handle,omitempty"`
+    ProductHandle           *string                `json:"product_handle,omitempty"`
     // The ID or handle of the specified product's price point. This can be passed to migrate to a non-default price point.
-    ProductPricePointHandle *string        `json:"product_price_point_handle,omitempty"`
-    Proration               *Proration     `json:"proration,omitempty"`
+    ProductPricePointHandle *string                `json:"product_price_point_handle,omitempty"`
+    Proration               *Proration             `json:"proration,omitempty"`
     // The date that the proration is calculated from for the preview
-    ProrationDate           *time.Time     `json:"proration_date,omitempty"`
-    AdditionalProperties    map[string]any `json:"_"`
+    ProrationDate           *time.Time             `json:"proration_date,omitempty"`
+    AdditionalProperties    map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for SubscriptionMigrationPreviewOptions.
@@ -40,13 +40,17 @@ type SubscriptionMigrationPreviewOptions struct {
 func (s SubscriptionMigrationPreviewOptions) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(s.AdditionalProperties,
+        "product_id", "product_price_point_id", "include_trial", "include_initial_charge", "include_coupons", "preserve_period", "product_handle", "product_price_point_handle", "proration", "proration_date"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(s.toMap())
 }
 
 // toMap converts the SubscriptionMigrationPreviewOptions object to a map representation for JSON marshaling.
 func (s SubscriptionMigrationPreviewOptions) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, s.AdditionalProperties)
+    MergeAdditionalProperties(structMap, s.AdditionalProperties)
     if s.ProductId != nil {
         structMap["product_id"] = s.ProductId
     }
@@ -88,12 +92,12 @@ func (s *SubscriptionMigrationPreviewOptions) UnmarshalJSON(input []byte) error 
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "product_id", "product_price_point_id", "include_trial", "include_initial_charge", "include_coupons", "preserve_period", "product_handle", "product_price_point_handle", "proration", "proration_date")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "product_id", "product_price_point_id", "include_trial", "include_initial_charge", "include_coupons", "preserve_period", "product_handle", "product_price_point_handle", "proration", "proration_date")
     if err != nil {
     	return err
     }
-    
     s.AdditionalProperties = additionalProperties
+    
     s.ProductId = temp.ProductId
     s.ProductPricePointId = temp.ProductPricePointId
     s.IncludeTrial = temp.IncludeTrial

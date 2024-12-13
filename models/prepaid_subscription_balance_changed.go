@@ -13,11 +13,11 @@ import (
 
 // PrepaidSubscriptionBalanceChanged represents a PrepaidSubscriptionBalanceChanged struct.
 type PrepaidSubscriptionBalanceChanged struct {
-    Reason                          string         `json:"reason"`
-    CurrentAccountBalanceInCents    int64          `json:"current_account_balance_in_cents"`
-    PrepaymentAccountBalanceInCents int64          `json:"prepayment_account_balance_in_cents"`
-    CurrentUsageAmountInCents       int64          `json:"current_usage_amount_in_cents"`
-    AdditionalProperties            map[string]any `json:"_"`
+    Reason                          string                 `json:"reason"`
+    CurrentAccountBalanceInCents    int64                  `json:"current_account_balance_in_cents"`
+    PrepaymentAccountBalanceInCents int64                  `json:"prepayment_account_balance_in_cents"`
+    CurrentUsageAmountInCents       int64                  `json:"current_usage_amount_in_cents"`
+    AdditionalProperties            map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for PrepaidSubscriptionBalanceChanged.
@@ -25,13 +25,17 @@ type PrepaidSubscriptionBalanceChanged struct {
 func (p PrepaidSubscriptionBalanceChanged) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(p.AdditionalProperties,
+        "reason", "current_account_balance_in_cents", "prepayment_account_balance_in_cents", "current_usage_amount_in_cents"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(p.toMap())
 }
 
 // toMap converts the PrepaidSubscriptionBalanceChanged object to a map representation for JSON marshaling.
 func (p PrepaidSubscriptionBalanceChanged) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, p.AdditionalProperties)
+    MergeAdditionalProperties(structMap, p.AdditionalProperties)
     structMap["reason"] = p.Reason
     structMap["current_account_balance_in_cents"] = p.CurrentAccountBalanceInCents
     structMap["prepayment_account_balance_in_cents"] = p.PrepaymentAccountBalanceInCents
@@ -51,12 +55,12 @@ func (p *PrepaidSubscriptionBalanceChanged) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "reason", "current_account_balance_in_cents", "prepayment_account_balance_in_cents", "current_usage_amount_in_cents")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "reason", "current_account_balance_in_cents", "prepayment_account_balance_in_cents", "current_usage_amount_in_cents")
     if err != nil {
     	return err
     }
-    
     p.AdditionalProperties = additionalProperties
+    
     p.Reason = *temp.Reason
     p.CurrentAccountBalanceInCents = *temp.CurrentAccountBalanceInCents
     p.PrepaymentAccountBalanceInCents = *temp.PrepaymentAccountBalanceInCents

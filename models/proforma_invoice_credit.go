@@ -11,11 +11,11 @@ import (
 
 // ProformaInvoiceCredit represents a ProformaInvoiceCredit struct.
 type ProformaInvoiceCredit struct {
-    Uid                  *string        `json:"uid,omitempty"`
-    Memo                 *string        `json:"memo,omitempty"`
-    OriginalAmount       *string        `json:"original_amount,omitempty"`
-    AppliedAmount        *string        `json:"applied_amount,omitempty"`
-    AdditionalProperties map[string]any `json:"_"`
+    Uid                  *string                `json:"uid,omitempty"`
+    Memo                 *string                `json:"memo,omitempty"`
+    OriginalAmount       *string                `json:"original_amount,omitempty"`
+    AppliedAmount        *string                `json:"applied_amount,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for ProformaInvoiceCredit.
@@ -23,13 +23,17 @@ type ProformaInvoiceCredit struct {
 func (p ProformaInvoiceCredit) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(p.AdditionalProperties,
+        "uid", "memo", "original_amount", "applied_amount"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(p.toMap())
 }
 
 // toMap converts the ProformaInvoiceCredit object to a map representation for JSON marshaling.
 func (p ProformaInvoiceCredit) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, p.AdditionalProperties)
+    MergeAdditionalProperties(structMap, p.AdditionalProperties)
     if p.Uid != nil {
         structMap["uid"] = p.Uid
     }
@@ -53,12 +57,12 @@ func (p *ProformaInvoiceCredit) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "uid", "memo", "original_amount", "applied_amount")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "uid", "memo", "original_amount", "applied_amount")
     if err != nil {
     	return err
     }
-    
     p.AdditionalProperties = additionalProperties
+    
     p.Uid = temp.Uid
     p.Memo = temp.Memo
     p.OriginalAmount = temp.OriginalAmount

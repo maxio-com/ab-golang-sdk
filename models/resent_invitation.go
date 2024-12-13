@@ -13,13 +13,13 @@ import (
 
 // ResentInvitation represents a ResentInvitation struct.
 type ResentInvitation struct {
-    LastSentAt           *string        `json:"last_sent_at,omitempty"`            // Deprecated
-    LastAcceptedAt       *string        `json:"last_accepted_at,omitempty"`        // Deprecated
-    SendInviteLinkText   *string        `json:"send_invite_link_text,omitempty"`
-    UninvitedCount       *int           `json:"uninvited_count,omitempty"`
-    LastInviteSentAt     *time.Time     `json:"last_invite_sent_at,omitempty"`
-    LastInviteAcceptedAt *time.Time     `json:"last_invite_accepted_at,omitempty"`
-    AdditionalProperties map[string]any `json:"_"`
+    LastSentAt           *string                `json:"last_sent_at,omitempty"`            // Deprecated
+    LastAcceptedAt       *string                `json:"last_accepted_at,omitempty"`        // Deprecated
+    SendInviteLinkText   *string                `json:"send_invite_link_text,omitempty"`
+    UninvitedCount       *int                   `json:"uninvited_count,omitempty"`
+    LastInviteSentAt     *time.Time             `json:"last_invite_sent_at,omitempty"`
+    LastInviteAcceptedAt *time.Time             `json:"last_invite_accepted_at,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for ResentInvitation.
@@ -27,13 +27,17 @@ type ResentInvitation struct {
 func (r ResentInvitation) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(r.AdditionalProperties,
+        "last_sent_at", "last_accepted_at", "send_invite_link_text", "uninvited_count", "last_invite_sent_at", "last_invite_accepted_at"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(r.toMap())
 }
 
 // toMap converts the ResentInvitation object to a map representation for JSON marshaling.
 func (r ResentInvitation) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, r.AdditionalProperties)
+    MergeAdditionalProperties(structMap, r.AdditionalProperties)
     if r.LastSentAt != nil {
         structMap["last_sent_at"] = r.LastSentAt
     }
@@ -63,12 +67,12 @@ func (r *ResentInvitation) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "last_sent_at", "last_accepted_at", "send_invite_link_text", "uninvited_count", "last_invite_sent_at", "last_invite_accepted_at")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "last_sent_at", "last_accepted_at", "send_invite_link_text", "uninvited_count", "last_invite_sent_at", "last_invite_accepted_at")
     if err != nil {
     	return err
     }
-    
     r.AdditionalProperties = additionalProperties
+    
     r.LastSentAt = temp.LastSentAt
     r.LastAcceptedAt = temp.LastAcceptedAt
     r.SendInviteLinkText = temp.SendInviteLinkText

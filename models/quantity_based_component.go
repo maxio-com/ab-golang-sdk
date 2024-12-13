@@ -40,8 +40,6 @@ type QuantityBasedComponent struct {
     TaxCode                   *string                          `json:"tax_code,omitempty"`
     // (Only available on Relationship Invoicing sites) Boolean flag describing if the service date range should show for the component on generated invoices.
     HideDateRangeOnInvoice    *bool                            `json:"hide_date_range_on_invoice,omitempty"`
-    // deprecated May 2011 - use unit_price instead
-    PriceInCents              *string                          `json:"price_in_cents,omitempty"`
     Recurring                 *bool                            `json:"recurring,omitempty"`
     DisplayOnHostedPage       *bool                            `json:"display_on_hosted_page,omitempty"`
     AllowFractionalQuantities *bool                            `json:"allow_fractional_quantities,omitempty"`
@@ -50,7 +48,7 @@ type QuantityBasedComponent struct {
     Interval                  *int                             `json:"interval,omitempty"`
     // A string representing the interval unit for this component's default price point, either month or day. This property is only available for sites with Multifrequency enabled.
     IntervalUnit              Optional[IntervalUnit]           `json:"interval_unit"`
-    AdditionalProperties      map[string]any                   `json:"_"`
+    AdditionalProperties      map[string]interface{}           `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for QuantityBasedComponent.
@@ -58,13 +56,17 @@ type QuantityBasedComponent struct {
 func (q QuantityBasedComponent) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(q.AdditionalProperties,
+        "name", "unit_name", "description", "handle", "taxable", "pricing_scheme", "prices", "upgrade_charge", "downgrade_credit", "price_points", "unit_price", "tax_code", "hide_date_range_on_invoice", "recurring", "display_on_hosted_page", "allow_fractional_quantities", "public_signup_page_ids", "interval", "interval_unit"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(q.toMap())
 }
 
 // toMap converts the QuantityBasedComponent object to a map representation for JSON marshaling.
 func (q QuantityBasedComponent) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, q.AdditionalProperties)
+    MergeAdditionalProperties(structMap, q.AdditionalProperties)
     structMap["name"] = q.Name
     structMap["unit_name"] = q.UnitName
     if q.Description != nil {
@@ -106,9 +108,6 @@ func (q QuantityBasedComponent) toMap() map[string]any {
     if q.HideDateRangeOnInvoice != nil {
         structMap["hide_date_range_on_invoice"] = q.HideDateRangeOnInvoice
     }
-    if q.PriceInCents != nil {
-        structMap["price_in_cents"] = q.PriceInCents
-    }
     if q.Recurring != nil {
         structMap["recurring"] = q.Recurring
     }
@@ -146,12 +145,12 @@ func (q *QuantityBasedComponent) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "name", "unit_name", "description", "handle", "taxable", "pricing_scheme", "prices", "upgrade_charge", "downgrade_credit", "price_points", "unit_price", "tax_code", "hide_date_range_on_invoice", "price_in_cents", "recurring", "display_on_hosted_page", "allow_fractional_quantities", "public_signup_page_ids", "interval", "interval_unit")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "name", "unit_name", "description", "handle", "taxable", "pricing_scheme", "prices", "upgrade_charge", "downgrade_credit", "price_points", "unit_price", "tax_code", "hide_date_range_on_invoice", "recurring", "display_on_hosted_page", "allow_fractional_quantities", "public_signup_page_ids", "interval", "interval_unit")
     if err != nil {
     	return err
     }
-    
     q.AdditionalProperties = additionalProperties
+    
     q.Name = *temp.Name
     q.UnitName = *temp.UnitName
     q.Description = temp.Description
@@ -165,7 +164,6 @@ func (q *QuantityBasedComponent) UnmarshalJSON(input []byte) error {
     q.UnitPrice = temp.UnitPrice
     q.TaxCode = temp.TaxCode
     q.HideDateRangeOnInvoice = temp.HideDateRangeOnInvoice
-    q.PriceInCents = temp.PriceInCents
     q.Recurring = temp.Recurring
     q.DisplayOnHostedPage = temp.DisplayOnHostedPage
     q.AllowFractionalQuantities = temp.AllowFractionalQuantities
@@ -190,7 +188,6 @@ type tempQuantityBasedComponent  struct {
     UnitPrice                 *QuantityBasedComponentUnitPrice `json:"unit_price,omitempty"`
     TaxCode                   *string                          `json:"tax_code,omitempty"`
     HideDateRangeOnInvoice    *bool                            `json:"hide_date_range_on_invoice,omitempty"`
-    PriceInCents              *string                          `json:"price_in_cents,omitempty"`
     Recurring                 *bool                            `json:"recurring,omitempty"`
     DisplayOnHostedPage       *bool                            `json:"display_on_hosted_page,omitempty"`
     AllowFractionalQuantities *bool                            `json:"allow_fractional_quantities,omitempty"`

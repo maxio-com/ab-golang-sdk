@@ -13,8 +13,8 @@ import (
 
 // EventResponse represents a EventResponse struct.
 type EventResponse struct {
-    Event                Event          `json:"event"`
-    AdditionalProperties map[string]any `json:"_"`
+    Event                Event                  `json:"event"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for EventResponse.
@@ -22,13 +22,17 @@ type EventResponse struct {
 func (e EventResponse) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(e.AdditionalProperties,
+        "event"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(e.toMap())
 }
 
 // toMap converts the EventResponse object to a map representation for JSON marshaling.
 func (e EventResponse) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, e.AdditionalProperties)
+    MergeAdditionalProperties(structMap, e.AdditionalProperties)
     structMap["event"] = e.Event.toMap()
     return structMap
 }
@@ -45,12 +49,12 @@ func (e *EventResponse) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "event")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "event")
     if err != nil {
     	return err
     }
-    
     e.AdditionalProperties = additionalProperties
+    
     e.Event = *temp.Event
     return nil
 }

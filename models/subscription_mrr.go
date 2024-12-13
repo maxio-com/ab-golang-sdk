@@ -16,7 +16,7 @@ type SubscriptionMRR struct {
     SubscriptionId       int                      `json:"subscription_id"`
     MrrAmountInCents     int64                    `json:"mrr_amount_in_cents"`
     Breakouts            *SubscriptionMRRBreakout `json:"breakouts,omitempty"`
-    AdditionalProperties map[string]any           `json:"_"`
+    AdditionalProperties map[string]interface{}   `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for SubscriptionMRR.
@@ -24,13 +24,17 @@ type SubscriptionMRR struct {
 func (s SubscriptionMRR) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(s.AdditionalProperties,
+        "subscription_id", "mrr_amount_in_cents", "breakouts"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(s.toMap())
 }
 
 // toMap converts the SubscriptionMRR object to a map representation for JSON marshaling.
 func (s SubscriptionMRR) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, s.AdditionalProperties)
+    MergeAdditionalProperties(structMap, s.AdditionalProperties)
     structMap["subscription_id"] = s.SubscriptionId
     structMap["mrr_amount_in_cents"] = s.MrrAmountInCents
     if s.Breakouts != nil {
@@ -51,12 +55,12 @@ func (s *SubscriptionMRR) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "subscription_id", "mrr_amount_in_cents", "breakouts")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "subscription_id", "mrr_amount_in_cents", "breakouts")
     if err != nil {
     	return err
     }
-    
     s.AdditionalProperties = additionalProperties
+    
     s.SubscriptionId = *temp.SubscriptionId
     s.MrrAmountInCents = *temp.MrrAmountInCents
     s.Breakouts = temp.Breakouts

@@ -29,7 +29,7 @@ type IssueInvoiceEventData struct {
     DueAmount            string                    `json:"due_amount"`
     // The invoice total, which is `subtotal_amount - discount_amount + tax_amount`.'
     TotalAmount          string                    `json:"total_amount"`
-    AdditionalProperties map[string]any            `json:"_"`
+    AdditionalProperties map[string]interface{}    `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for IssueInvoiceEventData.
@@ -37,13 +37,17 @@ type IssueInvoiceEventData struct {
 func (i IssueInvoiceEventData) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(i.AdditionalProperties,
+        "consolidation_level", "from_status", "to_status", "due_amount", "total_amount"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(i.toMap())
 }
 
 // toMap converts the IssueInvoiceEventData object to a map representation for JSON marshaling.
 func (i IssueInvoiceEventData) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, i.AdditionalProperties)
+    MergeAdditionalProperties(structMap, i.AdditionalProperties)
     structMap["consolidation_level"] = i.ConsolidationLevel
     structMap["from_status"] = i.FromStatus
     structMap["to_status"] = i.ToStatus
@@ -64,12 +68,12 @@ func (i *IssueInvoiceEventData) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "consolidation_level", "from_status", "to_status", "due_amount", "total_amount")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "consolidation_level", "from_status", "to_status", "due_amount", "total_amount")
     if err != nil {
     	return err
     }
-    
     i.AdditionalProperties = additionalProperties
+    
     i.ConsolidationLevel = *temp.ConsolidationLevel
     i.FromStatus = *temp.FromStatus
     i.ToStatus = *temp.ToStatus

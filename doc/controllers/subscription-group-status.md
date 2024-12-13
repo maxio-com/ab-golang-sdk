@@ -50,7 +50,7 @@ ctx := context.Background()
 uid := "uid0"
 
 body := models.CancelGroupedSubscriptionsRequest{
-    ChargeUnbilledUsage: models.ToPointer(true),
+    ChargeUnbilledUsage:  models.ToPointer(true),
 }
 
 resp, err := subscriptionGroupStatusController.CancelSubscriptionsInGroup(ctx, uid, &body)
@@ -208,7 +208,7 @@ ctx := context.Background()
 uid := "uid0"
 
 body := models.ReactivateSubscriptionGroupRequest{
-    Resume:        models.ToPointer(true),
+    Resume:               models.ToPointer(true),
 }
 
 apiResponse, err := subscriptionGroupStatusController.ReactivateSubscriptionGroup(ctx, uid, &body)

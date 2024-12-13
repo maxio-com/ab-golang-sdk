@@ -24,7 +24,7 @@ Example schema for an `change_invoice_status` event
   "gateway_trans_id": "gateway_trans_id2",
   "amount": "amount2",
   "from_status": "draft",
-  "to_status": "paid",
+  "to_status": "pending",
   "consolidation_level": "none"
 }
 ```

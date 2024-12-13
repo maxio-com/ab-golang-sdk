@@ -11,12 +11,12 @@ import (
 
 // CouponRestriction represents a CouponRestriction struct.
 type CouponRestriction struct {
-    Id                   *int             `json:"id,omitempty"`
-    ItemType             *RestrictionType `json:"item_type,omitempty"`
-    ItemId               *int             `json:"item_id,omitempty"`
-    Name                 *string          `json:"name,omitempty"`
-    Handle               Optional[string] `json:"handle"`
-    AdditionalProperties map[string]any   `json:"_"`
+    Id                   *int                   `json:"id,omitempty"`
+    ItemType             *RestrictionType       `json:"item_type,omitempty"`
+    ItemId               *int                   `json:"item_id,omitempty"`
+    Name                 *string                `json:"name,omitempty"`
+    Handle               Optional[string]       `json:"handle"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for CouponRestriction.
@@ -24,13 +24,17 @@ type CouponRestriction struct {
 func (c CouponRestriction) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(c.AdditionalProperties,
+        "id", "item_type", "item_id", "name", "handle"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(c.toMap())
 }
 
 // toMap converts the CouponRestriction object to a map representation for JSON marshaling.
 func (c CouponRestriction) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, c.AdditionalProperties)
+    MergeAdditionalProperties(structMap, c.AdditionalProperties)
     if c.Id != nil {
         structMap["id"] = c.Id
     }
@@ -61,12 +65,12 @@ func (c *CouponRestriction) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "id", "item_type", "item_id", "name", "handle")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "id", "item_type", "item_id", "name", "handle")
     if err != nil {
     	return err
     }
-    
     c.AdditionalProperties = additionalProperties
+    
     c.Id = temp.Id
     c.ItemType = temp.ItemType
     c.ItemId = temp.ItemId

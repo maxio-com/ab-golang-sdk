@@ -20,7 +20,7 @@ type ComponentPricePointItem struct {
     // A string representing the interval unit for this component price point, either month or day. This property is only available for sites with Multifrequency enabled.
     IntervalUnit         Optional[IntervalUnit] `json:"interval_unit"`
     Prices               []Price                `json:"prices,omitempty"`
-    AdditionalProperties map[string]any         `json:"_"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for ComponentPricePointItem.
@@ -28,13 +28,17 @@ type ComponentPricePointItem struct {
 func (c ComponentPricePointItem) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(c.AdditionalProperties,
+        "name", "handle", "pricing_scheme", "interval", "interval_unit", "prices"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(c.toMap())
 }
 
 // toMap converts the ComponentPricePointItem object to a map representation for JSON marshaling.
 func (c ComponentPricePointItem) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, c.AdditionalProperties)
+    MergeAdditionalProperties(structMap, c.AdditionalProperties)
     if c.Name != nil {
         structMap["name"] = c.Name
     }
@@ -68,12 +72,12 @@ func (c *ComponentPricePointItem) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "name", "handle", "pricing_scheme", "interval", "interval_unit", "prices")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "name", "handle", "pricing_scheme", "interval", "interval_unit", "prices")
     if err != nil {
     	return err
     }
-    
     c.AdditionalProperties = additionalProperties
+    
     c.Name = temp.Name
     c.Handle = temp.Handle
     c.PricingScheme = temp.PricingScheme

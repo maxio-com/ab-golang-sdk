@@ -686,7 +686,7 @@ func (s *SubscriptionComponentsController) DeactivateEventBasedComponent(
     return httpCtx.Response, err
 }
 
-// RecordEvent takes context, subdomain, apiHandle, storeUid, body as parameters and
+// RecordEvent takes context, apiHandle, storeUid, body as parameters and
 // returns an *Response and
 // an error if there was an issue with the request or response.
 // ## Documentation
@@ -702,17 +702,13 @@ func (s *SubscriptionComponentsController) DeactivateEventBasedComponent(
 // ```
 func (s *SubscriptionComponentsController) RecordEvent(
     ctx context.Context,
-    subdomain string,
     apiHandle string,
     storeUid *string,
     body *models.EBBEvent) (
     *http.Response,
     error) {
-    req := s.prepareRequest(
-      ctx,
-      "POST",
-      fmt.Sprintf("/%v/events/%v.json", subdomain, apiHandle),
-    )
+    req := s.prepareRequest(ctx, "POST", fmt.Sprintf("/events/%v.json", apiHandle))
+    req.BaseUrl("ebb")
     req.Authenticate(NewAuth("BasicAuth"))
     req.Header("Content-Type", "application/json")
     if storeUid != nil {
@@ -729,7 +725,7 @@ func (s *SubscriptionComponentsController) RecordEvent(
     return httpCtx.Response, err
 }
 
-// BulkRecordEvents takes context, subdomain, apiHandle, storeUid, body as parameters and
+// BulkRecordEvents takes context, apiHandle, storeUid, body as parameters and
 // returns an *Response and
 // an error if there was an issue with the request or response.
 // Use this endpoint to record a collection of events.
@@ -737,7 +733,6 @@ func (s *SubscriptionComponentsController) RecordEvent(
 // A maximum of 1000 events can be published in a single request. A 422 will be returned if this limit is exceeded.
 func (s *SubscriptionComponentsController) BulkRecordEvents(
     ctx context.Context,
-    subdomain string,
     apiHandle string,
     storeUid *string,
     body []models.EBBEvent) (
@@ -746,8 +741,9 @@ func (s *SubscriptionComponentsController) BulkRecordEvents(
     req := s.prepareRequest(
       ctx,
       "POST",
-      fmt.Sprintf("/%v/events/%v/bulk.json", subdomain, apiHandle),
+      fmt.Sprintf("/events/%v/bulk.json", apiHandle),
     )
+    req.BaseUrl("ebb")
     req.Authenticate(NewAuth("BasicAuth"))
     req.Header("Content-Type", "application/json")
     if storeUid != nil {

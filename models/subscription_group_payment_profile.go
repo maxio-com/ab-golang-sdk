@@ -11,11 +11,11 @@ import (
 
 // SubscriptionGroupPaymentProfile represents a SubscriptionGroupPaymentProfile struct.
 type SubscriptionGroupPaymentProfile struct {
-    Id                   *int           `json:"id,omitempty"`
-    FirstName            *string        `json:"first_name,omitempty"`
-    LastName             *string        `json:"last_name,omitempty"`
-    MaskedCardNumber     *string        `json:"masked_card_number,omitempty"`
-    AdditionalProperties map[string]any `json:"_"`
+    Id                   *int                   `json:"id,omitempty"`
+    FirstName            *string                `json:"first_name,omitempty"`
+    LastName             *string                `json:"last_name,omitempty"`
+    MaskedCardNumber     *string                `json:"masked_card_number,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for SubscriptionGroupPaymentProfile.
@@ -23,13 +23,17 @@ type SubscriptionGroupPaymentProfile struct {
 func (s SubscriptionGroupPaymentProfile) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(s.AdditionalProperties,
+        "id", "first_name", "last_name", "masked_card_number"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(s.toMap())
 }
 
 // toMap converts the SubscriptionGroupPaymentProfile object to a map representation for JSON marshaling.
 func (s SubscriptionGroupPaymentProfile) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, s.AdditionalProperties)
+    MergeAdditionalProperties(structMap, s.AdditionalProperties)
     if s.Id != nil {
         structMap["id"] = s.Id
     }
@@ -53,12 +57,12 @@ func (s *SubscriptionGroupPaymentProfile) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "id", "first_name", "last_name", "masked_card_number")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "id", "first_name", "last_name", "masked_card_number")
     if err != nil {
     	return err
     }
-    
     s.AdditionalProperties = additionalProperties
+    
     s.Id = temp.Id
     s.FirstName = temp.FirstName
     s.LastName = temp.LastName

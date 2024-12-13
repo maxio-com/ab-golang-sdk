@@ -11,11 +11,11 @@ import (
 
 // MRRMovement represents a MRRMovement struct.
 type MRRMovement struct {
-    Amount               *int           `json:"amount,omitempty"`
-    Category             *string        `json:"category,omitempty"`
-    SubscriberDelta      *int           `json:"subscriber_delta,omitempty"`
-    LeadDelta            *int           `json:"lead_delta,omitempty"`
-    AdditionalProperties map[string]any `json:"_"`
+    Amount               *int                   `json:"amount,omitempty"`
+    Category             *string                `json:"category,omitempty"`
+    SubscriberDelta      *int                   `json:"subscriber_delta,omitempty"`
+    LeadDelta            *int                   `json:"lead_delta,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for MRRMovement.
@@ -23,13 +23,17 @@ type MRRMovement struct {
 func (m MRRMovement) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(m.AdditionalProperties,
+        "amount", "category", "subscriber_delta", "lead_delta"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(m.toMap())
 }
 
 // toMap converts the MRRMovement object to a map representation for JSON marshaling.
 func (m MRRMovement) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, m.AdditionalProperties)
+    MergeAdditionalProperties(structMap, m.AdditionalProperties)
     if m.Amount != nil {
         structMap["amount"] = m.Amount
     }
@@ -53,12 +57,12 @@ func (m *MRRMovement) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "amount", "category", "subscriber_delta", "lead_delta")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "amount", "category", "subscriber_delta", "lead_delta")
     if err != nil {
     	return err
     }
-    
     m.AdditionalProperties = additionalProperties
+    
     m.Amount = temp.Amount
     m.Category = temp.Category
     m.SubscriberDelta = temp.SubscriberDelta

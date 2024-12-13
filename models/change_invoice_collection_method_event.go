@@ -21,7 +21,7 @@ type ChangeInvoiceCollectionMethodEvent struct {
     EventType            InvoiceEventType                       `json:"event_type"`
     // Example schema for an `change_invoice_collection_method` event
     EventData            ChangeInvoiceCollectionMethodEventData `json:"event_data"`
-    AdditionalProperties map[string]any                         `json:"_"`
+    AdditionalProperties map[string]interface{}                 `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for ChangeInvoiceCollectionMethodEvent.
@@ -29,13 +29,17 @@ type ChangeInvoiceCollectionMethodEvent struct {
 func (c ChangeInvoiceCollectionMethodEvent) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(c.AdditionalProperties,
+        "id", "timestamp", "invoice", "event_type", "event_data"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(c.toMap())
 }
 
 // toMap converts the ChangeInvoiceCollectionMethodEvent object to a map representation for JSON marshaling.
 func (c ChangeInvoiceCollectionMethodEvent) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, c.AdditionalProperties)
+    MergeAdditionalProperties(structMap, c.AdditionalProperties)
     structMap["id"] = c.Id
     structMap["timestamp"] = c.Timestamp.Format(time.RFC3339)
     structMap["invoice"] = c.Invoice.toMap()
@@ -56,12 +60,12 @@ func (c *ChangeInvoiceCollectionMethodEvent) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "id", "timestamp", "invoice", "event_type", "event_data")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "id", "timestamp", "invoice", "event_type", "event_data")
     if err != nil {
     	return err
     }
-    
     c.AdditionalProperties = additionalProperties
+    
     c.Id = *temp.Id
     TimestampVal, err := time.Parse(time.RFC3339, *temp.Timestamp)
     if err != nil {

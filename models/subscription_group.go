@@ -19,7 +19,7 @@ type SubscriptionGroup struct {
     PaymentCollectionMethod *CollectionMethod                `json:"payment_collection_method,omitempty"`
     SubscriptionIds         []int                            `json:"subscription_ids,omitempty"`
     CreatedAt               *time.Time                       `json:"created_at,omitempty"`
-    AdditionalProperties    map[string]any                   `json:"_"`
+    AdditionalProperties    map[string]interface{}           `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for SubscriptionGroup.
@@ -27,13 +27,17 @@ type SubscriptionGroup struct {
 func (s SubscriptionGroup) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(s.AdditionalProperties,
+        "customer_id", "payment_profile", "payment_collection_method", "subscription_ids", "created_at"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(s.toMap())
 }
 
 // toMap converts the SubscriptionGroup object to a map representation for JSON marshaling.
 func (s SubscriptionGroup) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, s.AdditionalProperties)
+    MergeAdditionalProperties(structMap, s.AdditionalProperties)
     if s.CustomerId != nil {
         structMap["customer_id"] = s.CustomerId
     }
@@ -60,12 +64,12 @@ func (s *SubscriptionGroup) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "customer_id", "payment_profile", "payment_collection_method", "subscription_ids", "created_at")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "customer_id", "payment_profile", "payment_collection_method", "subscription_ids", "created_at")
     if err != nil {
     	return err
     }
-    
     s.AdditionalProperties = additionalProperties
+    
     s.CustomerId = temp.CustomerId
     s.PaymentProfile = temp.PaymentProfile
     s.PaymentCollectionMethod = temp.PaymentCollectionMethod

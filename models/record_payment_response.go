@@ -13,7 +13,7 @@ import (
 type RecordPaymentResponse struct {
     PaidInvoices         []PaidInvoice               `json:"paid_invoices,omitempty"`
     Prepayment           Optional[InvoicePrePayment] `json:"prepayment"`
-    AdditionalProperties map[string]any              `json:"_"`
+    AdditionalProperties map[string]interface{}      `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for RecordPaymentResponse.
@@ -21,13 +21,17 @@ type RecordPaymentResponse struct {
 func (r RecordPaymentResponse) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(r.AdditionalProperties,
+        "paid_invoices", "prepayment"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(r.toMap())
 }
 
 // toMap converts the RecordPaymentResponse object to a map representation for JSON marshaling.
 func (r RecordPaymentResponse) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, r.AdditionalProperties)
+    MergeAdditionalProperties(structMap, r.AdditionalProperties)
     if r.PaidInvoices != nil {
         structMap["paid_invoices"] = r.PaidInvoices
     }
@@ -49,12 +53,12 @@ func (r *RecordPaymentResponse) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "paid_invoices", "prepayment")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "paid_invoices", "prepayment")
     if err != nil {
     	return err
     }
-    
     r.AdditionalProperties = additionalProperties
+    
     r.PaidInvoices = temp.PaidInvoices
     r.Prepayment = temp.Prepayment
     return nil

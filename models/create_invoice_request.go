@@ -13,8 +13,8 @@ import (
 
 // CreateInvoiceRequest represents a CreateInvoiceRequest struct.
 type CreateInvoiceRequest struct {
-    Invoice              CreateInvoice  `json:"invoice"`
-    AdditionalProperties map[string]any `json:"_"`
+    Invoice              CreateInvoice          `json:"invoice"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreateInvoiceRequest.
@@ -22,13 +22,17 @@ type CreateInvoiceRequest struct {
 func (c CreateInvoiceRequest) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(c.AdditionalProperties,
+        "invoice"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(c.toMap())
 }
 
 // toMap converts the CreateInvoiceRequest object to a map representation for JSON marshaling.
 func (c CreateInvoiceRequest) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, c.AdditionalProperties)
+    MergeAdditionalProperties(structMap, c.AdditionalProperties)
     structMap["invoice"] = c.Invoice.toMap()
     return structMap
 }
@@ -45,12 +49,12 @@ func (c *CreateInvoiceRequest) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "invoice")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "invoice")
     if err != nil {
     	return err
     }
-    
     c.AdditionalProperties = additionalProperties
+    
     c.Invoice = *temp.Invoice
     return nil
 }

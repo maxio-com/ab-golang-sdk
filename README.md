@@ -4,7 +4,7 @@
 ## Introduction
 
 Maxio Advanced Billing (formerly Chargify) provides an HTTP-based API that conforms to the principles of REST.
-One of the many reasons to use Advanced Billing is the immense feature set and surrounding community [client libraries](page:development-tools/client-libraries).
+One of the many reasons to use Advanced Billing is the immense feature set and surrounding community [client libraries](http://localhost:8080/go/development-tools/development-tools/client-libraries).
 The Maxio API returns JSON responses as the primary and recommended format, but XML is also provided as a backwards compatible option for Merchants who require it.
 
 ### Steps to make your first Maxio Advanced Billing API call
@@ -38,10 +38,10 @@ The following section explains how to use the advancedbilling library in a new p
 To use the package in your application, you can install the package from [pkg.go.dev](https://pkg.go.dev/) using the following command:
 
 ```bash
-$ go get github.com/maxio-com/ab-golang-sdk@v0.4.2
+$ go get github.com/maxio-com/ab-golang-sdk@v5.0.0
 ```
 
-You can also view the package at: https://pkg.go.dev/github.com/maxio-com/ab-golang-sdk@v0.4.2
+You can also view the package at: https://pkg.go.dev/github.com/maxio-com/ab-golang-sdk@v5.0.0
 
 ## Initialize the API Client
 
@@ -51,9 +51,8 @@ The following parameters are configurable for the API Client:
 
 | Parameter | Type | Description |
 |  --- | --- | --- |
-| `subdomain` | `string` | The subdomain for your Advanced Billing site.<br>*Default*: `"subdomain"` |
-| `domain` | `string` | The Advanced Billing server domain.<br>*Default*: `"chargify.com"` |
-| `environment` | `Environment` | The API environment. <br> **Default: `Environment.PRODUCTION`** |
+| `site` | `string` | The subdomain for your Advanced Billing site.<br>*Default*: `"subdomain"` |
+| `environment` | `Environment` | The API environment. <br> **Default: `Environment.US`** |
 | `httpConfiguration` | [`HttpConfiguration`](doc/http-configuration.md) | Configurable http client options like timeout and retries. |
 | `basicAuthCredentials` | [`BasicAuthCredentials`](doc/auth/basic-authentication.md) | The Credentials Setter for Basic Authentication |
 
@@ -67,15 +66,14 @@ client := advancedbilling.NewClient(
                 advancedbilling.WithTimeout(120),
             ),
         ),
-        advancedbilling.WithEnvironment(advancedbilling.PRODUCTION),
+        advancedbilling.WithEnvironment(advancedbilling.US),
         advancedbilling.WithBasicAuthCredentials(
             advancedbilling.NewBasicAuthCredentials(
                 "BasicAuthUserName",
                 "BasicAuthPassword",
             ),
         ),
-        advancedbilling.WithSubdomain("subdomain"),
-        advancedbilling.WithDomain("chargify.com"),
+        advancedbilling.WithSite("subdomain"),
     ),
 )
 ```
@@ -88,8 +86,8 @@ The SDK can be configured to use a different environment for making API calls. A
 
 | Name | Description |
 |  --- | --- |
-| production | **Default** Production server |
-| environment2 | Production server |
+| US | **Default** Default Advanced Billing environment hosted in US. Valid for the majority of our customers. |
+| EU | Advanced Billing environment hosted in EU. Use only when you requested EU hosting for your AB account. |
 
 ## Authorization
 

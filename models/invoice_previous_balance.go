@@ -13,9 +13,9 @@ import (
 
 // InvoicePreviousBalance represents a InvoicePreviousBalance struct.
 type InvoicePreviousBalance struct {
-    CapturedAt           *time.Time           `json:"captured_at,omitempty"`
-    Invoices             []InvoiceBalanceItem `json:"invoices,omitempty"`
-    AdditionalProperties map[string]any       `json:"_"`
+    CapturedAt           *time.Time             `json:"captured_at,omitempty"`
+    Invoices             []InvoiceBalanceItem   `json:"invoices,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for InvoicePreviousBalance.
@@ -23,13 +23,17 @@ type InvoicePreviousBalance struct {
 func (i InvoicePreviousBalance) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(i.AdditionalProperties,
+        "captured_at", "invoices"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(i.toMap())
 }
 
 // toMap converts the InvoicePreviousBalance object to a map representation for JSON marshaling.
 func (i InvoicePreviousBalance) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, i.AdditionalProperties)
+    MergeAdditionalProperties(structMap, i.AdditionalProperties)
     if i.CapturedAt != nil {
         structMap["captured_at"] = i.CapturedAt.Format(time.RFC3339)
     }
@@ -47,12 +51,12 @@ func (i *InvoicePreviousBalance) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "captured_at", "invoices")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "captured_at", "invoices")
     if err != nil {
     	return err
     }
-    
     i.AdditionalProperties = additionalProperties
+    
     if temp.CapturedAt != nil {
         CapturedAtVal, err := time.Parse(time.RFC3339, *temp.CapturedAt)
         if err != nil {

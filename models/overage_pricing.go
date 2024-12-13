@@ -14,9 +14,9 @@ import (
 // OveragePricing represents a OveragePricing struct.
 type OveragePricing struct {
     // The identifier for the pricing scheme. See [Product Components](https://help.chargify.com/products/product-components.html) for an overview of pricing schemes.
-    PricingScheme        PricingScheme  `json:"pricing_scheme"`
-    Prices               []Price        `json:"prices,omitempty"`
-    AdditionalProperties map[string]any `json:"_"`
+    PricingScheme        PricingScheme          `json:"pricing_scheme"`
+    Prices               []Price                `json:"prices,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for OveragePricing.
@@ -24,13 +24,17 @@ type OveragePricing struct {
 func (o OveragePricing) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(o.AdditionalProperties,
+        "pricing_scheme", "prices"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(o.toMap())
 }
 
 // toMap converts the OveragePricing object to a map representation for JSON marshaling.
 func (o OveragePricing) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, o.AdditionalProperties)
+    MergeAdditionalProperties(structMap, o.AdditionalProperties)
     structMap["pricing_scheme"] = o.PricingScheme
     if o.Prices != nil {
         structMap["prices"] = o.Prices
@@ -50,12 +54,12 @@ func (o *OveragePricing) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "pricing_scheme", "prices")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "pricing_scheme", "prices")
     if err != nil {
     	return err
     }
-    
     o.AdditionalProperties = additionalProperties
+    
     o.PricingScheme = *temp.PricingScheme
     o.Prices = temp.Prices
     return nil

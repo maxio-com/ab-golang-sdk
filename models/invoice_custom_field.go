@@ -11,12 +11,12 @@ import (
 
 // InvoiceCustomField represents a InvoiceCustomField struct.
 type InvoiceCustomField struct {
-    OwnerId              *int              `json:"owner_id,omitempty"`
-    OwnerType            *CustomFieldOwner `json:"owner_type,omitempty"`
-    Name                 *string           `json:"name,omitempty"`
-    Value                *string           `json:"value,omitempty"`
-    MetadatumId          *int              `json:"metadatum_id,omitempty"`
-    AdditionalProperties map[string]any    `json:"_"`
+    OwnerId              *int                   `json:"owner_id,omitempty"`
+    OwnerType            *CustomFieldOwner      `json:"owner_type,omitempty"`
+    Name                 *string                `json:"name,omitempty"`
+    Value                *string                `json:"value,omitempty"`
+    MetadatumId          *int                   `json:"metadatum_id,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for InvoiceCustomField.
@@ -24,13 +24,17 @@ type InvoiceCustomField struct {
 func (i InvoiceCustomField) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(i.AdditionalProperties,
+        "owner_id", "owner_type", "name", "value", "metadatum_id"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(i.toMap())
 }
 
 // toMap converts the InvoiceCustomField object to a map representation for JSON marshaling.
 func (i InvoiceCustomField) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, i.AdditionalProperties)
+    MergeAdditionalProperties(structMap, i.AdditionalProperties)
     if i.OwnerId != nil {
         structMap["owner_id"] = i.OwnerId
     }
@@ -57,12 +61,12 @@ func (i *InvoiceCustomField) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "owner_id", "owner_type", "name", "value", "metadatum_id")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "owner_id", "owner_type", "name", "value", "metadatum_id")
     if err != nil {
     	return err
     }
-    
     i.AdditionalProperties = additionalProperties
+    
     i.OwnerId = temp.OwnerId
     i.OwnerType = temp.OwnerType
     i.Name = temp.Name

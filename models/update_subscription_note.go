@@ -14,9 +14,9 @@ import (
 // UpdateSubscriptionNote represents a UpdateSubscriptionNote struct.
 // Updatable fields for Subscription Note
 type UpdateSubscriptionNote struct {
-    Body                 string         `json:"body"`
-    Sticky               bool           `json:"sticky"`
-    AdditionalProperties map[string]any `json:"_"`
+    Body                 string                 `json:"body"`
+    Sticky               bool                   `json:"sticky"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for UpdateSubscriptionNote.
@@ -24,13 +24,17 @@ type UpdateSubscriptionNote struct {
 func (u UpdateSubscriptionNote) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(u.AdditionalProperties,
+        "body", "sticky"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(u.toMap())
 }
 
 // toMap converts the UpdateSubscriptionNote object to a map representation for JSON marshaling.
 func (u UpdateSubscriptionNote) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, u.AdditionalProperties)
+    MergeAdditionalProperties(structMap, u.AdditionalProperties)
     structMap["body"] = u.Body
     structMap["sticky"] = u.Sticky
     return structMap
@@ -48,12 +52,12 @@ func (u *UpdateSubscriptionNote) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "body", "sticky")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "body", "sticky")
     if err != nil {
     	return err
     }
-    
     u.AdditionalProperties = additionalProperties
+    
     u.Body = *temp.Body
     u.Sticky = *temp.Sticky
     return nil

@@ -17,18 +17,18 @@ import (
 // Example schema for an `apply_debit_note` event
 type ApplyDebitNoteEventData struct {
     // A unique, identifying string that appears on the debit note and in places it is referenced.
-    DebitNoteNumber      string              `json:"debit_note_number"`
+    DebitNoteNumber      string                 `json:"debit_note_number"`
     // Unique identifier for the debit note. It is generated automatically by Chargify and has the prefix "db_" followed by alphanumeric characters.
-    DebitNoteUid         string              `json:"debit_note_uid"`
+    DebitNoteUid         string                 `json:"debit_note_uid"`
     // The full, original amount of the debit note.
-    OriginalAmount       string              `json:"original_amount"`
+    OriginalAmount       string                 `json:"original_amount"`
     // The amount of the debit note applied to invoice.
-    AppliedAmount        string              `json:"applied_amount"`
+    AppliedAmount        string                 `json:"applied_amount"`
     // The debit note memo.
-    Memo                 Optional[string]    `json:"memo"`
+    Memo                 Optional[string]       `json:"memo"`
     // The time the debit note was applied, in ISO 8601 format, i.e. "2019-06-07T17:20:06Z"
-    TransactionTime      Optional[time.Time] `json:"transaction_time"`
-    AdditionalProperties map[string]any      `json:"_"`
+    TransactionTime      Optional[time.Time]    `json:"transaction_time"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for ApplyDebitNoteEventData.
@@ -36,13 +36,17 @@ type ApplyDebitNoteEventData struct {
 func (a ApplyDebitNoteEventData) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(a.AdditionalProperties,
+        "debit_note_number", "debit_note_uid", "original_amount", "applied_amount", "memo", "transaction_time"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(a.toMap())
 }
 
 // toMap converts the ApplyDebitNoteEventData object to a map representation for JSON marshaling.
 func (a ApplyDebitNoteEventData) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, a.AdditionalProperties)
+    MergeAdditionalProperties(structMap, a.AdditionalProperties)
     structMap["debit_note_number"] = a.DebitNoteNumber
     structMap["debit_note_uid"] = a.DebitNoteUid
     structMap["original_amount"] = a.OriginalAmount
@@ -81,12 +85,12 @@ func (a *ApplyDebitNoteEventData) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "debit_note_number", "debit_note_uid", "original_amount", "applied_amount", "memo", "transaction_time")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "debit_note_number", "debit_note_uid", "original_amount", "applied_amount", "memo", "transaction_time")
     if err != nil {
     	return err
     }
-    
     a.AdditionalProperties = additionalProperties
+    
     a.DebitNoteNumber = *temp.DebitNoteNumber
     a.DebitNoteUid = *temp.DebitNoteUid
     a.OriginalAmount = *temp.OriginalAmount

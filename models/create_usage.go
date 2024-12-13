@@ -12,12 +12,12 @@ import (
 // CreateUsage represents a CreateUsage struct.
 type CreateUsage struct {
     // integer by default or decimal number if fractional quantities are enabled for the component
-    Quantity             *float64         `json:"quantity,omitempty"`
-    PricePointId         *string          `json:"price_point_id,omitempty"`
-    Memo                 *string          `json:"memo,omitempty"`
+    Quantity             *float64               `json:"quantity,omitempty"`
+    PricePointId         *string                `json:"price_point_id,omitempty"`
+    Memo                 *string                `json:"memo,omitempty"`
     // This attribute is particularly useful when you need to align billing events for different components on distinct schedules within a subscription. Please note this only works for site with Multifrequency enabled
-    BillingSchedule      *BillingSchedule `json:"billing_schedule,omitempty"`
-    AdditionalProperties map[string]any   `json:"_"`
+    BillingSchedule      *BillingSchedule       `json:"billing_schedule,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreateUsage.
@@ -25,13 +25,17 @@ type CreateUsage struct {
 func (c CreateUsage) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(c.AdditionalProperties,
+        "quantity", "price_point_id", "memo", "billing_schedule"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(c.toMap())
 }
 
 // toMap converts the CreateUsage object to a map representation for JSON marshaling.
 func (c CreateUsage) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, c.AdditionalProperties)
+    MergeAdditionalProperties(structMap, c.AdditionalProperties)
     if c.Quantity != nil {
         structMap["quantity"] = c.Quantity
     }
@@ -55,12 +59,12 @@ func (c *CreateUsage) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "quantity", "price_point_id", "memo", "billing_schedule")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "quantity", "price_point_id", "memo", "billing_schedule")
     if err != nil {
     	return err
     }
-    
     c.AdditionalProperties = additionalProperties
+    
     c.Quantity = temp.Quantity
     c.PricePointId = temp.PricePointId
     c.Memo = temp.Memo

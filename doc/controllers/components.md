@@ -62,15 +62,15 @@ ctx := context.Background()
 productFamilyId := "product_family_id4"
 
 body := models.CreateMeteredComponent{
-    MeteredComponent: models.MeteredComponent{
+    MeteredComponent:     models.MeteredComponent{
         Name:                      "Text messages",
         UnitName:                  "text message",
         Taxable:                   models.ToPointer(false),
         PricingScheme:             models.PricingScheme("per_unit"),
         Prices:                    []models.Price{
             models.Price{
-                StartingQuantity: models.PriceStartingQuantityContainer.FromNumber(1),
-                UnitPrice:        models.PriceUnitPriceContainer.FromPrecision(float64(1)),
+                StartingQuantity:     models.PriceStartingQuantityContainer.FromNumber(1),
+                UnitPrice:            models.PriceUnitPriceContainer.FromPrecision(float64(1)),
             },
         },
     },
@@ -309,16 +309,11 @@ ctx := context.Background()
 productFamilyId := "product_family_id4"
 
 body := models.CreateOnOffComponent{
-    OnOffComponent: models.OnOffComponent{
+    OnOffComponent:       models.OnOffComponent{
         Name:                      "Annual Support Services",
         Description:               models.ToPointer("Prepay for support services"),
         Taxable:                   models.ToPointer(true),
-        Prices:                    []models.Price{
-            models.Price{
-                StartingQuantity: models.PriceStartingQuantityContainer.FromString("0"),
-                UnitPrice:        models.PriceUnitPriceContainer.FromString("100.00"),
-            },
-        },
+        UnitPrice:                 models.OnOffComponentUnitPriceContainer.FromString("100.00"),
         DisplayOnHostedPage:       models.ToPointer(true),
         PublicSignupPageIds:       []int{
             320495,
@@ -420,23 +415,23 @@ productFamilyId := "product_family_id4"
 body := models.CreatePrepaidComponent{
     PrepaidUsageComponent: models.PrepaidUsageComponent{
         Name:                      "Minutes",
-        UnitName:                  models.ToPointer("minutes"),
-        PricingScheme:             models.ToPointer(models.PricingScheme("per_unit")),
+        UnitName:                  "minutes",
+        PricingScheme:             models.PricingScheme("per_unit"),
         UnitPrice:                 models.ToPointer(models.PrepaidUsageComponentUnitPriceContainer.FromPrecision(float64(2))),
-        OveragePricing:            models.ToPointer(models.OveragePricing{
-            PricingScheme: models.PricingScheme("stairstep"),
-            Prices:        []models.Price{
+        OveragePricing:            models.OveragePricing{
+            PricingScheme:        models.PricingScheme("stairstep"),
+            Prices:               []models.Price{
                 models.Price{
-                    StartingQuantity: models.PriceStartingQuantityContainer.FromNumber(1),
-                    EndingQuantity:   models.NewOptional(models.ToPointer(models.PriceEndingQuantityContainer.FromNumber(100))),
-                    UnitPrice:        models.PriceUnitPriceContainer.FromPrecision(float64(3)),
+                    StartingQuantity:     models.PriceStartingQuantityContainer.FromNumber(1),
+                    EndingQuantity:       models.NewOptional(models.ToPointer(models.PriceEndingQuantityContainer.FromNumber(100))),
+                    UnitPrice:            models.PriceUnitPriceContainer.FromPrecision(float64(3)),
                 },
                 models.Price{
-                    StartingQuantity: models.PriceStartingQuantityContainer.FromNumber(101),
-                    UnitPrice:        models.PriceUnitPriceContainer.FromPrecision(float64(5)),
+                    StartingQuantity:     models.PriceStartingQuantityContainer.FromNumber(101),
+                    UnitPrice:            models.PriceUnitPriceContainer.FromPrecision(float64(5)),
                 },
             },
-        }),
+        },
         RolloverPrepaidRemainder:  models.ToPointer(true),
         RenewPrepaidAllocation:    models.ToPointer(true),
         ExpirationInterval:        models.ToPointer(float64(15)),
@@ -562,7 +557,7 @@ ctx := context.Background()
 productFamilyId := "product_family_id4"
 
 body := models.CreateEBBComponent{
-    EventBasedComponent: models.EBBComponent{
+    EventBasedComponent:  models.EBBComponent{
         Name:                      "Component Name",
         UnitName:                  "string",
         Description:               models.ToPointer("string"),
@@ -571,8 +566,8 @@ body := models.CreateEBBComponent{
         PricingScheme:             models.PricingScheme("per_unit"),
         Prices:                    []models.Price{
             models.Price{
-                StartingQuantity: models.PriceStartingQuantityContainer.FromNumber(1),
-                UnitPrice:        models.PriceUnitPriceContainer.FromString("0.49"),
+                StartingQuantity:     models.PriceStartingQuantityContainer.FromNumber(1),
+                UnitPrice:            models.PriceUnitPriceContainer.FromString("0.49"),
             },
         },
         EventBasedBillingMetricId: 123,
@@ -820,8 +815,8 @@ productFamilyId := 140
 componentId := "component_id8"
 
 body := models.UpdateComponentRequest{
-    Component: models.UpdateComponent{
-        ItemCategory:        models.NewOptional(models.ToPointer(models.ItemCategory("Business Software"))),
+    Component:            models.UpdateComponent{
+        ItemCategory:         models.NewOptional(models.ToPointer(models.ItemCategory("Business Software"))),
     },
 }
 
@@ -988,7 +983,7 @@ collectedInput := advancedbilling.ListComponentsInput{
     Page:            models.ToPointer(2),
     PerPage:         models.ToPointer(50),
     Filter:          models.ToPointer(models.ListComponentsFilter{
-        Ids:                 []int{
+        Ids:                  []int{
             1,
             2,
             3,
@@ -1137,8 +1132,8 @@ ctx := context.Background()
 componentId := "component_id8"
 
 body := models.UpdateComponentRequest{
-    Component: models.UpdateComponent{
-        ItemCategory:        models.NewOptional(models.ToPointer(models.ItemCategory("Business Software"))),
+    Component:            models.UpdateComponent{
+        ItemCategory:         models.NewOptional(models.ToPointer(models.ItemCategory("Business Software"))),
     },
 }
 
@@ -1230,7 +1225,7 @@ collectedInput := advancedbilling.ListComponentsForProductFamilyInput{
     Page:            models.ToPointer(2),
     PerPage:         models.ToPointer(50),
     Filter:          models.ToPointer(models.ListComponentsFilter{
-        Ids:                 []int{
+        Ids:                  []int{
             1,
             2,
             3,

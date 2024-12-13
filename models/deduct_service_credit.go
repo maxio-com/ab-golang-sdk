@@ -15,7 +15,7 @@ import (
 type DeductServiceCredit struct {
     Amount               DeductServiceCreditAmount `json:"amount"`
     Memo                 *string                   `json:"memo,omitempty"`
-    AdditionalProperties map[string]any            `json:"_"`
+    AdditionalProperties map[string]interface{}    `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for DeductServiceCredit.
@@ -23,13 +23,17 @@ type DeductServiceCredit struct {
 func (d DeductServiceCredit) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(d.AdditionalProperties,
+        "amount", "memo"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(d.toMap())
 }
 
 // toMap converts the DeductServiceCredit object to a map representation for JSON marshaling.
 func (d DeductServiceCredit) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, d.AdditionalProperties)
+    MergeAdditionalProperties(structMap, d.AdditionalProperties)
     structMap["amount"] = d.Amount.toMap()
     if d.Memo != nil {
         structMap["memo"] = d.Memo
@@ -49,12 +53,12 @@ func (d *DeductServiceCredit) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "amount", "memo")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "amount", "memo")
     if err != nil {
     	return err
     }
-    
     d.AdditionalProperties = additionalProperties
+    
     d.Amount = *temp.Amount
     d.Memo = temp.Memo
     return nil

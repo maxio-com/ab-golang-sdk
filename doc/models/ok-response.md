@@ -1,9 +1,9 @@
 
-# Reason Codes Json Response
+# Ok Response
 
 ## Structure
 
-`ReasonCodesJsonResponse`
+`OkResponse`
 
 ## Fields
 
@@ -15,7 +15,7 @@
 
 ```json
 {
-  "ok": "ok2"
+  "ok": "ok4"
 }
 ```
 

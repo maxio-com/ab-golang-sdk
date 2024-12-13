@@ -23,7 +23,7 @@ type OfferItem struct {
     Interval             *int                   `json:"interval,omitempty"`
     // A string representing the interval unit for this component price point, either month or day. This property is only available for sites with Multifrequency enabled.
     IntervalUnit         Optional[IntervalUnit] `json:"interval_unit"`
-    AdditionalProperties map[string]any         `json:"_"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for OfferItem.
@@ -31,13 +31,17 @@ type OfferItem struct {
 func (o OfferItem) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(o.AdditionalProperties,
+        "component_id", "price_point_id", "starting_quantity", "editable", "component_unit_price", "component_name", "price_point_name", "currency_prices", "interval", "interval_unit"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(o.toMap())
 }
 
 // toMap converts the OfferItem object to a map representation for JSON marshaling.
 func (o OfferItem) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, o.AdditionalProperties)
+    MergeAdditionalProperties(structMap, o.AdditionalProperties)
     if o.ComponentId != nil {
         structMap["component_id"] = o.ComponentId
     }
@@ -83,12 +87,12 @@ func (o *OfferItem) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "component_id", "price_point_id", "starting_quantity", "editable", "component_unit_price", "component_name", "price_point_name", "currency_prices", "interval", "interval_unit")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "component_id", "price_point_id", "starting_quantity", "editable", "component_unit_price", "component_name", "price_point_name", "currency_prices", "interval", "interval_unit")
     if err != nil {
     	return err
     }
-    
     o.AdditionalProperties = additionalProperties
+    
     o.ComponentId = temp.ComponentId
     o.PricePointId = temp.PricePointId
     o.StartingQuantity = temp.StartingQuantity

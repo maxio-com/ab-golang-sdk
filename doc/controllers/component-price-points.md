@@ -136,22 +136,22 @@ ctx := context.Background()
 componentId := 222
 
 body := models.CreateComponentPricePointRequest{
-    PricePoint: models.CreateComponentPricePointRequestPricePointContainer.FromCreateComponentPricePoint(models.CreateComponentPricePoint{
-        Name:                "Wholesale",
-        Handle:              models.ToPointer("wholesale-handle"),
-        PricingScheme:       models.PricingScheme("stairstep"),
-        Prices:              []models.Price{
+    PricePoint:           models.CreateComponentPricePointRequestPricePointContainer.FromCreateComponentPricePoint(models.CreateComponentPricePoint{
+        Name:                 "Wholesale",
+        Handle:               models.ToPointer("wholesale-handle"),
+        PricingScheme:        models.PricingScheme("stairstep"),
+        Prices:               []models.Price{
             models.Price{
-                StartingQuantity: models.PriceStartingQuantityContainer.FromString("1"),
-                EndingQuantity:   models.NewOptional(models.ToPointer(models.PriceEndingQuantityContainer.FromString("100"))),
-                UnitPrice:        models.PriceUnitPriceContainer.FromString("5.00"),
+                StartingQuantity:     models.PriceStartingQuantityContainer.FromString("1"),
+                EndingQuantity:       models.NewOptional(models.ToPointer(models.PriceEndingQuantityContainer.FromString("100"))),
+                UnitPrice:            models.PriceUnitPriceContainer.FromString("5.00"),
             },
             models.Price{
-                StartingQuantity: models.PriceStartingQuantityContainer.FromString("101"),
-                UnitPrice:        models.PriceUnitPriceContainer.FromString("4.00"),
+                StartingQuantity:     models.PriceStartingQuantityContainer.FromString("101"),
+                UnitPrice:            models.PriceUnitPriceContainer.FromString("4.00"),
             },
         },
-        UseSiteExchangeRate: models.ToPointer(false),
+        UseSiteExchangeRate:  models.ToPointer(false),
     }),
 }
 
@@ -164,6 +164,12 @@ if err != nil {
     fmt.Println(apiResponse.Response.StatusCode)
 }
 ```
+
+## Errors
+
+| HTTP Status Code | Error Description | Exception Class |
+|  --- | --- | --- |
+| 422 | Unprocessable Entity (WebDAV) | [`ErrorArrayMapResponseException`](../../doc/models/error-array-map-response-exception.md) |
 
 
 # List Component Price Points
@@ -301,37 +307,37 @@ ctx := context.Background()
 componentId := "component_id8"
 
 body := models.CreateComponentPricePointsRequest{
-    PricePoints: []models.CreateComponentPricePointsRequestPricePoints{
+    PricePoints:          []models.CreateComponentPricePointsRequestPricePoints{
         models.CreateComponentPricePointsRequestPricePointsContainer.FromCreateComponentPricePoint(models.CreateComponentPricePoint{
-            Name:                "Wholesale",
-            Handle:              models.ToPointer("wholesale"),
-            PricingScheme:       models.PricingScheme("per_unit"),
-            Prices:              []models.Price{
+            Name:                 "Wholesale",
+            Handle:               models.ToPointer("wholesale"),
+            PricingScheme:        models.PricingScheme("per_unit"),
+            Prices:               []models.Price{
                 models.Price{
-                    StartingQuantity: models.PriceStartingQuantityContainer.FromNumber(1),
-                    UnitPrice:        models.PriceUnitPriceContainer.FromPrecision(float64(5)),
+                    StartingQuantity:     models.PriceStartingQuantityContainer.FromNumber(1),
+                    UnitPrice:            models.PriceUnitPriceContainer.FromPrecision(float64(5)),
                 },
             },
         }),
         models.CreateComponentPricePointsRequestPricePointsContainer.FromCreateComponentPricePoint(models.CreateComponentPricePoint{
-            Name:                "MSRP",
-            Handle:              models.ToPointer("msrp"),
-            PricingScheme:       models.PricingScheme("per_unit"),
-            Prices:              []models.Price{
+            Name:                 "MSRP",
+            Handle:               models.ToPointer("msrp"),
+            PricingScheme:        models.PricingScheme("per_unit"),
+            Prices:               []models.Price{
                 models.Price{
-                    StartingQuantity: models.PriceStartingQuantityContainer.FromNumber(1),
-                    UnitPrice:        models.PriceUnitPriceContainer.FromPrecision(float64(4)),
+                    StartingQuantity:     models.PriceStartingQuantityContainer.FromNumber(1),
+                    UnitPrice:            models.PriceUnitPriceContainer.FromPrecision(float64(4)),
                 },
             },
         }),
         models.CreateComponentPricePointsRequestPricePointsContainer.FromCreateComponentPricePoint(models.CreateComponentPricePoint{
-            Name:                "Special Pricing",
-            Handle:              models.ToPointer("special"),
-            PricingScheme:       models.PricingScheme("per_unit"),
-            Prices:              []models.Price{
+            Name:                 "Special Pricing",
+            Handle:               models.ToPointer("special"),
+            PricingScheme:        models.PricingScheme("per_unit"),
+            Prices:               []models.Price{
                 models.Price{
-                    StartingQuantity: models.PriceStartingQuantityContainer.FromNumber(1),
-                    UnitPrice:        models.PriceUnitPriceContainer.FromPrecision(float64(5)),
+                    StartingQuantity:     models.PriceStartingQuantityContainer.FromNumber(1),
+                    UnitPrice:            models.PriceUnitPriceContainer.FromPrecision(float64(5)),
                 },
             },
         }),
@@ -397,6 +403,12 @@ if err != nil {
 }
 ```
 
+## Errors
+
+| HTTP Status Code | Error Description | Exception Class |
+|  --- | --- | --- |
+| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../../doc/models/error-list-response-exception.md) |
+
 
 # Update Component Price Point
 
@@ -440,21 +452,21 @@ componentId := models.UpdateComponentPricePointComponentIdContainer.FromNumber(1
 pricePointId := models.UpdateComponentPricePointPricePointIdContainer.FromNumber(188)
 
 body := models.UpdateComponentPricePointRequest{
-    PricePoint: models.ToPointer(models.UpdateComponentPricePoint{
-        Name:                models.ToPointer("Default"),
-        Prices:              []models.UpdatePrice{
+    PricePoint:           models.ToPointer(models.UpdateComponentPricePoint{
+        Name:                 models.ToPointer("Default"),
+        Prices:               []models.UpdatePrice{
             models.UpdatePrice{
-                Id:               models.ToPointer(1),
-                EndingQuantity:   models.ToPointer(models.UpdatePriceEndingQuantityContainer.FromNumber(100)),
-                UnitPrice:        models.ToPointer(models.UpdatePriceUnitPriceContainer.FromPrecision(float64(5))),
+                Id:                   models.ToPointer(1),
+                EndingQuantity:       models.ToPointer(models.UpdatePriceEndingQuantityContainer.FromNumber(100)),
+                UnitPrice:            models.ToPointer(models.UpdatePriceUnitPriceContainer.FromPrecision(float64(5))),
             },
             models.UpdatePrice{
-                Id:               models.ToPointer(2),
-                Destroy:          models.ToPointer(true),
+                Id:                   models.ToPointer(2),
+                Destroy:              models.ToPointer(true),
             },
             models.UpdatePrice{
-                UnitPrice:        models.ToPointer(models.UpdatePriceUnitPriceContainer.FromPrecision(float64(4))),
-                StartingQuantity: models.ToPointer(models.UpdatePriceStartingQuantityContainer.FromNumber(101)),
+                UnitPrice:            models.ToPointer(models.UpdatePriceUnitPriceContainer.FromPrecision(float64(4))),
+                StartingQuantity:     models.ToPointer(models.UpdatePriceStartingQuantityContainer.FromNumber(101)),
             },
         },
     }),
@@ -485,7 +497,8 @@ Use this endpoint to retrieve details for a specific component price point. You 
 ReadComponentPricePoint(
     ctx context.Context,
     componentId models.ReadComponentPricePointComponentId,
-    pricePointId models.ReadComponentPricePointPricePointId) (
+    pricePointId models.ReadComponentPricePointPricePointId,
+    currencyPrices *bool) (
     models.ApiResponse[models.ComponentPricePointResponse],
     error)
 ```
@@ -496,6 +509,7 @@ ReadComponentPricePoint(
 |  --- | --- | --- | --- |
 | `componentId` | [`models.ReadComponentPricePointComponentId`](../../doc/models/containers/read-component-price-point-component-id.md) | Template, Required | This is a container for one-of cases. |
 | `pricePointId` | [`models.ReadComponentPricePointPricePointId`](../../doc/models/containers/read-component-price-point-price-point-id.md) | Template, Required | This is a container for one-of cases. |
+| `currencyPrices` | `*bool` | Query, Optional | Include an array of currency price data |
 
 ## Response Type
 
@@ -510,7 +524,9 @@ componentId := models.ReadComponentPricePointComponentIdContainer.FromNumber(144
 
 pricePointId := models.ReadComponentPricePointPricePointIdContainer.FromNumber(188)
 
-apiResponse, err := componentPricePointsController.ReadComponentPricePoint(ctx, componentId, pricePointId)
+
+
+apiResponse, err := componentPricePointsController.ReadComponentPricePoint(ctx, componentId, pricePointId, nil)
 if err != nil {
     log.Fatalln(err)
 } else {
@@ -719,16 +735,16 @@ ctx := context.Background()
 pricePointId := 10
 
 body := models.CreateCurrencyPricesRequest{
-    CurrencyPrices: []models.CreateCurrencyPrice{
+    CurrencyPrices:       []models.CreateCurrencyPrice{
         models.CreateCurrencyPrice{
-            Currency: models.ToPointer("EUR"),
-            Price:    models.ToPointer(float64(50)),
-            PriceId:  models.ToPointer(20),
+            Currency:             models.ToPointer("EUR"),
+            Price:                models.ToPointer(float64(50)),
+            PriceId:              models.ToPointer(20),
         },
         models.CreateCurrencyPrice{
-            Currency: models.ToPointer("EUR"),
-            Price:    models.ToPointer(float64(40)),
-            PriceId:  models.ToPointer(21),
+            Currency:             models.ToPointer("EUR"),
+            Price:                models.ToPointer(float64(40)),
+            PriceId:              models.ToPointer(21),
         },
     },
 }
@@ -801,14 +817,14 @@ ctx := context.Background()
 pricePointId := 10
 
 body := models.UpdateCurrencyPricesRequest{
-    CurrencyPrices: []models.UpdateCurrencyPrice{
+    CurrencyPrices:       []models.UpdateCurrencyPrice{
         models.UpdateCurrencyPrice{
-            Id:    100,
-            Price: 51,
+            Id:                   100,
+            Price:                float64(51),
         },
         models.UpdateCurrencyPrice{
-            Id:    101,
-            Price: 41,
+            Id:                   101,
+            Price:                float64(41),
         },
     },
 }
@@ -883,16 +899,16 @@ collectedInput := advancedbilling.ListAllComponentPricePointsInput{
     Page:      models.ToPointer(2),
     PerPage:   models.ToPointer(50),
     Filter:    models.ToPointer(models.ListPricePointsFilter{
-        StartDate:     models.ToPointer(parseTime(models.DEFAULT_DATE, "2011-12-17", func(err error) { log.Fatalln(err) })),
-        EndDate:       models.ToPointer(parseTime(models.DEFAULT_DATE, "2011-12-15", func(err error) { log.Fatalln(err) })),
-        StartDatetime: models.ToPointer(parseTime(time.RFC3339, "12/19/2011 09:15:30", func(err error) { log.Fatalln(err) })),
-        EndDatetime:   models.ToPointer(parseTime(time.RFC3339, "06/07/2019 17:20:06", func(err error) { log.Fatalln(err) })),
-        Type:          []models.PricePointType{
+        StartDate:            models.ToPointer(parseTime(models.DEFAULT_DATE, "2011-12-17", func(err error) { log.Fatalln(err) })),
+        EndDate:              models.ToPointer(parseTime(models.DEFAULT_DATE, "2011-12-15", func(err error) { log.Fatalln(err) })),
+        StartDatetime:        models.ToPointer(parseTime(time.RFC3339, "12/19/2011 09:15:30", func(err error) { log.Fatalln(err) })),
+        EndDatetime:          models.ToPointer(parseTime(time.RFC3339, "06/07/2019 17:20:06", func(err error) { log.Fatalln(err) })),
+        Type:                 []models.PricePointType{
             models.PricePointType("catalog"),
             models.PricePointType("default"),
             models.PricePointType("custom"),
         },
-        Ids:           []int{
+        Ids:                  []int{
             1,
             2,
             3,

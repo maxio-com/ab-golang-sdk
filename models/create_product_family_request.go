@@ -13,8 +13,8 @@ import (
 
 // CreateProductFamilyRequest represents a CreateProductFamilyRequest struct.
 type CreateProductFamilyRequest struct {
-    ProductFamily        CreateProductFamily `json:"product_family"`
-    AdditionalProperties map[string]any      `json:"_"`
+    ProductFamily        CreateProductFamily    `json:"product_family"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreateProductFamilyRequest.
@@ -22,13 +22,17 @@ type CreateProductFamilyRequest struct {
 func (c CreateProductFamilyRequest) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(c.AdditionalProperties,
+        "product_family"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(c.toMap())
 }
 
 // toMap converts the CreateProductFamilyRequest object to a map representation for JSON marshaling.
 func (c CreateProductFamilyRequest) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, c.AdditionalProperties)
+    MergeAdditionalProperties(structMap, c.AdditionalProperties)
     structMap["product_family"] = c.ProductFamily.toMap()
     return structMap
 }
@@ -45,12 +49,12 @@ func (c *CreateProductFamilyRequest) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "product_family")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "product_family")
     if err != nil {
     	return err
     }
-    
     c.AdditionalProperties = additionalProperties
+    
     c.ProductFamily = *temp.ProductFamily
     return nil
 }

@@ -13,35 +13,47 @@ import (
 
 // ComponentPricePoint represents a ComponentPricePoint struct.
 type ComponentPricePoint struct {
-    Id                   *int                     `json:"id,omitempty"`
+    Id                       *int                             `json:"id,omitempty"`
     // Price point type. We expose the following types:
     // 1. **default**: a price point that is marked as a default price for a certain product.
     // 2. **custom**: a custom price point.
     // 3. **catalog**: a price point that is **not** marked as a default price for a certain product and is **not** a custom one.
-    Type                 *PricePointType          `json:"type,omitempty"`
+    Type                     *PricePointType                  `json:"type,omitempty"`
     // Note: Refer to type attribute instead
-    Default              *bool                    `json:"default,omitempty"`                // Deprecated
-    Name                 *string                  `json:"name,omitempty"`
+    Default                  *bool                            `json:"default,omitempty"`                    // Deprecated
+    Name                     *string                          `json:"name,omitempty"`
     // The identifier for the pricing scheme. See [Product Components](https://help.chargify.com/products/product-components.html) for an overview of pricing schemes.
-    PricingScheme        *PricingScheme           `json:"pricing_scheme,omitempty"`
-    ComponentId          *int                     `json:"component_id,omitempty"`
-    Handle               Optional[string]         `json:"handle"`
-    ArchivedAt           Optional[time.Time]      `json:"archived_at"`
-    CreatedAt            *time.Time               `json:"created_at,omitempty"`
-    UpdatedAt            *time.Time               `json:"updated_at,omitempty"`
-    Prices               []ComponentPrice         `json:"prices,omitempty"`
+    PricingScheme            *PricingScheme                   `json:"pricing_scheme,omitempty"`
+    ComponentId              *int                             `json:"component_id,omitempty"`
+    Handle                   Optional[string]                 `json:"handle"`
+    ArchivedAt               Optional[time.Time]              `json:"archived_at"`
+    CreatedAt                *time.Time                       `json:"created_at,omitempty"`
+    UpdatedAt                *time.Time                       `json:"updated_at,omitempty"`
+    Prices                   []ComponentPrice                 `json:"prices,omitempty"`
     // Whether to use the site level exchange rate or define your own prices for each currency if you have multiple currencies defined on the site. Defaults to true during creation.
-    UseSiteExchangeRate  *bool                    `json:"use_site_exchange_rate,omitempty"`
+    UseSiteExchangeRate      *bool                            `json:"use_site_exchange_rate,omitempty"`
     // (only used for Custom Pricing - ie. when the price point's type is `custom`) The id of the subscription that the custom price point is for.
-    SubscriptionId       *int                     `json:"subscription_id,omitempty"`
-    TaxIncluded          *bool                    `json:"tax_included,omitempty"`
+    SubscriptionId           *int                             `json:"subscription_id,omitempty"`
+    TaxIncluded              *bool                            `json:"tax_included,omitempty"`
     // The numerical interval. i.e. an interval of ‘30’ coupled with an interval_unit of day would mean this component price point would renew every 30 days. This property is only available for sites with Multifrequency enabled.
-    Interval             Optional[int]            `json:"interval"`
+    Interval                 Optional[int]                    `json:"interval"`
     // A string representing the interval unit for this component price point, either month or day. This property is only available for sites with Multifrequency enabled.
-    IntervalUnit         Optional[IntervalUnit]   `json:"interval_unit"`
+    IntervalUnit             Optional[IntervalUnit]           `json:"interval_unit"`
     // An array of currency pricing data is available when multiple currencies are defined for the site. It varies based on the use_site_exchange_rate setting for the price point. This parameter is present only in the response of read endpoints, after including the appropriate query parameter.
-    CurrencyPrices       []ComponentCurrencyPrice `json:"currency_prices,omitempty"`
-    AdditionalProperties map[string]any           `json:"_"`
+    CurrencyPrices           []ComponentCurrencyPrice         `json:"currency_prices,omitempty"`
+    // Applicable only to prepaid usage components. An array of overage price brackets.
+    OveragePrices            []ComponentPrice                 `json:"overage_prices,omitempty"`
+    // Applicable only to prepaid usage components. Pricing scheme for overage pricing.
+    OveragePricingScheme     *PricingScheme                   `json:"overage_pricing_scheme,omitempty"`
+    // Applicable only to prepaid usage components. Boolean which controls whether or not the allocated quantity should be renewed at the beginning of each period.
+    RenewPrepaidAllocation   *bool                            `json:"renew_prepaid_allocation,omitempty"`
+    // Applicable only to prepaid usage components. Boolean which controls whether or not remaining units should be rolled over to the next period.
+    RolloverPrepaidRemainder *bool                            `json:"rollover_prepaid_remainder,omitempty"`
+    // Applicable only to prepaid usage components where rollover_prepaid_remainder is true. The number of `expiration_interval_unit`s after which rollover amounts should expire.
+    ExpirationInterval       Optional[int]                    `json:"expiration_interval"`
+    // Applicable only to prepaid usage components where rollover_prepaid_remainder is true. A string representing the expiration interval unit for this component, either month or day.
+    ExpirationIntervalUnit   Optional[ExpirationIntervalUnit] `json:"expiration_interval_unit"`
+    AdditionalProperties     map[string]interface{}           `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for ComponentPricePoint.
@@ -49,13 +61,17 @@ type ComponentPricePoint struct {
 func (c ComponentPricePoint) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(c.AdditionalProperties,
+        "id", "type", "default", "name", "pricing_scheme", "component_id", "handle", "archived_at", "created_at", "updated_at", "prices", "use_site_exchange_rate", "subscription_id", "tax_included", "interval", "interval_unit", "currency_prices", "overage_prices", "overage_pricing_scheme", "renew_prepaid_allocation", "rollover_prepaid_remainder", "expiration_interval", "expiration_interval_unit"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(c.toMap())
 }
 
 // toMap converts the ComponentPricePoint object to a map representation for JSON marshaling.
 func (c ComponentPricePoint) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, c.AdditionalProperties)
+    MergeAdditionalProperties(structMap, c.AdditionalProperties)
     if c.Id != nil {
         structMap["id"] = c.Id
     }
@@ -128,6 +144,32 @@ func (c ComponentPricePoint) toMap() map[string]any {
     if c.CurrencyPrices != nil {
         structMap["currency_prices"] = c.CurrencyPrices
     }
+    if c.OveragePrices != nil {
+        structMap["overage_prices"] = c.OveragePrices
+    }
+    if c.OveragePricingScheme != nil {
+        structMap["overage_pricing_scheme"] = c.OveragePricingScheme
+    }
+    if c.RenewPrepaidAllocation != nil {
+        structMap["renew_prepaid_allocation"] = c.RenewPrepaidAllocation
+    }
+    if c.RolloverPrepaidRemainder != nil {
+        structMap["rollover_prepaid_remainder"] = c.RolloverPrepaidRemainder
+    }
+    if c.ExpirationInterval.IsValueSet() {
+        if c.ExpirationInterval.Value() != nil {
+            structMap["expiration_interval"] = c.ExpirationInterval.Value()
+        } else {
+            structMap["expiration_interval"] = nil
+        }
+    }
+    if c.ExpirationIntervalUnit.IsValueSet() {
+        if c.ExpirationIntervalUnit.Value() != nil {
+            structMap["expiration_interval_unit"] = c.ExpirationIntervalUnit.Value()
+        } else {
+            structMap["expiration_interval_unit"] = nil
+        }
+    }
     return structMap
 }
 
@@ -139,12 +181,12 @@ func (c *ComponentPricePoint) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "id", "type", "default", "name", "pricing_scheme", "component_id", "handle", "archived_at", "created_at", "updated_at", "prices", "use_site_exchange_rate", "subscription_id", "tax_included", "interval", "interval_unit", "currency_prices")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "id", "type", "default", "name", "pricing_scheme", "component_id", "handle", "archived_at", "created_at", "updated_at", "prices", "use_site_exchange_rate", "subscription_id", "tax_included", "interval", "interval_unit", "currency_prices", "overage_prices", "overage_pricing_scheme", "renew_prepaid_allocation", "rollover_prepaid_remainder", "expiration_interval", "expiration_interval_unit")
     if err != nil {
     	return err
     }
-    
     c.AdditionalProperties = additionalProperties
+    
     c.Id = temp.Id
     c.Type = temp.Type
     c.Default = temp.Default
@@ -181,26 +223,38 @@ func (c *ComponentPricePoint) UnmarshalJSON(input []byte) error {
     c.Interval = temp.Interval
     c.IntervalUnit = temp.IntervalUnit
     c.CurrencyPrices = temp.CurrencyPrices
+    c.OveragePrices = temp.OveragePrices
+    c.OveragePricingScheme = temp.OveragePricingScheme
+    c.RenewPrepaidAllocation = temp.RenewPrepaidAllocation
+    c.RolloverPrepaidRemainder = temp.RolloverPrepaidRemainder
+    c.ExpirationInterval = temp.ExpirationInterval
+    c.ExpirationIntervalUnit = temp.ExpirationIntervalUnit
     return nil
 }
 
 // tempComponentPricePoint is a temporary struct used for validating the fields of ComponentPricePoint.
 type tempComponentPricePoint  struct {
-    Id                  *int                     `json:"id,omitempty"`
-    Type                *PricePointType          `json:"type,omitempty"`
-    Default             *bool                    `json:"default,omitempty"`
-    Name                *string                  `json:"name,omitempty"`
-    PricingScheme       *PricingScheme           `json:"pricing_scheme,omitempty"`
-    ComponentId         *int                     `json:"component_id,omitempty"`
-    Handle              Optional[string]         `json:"handle"`
-    ArchivedAt          Optional[string]         `json:"archived_at"`
-    CreatedAt           *string                  `json:"created_at,omitempty"`
-    UpdatedAt           *string                  `json:"updated_at,omitempty"`
-    Prices              []ComponentPrice         `json:"prices,omitempty"`
-    UseSiteExchangeRate *bool                    `json:"use_site_exchange_rate,omitempty"`
-    SubscriptionId      *int                     `json:"subscription_id,omitempty"`
-    TaxIncluded         *bool                    `json:"tax_included,omitempty"`
-    Interval            Optional[int]            `json:"interval"`
-    IntervalUnit        Optional[IntervalUnit]   `json:"interval_unit"`
-    CurrencyPrices      []ComponentCurrencyPrice `json:"currency_prices,omitempty"`
+    Id                       *int                             `json:"id,omitempty"`
+    Type                     *PricePointType                  `json:"type,omitempty"`
+    Default                  *bool                            `json:"default,omitempty"`
+    Name                     *string                          `json:"name,omitempty"`
+    PricingScheme            *PricingScheme                   `json:"pricing_scheme,omitempty"`
+    ComponentId              *int                             `json:"component_id,omitempty"`
+    Handle                   Optional[string]                 `json:"handle"`
+    ArchivedAt               Optional[string]                 `json:"archived_at"`
+    CreatedAt                *string                          `json:"created_at,omitempty"`
+    UpdatedAt                *string                          `json:"updated_at,omitempty"`
+    Prices                   []ComponentPrice                 `json:"prices,omitempty"`
+    UseSiteExchangeRate      *bool                            `json:"use_site_exchange_rate,omitempty"`
+    SubscriptionId           *int                             `json:"subscription_id,omitempty"`
+    TaxIncluded              *bool                            `json:"tax_included,omitempty"`
+    Interval                 Optional[int]                    `json:"interval"`
+    IntervalUnit             Optional[IntervalUnit]           `json:"interval_unit"`
+    CurrencyPrices           []ComponentCurrencyPrice         `json:"currency_prices,omitempty"`
+    OveragePrices            []ComponentPrice                 `json:"overage_prices,omitempty"`
+    OveragePricingScheme     *PricingScheme                   `json:"overage_pricing_scheme,omitempty"`
+    RenewPrepaidAllocation   *bool                            `json:"renew_prepaid_allocation,omitempty"`
+    RolloverPrepaidRemainder *bool                            `json:"rollover_prepaid_remainder,omitempty"`
+    ExpirationInterval       Optional[int]                    `json:"expiration_interval"`
+    ExpirationIntervalUnit   Optional[ExpirationIntervalUnit] `json:"expiration_interval_unit"`
 }

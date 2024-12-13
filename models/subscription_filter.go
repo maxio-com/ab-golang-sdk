@@ -26,7 +26,7 @@ type SubscriptionFilter struct {
     StartDatetime        *time.Time                 `json:"start_datetime,omitempty"`
     // The end date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns components that belong to the subscription with a timestamp at or before exact time provided in query. You can specify timezone in query - otherwise your site''s time zone will be used. If provided, this parameter will be used instead of end_date. To use this filter you also have to include the following param in the request `include=subscription`.
     EndDatetime          *time.Time                 `json:"end_datetime,omitempty"`
-    AdditionalProperties map[string]any             `json:"_"`
+    AdditionalProperties map[string]interface{}     `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for SubscriptionFilter.
@@ -34,13 +34,17 @@ type SubscriptionFilter struct {
 func (s SubscriptionFilter) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(s.AdditionalProperties,
+        "states", "date_field", "start_date", "end_date", "start_datetime", "end_datetime"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(s.toMap())
 }
 
 // toMap converts the SubscriptionFilter object to a map representation for JSON marshaling.
 func (s SubscriptionFilter) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, s.AdditionalProperties)
+    MergeAdditionalProperties(structMap, s.AdditionalProperties)
     if s.States != nil {
         structMap["states"] = s.States
     }
@@ -70,12 +74,12 @@ func (s *SubscriptionFilter) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "states", "date_field", "start_date", "end_date", "start_datetime", "end_datetime")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "states", "date_field", "start_date", "end_date", "start_datetime", "end_datetime")
     if err != nil {
     	return err
     }
-    
     s.AdditionalProperties = additionalProperties
+    
     s.States = temp.States
     s.DateField = temp.DateField
     if temp.StartDate != nil {

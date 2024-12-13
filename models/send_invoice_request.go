@@ -11,10 +11,10 @@ import (
 
 // SendInvoiceRequest represents a SendInvoiceRequest struct.
 type SendInvoiceRequest struct {
-    RecipientEmails      []string       `json:"recipient_emails,omitempty"`
-    CcRecipientEmails    []string       `json:"cc_recipient_emails,omitempty"`
-    BccRecipientEmails   []string       `json:"bcc_recipient_emails,omitempty"`
-    AdditionalProperties map[string]any `json:"_"`
+    RecipientEmails      []string               `json:"recipient_emails,omitempty"`
+    CcRecipientEmails    []string               `json:"cc_recipient_emails,omitempty"`
+    BccRecipientEmails   []string               `json:"bcc_recipient_emails,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for SendInvoiceRequest.
@@ -22,13 +22,17 @@ type SendInvoiceRequest struct {
 func (s SendInvoiceRequest) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(s.AdditionalProperties,
+        "recipient_emails", "cc_recipient_emails", "bcc_recipient_emails"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(s.toMap())
 }
 
 // toMap converts the SendInvoiceRequest object to a map representation for JSON marshaling.
 func (s SendInvoiceRequest) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, s.AdditionalProperties)
+    MergeAdditionalProperties(structMap, s.AdditionalProperties)
     if s.RecipientEmails != nil {
         structMap["recipient_emails"] = s.RecipientEmails
     }
@@ -49,12 +53,12 @@ func (s *SendInvoiceRequest) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "recipient_emails", "cc_recipient_emails", "bcc_recipient_emails")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "recipient_emails", "cc_recipient_emails", "bcc_recipient_emails")
     if err != nil {
     	return err
     }
-    
     s.AdditionalProperties = additionalProperties
+    
     s.RecipientEmails = temp.RecipientEmails
     s.CcRecipientEmails = temp.CcRecipientEmails
     s.BccRecipientEmails = temp.BccRecipientEmails

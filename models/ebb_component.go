@@ -25,14 +25,8 @@ type EBBComponent struct {
     Taxable                   *bool                     `json:"taxable,omitempty"`
     // The identifier for the pricing scheme. See [Product Components](https://help.chargify.com/products/product-components.html) for an overview of pricing schemes.
     PricingScheme             PricingScheme             `json:"pricing_scheme"`
-    // (Not required for ‘per_unit’ pricing schemes) One or more price brackets. See [Price Bracket Rules](https://help.chargify.com/products/product-components.html#general-price-bracket-rules) for an overview of how price brackets work for different pricing schemes.
+    // (Not required for ‘per_unit’ pricing schemes) One or more price brackets. See [Price Bracket Rules](https://maxio.zendesk.com/hc/en-us/articles/24261149166733-Component-Pricing-Schemes#price-bracket-rules) for an overview of how price brackets work for different pricing schemes.
     Prices                    []Price                   `json:"prices,omitempty"`
-    // The type of credit to be created when upgrading/downgrading. Defaults to the component and then site setting if one is not provided.
-    // Available values: `full`, `prorated`, `none`.
-    UpgradeCharge             Optional[CreditType]      `json:"upgrade_charge"`
-    // The type of credit to be created when upgrading/downgrading. Defaults to the component and then site setting if one is not provided.
-    // Available values: `full`, `prorated`, `none`.
-    DowngradeCredit           Optional[CreditType]      `json:"downgrade_credit"`
     PricePoints               []ComponentPricePointItem `json:"price_points,omitempty"`
     // The amount the customer will be charged per unit when the pricing scheme is “per_unit”. The price can contain up to 8 decimal places. i.e. 1.00 or 0.0012 or 0.00000065
     UnitPrice                 *EBBComponentUnitPrice    `json:"unit_price,omitempty"`
@@ -40,15 +34,13 @@ type EBBComponent struct {
     TaxCode                   *string                   `json:"tax_code,omitempty"`
     // (Only available on Relationship Invoicing sites) Boolean flag describing if the service date range should show for the component on generated invoices.
     HideDateRangeOnInvoice    *bool                     `json:"hide_date_range_on_invoice,omitempty"`
-    // deprecated May 2011 - use unit_price instead
-    PriceInCents              *string                   `json:"price_in_cents,omitempty"`
     // The ID of an event based billing metric that will be attached to this component.
     EventBasedBillingMetricId int                       `json:"event_based_billing_metric_id"`
     // The numerical interval. i.e. an interval of ‘30’ coupled with an interval_unit of day would mean this component's default price point would renew every 30 days. This property is only available for sites with Multifrequency enabled.
     Interval                  *int                      `json:"interval,omitempty"`
     // A string representing the interval unit for this component's default price point, either month or day. This property is only available for sites with Multifrequency enabled.
     IntervalUnit              Optional[IntervalUnit]    `json:"interval_unit"`
-    AdditionalProperties      map[string]any            `json:"_"`
+    AdditionalProperties      map[string]interface{}    `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for EBBComponent.
@@ -56,13 +48,17 @@ type EBBComponent struct {
 func (e EBBComponent) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(e.AdditionalProperties,
+        "name", "unit_name", "description", "handle", "taxable", "pricing_scheme", "prices", "price_points", "unit_price", "tax_code", "hide_date_range_on_invoice", "event_based_billing_metric_id", "interval", "interval_unit"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(e.toMap())
 }
 
 // toMap converts the EBBComponent object to a map representation for JSON marshaling.
 func (e EBBComponent) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, e.AdditionalProperties)
+    MergeAdditionalProperties(structMap, e.AdditionalProperties)
     structMap["name"] = e.Name
     structMap["unit_name"] = e.UnitName
     if e.Description != nil {
@@ -78,20 +74,6 @@ func (e EBBComponent) toMap() map[string]any {
     if e.Prices != nil {
         structMap["prices"] = e.Prices
     }
-    if e.UpgradeCharge.IsValueSet() {
-        if e.UpgradeCharge.Value() != nil {
-            structMap["upgrade_charge"] = e.UpgradeCharge.Value()
-        } else {
-            structMap["upgrade_charge"] = nil
-        }
-    }
-    if e.DowngradeCredit.IsValueSet() {
-        if e.DowngradeCredit.Value() != nil {
-            structMap["downgrade_credit"] = e.DowngradeCredit.Value()
-        } else {
-            structMap["downgrade_credit"] = nil
-        }
-    }
     if e.PricePoints != nil {
         structMap["price_points"] = e.PricePoints
     }
@@ -103,9 +85,6 @@ func (e EBBComponent) toMap() map[string]any {
     }
     if e.HideDateRangeOnInvoice != nil {
         structMap["hide_date_range_on_invoice"] = e.HideDateRangeOnInvoice
-    }
-    if e.PriceInCents != nil {
-        structMap["price_in_cents"] = e.PriceInCents
     }
     structMap["event_based_billing_metric_id"] = e.EventBasedBillingMetricId
     if e.Interval != nil {
@@ -133,12 +112,12 @@ func (e *EBBComponent) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "name", "unit_name", "description", "handle", "taxable", "pricing_scheme", "prices", "upgrade_charge", "downgrade_credit", "price_points", "unit_price", "tax_code", "hide_date_range_on_invoice", "price_in_cents", "event_based_billing_metric_id", "interval", "interval_unit")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "name", "unit_name", "description", "handle", "taxable", "pricing_scheme", "prices", "price_points", "unit_price", "tax_code", "hide_date_range_on_invoice", "event_based_billing_metric_id", "interval", "interval_unit")
     if err != nil {
     	return err
     }
-    
     e.AdditionalProperties = additionalProperties
+    
     e.Name = *temp.Name
     e.UnitName = *temp.UnitName
     e.Description = temp.Description
@@ -146,13 +125,10 @@ func (e *EBBComponent) UnmarshalJSON(input []byte) error {
     e.Taxable = temp.Taxable
     e.PricingScheme = *temp.PricingScheme
     e.Prices = temp.Prices
-    e.UpgradeCharge = temp.UpgradeCharge
-    e.DowngradeCredit = temp.DowngradeCredit
     e.PricePoints = temp.PricePoints
     e.UnitPrice = temp.UnitPrice
     e.TaxCode = temp.TaxCode
     e.HideDateRangeOnInvoice = temp.HideDateRangeOnInvoice
-    e.PriceInCents = temp.PriceInCents
     e.EventBasedBillingMetricId = *temp.EventBasedBillingMetricId
     e.Interval = temp.Interval
     e.IntervalUnit = temp.IntervalUnit
@@ -168,13 +144,10 @@ type tempEBBComponent  struct {
     Taxable                   *bool                     `json:"taxable,omitempty"`
     PricingScheme             *PricingScheme            `json:"pricing_scheme"`
     Prices                    []Price                   `json:"prices,omitempty"`
-    UpgradeCharge             Optional[CreditType]      `json:"upgrade_charge"`
-    DowngradeCredit           Optional[CreditType]      `json:"downgrade_credit"`
     PricePoints               []ComponentPricePointItem `json:"price_points,omitempty"`
     UnitPrice                 *EBBComponentUnitPrice    `json:"unit_price,omitempty"`
     TaxCode                   *string                   `json:"tax_code,omitempty"`
     HideDateRangeOnInvoice    *bool                     `json:"hide_date_range_on_invoice,omitempty"`
-    PriceInCents              *string                   `json:"price_in_cents,omitempty"`
     EventBasedBillingMetricId *int                      `json:"event_based_billing_metric_id"`
     Interval                  *int                      `json:"interval,omitempty"`
     IntervalUnit              Optional[IntervalUnit]    `json:"interval_unit"`

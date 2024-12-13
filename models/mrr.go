@@ -13,14 +13,14 @@ import (
 
 // MRR represents a MRR struct.
 type MRR struct {
-    AmountInCents        *int64         `json:"amount_in_cents,omitempty"`
-    AmountFormatted      *string        `json:"amount_formatted,omitempty"`
-    Currency             *string        `json:"currency,omitempty"`
-    CurrencySymbol       *string        `json:"currency_symbol,omitempty"`
-    Breakouts            *Breakouts     `json:"breakouts,omitempty"`
+    AmountInCents        *int64                 `json:"amount_in_cents,omitempty"`
+    AmountFormatted      *string                `json:"amount_formatted,omitempty"`
+    Currency             *string                `json:"currency,omitempty"`
+    CurrencySymbol       *string                `json:"currency_symbol,omitempty"`
+    Breakouts            *Breakouts             `json:"breakouts,omitempty"`
     // ISO8601 timestamp
-    AtTime               *time.Time     `json:"at_time,omitempty"`
-    AdditionalProperties map[string]any `json:"_"`
+    AtTime               *time.Time             `json:"at_time,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for MRR.
@@ -28,13 +28,17 @@ type MRR struct {
 func (m MRR) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(m.AdditionalProperties,
+        "amount_in_cents", "amount_formatted", "currency", "currency_symbol", "breakouts", "at_time"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(m.toMap())
 }
 
 // toMap converts the MRR object to a map representation for JSON marshaling.
 func (m MRR) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, m.AdditionalProperties)
+    MergeAdditionalProperties(structMap, m.AdditionalProperties)
     if m.AmountInCents != nil {
         structMap["amount_in_cents"] = m.AmountInCents
     }
@@ -64,12 +68,12 @@ func (m *MRR) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "amount_in_cents", "amount_formatted", "currency", "currency_symbol", "breakouts", "at_time")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "amount_in_cents", "amount_formatted", "currency", "currency_symbol", "breakouts", "at_time")
     if err != nil {
     	return err
     }
-    
     m.AdditionalProperties = additionalProperties
+    
     m.AmountInCents = temp.AmountInCents
     m.AmountFormatted = temp.AmountFormatted
     m.Currency = temp.Currency

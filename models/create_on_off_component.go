@@ -13,8 +13,8 @@ import (
 
 // CreateOnOffComponent represents a CreateOnOffComponent struct.
 type CreateOnOffComponent struct {
-    OnOffComponent       OnOffComponent `json:"on_off_component"`
-    AdditionalProperties map[string]any `json:"_"`
+    OnOffComponent       OnOffComponent         `json:"on_off_component"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreateOnOffComponent.
@@ -22,13 +22,17 @@ type CreateOnOffComponent struct {
 func (c CreateOnOffComponent) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(c.AdditionalProperties,
+        "on_off_component"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(c.toMap())
 }
 
 // toMap converts the CreateOnOffComponent object to a map representation for JSON marshaling.
 func (c CreateOnOffComponent) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, c.AdditionalProperties)
+    MergeAdditionalProperties(structMap, c.AdditionalProperties)
     structMap["on_off_component"] = c.OnOffComponent.toMap()
     return structMap
 }
@@ -45,12 +49,12 @@ func (c *CreateOnOffComponent) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "on_off_component")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "on_off_component")
     if err != nil {
     	return err
     }
-    
     c.AdditionalProperties = additionalProperties
+    
     c.OnOffComponent = *temp.OnOffComponent
     return nil
 }

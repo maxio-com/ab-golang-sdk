@@ -17,4 +17,5 @@ The current status of the invoice. See [Invoice Statuses](https://maxio.zendesk.
 | `PENDING` |
 | `VOIDED` |
 | `CANCELED` |
+| `PROCESSING` |
 

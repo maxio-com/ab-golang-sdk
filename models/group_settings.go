@@ -14,10 +14,10 @@ import (
 // GroupSettings represents a GroupSettings struct.
 type GroupSettings struct {
     // Attributes of the target customer who will be the responsible payer of the created subscription. Required.
-    Target               GroupTarget    `json:"target"`
+    Target               GroupTarget            `json:"target"`
     // Optional attributes related to billing date and accrual. Note: Only applicable for new subscriptions.
-    Billing              *GroupBilling  `json:"billing,omitempty"`
-    AdditionalProperties map[string]any `json:"_"`
+    Billing              *GroupBilling          `json:"billing,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for GroupSettings.
@@ -25,13 +25,17 @@ type GroupSettings struct {
 func (g GroupSettings) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(g.AdditionalProperties,
+        "target", "billing"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(g.toMap())
 }
 
 // toMap converts the GroupSettings object to a map representation for JSON marshaling.
 func (g GroupSettings) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, g.AdditionalProperties)
+    MergeAdditionalProperties(structMap, g.AdditionalProperties)
     structMap["target"] = g.Target.toMap()
     if g.Billing != nil {
         structMap["billing"] = g.Billing.toMap()
@@ -51,12 +55,12 @@ func (g *GroupSettings) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "target", "billing")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "target", "billing")
     if err != nil {
     	return err
     }
-    
     g.AdditionalProperties = additionalProperties
+    
     g.Target = *temp.Target
     g.Billing = temp.Billing
     return nil

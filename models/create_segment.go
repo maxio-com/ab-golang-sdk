@@ -24,7 +24,7 @@ type CreateSegment struct {
     // The identifier for the pricing scheme. See [Product Components](https://help.chargify.com/products/product-components.html) for an overview of pricing schemes.
     PricingScheme         PricingScheme                       `json:"pricing_scheme"`
     Prices                []CreateOrUpdateSegmentPrice        `json:"prices,omitempty"`
-    AdditionalProperties  map[string]any                      `json:"_"`
+    AdditionalProperties  map[string]interface{}              `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreateSegment.
@@ -32,13 +32,17 @@ type CreateSegment struct {
 func (c CreateSegment) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(c.AdditionalProperties,
+        "segment_property_1_value", "segment_property_2_value", "segment_property_3_value", "segment_property_4_value", "pricing_scheme", "prices"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(c.toMap())
 }
 
 // toMap converts the CreateSegment object to a map representation for JSON marshaling.
 func (c CreateSegment) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, c.AdditionalProperties)
+    MergeAdditionalProperties(structMap, c.AdditionalProperties)
     if c.SegmentProperty1Value != nil {
         structMap["segment_property_1_value"] = c.SegmentProperty1Value.toMap()
     }
@@ -70,12 +74,12 @@ func (c *CreateSegment) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "segment_property_1_value", "segment_property_2_value", "segment_property_3_value", "segment_property_4_value", "pricing_scheme", "prices")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "segment_property_1_value", "segment_property_2_value", "segment_property_3_value", "segment_property_4_value", "pricing_scheme", "prices")
     if err != nil {
     	return err
     }
-    
     c.AdditionalProperties = additionalProperties
+    
     c.SegmentProperty1Value = temp.SegmentProperty1Value
     c.SegmentProperty2Value = temp.SegmentProperty2Value
     c.SegmentProperty3Value = temp.SegmentProperty3Value

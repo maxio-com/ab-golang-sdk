@@ -11,22 +11,22 @@ import (
 
 // AllocateComponents represents a AllocateComponents struct.
 type AllocateComponents struct {
-    ProrationUpgradeScheme   *string              `json:"proration_upgrade_scheme,omitempty"`   // Deprecated
-    ProrationDowngradeScheme *string              `json:"proration_downgrade_scheme,omitempty"` // Deprecated
-    Allocations              []CreateAllocation   `json:"allocations,omitempty"`
-    AccrueCharge             *bool                `json:"accrue_charge,omitempty"`
+    ProrationUpgradeScheme   *string                `json:"proration_upgrade_scheme,omitempty"`   // Deprecated
+    ProrationDowngradeScheme *string                `json:"proration_downgrade_scheme,omitempty"` // Deprecated
+    Allocations              []CreateAllocation     `json:"allocations,omitempty"`
+    AccrueCharge             *bool                  `json:"accrue_charge,omitempty"`
     // The type of credit to be created when upgrading/downgrading. Defaults to the component and then site setting if one is not provided.
     // Available values: `full`, `prorated`, `none`.
-    UpgradeCharge            Optional[CreditType] `json:"upgrade_charge"`
+    UpgradeCharge            Optional[CreditType]   `json:"upgrade_charge"`
     // The type of credit to be created when upgrading/downgrading. Defaults to the component and then site setting if one is not provided.
     // Available values: `full`, `prorated`, `none`.
-    DowngradeCredit          Optional[CreditType] `json:"downgrade_credit"`
+    DowngradeCredit          Optional[CreditType]   `json:"downgrade_credit"`
     // (Optional) If not passed, the allocation(s) will use the payment collection method on the subscription
-    PaymentCollectionMethod  *CollectionMethod    `json:"payment_collection_method,omitempty"`
+    PaymentCollectionMethod  *CollectionMethod      `json:"payment_collection_method,omitempty"`
     // If true, if the immediate component payment fails, initiate dunning for the subscription.
     // Otherwise, leave the charges on the subscription to pay for at renewal.
-    InitiateDunning          *bool                `json:"initiate_dunning,omitempty"`
-    AdditionalProperties     map[string]any       `json:"_"`
+    InitiateDunning          *bool                  `json:"initiate_dunning,omitempty"`
+    AdditionalProperties     map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for AllocateComponents.
@@ -34,13 +34,17 @@ type AllocateComponents struct {
 func (a AllocateComponents) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(a.AdditionalProperties,
+        "proration_upgrade_scheme", "proration_downgrade_scheme", "allocations", "accrue_charge", "upgrade_charge", "downgrade_credit", "payment_collection_method", "initiate_dunning"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(a.toMap())
 }
 
 // toMap converts the AllocateComponents object to a map representation for JSON marshaling.
 func (a AllocateComponents) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, a.AdditionalProperties)
+    MergeAdditionalProperties(structMap, a.AdditionalProperties)
     if a.ProrationUpgradeScheme != nil {
         structMap["proration_upgrade_scheme"] = a.ProrationUpgradeScheme
     }
@@ -84,12 +88,12 @@ func (a *AllocateComponents) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "proration_upgrade_scheme", "proration_downgrade_scheme", "allocations", "accrue_charge", "upgrade_charge", "downgrade_credit", "payment_collection_method", "initiate_dunning")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "proration_upgrade_scheme", "proration_downgrade_scheme", "allocations", "accrue_charge", "upgrade_charge", "downgrade_credit", "payment_collection_method", "initiate_dunning")
     if err != nil {
     	return err
     }
-    
     a.AdditionalProperties = additionalProperties
+    
     a.ProrationUpgradeScheme = temp.ProrationUpgradeScheme
     a.ProrationDowngradeScheme = temp.ProrationDowngradeScheme
     a.Allocations = temp.Allocations

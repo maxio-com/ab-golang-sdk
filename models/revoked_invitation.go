@@ -11,10 +11,10 @@ import (
 
 // RevokedInvitation represents a RevokedInvitation struct.
 type RevokedInvitation struct {
-    LastSentAt           *string        `json:"last_sent_at,omitempty"`
-    LastAcceptedAt       *string        `json:"last_accepted_at,omitempty"`
-    UninvitedCount       *int           `json:"uninvited_count,omitempty"`
-    AdditionalProperties map[string]any `json:"_"`
+    LastSentAt           *string                `json:"last_sent_at,omitempty"`
+    LastAcceptedAt       *string                `json:"last_accepted_at,omitempty"`
+    UninvitedCount       *int                   `json:"uninvited_count,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for RevokedInvitation.
@@ -22,13 +22,17 @@ type RevokedInvitation struct {
 func (r RevokedInvitation) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(r.AdditionalProperties,
+        "last_sent_at", "last_accepted_at", "uninvited_count"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(r.toMap())
 }
 
 // toMap converts the RevokedInvitation object to a map representation for JSON marshaling.
 func (r RevokedInvitation) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, r.AdditionalProperties)
+    MergeAdditionalProperties(structMap, r.AdditionalProperties)
     if r.LastSentAt != nil {
         structMap["last_sent_at"] = r.LastSentAt
     }
@@ -49,12 +53,12 @@ func (r *RevokedInvitation) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "last_sent_at", "last_accepted_at", "uninvited_count")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "last_sent_at", "last_accepted_at", "uninvited_count")
     if err != nil {
     	return err
     }
-    
     r.AdditionalProperties = additionalProperties
+    
     r.LastSentAt = temp.LastSentAt
     r.LastAcceptedAt = temp.LastAcceptedAt
     r.UninvitedCount = temp.UninvitedCount

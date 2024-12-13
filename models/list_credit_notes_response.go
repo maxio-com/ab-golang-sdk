@@ -13,8 +13,8 @@ import (
 
 // ListCreditNotesResponse represents a ListCreditNotesResponse struct.
 type ListCreditNotesResponse struct {
-    CreditNotes          []CreditNote   `json:"credit_notes"`
-    AdditionalProperties map[string]any `json:"_"`
+    CreditNotes          []CreditNote           `json:"credit_notes"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for ListCreditNotesResponse.
@@ -22,13 +22,17 @@ type ListCreditNotesResponse struct {
 func (l ListCreditNotesResponse) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(l.AdditionalProperties,
+        "credit_notes"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(l.toMap())
 }
 
 // toMap converts the ListCreditNotesResponse object to a map representation for JSON marshaling.
 func (l ListCreditNotesResponse) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, l.AdditionalProperties)
+    MergeAdditionalProperties(structMap, l.AdditionalProperties)
     structMap["credit_notes"] = l.CreditNotes
     return structMap
 }
@@ -45,12 +49,12 @@ func (l *ListCreditNotesResponse) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "credit_notes")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "credit_notes")
     if err != nil {
     	return err
     }
-    
     l.AdditionalProperties = additionalProperties
+    
     l.CreditNotes = *temp.CreditNotes
     return nil
 }

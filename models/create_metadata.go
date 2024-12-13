@@ -11,9 +11,9 @@ import (
 
 // CreateMetadata represents a CreateMetadata struct.
 type CreateMetadata struct {
-    Name                 *string        `json:"name,omitempty"`
-    Value                *string        `json:"value,omitempty"`
-    AdditionalProperties map[string]any `json:"_"`
+    Name                 *string                `json:"name,omitempty"`
+    Value                *string                `json:"value,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreateMetadata.
@@ -21,13 +21,17 @@ type CreateMetadata struct {
 func (c CreateMetadata) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(c.AdditionalProperties,
+        "name", "value"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(c.toMap())
 }
 
 // toMap converts the CreateMetadata object to a map representation for JSON marshaling.
 func (c CreateMetadata) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, c.AdditionalProperties)
+    MergeAdditionalProperties(structMap, c.AdditionalProperties)
     if c.Name != nil {
         structMap["name"] = c.Name
     }
@@ -45,12 +49,12 @@ func (c *CreateMetadata) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "name", "value")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "name", "value")
     if err != nil {
     	return err
     }
-    
     c.AdditionalProperties = additionalProperties
+    
     c.Name = temp.Name
     c.Value = temp.Value
     return nil

@@ -11,8 +11,8 @@ import (
 
 // EndpointResponse represents a EndpointResponse struct.
 type EndpointResponse struct {
-    Endpoint             *Endpoint      `json:"endpoint,omitempty"`
-    AdditionalProperties map[string]any `json:"_"`
+    Endpoint             *Endpoint              `json:"endpoint,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for EndpointResponse.
@@ -20,13 +20,17 @@ type EndpointResponse struct {
 func (e EndpointResponse) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(e.AdditionalProperties,
+        "endpoint"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(e.toMap())
 }
 
 // toMap converts the EndpointResponse object to a map representation for JSON marshaling.
 func (e EndpointResponse) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, e.AdditionalProperties)
+    MergeAdditionalProperties(structMap, e.AdditionalProperties)
     if e.Endpoint != nil {
         structMap["endpoint"] = e.Endpoint.toMap()
     }
@@ -41,12 +45,12 @@ func (e *EndpointResponse) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "endpoint")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "endpoint")
     if err != nil {
     	return err
     }
-    
     e.AdditionalProperties = additionalProperties
+    
     e.Endpoint = temp.Endpoint
     return nil
 }

@@ -147,7 +147,7 @@ EnableWebhooks(
 ctx := context.Background()
 
 body := models.EnableWebhooksRequest{
-    WebhooksEnabled: true,
+    WebhooksEnabled:      true,
 }
 
 apiResponse, err := webhooksController.EnableWebhooks(ctx, &body)
@@ -199,7 +199,7 @@ ReplayWebhooks(
 ctx := context.Background()
 
 body := models.ReplayWebhooksRequest{
-    Ids: []int64{
+    Ids:                  []int64{
         int64(123456789),
         int64(123456788),
     },
@@ -255,7 +255,7 @@ CreateEndpoint(
 ctx := context.Background()
 
 body := models.CreateOrUpdateEndpointRequest{
-    Endpoint: models.CreateOrUpdateEndpoint{
+    Endpoint:             models.CreateOrUpdateEndpoint{
         Url:                  "https://your.site/webhooks",
         WebhookSubscriptions: []models.WebhookSubscription{
             models.WebhookSubscription("payment_success"),
@@ -397,7 +397,7 @@ ctx := context.Background()
 endpointId := 42
 
 body := models.CreateOrUpdateEndpointRequest{
-    Endpoint: models.CreateOrUpdateEndpoint{
+    Endpoint:             models.CreateOrUpdateEndpoint{
         Url:                  "https://yout.site/webhooks/1/json.",
         WebhookSubscriptions: []models.WebhookSubscription{
             models.WebhookSubscription("payment_failure"),

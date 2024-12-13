@@ -45,7 +45,7 @@ type FullSubscriptionGroupResponse struct {
     CurrentBillingAmountInCents *int64                     `json:"current_billing_amount_in_cents,omitempty"`
     Customer                    *SubscriptionGroupCustomer `json:"customer,omitempty"`
     AccountBalances             *SubscriptionGroupBalances `json:"account_balances,omitempty"`
-    AdditionalProperties        map[string]any             `json:"_"`
+    AdditionalProperties        map[string]interface{}     `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for FullSubscriptionGroupResponse.
@@ -53,13 +53,17 @@ type FullSubscriptionGroupResponse struct {
 func (f FullSubscriptionGroupResponse) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(f.AdditionalProperties,
+        "uid", "scheme", "customer_id", "payment_profile_id", "subscription_ids", "primary_subscription_id", "next_assessment_at", "state", "cancel_at_end_of_period", "current_billing_amount_in_cents", "customer", "account_balances"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(f.toMap())
 }
 
 // toMap converts the FullSubscriptionGroupResponse object to a map representation for JSON marshaling.
 func (f FullSubscriptionGroupResponse) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, f.AdditionalProperties)
+    MergeAdditionalProperties(structMap, f.AdditionalProperties)
     if f.Uid != nil {
         structMap["uid"] = f.Uid
     }
@@ -107,12 +111,12 @@ func (f *FullSubscriptionGroupResponse) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "uid", "scheme", "customer_id", "payment_profile_id", "subscription_ids", "primary_subscription_id", "next_assessment_at", "state", "cancel_at_end_of_period", "current_billing_amount_in_cents", "customer", "account_balances")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "uid", "scheme", "customer_id", "payment_profile_id", "subscription_ids", "primary_subscription_id", "next_assessment_at", "state", "cancel_at_end_of_period", "current_billing_amount_in_cents", "customer", "account_balances")
     if err != nil {
     	return err
     }
-    
     f.AdditionalProperties = additionalProperties
+    
     f.Uid = temp.Uid
     f.Scheme = temp.Scheme
     f.CustomerId = temp.CustomerId

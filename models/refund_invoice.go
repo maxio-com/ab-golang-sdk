@@ -15,18 +15,18 @@ import (
 // Refund an invoice or a segment of a consolidated invoice.
 type RefundInvoice struct {
     // The amount to be refunded in decimal format as a string. Example: "10.50". Must not exceed the remaining refundable balance of the payment.
-    Amount               string         `json:"amount"`
+    Amount               string                 `json:"amount"`
     // A description that will be attached to the refund
-    Memo                 string         `json:"memo"`
+    Memo                 string                 `json:"memo"`
     // The ID of the payment to be refunded
-    PaymentId            int            `json:"payment_id"`
+    PaymentId            int                    `json:"payment_id"`
     // Flag that marks refund as external (no money is returned to the customer). Defaults to `false`.
-    External             *bool          `json:"external,omitempty"`
+    External             *bool                  `json:"external,omitempty"`
     // If set to true, creates credit and applies it to an invoice. Defaults to `false`.
-    ApplyCredit          *bool          `json:"apply_credit,omitempty"`
+    ApplyCredit          *bool                  `json:"apply_credit,omitempty"`
     // If `apply_credit` set to false and refunding full amount, if `void_invoice` set to true, invoice will be voided after refund. Defaults to `false`.
-    VoidInvoice          *bool          `json:"void_invoice,omitempty"`
-    AdditionalProperties map[string]any `json:"_"`
+    VoidInvoice          *bool                  `json:"void_invoice,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for RefundInvoice.
@@ -34,13 +34,17 @@ type RefundInvoice struct {
 func (r RefundInvoice) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(r.AdditionalProperties,
+        "amount", "memo", "payment_id", "external", "apply_credit", "void_invoice"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(r.toMap())
 }
 
 // toMap converts the RefundInvoice object to a map representation for JSON marshaling.
 func (r RefundInvoice) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, r.AdditionalProperties)
+    MergeAdditionalProperties(structMap, r.AdditionalProperties)
     structMap["amount"] = r.Amount
     structMap["memo"] = r.Memo
     structMap["payment_id"] = r.PaymentId
@@ -68,12 +72,12 @@ func (r *RefundInvoice) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "amount", "memo", "payment_id", "external", "apply_credit", "void_invoice")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "amount", "memo", "payment_id", "external", "apply_credit", "void_invoice")
     if err != nil {
     	return err
     }
-    
     r.AdditionalProperties = additionalProperties
+    
     r.Amount = *temp.Amount
     r.Memo = *temp.Memo
     r.PaymentId = *temp.PaymentId

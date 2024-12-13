@@ -11,9 +11,9 @@ import (
 
 // DeleteSubscriptionGroupResponse represents a DeleteSubscriptionGroupResponse struct.
 type DeleteSubscriptionGroupResponse struct {
-    Uid                  *string        `json:"uid,omitempty"`
-    Deleted              *bool          `json:"deleted,omitempty"`
-    AdditionalProperties map[string]any `json:"_"`
+    Uid                  *string                `json:"uid,omitempty"`
+    Deleted              *bool                  `json:"deleted,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for DeleteSubscriptionGroupResponse.
@@ -21,13 +21,17 @@ type DeleteSubscriptionGroupResponse struct {
 func (d DeleteSubscriptionGroupResponse) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(d.AdditionalProperties,
+        "uid", "deleted"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(d.toMap())
 }
 
 // toMap converts the DeleteSubscriptionGroupResponse object to a map representation for JSON marshaling.
 func (d DeleteSubscriptionGroupResponse) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, d.AdditionalProperties)
+    MergeAdditionalProperties(structMap, d.AdditionalProperties)
     if d.Uid != nil {
         structMap["uid"] = d.Uid
     }
@@ -45,12 +49,12 @@ func (d *DeleteSubscriptionGroupResponse) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "uid", "deleted")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "uid", "deleted")
     if err != nil {
     	return err
     }
-    
     d.AdditionalProperties = additionalProperties
+    
     d.Uid = temp.Uid
     d.Deleted = temp.Deleted
     return nil

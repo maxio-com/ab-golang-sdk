@@ -101,12 +101,6 @@ var ToTimeSlice = utilities.ToTimeSlice
 // ToTimeMap is a utility.
 var ToTimeMap = utilities.ToTimeMap 
 
-// MapAdditionalProperties is a utility.
-var MapAdditionalProperties = utilities.MapAdditionalProperties 
-
-// UnmarshalAdditionalProperties is a utility.
-var UnmarshalAdditionalProperties = utilities.UnmarshalAdditionalProperties 
-
 // NewTypeHolder is a utility.
 var NewTypeHolder = utilities.NewTypeHolder 
 
@@ -124,3 +118,32 @@ var UnmarshallAnyOf = utilities.UnmarshallAnyOf
 
 // UnmarshallAnyOfWithDiscriminator is a utility.
 var UnmarshallAnyOfWithDiscriminator = utilities.UnmarshallAnyOfWithDiscriminator 
+
+// MergeAdditionalProperties is a utility function.
+func MergeAdditionalProperties[T any](
+    destinationMap map[string]any,
+    sourceMap map[string]T) {
+    utilities.MergeAdditionalProperties[T](destinationMap, sourceMap)
+}
+
+// ExtractAdditionalProperties is a utility function.
+func ExtractAdditionalProperties[T any](
+    input []byte,
+    keysToRemove ...string) (
+    map[string]T,
+    error) {
+    return utilities.ExtractAdditionalProperties[T](input, keysToRemove...)
+}
+
+// DetectConflictingProperties is a utility function.
+func DetectConflictingProperties[T any](
+    dstMap map[string]T,
+    structProperties ...string) error {
+    return utilities.DetectConflictingProperties[T](dstMap, structProperties...)
+}
+
+// ExtractTimeTypeAdditionalProperties is a utility.
+var ExtractTimeTypeAdditionalProperties = utilities.ExtractTimeTypeAdditionalProperties 
+
+// MergeTimeTypeAdditionalProperties is a utility.
+var MergeTimeTypeAdditionalProperties = utilities.MergeTimeTypeAdditionalProperties 

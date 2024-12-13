@@ -15,7 +15,7 @@ type TaxConfiguration struct {
     DestinationAddress   *TaxDestinationAddress `json:"destination_address,omitempty"`
     // Returns `true` when Chargify has been properly configured to charge tax using the specified tax system. More details about taxes: https://maxio.zendesk.com/hc/en-us/articles/24287012608909-Taxes-Overview
     FullyConfigured      *bool                  `json:"fully_configured,omitempty"`
-    AdditionalProperties map[string]any         `json:"_"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for TaxConfiguration.
@@ -23,13 +23,17 @@ type TaxConfiguration struct {
 func (t TaxConfiguration) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(t.AdditionalProperties,
+        "kind", "destination_address", "fully_configured"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(t.toMap())
 }
 
 // toMap converts the TaxConfiguration object to a map representation for JSON marshaling.
 func (t TaxConfiguration) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, t.AdditionalProperties)
+    MergeAdditionalProperties(structMap, t.AdditionalProperties)
     if t.Kind != nil {
         structMap["kind"] = t.Kind
     }
@@ -50,12 +54,12 @@ func (t *TaxConfiguration) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "kind", "destination_address", "fully_configured")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "kind", "destination_address", "fully_configured")
     if err != nil {
     	return err
     }
-    
     t.AdditionalProperties = additionalProperties
+    
     t.Kind = temp.Kind
     t.DestinationAddress = temp.DestinationAddress
     t.FullyConfigured = temp.FullyConfigured

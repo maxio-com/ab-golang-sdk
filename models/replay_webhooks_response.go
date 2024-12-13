@@ -11,8 +11,8 @@ import (
 
 // ReplayWebhooksResponse represents a ReplayWebhooksResponse struct.
 type ReplayWebhooksResponse struct {
-    Status               *string        `json:"status,omitempty"`
-    AdditionalProperties map[string]any `json:"_"`
+    Status               *string                `json:"status,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for ReplayWebhooksResponse.
@@ -20,13 +20,17 @@ type ReplayWebhooksResponse struct {
 func (r ReplayWebhooksResponse) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(r.AdditionalProperties,
+        "status"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(r.toMap())
 }
 
 // toMap converts the ReplayWebhooksResponse object to a map representation for JSON marshaling.
 func (r ReplayWebhooksResponse) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, r.AdditionalProperties)
+    MergeAdditionalProperties(structMap, r.AdditionalProperties)
     if r.Status != nil {
         structMap["status"] = r.Status
     }
@@ -41,12 +45,12 @@ func (r *ReplayWebhooksResponse) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "status")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "status")
     if err != nil {
     	return err
     }
-    
     r.AdditionalProperties = additionalProperties
+    
     r.Status = temp.Status
     return nil
 }

@@ -416,6 +416,26 @@ func (s SubscriptionRemoveCouponErrors) Error() string {
     return fmt.Sprintf("SubscriptionRemoveCouponErrors occured: %v", s.Message)
 }
 
+// SubscriptionResponseError is a custom error.
+type SubscriptionResponseError struct {
+    https.ApiError
+    Subscription   *models.Subscription `json:"subscription,omitempty"`
+}
+
+// NewSubscriptionResponseError is a constructor for SubscriptionResponseError.
+// It creates and returns a pointer to a new SubscriptionResponseError instance with the given statusCode and body.
+func NewSubscriptionResponseError(apiError https.ApiError) error {
+    return &SubscriptionResponseError{
+		ApiError: apiError,
+    }
+}
+
+// Error implements the Error method for the error interface.
+// It returns a formatted error message for SubscriptionResponseError.
+func (s SubscriptionResponseError) Error() string {
+    return fmt.Sprintf("SubscriptionResponseError occured: %v", s.Message)
+}
+
 // SubscriptionsMrrErrorResponse is a custom error.
 type SubscriptionsMrrErrorResponse struct {
     https.ApiError

@@ -32,7 +32,7 @@ type CreateInvoiceItem struct {
     PricePointId         *CreateInvoiceItemPricePointId        `json:"price_point_id,omitempty"`
     ProductPricePointId  *CreateInvoiceItemProductPricePointId `json:"product_price_point_id,omitempty"`
     Description          *string                               `json:"description,omitempty"`
-    AdditionalProperties map[string]any                        `json:"_"`
+    AdditionalProperties map[string]interface{}                `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreateInvoiceItem.
@@ -40,13 +40,17 @@ type CreateInvoiceItem struct {
 func (c CreateInvoiceItem) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(c.AdditionalProperties,
+        "title", "quantity", "unit_price", "taxable", "tax_code", "period_range_start", "period_range_end", "product_id", "component_id", "price_point_id", "product_price_point_id", "description"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(c.toMap())
 }
 
 // toMap converts the CreateInvoiceItem object to a map representation for JSON marshaling.
 func (c CreateInvoiceItem) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, c.AdditionalProperties)
+    MergeAdditionalProperties(structMap, c.AdditionalProperties)
     if c.Title != nil {
         structMap["title"] = c.Title
     }
@@ -94,12 +98,12 @@ func (c *CreateInvoiceItem) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "title", "quantity", "unit_price", "taxable", "tax_code", "period_range_start", "period_range_end", "product_id", "component_id", "price_point_id", "product_price_point_id", "description")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "title", "quantity", "unit_price", "taxable", "tax_code", "period_range_start", "period_range_end", "product_id", "component_id", "price_point_id", "product_price_point_id", "description")
     if err != nil {
     	return err
     }
-    
     c.AdditionalProperties = additionalProperties
+    
     c.Title = temp.Title
     c.Quantity = temp.Quantity
     c.UnitPrice = temp.UnitPrice

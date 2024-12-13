@@ -113,9 +113,9 @@ collectedInput := advancedbilling.ListPrepaymentsForSubscriptionGroupInput{
     Page:    models.ToPointer(2),
     PerPage: models.ToPointer(50),
     Filter:  models.ToPointer(models.ListPrepaymentsFilter{
-        DateField: models.ToPointer(models.ListPrepaymentDateField("created_at")),
-        StartDate: models.ToPointer(parseTime(models.DEFAULT_DATE, "2024-01-01", func(err error) { log.Fatalln(err) })),
-        EndDate:   models.ToPointer(parseTime(models.DEFAULT_DATE, "2024-01-31", func(err error) { log.Fatalln(err) })),
+        DateField:            models.ToPointer(models.ListPrepaymentDateField("created_at")),
+        StartDate:            models.ToPointer(parseTime(models.DEFAULT_DATE, "2024-01-01", func(err error) { log.Fatalln(err) })),
+        EndDate:              models.ToPointer(parseTime(models.DEFAULT_DATE, "2024-01-31", func(err error) { log.Fatalln(err) })),
     }),
 }
 
@@ -190,9 +190,9 @@ ctx := context.Background()
 uid := "uid0"
 
 body := models.IssueServiceCreditRequest{
-    ServiceCredit: models.IssueServiceCredit{
-        Amount: models.IssueServiceCreditAmountContainer.FromPrecision(float64(10)),
-        Memo:   models.ToPointer("Credit the group account"),
+    ServiceCredit:        models.IssueServiceCredit{
+        Amount:               models.IssueServiceCreditAmountContainer.FromPrecision(float64(10)),
+        Memo:                 models.ToPointer("Credit the group account"),
     },
 }
 
@@ -259,9 +259,9 @@ ctx := context.Background()
 uid := "uid0"
 
 body := models.DeductServiceCreditRequest{
-    Deduction: models.DeductServiceCredit{
-        Amount: models.DeductServiceCreditAmountContainer.FromPrecision(float64(10)),
-        Memo:   models.ToPointer("Deduct from group account"),
+    Deduction:            models.DeductServiceCredit{
+        Amount:               models.DeductServiceCreditAmountContainer.FromPrecision(float64(10)),
+        Memo:                 models.ToPointer("Deduct from group account"),
     },
 }
 

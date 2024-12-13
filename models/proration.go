@@ -12,8 +12,8 @@ import (
 // Proration represents a Proration struct.
 type Proration struct {
     // The alternative to sending preserve_period as a direct attribute to migration
-    PreservePeriod       *bool          `json:"preserve_period,omitempty"`
-    AdditionalProperties map[string]any `json:"_"`
+    PreservePeriod       *bool                  `json:"preserve_period,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for Proration.
@@ -21,13 +21,17 @@ type Proration struct {
 func (p Proration) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(p.AdditionalProperties,
+        "preserve_period"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(p.toMap())
 }
 
 // toMap converts the Proration object to a map representation for JSON marshaling.
 func (p Proration) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, p.AdditionalProperties)
+    MergeAdditionalProperties(structMap, p.AdditionalProperties)
     if p.PreservePeriod != nil {
         structMap["preserve_period"] = p.PreservePeriod
     }
@@ -42,12 +46,12 @@ func (p *Proration) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "preserve_period")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "preserve_period")
     if err != nil {
     	return err
     }
-    
     p.AdditionalProperties = additionalProperties
+    
     p.PreservePeriod = temp.PreservePeriod
     return nil
 }

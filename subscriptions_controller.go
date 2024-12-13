@@ -42,6 +42,10 @@ func NewSubscriptionsController(baseController baseController) *SubscriptionsCon
 // An existing customer may be specified by a `customer_id` (ID within Advanced Billing) or a `customer_reference` (unique value within your app that you have shared with Advanced Billing via the reference attribute on a customer). You may also pass in an existing payment profile for that customer with `payment_profile_id`. A new customer may be created by providing `customer_attributes`.
 // Credit card details may be required, depending on the options for the product being subscribed. The product can be specified by `product_id` or by `product_handle` (API Handle).
 // If you are creating a subscription with a payment profile, the attribute to send will be `credit_card_attributes` or `bank_account_attributes` for ACH and Direct Debit. That said, when you read the subscription after creation, we return the profile details under `credit_card` or `bank_account`.
+// ## Bulk creation of subscriptions
+// Bulk creation of subscriptions is currently not supported. For scenarios where multiple subscriptions must be added, particularly when assigning to the same subscription group, it is essential to switch to a single-threaded approach. 
+// To avoid data conflicts or inaccuracies, incorporate a sleep interval between requests.
+// While this single-threaded approach may impact performance, it ensures data consistency and accuracy in cases where concurrent creation attempts could otherwise lead to issues with subscription alignment and integrity.        
 // ## Taxable Subscriptions
 // If your intent is to charge your subscribers tax via [Avalara Taxes](https://maxio.zendesk.com/hc/en-us/articles/24287043035661-Avalara-VAT-Tax) or [Custom Taxes](https://maxio.zendesk.com/hc/en-us/articles/24287044212749-Custom-Taxes), there are a few considerations to be made regarding collecting subscription data.
 // For subscribers to be eligible to be taxed, the following information for the `customer` object or `payment_profile` object must by supplied:
@@ -788,6 +792,9 @@ func (s *SubscriptionsController) FindSubscription(
     error) {
     req := s.prepareRequest(ctx, "GET", "/subscriptions/lookup.json")
     req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
+    })
     if reference != nil {
         req.QueryParam("reference", *reference)
     }
@@ -802,7 +809,7 @@ func (s *SubscriptionsController) FindSubscription(
 }
 
 // PurgeSubscription takes context, subscriptionId, ack, cascade as parameters and
-// returns an *Response and
+// returns an models.ApiResponse with models.SubscriptionResponse data and
 // an error if there was an issue with the request or response.
 // For sites in test mode, you may purge individual subscriptions.
 // Provide the subscription ID in the url.  To confirm, supply the customer ID in the query string `ack` parameter. You may also delete the customer record and/or payment profiles by passing `cascade` parameters. For example, to delete just the customer record, the query params would be: `?ack={customer_id}&cascade[]=customer`
@@ -814,7 +821,7 @@ func (s *SubscriptionsController) PurgeSubscription(
     subscriptionId int,
     ack int,
     cascade []models.SubscriptionPurgeType) (
-    *http.Response,
+    models.ApiResponse[models.SubscriptionResponse],
     error) {
     req := s.prepareRequest(
       ctx,
@@ -822,16 +829,22 @@ func (s *SubscriptionsController) PurgeSubscription(
       fmt.Sprintf("/subscriptions/%v/purge.json", subscriptionId),
     )
     req.Authenticate(NewAuth("BasicAuth"))
-    req.QueryParam("ack", ack)
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "400": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewSubscriptionResponseError},
+    })
+    req.QueryParamWithArraySerializationOption("ack", ack, https.UnIndexed)
     if cascade != nil {
-        req.QueryParam("cascade", cascade)
+        req.QueryParamWithArraySerializationOption("cascade", cascade, https.UnIndexed)
     }
     
-    httpCtx, err := req.Call()
+    var result models.SubscriptionResponse
+    decoder, resp, err := req.CallAsJson()
     if err != nil {
-        return httpCtx.Response, err
+        return models.NewApiResponse(result, resp), err
     }
-    return httpCtx.Response, err
+    
+    result, err = utilities.DecodeResults[models.SubscriptionResponse](decoder)
+    return models.NewApiResponse(result, resp), err
 }
 
 // UpdatePrepaidSubscriptionConfiguration takes context, subscriptionId, body as parameters and
@@ -850,6 +863,9 @@ func (s *SubscriptionsController) UpdatePrepaidSubscriptionConfiguration(
       fmt.Sprintf("/subscriptions/%v/prepaid_configurations.json", subscriptionId),
     )
     req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'."},
+    })
     req.Header("Content-Type", "application/json")
     if body != nil {
         req.Json(body)

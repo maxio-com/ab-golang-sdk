@@ -27,7 +27,7 @@ type UpdateComponent struct {
     // The type of credit to be created when upgrading/downgrading. Defaults to the component and then site setting if one is not provided.
     // Available values: `full`, `prorated`, `none`.
     UpgradeCharge        Optional[CreditType]   `json:"upgrade_charge"`
-    AdditionalProperties map[string]any         `json:"_"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for UpdateComponent.
@@ -35,13 +35,17 @@ type UpdateComponent struct {
 func (u UpdateComponent) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(u.AdditionalProperties,
+        "handle", "name", "description", "accounting_code", "taxable", "tax_code", "item_category", "display_on_hosted_page", "upgrade_charge"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(u.toMap())
 }
 
 // toMap converts the UpdateComponent object to a map representation for JSON marshaling.
 func (u UpdateComponent) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, u.AdditionalProperties)
+    MergeAdditionalProperties(structMap, u.AdditionalProperties)
     if u.Handle != nil {
         structMap["handle"] = u.Handle
     }
@@ -100,12 +104,12 @@ func (u *UpdateComponent) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "handle", "name", "description", "accounting_code", "taxable", "tax_code", "item_category", "display_on_hosted_page", "upgrade_charge")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "handle", "name", "description", "accounting_code", "taxable", "tax_code", "item_category", "display_on_hosted_page", "upgrade_charge")
     if err != nil {
     	return err
     }
-    
     u.AdditionalProperties = additionalProperties
+    
     u.Handle = temp.Handle
     u.Name = temp.Name
     u.Description = temp.Description

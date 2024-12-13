@@ -12,12 +12,12 @@ import (
 // InvoicePaymentApplication represents a InvoicePaymentApplication struct.
 type InvoicePaymentApplication struct {
     // Unique identifier for the paid invoice. It has the prefix "inv_" followed by alphanumeric characters.
-    InvoiceUid           *string        `json:"invoice_uid,omitempty"`
+    InvoiceUid           *string                `json:"invoice_uid,omitempty"`
     // Unique identifier for the payment. It has the prefix "pmt_" followed by alphanumeric characters.
-    ApplicationUid       *string        `json:"application_uid,omitempty"`
+    ApplicationUid       *string                `json:"application_uid,omitempty"`
     // Dollar amount of the paid invoice.
-    AppliedAmount        *string        `json:"applied_amount,omitempty"`
-    AdditionalProperties map[string]any `json:"_"`
+    AppliedAmount        *string                `json:"applied_amount,omitempty"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for InvoicePaymentApplication.
@@ -25,13 +25,17 @@ type InvoicePaymentApplication struct {
 func (i InvoicePaymentApplication) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(i.AdditionalProperties,
+        "invoice_uid", "application_uid", "applied_amount"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(i.toMap())
 }
 
 // toMap converts the InvoicePaymentApplication object to a map representation for JSON marshaling.
 func (i InvoicePaymentApplication) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, i.AdditionalProperties)
+    MergeAdditionalProperties(structMap, i.AdditionalProperties)
     if i.InvoiceUid != nil {
         structMap["invoice_uid"] = i.InvoiceUid
     }
@@ -52,12 +56,12 @@ func (i *InvoicePaymentApplication) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "invoice_uid", "application_uid", "applied_amount")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "invoice_uid", "application_uid", "applied_amount")
     if err != nil {
     	return err
     }
-    
     i.AdditionalProperties = additionalProperties
+    
     i.InvoiceUid = temp.InvoiceUid
     i.ApplicationUid = temp.ApplicationUid
     i.AppliedAmount = temp.AppliedAmount

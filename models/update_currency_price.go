@@ -14,10 +14,10 @@ import (
 // UpdateCurrencyPrice represents a UpdateCurrencyPrice struct.
 type UpdateCurrencyPrice struct {
     // ID of the currency price record being updated
-    Id                   int            `json:"id"`
+    Id                   int                    `json:"id"`
     // New price for the given currency
-    Price                int            `json:"price"`
-    AdditionalProperties map[string]any `json:"_"`
+    Price                float64                `json:"price"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // MarshalJSON implements the json.Marshaler interface for UpdateCurrencyPrice.
@@ -25,13 +25,17 @@ type UpdateCurrencyPrice struct {
 func (u UpdateCurrencyPrice) MarshalJSON() (
     []byte,
     error) {
+    if err := DetectConflictingProperties(u.AdditionalProperties,
+        "id", "price"); err != nil {
+        return []byte{}, err
+    }
     return json.Marshal(u.toMap())
 }
 
 // toMap converts the UpdateCurrencyPrice object to a map representation for JSON marshaling.
 func (u UpdateCurrencyPrice) toMap() map[string]any {
     structMap := make(map[string]any)
-    MapAdditionalProperties(structMap, u.AdditionalProperties)
+    MergeAdditionalProperties(structMap, u.AdditionalProperties)
     structMap["id"] = u.Id
     structMap["price"] = u.Price
     return structMap
@@ -49,12 +53,12 @@ func (u *UpdateCurrencyPrice) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := UnmarshalAdditionalProperties(input, "id", "price")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "id", "price")
     if err != nil {
     	return err
     }
-    
     u.AdditionalProperties = additionalProperties
+    
     u.Id = *temp.Id
     u.Price = *temp.Price
     return nil
@@ -62,8 +66,8 @@ func (u *UpdateCurrencyPrice) UnmarshalJSON(input []byte) error {
 
 // tempUpdateCurrencyPrice is a temporary struct used for validating the fields of UpdateCurrencyPrice.
 type tempUpdateCurrencyPrice  struct {
-    Id    *int `json:"id"`
-    Price *int `json:"price"`
+    Id    *int     `json:"id"`
+    Price *float64 `json:"price"`
 }
 
 func (u *tempUpdateCurrencyPrice) validate() error {
