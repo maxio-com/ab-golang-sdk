@@ -44,13 +44,7 @@ func (s *ComponentAlocationSuite) TestComponentAllocations() {
 						},
 					},
 				},
-				UnitPrice: models.ToPointer(models.OnOffComponentUnitPriceContainer.FromString("100")),
-				Prices: []models.Price{
-					{
-						StartingQuantity: models.PriceStartingQuantityContainer.FromNumber(1),
-						UnitPrice:        models.PriceUnitPriceContainer.FromPrecision(1),
-					},
-				},
+				UnitPrice: models.OnOffComponentUnitPriceContainer.FromString("100"),
 			},
 		},
 	)

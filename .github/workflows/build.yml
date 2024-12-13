@@ -9,7 +9,6 @@ on:
 env:
     TEST_API_KEY: ${{secrets.TEST_API_KEY}}
     TEST_API_PASSWORD: ${{secrets.TEST_API_PASSWORD}}
-    TEST_DOMAIN: ${{vars.TEST_DOMAIN}}
     TEST_SUBDOMAIN: ${{vars.TEST_SUBDOMAIN}}
 
 jobs:

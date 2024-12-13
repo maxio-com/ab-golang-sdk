@@ -17,7 +17,6 @@ import (
 type Config struct {
 	APIKey    string `env:"TEST_API_KEY,required"`
 	Password  string `env:"TEST_API_PASSWORD,required"`
-	Domain    string `env:"TEST_DOMAIN,required"`
 	Subdomain string `env:"TEST_SUBDOMAIN,required"`
 }
 
@@ -63,8 +62,7 @@ func (s *APISuite) SetupTest() {
 				cfg.Password,
 			),
 		),
-		advancedbilling.WithDomain(cfg.Domain),
-		advancedbilling.WithSubdomain(cfg.Subdomain),
+		advancedbilling.WithSite(cfg.Subdomain),
 	)
 
 	configUnauthorized := advancedbilling.CreateConfiguration(
@@ -74,8 +72,7 @@ func (s *APISuite) SetupTest() {
 				"abc",
 			),
 		),
-		advancedbilling.WithDomain(cfg.Domain),
-		advancedbilling.WithSubdomain(cfg.Subdomain),
+		advancedbilling.WithSite(cfg.Subdomain),
 	)
 
 	s.client = advancedbilling.NewClient(config)
@@ -153,11 +150,11 @@ func (s *APISuite) generateProduct(ctx context.Context, productFamilyID int) mod
 }
 
 func (s *APISuite) generateCoupon(ctx context.Context, productFamilyID int) models.Coupon {
-	coupon := &models.CreateOrUpdatePercentageCoupon{
-		Name:                        s.fkr.RandomStringWithLength(20),
-		Code:                        "100OFF" + s.fkr.RandomStringWithLength(30),
+	coupon := &models.CouponPayload{
+		Name:                        models.ToPointer(s.fkr.RandomStringWithLength(20)),
+		Code:                        models.ToPointer("100OFF" + s.fkr.RandomStringWithLength(30)),
 		Description:                 strPtr(s.fkr.RandomStringWithLength(20)),
-		Percentage:                  models.CreateOrUpdatePercentageCouponPercentageContainer.FromString("50"),
+		Percentage:                  models.ToPointer(models.CouponPayloadPercentageContainer.FromString("50")),
 		AllowNegativeBalance:        boolPtr(false),
 		Recurring:                   boolPtr(false),
 		EndDate:                     timePtr(time.Now().AddDate(1, 0, 0)),
@@ -167,8 +164,8 @@ func (s *APISuite) generateCoupon(ctx context.Context, productFamilyID int) mode
 		ApplyOnCancelAtEndOfPeriod:  boolPtr(true),
 	}
 
-	resp, err := s.client.CouponsController().CreateCoupon(ctx, productFamilyID, &models.CreateOrUpdateCoupon{
-		Coupon: models.ToPointer(models.CreateOrUpdateCouponCouponContainer.FromCreateOrUpdatePercentageCoupon(*coupon)),
+	resp, err := s.client.CouponsController().CreateCoupon(ctx, productFamilyID, &models.CouponRequest{
+		Coupon: models.ToPointer(*coupon),
 	})
 
 	s.NoError(err)
