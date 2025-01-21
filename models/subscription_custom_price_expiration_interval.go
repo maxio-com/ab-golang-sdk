@@ -8,7 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
-    "strings"
+    "fmt"
 )
 
 // SubscriptionCustomPriceExpirationInterval represents a SubscriptionCustomPriceExpirationInterval struct.
@@ -19,12 +19,10 @@ type SubscriptionCustomPriceExpirationInterval struct {
     isNumber bool
 }
 
-// String converts the SubscriptionCustomPriceExpirationInterval object to a string representation.
+// String implements the fmt.Stringer interface for SubscriptionCustomPriceExpirationInterval,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
 func (s SubscriptionCustomPriceExpirationInterval) String() string {
-    if bytes, err := json.Marshal(s.value); err == nil {
-         return strings.Trim(string(bytes), "\"")
-    }
-    return ""
+    return fmt.Sprintf("%v", s.value)
 }
 
 // MarshalJSON implements the json.Marshaler interface for SubscriptionCustomPriceExpirationInterval.

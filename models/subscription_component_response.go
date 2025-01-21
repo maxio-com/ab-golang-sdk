@@ -7,12 +7,21 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // SubscriptionComponentResponse represents a SubscriptionComponentResponse struct.
 type SubscriptionComponentResponse struct {
     Component            *SubscriptionComponent `json:"component,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for SubscriptionComponentResponse,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (s SubscriptionComponentResponse) String() string {
+    return fmt.Sprintf(
+    	"SubscriptionComponentResponse[Component=%v, AdditionalProperties=%v]",
+    	s.Component, s.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for SubscriptionComponentResponse.

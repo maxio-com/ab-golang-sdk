@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // AccountBalances represents a AccountBalances struct.
@@ -22,6 +23,14 @@ type AccountBalances struct {
     // The balance, in cents, of the subscription's Prepayment account.
     Prepayments          *AccountBalance        `json:"prepayments,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for AccountBalances,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (a AccountBalances) String() string {
+    return fmt.Sprintf(
+    	"AccountBalances[OpenInvoices=%v, PendingInvoices=%v, PendingDiscounts=%v, ServiceCredits=%v, Prepayments=%v, AdditionalProperties=%v]",
+    	a.OpenInvoices, a.PendingInvoices, a.PendingDiscounts, a.ServiceCredits, a.Prepayments, a.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for AccountBalances.

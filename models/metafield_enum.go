@@ -8,7 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
-    "strings"
+    "fmt"
 )
 
 // MetafieldEnum represents a MetafieldEnum struct.
@@ -19,12 +19,10 @@ type MetafieldEnum struct {
     isArrayOfString bool
 }
 
-// String converts the MetafieldEnum object to a string representation.
+// String implements the fmt.Stringer interface for MetafieldEnum,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
 func (m MetafieldEnum) String() string {
-    if bytes, err := json.Marshal(m.value); err == nil {
-         return strings.Trim(string(bytes), "\"")
-    }
-    return ""
+    return fmt.Sprintf("%v", m.value)
 }
 
 // MarshalJSON implements the json.Marshaler interface for MetafieldEnum.

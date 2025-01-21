@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
     "log"
     "time"
 )
@@ -50,6 +51,14 @@ type Coupon struct {
     // Returned in read, find, and list endpoints if the query parameter is provided.
     CurrencyPrices                []CouponCurrency              `json:"currency_prices,omitempty"`
     AdditionalProperties          map[string]interface{}        `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for Coupon,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (c Coupon) String() string {
+    return fmt.Sprintf(
+    	"Coupon[Id=%v, Name=%v, Code=%v, Description=%v, Amount=%v, AmountInCents=%v, ProductFamilyId=%v, ProductFamilyName=%v, StartDate=%v, EndDate=%v, Percentage=%v, Recurring=%v, RecurringScheme=%v, DurationPeriodCount=%v, DurationInterval=%v, DurationIntervalUnit=%v, DurationIntervalSpan=%v, AllowNegativeBalance=%v, ArchivedAt=%v, ConversionLimit=%v, Stackable=%v, CompoundingStrategy=%v, UseSiteExchangeRate=%v, CreatedAt=%v, UpdatedAt=%v, DiscountType=%v, ExcludeMidPeriodAllocations=%v, ApplyOnCancelAtEndOfPeriod=%v, ApplyOnSubscriptionExpiration=%v, CouponRestrictions=%v, CurrencyPrices=%v, AdditionalProperties=%v]",
+    	c.Id, c.Name, c.Code, c.Description, c.Amount, c.AmountInCents, c.ProductFamilyId, c.ProductFamilyName, c.StartDate, c.EndDate, c.Percentage, c.Recurring, c.RecurringScheme, c.DurationPeriodCount, c.DurationInterval, c.DurationIntervalUnit, c.DurationIntervalSpan, c.AllowNegativeBalance, c.ArchivedAt, c.ConversionLimit, c.Stackable, c.CompoundingStrategy, c.UseSiteExchangeRate, c.CreatedAt, c.UpdatedAt, c.DiscountType, c.ExcludeMidPeriodAllocations, c.ApplyOnCancelAtEndOfPeriod, c.ApplyOnSubscriptionExpiration, c.CouponRestrictions, c.CurrencyPrices, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for Coupon.

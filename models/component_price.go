@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // ComponentPrice represents a ComponentPrice struct.
@@ -20,6 +21,14 @@ type ComponentPrice struct {
     FormattedUnitPrice   *string                `json:"formatted_unit_price,omitempty"`
     SegmentId            Optional[int]          `json:"segment_id"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for ComponentPrice,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (c ComponentPrice) String() string {
+    return fmt.Sprintf(
+    	"ComponentPrice[Id=%v, ComponentId=%v, StartingQuantity=%v, EndingQuantity=%v, UnitPrice=%v, PricePointId=%v, FormattedUnitPrice=%v, SegmentId=%v, AdditionalProperties=%v]",
+    	c.Id, c.ComponentId, c.StartingQuantity, c.EndingQuantity, c.UnitPrice, c.PricePointId, c.FormattedUnitPrice, c.SegmentId, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for ComponentPrice.

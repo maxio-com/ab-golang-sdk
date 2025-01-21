@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "log"
     "strings"
     "time"
@@ -39,6 +40,14 @@ type RefundInvoiceEventData struct {
     // The time the refund was applied, in ISO 8601 format, i.e. "2019-06-07T17:20:06Z"
     TransactionTime      time.Time                  `json:"transaction_time"`
     AdditionalProperties map[string]interface{}     `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for RefundInvoiceEventData,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (r RefundInvoiceEventData) String() string {
+    return fmt.Sprintf(
+    	"RefundInvoiceEventData[ApplyCredit=%v, ConsolidationLevel=%v, CreditNoteAttributes=%v, Memo=%v, OriginalAmount=%v, PaymentId=%v, RefundAmount=%v, RefundId=%v, TransactionTime=%v, AdditionalProperties=%v]",
+    	r.ApplyCredit, r.ConsolidationLevel, r.CreditNoteAttributes, r.Memo, r.OriginalAmount, r.PaymentId, r.RefundAmount, r.RefundId, r.TransactionTime, r.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for RefundInvoiceEventData.

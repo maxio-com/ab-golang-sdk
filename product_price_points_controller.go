@@ -7,7 +7,6 @@ package advancedbilling
 
 import (
     "context"
-    "fmt"
     "github.com/apimatic/go-core-runtime/https"
     "github.com/apimatic/go-core-runtime/utilities"
     "github.com/maxio-com/ab-golang-sdk/errors"
@@ -36,11 +35,8 @@ func (p *ProductPricePointsController) CreateProductPricePoint(
     body *models.CreateProductPricePointRequest) (
     models.ApiResponse[models.ProductPricePointResponse],
     error) {
-    req := p.prepareRequest(
-      ctx,
-      "POST",
-      fmt.Sprintf("/products/%v/price_points.json", productId),
-    )
+    req := p.prepareRequest(ctx, "POST", "/products/%v/price_points.json")
+    req.AppendTemplateParams(productId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewProductPricePointErrorResponse},
@@ -86,11 +82,8 @@ func (p *ProductPricePointsController) ListProductPricePoints(
     input ListProductPricePointsInput) (
     models.ApiResponse[models.ListProductPricePointsResponse],
     error) {
-    req := p.prepareRequest(
-      ctx,
-      "GET",
-      fmt.Sprintf("/products/%v/price_points.json", input.ProductId),
-    )
+    req := p.prepareRequest(ctx, "GET", "/products/%v/price_points.json")
+    req.AppendTemplateParams(input.ProductId)
     req.Authenticate(NewAuth("BasicAuth"))
     if input.Page != nil {
         req.QueryParam("page", *input.Page)
@@ -130,11 +123,8 @@ func (p *ProductPricePointsController) UpdateProductPricePoint(
     body *models.UpdateProductPricePointRequest) (
     models.ApiResponse[models.ProductPricePointResponse],
     error) {
-    req := p.prepareRequest(
-      ctx,
-      "PUT",
-      fmt.Sprintf("/products/%v/price_points/%v.json", productId, pricePointId),
-    )
+    req := p.prepareRequest(ctx, "PUT", "/products/%v/price_points/%v.json")
+    req.AppendTemplateParams(productId, pricePointId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.Header("Content-Type", "application/json")
     if body != nil {
@@ -162,11 +152,8 @@ func (p *ProductPricePointsController) ReadProductPricePoint(
     currencyPrices *bool) (
     models.ApiResponse[models.ProductPricePointResponse],
     error) {
-    req := p.prepareRequest(
-      ctx,
-      "GET",
-      fmt.Sprintf("/products/%v/price_points/%v.json", productId, pricePointId),
-    )
+    req := p.prepareRequest(ctx, "GET", "/products/%v/price_points/%v.json")
+    req.AppendTemplateParams(productId, pricePointId)
     req.Authenticate(NewAuth("BasicAuth"))
     if currencyPrices != nil {
         req.QueryParam("currency_prices", *currencyPrices)
@@ -192,11 +179,8 @@ func (p *ProductPricePointsController) ArchiveProductPricePoint(
     pricePointId models.ArchiveProductPricePointPricePointId) (
     models.ApiResponse[models.ProductPricePointResponse],
     error) {
-    req := p.prepareRequest(
-      ctx,
-      "DELETE",
-      fmt.Sprintf("/products/%v/price_points/%v.json", productId, pricePointId),
-    )
+    req := p.prepareRequest(ctx, "DELETE", "/products/%v/price_points/%v.json")
+    req.AppendTemplateParams(productId, pricePointId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
@@ -225,8 +209,9 @@ func (p *ProductPricePointsController) UnarchiveProductPricePoint(
     req := p.prepareRequest(
       ctx,
       "PATCH",
-      fmt.Sprintf("/products/%v/price_points/%v/unarchive.json", productId, pricePointId),
+      "/products/%v/price_points/%v/unarchive.json",
     )
+    req.AppendTemplateParams(productId, pricePointId)
     req.Authenticate(NewAuth("BasicAuth"))
     
     var result models.ProductPricePointResponse
@@ -253,8 +238,9 @@ func (p *ProductPricePointsController) PromoteProductPricePointToDefault(
     req := p.prepareRequest(
       ctx,
       "PATCH",
-      fmt.Sprintf("/products/%v/price_points/%v/default.json", productId, pricePointId),
+      "/products/%v/price_points/%v/default.json",
     )
+    req.AppendTemplateParams(productId, pricePointId)
     req.Authenticate(NewAuth("BasicAuth"))
     
     var result models.ProductResponse
@@ -277,11 +263,8 @@ func (p *ProductPricePointsController) BulkCreateProductPricePoints(
     body *models.BulkCreateProductPricePointsRequest) (
     models.ApiResponse[models.BulkCreateProductPricePointsResponse],
     error) {
-    req := p.prepareRequest(
-      ctx,
-      "POST",
-      fmt.Sprintf("/products/%v/price_points/bulk.json", productId),
-    )
+    req := p.prepareRequest(ctx, "POST", "/products/%v/price_points/bulk.json")
+    req.AppendTemplateParams(productId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'."},
@@ -316,8 +299,9 @@ func (p *ProductPricePointsController) CreateProductCurrencyPrices(
     req := p.prepareRequest(
       ctx,
       "POST",
-      fmt.Sprintf("/product_price_points/%v/currency_prices.json", productPricePointId),
+      "/product_price_points/%v/currency_prices.json",
     )
+    req.AppendTemplateParams(productPricePointId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorArrayMapResponse},
@@ -352,8 +336,9 @@ func (p *ProductPricePointsController) UpdateProductCurrencyPrices(
     req := p.prepareRequest(
       ctx,
       "PUT",
-      fmt.Sprintf("/product_price_points/%v/currency_prices.json", productPricePointId),
+      "/product_price_points/%v/currency_prices.json",
     )
+    req.AppendTemplateParams(productPricePointId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorArrayMapResponse},
@@ -400,6 +385,7 @@ func (p *ProductPricePointsController) ListAllProductPricePoints(
     models.ApiResponse[models.ListProductPricePointsResponse],
     error) {
     req := p.prepareRequest(ctx, "GET", "/products_price_points.json")
+    
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},

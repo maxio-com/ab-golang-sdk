@@ -7,12 +7,21 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // ConsolidatedInvoice represents a ConsolidatedInvoice struct.
 type ConsolidatedInvoice struct {
     Invoices             []Invoice              `json:"invoices,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for ConsolidatedInvoice,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (c ConsolidatedInvoice) String() string {
+    return fmt.Sprintf(
+    	"ConsolidatedInvoice[Invoices=%v, AdditionalProperties=%v]",
+    	c.Invoices, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for ConsolidatedInvoice.

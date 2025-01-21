@@ -7,12 +7,21 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // AllocationResponse represents a AllocationResponse struct.
 type AllocationResponse struct {
     Allocation           *Allocation            `json:"allocation,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for AllocationResponse,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (a AllocationResponse) String() string {
+    return fmt.Sprintf(
+    	"AllocationResponse[Allocation=%v, AdditionalProperties=%v]",
+    	a.Allocation, a.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for AllocationResponse.

@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
     "log"
     "time"
 )
@@ -30,6 +31,14 @@ type ListCouponsFilter struct {
     // Allows fetching coupons with matching use_site_exchange_rate based on provided value. Use in query `filter[use_site_exchange_rate]=true`.
     UseSiteExchangeRate  *bool                  `json:"use_site_exchange_rate,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for ListCouponsFilter,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (l ListCouponsFilter) String() string {
+    return fmt.Sprintf(
+    	"ListCouponsFilter[DateField=%v, StartDate=%v, EndDate=%v, StartDatetime=%v, EndDatetime=%v, Ids=%v, Codes=%v, UseSiteExchangeRate=%v, AdditionalProperties=%v]",
+    	l.DateField, l.StartDate, l.EndDate, l.StartDatetime, l.EndDatetime, l.Ids, l.Codes, l.UseSiteExchangeRate, l.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for ListCouponsFilter.

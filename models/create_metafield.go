@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // CreateMetafield represents a CreateMetafield struct.
@@ -19,6 +20,14 @@ type CreateMetafield struct {
     // Only applicable when input_type is radio or dropdown. Empty strings will not be submitted.
     Enum                 []string               `json:"enum,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for CreateMetafield,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (c CreateMetafield) String() string {
+    return fmt.Sprintf(
+    	"CreateMetafield[Name=%v, Scope=%v, InputType=%v, Enum=%v, AdditionalProperties=%v]",
+    	c.Name, c.Scope, c.InputType, c.Enum, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreateMetafield.

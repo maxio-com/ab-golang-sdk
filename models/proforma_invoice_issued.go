@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "log"
     "strings"
     "time"
@@ -27,6 +28,14 @@ type ProformaInvoiceIssued struct {
     ProductName          string                     `json:"product_name"`
     LineItems            []InvoiceLineItemEventData `json:"line_items"`
     AdditionalProperties map[string]interface{}     `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for ProformaInvoiceIssued,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (p ProformaInvoiceIssued) String() string {
+    return fmt.Sprintf(
+    	"ProformaInvoiceIssued[Uid=%v, Number=%v, Role=%v, DeliveryDate=%v, CreatedAt=%v, DueAmount=%v, PaidAmount=%v, TaxAmount=%v, TotalAmount=%v, ProductName=%v, LineItems=%v, AdditionalProperties=%v]",
+    	p.Uid, p.Number, p.Role, p.DeliveryDate, p.CreatedAt, p.DueAmount, p.PaidAmount, p.TaxAmount, p.TotalAmount, p.ProductName, p.LineItems, p.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for ProformaInvoiceIssued.

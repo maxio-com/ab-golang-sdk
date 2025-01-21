@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
     "log"
     "time"
 )
@@ -54,6 +55,14 @@ type ComponentPricePoint struct {
     // Applicable only to prepaid usage components where rollover_prepaid_remainder is true. A string representing the expiration interval unit for this component, either month or day.
     ExpirationIntervalUnit   Optional[ExpirationIntervalUnit] `json:"expiration_interval_unit"`
     AdditionalProperties     map[string]interface{}           `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for ComponentPricePoint,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (c ComponentPricePoint) String() string {
+    return fmt.Sprintf(
+    	"ComponentPricePoint[Id=%v, Type=%v, Default=%v, Name=%v, PricingScheme=%v, ComponentId=%v, Handle=%v, ArchivedAt=%v, CreatedAt=%v, UpdatedAt=%v, Prices=%v, UseSiteExchangeRate=%v, SubscriptionId=%v, TaxIncluded=%v, Interval=%v, IntervalUnit=%v, CurrencyPrices=%v, OveragePrices=%v, OveragePricingScheme=%v, RenewPrepaidAllocation=%v, RolloverPrepaidRemainder=%v, ExpirationInterval=%v, ExpirationIntervalUnit=%v, AdditionalProperties=%v]",
+    	c.Id, c.Type, c.Default, c.Name, c.PricingScheme, c.ComponentId, c.Handle, c.ArchivedAt, c.CreatedAt, c.UpdatedAt, c.Prices, c.UseSiteExchangeRate, c.SubscriptionId, c.TaxIncluded, c.Interval, c.IntervalUnit, c.CurrencyPrices, c.OveragePrices, c.OveragePricingScheme, c.RenewPrepaidAllocation, c.RolloverPrepaidRemainder, c.ExpirationInterval, c.ExpirationIntervalUnit, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for ComponentPricePoint.

@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
     "log"
     "time"
 )
@@ -30,6 +31,14 @@ type ListPricePointsFilter struct {
     // Allows fetching price points only if archived_at is present or not. Use in query: `filter[archived_at]=not_null`.
     ArchivedAt           *IncludeNullOrNotNull  `json:"archived_at,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for ListPricePointsFilter,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (l ListPricePointsFilter) String() string {
+    return fmt.Sprintf(
+    	"ListPricePointsFilter[DateField=%v, StartDate=%v, EndDate=%v, StartDatetime=%v, EndDatetime=%v, Type=%v, Ids=%v, ArchivedAt=%v, AdditionalProperties=%v]",
+    	l.DateField, l.StartDate, l.EndDate, l.StartDatetime, l.EndDatetime, l.Type, l.Ids, l.ArchivedAt, l.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for ListPricePointsFilter.

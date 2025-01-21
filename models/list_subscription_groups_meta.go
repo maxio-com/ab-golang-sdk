@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // ListSubscriptionGroupsMeta represents a ListSubscriptionGroupsMeta struct.
@@ -14,6 +15,14 @@ type ListSubscriptionGroupsMeta struct {
     CurrentPage          *int                   `json:"current_page,omitempty"`
     TotalCount           *int                   `json:"total_count,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for ListSubscriptionGroupsMeta,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (l ListSubscriptionGroupsMeta) String() string {
+    return fmt.Sprintf(
+    	"ListSubscriptionGroupsMeta[CurrentPage=%v, TotalCount=%v, AdditionalProperties=%v]",
+    	l.CurrentPage, l.TotalCount, l.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for ListSubscriptionGroupsMeta.

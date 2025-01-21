@@ -7,12 +7,21 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // CancelGroupedSubscriptionsRequest represents a CancelGroupedSubscriptionsRequest struct.
 type CancelGroupedSubscriptionsRequest struct {
     ChargeUnbilledUsage  *bool                  `json:"charge_unbilled_usage,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for CancelGroupedSubscriptionsRequest,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (c CancelGroupedSubscriptionsRequest) String() string {
+    return fmt.Sprintf(
+    	"CancelGroupedSubscriptionsRequest[ChargeUnbilledUsage=%v, AdditionalProperties=%v]",
+    	c.ChargeUnbilledUsage, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for CancelGroupedSubscriptionsRequest.

@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
     "log"
     "time"
 )
@@ -59,6 +60,14 @@ type Allocation struct {
     UsedQuantity             *int64                         `json:"used_quantity,omitempty"`
     ChargeId                 *int64                         `json:"charge_id,omitempty"`
     AdditionalProperties     map[string]interface{}         `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for Allocation,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (a Allocation) String() string {
+    return fmt.Sprintf(
+    	"Allocation[AllocationId=%v, ComponentId=%v, ComponentHandle=%v, SubscriptionId=%v, Quantity=%v, PreviousQuantity=%v, Memo=%v, Timestamp=%v, CreatedAt=%v, ProrationUpgradeScheme=%v, ProrationDowngradeScheme=%v, PricePointId=%v, PricePointName=%v, PricePointHandle=%v, Interval=%v, IntervalUnit=%v, PreviousPricePointId=%v, AccrueCharge=%v, InitiateDunning=%v, UpgradeCharge=%v, DowngradeCredit=%v, Payment=%v, ExpiresAt=%v, UsedQuantity=%v, ChargeId=%v, AdditionalProperties=%v]",
+    	a.AllocationId, a.ComponentId, a.ComponentHandle, a.SubscriptionId, a.Quantity, a.PreviousQuantity, a.Memo, a.Timestamp, a.CreatedAt, a.ProrationUpgradeScheme, a.ProrationDowngradeScheme, a.PricePointId, a.PricePointName, a.PricePointHandle, a.Interval, a.IntervalUnit, a.PreviousPricePointId, a.AccrueCharge, a.InitiateDunning, a.UpgradeCharge, a.DowngradeCredit, a.Payment, a.ExpiresAt, a.UsedQuantity, a.ChargeId, a.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for Allocation.

@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "strings"
 )
 
@@ -52,6 +53,14 @@ type PrepaidUsageComponent struct {
     AllowFractionalQuantities *bool                                   `json:"allow_fractional_quantities,omitempty"`
     PublicSignupPageIds       []int                                   `json:"public_signup_page_ids,omitempty"`
     AdditionalProperties      map[string]interface{}                  `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for PrepaidUsageComponent,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (p PrepaidUsageComponent) String() string {
+    return fmt.Sprintf(
+    	"PrepaidUsageComponent[Name=%v, UnitName=%v, Description=%v, Handle=%v, Taxable=%v, PricingScheme=%v, Prices=%v, UpgradeCharge=%v, DowngradeCredit=%v, PricePoints=%v, UnitPrice=%v, TaxCode=%v, HideDateRangeOnInvoice=%v, OveragePricing=%v, RolloverPrepaidRemainder=%v, RenewPrepaidAllocation=%v, ExpirationInterval=%v, ExpirationIntervalUnit=%v, DisplayOnHostedPage=%v, AllowFractionalQuantities=%v, PublicSignupPageIds=%v, AdditionalProperties=%v]",
+    	p.Name, p.UnitName, p.Description, p.Handle, p.Taxable, p.PricingScheme, p.Prices, p.UpgradeCharge, p.DowngradeCredit, p.PricePoints, p.UnitPrice, p.TaxCode, p.HideDateRangeOnInvoice, p.OveragePricing, p.RolloverPrepaidRemainder, p.RenewPrepaidAllocation, p.ExpirationInterval, p.ExpirationIntervalUnit, p.DisplayOnHostedPage, p.AllowFractionalQuantities, p.PublicSignupPageIds, p.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for PrepaidUsageComponent.

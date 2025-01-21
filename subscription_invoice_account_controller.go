@@ -7,7 +7,6 @@ package advancedbilling
 
 import (
     "context"
-    "fmt"
     "github.com/apimatic/go-core-runtime/https"
     "github.com/apimatic/go-core-runtime/utilities"
     "github.com/maxio-com/ab-golang-sdk/errors"
@@ -36,11 +35,8 @@ func (s *SubscriptionInvoiceAccountController) ReadAccountBalances(
     subscriptionId int) (
     models.ApiResponse[models.AccountBalances],
     error) {
-    req := s.prepareRequest(
-      ctx,
-      "GET",
-      fmt.Sprintf("/subscriptions/%v/account_balances.json", subscriptionId),
-    )
+    req := s.prepareRequest(ctx, "GET", "/subscriptions/%v/account_balances.json")
+    req.AppendTemplateParams(subscriptionId)
     req.Authenticate(NewAuth("BasicAuth"))
     
     var result models.AccountBalances
@@ -66,11 +62,8 @@ func (s *SubscriptionInvoiceAccountController) CreatePrepayment(
     body *models.CreatePrepaymentRequest) (
     models.ApiResponse[models.CreatePrepaymentResponse],
     error) {
-    req := s.prepareRequest(
-      ctx,
-      "POST",
-      fmt.Sprintf("/subscriptions/%v/prepayments.json", subscriptionId),
-    )
+    req := s.prepareRequest(ctx, "POST", "/subscriptions/%v/prepayments.json")
+    req.AppendTemplateParams(subscriptionId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'."},
@@ -113,11 +106,8 @@ func (s *SubscriptionInvoiceAccountController) ListPrepayments(
     input ListPrepaymentsInput) (
     models.ApiResponse[models.PrepaymentsResponse],
     error) {
-    req := s.prepareRequest(
-      ctx,
-      "GET",
-      fmt.Sprintf("/subscriptions/%v/prepayments.json", input.SubscriptionId),
-    )
+    req := s.prepareRequest(ctx, "GET", "/subscriptions/%v/prepayments.json")
+    req.AppendTemplateParams(input.SubscriptionId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
@@ -152,11 +142,8 @@ func (s *SubscriptionInvoiceAccountController) IssueServiceCredit(
     body *models.IssueServiceCreditRequest) (
     models.ApiResponse[models.ServiceCredit],
     error) {
-    req := s.prepareRequest(
-      ctx,
-      "POST",
-      fmt.Sprintf("/subscriptions/%v/service_credits.json", subscriptionId),
-    )
+    req := s.prepareRequest(ctx, "POST", "/subscriptions/%v/service_credits.json")
+    req.AppendTemplateParams(subscriptionId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'."},
@@ -189,8 +176,9 @@ func (s *SubscriptionInvoiceAccountController) DeductServiceCredit(
     req := s.prepareRequest(
       ctx,
       "POST",
-      fmt.Sprintf("/subscriptions/%v/service_credit_deductions.json", subscriptionId),
+      "/subscriptions/%v/service_credit_deductions.json",
     )
+    req.AppendTemplateParams(subscriptionId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'."},
@@ -222,8 +210,9 @@ func (s *SubscriptionInvoiceAccountController) RefundPrepayment(
     req := s.prepareRequest(
       ctx,
       "POST",
-      fmt.Sprintf("/subscriptions/%v/prepayments/%v/refunds.json", subscriptionId, prepaymentId),
+      "/subscriptions/%v/prepayments/%v/refunds.json",
     )
+    req.AppendTemplateParams(subscriptionId, prepaymentId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "404": {TemplatedMessage: "Not Found:'{$response.body}'"},

@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "strings"
 )
 
@@ -15,6 +16,14 @@ import (
 type EventResponse struct {
     Event                Event                  `json:"event"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for EventResponse,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (e EventResponse) String() string {
+    return fmt.Sprintf(
+    	"EventResponse[Event=%v, AdditionalProperties=%v]",
+    	e.Event, e.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for EventResponse.

@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // CouponCurrency represents a CouponCurrency struct.
@@ -16,6 +17,14 @@ type CouponCurrency struct {
     Price                Optional[float64]      `json:"price"`
     CouponId             *int                   `json:"coupon_id,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for CouponCurrency,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (c CouponCurrency) String() string {
+    return fmt.Sprintf(
+    	"CouponCurrency[Id=%v, Currency=%v, Price=%v, CouponId=%v, AdditionalProperties=%v]",
+    	c.Id, c.Currency, c.Price, c.CouponId, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for CouponCurrency.

@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "strings"
 )
 
@@ -43,6 +44,14 @@ type PaypalPaymentProfile struct {
     GatewayHandle        Optional[string]       `json:"gateway_handle"`
     PaypalEmail          *string                `json:"paypal_email,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for PaypalPaymentProfile,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (p PaypalPaymentProfile) String() string {
+    return fmt.Sprintf(
+    	"PaypalPaymentProfile[Id=%v, FirstName=%v, LastName=%v, CustomerId=%v, CurrentVault=%v, VaultToken=%v, BillingAddress=%v, BillingCity=%v, BillingState=%v, BillingZip=%v, BillingCountry=%v, CustomerVaultToken=%v, BillingAddress2=%v, PaymentType=%v, SiteGatewaySettingId=%v, GatewayHandle=%v, PaypalEmail=%v, AdditionalProperties=%v]",
+    	p.Id, p.FirstName, p.LastName, p.CustomerId, p.CurrentVault, p.VaultToken, p.BillingAddress, p.BillingCity, p.BillingState, p.BillingZip, p.BillingCountry, p.CustomerVaultToken, p.BillingAddress2, p.PaymentType, p.SiteGatewaySettingId, p.GatewayHandle, p.PaypalEmail, p.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for PaypalPaymentProfile.

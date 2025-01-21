@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // UpdateComponentPricePoint represents a UpdateComponentPricePoint struct.
@@ -25,6 +26,14 @@ type UpdateComponentPricePoint struct {
     IntervalUnit         Optional[IntervalUnit] `json:"interval_unit"`
     Prices               []UpdatePrice          `json:"prices,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for UpdateComponentPricePoint,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (u UpdateComponentPricePoint) String() string {
+    return fmt.Sprintf(
+    	"UpdateComponentPricePoint[Name=%v, Handle=%v, PricingScheme=%v, UseSiteExchangeRate=%v, TaxIncluded=%v, Interval=%v, IntervalUnit=%v, Prices=%v, AdditionalProperties=%v]",
+    	u.Name, u.Handle, u.PricingScheme, u.UseSiteExchangeRate, u.TaxIncluded, u.Interval, u.IntervalUnit, u.Prices, u.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for UpdateComponentPricePoint.

@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // ListInvoiceEventsResponse represents a ListInvoiceEventsResponse struct.
@@ -16,6 +17,14 @@ type ListInvoiceEventsResponse struct {
     PerPage              *int                   `json:"per_page,omitempty"`
     TotalPages           *int                   `json:"total_pages,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for ListInvoiceEventsResponse,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (l ListInvoiceEventsResponse) String() string {
+    return fmt.Sprintf(
+    	"ListInvoiceEventsResponse[Events=%v, Page=%v, PerPage=%v, TotalPages=%v, AdditionalProperties=%v]",
+    	l.Events, l.Page, l.PerPage, l.TotalPages, l.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for ListInvoiceEventsResponse.

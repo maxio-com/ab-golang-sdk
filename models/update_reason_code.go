@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // UpdateReasonCode represents a UpdateReasonCode struct.
@@ -18,6 +19,14 @@ type UpdateReasonCode struct {
     // The order that code appears in lists
     Position             *int                   `json:"position,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for UpdateReasonCode,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (u UpdateReasonCode) String() string {
+    return fmt.Sprintf(
+    	"UpdateReasonCode[Code=%v, Description=%v, Position=%v, AdditionalProperties=%v]",
+    	u.Code, u.Description, u.Position, u.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for UpdateReasonCode.

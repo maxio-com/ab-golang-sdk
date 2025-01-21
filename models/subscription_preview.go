@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // SubscriptionPreview represents a SubscriptionPreview struct.
@@ -14,6 +15,14 @@ type SubscriptionPreview struct {
     CurrentBillingManifest *BillingManifest       `json:"current_billing_manifest,omitempty"`
     NextBillingManifest    *BillingManifest       `json:"next_billing_manifest,omitempty"`
     AdditionalProperties   map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for SubscriptionPreview,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (s SubscriptionPreview) String() string {
+    return fmt.Sprintf(
+    	"SubscriptionPreview[CurrentBillingManifest=%v, NextBillingManifest=%v, AdditionalProperties=%v]",
+    	s.CurrentBillingManifest, s.NextBillingManifest, s.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for SubscriptionPreview.

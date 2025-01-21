@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
     "log"
     "time"
 )
@@ -46,6 +47,14 @@ type FullSubscriptionGroupResponse struct {
     Customer                    *SubscriptionGroupCustomer `json:"customer,omitempty"`
     AccountBalances             *SubscriptionGroupBalances `json:"account_balances,omitempty"`
     AdditionalProperties        map[string]interface{}     `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for FullSubscriptionGroupResponse,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (f FullSubscriptionGroupResponse) String() string {
+    return fmt.Sprintf(
+    	"FullSubscriptionGroupResponse[Uid=%v, Scheme=%v, CustomerId=%v, PaymentProfileId=%v, SubscriptionIds=%v, PrimarySubscriptionId=%v, NextAssessmentAt=%v, State=%v, CancelAtEndOfPeriod=%v, CurrentBillingAmountInCents=%v, Customer=%v, AccountBalances=%v, AdditionalProperties=%v]",
+    	f.Uid, f.Scheme, f.CustomerId, f.PaymentProfileId, f.SubscriptionIds, f.PrimarySubscriptionId, f.NextAssessmentAt, f.State, f.CancelAtEndOfPeriod, f.CurrentBillingAmountInCents, f.Customer, f.AccountBalances, f.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for FullSubscriptionGroupResponse.

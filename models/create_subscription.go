@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
     "log"
     "time"
 )
@@ -105,6 +106,14 @@ type CreateSubscription struct {
     // Valid only for the Subscription Preview endpoint. When set to `true` it skips calculating taxes for the current and next billing manifests.
     SkipBillingManifestTaxes          *bool                         `json:"skip_billing_manifest_taxes,omitempty"`
     AdditionalProperties              map[string]interface{}        `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for CreateSubscription,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (c CreateSubscription) String() string {
+    return fmt.Sprintf(
+    	"CreateSubscription[ProductHandle=%v, ProductId=%v, ProductPricePointHandle=%v, ProductPricePointId=%v, CustomPrice=%v, CouponCode=%v, CouponCodes=%v, PaymentCollectionMethod=%v, ReceivesInvoiceEmails=%v, NetTerms=%v, CustomerId=%v, NextBillingAt=%v, InitialBillingAt=%v, StoredCredentialTransactionId=%v, SalesRepId=%v, PaymentProfileId=%v, Reference=%v, CustomerAttributes=%v, PaymentProfileAttributes=%v, CreditCardAttributes=%v, BankAccountAttributes=%v, Components=%v, CalendarBilling=%v, Metafields=%v, CustomerReference=%v, Group=%v, Ref=%v, CancellationMessage=%v, CancellationMethod=%v, Currency=%v, ExpiresAt=%v, ExpirationTracksNextBillingChange=%v, AgreementTerms=%v, AuthorizerFirstName=%v, AuthorizerLastName=%v, CalendarBillingFirstCharge=%v, ReasonCode=%v, ProductChangeDelayed=%v, OfferId=%v, PrepaidConfiguration=%v, PreviousBillingAt=%v, ImportMrr=%v, CanceledAt=%v, ActivatedAt=%v, AgreementAcceptance=%v, AchAgreement=%v, DunningCommunicationDelayEnabled=%v, DunningCommunicationDelayTimeZone=%v, SkipBillingManifestTaxes=%v, AdditionalProperties=%v]",
+    	c.ProductHandle, c.ProductId, c.ProductPricePointHandle, c.ProductPricePointId, c.CustomPrice, c.CouponCode, c.CouponCodes, c.PaymentCollectionMethod, c.ReceivesInvoiceEmails, c.NetTerms, c.CustomerId, c.NextBillingAt, c.InitialBillingAt, c.StoredCredentialTransactionId, c.SalesRepId, c.PaymentProfileId, c.Reference, c.CustomerAttributes, c.PaymentProfileAttributes, c.CreditCardAttributes, c.BankAccountAttributes, c.Components, c.CalendarBilling, c.Metafields, c.CustomerReference, c.Group, c.Ref, c.CancellationMessage, c.CancellationMethod, c.Currency, c.ExpiresAt, c.ExpirationTracksNextBillingChange, c.AgreementTerms, c.AuthorizerFirstName, c.AuthorizerLastName, c.CalendarBillingFirstCharge, c.ReasonCode, c.ProductChangeDelayed, c.OfferId, c.PrepaidConfiguration, c.PreviousBillingAt, c.ImportMrr, c.CanceledAt, c.ActivatedAt, c.AgreementAcceptance, c.AchAgreement, c.DunningCommunicationDelayEnabled, c.DunningCommunicationDelayTimeZone, c.SkipBillingManifestTaxes, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreateSubscription.

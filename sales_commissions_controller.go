@@ -7,7 +7,6 @@ package advancedbilling
 
 import (
     "context"
-    "fmt"
     "github.com/apimatic/go-core-runtime/utilities"
     "github.com/maxio-com/ab-golang-sdk/models"
 )
@@ -52,11 +51,8 @@ func (s *SalesCommissionsController) ListSalesCommissionSettings(
     input ListSalesCommissionSettingsInput) (
     models.ApiResponse[[]models.SaleRepSettings],
     error) {
-    req := s.prepareRequest(
-      ctx,
-      "GET",
-      fmt.Sprintf("/sellers/%v/sales_commission_settings.json", input.SellerId),
-    )
+    req := s.prepareRequest(ctx, "GET", "/sellers/%v/sales_commission_settings.json")
+    req.AppendTemplateParams(input.SellerId)
     req.Authenticate(NewAuth("BasicAuth"))
     if input.Authorization != nil {
         req.Header("Authorization", *input.Authorization)
@@ -109,11 +105,8 @@ func (s *SalesCommissionsController) ListSalesReps(
     input ListSalesRepsInput) (
     models.ApiResponse[[]models.ListSaleRepItem],
     error) {
-    req := s.prepareRequest(
-      ctx,
-      "GET",
-      fmt.Sprintf("/sellers/%v/sales_reps.json", input.SellerId),
-    )
+    req := s.prepareRequest(ctx, "GET", "/sellers/%v/sales_reps.json")
+    req.AppendTemplateParams(input.SellerId)
     req.Authenticate(NewAuth("BasicAuth"))
     if input.Authorization != nil {
         req.Header("Authorization", *input.Authorization)
@@ -156,11 +149,8 @@ func (s *SalesCommissionsController) ReadSalesRep(
     perPage *int) (
     models.ApiResponse[models.SaleRep],
     error) {
-    req := s.prepareRequest(
-      ctx,
-      "GET",
-      fmt.Sprintf("/sellers/%v/sales_reps/%v.json", sellerId, salesRepId),
-    )
+    req := s.prepareRequest(ctx, "GET", "/sellers/%v/sales_reps/%v.json")
+    req.AppendTemplateParams(sellerId, salesRepId)
     req.Authenticate(NewAuth("BasicAuth"))
     if authorization != nil {
         req.Header("Authorization", *authorization)

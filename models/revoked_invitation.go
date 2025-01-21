@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // RevokedInvitation represents a RevokedInvitation struct.
@@ -15,6 +16,14 @@ type RevokedInvitation struct {
     LastAcceptedAt       *string                `json:"last_accepted_at,omitempty"`
     UninvitedCount       *int                   `json:"uninvited_count,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for RevokedInvitation,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (r RevokedInvitation) String() string {
+    return fmt.Sprintf(
+    	"RevokedInvitation[LastSentAt=%v, LastAcceptedAt=%v, UninvitedCount=%v, AdditionalProperties=%v]",
+    	r.LastSentAt, r.LastAcceptedAt, r.UninvitedCount, r.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for RevokedInvitation.

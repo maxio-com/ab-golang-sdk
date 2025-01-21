@@ -7,12 +7,21 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // CouponSubcodes represents a CouponSubcodes struct.
 type CouponSubcodes struct {
     Codes                []string               `json:"codes,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for CouponSubcodes,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (c CouponSubcodes) String() string {
+    return fmt.Sprintf(
+    	"CouponSubcodes[Codes=%v, AdditionalProperties=%v]",
+    	c.Codes, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for CouponSubcodes.

@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "strings"
 )
 
@@ -42,6 +43,14 @@ type ApplePayPaymentProfile struct {
     SiteGatewaySettingId Optional[int]          `json:"site_gateway_setting_id"`
     GatewayHandle        Optional[string]       `json:"gateway_handle"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for ApplePayPaymentProfile,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (a ApplePayPaymentProfile) String() string {
+    return fmt.Sprintf(
+    	"ApplePayPaymentProfile[Id=%v, FirstName=%v, LastName=%v, CustomerId=%v, CurrentVault=%v, VaultToken=%v, BillingAddress=%v, BillingCity=%v, BillingState=%v, BillingZip=%v, BillingCountry=%v, CustomerVaultToken=%v, BillingAddress2=%v, PaymentType=%v, SiteGatewaySettingId=%v, GatewayHandle=%v, AdditionalProperties=%v]",
+    	a.Id, a.FirstName, a.LastName, a.CustomerId, a.CurrentVault, a.VaultToken, a.BillingAddress, a.BillingCity, a.BillingState, a.BillingZip, a.BillingCountry, a.CustomerVaultToken, a.BillingAddress2, a.PaymentType, a.SiteGatewaySettingId, a.GatewayHandle, a.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for ApplePayPaymentProfile.

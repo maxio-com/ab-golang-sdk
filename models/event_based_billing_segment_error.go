@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "strings"
 )
 
@@ -16,6 +17,14 @@ type EventBasedBillingSegmentError struct {
     // The key of the object would be a number (an index in the request array) where the error occurred. In the value object, the key represents the field and the value is an array with error messages. In most cases, this object would contain just one key.
     Segments             map[string]interface{} `json:"segments"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for EventBasedBillingSegmentError,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (e EventBasedBillingSegmentError) String() string {
+    return fmt.Sprintf(
+    	"EventBasedBillingSegmentError[Segments=%v, AdditionalProperties=%v]",
+    	e.Segments, e.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for EventBasedBillingSegmentError.

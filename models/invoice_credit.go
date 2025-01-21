@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
     "log"
     "time"
 )
@@ -21,6 +22,14 @@ type InvoiceCredit struct {
     OriginalAmount       *string                `json:"original_amount,omitempty"`
     AppliedAmount        *string                `json:"applied_amount,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for InvoiceCredit,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (i InvoiceCredit) String() string {
+    return fmt.Sprintf(
+    	"InvoiceCredit[Uid=%v, CreditNoteNumber=%v, CreditNoteUid=%v, TransactionTime=%v, Memo=%v, OriginalAmount=%v, AppliedAmount=%v, AdditionalProperties=%v]",
+    	i.Uid, i.CreditNoteNumber, i.CreditNoteUid, i.TransactionTime, i.Memo, i.OriginalAmount, i.AppliedAmount, i.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for InvoiceCredit.

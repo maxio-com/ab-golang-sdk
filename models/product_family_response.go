@@ -7,12 +7,21 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // ProductFamilyResponse represents a ProductFamilyResponse struct.
 type ProductFamilyResponse struct {
     ProductFamily        *ProductFamily         `json:"product_family,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for ProductFamilyResponse,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (p ProductFamilyResponse) String() string {
+    return fmt.Sprintf(
+    	"ProductFamilyResponse[ProductFamily=%v, AdditionalProperties=%v]",
+    	p.ProductFamily, p.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for ProductFamilyResponse.

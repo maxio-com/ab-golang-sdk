@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // BankAccountVerification represents a BankAccountVerification struct.
@@ -14,6 +15,14 @@ type BankAccountVerification struct {
     Deposit1InCents      *int64                 `json:"deposit_1_in_cents,omitempty"`
     Deposit2InCents      *int64                 `json:"deposit_2_in_cents,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for BankAccountVerification,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (b BankAccountVerification) String() string {
+    return fmt.Sprintf(
+    	"BankAccountVerification[Deposit1InCents=%v, Deposit2InCents=%v, AdditionalProperties=%v]",
+    	b.Deposit1InCents, b.Deposit2InCents, b.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for BankAccountVerification.

@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "log"
     "strings"
     "time"
@@ -33,6 +34,14 @@ type InvoiceIssued struct {
     ConsolidationLevel   string                     `json:"consolidation_level"`
     LineItems            []InvoiceLineItemEventData `json:"line_items"`
     AdditionalProperties map[string]interface{}     `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for InvoiceIssued,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (i InvoiceIssued) String() string {
+    return fmt.Sprintf(
+    	"InvoiceIssued[Uid=%v, Number=%v, Role=%v, DueDate=%v, IssueDate=%v, PaidDate=%v, DueAmount=%v, PaidAmount=%v, TaxAmount=%v, RefundAmount=%v, TotalAmount=%v, StatusAmount=%v, ProductName=%v, ConsolidationLevel=%v, LineItems=%v, AdditionalProperties=%v]",
+    	i.Uid, i.Number, i.Role, i.DueDate, i.IssueDate, i.PaidDate, i.DueAmount, i.PaidAmount, i.TaxAmount, i.RefundAmount, i.TotalAmount, i.StatusAmount, i.ProductName, i.ConsolidationLevel, i.LineItems, i.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for InvoiceIssued.

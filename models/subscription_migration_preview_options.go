@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
     "log"
     "time"
 )
@@ -33,6 +34,14 @@ type SubscriptionMigrationPreviewOptions struct {
     // The date that the proration is calculated from for the preview
     ProrationDate           *time.Time             `json:"proration_date,omitempty"`
     AdditionalProperties    map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for SubscriptionMigrationPreviewOptions,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (s SubscriptionMigrationPreviewOptions) String() string {
+    return fmt.Sprintf(
+    	"SubscriptionMigrationPreviewOptions[ProductId=%v, ProductPricePointId=%v, IncludeTrial=%v, IncludeInitialCharge=%v, IncludeCoupons=%v, PreservePeriod=%v, ProductHandle=%v, ProductPricePointHandle=%v, Proration=%v, ProrationDate=%v, AdditionalProperties=%v]",
+    	s.ProductId, s.ProductPricePointId, s.IncludeTrial, s.IncludeInitialCharge, s.IncludeCoupons, s.PreservePeriod, s.ProductHandle, s.ProductPricePointHandle, s.Proration, s.ProrationDate, s.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for SubscriptionMigrationPreviewOptions.

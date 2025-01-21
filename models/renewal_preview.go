@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
     "log"
     "time"
 )
@@ -32,6 +33,14 @@ type RenewalPreview struct {
     // An array of objects representing the individual transactions that will be created at the next renewal
     LineItems              []RenewalPreviewLineItem `json:"line_items,omitempty"`
     AdditionalProperties   map[string]interface{}   `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for RenewalPreview,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (r RenewalPreview) String() string {
+    return fmt.Sprintf(
+    	"RenewalPreview[NextAssessmentAt=%v, SubtotalInCents=%v, TotalTaxInCents=%v, TotalDiscountInCents=%v, TotalInCents=%v, ExistingBalanceInCents=%v, TotalAmountDueInCents=%v, UncalculatedTaxes=%v, LineItems=%v, AdditionalProperties=%v]",
+    	r.NextAssessmentAt, r.SubtotalInCents, r.TotalTaxInCents, r.TotalDiscountInCents, r.TotalInCents, r.ExistingBalanceInCents, r.TotalAmountDueInCents, r.UncalculatedTaxes, r.LineItems, r.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for RenewalPreview.

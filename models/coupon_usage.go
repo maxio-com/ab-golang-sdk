@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // CouponUsage represents a CouponUsage struct.
@@ -26,6 +27,14 @@ type CouponUsage struct {
     // Total revenue of the all subscriptions that have received a discount from this coupon.
     RevenueInCents       *int64                 `json:"revenue_in_cents,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for CouponUsage,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (c CouponUsage) String() string {
+    return fmt.Sprintf(
+    	"CouponUsage[Id=%v, Name=%v, Signups=%v, Savings=%v, SavingsInCents=%v, Revenue=%v, RevenueInCents=%v, AdditionalProperties=%v]",
+    	c.Id, c.Name, c.Signups, c.Savings, c.SavingsInCents, c.Revenue, c.RevenueInCents, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for CouponUsage.

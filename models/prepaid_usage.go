@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "strings"
 )
 
@@ -24,6 +25,14 @@ type PrepaidUsage struct {
     Memo                       string                         `json:"memo"`
     AllocationDetails          []PrepaidUsageAllocationDetail `json:"allocation_details"`
     AdditionalProperties       map[string]interface{}         `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for PrepaidUsage,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (p PrepaidUsage) String() string {
+    return fmt.Sprintf(
+    	"PrepaidUsage[PreviousUnitBalance=%v, PreviousOverageUnitBalance=%v, NewUnitBalance=%v, NewOverageUnitBalance=%v, UsageQuantity=%v, OverageUsageQuantity=%v, ComponentId=%v, ComponentHandle=%v, Memo=%v, AllocationDetails=%v, AdditionalProperties=%v]",
+    	p.PreviousUnitBalance, p.PreviousOverageUnitBalance, p.NewUnitBalance, p.NewOverageUnitBalance, p.UsageQuantity, p.OverageUsageQuantity, p.ComponentId, p.ComponentHandle, p.Memo, p.AllocationDetails, p.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for PrepaidUsage.

@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
     "log"
     "time"
 )
@@ -77,6 +78,14 @@ type Product struct {
     ProductPricePointId        *int                             `json:"product_price_point_id,omitempty"`
     ProductPricePointHandle    Optional[string]                 `json:"product_price_point_handle"`
     AdditionalProperties       map[string]interface{}           `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for Product,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (p Product) String() string {
+    return fmt.Sprintf(
+    	"Product[Id=%v, Name=%v, Handle=%v, Description=%v, AccountingCode=%v, RequestCreditCard=%v, ExpirationInterval=%v, ExpirationIntervalUnit=%v, CreatedAt=%v, UpdatedAt=%v, PriceInCents=%v, Interval=%v, IntervalUnit=%v, InitialChargeInCents=%v, TrialPriceInCents=%v, TrialInterval=%v, TrialIntervalUnit=%v, ArchivedAt=%v, RequireCreditCard=%v, ReturnParams=%v, Taxable=%v, UpdateReturnUrl=%v, InitialChargeAfterTrial=%v, VersionNumber=%v, UpdateReturnParams=%v, ProductFamily=%v, PublicSignupPages=%v, ProductPricePointName=%v, RequestBillingAddress=%v, RequireBillingAddress=%v, RequireShippingAddress=%v, TaxCode=%v, DefaultProductPricePointId=%v, UseSiteExchangeRate=%v, ItemCategory=%v, ProductPricePointId=%v, ProductPricePointHandle=%v, AdditionalProperties=%v]",
+    	p.Id, p.Name, p.Handle, p.Description, p.AccountingCode, p.RequestCreditCard, p.ExpirationInterval, p.ExpirationIntervalUnit, p.CreatedAt, p.UpdatedAt, p.PriceInCents, p.Interval, p.IntervalUnit, p.InitialChargeInCents, p.TrialPriceInCents, p.TrialInterval, p.TrialIntervalUnit, p.ArchivedAt, p.RequireCreditCard, p.ReturnParams, p.Taxable, p.UpdateReturnUrl, p.InitialChargeAfterTrial, p.VersionNumber, p.UpdateReturnParams, p.ProductFamily, p.PublicSignupPages, p.ProductPricePointName, p.RequestBillingAddress, p.RequireBillingAddress, p.RequireShippingAddress, p.TaxCode, p.DefaultProductPricePointId, p.UseSiteExchangeRate, p.ItemCategory, p.ProductPricePointId, p.ProductPricePointHandle, p.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for Product.

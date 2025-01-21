@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // InvoiceDiscountBreakout represents a InvoiceDiscountBreakout struct.
@@ -15,6 +16,14 @@ type InvoiceDiscountBreakout struct {
     EligibleAmount       *string                `json:"eligible_amount,omitempty"`
     DiscountAmount       *string                `json:"discount_amount,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for InvoiceDiscountBreakout,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (i InvoiceDiscountBreakout) String() string {
+    return fmt.Sprintf(
+    	"InvoiceDiscountBreakout[Uid=%v, EligibleAmount=%v, DiscountAmount=%v, AdditionalProperties=%v]",
+    	i.Uid, i.EligibleAmount, i.DiscountAmount, i.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for InvoiceDiscountBreakout.

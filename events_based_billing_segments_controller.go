@@ -7,7 +7,6 @@ package advancedbilling
 
 import (
     "context"
-    "fmt"
     "github.com/apimatic/go-core-runtime/https"
     "github.com/apimatic/go-core-runtime/utilities"
     "github.com/maxio-com/ab-golang-sdk/errors"
@@ -42,8 +41,9 @@ func (e *EventsBasedBillingSegmentsController) CreateSegment(
     req := e.prepareRequest(
       ctx,
       "POST",
-      fmt.Sprintf("/components/%v/price_points/%v/segments.json", componentId, pricePointId),
+      "/components/%v/price_points/%v/segments.json",
     )
+    req.AppendTemplateParams(componentId, pricePointId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
@@ -94,8 +94,9 @@ func (e *EventsBasedBillingSegmentsController) ListSegmentsForPricePoint(
     req := e.prepareRequest(
       ctx,
       "GET",
-      fmt.Sprintf("/components/%v/price_points/%v/segments.json", input.ComponentId, input.PricePointId),
+      "/components/%v/price_points/%v/segments.json",
     )
+    req.AppendTemplateParams(input.ComponentId, input.PricePointId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
@@ -137,8 +138,9 @@ func (e *EventsBasedBillingSegmentsController) UpdateSegment(
     req := e.prepareRequest(
       ctx,
       "PUT",
-      fmt.Sprintf("/components/%v/price_points/%v/segments/%v.json", componentId, pricePointId, id),
+      "/components/%v/price_points/%v/segments/%v.json",
     )
+    req.AppendTemplateParams(componentId, pricePointId, id)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
@@ -174,8 +176,9 @@ func (e *EventsBasedBillingSegmentsController) DeleteSegment(
     req := e.prepareRequest(
       ctx,
       "DELETE",
-      fmt.Sprintf("/components/%v/price_points/%v/segments/%v.json", componentId, pricePointId, id),
+      "/components/%v/price_points/%v/segments/%v.json",
     )
+    req.AppendTemplateParams(componentId, pricePointId, id)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
@@ -205,8 +208,9 @@ func (e *EventsBasedBillingSegmentsController) BulkCreateSegments(
     req := e.prepareRequest(
       ctx,
       "POST",
-      fmt.Sprintf("/components/%v/price_points/%v/segments/bulk.json", componentId, pricePointId),
+      "/components/%v/price_points/%v/segments/bulk.json",
     )
+    req.AppendTemplateParams(componentId, pricePointId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
@@ -243,8 +247,9 @@ func (e *EventsBasedBillingSegmentsController) BulkUpdateSegments(
     req := e.prepareRequest(
       ctx,
       "PUT",
-      fmt.Sprintf("/components/%v/price_points/%v/segments/bulk.json", componentId, pricePointId),
+      "/components/%v/price_points/%v/segments/bulk.json",
     )
+    req.AppendTemplateParams(componentId, pricePointId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "404": {TemplatedMessage: "Not Found:'{$response.body}'"},

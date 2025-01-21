@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // InvoicePaymentApplication represents a InvoicePaymentApplication struct.
@@ -18,6 +19,14 @@ type InvoicePaymentApplication struct {
     // Dollar amount of the paid invoice.
     AppliedAmount        *string                `json:"applied_amount,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for InvoicePaymentApplication,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (i InvoicePaymentApplication) String() string {
+    return fmt.Sprintf(
+    	"InvoicePaymentApplication[InvoiceUid=%v, ApplicationUid=%v, AppliedAmount=%v, AdditionalProperties=%v]",
+    	i.InvoiceUid, i.ApplicationUid, i.AppliedAmount, i.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for InvoicePaymentApplication.

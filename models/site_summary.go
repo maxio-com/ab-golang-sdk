@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // SiteSummary represents a SiteSummary struct.
@@ -17,6 +18,14 @@ type SiteSummary struct {
     SiteCurrency         *string                `json:"site_currency,omitempty"`
     Stats                *SiteStatistics        `json:"stats,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for SiteSummary,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (s SiteSummary) String() string {
+    return fmt.Sprintf(
+    	"SiteSummary[SellerName=%v, SiteName=%v, SiteId=%v, SiteCurrency=%v, Stats=%v, AdditionalProperties=%v]",
+    	s.SellerName, s.SiteName, s.SiteId, s.SiteCurrency, s.Stats, s.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for SiteSummary.

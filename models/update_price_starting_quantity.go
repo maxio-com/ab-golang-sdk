@@ -8,7 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
-    "strings"
+    "fmt"
 )
 
 // UpdatePriceStartingQuantity represents a UpdatePriceStartingQuantity struct.
@@ -19,12 +19,10 @@ type UpdatePriceStartingQuantity struct {
     isString bool
 }
 
-// String converts the UpdatePriceStartingQuantity object to a string representation.
+// String implements the fmt.Stringer interface for UpdatePriceStartingQuantity,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
 func (u UpdatePriceStartingQuantity) String() string {
-    if bytes, err := json.Marshal(u.value); err == nil {
-         return strings.Trim(string(bytes), "\"")
-    }
-    return ""
+    return fmt.Sprintf("%v", u.value)
 }
 
 // MarshalJSON implements the json.Marshaler interface for UpdatePriceStartingQuantity.

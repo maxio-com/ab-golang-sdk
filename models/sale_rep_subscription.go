@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // SaleRepSubscription represents a SaleRepSubscription struct.
@@ -22,6 +23,14 @@ type SaleRepSubscription struct {
     LastPayment          *string                `json:"last_payment,omitempty"`
     ChurnDate            Optional[string]       `json:"churn_date"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for SaleRepSubscription,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (s SaleRepSubscription) String() string {
+    return fmt.Sprintf(
+    	"SaleRepSubscription[Id=%v, SiteName=%v, SubscriptionUrl=%v, CustomerName=%v, CreatedAt=%v, Mrr=%v, Usage=%v, Recurring=%v, LastPayment=%v, ChurnDate=%v, AdditionalProperties=%v]",
+    	s.Id, s.SiteName, s.SubscriptionUrl, s.CustomerName, s.CreatedAt, s.Mrr, s.Usage, s.Recurring, s.LastPayment, s.ChurnDate, s.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for SaleRepSubscription.

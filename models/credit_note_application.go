@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
     "log"
     "time"
 )
@@ -19,6 +20,14 @@ type CreditNoteApplication struct {
     Memo                 *string                `json:"memo,omitempty"`
     AppliedAmount        *string                `json:"applied_amount,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for CreditNoteApplication,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (c CreditNoteApplication) String() string {
+    return fmt.Sprintf(
+    	"CreditNoteApplication[Uid=%v, TransactionTime=%v, InvoiceUid=%v, Memo=%v, AppliedAmount=%v, AdditionalProperties=%v]",
+    	c.Uid, c.TransactionTime, c.InvoiceUid, c.Memo, c.AppliedAmount, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreditNoteApplication.

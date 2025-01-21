@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // ListPublicKeysResponse represents a ListPublicKeysResponse struct.
@@ -14,6 +15,14 @@ type ListPublicKeysResponse struct {
     ChargifyJsKeys       []PublicKey            `json:"chargify_js_keys,omitempty"`
     Meta                 *ListPublicKeysMeta    `json:"meta,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for ListPublicKeysResponse,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (l ListPublicKeysResponse) String() string {
+    return fmt.Sprintf(
+    	"ListPublicKeysResponse[ChargifyJsKeys=%v, Meta=%v, AdditionalProperties=%v]",
+    	l.ChargifyJsKeys, l.Meta, l.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for ListPublicKeysResponse.

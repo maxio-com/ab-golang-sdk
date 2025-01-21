@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // ListProformaInvoicesMeta represents a ListProformaInvoicesMeta struct.
@@ -16,6 +17,14 @@ type ListProformaInvoicesMeta struct {
     TotalPages           *int                   `json:"total_pages,omitempty"`
     StatusCode           *int                   `json:"status_code,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for ListProformaInvoicesMeta,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (l ListProformaInvoicesMeta) String() string {
+    return fmt.Sprintf(
+    	"ListProformaInvoicesMeta[TotalCount=%v, CurrentPage=%v, TotalPages=%v, StatusCode=%v, AdditionalProperties=%v]",
+    	l.TotalCount, l.CurrentPage, l.TotalPages, l.StatusCode, l.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for ListProformaInvoicesMeta.

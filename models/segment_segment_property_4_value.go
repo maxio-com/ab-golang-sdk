@@ -8,7 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
-    "strings"
+    "fmt"
 )
 
 // SegmentSegmentProperty4Value represents a SegmentSegmentProperty4Value struct.
@@ -21,12 +21,10 @@ type SegmentSegmentProperty4Value struct {
     isBoolean   bool
 }
 
-// String converts the SegmentSegmentProperty4Value object to a string representation.
+// String implements the fmt.Stringer interface for SegmentSegmentProperty4Value,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
 func (s SegmentSegmentProperty4Value) String() string {
-    if bytes, err := json.Marshal(s.value); err == nil {
-         return strings.Trim(string(bytes), "\"")
-    }
-    return ""
+    return fmt.Sprintf("%v", s.value)
 }
 
 // MarshalJSON implements the json.Marshaler interface for SegmentSegmentProperty4Value.

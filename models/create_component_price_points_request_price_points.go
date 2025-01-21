@@ -8,7 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
-    "strings"
+    "fmt"
 )
 
 // CreateComponentPricePointsRequestPricePoints represents a CreateComponentPricePointsRequestPricePoints struct.
@@ -19,12 +19,10 @@ type CreateComponentPricePointsRequestPricePoints struct {
     isCreatePrepaidUsageComponentPricePoint bool
 }
 
-// String converts the CreateComponentPricePointsRequestPricePoints object to a string representation.
+// String implements the fmt.Stringer interface for CreateComponentPricePointsRequestPricePoints,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
 func (c CreateComponentPricePointsRequestPricePoints) String() string {
-    if bytes, err := json.Marshal(c.value); err == nil {
-         return strings.Trim(string(bytes), "\"")
-    }
-    return ""
+    return fmt.Sprintf("%v", c.value)
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreateComponentPricePointsRequestPricePoints.

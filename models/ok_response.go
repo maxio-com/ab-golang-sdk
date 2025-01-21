@@ -7,12 +7,21 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // OkResponse represents a OkResponse struct.
 type OkResponse struct {
     Ok                   *string                `json:"ok,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for OkResponse,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (o OkResponse) String() string {
+    return fmt.Sprintf(
+    	"OkResponse[Ok=%v, AdditionalProperties=%v]",
+    	o.Ok, o.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for OkResponse.

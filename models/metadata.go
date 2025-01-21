@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
     "log"
     "time"
 )
@@ -20,6 +21,14 @@ type Metadata struct {
     DeletedAt            Optional[time.Time]    `json:"deleted_at"`
     MetafieldId          Optional[int]          `json:"metafield_id"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for Metadata,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (m Metadata) String() string {
+    return fmt.Sprintf(
+    	"Metadata[Id=%v, Value=%v, ResourceId=%v, Name=%v, DeletedAt=%v, MetafieldId=%v, AdditionalProperties=%v]",
+    	m.Id, m.Value, m.ResourceId, m.Name, m.DeletedAt, m.MetafieldId, m.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for Metadata.

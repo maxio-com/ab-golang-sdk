@@ -7,7 +7,6 @@ package advancedbilling
 
 import (
     "context"
-    "fmt"
     "github.com/apimatic/go-core-runtime/https"
     "github.com/apimatic/go-core-runtime/utilities"
     "github.com/maxio-com/ab-golang-sdk/errors"
@@ -242,6 +241,7 @@ func (p *PaymentProfilesController) CreatePaymentProfile(
     models.ApiResponse[models.PaymentProfileResponse],
     error) {
     req := p.prepareRequest(ctx, "POST", "/payment_profiles.json")
+    
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
@@ -283,6 +283,7 @@ func (p *PaymentProfilesController) ListPaymentProfiles(
     models.ApiResponse[[]models.PaymentProfileResponse],
     error) {
     req := p.prepareRequest(ctx, "GET", "/payment_profiles.json")
+    
     req.Authenticate(NewAuth("BasicAuth"))
     if input.Page != nil {
         req.QueryParam("page", *input.Page)
@@ -342,11 +343,8 @@ func (p *PaymentProfilesController) ReadPaymentProfile(
     paymentProfileId int) (
     models.ApiResponse[models.PaymentProfileResponse],
     error) {
-    req := p.prepareRequest(
-      ctx,
-      "GET",
-      fmt.Sprintf("/payment_profiles/%v.json", paymentProfileId),
-    )
+    req := p.prepareRequest(ctx, "GET", "/payment_profiles/%v.json")
+    req.AppendTemplateParams(paymentProfileId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "404": {Message: "Not Found"},
@@ -395,11 +393,8 @@ func (p *PaymentProfilesController) UpdatePaymentProfile(
     body *models.UpdatePaymentProfileRequest) (
     models.ApiResponse[models.PaymentProfileResponse],
     error) {
-    req := p.prepareRequest(
-      ctx,
-      "PUT",
-      fmt.Sprintf("/payment_profiles/%v.json", paymentProfileId),
-    )
+    req := p.prepareRequest(ctx, "PUT", "/payment_profiles/%v.json")
+    req.AppendTemplateParams(paymentProfileId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "404": {Message: "Not Found"},
@@ -430,11 +425,8 @@ func (p *PaymentProfilesController) DeleteUnusedPaymentProfile(
     paymentProfileId int) (
     *http.Response,
     error) {
-    req := p.prepareRequest(
-      ctx,
-      "DELETE",
-      fmt.Sprintf("/payment_profiles/%v.json", paymentProfileId),
-    )
+    req := p.prepareRequest(ctx, "DELETE", "/payment_profiles/%v.json")
+    req.AppendTemplateParams(paymentProfileId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "404": {Message: "Not Found"},
@@ -463,8 +455,9 @@ func (p *PaymentProfilesController) DeleteSubscriptionsPaymentProfile(
     req := p.prepareRequest(
       ctx,
       "DELETE",
-      fmt.Sprintf("/subscriptions/%v/payment_profiles/%v.json", subscriptionId, paymentProfileId),
+      "/subscriptions/%v/payment_profiles/%v.json",
     )
+    req.AppendTemplateParams(subscriptionId, paymentProfileId)
     req.Authenticate(NewAuth("BasicAuth"))
     
     httpCtx, err := req.Call()
@@ -484,11 +477,8 @@ func (p *PaymentProfilesController) VerifyBankAccount(
     body *models.BankAccountVerificationRequest) (
     models.ApiResponse[models.BankAccountResponse],
     error) {
-    req := p.prepareRequest(
-      ctx,
-      "PUT",
-      fmt.Sprintf("/bank_accounts/%v/verification.json", bankAccountId),
-    )
+    req := p.prepareRequest(ctx, "PUT", "/bank_accounts/%v/verification.json")
+    req.AppendTemplateParams(bankAccountId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
@@ -523,8 +513,9 @@ func (p *PaymentProfilesController) DeleteSubscriptionGroupPaymentProfile(
     req := p.prepareRequest(
       ctx,
       "DELETE",
-      fmt.Sprintf("/subscription_groups/%v/payment_profiles/%v.json", uid, paymentProfileId),
+      "/subscription_groups/%v/payment_profiles/%v.json",
     )
+    req.AppendTemplateParams(uid, paymentProfileId)
     req.Authenticate(NewAuth("BasicAuth"))
     
     httpCtx, err := req.Call()
@@ -548,8 +539,9 @@ func (p *PaymentProfilesController) ChangeSubscriptionDefaultPaymentProfile(
     req := p.prepareRequest(
       ctx,
       "POST",
-      fmt.Sprintf("/subscriptions/%v/payment_profiles/%v/change_payment_profile.json", subscriptionId, paymentProfileId),
+      "/subscriptions/%v/payment_profiles/%v/change_payment_profile.json",
     )
+    req.AppendTemplateParams(subscriptionId, paymentProfileId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "404": {Message: "Not Found"},
@@ -581,8 +573,9 @@ func (p *PaymentProfilesController) ChangeSubscriptionGroupDefaultPaymentProfile
     req := p.prepareRequest(
       ctx,
       "POST",
-      fmt.Sprintf("/subscription_groups/%v/payment_profiles/%v/change_payment_profile.json", uid, paymentProfileId),
+      "/subscription_groups/%v/payment_profiles/%v/change_payment_profile.json",
     )
+    req.AppendTemplateParams(uid, paymentProfileId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
@@ -609,11 +602,8 @@ func (p *PaymentProfilesController) ReadOneTimeToken(
     chargifyToken string) (
     models.ApiResponse[models.GetOneTimeTokenRequest],
     error) {
-    req := p.prepareRequest(
-      ctx,
-      "GET",
-      fmt.Sprintf("/one_time_tokens/%v.json", chargifyToken),
-    )
+    req := p.prepareRequest(ctx, "GET", "/one_time_tokens/%v.json")
+    req.AppendTemplateParams(chargifyToken)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "404": {TemplatedMessage: "Not Found:'{$response.body}'", Unmarshaller: errors.NewErrorListResponse},
@@ -644,8 +634,9 @@ func (p *PaymentProfilesController) SendRequestUpdatePaymentEmail(
     req := p.prepareRequest(
       ctx,
       "POST",
-      fmt.Sprintf("/subscriptions/%v/request_payment_profiles_update.json", subscriptionId),
+      "/subscriptions/%v/request_payment_profiles_update.json",
     )
+    req.AppendTemplateParams(subscriptionId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "404": {TemplatedMessage: "Not Found:'{$response.body}'"},

@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // ProformaInvoiceTax represents a ProformaInvoiceTax struct.
@@ -19,6 +20,14 @@ type ProformaInvoiceTax struct {
     TaxAmount            *string                       `json:"tax_amount,omitempty"`
     LineItemBreakouts    []InvoiceTaxBreakout          `json:"line_item_breakouts,omitempty"`
     AdditionalProperties map[string]interface{}        `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for ProformaInvoiceTax,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (p ProformaInvoiceTax) String() string {
+    return fmt.Sprintf(
+    	"ProformaInvoiceTax[Uid=%v, Title=%v, SourceType=%v, Percentage=%v, TaxableAmount=%v, TaxAmount=%v, LineItemBreakouts=%v, AdditionalProperties=%v]",
+    	p.Uid, p.Title, p.SourceType, p.Percentage, p.TaxableAmount, p.TaxAmount, p.LineItemBreakouts, p.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for ProformaInvoiceTax.

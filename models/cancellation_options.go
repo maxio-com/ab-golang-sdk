@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // CancellationOptions represents a CancellationOptions struct.
@@ -16,6 +17,14 @@ type CancellationOptions struct {
     // The reason code associated with the cancellation. See the list of reason codes associated with your site.
     ReasonCode           *string                `json:"reason_code,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for CancellationOptions,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (c CancellationOptions) String() string {
+    return fmt.Sprintf(
+    	"CancellationOptions[CancellationMessage=%v, ReasonCode=%v, AdditionalProperties=%v]",
+    	c.CancellationMessage, c.ReasonCode, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for CancellationOptions.

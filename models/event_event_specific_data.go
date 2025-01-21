@@ -8,7 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
-    "strings"
+    "fmt"
 )
 
 // EventEventSpecificData represents a EventEventSpecificData struct.
@@ -35,12 +35,10 @@ type EventEventSpecificData struct {
     isCustomFieldValueChange            bool
 }
 
-// String converts the EventEventSpecificData object to a string representation.
+// String implements the fmt.Stringer interface for EventEventSpecificData,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
 func (e EventEventSpecificData) String() string {
-    if bytes, err := json.Marshal(e.value); err == nil {
-         return strings.Trim(string(bytes), "\"")
-    }
-    return ""
+    return fmt.Sprintf("%v", e.value)
 }
 
 // MarshalJSON implements the json.Marshaler interface for EventEventSpecificData.

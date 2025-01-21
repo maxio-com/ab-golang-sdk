@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
     "log"
     "time"
 )
@@ -60,6 +61,14 @@ type ProformaInvoice struct {
     CustomFields         []InvoiceCustomField       `json:"custom_fields,omitempty"`
     PublicUrl            Optional[string]           `json:"public_url"`
     AdditionalProperties map[string]interface{}     `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for ProformaInvoice,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (p ProformaInvoice) String() string {
+    return fmt.Sprintf(
+    	"ProformaInvoice[Uid=%v, SiteId=%v, CustomerId=%v, SubscriptionId=%v, Number=%v, SequenceNumber=%v, CreatedAt=%v, DeliveryDate=%v, Status=%v, CollectionMethod=%v, PaymentInstructions=%v, Currency=%v, ConsolidationLevel=%v, ProductName=%v, ProductFamilyName=%v, Role=%v, Seller=%v, Customer=%v, Memo=%v, BillingAddress=%v, ShippingAddress=%v, SubtotalAmount=%v, DiscountAmount=%v, TaxAmount=%v, TotalAmount=%v, CreditAmount=%v, PaidAmount=%v, RefundAmount=%v, DueAmount=%v, LineItems=%v, Discounts=%v, Taxes=%v, Credits=%v, Payments=%v, CustomFields=%v, PublicUrl=%v, AdditionalProperties=%v]",
+    	p.Uid, p.SiteId, p.CustomerId, p.SubscriptionId, p.Number, p.SequenceNumber, p.CreatedAt, p.DeliveryDate, p.Status, p.CollectionMethod, p.PaymentInstructions, p.Currency, p.ConsolidationLevel, p.ProductName, p.ProductFamilyName, p.Role, p.Seller, p.Customer, p.Memo, p.BillingAddress, p.ShippingAddress, p.SubtotalAmount, p.DiscountAmount, p.TaxAmount, p.TotalAmount, p.CreditAmount, p.PaidAmount, p.RefundAmount, p.DueAmount, p.LineItems, p.Discounts, p.Taxes, p.Credits, p.Payments, p.CustomFields, p.PublicUrl, p.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for ProformaInvoice.

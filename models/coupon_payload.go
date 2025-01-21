@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
     "log"
     "time"
 )
@@ -37,6 +38,14 @@ type CouponPayload struct {
     ApplyOnCancelAtEndOfPeriod    *bool                    `json:"apply_on_cancel_at_end_of_period,omitempty"`
     ApplyOnSubscriptionExpiration *bool                    `json:"apply_on_subscription_expiration,omitempty"`
     AdditionalProperties          map[string]interface{}   `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for CouponPayload,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (c CouponPayload) String() string {
+    return fmt.Sprintf(
+    	"CouponPayload[Name=%v, Code=%v, Description=%v, Percentage=%v, AmountInCents=%v, AllowNegativeBalance=%v, Recurring=%v, EndDate=%v, ProductFamilyId=%v, Stackable=%v, CompoundingStrategy=%v, ExcludeMidPeriodAllocations=%v, ApplyOnCancelAtEndOfPeriod=%v, ApplyOnSubscriptionExpiration=%v, AdditionalProperties=%v]",
+    	c.Name, c.Code, c.Description, c.Percentage, c.AmountInCents, c.AllowNegativeBalance, c.Recurring, c.EndDate, c.ProductFamilyId, c.Stackable, c.CompoundingStrategy, c.ExcludeMidPeriodAllocations, c.ApplyOnCancelAtEndOfPeriod, c.ApplyOnSubscriptionExpiration, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for CouponPayload.

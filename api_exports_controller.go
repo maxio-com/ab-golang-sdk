@@ -7,7 +7,6 @@ package advancedbilling
 
 import (
     "context"
-    "fmt"
     "github.com/apimatic/go-core-runtime/https"
     "github.com/apimatic/go-core-runtime/utilities"
     "github.com/maxio-com/ab-golang-sdk/errors"
@@ -52,8 +51,9 @@ func (a *APIExportsController) ListExportedProformaInvoices(
     req := a.prepareRequest(
       ctx,
       "GET",
-      fmt.Sprintf("/api_exports/proforma_invoices/%v/rows.json", input.BatchId),
+      "/api_exports/proforma_invoices/%v/rows.json",
     )
+    req.AppendTemplateParams(input.BatchId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
@@ -98,11 +98,8 @@ func (a *APIExportsController) ListExportedInvoices(
     input ListExportedInvoicesInput) (
     models.ApiResponse[[]models.Invoice],
     error) {
-    req := a.prepareRequest(
-      ctx,
-      "GET",
-      fmt.Sprintf("/api_exports/invoices/%v/rows.json", input.BatchId),
-    )
+    req := a.prepareRequest(ctx, "GET", "/api_exports/invoices/%v/rows.json")
+    req.AppendTemplateParams(input.BatchId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
@@ -147,11 +144,8 @@ func (a *APIExportsController) ListExportedSubscriptions(
     input ListExportedSubscriptionsInput) (
     models.ApiResponse[[]models.Subscription],
     error) {
-    req := a.prepareRequest(
-      ctx,
-      "GET",
-      fmt.Sprintf("/api_exports/subscriptions/%v/rows.json", input.BatchId),
-    )
+    req := a.prepareRequest(ctx, "GET", "/api_exports/subscriptions/%v/rows.json")
+    req.AppendTemplateParams(input.BatchId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
@@ -182,6 +176,7 @@ func (a *APIExportsController) ExportProformaInvoices(ctx context.Context) (
     models.ApiResponse[models.BatchJobResponse],
     error) {
     req := a.prepareRequest(ctx, "POST", "/api_exports/proforma_invoices.json")
+    
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
@@ -205,6 +200,7 @@ func (a *APIExportsController) ExportInvoices(ctx context.Context) (
     models.ApiResponse[models.BatchJobResponse],
     error) {
     req := a.prepareRequest(ctx, "POST", "/api_exports/invoices.json")
+    
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
@@ -228,6 +224,7 @@ func (a *APIExportsController) ExportSubscriptions(ctx context.Context) (
     models.ApiResponse[models.BatchJobResponse],
     error) {
     req := a.prepareRequest(ctx, "POST", "/api_exports/subscriptions.json")
+    
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "409": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewSingleErrorResponse},
@@ -251,11 +248,8 @@ func (a *APIExportsController) ReadProformaInvoicesExport(
     batchId string) (
     models.ApiResponse[models.BatchJobResponse],
     error) {
-    req := a.prepareRequest(
-      ctx,
-      "GET",
-      fmt.Sprintf("/api_exports/proforma_invoices/%v.json", batchId),
-    )
+    req := a.prepareRequest(ctx, "GET", "/api_exports/proforma_invoices/%v.json")
+    req.AppendTemplateParams(batchId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
@@ -280,11 +274,8 @@ func (a *APIExportsController) ReadInvoicesExport(
     batchId string) (
     models.ApiResponse[models.BatchJobResponse],
     error) {
-    req := a.prepareRequest(
-      ctx,
-      "GET",
-      fmt.Sprintf("/api_exports/invoices/%v.json", batchId),
-    )
+    req := a.prepareRequest(ctx, "GET", "/api_exports/invoices/%v.json")
+    req.AppendTemplateParams(batchId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
@@ -309,11 +300,8 @@ func (a *APIExportsController) ReadSubscriptionsExport(
     batchId string) (
     models.ApiResponse[models.BatchJobResponse],
     error) {
-    req := a.prepareRequest(
-      ctx,
-      "GET",
-      fmt.Sprintf("/api_exports/subscriptions/%v.json", batchId),
-    )
+    req := a.prepareRequest(ctx, "GET", "/api_exports/subscriptions/%v.json")
+    req.AppendTemplateParams(batchId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "404": {TemplatedMessage: "Not Found:'{$response.body}'"},

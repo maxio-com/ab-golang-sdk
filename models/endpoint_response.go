@@ -7,12 +7,21 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // EndpointResponse represents a EndpointResponse struct.
 type EndpointResponse struct {
     Endpoint             *Endpoint              `json:"endpoint,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for EndpointResponse,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (e EndpointResponse) String() string {
+    return fmt.Sprintf(
+    	"EndpointResponse[Endpoint=%v, AdditionalProperties=%v]",
+    	e.Endpoint, e.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for EndpointResponse.

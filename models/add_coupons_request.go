@@ -7,12 +7,21 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // AddCouponsRequest represents a AddCouponsRequest struct.
 type AddCouponsRequest struct {
     Codes                []string               `json:"codes,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for AddCouponsRequest,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (a AddCouponsRequest) String() string {
+    return fmt.Sprintf(
+    	"AddCouponsRequest[Codes=%v, AdditionalProperties=%v]",
+    	a.Codes, a.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for AddCouponsRequest.

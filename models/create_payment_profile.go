@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // CreatePaymentProfile represents a CreatePaymentProfile struct.
@@ -73,6 +74,14 @@ type CreatePaymentProfile struct {
     // (Optional) Used for creating subscription with payment profile imported using vault_token, for proper display in Advanced Billing UI
     LastFour              *string                              `json:"last_four,omitempty"`
     AdditionalProperties  map[string]interface{}               `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for CreatePaymentProfile,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (c CreatePaymentProfile) String() string {
+    return fmt.Sprintf(
+    	"CreatePaymentProfile[ChargifyToken=%v, Id=%v, PaymentType=%v, FirstName=%v, LastName=%v, MaskedCardNumber=%v, FullNumber=%v, CardType=%v, ExpirationMonth=%v, ExpirationYear=%v, BillingAddress=%v, BillingAddress2=%v, BillingCity=%v, BillingState=%v, BillingCountry=%v, BillingZip=%v, CurrentVault=%v, VaultToken=%v, CustomerVaultToken=%v, CustomerId=%v, PaypalEmail=%v, PaymentMethodNonce=%v, GatewayHandle=%v, Cvv=%v, BankName=%v, BankIban=%v, BankRoutingNumber=%v, BankAccountNumber=%v, BankBranchCode=%v, BankAccountType=%v, BankAccountHolderType=%v, LastFour=%v, AdditionalProperties=%v]",
+    	c.ChargifyToken, c.Id, c.PaymentType, c.FirstName, c.LastName, c.MaskedCardNumber, c.FullNumber, c.CardType, c.ExpirationMonth, c.ExpirationYear, c.BillingAddress, c.BillingAddress2, c.BillingCity, c.BillingState, c.BillingCountry, c.BillingZip, c.CurrentVault, c.VaultToken, c.CustomerVaultToken, c.CustomerId, c.PaypalEmail, c.PaymentMethodNonce, c.GatewayHandle, c.Cvv, c.BankName, c.BankIban, c.BankRoutingNumber, c.BankAccountNumber, c.BankBranchCode, c.BankAccountType, c.BankAccountHolderType, c.LastFour, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreatePaymentProfile.

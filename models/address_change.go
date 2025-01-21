@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "strings"
 )
 
@@ -16,6 +17,14 @@ type AddressChange struct {
     Before               InvoiceAddress         `json:"before"`
     After                InvoiceAddress         `json:"after"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for AddressChange,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (a AddressChange) String() string {
+    return fmt.Sprintf(
+    	"AddressChange[Before=%v, After=%v, AdditionalProperties=%v]",
+    	a.Before, a.After, a.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for AddressChange.

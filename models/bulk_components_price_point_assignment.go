@@ -7,12 +7,21 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // BulkComponentsPricePointAssignment represents a BulkComponentsPricePointAssignment struct.
 type BulkComponentsPricePointAssignment struct {
     Components           []ComponentPricePointAssignment `json:"components,omitempty"`
     AdditionalProperties map[string]interface{}          `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for BulkComponentsPricePointAssignment,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (b BulkComponentsPricePointAssignment) String() string {
+    return fmt.Sprintf(
+    	"BulkComponentsPricePointAssignment[Components=%v, AdditionalProperties=%v]",
+    	b.Components, b.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for BulkComponentsPricePointAssignment.

@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "strings"
 )
 
@@ -18,6 +19,14 @@ type GroupSettings struct {
     // Optional attributes related to billing date and accrual. Note: Only applicable for new subscriptions.
     Billing              *GroupBilling          `json:"billing,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for GroupSettings,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (g GroupSettings) String() string {
+    return fmt.Sprintf(
+    	"GroupSettings[Target=%v, Billing=%v, AdditionalProperties=%v]",
+    	g.Target, g.Billing, g.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for GroupSettings.

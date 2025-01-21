@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "strings"
 )
 
@@ -16,6 +17,14 @@ import (
 type ChangeChargebackStatusEventData struct {
     ChargebackStatus     ChargebackStatus       `json:"chargeback_status"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for ChangeChargebackStatusEventData,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (c ChangeChargebackStatusEventData) String() string {
+    return fmt.Sprintf(
+    	"ChangeChargebackStatusEventData[ChargebackStatus=%v, AdditionalProperties=%v]",
+    	c.ChargebackStatus, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for ChangeChargebackStatusEventData.

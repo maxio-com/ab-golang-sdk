@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
     "log"
     "time"
 )
@@ -37,6 +38,14 @@ type SubscriptionComponentSubscription struct {
     State                *SubscriptionState     `json:"state,omitempty"`
     UpdatedAt            *time.Time             `json:"updated_at,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for SubscriptionComponentSubscription,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (s SubscriptionComponentSubscription) String() string {
+    return fmt.Sprintf(
+    	"SubscriptionComponentSubscription[State=%v, UpdatedAt=%v, AdditionalProperties=%v]",
+    	s.State, s.UpdatedAt, s.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for SubscriptionComponentSubscription.

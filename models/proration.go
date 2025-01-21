@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // Proration represents a Proration struct.
@@ -14,6 +15,14 @@ type Proration struct {
     // The alternative to sending preserve_period as a direct attribute to migration
     PreservePeriod       *bool                  `json:"preserve_period,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for Proration,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (p Proration) String() string {
+    return fmt.Sprintf(
+    	"Proration[PreservePeriod=%v, AdditionalProperties=%v]",
+    	p.PreservePeriod, p.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for Proration.

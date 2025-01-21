@@ -8,7 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
-    "strings"
+    "fmt"
 )
 
 // PrepaidUsageComponentUnitPrice represents a PrepaidUsageComponentUnitPrice struct.
@@ -19,12 +19,10 @@ type PrepaidUsageComponentUnitPrice struct {
     isPrecision bool
 }
 
-// String converts the PrepaidUsageComponentUnitPrice object to a string representation.
+// String implements the fmt.Stringer interface for PrepaidUsageComponentUnitPrice,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
 func (p PrepaidUsageComponentUnitPrice) String() string {
-    if bytes, err := json.Marshal(p.value); err == nil {
-         return strings.Trim(string(bytes), "\"")
-    }
-    return ""
+    return fmt.Sprintf("%v", p.value)
 }
 
 // MarshalJSON implements the json.Marshaler interface for PrepaidUsageComponentUnitPrice.

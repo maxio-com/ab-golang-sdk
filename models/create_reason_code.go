@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "strings"
 )
 
@@ -20,6 +21,14 @@ type CreateReasonCode struct {
     // The order that code appears in lists
     Position             *int                   `json:"position,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for CreateReasonCode,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (c CreateReasonCode) String() string {
+    return fmt.Sprintf(
+    	"CreateReasonCode[Code=%v, Description=%v, Position=%v, AdditionalProperties=%v]",
+    	c.Code, c.Description, c.Position, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreateReasonCode.

@@ -8,7 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
-    "strings"
+    "fmt"
 )
 
 // InvoiceEvent represents a InvoiceEvent struct.
@@ -31,12 +31,10 @@ type InvoiceEvent struct {
     isVoidRemainderEvent                 bool
 }
 
-// String converts the InvoiceEvent object to a string representation.
+// String implements the fmt.Stringer interface for InvoiceEvent,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
 func (i InvoiceEvent) String() string {
-    if bytes, err := json.Marshal(i.value); err == nil {
-         return strings.Trim(string(bytes), "\"")
-    }
-    return ""
+    return fmt.Sprintf("%v", i.value)
 }
 
 // MarshalJSON implements the json.Marshaler interface for InvoiceEvent.

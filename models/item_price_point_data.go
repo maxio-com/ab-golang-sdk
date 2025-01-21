@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // ItemPricePointData represents a ItemPricePointData struct.
@@ -15,6 +16,14 @@ type ItemPricePointData struct {
     Handle               *string                `json:"handle,omitempty"`
     Name                 *string                `json:"name,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for ItemPricePointData,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (i ItemPricePointData) String() string {
+    return fmt.Sprintf(
+    	"ItemPricePointData[Id=%v, Handle=%v, Name=%v, AdditionalProperties=%v]",
+    	i.Id, i.Handle, i.Name, i.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for ItemPricePointData.

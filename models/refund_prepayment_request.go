@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "strings"
 )
 
@@ -15,6 +16,14 @@ import (
 type RefundPrepaymentRequest struct {
     Refund               RefundPrepayment       `json:"refund"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for RefundPrepaymentRequest,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (r RefundPrepaymentRequest) String() string {
+    return fmt.Sprintf(
+    	"RefundPrepaymentRequest[Refund=%v, AdditionalProperties=%v]",
+    	r.Refund, r.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for RefundPrepaymentRequest.

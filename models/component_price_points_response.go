@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // ComponentPricePointsResponse represents a ComponentPricePointsResponse struct.
@@ -14,6 +15,14 @@ type ComponentPricePointsResponse struct {
     PricePoints          []ComponentPricePoint  `json:"price_points,omitempty"`
     Meta                 *ListPublicKeysMeta    `json:"meta,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for ComponentPricePointsResponse,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (c ComponentPricePointsResponse) String() string {
+    return fmt.Sprintf(
+    	"ComponentPricePointsResponse[PricePoints=%v, Meta=%v, AdditionalProperties=%v]",
+    	c.PricePoints, c.Meta, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for ComponentPricePointsResponse.

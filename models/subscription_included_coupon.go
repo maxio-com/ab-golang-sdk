@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // SubscriptionIncludedCoupon represents a SubscriptionIncludedCoupon struct.
@@ -19,6 +20,14 @@ type SubscriptionIncludedCoupon struct {
     AmountInCents        Optional[int64]        `json:"amount_in_cents"`
     Percentage           Optional[string]       `json:"percentage"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for SubscriptionIncludedCoupon,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (s SubscriptionIncludedCoupon) String() string {
+    return fmt.Sprintf(
+    	"SubscriptionIncludedCoupon[Code=%v, UseCount=%v, UsesAllowed=%v, ExpiresAt=%v, Recurring=%v, AmountInCents=%v, Percentage=%v, AdditionalProperties=%v]",
+    	s.Code, s.UseCount, s.UsesAllowed, s.ExpiresAt, s.Recurring, s.AmountInCents, s.Percentage, s.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for SubscriptionIncludedCoupon.

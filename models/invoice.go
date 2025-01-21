@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
     "log"
     "time"
 )
@@ -115,6 +116,14 @@ type Invoice struct {
     // The format is `"YYYY-MM-DD"`.
     PublicUrlExpiresOn         *time.Time                 `json:"public_url_expires_on,omitempty"`
     AdditionalProperties       map[string]interface{}     `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for Invoice,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (i Invoice) String() string {
+    return fmt.Sprintf(
+    	"Invoice[Id=%v, Uid=%v, SiteId=%v, CustomerId=%v, SubscriptionId=%v, Number=%v, SequenceNumber=%v, TransactionTime=%v, CreatedAt=%v, UpdatedAt=%v, IssueDate=%v, DueDate=%v, PaidDate=%v, Status=%v, Role=%v, ParentInvoiceId=%v, CollectionMethod=%v, PaymentInstructions=%v, Currency=%v, ConsolidationLevel=%v, ParentInvoiceUid=%v, SubscriptionGroupId=%v, ParentInvoiceNumber=%v, GroupPrimarySubscriptionId=%v, ProductName=%v, ProductFamilyName=%v, Seller=%v, Customer=%v, Payer=%v, RecipientEmails=%v, NetTerms=%v, Memo=%v, BillingAddress=%v, ShippingAddress=%v, SubtotalAmount=%v, DiscountAmount=%v, TaxAmount=%v, TotalAmount=%v, CreditAmount=%v, DebitAmount=%v, RefundAmount=%v, PaidAmount=%v, DueAmount=%v, LineItems=%v, Discounts=%v, Taxes=%v, Credits=%v, Debits=%v, Refunds=%v, Payments=%v, CustomFields=%v, DisplaySettings=%v, AvataxDetails=%v, PublicUrl=%v, PreviousBalanceData=%v, PublicUrlExpiresOn=%v, AdditionalProperties=%v]",
+    	i.Id, i.Uid, i.SiteId, i.CustomerId, i.SubscriptionId, i.Number, i.SequenceNumber, i.TransactionTime, i.CreatedAt, i.UpdatedAt, i.IssueDate, i.DueDate, i.PaidDate, i.Status, i.Role, i.ParentInvoiceId, i.CollectionMethod, i.PaymentInstructions, i.Currency, i.ConsolidationLevel, i.ParentInvoiceUid, i.SubscriptionGroupId, i.ParentInvoiceNumber, i.GroupPrimarySubscriptionId, i.ProductName, i.ProductFamilyName, i.Seller, i.Customer, i.Payer, i.RecipientEmails, i.NetTerms, i.Memo, i.BillingAddress, i.ShippingAddress, i.SubtotalAmount, i.DiscountAmount, i.TaxAmount, i.TotalAmount, i.CreditAmount, i.DebitAmount, i.RefundAmount, i.PaidAmount, i.DueAmount, i.LineItems, i.Discounts, i.Taxes, i.Credits, i.Debits, i.Refunds, i.Payments, i.CustomFields, i.DisplaySettings, i.AvataxDetails, i.PublicUrl, i.PreviousBalanceData, i.PublicUrlExpiresOn, i.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for Invoice.

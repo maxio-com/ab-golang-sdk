@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // ReactivateSubscriptionGroupRequest represents a ReactivateSubscriptionGroupRequest struct.
@@ -14,6 +15,14 @@ type ReactivateSubscriptionGroupRequest struct {
     Resume               *bool                  `json:"resume,omitempty"`
     ResumeMembers        *bool                  `json:"resume_members,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for ReactivateSubscriptionGroupRequest,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (r ReactivateSubscriptionGroupRequest) String() string {
+    return fmt.Sprintf(
+    	"ReactivateSubscriptionGroupRequest[Resume=%v, ResumeMembers=%v, AdditionalProperties=%v]",
+    	r.Resume, r.ResumeMembers, r.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for ReactivateSubscriptionGroupRequest.

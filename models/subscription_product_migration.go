@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // SubscriptionProductMigration represents a SubscriptionProductMigration struct.
@@ -29,6 +30,14 @@ type SubscriptionProductMigration struct {
     ProductPricePointHandle *string                `json:"product_price_point_handle,omitempty"`
     Proration               *Proration             `json:"proration,omitempty"`
     AdditionalProperties    map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for SubscriptionProductMigration,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (s SubscriptionProductMigration) String() string {
+    return fmt.Sprintf(
+    	"SubscriptionProductMigration[ProductId=%v, ProductPricePointId=%v, IncludeTrial=%v, IncludeInitialCharge=%v, IncludeCoupons=%v, PreservePeriod=%v, ProductHandle=%v, ProductPricePointHandle=%v, Proration=%v, AdditionalProperties=%v]",
+    	s.ProductId, s.ProductPricePointId, s.IncludeTrial, s.IncludeInitialCharge, s.IncludeCoupons, s.PreservePeriod, s.ProductHandle, s.ProductPricePointHandle, s.Proration, s.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for SubscriptionProductMigration.

@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // InvoiceTax represents a InvoiceTax struct.
@@ -26,6 +27,14 @@ type InvoiceTax struct {
     Type                  *string                       `json:"type,omitempty"`
     TaxExemptAmount       *string                       `json:"tax_exempt_amount,omitempty"`
     AdditionalProperties  map[string]interface{}        `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for InvoiceTax,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (i InvoiceTax) String() string {
+    return fmt.Sprintf(
+    	"InvoiceTax[Uid=%v, Title=%v, Description=%v, SourceType=%v, SourceId=%v, Percentage=%v, TaxableAmount=%v, TaxAmount=%v, TransactionId=%v, LineItemBreakouts=%v, TaxComponentBreakouts=%v, EuVat=%v, Type=%v, TaxExemptAmount=%v, AdditionalProperties=%v]",
+    	i.Uid, i.Title, i.Description, i.SourceType, i.SourceId, i.Percentage, i.TaxableAmount, i.TaxAmount, i.TransactionId, i.LineItemBreakouts, i.TaxComponentBreakouts, i.EuVat, i.Type, i.TaxExemptAmount, i.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for InvoiceTax.

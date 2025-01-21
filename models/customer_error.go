@@ -7,12 +7,21 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // CustomerError represents a CustomerError struct.
 type CustomerError struct {
     Customer             *string                `json:"customer,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for CustomerError,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (c CustomerError) String() string {
+    return fmt.Sprintf(
+    	"CustomerError[Customer=%v, AdditionalProperties=%v]",
+    	c.Customer, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for CustomerError.

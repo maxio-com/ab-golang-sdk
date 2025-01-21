@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // PrepaidUsageAllocationDetail represents a PrepaidUsageAllocationDetail struct.
@@ -15,6 +16,14 @@ type PrepaidUsageAllocationDetail struct {
     ChargeId             *int                   `json:"charge_id,omitempty"`
     UsageQuantity        *int                   `json:"usage_quantity,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for PrepaidUsageAllocationDetail,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (p PrepaidUsageAllocationDetail) String() string {
+    return fmt.Sprintf(
+    	"PrepaidUsageAllocationDetail[AllocationId=%v, ChargeId=%v, UsageQuantity=%v, AdditionalProperties=%v]",
+    	p.AllocationId, p.ChargeId, p.UsageQuantity, p.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for PrepaidUsageAllocationDetail.

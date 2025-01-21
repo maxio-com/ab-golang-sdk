@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
     "log"
     "time"
 )
@@ -15,6 +16,14 @@ import (
 type AllocationExpirationDate struct {
     ExpiresAt            *time.Time             `json:"expires_at,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for AllocationExpirationDate,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (a AllocationExpirationDate) String() string {
+    return fmt.Sprintf(
+    	"AllocationExpirationDate[ExpiresAt=%v, AdditionalProperties=%v]",
+    	a.ExpiresAt, a.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for AllocationExpirationDate.

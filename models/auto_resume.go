@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
     "log"
     "time"
 )
@@ -15,6 +16,14 @@ import (
 type AutoResume struct {
     AutomaticallyResumeAt Optional[time.Time]    `json:"automatically_resume_at"`
     AdditionalProperties  map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for AutoResume,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (a AutoResume) String() string {
+    return fmt.Sprintf(
+    	"AutoResume[AutomaticallyResumeAt=%v, AdditionalProperties=%v]",
+    	a.AutomaticallyResumeAt, a.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for AutoResume.

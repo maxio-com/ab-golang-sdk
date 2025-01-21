@@ -8,7 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
-    "strings"
+    "fmt"
 )
 
 // PaymentProfile represents a PaymentProfile struct.
@@ -20,12 +20,10 @@ type PaymentProfile struct {
     isPaypalPaymentProfile      bool
 }
 
-// String converts the PaymentProfile object to a string representation.
+// String implements the fmt.Stringer interface for PaymentProfile,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
 func (p PaymentProfile) String() string {
-    if bytes, err := json.Marshal(p.value); err == nil {
-         return strings.Trim(string(bytes), "\"")
-    }
-    return ""
+    return fmt.Sprintf("%v", p.value)
 }
 
 // MarshalJSON implements the json.Marshaler interface for PaymentProfile.

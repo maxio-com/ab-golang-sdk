@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
     "log"
     "time"
 )
@@ -25,6 +26,14 @@ type ListSubscriptionGroupsItem struct {
     AccountBalances       *SubscriptionGroupBalances `json:"account_balances,omitempty"`
     GroupType             *GroupType                 `json:"group_type,omitempty"`
     AdditionalProperties  map[string]interface{}     `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for ListSubscriptionGroupsItem,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (l ListSubscriptionGroupsItem) String() string {
+    return fmt.Sprintf(
+    	"ListSubscriptionGroupsItem[Uid=%v, Scheme=%v, CustomerId=%v, PaymentProfileId=%v, SubscriptionIds=%v, PrimarySubscriptionId=%v, NextAssessmentAt=%v, State=%v, CancelAtEndOfPeriod=%v, AccountBalances=%v, GroupType=%v, AdditionalProperties=%v]",
+    	l.Uid, l.Scheme, l.CustomerId, l.PaymentProfileId, l.SubscriptionIds, l.PrimarySubscriptionId, l.NextAssessmentAt, l.State, l.CancelAtEndOfPeriod, l.AccountBalances, l.GroupType, l.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for ListSubscriptionGroupsItem.

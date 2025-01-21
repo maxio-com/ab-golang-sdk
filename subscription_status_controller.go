@@ -7,7 +7,6 @@ package advancedbilling
 
 import (
     "context"
-    "fmt"
     "github.com/apimatic/go-core-runtime/https"
     "github.com/apimatic/go-core-runtime/utilities"
     "github.com/maxio-com/ab-golang-sdk/errors"
@@ -39,11 +38,8 @@ func (s *SubscriptionStatusController) RetrySubscription(
     subscriptionId int) (
     models.ApiResponse[models.SubscriptionResponse],
     error) {
-    req := s.prepareRequest(
-      ctx,
-      "PUT",
-      fmt.Sprintf("/subscriptions/%v/retry.json", subscriptionId),
-    )
+    req := s.prepareRequest(ctx, "PUT", "/subscriptions/%v/retry.json")
+    req.AppendTemplateParams(subscriptionId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
@@ -69,11 +65,8 @@ func (s *SubscriptionStatusController) CancelSubscription(
     body *models.CancellationRequest) (
     models.ApiResponse[models.SubscriptionResponse],
     error) {
-    req := s.prepareRequest(
-      ctx,
-      "DELETE",
-      fmt.Sprintf("/subscriptions/%v.json", subscriptionId),
-    )
+    req := s.prepareRequest(ctx, "DELETE", "/subscriptions/%v.json")
+    req.AppendTemplateParams(subscriptionId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
@@ -104,11 +97,8 @@ func (s *SubscriptionStatusController) ResumeSubscription(
     calendarBillingResumptionCharge *models.ResumptionCharge) (
     models.ApiResponse[models.SubscriptionResponse],
     error) {
-    req := s.prepareRequest(
-      ctx,
-      "POST",
-      fmt.Sprintf("/subscriptions/%v/resume.json", subscriptionId),
-    )
+    req := s.prepareRequest(ctx, "POST", "/subscriptions/%v/resume.json")
+    req.AppendTemplateParams(subscriptionId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
@@ -139,11 +129,8 @@ func (s *SubscriptionStatusController) PauseSubscription(
     body *models.PauseRequest) (
     models.ApiResponse[models.SubscriptionResponse],
     error) {
-    req := s.prepareRequest(
-      ctx,
-      "POST",
-      fmt.Sprintf("/subscriptions/%v/hold.json", subscriptionId),
-    )
+    req := s.prepareRequest(ctx, "POST", "/subscriptions/%v/hold.json")
+    req.AppendTemplateParams(subscriptionId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
@@ -176,11 +163,8 @@ func (s *SubscriptionStatusController) UpdateAutomaticSubscriptionResumption(
     body *models.PauseRequest) (
     models.ApiResponse[models.SubscriptionResponse],
     error) {
-    req := s.prepareRequest(
-      ctx,
-      "PUT",
-      fmt.Sprintf("/subscriptions/%v/hold.json", subscriptionId),
-    )
+    req := s.prepareRequest(ctx, "PUT", "/subscriptions/%v/hold.json")
+    req.AppendTemplateParams(subscriptionId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
@@ -307,11 +291,8 @@ func (s *SubscriptionStatusController) ReactivateSubscription(
     body *models.ReactivateSubscriptionRequest) (
     models.ApiResponse[models.SubscriptionResponse],
     error) {
-    req := s.prepareRequest(
-      ctx,
-      "PUT",
-      fmt.Sprintf("/subscriptions/%v/reactivate.json", subscriptionId),
-    )
+    req := s.prepareRequest(ctx, "PUT", "/subscriptions/%v/reactivate.json")
+    req.AppendTemplateParams(subscriptionId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
@@ -343,11 +324,8 @@ func (s *SubscriptionStatusController) InitiateDelayedCancellation(
     body *models.CancellationRequest) (
     models.ApiResponse[models.DelayedCancellationResponse],
     error) {
-    req := s.prepareRequest(
-      ctx,
-      "POST",
-      fmt.Sprintf("/subscriptions/%v/delayed_cancel.json", subscriptionId),
-    )
+    req := s.prepareRequest(ctx, "POST", "/subscriptions/%v/delayed_cancel.json")
+    req.AppendTemplateParams(subscriptionId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
@@ -378,11 +356,8 @@ func (s *SubscriptionStatusController) CancelDelayedCancellation(
     subscriptionId int) (
     models.ApiResponse[models.DelayedCancellationResponse],
     error) {
-    req := s.prepareRequest(
-      ctx,
-      "DELETE",
-      fmt.Sprintf("/subscriptions/%v/delayed_cancel.json", subscriptionId),
-    )
+    req := s.prepareRequest(ctx, "DELETE", "/subscriptions/%v/delayed_cancel.json")
+    req.AppendTemplateParams(subscriptionId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
@@ -407,11 +382,8 @@ func (s *SubscriptionStatusController) CancelDunning(
     subscriptionId int) (
     models.ApiResponse[models.SubscriptionResponse],
     error) {
-    req := s.prepareRequest(
-      ctx,
-      "POST",
-      fmt.Sprintf("/subscriptions/%v/cancel_dunning.json", subscriptionId),
-    )
+    req := s.prepareRequest(ctx, "POST", "/subscriptions/%v/cancel_dunning.json")
+    req.AppendTemplateParams(subscriptionId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
@@ -449,11 +421,8 @@ func (s *SubscriptionStatusController) PreviewRenewal(
     body *models.RenewalPreviewRequest) (
     models.ApiResponse[models.RenewalPreviewResponse],
     error) {
-    req := s.prepareRequest(
-      ctx,
-      "POST",
-      fmt.Sprintf("/subscriptions/%v/renewals/preview.json", subscriptionId),
-    )
+    req := s.prepareRequest(ctx, "POST", "/subscriptions/%v/renewals/preview.json")
+    req.AppendTemplateParams(subscriptionId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},

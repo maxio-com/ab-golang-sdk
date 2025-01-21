@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // CreateOfferComponent represents a CreateOfferComponent struct.
@@ -15,6 +16,14 @@ type CreateOfferComponent struct {
     PricePointId         *int                   `json:"price_point_id,omitempty"`
     StartingQuantity     *int                   `json:"starting_quantity,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for CreateOfferComponent,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (c CreateOfferComponent) String() string {
+    return fmt.Sprintf(
+    	"CreateOfferComponent[ComponentId=%v, PricePointId=%v, StartingQuantity=%v, AdditionalProperties=%v]",
+    	c.ComponentId, c.PricePointId, c.StartingQuantity, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreateOfferComponent.

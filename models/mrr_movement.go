@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // MRRMovement represents a MRRMovement struct.
@@ -16,6 +17,14 @@ type MRRMovement struct {
     SubscriberDelta      *int                   `json:"subscriber_delta,omitempty"`
     LeadDelta            *int                   `json:"lead_delta,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for MRRMovement,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (m MRRMovement) String() string {
+    return fmt.Sprintf(
+    	"MRRMovement[Amount=%v, Category=%v, SubscriberDelta=%v, LeadDelta=%v, AdditionalProperties=%v]",
+    	m.Amount, m.Category, m.SubscriberDelta, m.LeadDelta, m.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for MRRMovement.

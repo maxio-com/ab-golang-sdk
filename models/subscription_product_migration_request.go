@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "strings"
 )
 
@@ -15,6 +16,14 @@ import (
 type SubscriptionProductMigrationRequest struct {
     Migration            SubscriptionProductMigration `json:"migration"`
     AdditionalProperties map[string]interface{}       `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for SubscriptionProductMigrationRequest,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (s SubscriptionProductMigrationRequest) String() string {
+    return fmt.Sprintf(
+    	"SubscriptionProductMigrationRequest[Migration=%v, AdditionalProperties=%v]",
+    	s.Migration, s.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for SubscriptionProductMigrationRequest.

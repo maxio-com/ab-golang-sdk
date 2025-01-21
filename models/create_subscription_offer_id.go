@@ -8,7 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
-    "strings"
+    "fmt"
 )
 
 // CreateSubscriptionOfferId represents a CreateSubscriptionOfferId struct.
@@ -19,12 +19,10 @@ type CreateSubscriptionOfferId struct {
     isNumber bool
 }
 
-// String converts the CreateSubscriptionOfferId object to a string representation.
+// String implements the fmt.Stringer interface for CreateSubscriptionOfferId,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
 func (c CreateSubscriptionOfferId) String() string {
-    if bytes, err := json.Marshal(c.value); err == nil {
-         return strings.Trim(string(bytes), "\"")
-    }
-    return ""
+    return fmt.Sprintf("%v", c.value)
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreateSubscriptionOfferId.

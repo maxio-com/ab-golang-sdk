@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "strings"
 )
 
@@ -15,6 +16,14 @@ import (
 type SubscriptionGroupMembersArrayError struct {
     Members              []string               `json:"members"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for SubscriptionGroupMembersArrayError,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (s SubscriptionGroupMembersArrayError) String() string {
+    return fmt.Sprintf(
+    	"SubscriptionGroupMembersArrayError[Members=%v, AdditionalProperties=%v]",
+    	s.Members, s.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for SubscriptionGroupMembersArrayError.

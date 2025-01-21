@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "strings"
 )
 
@@ -44,6 +45,14 @@ type CreateOrUpdateProduct struct {
     // A string representing the tax code related to the product type. This is especially important when using the Avalara service to tax based on locale. This attribute has a max length of 10 characters.
     TaxCode                *string                          `json:"tax_code,omitempty"`
     AdditionalProperties   map[string]interface{}           `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for CreateOrUpdateProduct,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (c CreateOrUpdateProduct) String() string {
+    return fmt.Sprintf(
+    	"CreateOrUpdateProduct[Name=%v, Handle=%v, Description=%v, AccountingCode=%v, RequireCreditCard=%v, PriceInCents=%v, Interval=%v, IntervalUnit=%v, TrialPriceInCents=%v, TrialInterval=%v, TrialIntervalUnit=%v, TrialType=%v, ExpirationInterval=%v, ExpirationIntervalUnit=%v, AutoCreateSignupPage=%v, TaxCode=%v, AdditionalProperties=%v]",
+    	c.Name, c.Handle, c.Description, c.AccountingCode, c.RequireCreditCard, c.PriceInCents, c.Interval, c.IntervalUnit, c.TrialPriceInCents, c.TrialInterval, c.TrialIntervalUnit, c.TrialType, c.ExpirationInterval, c.ExpirationIntervalUnit, c.AutoCreateSignupPage, c.TaxCode, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreateOrUpdateProduct.

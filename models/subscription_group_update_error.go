@@ -7,12 +7,21 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // SubscriptionGroupUpdateError represents a SubscriptionGroupUpdateError struct.
 type SubscriptionGroupUpdateError struct {
     Members              []string               `json:"members,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for SubscriptionGroupUpdateError,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (s SubscriptionGroupUpdateError) String() string {
+    return fmt.Sprintf(
+    	"SubscriptionGroupUpdateError[Members=%v, AdditionalProperties=%v]",
+    	s.Members, s.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for SubscriptionGroupUpdateError.

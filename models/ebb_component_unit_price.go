@@ -8,7 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
-    "strings"
+    "fmt"
 )
 
 // EBBComponentUnitPrice represents a EBBComponentUnitPrice struct.
@@ -19,12 +19,10 @@ type EBBComponentUnitPrice struct {
     isPrecision bool
 }
 
-// String converts the EBBComponentUnitPrice object to a string representation.
+// String implements the fmt.Stringer interface for EBBComponentUnitPrice,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
 func (e EBBComponentUnitPrice) String() string {
-    if bytes, err := json.Marshal(e.value); err == nil {
-         return strings.Trim(string(bytes), "\"")
-    }
-    return ""
+    return fmt.Sprintf("%v", e.value)
 }
 
 // MarshalJSON implements the json.Marshaler interface for EBBComponentUnitPrice.

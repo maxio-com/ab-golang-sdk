@@ -7,7 +7,6 @@ package advancedbilling
 
 import (
     "context"
-    "fmt"
     "github.com/apimatic/go-core-runtime/https"
     "github.com/apimatic/go-core-runtime/utilities"
     "github.com/maxio-com/ab-golang-sdk/errors"
@@ -41,8 +40,9 @@ func (c *ComponentPricePointsController) PromoteComponentPricePointToDefault(
     req := c.prepareRequest(
       ctx,
       "PUT",
-      fmt.Sprintf("/components/%v/price_points/%v/default.json", componentId, pricePointId),
+      "/components/%v/price_points/%v/default.json",
     )
+    req.AppendTemplateParams(componentId, pricePointId)
     req.Authenticate(NewAuth("BasicAuth"))
     
     var result models.ComponentResponse
@@ -65,11 +65,8 @@ func (c *ComponentPricePointsController) CreateComponentPricePoint(
     body *models.CreateComponentPricePointRequest) (
     models.ApiResponse[models.ComponentPricePointResponse],
     error) {
-    req := c.prepareRequest(
-      ctx,
-      "POST",
-      fmt.Sprintf("/components/%v/price_points.json", componentId),
-    )
+    req := c.prepareRequest(ctx, "POST", "/components/%v/price_points.json")
+    req.AppendTemplateParams(componentId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorArrayMapResponse},
@@ -117,11 +114,8 @@ func (c *ComponentPricePointsController) ListComponentPricePoints(
     input ListComponentPricePointsInput) (
     models.ApiResponse[models.ComponentPricePointsResponse],
     error) {
-    req := c.prepareRequest(
-      ctx,
-      "GET",
-      fmt.Sprintf("/components/%v/price_points.json", input.ComponentId),
-    )
+    req := c.prepareRequest(ctx, "GET", "/components/%v/price_points.json")
+    req.AppendTemplateParams(input.ComponentId)
     req.Authenticate(NewAuth("BasicAuth"))
     if input.CurrencyPrices != nil {
         req.QueryParam("currency_prices", *input.CurrencyPrices)
@@ -156,11 +150,8 @@ func (c *ComponentPricePointsController) BulkCreateComponentPricePoints(
     body *models.CreateComponentPricePointsRequest) (
     models.ApiResponse[models.ComponentPricePointsResponse],
     error) {
-    req := c.prepareRequest(
-      ctx,
-      "POST",
-      fmt.Sprintf("/components/%v/price_points/bulk.json", componentId),
-    )
+    req := c.prepareRequest(ctx, "POST", "/components/%v/price_points/bulk.json")
+    req.AppendTemplateParams(componentId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
@@ -194,11 +185,8 @@ func (c *ComponentPricePointsController) UpdateComponentPricePoint(
     body *models.UpdateComponentPricePointRequest) (
     models.ApiResponse[models.ComponentPricePointResponse],
     error) {
-    req := c.prepareRequest(
-      ctx,
-      "PUT",
-      fmt.Sprintf("/components/%v/price_points/%v.json", componentId, pricePointId),
-    )
+    req := c.prepareRequest(ctx, "PUT", "/components/%v/price_points/%v.json")
+    req.AppendTemplateParams(componentId, pricePointId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorArrayMapResponse},
@@ -229,11 +217,8 @@ func (c *ComponentPricePointsController) ReadComponentPricePoint(
     currencyPrices *bool) (
     models.ApiResponse[models.ComponentPricePointResponse],
     error) {
-    req := c.prepareRequest(
-      ctx,
-      "GET",
-      fmt.Sprintf("/components/%v/price_points/%v.json", componentId, pricePointId),
-    )
+    req := c.prepareRequest(ctx, "GET", "/components/%v/price_points/%v.json")
+    req.AppendTemplateParams(componentId, pricePointId)
     req.Authenticate(NewAuth("BasicAuth"))
     if currencyPrices != nil {
         req.QueryParam("currency_prices", *currencyPrices)
@@ -259,11 +244,8 @@ func (c *ComponentPricePointsController) ArchiveComponentPricePoint(
     pricePointId models.ArchiveComponentPricePointPricePointId) (
     models.ApiResponse[models.ComponentPricePointResponse],
     error) {
-    req := c.prepareRequest(
-      ctx,
-      "DELETE",
-      fmt.Sprintf("/components/%v/price_points/%v.json", componentId, pricePointId),
-    )
+    req := c.prepareRequest(ctx, "DELETE", "/components/%v/price_points/%v.json")
+    req.AppendTemplateParams(componentId, pricePointId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
@@ -292,8 +274,9 @@ func (c *ComponentPricePointsController) UnarchiveComponentPricePoint(
     req := c.prepareRequest(
       ctx,
       "PUT",
-      fmt.Sprintf("/components/%v/price_points/%v/unarchive.json", componentId, pricePointId),
+      "/components/%v/price_points/%v/unarchive.json",
     )
+    req.AppendTemplateParams(componentId, pricePointId)
     req.Authenticate(NewAuth("BasicAuth"))
     
     var result models.ComponentPricePointResponse
@@ -318,11 +301,8 @@ func (c *ComponentPricePointsController) CreateCurrencyPrices(
     body *models.CreateCurrencyPricesRequest) (
     models.ApiResponse[models.ComponentCurrencyPricesResponse],
     error) {
-    req := c.prepareRequest(
-      ctx,
-      "POST",
-      fmt.Sprintf("/price_points/%v/currency_prices.json", pricePointId),
-    )
+    req := c.prepareRequest(ctx, "POST", "/price_points/%v/currency_prices.json")
+    req.AppendTemplateParams(pricePointId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorArrayMapResponse},
@@ -353,11 +333,8 @@ func (c *ComponentPricePointsController) UpdateCurrencyPrices(
     body *models.UpdateCurrencyPricesRequest) (
     models.ApiResponse[models.ComponentCurrencyPricesResponse],
     error) {
-    req := c.prepareRequest(
-      ctx,
-      "PUT",
-      fmt.Sprintf("/price_points/%v/currency_prices.json", pricePointId),
-    )
+    req := c.prepareRequest(ctx, "PUT", "/price_points/%v/currency_prices.json")
+    req.AppendTemplateParams(pricePointId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorArrayMapResponse},
@@ -404,6 +381,7 @@ func (c *ComponentPricePointsController) ListAllComponentPricePoints(
     models.ApiResponse[models.ListComponentsPricePointsResponse],
     error) {
     req := c.prepareRequest(ctx, "GET", "/components_price_points.json")
+    
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},

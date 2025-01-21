@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // GroupBilling represents a GroupBilling struct.
@@ -19,6 +20,14 @@ type GroupBilling struct {
     // A flag indicating whether or not to prorate billing of the new subscription for the current period. A value of true is ignored unless align_date is also true.
     Prorate              *bool                  `json:"prorate,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for GroupBilling,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (g GroupBilling) String() string {
+    return fmt.Sprintf(
+    	"GroupBilling[Accrue=%v, AlignDate=%v, Prorate=%v, AdditionalProperties=%v]",
+    	g.Accrue, g.AlignDate, g.Prorate, g.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for GroupBilling.

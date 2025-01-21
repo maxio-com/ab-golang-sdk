@@ -8,7 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
-    "strings"
+    "fmt"
 )
 
 // UpdatePriceEndingQuantity represents a UpdatePriceEndingQuantity struct.
@@ -19,12 +19,10 @@ type UpdatePriceEndingQuantity struct {
     isString bool
 }
 
-// String converts the UpdatePriceEndingQuantity object to a string representation.
+// String implements the fmt.Stringer interface for UpdatePriceEndingQuantity,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
 func (u UpdatePriceEndingQuantity) String() string {
-    if bytes, err := json.Marshal(u.value); err == nil {
-         return strings.Trim(string(bytes), "\"")
-    }
-    return ""
+    return fmt.Sprintf("%v", u.value)
 }
 
 // MarshalJSON implements the json.Marshaler interface for UpdatePriceEndingQuantity.

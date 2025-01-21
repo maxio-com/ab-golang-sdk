@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "strings"
 )
 
@@ -15,6 +16,14 @@ import (
 type ListMRRResponse struct {
     Mrr                  ListMRRResponseResult  `json:"mrr"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for ListMRRResponse,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (l ListMRRResponse) String() string {
+    return fmt.Sprintf(
+    	"ListMRRResponse[Mrr=%v, AdditionalProperties=%v]",
+    	l.Mrr, l.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for ListMRRResponse.

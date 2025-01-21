@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "strings"
 )
 
@@ -17,6 +18,14 @@ type CreateOrUpdateEndpointRequest struct {
     // Used to Create or Update Endpoint
     Endpoint             CreateOrUpdateEndpoint `json:"endpoint"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for CreateOrUpdateEndpointRequest,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (c CreateOrUpdateEndpointRequest) String() string {
+    return fmt.Sprintf(
+    	"CreateOrUpdateEndpointRequest[Endpoint=%v, AdditionalProperties=%v]",
+    	c.Endpoint, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreateOrUpdateEndpointRequest.

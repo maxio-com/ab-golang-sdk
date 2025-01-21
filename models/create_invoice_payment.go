@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
     "log"
     "time"
 )
@@ -27,6 +28,14 @@ type CreateInvoicePayment struct {
     // `external` payments.
     ReceivedOn           *time.Time                  `json:"received_on,omitempty"`
     AdditionalProperties map[string]interface{}      `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for CreateInvoicePayment,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (c CreateInvoicePayment) String() string {
+    return fmt.Sprintf(
+    	"CreateInvoicePayment[Amount=%v, Memo=%v, Method=%v, Details=%v, PaymentProfileId=%v, ReceivedOn=%v, AdditionalProperties=%v]",
+    	c.Amount, c.Memo, c.Method, c.Details, c.PaymentProfileId, c.ReceivedOn, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreateInvoicePayment.

@@ -7,7 +7,6 @@ package advancedbilling
 
 import (
     "context"
-    "fmt"
     "github.com/apimatic/go-core-runtime/https"
     "github.com/apimatic/go-core-runtime/utilities"
     "github.com/maxio-com/ab-golang-sdk/errors"
@@ -65,11 +64,8 @@ func (p *ProductFamiliesController) ListProductsForProductFamily(
     input ListProductsForProductFamilyInput) (
     models.ApiResponse[[]models.ProductResponse],
     error) {
-    req := p.prepareRequest(
-      ctx,
-      "GET",
-      fmt.Sprintf("/product_families/%v/products.json", input.ProductFamilyId),
-    )
+    req := p.prepareRequest(ctx, "GET", "/product_families/%v/products.json")
+    req.AppendTemplateParams(input.ProductFamilyId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "404": {Message: "Not Found"},
@@ -126,6 +122,7 @@ func (p *ProductFamiliesController) CreateProductFamily(
     models.ApiResponse[models.ProductFamilyResponse],
     error) {
     req := p.prepareRequest(ctx, "POST", "/product_families.json")
+    
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
@@ -169,6 +166,7 @@ func (p *ProductFamiliesController) ListProductFamilies(
     models.ApiResponse[[]models.ProductFamilyResponse],
     error) {
     req := p.prepareRequest(ctx, "GET", "/product_families.json")
+    
     req.Authenticate(NewAuth("BasicAuth"))
     if input.DateField != nil {
         req.QueryParam("date_field", *input.DateField)
@@ -205,7 +203,8 @@ func (p *ProductFamiliesController) ReadProductFamily(
     id int) (
     models.ApiResponse[models.ProductFamilyResponse],
     error) {
-    req := p.prepareRequest(ctx, "GET", fmt.Sprintf("/product_families/%v.json", id))
+    req := p.prepareRequest(ctx, "GET", "/product_families/%v.json")
+    req.AppendTemplateParams(id)
     req.Authenticate(NewAuth("BasicAuth"))
     
     var result models.ProductFamilyResponse

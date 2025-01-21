@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "strings"
 )
 
@@ -42,6 +43,14 @@ type OnOffComponent struct {
     // A string representing the interval unit for this component's default price point, either month or day. This property is only available for sites with Multifrequency enabled.
     IntervalUnit              Optional[IntervalUnit]    `json:"interval_unit"`
     AdditionalProperties      map[string]interface{}    `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for OnOffComponent,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (o OnOffComponent) String() string {
+    return fmt.Sprintf(
+    	"OnOffComponent[Name=%v, Description=%v, Handle=%v, Taxable=%v, UpgradeCharge=%v, DowngradeCredit=%v, PricePoints=%v, UnitPrice=%v, TaxCode=%v, HideDateRangeOnInvoice=%v, DisplayOnHostedPage=%v, AllowFractionalQuantities=%v, PublicSignupPageIds=%v, Interval=%v, IntervalUnit=%v, AdditionalProperties=%v]",
+    	o.Name, o.Description, o.Handle, o.Taxable, o.UpgradeCharge, o.DowngradeCredit, o.PricePoints, o.UnitPrice, o.TaxCode, o.HideDateRangeOnInvoice, o.DisplayOnHostedPage, o.AllowFractionalQuantities, o.PublicSignupPageIds, o.Interval, o.IntervalUnit, o.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for OnOffComponent.

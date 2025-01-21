@@ -7,12 +7,21 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // BulkCreateSegments represents a BulkCreateSegments struct.
 type BulkCreateSegments struct {
     Segments             []CreateSegment        `json:"segments,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for BulkCreateSegments,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (b BulkCreateSegments) String() string {
+    return fmt.Sprintf(
+    	"BulkCreateSegments[Segments=%v, AdditionalProperties=%v]",
+    	b.Segments, b.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for BulkCreateSegments.

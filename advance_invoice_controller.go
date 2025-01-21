@@ -7,7 +7,6 @@ package advancedbilling
 
 import (
     "context"
-    "fmt"
     "github.com/apimatic/go-core-runtime/https"
     "github.com/apimatic/go-core-runtime/utilities"
     "github.com/maxio-com/ab-golang-sdk/errors"
@@ -42,8 +41,9 @@ func (a *AdvanceInvoiceController) IssueAdvanceInvoice(
     req := a.prepareRequest(
       ctx,
       "POST",
-      fmt.Sprintf("/subscriptions/%v/advance_invoice/issue.json", subscriptionId),
+      "/subscriptions/%v/advance_invoice/issue.json",
     )
+    req.AppendTemplateParams(subscriptionId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
@@ -73,11 +73,8 @@ func (a *AdvanceInvoiceController) ReadAdvanceInvoice(
     subscriptionId int) (
     models.ApiResponse[models.Invoice],
     error) {
-    req := a.prepareRequest(
-      ctx,
-      "GET",
-      fmt.Sprintf("/subscriptions/%v/advance_invoice.json", subscriptionId),
-    )
+    req := a.prepareRequest(ctx, "GET", "/subscriptions/%v/advance_invoice.json")
+    req.AppendTemplateParams(subscriptionId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
@@ -107,8 +104,9 @@ func (a *AdvanceInvoiceController) VoidAdvanceInvoice(
     req := a.prepareRequest(
       ctx,
       "POST",
-      fmt.Sprintf("/subscriptions/%v/advance_invoice/void.json", subscriptionId),
+      "/subscriptions/%v/advance_invoice/void.json",
     )
+    req.AppendTemplateParams(subscriptionId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "404": {TemplatedMessage: "Not Found:'{$response.body}'"},

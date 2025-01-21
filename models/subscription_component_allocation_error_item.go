@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // SubscriptionComponentAllocationErrorItem represents a SubscriptionComponentAllocationErrorItem struct.
@@ -14,6 +15,14 @@ type SubscriptionComponentAllocationErrorItem struct {
     Kind                 *string                `json:"kind,omitempty"`
     Message              *string                `json:"message,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for SubscriptionComponentAllocationErrorItem,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (s SubscriptionComponentAllocationErrorItem) String() string {
+    return fmt.Sprintf(
+    	"SubscriptionComponentAllocationErrorItem[Kind=%v, Message=%v, AdditionalProperties=%v]",
+    	s.Kind, s.Message, s.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for SubscriptionComponentAllocationErrorItem.

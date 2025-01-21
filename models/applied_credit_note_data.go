@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // AppliedCreditNoteData represents a AppliedCreditNoteData struct.
@@ -16,6 +17,14 @@ type AppliedCreditNoteData struct {
     // The number of the credit note
     Number               *string                `json:"number,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for AppliedCreditNoteData,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (a AppliedCreditNoteData) String() string {
+    return fmt.Sprintf(
+    	"AppliedCreditNoteData[Uid=%v, Number=%v, AdditionalProperties=%v]",
+    	a.Uid, a.Number, a.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for AppliedCreditNoteData.

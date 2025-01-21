@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
     "log"
     "time"
 )
@@ -23,6 +24,14 @@ type BillingManifest struct {
     PeriodType             Optional[string]       `json:"period_type"`
     ExistingBalanceInCents *int64                 `json:"existing_balance_in_cents,omitempty"`
     AdditionalProperties   map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for BillingManifest,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (b BillingManifest) String() string {
+    return fmt.Sprintf(
+    	"BillingManifest[LineItems=%v, TotalInCents=%v, TotalDiscountInCents=%v, TotalTaxInCents=%v, SubtotalInCents=%v, StartDate=%v, EndDate=%v, PeriodType=%v, ExistingBalanceInCents=%v, AdditionalProperties=%v]",
+    	b.LineItems, b.TotalInCents, b.TotalDiscountInCents, b.TotalTaxInCents, b.SubtotalInCents, b.StartDate, b.EndDate, b.PeriodType, b.ExistingBalanceInCents, b.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for BillingManifest.

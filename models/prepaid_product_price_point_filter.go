@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "strings"
 )
 
@@ -16,6 +17,14 @@ type PrepaidProductPricePointFilter struct {
     // Passed as a parameter to list methods to return only non null values.
     ProductPricePointId  string                 `json:"product_price_point_id"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for PrepaidProductPricePointFilter,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (p PrepaidProductPricePointFilter) String() string {
+    return fmt.Sprintf(
+    	"PrepaidProductPricePointFilter[ProductPricePointId=%v, AdditionalProperties=%v]",
+    	p.ProductPricePointId, p.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for PrepaidProductPricePointFilter.

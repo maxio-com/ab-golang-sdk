@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "log"
     "strings"
     "time"
@@ -25,6 +26,14 @@ type PreviewAllocationsRequest struct {
     // Available values: `full`, `prorated`, `none`.
     DowngradeCredit        Optional[CreditType]   `json:"downgrade_credit"`
     AdditionalProperties   map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for PreviewAllocationsRequest,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (p PreviewAllocationsRequest) String() string {
+    return fmt.Sprintf(
+    	"PreviewAllocationsRequest[Allocations=%v, EffectiveProrationDate=%v, UpgradeCharge=%v, DowngradeCredit=%v, AdditionalProperties=%v]",
+    	p.Allocations, p.EffectiveProrationDate, p.UpgradeCharge, p.DowngradeCredit, p.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for PreviewAllocationsRequest.

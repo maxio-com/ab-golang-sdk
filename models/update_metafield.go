@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // UpdateMetafield represents a UpdateMetafield struct.
@@ -20,6 +21,14 @@ type UpdateMetafield struct {
     // Only applicable when input_type is radio or dropdown
     Enum                 []string               `json:"enum,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for UpdateMetafield,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (u UpdateMetafield) String() string {
+    return fmt.Sprintf(
+    	"UpdateMetafield[CurrentName=%v, Name=%v, Scope=%v, InputType=%v, Enum=%v, AdditionalProperties=%v]",
+    	u.CurrentName, u.Name, u.Scope, u.InputType, u.Enum, u.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for UpdateMetafield.

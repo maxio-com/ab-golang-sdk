@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
     "log"
     "time"
 )
@@ -73,6 +74,14 @@ type Customer struct {
     // The default auto-renewal profile ID for the customer
     DefaultAutoRenewalProfileId Optional[int]          `json:"default_auto_renewal_profile_id"`
     AdditionalProperties        map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for Customer,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (c Customer) String() string {
+    return fmt.Sprintf(
+    	"Customer[FirstName=%v, LastName=%v, Email=%v, CcEmails=%v, Organization=%v, Reference=%v, Id=%v, CreatedAt=%v, UpdatedAt=%v, Address=%v, Address2=%v, City=%v, State=%v, StateName=%v, Zip=%v, Country=%v, CountryName=%v, Phone=%v, Verified=%v, PortalCustomerCreatedAt=%v, PortalInviteLastSentAt=%v, PortalInviteLastAcceptedAt=%v, TaxExempt=%v, VatNumber=%v, ParentId=%v, Locale=%v, DefaultSubscriptionGroupUid=%v, SalesforceId=%v, TaxExemptReason=%v, DefaultAutoRenewalProfileId=%v, AdditionalProperties=%v]",
+    	c.FirstName, c.LastName, c.Email, c.CcEmails, c.Organization, c.Reference, c.Id, c.CreatedAt, c.UpdatedAt, c.Address, c.Address2, c.City, c.State, c.StateName, c.Zip, c.Country, c.CountryName, c.Phone, c.Verified, c.PortalCustomerCreatedAt, c.PortalInviteLastSentAt, c.PortalInviteLastAcceptedAt, c.TaxExempt, c.VatNumber, c.ParentId, c.Locale, c.DefaultSubscriptionGroupUid, c.SalesforceId, c.TaxExemptReason, c.DefaultAutoRenewalProfileId, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for Customer.

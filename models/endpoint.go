@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // Endpoint represents a Endpoint struct.
@@ -17,6 +18,14 @@ type Endpoint struct {
     Status               *string                `json:"status,omitempty"`
     WebhookSubscriptions []string               `json:"webhook_subscriptions,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for Endpoint,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (e Endpoint) String() string {
+    return fmt.Sprintf(
+    	"Endpoint[Id=%v, Url=%v, SiteId=%v, Status=%v, WebhookSubscriptions=%v, AdditionalProperties=%v]",
+    	e.Id, e.Url, e.SiteId, e.Status, e.WebhookSubscriptions, e.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for Endpoint.

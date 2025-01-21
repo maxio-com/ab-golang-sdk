@@ -8,7 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
-    "strings"
+    "fmt"
 )
 
 // AllocationQuantity represents a AllocationQuantity struct.
@@ -19,12 +19,10 @@ type AllocationQuantity struct {
     isString bool
 }
 
-// String converts the AllocationQuantity object to a string representation.
+// String implements the fmt.Stringer interface for AllocationQuantity,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
 func (a AllocationQuantity) String() string {
-    if bytes, err := json.Marshal(a.value); err == nil {
-         return strings.Trim(string(bytes), "\"")
-    }
-    return ""
+    return fmt.Sprintf("%v", a.value)
 }
 
 // MarshalJSON implements the json.Marshaler interface for AllocationQuantity.

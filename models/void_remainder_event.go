@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "log"
     "strings"
     "time"
@@ -22,6 +23,14 @@ type VoidRemainderEvent struct {
     // Example schema for an `void_remainder` event
     EventData            VoidRemainderEventData `json:"event_data"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for VoidRemainderEvent,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (v VoidRemainderEvent) String() string {
+    return fmt.Sprintf(
+    	"VoidRemainderEvent[Id=%v, Timestamp=%v, Invoice=%v, EventType=%v, EventData=%v, AdditionalProperties=%v]",
+    	v.Id, v.Timestamp, v.Invoice, v.EventType, v.EventData, v.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for VoidRemainderEvent.

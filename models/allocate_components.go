@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // AllocateComponents represents a AllocateComponents struct.
@@ -27,6 +28,14 @@ type AllocateComponents struct {
     // Otherwise, leave the charges on the subscription to pay for at renewal.
     InitiateDunning          *bool                  `json:"initiate_dunning,omitempty"`
     AdditionalProperties     map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for AllocateComponents,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (a AllocateComponents) String() string {
+    return fmt.Sprintf(
+    	"AllocateComponents[ProrationUpgradeScheme=%v, ProrationDowngradeScheme=%v, Allocations=%v, AccrueCharge=%v, UpgradeCharge=%v, DowngradeCredit=%v, PaymentCollectionMethod=%v, InitiateDunning=%v, AdditionalProperties=%v]",
+    	a.ProrationUpgradeScheme, a.ProrationDowngradeScheme, a.Allocations, a.AccrueCharge, a.UpgradeCharge, a.DowngradeCredit, a.PaymentCollectionMethod, a.InitiateDunning, a.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for AllocateComponents.

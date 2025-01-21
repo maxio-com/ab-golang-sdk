@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "strings"
 )
 
@@ -16,6 +17,14 @@ type IssueServiceCredit struct {
     Amount               IssueServiceCreditAmount `json:"amount"`
     Memo                 *string                  `json:"memo,omitempty"`
     AdditionalProperties map[string]interface{}   `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for IssueServiceCredit,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (i IssueServiceCredit) String() string {
+    return fmt.Sprintf(
+    	"IssueServiceCredit[Amount=%v, Memo=%v, AdditionalProperties=%v]",
+    	i.Amount, i.Memo, i.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for IssueServiceCredit.

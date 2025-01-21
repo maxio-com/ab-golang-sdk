@@ -7,7 +7,6 @@ package advancedbilling
 
 import (
     "context"
-    "fmt"
     "github.com/apimatic/go-core-runtime/https"
     "github.com/apimatic/go-core-runtime/utilities"
     "github.com/maxio-com/ab-golang-sdk/errors"
@@ -42,8 +41,9 @@ func (p *ProformaInvoicesController) CreateConsolidatedProformaInvoice(
     req := p.prepareRequest(
       ctx,
       "POST",
-      fmt.Sprintf("/subscription_groups/%v/proforma_invoices.json", uid),
+      "/subscription_groups/%v/proforma_invoices.json",
     )
+    req.AppendTemplateParams(uid)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
@@ -87,8 +87,9 @@ func (p *ProformaInvoicesController) ListSubscriptionGroupProformaInvoices(
     req := p.prepareRequest(
       ctx,
       "GET",
-      fmt.Sprintf("/subscription_groups/%v/proforma_invoices.json", input.Uid),
+      "/subscription_groups/%v/proforma_invoices.json",
     )
+    req.AppendTemplateParams(input.Uid)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
@@ -133,11 +134,8 @@ func (p *ProformaInvoicesController) ReadProformaInvoice(
     proformaInvoiceUid string) (
     models.ApiResponse[models.ProformaInvoice],
     error) {
-    req := p.prepareRequest(
-      ctx,
-      "GET",
-      fmt.Sprintf("/proforma_invoices/%v.json", proformaInvoiceUid),
-    )
+    req := p.prepareRequest(ctx, "GET", "/proforma_invoices/%v.json")
+    req.AppendTemplateParams(proformaInvoiceUid)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
@@ -165,11 +163,8 @@ func (p *ProformaInvoicesController) CreateProformaInvoice(
     subscriptionId int) (
     models.ApiResponse[models.ProformaInvoice],
     error) {
-    req := p.prepareRequest(
-      ctx,
-      "POST",
-      fmt.Sprintf("/subscriptions/%v/proforma_invoices.json", subscriptionId),
-    )
+    req := p.prepareRequest(ctx, "POST", "/subscriptions/%v/proforma_invoices.json")
+    req.AppendTemplateParams(subscriptionId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
@@ -226,11 +221,8 @@ func (p *ProformaInvoicesController) ListProformaInvoices(
     input ListProformaInvoicesInput) (
     models.ApiResponse[models.ListProformaInvoicesResponse],
     error) {
-    req := p.prepareRequest(
-      ctx,
-      "GET",
-      fmt.Sprintf("/subscriptions/%v/proforma_invoices.json", input.SubscriptionId),
-    )
+    req := p.prepareRequest(ctx, "GET", "/subscriptions/%v/proforma_invoices.json")
+    req.AppendTemplateParams(input.SubscriptionId)
     req.Authenticate(NewAuth("BasicAuth"))
     if input.StartDate != nil {
         req.QueryParam("start_date", *input.StartDate)
@@ -293,11 +285,8 @@ func (p *ProformaInvoicesController) VoidProformaInvoice(
     body *models.VoidInvoiceRequest) (
     models.ApiResponse[models.ProformaInvoice],
     error) {
-    req := p.prepareRequest(
-      ctx,
-      "POST",
-      fmt.Sprintf("/proforma_invoices/%v/void.json", proformaInvoiceUid),
-    )
+    req := p.prepareRequest(ctx, "POST", "/proforma_invoices/%v/void.json")
+    req.AppendTemplateParams(proformaInvoiceUid)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
@@ -333,8 +322,9 @@ func (p *ProformaInvoicesController) PreviewProformaInvoice(
     req := p.prepareRequest(
       ctx,
       "POST",
-      fmt.Sprintf("/subscriptions/%v/proforma_invoices/preview.json", subscriptionId),
+      "/subscriptions/%v/proforma_invoices/preview.json",
     )
+    req.AppendTemplateParams(subscriptionId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
@@ -364,6 +354,7 @@ func (p *ProformaInvoicesController) CreateSignupProformaInvoice(
     models.ApiResponse[models.ProformaInvoice],
     error) {
     req := p.prepareRequest(ctx, "POST", "/subscriptions/proforma_invoices.json")
+    
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "400": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewProformaBadRequestErrorResponse},
@@ -401,6 +392,7 @@ func (p *ProformaInvoicesController) PreviewSignupProformaInvoice(
       "POST",
       "/subscriptions/proforma_invoices/preview.json",
     )
+    
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "400": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewProformaBadRequestErrorResponse},

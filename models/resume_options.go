@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // ResumeOptions represents a ResumeOptions struct.
@@ -16,6 +17,14 @@ type ResumeOptions struct {
     // Indicates whether or not Chargify should clear the subscription's existing balance before attempting to resume the subscription. If subscription cannot be resumed, the balance will remain as it was before the attempt to resume was made.
     ForgiveBalance       *bool                  `json:"forgive_balance,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for ResumeOptions,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (r ResumeOptions) String() string {
+    return fmt.Sprintf(
+    	"ResumeOptions[RequireResume=%v, ForgiveBalance=%v, AdditionalProperties=%v]",
+    	r.RequireResume, r.ForgiveBalance, r.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for ResumeOptions.

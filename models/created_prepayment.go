@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
     "log"
     "time"
 )
@@ -21,6 +22,14 @@ type CreatedPrepayment struct {
     StartingBalanceInCents *int64                 `json:"starting_balance_in_cents,omitempty"`
     EndingBalanceInCents   *int64                 `json:"ending_balance_in_cents,omitempty"`
     AdditionalProperties   map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for CreatedPrepayment,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (c CreatedPrepayment) String() string {
+    return fmt.Sprintf(
+    	"CreatedPrepayment[Id=%v, SubscriptionId=%v, AmountInCents=%v, Memo=%v, CreatedAt=%v, StartingBalanceInCents=%v, EndingBalanceInCents=%v, AdditionalProperties=%v]",
+    	c.Id, c.SubscriptionId, c.AmountInCents, c.Memo, c.CreatedAt, c.StartingBalanceInCents, c.EndingBalanceInCents, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreatedPrepayment.

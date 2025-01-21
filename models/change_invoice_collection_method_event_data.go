@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "strings"
 )
 
@@ -19,6 +20,14 @@ type ChangeInvoiceCollectionMethodEventData struct {
     // The new collection method of the invoice.
     ToCollectionMethod   string                 `json:"to_collection_method"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for ChangeInvoiceCollectionMethodEventData,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (c ChangeInvoiceCollectionMethodEventData) String() string {
+    return fmt.Sprintf(
+    	"ChangeInvoiceCollectionMethodEventData[FromCollectionMethod=%v, ToCollectionMethod=%v, AdditionalProperties=%v]",
+    	c.FromCollectionMethod, c.ToCollectionMethod, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for ChangeInvoiceCollectionMethodEventData.

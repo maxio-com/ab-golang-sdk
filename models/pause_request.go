@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // PauseRequest represents a PauseRequest struct.
@@ -14,6 +15,14 @@ import (
 type PauseRequest struct {
     Hold                 *AutoResume            `json:"hold,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for PauseRequest,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (p PauseRequest) String() string {
+    return fmt.Sprintf(
+    	"PauseRequest[Hold=%v, AdditionalProperties=%v]",
+    	p.Hold, p.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for PauseRequest.

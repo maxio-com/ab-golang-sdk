@@ -8,7 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
-    "strings"
+    "fmt"
 )
 
 // SubscriptionCustomPriceTrialInterval represents a SubscriptionCustomPriceTrialInterval struct.
@@ -19,12 +19,10 @@ type SubscriptionCustomPriceTrialInterval struct {
     isNumber bool
 }
 
-// String converts the SubscriptionCustomPriceTrialInterval object to a string representation.
+// String implements the fmt.Stringer interface for SubscriptionCustomPriceTrialInterval,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
 func (s SubscriptionCustomPriceTrialInterval) String() string {
-    if bytes, err := json.Marshal(s.value); err == nil {
-         return strings.Trim(string(bytes), "\"")
-    }
-    return ""
+    return fmt.Sprintf("%v", s.value)
 }
 
 // MarshalJSON implements the json.Marshaler interface for SubscriptionCustomPriceTrialInterval.

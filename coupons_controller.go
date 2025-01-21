@@ -7,7 +7,6 @@ package advancedbilling
 
 import (
     "context"
-    "fmt"
     "github.com/apimatic/go-core-runtime/https"
     "github.com/apimatic/go-core-runtime/utilities"
     "github.com/maxio-com/ab-golang-sdk/errors"
@@ -44,11 +43,8 @@ func (c *CouponsController) CreateCoupon(
     body *models.CouponRequest) (
     models.ApiResponse[models.CouponResponse],
     error) {
-    req := c.prepareRequest(
-      ctx,
-      "POST",
-      fmt.Sprintf("/product_families/%v/coupons.json", productFamilyId),
-    )
+    req := c.prepareRequest(ctx, "POST", "/product_families/%v/coupons.json")
+    req.AppendTemplateParams(productFamilyId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
@@ -94,11 +90,8 @@ func (c *CouponsController) ListCouponsForProductFamily(
     input ListCouponsForProductFamilyInput) (
     models.ApiResponse[[]models.CouponResponse],
     error) {
-    req := c.prepareRequest(
-      ctx,
-      "GET",
-      fmt.Sprintf("/product_families/%v/coupons.json", input.ProductFamilyId),
-    )
+    req := c.prepareRequest(ctx, "GET", "/product_families/%v/coupons.json")
+    req.AppendTemplateParams(input.ProductFamilyId)
     req.Authenticate(NewAuth("BasicAuth"))
     if input.Page != nil {
         req.QueryParam("page", *input.Page)
@@ -136,6 +129,7 @@ func (c *CouponsController) FindCoupon(
     models.ApiResponse[models.CouponResponse],
     error) {
     req := c.prepareRequest(ctx, "GET", "/coupons/find.json")
+    
     req.Authenticate(NewAuth("BasicAuth"))
     if productFamilyId != nil {
         req.QueryParam("product_family_id", *productFamilyId)
@@ -170,11 +164,8 @@ func (c *CouponsController) ReadCoupon(
     currencyPrices *bool) (
     models.ApiResponse[models.CouponResponse],
     error) {
-    req := c.prepareRequest(
-      ctx,
-      "GET",
-      fmt.Sprintf("/product_families/%v/coupons/%v.json", productFamilyId, couponId),
-    )
+    req := c.prepareRequest(ctx, "GET", "/product_families/%v/coupons/%v.json")
+    req.AppendTemplateParams(productFamilyId, couponId)
     req.Authenticate(NewAuth("BasicAuth"))
     if currencyPrices != nil {
         req.QueryParam("currency_prices", *currencyPrices)
@@ -204,11 +195,8 @@ func (c *CouponsController) UpdateCoupon(
     body *models.CouponRequest) (
     models.ApiResponse[models.CouponResponse],
     error) {
-    req := c.prepareRequest(
-      ctx,
-      "PUT",
-      fmt.Sprintf("/product_families/%v/coupons/%v.json", productFamilyId, couponId),
-    )
+    req := c.prepareRequest(ctx, "PUT", "/product_families/%v/coupons/%v.json")
+    req.AppendTemplateParams(productFamilyId, couponId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
@@ -240,11 +228,8 @@ func (c *CouponsController) ArchiveCoupon(
     couponId int) (
     models.ApiResponse[models.CouponResponse],
     error) {
-    req := c.prepareRequest(
-      ctx,
-      "DELETE",
-      fmt.Sprintf("/product_families/%v/coupons/%v.json", productFamilyId, couponId),
-    )
+    req := c.prepareRequest(ctx, "DELETE", "/product_families/%v/coupons/%v.json")
+    req.AppendTemplateParams(productFamilyId, couponId)
     req.Authenticate(NewAuth("BasicAuth"))
     
     var result models.CouponResponse
@@ -282,6 +267,7 @@ func (c *CouponsController) ListCoupons(
     models.ApiResponse[[]models.CouponResponse],
     error) {
     req := c.prepareRequest(ctx, "GET", "/coupons.json")
+    
     req.Authenticate(NewAuth("BasicAuth"))
     if input.Page != nil {
         req.QueryParam("page", *input.Page)
@@ -315,11 +301,8 @@ func (c *CouponsController) ReadCouponUsage(
     couponId int) (
     models.ApiResponse[[]models.CouponUsage],
     error) {
-    req := c.prepareRequest(
-      ctx,
-      "GET",
-      fmt.Sprintf("/product_families/%v/coupons/%v/usage.json", productFamilyId, couponId),
-    )
+    req := c.prepareRequest(ctx, "GET", "/product_families/%v/coupons/%v/usage.json")
+    req.AppendTemplateParams(productFamilyId, couponId)
     req.Authenticate(NewAuth("BasicAuth"))
     
     var result []models.CouponUsage
@@ -356,6 +339,7 @@ func (c *CouponsController) ValidateCoupon(
     models.ApiResponse[models.CouponResponse],
     error) {
     req := c.prepareRequest(ctx, "GET", "/coupons/validate.json")
+    
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "404": {Message: "Not Found", Unmarshaller: errors.NewSingleStringErrorResponse},
@@ -385,11 +369,8 @@ func (c *CouponsController) CreateOrUpdateCouponCurrencyPrices(
     body *models.CouponCurrencyRequest) (
     models.ApiResponse[models.CouponCurrencyResponse],
     error) {
-    req := c.prepareRequest(
-      ctx,
-      "PUT",
-      fmt.Sprintf("/coupons/%v/currency_prices.json", couponId),
-    )
+    req := c.prepareRequest(ctx, "PUT", "/coupons/%v/currency_prices.json")
+    req.AppendTemplateParams(couponId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorStringMapResponse},
@@ -442,11 +423,8 @@ func (c *CouponsController) CreateCouponSubcodes(
     body *models.CouponSubcodes) (
     models.ApiResponse[models.CouponSubcodesResponse],
     error) {
-    req := c.prepareRequest(
-      ctx,
-      "POST",
-      fmt.Sprintf("/coupons/%v/codes.json", couponId),
-    )
+    req := c.prepareRequest(ctx, "POST", "/coupons/%v/codes.json")
+    req.AppendTemplateParams(couponId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.Header("Content-Type", "application/json")
     if body != nil {
@@ -484,11 +462,8 @@ func (c *CouponsController) ListCouponSubcodes(
     input ListCouponSubcodesInput) (
     models.ApiResponse[models.CouponSubcodes],
     error) {
-    req := c.prepareRequest(
-      ctx,
-      "GET",
-      fmt.Sprintf("/coupons/%v/codes.json", input.CouponId),
-    )
+    req := c.prepareRequest(ctx, "GET", "/coupons/%v/codes.json")
+    req.AppendTemplateParams(input.CouponId)
     req.Authenticate(NewAuth("BasicAuth"))
     if input.Page != nil {
         req.QueryParam("page", *input.Page)
@@ -523,11 +498,8 @@ func (c *CouponsController) UpdateCouponSubcodes(
     body *models.CouponSubcodes) (
     models.ApiResponse[models.CouponSubcodesResponse],
     error) {
-    req := c.prepareRequest(
-      ctx,
-      "PUT",
-      fmt.Sprintf("/coupons/%v/codes.json", couponId),
-    )
+    req := c.prepareRequest(ctx, "PUT", "/coupons/%v/codes.json")
+    req.AppendTemplateParams(couponId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.Header("Content-Type", "application/json")
     if body != nil {
@@ -569,11 +541,8 @@ func (c *CouponsController) DeleteCouponSubcode(
     subcode string) (
     *http.Response,
     error) {
-    req := c.prepareRequest(
-      ctx,
-      "DELETE",
-      fmt.Sprintf("/coupons/%v/codes/%v.json", couponId, subcode),
-    )
+    req := c.prepareRequest(ctx, "DELETE", "/coupons/%v/codes/%v.json")
+    req.AppendTemplateParams(couponId, subcode)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "404": {TemplatedMessage: "Not Found:'{$response.body}'"},

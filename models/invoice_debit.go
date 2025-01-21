@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
     "log"
     "time"
 )
@@ -23,6 +24,14 @@ type InvoiceDebit struct {
     OriginalAmount       *string                `json:"original_amount,omitempty"`
     AppliedAmount        *string                `json:"applied_amount,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for InvoiceDebit,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (i InvoiceDebit) String() string {
+    return fmt.Sprintf(
+    	"InvoiceDebit[Uid=%v, DebitNoteNumber=%v, DebitNoteUid=%v, Role=%v, TransactionTime=%v, Memo=%v, OriginalAmount=%v, AppliedAmount=%v, AdditionalProperties=%v]",
+    	i.Uid, i.DebitNoteNumber, i.DebitNoteUid, i.Role, i.TransactionTime, i.Memo, i.OriginalAmount, i.AppliedAmount, i.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for InvoiceDebit.

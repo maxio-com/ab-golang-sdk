@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "strings"
 )
 
@@ -18,6 +19,14 @@ type CreateOrUpdateSegmentPrice struct {
     // The price can contain up to 8 decimal places. i.e. 1.00 or 0.0012 or 0.00000065
     UnitPrice            CreateOrUpdateSegmentPriceUnitPrice `json:"unit_price"`
     AdditionalProperties map[string]interface{}              `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for CreateOrUpdateSegmentPrice,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (c CreateOrUpdateSegmentPrice) String() string {
+    return fmt.Sprintf(
+    	"CreateOrUpdateSegmentPrice[StartingQuantity=%v, EndingQuantity=%v, UnitPrice=%v, AdditionalProperties=%v]",
+    	c.StartingQuantity, c.EndingQuantity, c.UnitPrice, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreateOrUpdateSegmentPrice.

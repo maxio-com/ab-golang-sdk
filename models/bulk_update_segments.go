@@ -7,12 +7,21 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // BulkUpdateSegments represents a BulkUpdateSegments struct.
 type BulkUpdateSegments struct {
     Segments             []BulkUpdateSegmentsItem `json:"segments,omitempty"`
     AdditionalProperties map[string]interface{}   `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for BulkUpdateSegments,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (b BulkUpdateSegments) String() string {
+    return fmt.Sprintf(
+    	"BulkUpdateSegments[Segments=%v, AdditionalProperties=%v]",
+    	b.Segments, b.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for BulkUpdateSegments.

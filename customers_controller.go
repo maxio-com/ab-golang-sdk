@@ -7,7 +7,6 @@ package advancedbilling
 
 import (
     "context"
-    "fmt"
     "github.com/apimatic/go-core-runtime/https"
     "github.com/apimatic/go-core-runtime/utilities"
     "github.com/maxio-com/ab-golang-sdk/errors"
@@ -49,6 +48,7 @@ func (c *CustomersController) CreateCustomer(
     models.ApiResponse[models.CustomerResponse],
     error) {
     req := c.prepareRequest(ctx, "POST", "/customers.json")
+    
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewCustomerErrorResponse},
@@ -111,6 +111,7 @@ func (c *CustomersController) ListCustomers(
     models.ApiResponse[[]models.CustomerResponse],
     error) {
     req := c.prepareRequest(ctx, "GET", "/customers.json")
+    
     req.Authenticate(NewAuth("BasicAuth"))
     if input.Direction != nil {
         req.QueryParam("direction", *input.Direction)
@@ -158,7 +159,8 @@ func (c *CustomersController) ReadCustomer(
     id int) (
     models.ApiResponse[models.CustomerResponse],
     error) {
-    req := c.prepareRequest(ctx, "GET", fmt.Sprintf("/customers/%v.json", id))
+    req := c.prepareRequest(ctx, "GET", "/customers/%v.json")
+    req.AppendTemplateParams(id)
     req.Authenticate(NewAuth("BasicAuth"))
     
     var result models.CustomerResponse
@@ -181,7 +183,8 @@ func (c *CustomersController) UpdateCustomer(
     body *models.UpdateCustomerRequest) (
     models.ApiResponse[models.CustomerResponse],
     error) {
-    req := c.prepareRequest(ctx, "PUT", fmt.Sprintf("/customers/%v.json", id))
+    req := c.prepareRequest(ctx, "PUT", "/customers/%v.json")
+    req.AppendTemplateParams(id)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
@@ -211,7 +214,8 @@ func (c *CustomersController) DeleteCustomer(
     id int) (
     *http.Response,
     error) {
-    req := c.prepareRequest(ctx, "DELETE", fmt.Sprintf("/customers/%v.json", id))
+    req := c.prepareRequest(ctx, "DELETE", "/customers/%v.json")
+    req.AppendTemplateParams(id)
     req.Authenticate(NewAuth("BasicAuth"))
     
     httpCtx, err := req.Call()
@@ -231,6 +235,7 @@ func (c *CustomersController) ReadCustomerByReference(
     models.ApiResponse[models.CustomerResponse],
     error) {
     req := c.prepareRequest(ctx, "GET", "/customers/lookup.json")
+    
     req.Authenticate(NewAuth("BasicAuth"))
     req.QueryParam("reference", reference)
     var result models.CustomerResponse
@@ -252,11 +257,8 @@ func (c *CustomersController) ListCustomerSubscriptions(
     customerId int) (
     models.ApiResponse[[]models.SubscriptionResponse],
     error) {
-    req := c.prepareRequest(
-      ctx,
-      "GET",
-      fmt.Sprintf("/customers/%v/subscriptions.json", customerId),
-    )
+    req := c.prepareRequest(ctx, "GET", "/customers/%v/subscriptions.json")
+    req.AppendTemplateParams(customerId)
     req.Authenticate(NewAuth("BasicAuth"))
     
     var result []models.SubscriptionResponse

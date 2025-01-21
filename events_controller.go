@@ -7,7 +7,6 @@ package advancedbilling
 
 import (
     "context"
-    "fmt"
     "github.com/apimatic/go-core-runtime/utilities"
     "github.com/maxio-com/ab-golang-sdk/models"
 )
@@ -114,6 +113,7 @@ func (e *EventsController) ListEvents(
     models.ApiResponse[[]models.EventResponse],
     error) {
     req := e.prepareRequest(ctx, "GET", "/events.json")
+    
     req.Authenticate(NewAuth("BasicAuth"))
     if input.Page != nil {
         req.QueryParam("page", *input.Page)
@@ -194,11 +194,8 @@ func (e *EventsController) ListSubscriptionEvents(
     input ListSubscriptionEventsInput) (
     models.ApiResponse[[]models.EventResponse],
     error) {
-    req := e.prepareRequest(
-      ctx,
-      "GET",
-      fmt.Sprintf("/subscriptions/%v/events.json", input.SubscriptionId),
-    )
+    req := e.prepareRequest(ctx, "GET", "/subscriptions/%v/events.json")
+    req.AppendTemplateParams(input.SubscriptionId)
     req.Authenticate(NewAuth("BasicAuth"))
     if input.Page != nil {
         req.QueryParam("page", *input.Page)
@@ -258,6 +255,7 @@ func (e *EventsController) ReadEventsCount(
     models.ApiResponse[models.CountResponse],
     error) {
     req := e.prepareRequest(ctx, "GET", "/events/count.json")
+    
     req.Authenticate(NewAuth("BasicAuth"))
     if input.Page != nil {
         req.QueryParam("page", *input.Page)

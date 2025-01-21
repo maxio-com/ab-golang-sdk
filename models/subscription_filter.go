@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
     "log"
     "time"
 )
@@ -27,6 +28,14 @@ type SubscriptionFilter struct {
     // The end date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns components that belong to the subscription with a timestamp at or before exact time provided in query. You can specify timezone in query - otherwise your site''s time zone will be used. If provided, this parameter will be used instead of end_date. To use this filter you also have to include the following param in the request `include=subscription`.
     EndDatetime          *time.Time                 `json:"end_datetime,omitempty"`
     AdditionalProperties map[string]interface{}     `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for SubscriptionFilter,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (s SubscriptionFilter) String() string {
+    return fmt.Sprintf(
+    	"SubscriptionFilter[States=%v, DateField=%v, StartDate=%v, EndDate=%v, StartDatetime=%v, EndDatetime=%v, AdditionalProperties=%v]",
+    	s.States, s.DateField, s.StartDate, s.EndDate, s.StartDatetime, s.EndDatetime, s.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for SubscriptionFilter.

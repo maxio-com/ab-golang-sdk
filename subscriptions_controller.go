@@ -7,7 +7,6 @@ package advancedbilling
 
 import (
     "context"
-    "fmt"
     "github.com/apimatic/go-core-runtime/https"
     "github.com/apimatic/go-core-runtime/utilities"
     "github.com/maxio-com/ab-golang-sdk/errors"
@@ -529,6 +528,7 @@ func (s *SubscriptionsController) CreateSubscription(
     models.ApiResponse[models.SubscriptionResponse],
     error) {
     req := s.prepareRequest(ctx, "POST", "/subscriptions.json")
+    
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
@@ -598,6 +598,7 @@ func (s *SubscriptionsController) ListSubscriptions(
     models.ApiResponse[[]models.SubscriptionResponse],
     error) {
     req := s.prepareRequest(ctx, "GET", "/subscriptions.json")
+    
     req.Authenticate(NewAuth("BasicAuth"))
     if input.Page != nil {
         req.QueryParamWithArraySerializationOption("page", *input.Page, https.UnIndexed)
@@ -684,11 +685,8 @@ func (s *SubscriptionsController) UpdateSubscription(
     body *models.UpdateSubscriptionRequest) (
     models.ApiResponse[models.SubscriptionResponse],
     error) {
-    req := s.prepareRequest(
-      ctx,
-      "PUT",
-      fmt.Sprintf("/subscriptions/%v.json", subscriptionId),
-    )
+    req := s.prepareRequest(ctx, "PUT", "/subscriptions/%v.json")
+    req.AppendTemplateParams(subscriptionId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
@@ -720,11 +718,8 @@ func (s *SubscriptionsController) ReadSubscription(
     include []models.SubscriptionInclude) (
     models.ApiResponse[models.SubscriptionResponse],
     error) {
-    req := s.prepareRequest(
-      ctx,
-      "GET",
-      fmt.Sprintf("/subscriptions/%v.json", subscriptionId),
-    )
+    req := s.prepareRequest(ctx, "GET", "/subscriptions/%v.json")
+    req.AppendTemplateParams(subscriptionId)
     req.Authenticate(NewAuth("BasicAuth"))
     if include != nil {
         req.QueryParamWithArraySerializationOption("include", include, https.UnIndexed)
@@ -760,11 +755,8 @@ func (s *SubscriptionsController) OverrideSubscription(
     body *models.OverrideSubscriptionRequest) (
     *http.Response,
     error) {
-    req := s.prepareRequest(
-      ctx,
-      "PUT",
-      fmt.Sprintf("/subscriptions/%v/override.json", subscriptionId),
-    )
+    req := s.prepareRequest(ctx, "PUT", "/subscriptions/%v/override.json")
+    req.AppendTemplateParams(subscriptionId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewSingleErrorResponse},
@@ -791,6 +783,7 @@ func (s *SubscriptionsController) FindSubscription(
     models.ApiResponse[models.SubscriptionResponse],
     error) {
     req := s.prepareRequest(ctx, "GET", "/subscriptions/lookup.json")
+    
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
@@ -823,11 +816,8 @@ func (s *SubscriptionsController) PurgeSubscription(
     cascade []models.SubscriptionPurgeType) (
     models.ApiResponse[models.SubscriptionResponse],
     error) {
-    req := s.prepareRequest(
-      ctx,
-      "POST",
-      fmt.Sprintf("/subscriptions/%v/purge.json", subscriptionId),
-    )
+    req := s.prepareRequest(ctx, "POST", "/subscriptions/%v/purge.json")
+    req.AppendTemplateParams(subscriptionId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "400": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewSubscriptionResponseError},
@@ -860,8 +850,9 @@ func (s *SubscriptionsController) UpdatePrepaidSubscriptionConfiguration(
     req := s.prepareRequest(
       ctx,
       "POST",
-      fmt.Sprintf("/subscriptions/%v/prepaid_configurations.json", subscriptionId),
+      "/subscriptions/%v/prepaid_configurations.json",
     )
+    req.AppendTemplateParams(subscriptionId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'."},
@@ -904,6 +895,7 @@ func (s *SubscriptionsController) PreviewSubscription(
     models.ApiResponse[models.SubscriptionPreviewResponse],
     error) {
     req := s.prepareRequest(ctx, "POST", "/subscriptions/preview.json")
+    
     req.Authenticate(NewAuth("BasicAuth"))
     req.Header("Content-Type", "application/json")
     if body != nil {
@@ -933,11 +925,8 @@ func (s *SubscriptionsController) ApplyCouponsToSubscription(
     body *models.AddCouponsRequest) (
     models.ApiResponse[models.SubscriptionResponse],
     error) {
-    req := s.prepareRequest(
-      ctx,
-      "POST",
-      fmt.Sprintf("/subscriptions/%v/add_coupon.json", subscriptionId),
-    )
+    req := s.prepareRequest(ctx, "POST", "/subscriptions/%v/add_coupon.json")
+    req.AppendTemplateParams(subscriptionId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewSubscriptionAddCouponError},
@@ -971,11 +960,8 @@ func (s *SubscriptionsController) RemoveCouponFromSubscription(
     couponCode *string) (
     models.ApiResponse[string],
     error) {
-    req := s.prepareRequest(
-      ctx,
-      "DELETE",
-      fmt.Sprintf("/subscriptions/%v/remove_coupon.json", subscriptionId),
-    )
+    req := s.prepareRequest(ctx, "DELETE", "/subscriptions/%v/remove_coupon.json")
+    req.AppendTemplateParams(subscriptionId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewSubscriptionRemoveCouponErrors},
@@ -1033,11 +1019,8 @@ func (s *SubscriptionsController) ActivateSubscription(
     body *models.ActivateSubscriptionRequest) (
     models.ApiResponse[models.SubscriptionResponse],
     error) {
-    req := s.prepareRequest(
-      ctx,
-      "PUT",
-      fmt.Sprintf("/subscriptions/%v/activate.json", subscriptionId),
-    )
+    req := s.prepareRequest(ctx, "PUT", "/subscriptions/%v/activate.json")
+    req.AppendTemplateParams(subscriptionId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "400": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorArrayMapResponse},

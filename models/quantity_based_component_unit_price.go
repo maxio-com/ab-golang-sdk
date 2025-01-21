@@ -8,7 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
-    "strings"
+    "fmt"
 )
 
 // QuantityBasedComponentUnitPrice represents a QuantityBasedComponentUnitPrice struct.
@@ -19,12 +19,10 @@ type QuantityBasedComponentUnitPrice struct {
     isPrecision bool
 }
 
-// String converts the QuantityBasedComponentUnitPrice object to a string representation.
+// String implements the fmt.Stringer interface for QuantityBasedComponentUnitPrice,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
 func (q QuantityBasedComponentUnitPrice) String() string {
-    if bytes, err := json.Marshal(q.value); err == nil {
-         return strings.Trim(string(bytes), "\"")
-    }
-    return ""
+    return fmt.Sprintf("%v", q.value)
 }
 
 // MarshalJSON implements the json.Marshaler interface for QuantityBasedComponentUnitPrice.

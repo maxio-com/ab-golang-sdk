@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // UpdateMetadata represents a UpdateMetadata struct.
@@ -15,6 +16,14 @@ type UpdateMetadata struct {
     Name                 *string                `json:"name,omitempty"`
     Value                *string                `json:"value,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for UpdateMetadata,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (u UpdateMetadata) String() string {
+    return fmt.Sprintf(
+    	"UpdateMetadata[CurrentName=%v, Name=%v, Value=%v, AdditionalProperties=%v]",
+    	u.CurrentName, u.Name, u.Value, u.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for UpdateMetadata.

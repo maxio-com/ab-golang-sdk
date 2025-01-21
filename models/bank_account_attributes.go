@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // BankAccountAttributes represents a BankAccountAttributes struct.
@@ -33,6 +34,14 @@ type BankAccountAttributes struct {
     // (only for Authorize.Net CIM storage or Square) The customerProfileId for the owner of the customerPaymentProfileId provided as the vault_token
     CustomerVaultToken    *string                `json:"customer_vault_token,omitempty"`
     AdditionalProperties  map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for BankAccountAttributes,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (b BankAccountAttributes) String() string {
+    return fmt.Sprintf(
+    	"BankAccountAttributes[ChargifyToken=%v, BankName=%v, BankRoutingNumber=%v, BankAccountNumber=%v, BankAccountType=%v, BankBranchCode=%v, BankIban=%v, BankAccountHolderType=%v, PaymentType=%v, CurrentVault=%v, VaultToken=%v, CustomerVaultToken=%v, AdditionalProperties=%v]",
+    	b.ChargifyToken, b.BankName, b.BankRoutingNumber, b.BankAccountNumber, b.BankAccountType, b.BankBranchCode, b.BankIban, b.BankAccountHolderType, b.PaymentType, b.CurrentVault, b.VaultToken, b.CustomerVaultToken, b.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for BankAccountAttributes.

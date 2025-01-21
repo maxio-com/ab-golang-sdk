@@ -7,12 +7,21 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // CountResponse represents a CountResponse struct.
 type CountResponse struct {
     Count                *int                   `json:"count,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for CountResponse,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (c CountResponse) String() string {
+    return fmt.Sprintf(
+    	"CountResponse[Count=%v, AdditionalProperties=%v]",
+    	c.Count, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for CountResponse.

@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
     "log"
     "time"
 )
@@ -17,6 +18,14 @@ type PublicKey struct {
     RequiresSecurityToken *bool                  `json:"requires_security_token,omitempty"`
     CreatedAt             *time.Time             `json:"created_at,omitempty"`
     AdditionalProperties  map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for PublicKey,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (p PublicKey) String() string {
+    return fmt.Sprintf(
+    	"PublicKey[PublicKey=%v, RequiresSecurityToken=%v, CreatedAt=%v, AdditionalProperties=%v]",
+    	p.PublicKey, p.RequiresSecurityToken, p.CreatedAt, p.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for PublicKey.

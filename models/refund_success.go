@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "strings"
 )
 
@@ -17,6 +18,14 @@ type RefundSuccess struct {
     GatewayTransactionId int                    `json:"gateway_transaction_id"`
     ProductId            int                    `json:"product_id"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for RefundSuccess,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (r RefundSuccess) String() string {
+    return fmt.Sprintf(
+    	"RefundSuccess[RefundId=%v, GatewayTransactionId=%v, ProductId=%v, AdditionalProperties=%v]",
+    	r.RefundId, r.GatewayTransactionId, r.ProductId, r.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for RefundSuccess.

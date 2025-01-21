@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
     "log"
     "time"
 )
@@ -21,6 +22,14 @@ type ProductFamily struct {
     CreatedAt            *time.Time             `json:"created_at,omitempty"`
     UpdatedAt            *time.Time             `json:"updated_at,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for ProductFamily,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (p ProductFamily) String() string {
+    return fmt.Sprintf(
+    	"ProductFamily[Id=%v, Name=%v, Handle=%v, AccountingCode=%v, Description=%v, CreatedAt=%v, UpdatedAt=%v, AdditionalProperties=%v]",
+    	p.Id, p.Name, p.Handle, p.AccountingCode, p.Description, p.CreatedAt, p.UpdatedAt, p.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for ProductFamily.

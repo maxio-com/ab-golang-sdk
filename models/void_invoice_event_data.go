@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "log"
     "strings"
     "time"
@@ -28,6 +29,14 @@ type VoidInvoiceEventData struct {
     // The reason for the void.
     Reason               string                 `json:"reason"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for VoidInvoiceEventData,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (v VoidInvoiceEventData) String() string {
+    return fmt.Sprintf(
+    	"VoidInvoiceEventData[CreditNoteAttributes=%v, Memo=%v, AppliedAmount=%v, TransactionTime=%v, IsAdvanceInvoice=%v, Reason=%v, AdditionalProperties=%v]",
+    	v.CreditNoteAttributes, v.Memo, v.AppliedAmount, v.TransactionTime, v.IsAdvanceInvoice, v.Reason, v.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for VoidInvoiceEventData.

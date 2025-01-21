@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "log"
     "strings"
     "time"
@@ -57,6 +58,14 @@ type Event struct {
     // they map to `null` instead.
     EventSpecificData    *EventEventSpecificData `json:"event_specific_data"`
     AdditionalProperties map[string]interface{}  `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for Event,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (e Event) String() string {
+    return fmt.Sprintf(
+    	"Event[Id=%v, Key=%v, Message=%v, SubscriptionId=%v, CustomerId=%v, CreatedAt=%v, EventSpecificData=%v, AdditionalProperties=%v]",
+    	e.Id, e.Key, e.Message, e.SubscriptionId, e.CustomerId, e.CreatedAt, e.EventSpecificData, e.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for Event.

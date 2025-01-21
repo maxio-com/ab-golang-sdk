@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "strings"
 )
 
@@ -15,6 +16,14 @@ import (
 type CreateEBBComponent struct {
     EventBasedComponent  EBBComponent           `json:"event_based_component"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for CreateEBBComponent,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (c CreateEBBComponent) String() string {
+    return fmt.Sprintf(
+    	"CreateEBBComponent[EventBasedComponent=%v, AdditionalProperties=%v]",
+    	c.EventBasedComponent, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreateEBBComponent.

@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "strings"
 )
 
@@ -15,6 +16,14 @@ import (
 type CreateMeteredComponent struct {
     MeteredComponent     MeteredComponent       `json:"metered_component"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for CreateMeteredComponent,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (c CreateMeteredComponent) String() string {
+    return fmt.Sprintf(
+    	"CreateMeteredComponent[MeteredComponent=%v, AdditionalProperties=%v]",
+    	c.MeteredComponent, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreateMeteredComponent.

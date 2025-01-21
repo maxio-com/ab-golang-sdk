@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // CustomerChange represents a CustomerChange struct.
@@ -16,6 +17,14 @@ type CustomerChange struct {
     BillingAddress       Optional[AddressChange]              `json:"billing_address"`
     CustomFields         Optional[CustomerCustomFieldsChange] `json:"custom_fields"`
     AdditionalProperties map[string]interface{}               `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for CustomerChange,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (c CustomerChange) String() string {
+    return fmt.Sprintf(
+    	"CustomerChange[Payer=%v, ShippingAddress=%v, BillingAddress=%v, CustomFields=%v, AdditionalProperties=%v]",
+    	c.Payer, c.ShippingAddress, c.BillingAddress, c.CustomFields, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for CustomerChange.

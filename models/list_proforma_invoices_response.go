@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // ListProformaInvoicesResponse represents a ListProformaInvoicesResponse struct.
@@ -14,6 +15,14 @@ type ListProformaInvoicesResponse struct {
     ProformaInvoices     []ProformaInvoice         `json:"proforma_invoices,omitempty"`
     Meta                 *ListProformaInvoicesMeta `json:"meta,omitempty"`
     AdditionalProperties map[string]interface{}    `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for ListProformaInvoicesResponse,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (l ListProformaInvoicesResponse) String() string {
+    return fmt.Sprintf(
+    	"ListProformaInvoicesResponse[ProformaInvoices=%v, Meta=%v, AdditionalProperties=%v]",
+    	l.ProformaInvoices, l.Meta, l.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for ListProformaInvoicesResponse.

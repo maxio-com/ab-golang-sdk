@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "strings"
 )
 
@@ -25,6 +26,14 @@ type ComponentCustomPrice struct {
     // On/off components only need one price bracket starting at 1
     Prices               []Price                `json:"prices"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for ComponentCustomPrice,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (c ComponentCustomPrice) String() string {
+    return fmt.Sprintf(
+    	"ComponentCustomPrice[TaxIncluded=%v, PricingScheme=%v, Interval=%v, IntervalUnit=%v, Prices=%v, AdditionalProperties=%v]",
+    	c.TaxIncluded, c.PricingScheme, c.Interval, c.IntervalUnit, c.Prices, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for ComponentCustomPrice.

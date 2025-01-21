@@ -7,12 +7,21 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // EnableWebhooksResponse represents a EnableWebhooksResponse struct.
 type EnableWebhooksResponse struct {
     WebhooksEnabled      *bool                  `json:"webhooks_enabled,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for EnableWebhooksResponse,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (e EnableWebhooksResponse) String() string {
+    return fmt.Sprintf(
+    	"EnableWebhooksResponse[WebhooksEnabled=%v, AdditionalProperties=%v]",
+    	e.WebhooksEnabled, e.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for EnableWebhooksResponse.

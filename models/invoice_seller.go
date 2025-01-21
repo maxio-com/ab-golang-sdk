@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // InvoiceSeller represents a InvoiceSeller struct.
@@ -17,6 +18,14 @@ type InvoiceSeller struct {
     Phone                *string                `json:"phone,omitempty"`
     LogoUrl              Optional[string]       `json:"logo_url"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for InvoiceSeller,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (i InvoiceSeller) String() string {
+    return fmt.Sprintf(
+    	"InvoiceSeller[Name=%v, Address=%v, Phone=%v, LogoUrl=%v, AdditionalProperties=%v]",
+    	i.Name, i.Address, i.Phone, i.LogoUrl, i.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for InvoiceSeller.

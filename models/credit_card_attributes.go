@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // CreditCardAttributes represents a CreditCardAttributes struct.
@@ -15,6 +16,14 @@ type CreditCardAttributes struct {
     ExpirationMonth      *string                `json:"expiration_month,omitempty"`
     ExpirationYear       *string                `json:"expiration_year,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for CreditCardAttributes,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (c CreditCardAttributes) String() string {
+    return fmt.Sprintf(
+    	"CreditCardAttributes[FullNumber=%v, ExpirationMonth=%v, ExpirationYear=%v, AdditionalProperties=%v]",
+    	c.FullNumber, c.ExpirationMonth, c.ExpirationYear, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreditCardAttributes.

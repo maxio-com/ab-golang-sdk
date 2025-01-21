@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "strings"
 )
 
@@ -15,6 +16,14 @@ import (
 type CreateQuantityBasedComponent struct {
     QuantityBasedComponent QuantityBasedComponent `json:"quantity_based_component"`
     AdditionalProperties   map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for CreateQuantityBasedComponent,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (c CreateQuantityBasedComponent) String() string {
+    return fmt.Sprintf(
+    	"CreateQuantityBasedComponent[QuantityBasedComponent=%v, AdditionalProperties=%v]",
+    	c.QuantityBasedComponent, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreateQuantityBasedComponent.

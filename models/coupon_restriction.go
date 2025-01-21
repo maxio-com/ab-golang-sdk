@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // CouponRestriction represents a CouponRestriction struct.
@@ -17,6 +18,14 @@ type CouponRestriction struct {
     Name                 *string                `json:"name,omitempty"`
     Handle               Optional[string]       `json:"handle"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for CouponRestriction,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (c CouponRestriction) String() string {
+    return fmt.Sprintf(
+    	"CouponRestriction[Id=%v, ItemType=%v, ItemId=%v, Name=%v, Handle=%v, AdditionalProperties=%v]",
+    	c.Id, c.ItemType, c.ItemId, c.Name, c.Handle, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for CouponRestriction.

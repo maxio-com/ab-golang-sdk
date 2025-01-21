@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "strings"
 )
 
@@ -15,6 +16,14 @@ import (
 type BankAccountResponse struct {
     PaymentProfile       BankAccountPaymentProfile `json:"payment_profile"`
     AdditionalProperties map[string]interface{}    `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for BankAccountResponse,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (b BankAccountResponse) String() string {
+    return fmt.Sprintf(
+    	"BankAccountResponse[PaymentProfile=%v, AdditionalProperties=%v]",
+    	b.PaymentProfile, b.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for BankAccountResponse.

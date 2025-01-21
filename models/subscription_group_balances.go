@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // SubscriptionGroupBalances represents a SubscriptionGroupBalances struct.
@@ -16,6 +17,14 @@ type SubscriptionGroupBalances struct {
     OpenInvoices         *AccountBalance        `json:"open_invoices,omitempty"`
     PendingDiscounts     *AccountBalance        `json:"pending_discounts,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for SubscriptionGroupBalances,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (s SubscriptionGroupBalances) String() string {
+    return fmt.Sprintf(
+    	"SubscriptionGroupBalances[Prepayments=%v, ServiceCredits=%v, OpenInvoices=%v, PendingDiscounts=%v, AdditionalProperties=%v]",
+    	s.Prepayments, s.ServiceCredits, s.OpenInvoices, s.PendingDiscounts, s.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for SubscriptionGroupBalances.

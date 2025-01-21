@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "strings"
 )
 
@@ -15,6 +16,14 @@ import (
 type UpsertPrepaidConfigurationRequest struct {
     PrepaidConfiguration UpsertPrepaidConfiguration `json:"prepaid_configuration"`
     AdditionalProperties map[string]interface{}     `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for UpsertPrepaidConfigurationRequest,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (u UpsertPrepaidConfigurationRequest) String() string {
+    return fmt.Sprintf(
+    	"UpsertPrepaidConfigurationRequest[PrepaidConfiguration=%v, AdditionalProperties=%v]",
+    	u.PrepaidConfiguration, u.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for UpsertPrepaidConfigurationRequest.

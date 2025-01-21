@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // BaseStringError represents a BaseStringError struct.
@@ -14,6 +15,14 @@ import (
 type BaseStringError struct {
     Base                 []string               `json:"base,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for BaseStringError,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (b BaseStringError) String() string {
+    return fmt.Sprintf(
+    	"BaseStringError[Base=%v, AdditionalProperties=%v]",
+    	b.Base, b.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for BaseStringError.

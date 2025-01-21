@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // NestedSubscriptionGroup represents a NestedSubscriptionGroup struct.
@@ -20,6 +21,14 @@ type NestedSubscriptionGroup struct {
     // A boolean indicating whether the subscription is the primary in the group. Applicable to scheme 1.
     Primary               *bool                  `json:"primary,omitempty"`
     AdditionalProperties  map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for NestedSubscriptionGroup,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (n NestedSubscriptionGroup) String() string {
+    return fmt.Sprintf(
+    	"NestedSubscriptionGroup[Uid=%v, Scheme=%v, PrimarySubscriptionId=%v, Primary=%v, AdditionalProperties=%v]",
+    	n.Uid, n.Scheme, n.PrimarySubscriptionId, n.Primary, n.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for NestedSubscriptionGroup.

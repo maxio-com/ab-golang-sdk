@@ -7,12 +7,21 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // BulkCreateProductPricePointsResponse represents a BulkCreateProductPricePointsResponse struct.
 type BulkCreateProductPricePointsResponse struct {
     PricePoints          []ProductPricePoint    `json:"price_points,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for BulkCreateProductPricePointsResponse,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (b BulkCreateProductPricePointsResponse) String() string {
+    return fmt.Sprintf(
+    	"BulkCreateProductPricePointsResponse[PricePoints=%v, AdditionalProperties=%v]",
+    	b.PricePoints, b.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for BulkCreateProductPricePointsResponse.

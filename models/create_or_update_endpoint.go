@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "strings"
 )
 
@@ -17,6 +18,14 @@ type CreateOrUpdateEndpoint struct {
     Url                  string                 `json:"url"`
     WebhookSubscriptions []WebhookSubscription  `json:"webhook_subscriptions"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for CreateOrUpdateEndpoint,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (c CreateOrUpdateEndpoint) String() string {
+    return fmt.Sprintf(
+    	"CreateOrUpdateEndpoint[Url=%v, WebhookSubscriptions=%v, AdditionalProperties=%v]",
+    	c.Url, c.WebhookSubscriptions, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreateOrUpdateEndpoint.

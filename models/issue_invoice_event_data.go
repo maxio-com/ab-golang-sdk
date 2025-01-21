@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "strings"
 )
 
@@ -30,6 +31,14 @@ type IssueInvoiceEventData struct {
     // The invoice total, which is `subtotal_amount - discount_amount + tax_amount`.'
     TotalAmount          string                    `json:"total_amount"`
     AdditionalProperties map[string]interface{}    `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for IssueInvoiceEventData,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (i IssueInvoiceEventData) String() string {
+    return fmt.Sprintf(
+    	"IssueInvoiceEventData[ConsolidationLevel=%v, FromStatus=%v, ToStatus=%v, DueAmount=%v, TotalAmount=%v, AdditionalProperties=%v]",
+    	i.ConsolidationLevel, i.FromStatus, i.ToStatus, i.DueAmount, i.TotalAmount, i.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for IssueInvoiceEventData.

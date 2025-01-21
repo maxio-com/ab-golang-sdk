@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // ListMrrFilter represents a ListMrrFilter struct.
@@ -14,6 +15,14 @@ type ListMrrFilter struct {
     // Submit ids in order to limit results. Use in query: `filter[subscription_ids]=1,2,3`.
     SubscriptionIds      []int                  `json:"subscription_ids,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for ListMrrFilter,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (l ListMrrFilter) String() string {
+    return fmt.Sprintf(
+    	"ListMrrFilter[SubscriptionIds=%v, AdditionalProperties=%v]",
+    	l.SubscriptionIds, l.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for ListMrrFilter.

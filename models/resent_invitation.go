@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
     "log"
     "time"
 )
@@ -20,6 +21,14 @@ type ResentInvitation struct {
     LastInviteSentAt     *time.Time             `json:"last_invite_sent_at,omitempty"`
     LastInviteAcceptedAt *time.Time             `json:"last_invite_accepted_at,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for ResentInvitation,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (r ResentInvitation) String() string {
+    return fmt.Sprintf(
+    	"ResentInvitation[LastSentAt=%v, LastAcceptedAt=%v, SendInviteLinkText=%v, UninvitedCount=%v, LastInviteSentAt=%v, LastInviteAcceptedAt=%v, AdditionalProperties=%v]",
+    	r.LastSentAt, r.LastAcceptedAt, r.SendInviteLinkText, r.UninvitedCount, r.LastInviteSentAt, r.LastInviteAcceptedAt, r.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for ResentInvitation.

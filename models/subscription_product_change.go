@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "strings"
 )
 
@@ -16,6 +17,14 @@ type SubscriptionProductChange struct {
     PreviousProductId    int                    `json:"previous_product_id"`
     NewProductId         int                    `json:"new_product_id"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for SubscriptionProductChange,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (s SubscriptionProductChange) String() string {
+    return fmt.Sprintf(
+    	"SubscriptionProductChange[PreviousProductId=%v, NewProductId=%v, AdditionalProperties=%v]",
+    	s.PreviousProductId, s.NewProductId, s.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for SubscriptionProductChange.

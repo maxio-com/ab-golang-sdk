@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "strings"
 )
 
@@ -15,6 +16,14 @@ import (
 type CreateProductFamilyRequest struct {
     ProductFamily        CreateProductFamily    `json:"product_family"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for CreateProductFamilyRequest,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (c CreateProductFamilyRequest) String() string {
+    return fmt.Sprintf(
+    	"CreateProductFamilyRequest[ProductFamily=%v, AdditionalProperties=%v]",
+    	c.ProductFamily, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreateProductFamilyRequest.

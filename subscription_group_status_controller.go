@@ -7,7 +7,6 @@ package advancedbilling
 
 import (
     "context"
-    "fmt"
     "github.com/apimatic/go-core-runtime/https"
     "github.com/apimatic/go-core-runtime/utilities"
     "github.com/maxio-com/ab-golang-sdk/errors"
@@ -38,11 +37,8 @@ func (s *SubscriptionGroupStatusController) CancelSubscriptionsInGroup(
     body *models.CancelGroupedSubscriptionsRequest) (
     *http.Response,
     error) {
-    req := s.prepareRequest(
-      ctx,
-      "POST",
-      fmt.Sprintf("/subscription_groups/%v/cancel.json", uid),
-    )
+    req := s.prepareRequest(ctx, "POST", "/subscription_groups/%v/cancel.json")
+    req.AppendTemplateParams(uid)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
@@ -72,8 +68,9 @@ func (s *SubscriptionGroupStatusController) InitiateDelayedCancellationForGroup(
     req := s.prepareRequest(
       ctx,
       "POST",
-      fmt.Sprintf("/subscription_groups/%v/delayed_cancel.json", uid),
+      "/subscription_groups/%v/delayed_cancel.json",
     )
+    req.AppendTemplateParams(uid)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
@@ -98,8 +95,9 @@ func (s *SubscriptionGroupStatusController) CancelDelayedCancellationForGroup(
     req := s.prepareRequest(
       ctx,
       "DELETE",
-      fmt.Sprintf("/subscription_groups/%v/delayed_cancel.json", uid),
+      "/subscription_groups/%v/delayed_cancel.json",
     )
+    req.AppendTemplateParams(uid)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
@@ -131,11 +129,8 @@ func (s *SubscriptionGroupStatusController) ReactivateSubscriptionGroup(
     body *models.ReactivateSubscriptionGroupRequest) (
     models.ApiResponse[models.ReactivateSubscriptionGroupResponse],
     error) {
-    req := s.prepareRequest(
-      ctx,
-      "POST",
-      fmt.Sprintf("/subscription_groups/%v/reactivate.json", uid),
-    )
+    req := s.prepareRequest(ctx, "POST", "/subscription_groups/%v/reactivate.json")
+    req.AppendTemplateParams(uid)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},

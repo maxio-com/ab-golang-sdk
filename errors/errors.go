@@ -9,6 +9,7 @@ import (
     "fmt"
     "github.com/apimatic/go-core-runtime/https"
     "github.com/maxio-com/ab-golang-sdk/models"
+    "strings"
 )
 
 // ComponentAllocationError is a custom error.
@@ -31,6 +32,17 @@ func (c ComponentAllocationError) Error() string {
     return fmt.Sprintf("ComponentAllocationError occured: %v", c.Message)
 }
 
+// String implements the fmt.Stringer interface for ComponentAllocationError,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (c ComponentAllocationError) String() string {
+    suffixTrimmed := strings.TrimSuffix(c.ApiError.String(), "]")
+    prefixTrimmed := strings.TrimPrefix(suffixTrimmed, "ApiError[")
+    
+    return fmt.Sprintf(
+    	"ComponentAllocationError[%v, Errors=%v]",
+    	prefixTrimmed, c.Errors)
+}
+
 // ComponentPricePointError is a custom error.
 type ComponentPricePointError struct {
     https.ApiError
@@ -49,6 +61,17 @@ func NewComponentPricePointError(apiError https.ApiError) error {
 // It returns a formatted error message for ComponentPricePointError.
 func (c ComponentPricePointError) Error() string {
     return fmt.Sprintf("ComponentPricePointError occured: %v", c.Message)
+}
+
+// String implements the fmt.Stringer interface for ComponentPricePointError,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (c ComponentPricePointError) String() string {
+    suffixTrimmed := strings.TrimSuffix(c.ApiError.String(), "]")
+    prefixTrimmed := strings.TrimPrefix(suffixTrimmed, "ApiError[")
+    
+    return fmt.Sprintf(
+    	"ComponentPricePointError[%v, Errors=%v]",
+    	prefixTrimmed, c.Errors)
 }
 
 // CustomerErrorResponse is a custom error.
@@ -71,6 +94,17 @@ func (c CustomerErrorResponse) Error() string {
     return fmt.Sprintf("CustomerErrorResponse occured: %v", c.Message)
 }
 
+// String implements the fmt.Stringer interface for CustomerErrorResponse,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (c CustomerErrorResponse) String() string {
+    suffixTrimmed := strings.TrimSuffix(c.ApiError.String(), "]")
+    prefixTrimmed := strings.TrimPrefix(suffixTrimmed, "ApiError[")
+    
+    return fmt.Sprintf(
+    	"CustomerErrorResponse[%v, Errors=%v]",
+    	prefixTrimmed, c.Errors)
+}
+
 // ErrorArrayMapResponse is a custom error.
 type ErrorArrayMapResponse struct {
     https.ApiError
@@ -89,6 +123,17 @@ func NewErrorArrayMapResponse(apiError https.ApiError) error {
 // It returns a formatted error message for ErrorArrayMapResponse.
 func (e ErrorArrayMapResponse) Error() string {
     return fmt.Sprintf("ErrorArrayMapResponse occured: %v", e.Message)
+}
+
+// String implements the fmt.Stringer interface for ErrorArrayMapResponse,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (e ErrorArrayMapResponse) String() string {
+    suffixTrimmed := strings.TrimSuffix(e.ApiError.String(), "]")
+    prefixTrimmed := strings.TrimPrefix(suffixTrimmed, "ApiError[")
+    
+    return fmt.Sprintf(
+    	"ErrorArrayMapResponse[%v, Errors=%v]",
+    	prefixTrimmed, e.Errors)
 }
 
 // ErrorListResponse is a custom error.
@@ -112,6 +157,17 @@ func (e ErrorListResponse) Error() string {
     return fmt.Sprintf("ErrorListResponse occured: %v", e.Message)
 }
 
+// String implements the fmt.Stringer interface for ErrorListResponse,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (e ErrorListResponse) String() string {
+    suffixTrimmed := strings.TrimSuffix(e.ApiError.String(), "]")
+    prefixTrimmed := strings.TrimPrefix(suffixTrimmed, "ApiError[")
+    
+    return fmt.Sprintf(
+    	"ErrorListResponse[%v, Errors=%v]",
+    	prefixTrimmed, e.Errors)
+}
+
 // ErrorStringMapResponse is a custom error.
 type ErrorStringMapResponse struct {
     https.ApiError
@@ -130,6 +186,17 @@ func NewErrorStringMapResponse(apiError https.ApiError) error {
 // It returns a formatted error message for ErrorStringMapResponse.
 func (e ErrorStringMapResponse) Error() string {
     return fmt.Sprintf("ErrorStringMapResponse occured: %v", e.Message)
+}
+
+// String implements the fmt.Stringer interface for ErrorStringMapResponse,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (e ErrorStringMapResponse) String() string {
+    suffixTrimmed := strings.TrimSuffix(e.ApiError.String(), "]")
+    prefixTrimmed := strings.TrimPrefix(suffixTrimmed, "ApiError[")
+    
+    return fmt.Sprintf(
+    	"ErrorStringMapResponse[%v, Errors=%v]",
+    	prefixTrimmed, e.Errors)
 }
 
 // EventBasedBillingListSegmentsErrors is a custom error.
@@ -152,6 +219,17 @@ func (e EventBasedBillingListSegmentsErrors) Error() string {
     return fmt.Sprintf("EventBasedBillingListSegmentsErrors occured: %v", e.Message)
 }
 
+// String implements the fmt.Stringer interface for EventBasedBillingListSegmentsErrors,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (e EventBasedBillingListSegmentsErrors) String() string {
+    suffixTrimmed := strings.TrimSuffix(e.ApiError.String(), "]")
+    prefixTrimmed := strings.TrimPrefix(suffixTrimmed, "ApiError[")
+    
+    return fmt.Sprintf(
+    	"EventBasedBillingListSegmentsErrors[%v, Errors=%v]",
+    	prefixTrimmed, e.Errors)
+}
+
 // EventBasedBillingSegment is a custom error.
 type EventBasedBillingSegment struct {
     https.ApiError
@@ -170,6 +248,17 @@ func NewEventBasedBillingSegment(apiError https.ApiError) error {
 // It returns a formatted error message for EventBasedBillingSegment.
 func (e EventBasedBillingSegment) Error() string {
     return fmt.Sprintf("EventBasedBillingSegment occured: %v", e.Message)
+}
+
+// String implements the fmt.Stringer interface for EventBasedBillingSegment,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (e EventBasedBillingSegment) String() string {
+    suffixTrimmed := strings.TrimSuffix(e.ApiError.String(), "]")
+    prefixTrimmed := strings.TrimPrefix(suffixTrimmed, "ApiError[")
+    
+    return fmt.Sprintf(
+    	"EventBasedBillingSegment[%v, Errors=%v]",
+    	prefixTrimmed, e.Errors)
 }
 
 // EventBasedBillingSegmentErrors is a custom error.
@@ -192,6 +281,17 @@ func (e EventBasedBillingSegmentErrors) Error() string {
     return fmt.Sprintf("EventBasedBillingSegmentErrors occured: %v", e.Message)
 }
 
+// String implements the fmt.Stringer interface for EventBasedBillingSegmentErrors,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (e EventBasedBillingSegmentErrors) String() string {
+    suffixTrimmed := strings.TrimSuffix(e.ApiError.String(), "]")
+    prefixTrimmed := strings.TrimPrefix(suffixTrimmed, "ApiError[")
+    
+    return fmt.Sprintf(
+    	"EventBasedBillingSegmentErrors[%v, Errors=%v]",
+    	prefixTrimmed, e.Errors)
+}
+
 // ProductPricePointErrorResponse is a custom error.
 type ProductPricePointErrorResponse struct {
     https.ApiError
@@ -212,6 +312,17 @@ func (p ProductPricePointErrorResponse) Error() string {
     return fmt.Sprintf("ProductPricePointErrorResponse occured: %v", p.Message)
 }
 
+// String implements the fmt.Stringer interface for ProductPricePointErrorResponse,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (p ProductPricePointErrorResponse) String() string {
+    suffixTrimmed := strings.TrimSuffix(p.ApiError.String(), "]")
+    prefixTrimmed := strings.TrimPrefix(suffixTrimmed, "ApiError[")
+    
+    return fmt.Sprintf(
+    	"ProductPricePointErrorResponse[%v, Errors=%v]",
+    	prefixTrimmed, p.Errors)
+}
+
 // ProformaBadRequestErrorResponse is a custom error.
 type ProformaBadRequestErrorResponse struct {
     https.ApiError
@@ -230,6 +341,17 @@ func NewProformaBadRequestErrorResponse(apiError https.ApiError) error {
 // It returns a formatted error message for ProformaBadRequestErrorResponse.
 func (p ProformaBadRequestErrorResponse) Error() string {
     return fmt.Sprintf("ProformaBadRequestErrorResponse occured: %v", p.Message)
+}
+
+// String implements the fmt.Stringer interface for ProformaBadRequestErrorResponse,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (p ProformaBadRequestErrorResponse) String() string {
+    suffixTrimmed := strings.TrimSuffix(p.ApiError.String(), "]")
+    prefixTrimmed := strings.TrimPrefix(suffixTrimmed, "ApiError[")
+    
+    return fmt.Sprintf(
+    	"ProformaBadRequestErrorResponse[%v, Errors=%v]",
+    	prefixTrimmed, p.Errors)
 }
 
 // RefundPrepaymentBaseErrorsResponse is a custom error.
@@ -253,6 +375,17 @@ func (r RefundPrepaymentBaseErrorsResponse) Error() string {
     return fmt.Sprintf("RefundPrepaymentBaseErrorsResponse occured: %v", r.Message)
 }
 
+// String implements the fmt.Stringer interface for RefundPrepaymentBaseErrorsResponse,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (r RefundPrepaymentBaseErrorsResponse) String() string {
+    suffixTrimmed := strings.TrimSuffix(r.ApiError.String(), "]")
+    prefixTrimmed := strings.TrimPrefix(suffixTrimmed, "ApiError[")
+    
+    return fmt.Sprintf(
+    	"RefundPrepaymentBaseErrorsResponse[%v, Errors=%v]",
+    	prefixTrimmed, r.Errors)
+}
+
 // SingleErrorResponse is a custom error.
 type SingleErrorResponse struct {
     https.ApiError
@@ -273,6 +406,17 @@ func (s SingleErrorResponse) Error() string {
     return fmt.Sprintf("SingleErrorResponse occured: %v", s.Message)
 }
 
+// String implements the fmt.Stringer interface for SingleErrorResponse,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (s SingleErrorResponse) String() string {
+    suffixTrimmed := strings.TrimSuffix(s.ApiError.String(), "]")
+    prefixTrimmed := strings.TrimPrefix(suffixTrimmed, "ApiError[")
+    
+    return fmt.Sprintf(
+    	"SingleErrorResponse[%v, MError=%v]",
+    	prefixTrimmed, s.MError)
+}
+
 // SingleStringErrorResponse is a custom error.
 type SingleStringErrorResponse struct {
     https.ApiError
@@ -291,6 +435,17 @@ func NewSingleStringErrorResponse(apiError https.ApiError) error {
 // It returns a formatted error message for SingleStringErrorResponse.
 func (s SingleStringErrorResponse) Error() string {
     return fmt.Sprintf("SingleStringErrorResponse occured: %v", s.Message)
+}
+
+// String implements the fmt.Stringer interface for SingleStringErrorResponse,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (s SingleStringErrorResponse) String() string {
+    suffixTrimmed := strings.TrimSuffix(s.ApiError.String(), "]")
+    prefixTrimmed := strings.TrimPrefix(suffixTrimmed, "ApiError[")
+    
+    return fmt.Sprintf(
+    	"SingleStringErrorResponse[%v, Errors=%v]",
+    	prefixTrimmed, s.Errors)
 }
 
 // SubscriptionAddCouponError is a custom error.
@@ -316,6 +471,17 @@ func (s SubscriptionAddCouponError) Error() string {
     return fmt.Sprintf("SubscriptionAddCouponError occured: %v", s.Message)
 }
 
+// String implements the fmt.Stringer interface for SubscriptionAddCouponError,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (s SubscriptionAddCouponError) String() string {
+    suffixTrimmed := strings.TrimSuffix(s.ApiError.String(), "]")
+    prefixTrimmed := strings.TrimPrefix(suffixTrimmed, "ApiError[")
+    
+    return fmt.Sprintf(
+    	"SubscriptionAddCouponError[%v, Codes=%v, CouponCode=%v, CouponCodes=%v, Subscription=%v]",
+    	prefixTrimmed, s.Codes, s.CouponCode, s.CouponCodes, s.Subscription)
+}
+
 // SubscriptionComponentAllocationError is a custom error.
 type SubscriptionComponentAllocationError struct {
     https.ApiError
@@ -334,6 +500,17 @@ func NewSubscriptionComponentAllocationError(apiError https.ApiError) error {
 // It returns a formatted error message for SubscriptionComponentAllocationError.
 func (s SubscriptionComponentAllocationError) Error() string {
     return fmt.Sprintf("SubscriptionComponentAllocationError occured: %v", s.Message)
+}
+
+// String implements the fmt.Stringer interface for SubscriptionComponentAllocationError,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (s SubscriptionComponentAllocationError) String() string {
+    suffixTrimmed := strings.TrimSuffix(s.ApiError.String(), "]")
+    prefixTrimmed := strings.TrimPrefix(suffixTrimmed, "ApiError[")
+    
+    return fmt.Sprintf(
+    	"SubscriptionComponentAllocationError[%v, Errors=%v]",
+    	prefixTrimmed, s.Errors)
 }
 
 // SubscriptionGroupCreateErrorResponse is a custom error.
@@ -356,6 +533,17 @@ func (s SubscriptionGroupCreateErrorResponse) Error() string {
     return fmt.Sprintf("SubscriptionGroupCreateErrorResponse occured: %v", s.Message)
 }
 
+// String implements the fmt.Stringer interface for SubscriptionGroupCreateErrorResponse,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (s SubscriptionGroupCreateErrorResponse) String() string {
+    suffixTrimmed := strings.TrimSuffix(s.ApiError.String(), "]")
+    prefixTrimmed := strings.TrimPrefix(suffixTrimmed, "ApiError[")
+    
+    return fmt.Sprintf(
+    	"SubscriptionGroupCreateErrorResponse[%v, Errors=%v]",
+    	prefixTrimmed, s.Errors)
+}
+
 // SubscriptionGroupSignupErrorResponse is a custom error.
 type SubscriptionGroupSignupErrorResponse struct {
     https.ApiError
@@ -374,6 +562,17 @@ func NewSubscriptionGroupSignupErrorResponse(apiError https.ApiError) error {
 // It returns a formatted error message for SubscriptionGroupSignupErrorResponse.
 func (s SubscriptionGroupSignupErrorResponse) Error() string {
     return fmt.Sprintf("SubscriptionGroupSignupErrorResponse occured: %v", s.Message)
+}
+
+// String implements the fmt.Stringer interface for SubscriptionGroupSignupErrorResponse,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (s SubscriptionGroupSignupErrorResponse) String() string {
+    suffixTrimmed := strings.TrimSuffix(s.ApiError.String(), "]")
+    prefixTrimmed := strings.TrimPrefix(suffixTrimmed, "ApiError[")
+    
+    return fmt.Sprintf(
+    	"SubscriptionGroupSignupErrorResponse[%v, Errors=%v]",
+    	prefixTrimmed, s.Errors)
 }
 
 // SubscriptionGroupUpdateErrorResponse is a custom error.
@@ -396,6 +595,17 @@ func (s SubscriptionGroupUpdateErrorResponse) Error() string {
     return fmt.Sprintf("SubscriptionGroupUpdateErrorResponse occured: %v", s.Message)
 }
 
+// String implements the fmt.Stringer interface for SubscriptionGroupUpdateErrorResponse,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (s SubscriptionGroupUpdateErrorResponse) String() string {
+    suffixTrimmed := strings.TrimSuffix(s.ApiError.String(), "]")
+    prefixTrimmed := strings.TrimPrefix(suffixTrimmed, "ApiError[")
+    
+    return fmt.Sprintf(
+    	"SubscriptionGroupUpdateErrorResponse[%v, Errors=%v]",
+    	prefixTrimmed, s.Errors)
+}
+
 // SubscriptionRemoveCouponErrors is a custom error.
 type SubscriptionRemoveCouponErrors struct {
     https.ApiError
@@ -414,6 +624,17 @@ func NewSubscriptionRemoveCouponErrors(apiError https.ApiError) error {
 // It returns a formatted error message for SubscriptionRemoveCouponErrors.
 func (s SubscriptionRemoveCouponErrors) Error() string {
     return fmt.Sprintf("SubscriptionRemoveCouponErrors occured: %v", s.Message)
+}
+
+// String implements the fmt.Stringer interface for SubscriptionRemoveCouponErrors,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (s SubscriptionRemoveCouponErrors) String() string {
+    suffixTrimmed := strings.TrimSuffix(s.ApiError.String(), "]")
+    prefixTrimmed := strings.TrimPrefix(suffixTrimmed, "ApiError[")
+    
+    return fmt.Sprintf(
+    	"SubscriptionRemoveCouponErrors[%v, Subscription=%v]",
+    	prefixTrimmed, s.Subscription)
 }
 
 // SubscriptionResponseError is a custom error.
@@ -436,6 +657,17 @@ func (s SubscriptionResponseError) Error() string {
     return fmt.Sprintf("SubscriptionResponseError occured: %v", s.Message)
 }
 
+// String implements the fmt.Stringer interface for SubscriptionResponseError,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (s SubscriptionResponseError) String() string {
+    suffixTrimmed := strings.TrimSuffix(s.ApiError.String(), "]")
+    prefixTrimmed := strings.TrimPrefix(suffixTrimmed, "ApiError[")
+    
+    return fmt.Sprintf(
+    	"SubscriptionResponseError[%v, Subscription=%v]",
+    	prefixTrimmed, s.Subscription)
+}
+
 // SubscriptionsMrrErrorResponse is a custom error.
 type SubscriptionsMrrErrorResponse struct {
     https.ApiError
@@ -456,6 +688,17 @@ func (s SubscriptionsMrrErrorResponse) Error() string {
     return fmt.Sprintf("SubscriptionsMrrErrorResponse occured: %v", s.Message)
 }
 
+// String implements the fmt.Stringer interface for SubscriptionsMrrErrorResponse,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (s SubscriptionsMrrErrorResponse) String() string {
+    suffixTrimmed := strings.TrimSuffix(s.ApiError.String(), "]")
+    prefixTrimmed := strings.TrimPrefix(suffixTrimmed, "ApiError[")
+    
+    return fmt.Sprintf(
+    	"SubscriptionsMrrErrorResponse[%v, Errors=%v]",
+    	prefixTrimmed, s.Errors)
+}
+
 // TooManyManagementLinkRequestsError is a custom error.
 type TooManyManagementLinkRequestsError struct {
     https.ApiError
@@ -474,4 +717,15 @@ func NewTooManyManagementLinkRequestsError(apiError https.ApiError) error {
 // It returns a formatted error message for TooManyManagementLinkRequestsError.
 func (t TooManyManagementLinkRequestsError) Error() string {
     return fmt.Sprintf("TooManyManagementLinkRequestsError occured: %v", t.Message)
+}
+
+// String implements the fmt.Stringer interface for TooManyManagementLinkRequestsError,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (t TooManyManagementLinkRequestsError) String() string {
+    suffixTrimmed := strings.TrimSuffix(t.ApiError.String(), "]")
+    prefixTrimmed := strings.TrimPrefix(suffixTrimmed, "ApiError[")
+    
+    return fmt.Sprintf(
+    	"TooManyManagementLinkRequestsError[%v, Errors=%v]",
+    	prefixTrimmed, t.Errors)
 }

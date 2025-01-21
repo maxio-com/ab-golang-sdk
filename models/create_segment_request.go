@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "strings"
 )
 
@@ -15,6 +16,14 @@ import (
 type CreateSegmentRequest struct {
     Segment              CreateSegment          `json:"segment"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for CreateSegmentRequest,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (c CreateSegmentRequest) String() string {
+    return fmt.Sprintf(
+    	"CreateSegmentRequest[Segment=%v, AdditionalProperties=%v]",
+    	c.Segment, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreateSegmentRequest.

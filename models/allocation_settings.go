@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // AllocationSettings represents a AllocationSettings struct.
@@ -20,6 +21,14 @@ type AllocationSettings struct {
     // Either "true" or "false".
     AccrueCharge         *string                `json:"accrue_charge,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for AllocationSettings,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (a AllocationSettings) String() string {
+    return fmt.Sprintf(
+    	"AllocationSettings[UpgradeCharge=%v, DowngradeCredit=%v, AccrueCharge=%v, AdditionalProperties=%v]",
+    	a.UpgradeCharge, a.DowngradeCredit, a.AccrueCharge, a.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for AllocationSettings.

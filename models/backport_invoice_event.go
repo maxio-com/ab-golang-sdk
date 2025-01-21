@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "log"
     "strings"
     "time"
@@ -22,6 +23,14 @@ type BackportInvoiceEvent struct {
     // Example schema for an `backport_invoice` event
     EventData            Invoice                `json:"event_data"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for BackportInvoiceEvent,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (b BackportInvoiceEvent) String() string {
+    return fmt.Sprintf(
+    	"BackportInvoiceEvent[Id=%v, Timestamp=%v, Invoice=%v, EventType=%v, EventData=%v, AdditionalProperties=%v]",
+    	b.Id, b.Timestamp, b.Invoice, b.EventType, b.EventData, b.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for BackportInvoiceEvent.

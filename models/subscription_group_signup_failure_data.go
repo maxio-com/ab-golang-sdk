@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // SubscriptionGroupSignupFailureData represents a SubscriptionGroupSignupFailureData struct.
@@ -20,6 +21,14 @@ type SubscriptionGroupSignupFailureData struct {
     BankAccountAttributes   *SubscriptionGroupBankAccount `json:"bank_account_attributes,omitempty"`
     Subscriptions           []SubscriptionGroupSignupItem `json:"subscriptions,omitempty"`
     AdditionalProperties    map[string]interface{}        `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for SubscriptionGroupSignupFailureData,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (s SubscriptionGroupSignupFailureData) String() string {
+    return fmt.Sprintf(
+    	"SubscriptionGroupSignupFailureData[PayerId=%v, PayerReference=%v, PaymentProfileId=%v, PaymentCollectionMethod=%v, PayerAttributes=%v, CreditCardAttributes=%v, BankAccountAttributes=%v, Subscriptions=%v, AdditionalProperties=%v]",
+    	s.PayerId, s.PayerReference, s.PaymentProfileId, s.PaymentCollectionMethod, s.PayerAttributes, s.CreditCardAttributes, s.BankAccountAttributes, s.Subscriptions, s.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for SubscriptionGroupSignupFailureData.

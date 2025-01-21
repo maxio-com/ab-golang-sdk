@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // SubscriptionGroupSignupComponent represents a SubscriptionGroupSignupComponent struct.
@@ -19,6 +20,14 @@ type SubscriptionGroupSignupComponent struct {
     // Used in place of `price_point_id` to define a custom price point unique to the subscription. You still need to provide `component_id`.
     CustomPrice          *SubscriptionGroupComponentCustomPrice             `json:"custom_price,omitempty"`
     AdditionalProperties map[string]interface{}                             `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for SubscriptionGroupSignupComponent,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (s SubscriptionGroupSignupComponent) String() string {
+    return fmt.Sprintf(
+    	"SubscriptionGroupSignupComponent[ComponentId=%v, AllocatedQuantity=%v, UnitBalance=%v, PricePointId=%v, CustomPrice=%v, AdditionalProperties=%v]",
+    	s.ComponentId, s.AllocatedQuantity, s.UnitBalance, s.PricePointId, s.CustomPrice, s.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for SubscriptionGroupSignupComponent.

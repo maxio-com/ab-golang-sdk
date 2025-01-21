@@ -8,7 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
-    "strings"
+    "fmt"
 )
 
 // ReadProductPricePointPricePointId represents a ReadProductPricePointPricePointId struct.
@@ -19,12 +19,10 @@ type ReadProductPricePointPricePointId struct {
     isString bool
 }
 
-// String converts the ReadProductPricePointPricePointId object to a string representation.
+// String implements the fmt.Stringer interface for ReadProductPricePointPricePointId,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
 func (r ReadProductPricePointPricePointId) String() string {
-    if bytes, err := json.Marshal(r.value); err == nil {
-         return strings.Trim(string(bytes), "\"")
-    }
-    return ""
+    return fmt.Sprintf("%v", r.value)
 }
 
 // MarshalJSON implements the json.Marshaler interface for ReadProductPricePointPricePointId.

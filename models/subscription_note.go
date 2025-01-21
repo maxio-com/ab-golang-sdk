@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
     "log"
     "time"
 )
@@ -20,6 +21,14 @@ type SubscriptionNote struct {
     UpdatedAt            *time.Time             `json:"updated_at,omitempty"`
     Sticky               *bool                  `json:"sticky,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for SubscriptionNote,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (s SubscriptionNote) String() string {
+    return fmt.Sprintf(
+    	"SubscriptionNote[Id=%v, Body=%v, SubscriptionId=%v, CreatedAt=%v, UpdatedAt=%v, Sticky=%v, AdditionalProperties=%v]",
+    	s.Id, s.Body, s.SubscriptionId, s.CreatedAt, s.UpdatedAt, s.Sticky, s.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for SubscriptionNote.

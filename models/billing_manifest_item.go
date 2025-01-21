@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // BillingManifestItem represents a BillingManifestItem struct.
@@ -28,6 +29,14 @@ type BillingManifestItem struct {
     PeriodRangeStart      *string                      `json:"period_range_start,omitempty"`
     PeriodRangeEnd        *string                      `json:"period_range_end,omitempty"`
     AdditionalProperties  map[string]interface{}       `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for BillingManifestItem,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (b BillingManifestItem) String() string {
+    return fmt.Sprintf(
+    	"BillingManifestItem[TransactionType=%v, Kind=%v, AmountInCents=%v, Memo=%v, DiscountAmountInCents=%v, TaxableAmountInCents=%v, ComponentId=%v, ComponentHandle=%v, ComponentName=%v, ProductId=%v, ProductHandle=%v, ProductName=%v, PeriodRangeStart=%v, PeriodRangeEnd=%v, AdditionalProperties=%v]",
+    	b.TransactionType, b.Kind, b.AmountInCents, b.Memo, b.DiscountAmountInCents, b.TaxableAmountInCents, b.ComponentId, b.ComponentHandle, b.ComponentName, b.ProductId, b.ProductHandle, b.ProductName, b.PeriodRangeStart, b.PeriodRangeEnd, b.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for BillingManifestItem.

@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "log"
     "strings"
     "time"
@@ -22,6 +23,14 @@ type IssueInvoiceEvent struct {
     // Example schema for an `issue_invoice` event
     EventData            IssueInvoiceEventData  `json:"event_data"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for IssueInvoiceEvent,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (i IssueInvoiceEvent) String() string {
+    return fmt.Sprintf(
+    	"IssueInvoiceEvent[Id=%v, Timestamp=%v, Invoice=%v, EventType=%v, EventData=%v, AdditionalProperties=%v]",
+    	i.Id, i.Timestamp, i.Invoice, i.EventType, i.EventData, i.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for IssueInvoiceEvent.

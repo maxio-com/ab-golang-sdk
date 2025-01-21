@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "strings"
 )
 
@@ -16,6 +17,14 @@ type SubscriptionMRRBreakout struct {
     PlanAmountInCents    int64                  `json:"plan_amount_in_cents"`
     UsageAmountInCents   int64                  `json:"usage_amount_in_cents"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for SubscriptionMRRBreakout,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (s SubscriptionMRRBreakout) String() string {
+    return fmt.Sprintf(
+    	"SubscriptionMRRBreakout[PlanAmountInCents=%v, UsageAmountInCents=%v, AdditionalProperties=%v]",
+    	s.PlanAmountInCents, s.UsageAmountInCents, s.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for SubscriptionMRRBreakout.

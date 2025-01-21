@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "strings"
 )
 
@@ -21,6 +22,14 @@ type RefundPrepayment struct {
     // Specify the type of refund you wish to initiate. When the prepayment is external, the `external` flag is optional. But if the prepayment was made through a payment profile, the `external` flag is required.
     External             *bool                  `json:"external,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for RefundPrepayment,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (r RefundPrepayment) String() string {
+    return fmt.Sprintf(
+    	"RefundPrepayment[AmountInCents=%v, Amount=%v, Memo=%v, External=%v, AdditionalProperties=%v]",
+    	r.AmountInCents, r.Amount, r.Memo, r.External, r.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for RefundPrepayment.

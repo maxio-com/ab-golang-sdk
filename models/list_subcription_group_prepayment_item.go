@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
     "log"
     "time"
 )
@@ -23,6 +24,14 @@ type ListSubcriptionGroupPrepaymentItem struct {
     PaymentType            *PrepaymentMethod      `json:"payment_type,omitempty"`
     CreatedAt              *time.Time             `json:"created_at,omitempty"`
     AdditionalProperties   map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for ListSubcriptionGroupPrepaymentItem,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (l ListSubcriptionGroupPrepaymentItem) String() string {
+    return fmt.Sprintf(
+    	"ListSubcriptionGroupPrepaymentItem[Id=%v, SubscriptionGroupUid=%v, AmountInCents=%v, RemainingAmountInCents=%v, Details=%v, External=%v, Memo=%v, PaymentType=%v, CreatedAt=%v, AdditionalProperties=%v]",
+    	l.Id, l.SubscriptionGroupUid, l.AmountInCents, l.RemainingAmountInCents, l.Details, l.External, l.Memo, l.PaymentType, l.CreatedAt, l.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for ListSubcriptionGroupPrepaymentItem.

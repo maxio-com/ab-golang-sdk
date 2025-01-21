@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
     "log"
     "time"
 )
@@ -20,6 +21,14 @@ type PortalManagementLink struct {
     ExpiresAt            *time.Time             `json:"expires_at,omitempty"`
     LastInviteSentAt     Optional[time.Time]    `json:"last_invite_sent_at"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for PortalManagementLink,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (p PortalManagementLink) String() string {
+    return fmt.Sprintf(
+    	"PortalManagementLink[Url=%v, FetchCount=%v, CreatedAt=%v, NewLinkAvailableAt=%v, ExpiresAt=%v, LastInviteSentAt=%v, AdditionalProperties=%v]",
+    	p.Url, p.FetchCount, p.CreatedAt, p.NewLinkAvailableAt, p.ExpiresAt, p.LastInviteSentAt, p.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for PortalManagementLink.

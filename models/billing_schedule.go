@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
     "log"
     "time"
 )
@@ -17,6 +18,14 @@ type BillingSchedule struct {
     // The initial_billing_at attribute in Maxio allows you to specify a custom starting date for billing cycles associated with components that have their own billing frequency set. Only ISO8601 format is supported.
     InitialBillingAt     *time.Time             `json:"initial_billing_at,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for BillingSchedule,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (b BillingSchedule) String() string {
+    return fmt.Sprintf(
+    	"BillingSchedule[InitialBillingAt=%v, AdditionalProperties=%v]",
+    	b.InitialBillingAt, b.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for BillingSchedule.

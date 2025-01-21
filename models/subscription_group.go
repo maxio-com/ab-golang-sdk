@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
     "log"
     "time"
 )
@@ -20,6 +21,14 @@ type SubscriptionGroup struct {
     SubscriptionIds         []int                            `json:"subscription_ids,omitempty"`
     CreatedAt               *time.Time                       `json:"created_at,omitempty"`
     AdditionalProperties    map[string]interface{}           `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for SubscriptionGroup,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (s SubscriptionGroup) String() string {
+    return fmt.Sprintf(
+    	"SubscriptionGroup[CustomerId=%v, PaymentProfile=%v, PaymentCollectionMethod=%v, SubscriptionIds=%v, CreatedAt=%v, AdditionalProperties=%v]",
+    	s.CustomerId, s.PaymentProfile, s.PaymentCollectionMethod, s.SubscriptionIds, s.CreatedAt, s.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for SubscriptionGroup.

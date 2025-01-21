@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "strings"
 )
 
@@ -42,6 +43,14 @@ type MeteredComponent struct {
     // A string representing the interval unit for this component's default price point, either month or day. This property is only available for sites with Multifrequency enabled.
     IntervalUnit              Optional[IntervalUnit]     `json:"interval_unit"`
     AdditionalProperties      map[string]interface{}     `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for MeteredComponent,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (m MeteredComponent) String() string {
+    return fmt.Sprintf(
+    	"MeteredComponent[Name=%v, UnitName=%v, Description=%v, Handle=%v, Taxable=%v, PricingScheme=%v, Prices=%v, PricePoints=%v, UnitPrice=%v, TaxCode=%v, HideDateRangeOnInvoice=%v, DisplayOnHostedPage=%v, AllowFractionalQuantities=%v, PublicSignupPageIds=%v, Interval=%v, IntervalUnit=%v, AdditionalProperties=%v]",
+    	m.Name, m.UnitName, m.Description, m.Handle, m.Taxable, m.PricingScheme, m.Prices, m.PricePoints, m.UnitPrice, m.TaxCode, m.HideDateRangeOnInvoice, m.DisplayOnHostedPage, m.AllowFractionalQuantities, m.PublicSignupPageIds, m.Interval, m.IntervalUnit, m.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for MeteredComponent.

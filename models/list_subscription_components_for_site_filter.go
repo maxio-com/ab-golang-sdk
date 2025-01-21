@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // ListSubscriptionComponentsForSiteFilter represents a ListSubscriptionComponentsForSiteFilter struct.
@@ -18,6 +19,14 @@ type ListSubscriptionComponentsForSiteFilter struct {
     // Nested filter used for List Subscription Components For Site Filter
     Subscription         *SubscriptionFilter    `json:"subscription,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for ListSubscriptionComponentsForSiteFilter,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (l ListSubscriptionComponentsForSiteFilter) String() string {
+    return fmt.Sprintf(
+    	"ListSubscriptionComponentsForSiteFilter[Currencies=%v, UseSiteExchangeRate=%v, Subscription=%v, AdditionalProperties=%v]",
+    	l.Currencies, l.UseSiteExchangeRate, l.Subscription, l.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for ListSubscriptionComponentsForSiteFilter.

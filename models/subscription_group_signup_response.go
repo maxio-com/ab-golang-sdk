@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
     "log"
     "time"
 )
@@ -46,6 +47,14 @@ type SubscriptionGroupSignupResponse struct {
     // The type of payment collection to be used in the subscription. For legacy Statements Architecture valid options are - `invoice`, `automatic`. For current Relationship Invoicing Architecture valid options are - `remittance`, `automatic`, `prepaid`.
     PaymentCollectionMethod *CollectionMethod       `json:"payment_collection_method,omitempty"`
     AdditionalProperties    map[string]interface{}  `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for SubscriptionGroupSignupResponse,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (s SubscriptionGroupSignupResponse) String() string {
+    return fmt.Sprintf(
+    	"SubscriptionGroupSignupResponse[Uid=%v, Scheme=%v, CustomerId=%v, PaymentProfileId=%v, SubscriptionIds=%v, PrimarySubscriptionId=%v, NextAssessmentAt=%v, State=%v, CancelAtEndOfPeriod=%v, Subscriptions=%v, PaymentCollectionMethod=%v, AdditionalProperties=%v]",
+    	s.Uid, s.Scheme, s.CustomerId, s.PaymentProfileId, s.SubscriptionIds, s.PrimarySubscriptionId, s.NextAssessmentAt, s.State, s.CancelAtEndOfPeriod, s.Subscriptions, s.PaymentCollectionMethod, s.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for SubscriptionGroupSignupResponse.

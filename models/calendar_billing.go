@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // CalendarBilling represents a CalendarBilling struct.
@@ -16,6 +17,14 @@ type CalendarBilling struct {
     SnapDay                    *CalendarBillingSnapDay `json:"snap_day,omitempty"`
     CalendarBillingFirstCharge *FirstChargeType        `json:"calendar_billing_first_charge,omitempty"`
     AdditionalProperties       map[string]interface{}  `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for CalendarBilling,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (c CalendarBilling) String() string {
+    return fmt.Sprintf(
+    	"CalendarBilling[SnapDay=%v, CalendarBillingFirstCharge=%v, AdditionalProperties=%v]",
+    	c.SnapDay, c.CalendarBillingFirstCharge, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for CalendarBilling.

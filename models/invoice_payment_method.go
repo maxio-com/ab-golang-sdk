@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // InvoicePaymentMethod represents a InvoicePaymentMethod struct.
@@ -20,6 +21,14 @@ type InvoicePaymentMethod struct {
     LastFour             Optional[string]       `json:"last_four"`
     MaskedCardNumber     *string                `json:"masked_card_number,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for InvoicePaymentMethod,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (i InvoicePaymentMethod) String() string {
+    return fmt.Sprintf(
+    	"InvoicePaymentMethod[Details=%v, Kind=%v, Memo=%v, Type=%v, CardBrand=%v, CardExpiration=%v, LastFour=%v, MaskedCardNumber=%v, AdditionalProperties=%v]",
+    	i.Details, i.Kind, i.Memo, i.Type, i.CardBrand, i.CardExpiration, i.LastFour, i.MaskedCardNumber, i.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for InvoicePaymentMethod.

@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "strings"
 )
 
@@ -20,6 +21,14 @@ type MeteredUsage struct {
     ComponentHandle      string                 `json:"component_handle"`
     Memo                 string                 `json:"memo"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for MeteredUsage,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (m MeteredUsage) String() string {
+    return fmt.Sprintf(
+    	"MeteredUsage[PreviousUnitBalance=%v, NewUnitBalance=%v, UsageQuantity=%v, ComponentId=%v, ComponentHandle=%v, Memo=%v, AdditionalProperties=%v]",
+    	m.PreviousUnitBalance, m.NewUnitBalance, m.UsageQuantity, m.ComponentId, m.ComponentHandle, m.Memo, m.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for MeteredUsage.

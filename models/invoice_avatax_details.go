@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
     "log"
     "time"
 )
@@ -19,6 +20,14 @@ type InvoiceAvataxDetails struct {
     CommitDate           Optional[time.Time]    `json:"commit_date"`
     ModifyDate           Optional[time.Time]    `json:"modify_date"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for InvoiceAvataxDetails,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (i InvoiceAvataxDetails) String() string {
+    return fmt.Sprintf(
+    	"InvoiceAvataxDetails[Id=%v, Status=%v, DocumentCode=%v, CommitDate=%v, ModifyDate=%v, AdditionalProperties=%v]",
+    	i.Id, i.Status, i.DocumentCode, i.CommitDate, i.ModifyDate, i.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for InvoiceAvataxDetails.

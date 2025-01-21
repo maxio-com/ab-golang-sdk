@@ -7,12 +7,21 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // UpdateMetafieldsRequest represents a UpdateMetafieldsRequest struct.
 type UpdateMetafieldsRequest struct {
     Metafields           *UpdateMetafieldsRequestMetafields `json:"metafields,omitempty"`
     AdditionalProperties map[string]interface{}             `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for UpdateMetafieldsRequest,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (u UpdateMetafieldsRequest) String() string {
+    return fmt.Sprintf(
+    	"UpdateMetafieldsRequest[Metafields=%v, AdditionalProperties=%v]",
+    	u.Metafields, u.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for UpdateMetafieldsRequest.

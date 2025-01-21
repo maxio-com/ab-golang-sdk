@@ -8,7 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
-    "strings"
+    "fmt"
 )
 
 // AllocationPreviousQuantity represents a AllocationPreviousQuantity struct.
@@ -19,12 +19,10 @@ type AllocationPreviousQuantity struct {
     isString bool
 }
 
-// String converts the AllocationPreviousQuantity object to a string representation.
+// String implements the fmt.Stringer interface for AllocationPreviousQuantity,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
 func (a AllocationPreviousQuantity) String() string {
-    if bytes, err := json.Marshal(a.value); err == nil {
-         return strings.Trim(string(bytes), "\"")
-    }
-    return ""
+    return fmt.Sprintf("%v", a.value)
 }
 
 // MarshalJSON implements the json.Marshaler interface for AllocationPreviousQuantity.

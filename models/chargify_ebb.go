@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
     "log"
     "time"
 )
@@ -28,6 +29,14 @@ type ChargifyEBB struct {
     // Provide `subscription_reference` if you configured `chargify.subscription_reference` as Subscription Identifier in your Event Stream.
     SubscriptionReference *string                `json:"subscription_reference,omitempty"`
     AdditionalProperties  map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for ChargifyEBB,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (c ChargifyEBB) String() string {
+    return fmt.Sprintf(
+    	"ChargifyEBB[Timestamp=%v, Id=%v, CreatedAt=%v, UniquenessToken=%v, SubscriptionId=%v, SubscriptionReference=%v, AdditionalProperties=%v]",
+    	c.Timestamp, c.Id, c.CreatedAt, c.UniquenessToken, c.SubscriptionId, c.SubscriptionReference, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for ChargifyEBB.

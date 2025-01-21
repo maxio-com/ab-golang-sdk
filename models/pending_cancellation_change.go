@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "log"
     "strings"
     "time"
@@ -18,6 +19,14 @@ type PendingCancellationChange struct {
     CancellationState    string                 `json:"cancellation_state"`
     CancelsAt            time.Time              `json:"cancels_at"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for PendingCancellationChange,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (p PendingCancellationChange) String() string {
+    return fmt.Sprintf(
+    	"PendingCancellationChange[CancellationState=%v, CancelsAt=%v, AdditionalProperties=%v]",
+    	p.CancellationState, p.CancelsAt, p.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for PendingCancellationChange.

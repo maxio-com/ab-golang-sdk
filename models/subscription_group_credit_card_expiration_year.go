@@ -8,7 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
-    "strings"
+    "fmt"
 )
 
 // SubscriptionGroupCreditCardExpirationYear represents a SubscriptionGroupCreditCardExpirationYear struct.
@@ -19,12 +19,10 @@ type SubscriptionGroupCreditCardExpirationYear struct {
     isNumber bool
 }
 
-// String converts the SubscriptionGroupCreditCardExpirationYear object to a string representation.
+// String implements the fmt.Stringer interface for SubscriptionGroupCreditCardExpirationYear,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
 func (s SubscriptionGroupCreditCardExpirationYear) String() string {
-    if bytes, err := json.Marshal(s.value); err == nil {
-         return strings.Trim(string(bytes), "\"")
-    }
-    return ""
+    return fmt.Sprintf("%v", s.value)
 }
 
 // MarshalJSON implements the json.Marshaler interface for SubscriptionGroupCreditCardExpirationYear.

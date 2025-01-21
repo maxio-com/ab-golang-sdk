@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "strings"
 )
 
@@ -15,6 +16,14 @@ import (
 type VoidInvoiceRequest struct {
     Void                 VoidInvoice            `json:"void"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for VoidInvoiceRequest,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (v VoidInvoiceRequest) String() string {
+    return fmt.Sprintf(
+    	"VoidInvoiceRequest[Void=%v, AdditionalProperties=%v]",
+    	v.Void, v.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for VoidInvoiceRequest.

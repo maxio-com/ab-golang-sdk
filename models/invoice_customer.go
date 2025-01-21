@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // InvoiceCustomer represents a InvoiceCustomer struct.
@@ -20,6 +21,14 @@ type InvoiceCustomer struct {
     VatNumber            Optional[string]       `json:"vat_number"`
     Reference            Optional[string]       `json:"reference"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for InvoiceCustomer,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (i InvoiceCustomer) String() string {
+    return fmt.Sprintf(
+    	"InvoiceCustomer[ChargifyId=%v, FirstName=%v, LastName=%v, Organization=%v, Email=%v, VatNumber=%v, Reference=%v, AdditionalProperties=%v]",
+    	i.ChargifyId, i.FirstName, i.LastName, i.Organization, i.Email, i.VatNumber, i.Reference, i.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for InvoiceCustomer.

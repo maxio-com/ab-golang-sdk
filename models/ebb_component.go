@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "strings"
 )
 
@@ -41,6 +42,14 @@ type EBBComponent struct {
     // A string representing the interval unit for this component's default price point, either month or day. This property is only available for sites with Multifrequency enabled.
     IntervalUnit              Optional[IntervalUnit]    `json:"interval_unit"`
     AdditionalProperties      map[string]interface{}    `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for EBBComponent,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (e EBBComponent) String() string {
+    return fmt.Sprintf(
+    	"EBBComponent[Name=%v, UnitName=%v, Description=%v, Handle=%v, Taxable=%v, PricingScheme=%v, Prices=%v, PricePoints=%v, UnitPrice=%v, TaxCode=%v, HideDateRangeOnInvoice=%v, EventBasedBillingMetricId=%v, Interval=%v, IntervalUnit=%v, AdditionalProperties=%v]",
+    	e.Name, e.UnitName, e.Description, e.Handle, e.Taxable, e.PricingScheme, e.Prices, e.PricePoints, e.UnitPrice, e.TaxCode, e.HideDateRangeOnInvoice, e.EventBasedBillingMetricId, e.Interval, e.IntervalUnit, e.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for EBBComponent.

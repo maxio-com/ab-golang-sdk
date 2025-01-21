@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "strings"
 )
 
@@ -19,6 +20,14 @@ type GroupTarget struct {
     // The id of the target customer or subscription to group the existing subscription with. Ignored and should not be included if type is "self" , "parent", or "eldest"
     Id                   *int                   `json:"id,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for GroupTarget,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (g GroupTarget) String() string {
+    return fmt.Sprintf(
+    	"GroupTarget[Type=%v, Id=%v, AdditionalProperties=%v]",
+    	g.Type, g.Id, g.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for GroupTarget.

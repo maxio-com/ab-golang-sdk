@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "strings"
 )
 
@@ -21,6 +22,14 @@ type CustomFieldValueChange struct {
     ResourceType         string                 `json:"resource_type"`
     ResourceId           int                    `json:"resource_id"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for CustomFieldValueChange,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (c CustomFieldValueChange) String() string {
+    return fmt.Sprintf(
+    	"CustomFieldValueChange[EventType=%v, MetafieldName=%v, MetafieldId=%v, OldValue=%v, NewValue=%v, ResourceType=%v, ResourceId=%v, AdditionalProperties=%v]",
+    	c.EventType, c.MetafieldName, c.MetafieldId, c.OldValue, c.NewValue, c.ResourceType, c.ResourceId, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for CustomFieldValueChange.

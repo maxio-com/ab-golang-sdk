@@ -8,7 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
-    "strings"
+    "fmt"
 )
 
 // PriceUnitPrice represents a PriceUnitPrice struct.
@@ -19,12 +19,10 @@ type PriceUnitPrice struct {
     isString    bool
 }
 
-// String converts the PriceUnitPrice object to a string representation.
+// String implements the fmt.Stringer interface for PriceUnitPrice,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
 func (p PriceUnitPrice) String() string {
-    if bytes, err := json.Marshal(p.value); err == nil {
-         return strings.Trim(string(bytes), "\"")
-    }
-    return ""
+    return fmt.Sprintf("%v", p.value)
 }
 
 // MarshalJSON implements the json.Marshaler interface for PriceUnitPrice.

@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "log"
     "strings"
     "time"
@@ -24,6 +25,14 @@ type VoidRemainderEventData struct {
     // The time the refund was applied, in ISO 8601 format, i.e. "2019-06-07T17:20:06Z"
     TransactionTime      time.Time              `json:"transaction_time"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for VoidRemainderEventData,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (v VoidRemainderEventData) String() string {
+    return fmt.Sprintf(
+    	"VoidRemainderEventData[CreditNoteAttributes=%v, Memo=%v, AppliedAmount=%v, TransactionTime=%v, AdditionalProperties=%v]",
+    	v.CreditNoteAttributes, v.Memo, v.AppliedAmount, v.TransactionTime, v.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for VoidRemainderEventData.

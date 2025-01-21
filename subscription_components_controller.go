@@ -7,7 +7,6 @@ package advancedbilling
 
 import (
     "context"
-    "fmt"
     "github.com/apimatic/go-core-runtime/https"
     "github.com/apimatic/go-core-runtime/utilities"
     "github.com/maxio-com/ab-golang-sdk/errors"
@@ -38,11 +37,8 @@ func (s *SubscriptionComponentsController) ReadSubscriptionComponent(
     componentId int) (
     models.ApiResponse[models.SubscriptionComponentResponse],
     error) {
-    req := s.prepareRequest(
-      ctx,
-      "GET",
-      fmt.Sprintf("/subscriptions/%v/components/%v.json", subscriptionId, componentId),
-    )
+    req := s.prepareRequest(ctx, "GET", "/subscriptions/%v/components/%v.json")
+    req.AppendTemplateParams(subscriptionId, componentId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
@@ -100,11 +96,8 @@ func (s *SubscriptionComponentsController) ListSubscriptionComponents(
     input ListSubscriptionComponentsInput) (
     models.ApiResponse[[]models.SubscriptionComponentResponse],
     error) {
-    req := s.prepareRequest(
-      ctx,
-      "GET",
-      fmt.Sprintf("/subscriptions/%v/components.json", input.SubscriptionId),
-    )
+    req := s.prepareRequest(ctx, "GET", "/subscriptions/%v/components.json")
+    req.AppendTemplateParams(input.SubscriptionId)
     req.Authenticate(NewAuth("BasicAuth"))
     if input.DateField != nil {
         req.QueryParam("date_field", *input.DateField)
@@ -167,11 +160,8 @@ func (s *SubscriptionComponentsController) BulkUpdateSubscriptionComponentsPrice
     body *models.BulkComponentsPricePointAssignment) (
     models.ApiResponse[models.BulkComponentsPricePointAssignment],
     error) {
-    req := s.prepareRequest(
-      ctx,
-      "POST",
-      fmt.Sprintf("/subscriptions/%v/price_points.json", subscriptionId),
-    )
+    req := s.prepareRequest(ctx, "POST", "/subscriptions/%v/price_points.json")
+    req.AppendTemplateParams(subscriptionId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewComponentPricePointError},
@@ -201,11 +191,8 @@ func (s *SubscriptionComponentsController) BulkResetSubscriptionComponentsPriceP
     subscriptionId int) (
     models.ApiResponse[models.SubscriptionResponse],
     error) {
-    req := s.prepareRequest(
-      ctx,
-      "POST",
-      fmt.Sprintf("/subscriptions/%v/price_points/reset.json", subscriptionId),
-    )
+    req := s.prepareRequest(ctx, "POST", "/subscriptions/%v/price_points/reset.json")
+    req.AppendTemplateParams(subscriptionId)
     req.Authenticate(NewAuth("BasicAuth"))
     
     var result models.SubscriptionResponse
@@ -264,8 +251,9 @@ func (s *SubscriptionComponentsController) AllocateComponent(
     req := s.prepareRequest(
       ctx,
       "POST",
-      fmt.Sprintf("/subscriptions/%v/components/%v/allocations.json", subscriptionId, componentId),
+      "/subscriptions/%v/components/%v/allocations.json",
     )
+    req.AppendTemplateParams(subscriptionId, componentId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
@@ -312,8 +300,9 @@ func (s *SubscriptionComponentsController) ListAllocations(
     req := s.prepareRequest(
       ctx,
       "GET",
-      fmt.Sprintf("/subscriptions/%v/components/%v/allocations.json", subscriptionId, componentId),
+      "/subscriptions/%v/components/%v/allocations.json",
     )
+    req.AppendTemplateParams(subscriptionId, componentId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
@@ -345,11 +334,8 @@ func (s *SubscriptionComponentsController) AllocateComponents(
     body *models.AllocateComponents) (
     models.ApiResponse[[]models.AllocationResponse],
     error) {
-    req := s.prepareRequest(
-      ctx,
-      "POST",
-      fmt.Sprintf("/subscriptions/%v/allocations.json", subscriptionId),
-    )
+    req := s.prepareRequest(ctx, "POST", "/subscriptions/%v/allocations.json")
+    req.AppendTemplateParams(subscriptionId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
@@ -386,8 +372,9 @@ func (s *SubscriptionComponentsController) PreviewAllocations(
     req := s.prepareRequest(
       ctx,
       "POST",
-      fmt.Sprintf("/subscriptions/%v/allocations/preview.json", subscriptionId),
+      "/subscriptions/%v/allocations/preview.json",
     )
+    req.AppendTemplateParams(subscriptionId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewComponentAllocationError},
@@ -428,8 +415,9 @@ func (s *SubscriptionComponentsController) UpdatePrepaidUsageAllocationExpiratio
     req := s.prepareRequest(
       ctx,
       "PUT",
-      fmt.Sprintf("/subscriptions/%v/components/%v/allocations/%v.json", subscriptionId, componentId, allocationId),
+      "/subscriptions/%v/components/%v/allocations/%v.json",
     )
+    req.AppendTemplateParams(subscriptionId, componentId, allocationId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
@@ -467,8 +455,9 @@ func (s *SubscriptionComponentsController) DeletePrepaidUsageAllocation(
     req := s.prepareRequest(
       ctx,
       "DELETE",
-      fmt.Sprintf("/subscriptions/%v/components/%v/allocations/%v.json", subscriptionId, componentId, allocationId),
+      "/subscriptions/%v/components/%v/allocations/%v.json",
     )
+    req.AppendTemplateParams(subscriptionId, componentId, allocationId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
@@ -535,8 +524,9 @@ func (s *SubscriptionComponentsController) CreateUsage(
     req := s.prepareRequest(
       ctx,
       "POST",
-      fmt.Sprintf("/subscriptions/%v/components/%v/usages.json", subscriptionId, componentId),
+      "/subscriptions/%v/components/%v/usages.json",
     )
+    req.AppendTemplateParams(subscriptionId, componentId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
@@ -598,8 +588,9 @@ func (s *SubscriptionComponentsController) ListUsages(
     req := s.prepareRequest(
       ctx,
       "GET",
-      fmt.Sprintf("/subscriptions/%v/components/%v/usages.json", input.SubscriptionId, input.ComponentId),
+      "/subscriptions/%v/components/%v/usages.json",
     )
+    req.AppendTemplateParams(input.SubscriptionId, input.ComponentId)
     req.Authenticate(NewAuth("BasicAuth"))
     if input.SinceId != nil {
         req.QueryParam("since_id", *input.SinceId)
@@ -647,8 +638,9 @@ func (s *SubscriptionComponentsController) ActivateEventBasedComponent(
     req := s.prepareRequest(
       ctx,
       "POST",
-      fmt.Sprintf("/event_based_billing/subscriptions/%v/components/%v/activate.json", subscriptionId, componentId),
+      "/event_based_billing/subscriptions/%v/components/%v/activate.json",
     )
+    req.AppendTemplateParams(subscriptionId, componentId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.Header("Content-Type", "application/json")
     if body != nil {
@@ -675,8 +667,9 @@ func (s *SubscriptionComponentsController) DeactivateEventBasedComponent(
     req := s.prepareRequest(
       ctx,
       "POST",
-      fmt.Sprintf("/event_based_billing/subscriptions/%v/components/%v/deactivate.json", subscriptionId, componentId),
+      "/event_based_billing/subscriptions/%v/components/%v/deactivate.json",
     )
+    req.AppendTemplateParams(subscriptionId, componentId)
     req.Authenticate(NewAuth("BasicAuth"))
     
     httpCtx, err := req.Call()
@@ -707,7 +700,8 @@ func (s *SubscriptionComponentsController) RecordEvent(
     body *models.EBBEvent) (
     *http.Response,
     error) {
-    req := s.prepareRequest(ctx, "POST", fmt.Sprintf("/events/%v.json", apiHandle))
+    req := s.prepareRequest(ctx, "POST", "/events/%v.json")
+    req.AppendTemplateParams(apiHandle)
     req.BaseUrl("ebb")
     req.Authenticate(NewAuth("BasicAuth"))
     req.Header("Content-Type", "application/json")
@@ -738,11 +732,8 @@ func (s *SubscriptionComponentsController) BulkRecordEvents(
     body []models.EBBEvent) (
     *http.Response,
     error) {
-    req := s.prepareRequest(
-      ctx,
-      "POST",
-      fmt.Sprintf("/events/%v/bulk.json", apiHandle),
-    )
+    req := s.prepareRequest(ctx, "POST", "/events/%v/bulk.json")
+    req.AppendTemplateParams(apiHandle)
     req.BaseUrl("ebb")
     req.Authenticate(NewAuth("BasicAuth"))
     req.Header("Content-Type", "application/json")
@@ -805,6 +796,7 @@ func (s *SubscriptionComponentsController) ListSubscriptionComponentsForSite(
     models.ApiResponse[models.ListSubscriptionComponentsResponse],
     error) {
     req := s.prepareRequest(ctx, "GET", "/subscriptions_components.json")
+    
     req.Authenticate(NewAuth("BasicAuth"))
     if input.Page != nil {
         req.QueryParam("page", *input.Page)

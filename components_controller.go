@@ -7,7 +7,6 @@ package advancedbilling
 
 import (
     "context"
-    "fmt"
     "github.com/apimatic/go-core-runtime/https"
     "github.com/apimatic/go-core-runtime/utilities"
     "github.com/maxio-com/ab-golang-sdk/errors"
@@ -42,8 +41,9 @@ func (c *ComponentsController) CreateMeteredComponent(
     req := c.prepareRequest(
       ctx,
       "POST",
-      fmt.Sprintf("/product_families/%v/metered_components.json", productFamilyId),
+      "/product_families/%v/metered_components.json",
     )
+    req.AppendTemplateParams(productFamilyId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
@@ -84,8 +84,9 @@ func (c *ComponentsController) CreateQuantityBasedComponent(
     req := c.prepareRequest(
       ctx,
       "POST",
-      fmt.Sprintf("/product_families/%v/quantity_based_components.json", productFamilyId),
+      "/product_families/%v/quantity_based_components.json",
     )
+    req.AppendTemplateParams(productFamilyId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
@@ -121,8 +122,9 @@ func (c *ComponentsController) CreateOnOffComponent(
     req := c.prepareRequest(
       ctx,
       "POST",
-      fmt.Sprintf("/product_families/%v/on_off_components.json", productFamilyId),
+      "/product_families/%v/on_off_components.json",
     )
+    req.AppendTemplateParams(productFamilyId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
@@ -158,8 +160,9 @@ func (c *ComponentsController) CreatePrepaidUsageComponent(
     req := c.prepareRequest(
       ctx,
       "POST",
-      fmt.Sprintf("/product_families/%v/prepaid_usage_components.json", productFamilyId),
+      "/product_families/%v/prepaid_usage_components.json",
     )
+    req.AppendTemplateParams(productFamilyId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
@@ -196,8 +199,9 @@ func (c *ComponentsController) CreateEventBasedComponent(
     req := c.prepareRequest(
       ctx,
       "POST",
-      fmt.Sprintf("/product_families/%v/event_based_components.json", productFamilyId),
+      "/product_families/%v/event_based_components.json",
     )
+    req.AppendTemplateParams(productFamilyId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
@@ -228,6 +232,7 @@ func (c *ComponentsController) FindComponent(
     models.ApiResponse[models.ComponentResponse],
     error) {
     req := c.prepareRequest(ctx, "GET", "/components/lookup.json")
+    
     req.Authenticate(NewAuth("BasicAuth"))
     req.QueryParam("handle", handle)
     var result models.ComponentResponse
@@ -251,11 +256,8 @@ func (c *ComponentsController) ReadComponent(
     componentId string) (
     models.ApiResponse[models.ComponentResponse],
     error) {
-    req := c.prepareRequest(
-      ctx,
-      "GET",
-      fmt.Sprintf("/product_families/%v/components/%v.json", productFamilyId, componentId),
-    )
+    req := c.prepareRequest(ctx, "GET", "/product_families/%v/components/%v.json")
+    req.AppendTemplateParams(productFamilyId, componentId)
     req.Authenticate(NewAuth("BasicAuth"))
     
     var result models.ComponentResponse
@@ -280,11 +282,8 @@ func (c *ComponentsController) UpdateProductFamilyComponent(
     body *models.UpdateComponentRequest) (
     models.ApiResponse[models.ComponentResponse],
     error) {
-    req := c.prepareRequest(
-      ctx,
-      "PUT",
-      fmt.Sprintf("/product_families/%v/components/%v.json", productFamilyId, componentId),
-    )
+    req := c.prepareRequest(ctx, "PUT", "/product_families/%v/components/%v.json")
+    req.AppendTemplateParams(productFamilyId, componentId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
@@ -314,11 +313,8 @@ func (c *ComponentsController) ArchiveComponent(
     componentId string) (
     models.ApiResponse[models.Component],
     error) {
-    req := c.prepareRequest(
-      ctx,
-      "DELETE",
-      fmt.Sprintf("/product_families/%v/components/%v.json", productFamilyId, componentId),
-    )
+    req := c.prepareRequest(ctx, "DELETE", "/product_families/%v/components/%v.json")
+    req.AppendTemplateParams(productFamilyId, componentId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
@@ -368,6 +364,7 @@ func (c *ComponentsController) ListComponents(
     models.ApiResponse[[]models.ComponentResponse],
     error) {
     req := c.prepareRequest(ctx, "GET", "/components.json")
+    
     req.Authenticate(NewAuth("BasicAuth"))
     if input.DateField != nil {
         req.QueryParam("date_field", *input.DateField)
@@ -417,11 +414,8 @@ func (c *ComponentsController) UpdateComponent(
     body *models.UpdateComponentRequest) (
     models.ApiResponse[models.ComponentResponse],
     error) {
-    req := c.prepareRequest(
-      ctx,
-      "PUT",
-      fmt.Sprintf("/components/%v.json", componentId),
-    )
+    req := c.prepareRequest(ctx, "PUT", "/components/%v.json")
+    req.AppendTemplateParams(componentId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
@@ -476,11 +470,8 @@ func (c *ComponentsController) ListComponentsForProductFamily(
     input ListComponentsForProductFamilyInput) (
     models.ApiResponse[[]models.ComponentResponse],
     error) {
-    req := c.prepareRequest(
-      ctx,
-      "GET",
-      fmt.Sprintf("/product_families/%v/components.json", input.ProductFamilyId),
-    )
+    req := c.prepareRequest(ctx, "GET", "/product_families/%v/components.json")
+    req.AppendTemplateParams(input.ProductFamilyId)
     req.Authenticate(NewAuth("BasicAuth"))
     if input.IncludeArchived != nil {
         req.QueryParam("include_archived", *input.IncludeArchived)

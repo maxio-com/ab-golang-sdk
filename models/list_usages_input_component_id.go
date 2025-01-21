@@ -8,7 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
-    "strings"
+    "fmt"
 )
 
 // ListUsagesInputComponentId represents a ListUsagesInputComponentId struct.
@@ -19,12 +19,10 @@ type ListUsagesInputComponentId struct {
     isString bool
 }
 
-// String converts the ListUsagesInputComponentId object to a string representation.
+// String implements the fmt.Stringer interface for ListUsagesInputComponentId,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
 func (l ListUsagesInputComponentId) String() string {
-    if bytes, err := json.Marshal(l.value); err == nil {
-         return strings.Trim(string(bytes), "\"")
-    }
-    return ""
+    return fmt.Sprintf("%v", l.value)
 }
 
 // MarshalJSON implements the json.Marshaler interface for ListUsagesInputComponentId.

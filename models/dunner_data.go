@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "log"
     "strings"
     "time"
@@ -22,6 +23,14 @@ type DunnerData struct {
     Attempts             int                    `json:"attempts"`
     LastAttemptedAt      time.Time              `json:"last_attempted_at"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for DunnerData,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (d DunnerData) String() string {
+    return fmt.Sprintf(
+    	"DunnerData[State=%v, SubscriptionId=%v, RevenueAtRiskInCents=%v, CreatedAt=%v, Attempts=%v, LastAttemptedAt=%v, AdditionalProperties=%v]",
+    	d.State, d.SubscriptionId, d.RevenueAtRiskInCents, d.CreatedAt, d.Attempts, d.LastAttemptedAt, d.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for DunnerData.

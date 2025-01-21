@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // Metafield represents a Metafield struct.
@@ -21,6 +22,14 @@ type Metafield struct {
     InputType            *MetafieldInput         `json:"input_type,omitempty"`
     Enum                 Optional[MetafieldEnum] `json:"enum"`
     AdditionalProperties map[string]interface{}  `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for Metafield,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (m Metafield) String() string {
+    return fmt.Sprintf(
+    	"Metafield[Id=%v, Name=%v, Scope=%v, DataCount=%v, InputType=%v, Enum=%v, AdditionalProperties=%v]",
+    	m.Id, m.Name, m.Scope, m.DataCount, m.InputType, m.Enum, m.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for Metafield.

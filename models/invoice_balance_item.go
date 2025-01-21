@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // InvoiceBalanceItem represents a InvoiceBalanceItem struct.
@@ -15,6 +16,14 @@ type InvoiceBalanceItem struct {
     Number               *string                `json:"number,omitempty"`
     OutstandingAmount    *string                `json:"outstanding_amount,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for InvoiceBalanceItem,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (i InvoiceBalanceItem) String() string {
+    return fmt.Sprintf(
+    	"InvoiceBalanceItem[Uid=%v, Number=%v, OutstandingAmount=%v, AdditionalProperties=%v]",
+    	i.Uid, i.Number, i.OutstandingAmount, i.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for InvoiceBalanceItem.
