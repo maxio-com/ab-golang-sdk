@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "strings"
 )
 
@@ -15,6 +16,14 @@ import (
 type UpdateReasonCodeRequest struct {
     ReasonCode           UpdateReasonCode       `json:"reason_code"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for UpdateReasonCodeRequest,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (u UpdateReasonCodeRequest) String() string {
+    return fmt.Sprintf(
+    	"UpdateReasonCodeRequest[ReasonCode=%v, AdditionalProperties=%v]",
+    	u.ReasonCode, u.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for UpdateReasonCodeRequest.

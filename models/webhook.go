@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
     "log"
     "time"
 )
@@ -38,6 +39,14 @@ type Webhook struct {
     // The calculated HMAC-SHA-256 webhook signature
     SignatureHmacSha256  *string                `json:"signature_hmac_sha_256,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for Webhook,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (w Webhook) String() string {
+    return fmt.Sprintf(
+    	"Webhook[Event=%v, Id=%v, CreatedAt=%v, LastError=%v, LastErrorAt=%v, AcceptedAt=%v, LastSentAt=%v, LastSentUrl=%v, Successful=%v, Body=%v, Signature=%v, SignatureHmacSha256=%v, AdditionalProperties=%v]",
+    	w.Event, w.Id, w.CreatedAt, w.LastError, w.LastErrorAt, w.AcceptedAt, w.LastSentAt, w.LastSentUrl, w.Successful, w.Body, w.Signature, w.SignatureHmacSha256, w.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for Webhook.

@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // SubscriptionGroupCustomer represents a SubscriptionGroupCustomer struct.
@@ -17,6 +18,14 @@ type SubscriptionGroupCustomer struct {
     Email                *string                `json:"email,omitempty"`
     Reference            *string                `json:"reference,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for SubscriptionGroupCustomer,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (s SubscriptionGroupCustomer) String() string {
+    return fmt.Sprintf(
+    	"SubscriptionGroupCustomer[FirstName=%v, LastName=%v, Organization=%v, Email=%v, Reference=%v, AdditionalProperties=%v]",
+    	s.FirstName, s.LastName, s.Organization, s.Email, s.Reference, s.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for SubscriptionGroupCustomer.

@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // InvoicePayer represents a InvoicePayer struct.
@@ -18,6 +19,14 @@ type InvoicePayer struct {
     Email                *string                `json:"email,omitempty"`
     VatNumber            Optional[string]       `json:"vat_number"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for InvoicePayer,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (i InvoicePayer) String() string {
+    return fmt.Sprintf(
+    	"InvoicePayer[ChargifyId=%v, FirstName=%v, LastName=%v, Organization=%v, Email=%v, VatNumber=%v, AdditionalProperties=%v]",
+    	i.ChargifyId, i.FirstName, i.LastName, i.Organization, i.Email, i.VatNumber, i.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for InvoicePayer.

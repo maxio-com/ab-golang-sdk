@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "strings"
 )
 
@@ -21,6 +22,14 @@ type ComponentAllocationChange struct {
     AllocationId         int                                         `json:"allocation_id"`
     AllocatedQuantity    *ComponentAllocationChangeAllocatedQuantity `json:"allocated_quantity,omitempty"`
     AdditionalProperties map[string]interface{}                      `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for ComponentAllocationChange,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (c ComponentAllocationChange) String() string {
+    return fmt.Sprintf(
+    	"ComponentAllocationChange[PreviousAllocation=%v, NewAllocation=%v, ComponentId=%v, ComponentHandle=%v, Memo=%v, AllocationId=%v, AllocatedQuantity=%v, AdditionalProperties=%v]",
+    	c.PreviousAllocation, c.NewAllocation, c.ComponentId, c.ComponentHandle, c.Memo, c.AllocationId, c.AllocatedQuantity, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for ComponentAllocationChange.

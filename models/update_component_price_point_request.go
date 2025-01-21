@@ -7,12 +7,21 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // UpdateComponentPricePointRequest represents a UpdateComponentPricePointRequest struct.
 type UpdateComponentPricePointRequest struct {
     PricePoint           *UpdateComponentPricePoint `json:"price_point,omitempty"`
     AdditionalProperties map[string]interface{}     `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for UpdateComponentPricePointRequest,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (u UpdateComponentPricePointRequest) String() string {
+    return fmt.Sprintf(
+    	"UpdateComponentPricePointRequest[PricePoint=%v, AdditionalProperties=%v]",
+    	u.PricePoint, u.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for UpdateComponentPricePointRequest.

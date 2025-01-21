@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "strings"
 )
 
@@ -15,6 +16,14 @@ import (
 type UsageResponse struct {
     Usage                Usage                  `json:"usage"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for UsageResponse,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (u UsageResponse) String() string {
+    return fmt.Sprintf(
+    	"UsageResponse[Usage=%v, AdditionalProperties=%v]",
+    	u.Usage, u.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for UsageResponse.

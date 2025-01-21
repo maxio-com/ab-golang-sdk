@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // OfferItem represents a OfferItem struct.
@@ -24,6 +25,14 @@ type OfferItem struct {
     // A string representing the interval unit for this component price point, either month or day. This property is only available for sites with Multifrequency enabled.
     IntervalUnit         Optional[IntervalUnit] `json:"interval_unit"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for OfferItem,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (o OfferItem) String() string {
+    return fmt.Sprintf(
+    	"OfferItem[ComponentId=%v, PricePointId=%v, StartingQuantity=%v, Editable=%v, ComponentUnitPrice=%v, ComponentName=%v, PricePointName=%v, CurrencyPrices=%v, Interval=%v, IntervalUnit=%v, AdditionalProperties=%v]",
+    	o.ComponentId, o.PricePointId, o.StartingQuantity, o.Editable, o.ComponentUnitPrice, o.ComponentName, o.PricePointName, o.CurrencyPrices, o.Interval, o.IntervalUnit, o.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for OfferItem.

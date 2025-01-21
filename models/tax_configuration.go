@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // TaxConfiguration represents a TaxConfiguration struct.
@@ -16,6 +17,14 @@ type TaxConfiguration struct {
     // Returns `true` when Chargify has been properly configured to charge tax using the specified tax system. More details about taxes: https://maxio.zendesk.com/hc/en-us/articles/24287012608909-Taxes-Overview
     FullyConfigured      *bool                  `json:"fully_configured,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for TaxConfiguration,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (t TaxConfiguration) String() string {
+    return fmt.Sprintf(
+    	"TaxConfiguration[Kind=%v, DestinationAddress=%v, FullyConfigured=%v, AdditionalProperties=%v]",
+    	t.Kind, t.DestinationAddress, t.FullyConfigured, t.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for TaxConfiguration.

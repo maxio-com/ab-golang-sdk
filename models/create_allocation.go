@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "strings"
 )
 
@@ -39,6 +40,14 @@ type CreateAllocation struct {
     // This attribute is particularly useful when you need to align billing events for different components on distinct schedules within a subscription. Please note this only works for site with Multifrequency enabled
     BillingSchedule          *BillingSchedule                       `json:"billing_schedule,omitempty"`
     AdditionalProperties     map[string]interface{}                 `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for CreateAllocation,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (c CreateAllocation) String() string {
+    return fmt.Sprintf(
+    	"CreateAllocation[Quantity=%v, ComponentId=%v, Memo=%v, ProrationDowngradeScheme=%v, ProrationUpgradeScheme=%v, AccrueCharge=%v, DowngradeCredit=%v, UpgradeCharge=%v, InitiateDunning=%v, PricePointId=%v, BillingSchedule=%v, AdditionalProperties=%v]",
+    	c.Quantity, c.ComponentId, c.Memo, c.ProrationDowngradeScheme, c.ProrationUpgradeScheme, c.AccrueCharge, c.DowngradeCredit, c.UpgradeCharge, c.InitiateDunning, c.PricePointId, c.BillingSchedule, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreateAllocation.

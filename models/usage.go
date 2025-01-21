@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
     "log"
     "time"
 )
@@ -23,6 +24,14 @@ type Usage struct {
     ComponentHandle      *string                `json:"component_handle,omitempty"`
     SubscriptionId       *int                   `json:"subscription_id,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for Usage,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (u Usage) String() string {
+    return fmt.Sprintf(
+    	"Usage[Id=%v, Memo=%v, CreatedAt=%v, PricePointId=%v, Quantity=%v, OverageQuantity=%v, ComponentId=%v, ComponentHandle=%v, SubscriptionId=%v, AdditionalProperties=%v]",
+    	u.Id, u.Memo, u.CreatedAt, u.PricePointId, u.Quantity, u.OverageQuantity, u.ComponentId, u.ComponentHandle, u.SubscriptionId, u.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for Usage.

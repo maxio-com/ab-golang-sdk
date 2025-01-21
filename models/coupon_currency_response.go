@@ -7,12 +7,21 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // CouponCurrencyResponse represents a CouponCurrencyResponse struct.
 type CouponCurrencyResponse struct {
     CurrencyPrices       []CouponCurrency       `json:"currency_prices,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for CouponCurrencyResponse,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (c CouponCurrencyResponse) String() string {
+    return fmt.Sprintf(
+    	"CouponCurrencyResponse[CurrencyPrices=%v, AdditionalProperties=%v]",
+    	c.CurrencyPrices, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for CouponCurrencyResponse.

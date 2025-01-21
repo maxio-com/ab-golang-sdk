@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // InvoiceTaxComponentBreakout represents a InvoiceTaxComponentBreakout struct.
@@ -26,6 +27,14 @@ type InvoiceTaxComponentBreakout struct {
     StateAssignedNo      *string                `json:"state_assigned_no,omitempty"`
     TaxSubType           *string                `json:"tax_sub_type,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for InvoiceTaxComponentBreakout,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (i InvoiceTaxComponentBreakout) String() string {
+    return fmt.Sprintf(
+    	"InvoiceTaxComponentBreakout[TaxRuleId=%v, Percentage=%v, CountryCode=%v, SubdivisionCode=%v, TaxAmount=%v, TaxableAmount=%v, TaxExemptAmount=%v, NonTaxableAmount=%v, TaxName=%v, TaxType=%v, RateType=%v, TaxAuthorityType=%v, StateAssignedNo=%v, TaxSubType=%v, AdditionalProperties=%v]",
+    	i.TaxRuleId, i.Percentage, i.CountryCode, i.SubdivisionCode, i.TaxAmount, i.TaxableAmount, i.TaxExemptAmount, i.NonTaxableAmount, i.TaxName, i.TaxType, i.RateType, i.TaxAuthorityType, i.StateAssignedNo, i.TaxSubType, i.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for InvoiceTaxComponentBreakout.

@@ -7,12 +7,21 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // UpdateAllocationExpirationDate represents a UpdateAllocationExpirationDate struct.
 type UpdateAllocationExpirationDate struct {
     Allocation           *AllocationExpirationDate `json:"allocation,omitempty"`
     AdditionalProperties map[string]interface{}    `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for UpdateAllocationExpirationDate,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (u UpdateAllocationExpirationDate) String() string {
+    return fmt.Sprintf(
+    	"UpdateAllocationExpirationDate[Allocation=%v, AdditionalProperties=%v]",
+    	u.Allocation, u.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for UpdateAllocationExpirationDate.

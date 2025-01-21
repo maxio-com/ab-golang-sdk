@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "strings"
 )
 
@@ -15,6 +16,14 @@ import (
 type BankAccountVerificationRequest struct {
     BankAccountVerification BankAccountVerification `json:"bank_account_verification"`
     AdditionalProperties    map[string]interface{}  `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for BankAccountVerificationRequest,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (b BankAccountVerificationRequest) String() string {
+    return fmt.Sprintf(
+    	"BankAccountVerificationRequest[BankAccountVerification=%v, AdditionalProperties=%v]",
+    	b.BankAccountVerification, b.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for BankAccountVerificationRequest.

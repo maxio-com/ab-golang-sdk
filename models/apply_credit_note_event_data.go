@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "log"
     "strings"
     "time"
@@ -37,6 +38,14 @@ type ApplyCreditNoteEventData struct {
     // List of credit notes applied to children invoices (if consolidated invoice)
     AppliedCreditNotes   []AppliedCreditNoteData `json:"applied_credit_notes,omitempty"`
     AdditionalProperties map[string]interface{}  `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for ApplyCreditNoteEventData,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (a ApplyCreditNoteEventData) String() string {
+    return fmt.Sprintf(
+    	"ApplyCreditNoteEventData[Uid=%v, CreditNoteNumber=%v, CreditNoteUid=%v, OriginalAmount=%v, AppliedAmount=%v, TransactionTime=%v, Memo=%v, Role=%v, ConsolidatedInvoice=%v, AppliedCreditNotes=%v, AdditionalProperties=%v]",
+    	a.Uid, a.CreditNoteNumber, a.CreditNoteUid, a.OriginalAmount, a.AppliedAmount, a.TransactionTime, a.Memo, a.Role, a.ConsolidatedInvoice, a.AppliedCreditNotes, a.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for ApplyCreditNoteEventData.

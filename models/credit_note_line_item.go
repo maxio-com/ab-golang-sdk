@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
     "log"
     "time"
 )
@@ -55,6 +56,14 @@ type CreditNoteLineItem struct {
     BillingScheduleItemId Optional[int]          `json:"billing_schedule_item_id"`
     CustomItem            *bool                  `json:"custom_item,omitempty"`
     AdditionalProperties  map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for CreditNoteLineItem,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (c CreditNoteLineItem) String() string {
+    return fmt.Sprintf(
+    	"CreditNoteLineItem[Uid=%v, Title=%v, Description=%v, Quantity=%v, UnitPrice=%v, SubtotalAmount=%v, DiscountAmount=%v, TaxAmount=%v, TotalAmount=%v, TieredUnitPrice=%v, PeriodRangeStart=%v, PeriodRangeEnd=%v, ProductId=%v, ProductVersion=%v, ComponentId=%v, PricePointId=%v, BillingScheduleItemId=%v, CustomItem=%v, AdditionalProperties=%v]",
+    	c.Uid, c.Title, c.Description, c.Quantity, c.UnitPrice, c.SubtotalAmount, c.DiscountAmount, c.TaxAmount, c.TotalAmount, c.TieredUnitPrice, c.PeriodRangeStart, c.PeriodRangeEnd, c.ProductId, c.ProductVersion, c.ComponentId, c.PricePointId, c.BillingScheduleItemId, c.CustomItem, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreditNoteLineItem.

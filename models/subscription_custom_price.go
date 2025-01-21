@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "strings"
 )
 
@@ -41,6 +42,14 @@ type SubscriptionCustomPrice struct {
     // (Optional)
     TaxIncluded             *bool                                        `json:"tax_included,omitempty"`
     AdditionalProperties    map[string]interface{}                       `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for SubscriptionCustomPrice,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (s SubscriptionCustomPrice) String() string {
+    return fmt.Sprintf(
+    	"SubscriptionCustomPrice[Name=%v, Handle=%v, PriceInCents=%v, Interval=%v, IntervalUnit=%v, TrialPriceInCents=%v, TrialInterval=%v, TrialIntervalUnit=%v, InitialChargeInCents=%v, InitialChargeAfterTrial=%v, ExpirationInterval=%v, ExpirationIntervalUnit=%v, TaxIncluded=%v, AdditionalProperties=%v]",
+    	s.Name, s.Handle, s.PriceInCents, s.Interval, s.IntervalUnit, s.TrialPriceInCents, s.TrialInterval, s.TrialIntervalUnit, s.InitialChargeInCents, s.InitialChargeAfterTrial, s.ExpirationInterval, s.ExpirationIntervalUnit, s.TaxIncluded, s.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for SubscriptionCustomPrice.

@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // ComponentPricePointErrorItem represents a ComponentPricePointErrorItem struct.
@@ -15,6 +16,14 @@ type ComponentPricePointErrorItem struct {
     Message              *string                `json:"message,omitempty"`
     PricePoint           *int                   `json:"price_point,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for ComponentPricePointErrorItem,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (c ComponentPricePointErrorItem) String() string {
+    return fmt.Sprintf(
+    	"ComponentPricePointErrorItem[ComponentId=%v, Message=%v, PricePoint=%v, AdditionalProperties=%v]",
+    	c.ComponentId, c.Message, c.PricePoint, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for ComponentPricePointErrorItem.

@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "log"
     "strings"
     "time"
@@ -34,6 +35,14 @@ type ApplyPaymentEventData struct {
     Prepayment                *bool                     `json:"prepayment,omitempty"`
     External                  *bool                     `json:"external,omitempty"`
     AdditionalProperties      map[string]interface{}    `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for ApplyPaymentEventData,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (a ApplyPaymentEventData) String() string {
+    return fmt.Sprintf(
+    	"ApplyPaymentEventData[ConsolidationLevel=%v, Memo=%v, OriginalAmount=%v, AppliedAmount=%v, TransactionTime=%v, PaymentMethod=%v, TransactionId=%v, ParentInvoiceNumber=%v, RemainingPrepaymentAmount=%v, Prepayment=%v, External=%v, AdditionalProperties=%v]",
+    	a.ConsolidationLevel, a.Memo, a.OriginalAmount, a.AppliedAmount, a.TransactionTime, a.PaymentMethod, a.TransactionId, a.ParentInvoiceNumber, a.RemainingPrepaymentAmount, a.Prepayment, a.External, a.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for ApplyPaymentEventData.

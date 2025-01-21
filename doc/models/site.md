@@ -16,6 +16,7 @@
 | `SellerId` | `*int` | Optional | - |
 | `NonPrimaryCurrencies` | `[]string` | Optional | - |
 | `RelationshipInvoicingEnabled` | `*bool` | Optional | - |
+| `ScheduleSubscriptionCancellationEnabled` | `*bool` | Optional | - |
 | `CustomerHierarchyEnabled` | `*bool` | Optional | - |
 | `WhopaysEnabled` | `*bool` | Optional | - |
 | `WhopaysDefaultPayer` | `*string` | Optional | - |

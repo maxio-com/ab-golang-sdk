@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "strings"
 )
 
@@ -16,6 +17,14 @@ type PaymentRelatedEvents struct {
     ProductId            int                    `json:"product_id"`
     AccountTransactionId int                    `json:"account_transaction_id"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for PaymentRelatedEvents,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (p PaymentRelatedEvents) String() string {
+    return fmt.Sprintf(
+    	"PaymentRelatedEvents[ProductId=%v, AccountTransactionId=%v, AdditionalProperties=%v]",
+    	p.ProductId, p.AccountTransactionId, p.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for PaymentRelatedEvents.

@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // CouponRequest represents a CouponRequest struct.
@@ -17,6 +18,14 @@ type CouponRequest struct {
     // An object where the keys are component_ids and the values are booleans indicating if the coupon should be applicable to the component
     RestrictedComponents map[string]bool        `json:"restricted_components,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for CouponRequest,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (c CouponRequest) String() string {
+    return fmt.Sprintf(
+    	"CouponRequest[Coupon=%v, RestrictedProducts=%v, RestrictedComponents=%v, AdditionalProperties=%v]",
+    	c.Coupon, c.RestrictedProducts, c.RestrictedComponents, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for CouponRequest.

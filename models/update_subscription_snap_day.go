@@ -8,7 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
-    "strings"
+    "fmt"
 )
 
 // UpdateSubscriptionSnapDay represents a UpdateSubscriptionSnapDay struct.
@@ -19,12 +19,10 @@ type UpdateSubscriptionSnapDay struct {
     isNumber  bool
 }
 
-// String converts the UpdateSubscriptionSnapDay object to a string representation.
+// String implements the fmt.Stringer interface for UpdateSubscriptionSnapDay,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
 func (u UpdateSubscriptionSnapDay) String() string {
-    if bytes, err := json.Marshal(u.value); err == nil {
-         return strings.Trim(string(bytes), "\"")
-    }
-    return ""
+    return fmt.Sprintf("%v", u.value)
 }
 
 // MarshalJSON implements the json.Marshaler interface for UpdateSubscriptionSnapDay.

@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "log"
     "strings"
     "time"
@@ -18,6 +19,14 @@ type TooManyManagementLinkRequests struct {
     Error                string                 `json:"error"`
     NewLinkAvailableAt   time.Time              `json:"new_link_available_at"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for TooManyManagementLinkRequests,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (t TooManyManagementLinkRequests) String() string {
+    return fmt.Sprintf(
+    	"TooManyManagementLinkRequests[Error=%v, NewLinkAvailableAt=%v, AdditionalProperties=%v]",
+    	t.Error, t.NewLinkAvailableAt, t.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for TooManyManagementLinkRequests.

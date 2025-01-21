@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "strings"
 )
 
@@ -27,6 +28,14 @@ type RefundInvoice struct {
     // If `apply_credit` set to false and refunding full amount, if `void_invoice` set to true, invoice will be voided after refund. Defaults to `false`.
     VoidInvoice          *bool                  `json:"void_invoice,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for RefundInvoice,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (r RefundInvoice) String() string {
+    return fmt.Sprintf(
+    	"RefundInvoice[Amount=%v, Memo=%v, PaymentId=%v, External=%v, ApplyCredit=%v, VoidInvoice=%v, AdditionalProperties=%v]",
+    	r.Amount, r.Memo, r.PaymentId, r.External, r.ApplyCredit, r.VoidInvoice, r.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for RefundInvoice.

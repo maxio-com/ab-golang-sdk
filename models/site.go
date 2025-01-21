@@ -7,27 +7,37 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // Site represents a Site struct.
 type Site struct {
-    Id                             *int                   `json:"id,omitempty"`
-    Name                           *string                `json:"name,omitempty"`
-    Subdomain                      *string                `json:"subdomain,omitempty"`
-    Currency                       *string                `json:"currency,omitempty"`
-    SellerId                       *int                   `json:"seller_id,omitempty"`
-    NonPrimaryCurrencies           []string               `json:"non_primary_currencies,omitempty"`
-    RelationshipInvoicingEnabled   *bool                  `json:"relationship_invoicing_enabled,omitempty"`
-    CustomerHierarchyEnabled       *bool                  `json:"customer_hierarchy_enabled,omitempty"`
-    WhopaysEnabled                 *bool                  `json:"whopays_enabled,omitempty"`
-    WhopaysDefaultPayer            *string                `json:"whopays_default_payer,omitempty"`
-    AllocationSettings             *AllocationSettings    `json:"allocation_settings,omitempty"`
-    DefaultPaymentCollectionMethod *string                `json:"default_payment_collection_method,omitempty"`
-    OrganizationAddress            *OrganizationAddress   `json:"organization_address,omitempty"`
-    TaxConfiguration               *TaxConfiguration      `json:"tax_configuration,omitempty"`
-    NetTerms                       *NetTerms              `json:"net_terms,omitempty"`
-    Test                           *bool                  `json:"test,omitempty"`
-    AdditionalProperties           map[string]interface{} `json:"_"`
+    Id                                      *int                   `json:"id,omitempty"`
+    Name                                    *string                `json:"name,omitempty"`
+    Subdomain                               *string                `json:"subdomain,omitempty"`
+    Currency                                *string                `json:"currency,omitempty"`
+    SellerId                                *int                   `json:"seller_id,omitempty"`
+    NonPrimaryCurrencies                    []string               `json:"non_primary_currencies,omitempty"`
+    RelationshipInvoicingEnabled            *bool                  `json:"relationship_invoicing_enabled,omitempty"`
+    ScheduleSubscriptionCancellationEnabled *bool                  `json:"schedule_subscription_cancellation_enabled,omitempty"`
+    CustomerHierarchyEnabled                *bool                  `json:"customer_hierarchy_enabled,omitempty"`
+    WhopaysEnabled                          *bool                  `json:"whopays_enabled,omitempty"`
+    WhopaysDefaultPayer                     *string                `json:"whopays_default_payer,omitempty"`
+    AllocationSettings                      *AllocationSettings    `json:"allocation_settings,omitempty"`
+    DefaultPaymentCollectionMethod          *string                `json:"default_payment_collection_method,omitempty"`
+    OrganizationAddress                     *OrganizationAddress   `json:"organization_address,omitempty"`
+    TaxConfiguration                        *TaxConfiguration      `json:"tax_configuration,omitempty"`
+    NetTerms                                *NetTerms              `json:"net_terms,omitempty"`
+    Test                                    *bool                  `json:"test,omitempty"`
+    AdditionalProperties                    map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for Site,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (s Site) String() string {
+    return fmt.Sprintf(
+    	"Site[Id=%v, Name=%v, Subdomain=%v, Currency=%v, SellerId=%v, NonPrimaryCurrencies=%v, RelationshipInvoicingEnabled=%v, ScheduleSubscriptionCancellationEnabled=%v, CustomerHierarchyEnabled=%v, WhopaysEnabled=%v, WhopaysDefaultPayer=%v, AllocationSettings=%v, DefaultPaymentCollectionMethod=%v, OrganizationAddress=%v, TaxConfiguration=%v, NetTerms=%v, Test=%v, AdditionalProperties=%v]",
+    	s.Id, s.Name, s.Subdomain, s.Currency, s.SellerId, s.NonPrimaryCurrencies, s.RelationshipInvoicingEnabled, s.ScheduleSubscriptionCancellationEnabled, s.CustomerHierarchyEnabled, s.WhopaysEnabled, s.WhopaysDefaultPayer, s.AllocationSettings, s.DefaultPaymentCollectionMethod, s.OrganizationAddress, s.TaxConfiguration, s.NetTerms, s.Test, s.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for Site.
@@ -36,7 +46,7 @@ func (s Site) MarshalJSON() (
     []byte,
     error) {
     if err := DetectConflictingProperties(s.AdditionalProperties,
-        "id", "name", "subdomain", "currency", "seller_id", "non_primary_currencies", "relationship_invoicing_enabled", "customer_hierarchy_enabled", "whopays_enabled", "whopays_default_payer", "allocation_settings", "default_payment_collection_method", "organization_address", "tax_configuration", "net_terms", "test"); err != nil {
+        "id", "name", "subdomain", "currency", "seller_id", "non_primary_currencies", "relationship_invoicing_enabled", "schedule_subscription_cancellation_enabled", "customer_hierarchy_enabled", "whopays_enabled", "whopays_default_payer", "allocation_settings", "default_payment_collection_method", "organization_address", "tax_configuration", "net_terms", "test"); err != nil {
         return []byte{}, err
     }
     return json.Marshal(s.toMap())
@@ -66,6 +76,9 @@ func (s Site) toMap() map[string]any {
     }
     if s.RelationshipInvoicingEnabled != nil {
         structMap["relationship_invoicing_enabled"] = s.RelationshipInvoicingEnabled
+    }
+    if s.ScheduleSubscriptionCancellationEnabled != nil {
+        structMap["schedule_subscription_cancellation_enabled"] = s.ScheduleSubscriptionCancellationEnabled
     }
     if s.CustomerHierarchyEnabled != nil {
         structMap["customer_hierarchy_enabled"] = s.CustomerHierarchyEnabled
@@ -105,7 +118,7 @@ func (s *Site) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "id", "name", "subdomain", "currency", "seller_id", "non_primary_currencies", "relationship_invoicing_enabled", "customer_hierarchy_enabled", "whopays_enabled", "whopays_default_payer", "allocation_settings", "default_payment_collection_method", "organization_address", "tax_configuration", "net_terms", "test")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "id", "name", "subdomain", "currency", "seller_id", "non_primary_currencies", "relationship_invoicing_enabled", "schedule_subscription_cancellation_enabled", "customer_hierarchy_enabled", "whopays_enabled", "whopays_default_payer", "allocation_settings", "default_payment_collection_method", "organization_address", "tax_configuration", "net_terms", "test")
     if err != nil {
     	return err
     }
@@ -118,6 +131,7 @@ func (s *Site) UnmarshalJSON(input []byte) error {
     s.SellerId = temp.SellerId
     s.NonPrimaryCurrencies = temp.NonPrimaryCurrencies
     s.RelationshipInvoicingEnabled = temp.RelationshipInvoicingEnabled
+    s.ScheduleSubscriptionCancellationEnabled = temp.ScheduleSubscriptionCancellationEnabled
     s.CustomerHierarchyEnabled = temp.CustomerHierarchyEnabled
     s.WhopaysEnabled = temp.WhopaysEnabled
     s.WhopaysDefaultPayer = temp.WhopaysDefaultPayer
@@ -132,20 +146,21 @@ func (s *Site) UnmarshalJSON(input []byte) error {
 
 // tempSite is a temporary struct used for validating the fields of Site.
 type tempSite  struct {
-    Id                             *int                 `json:"id,omitempty"`
-    Name                           *string              `json:"name,omitempty"`
-    Subdomain                      *string              `json:"subdomain,omitempty"`
-    Currency                       *string              `json:"currency,omitempty"`
-    SellerId                       *int                 `json:"seller_id,omitempty"`
-    NonPrimaryCurrencies           []string             `json:"non_primary_currencies,omitempty"`
-    RelationshipInvoicingEnabled   *bool                `json:"relationship_invoicing_enabled,omitempty"`
-    CustomerHierarchyEnabled       *bool                `json:"customer_hierarchy_enabled,omitempty"`
-    WhopaysEnabled                 *bool                `json:"whopays_enabled,omitempty"`
-    WhopaysDefaultPayer            *string              `json:"whopays_default_payer,omitempty"`
-    AllocationSettings             *AllocationSettings  `json:"allocation_settings,omitempty"`
-    DefaultPaymentCollectionMethod *string              `json:"default_payment_collection_method,omitempty"`
-    OrganizationAddress            *OrganizationAddress `json:"organization_address,omitempty"`
-    TaxConfiguration               *TaxConfiguration    `json:"tax_configuration,omitempty"`
-    NetTerms                       *NetTerms            `json:"net_terms,omitempty"`
-    Test                           *bool                `json:"test,omitempty"`
+    Id                                      *int                 `json:"id,omitempty"`
+    Name                                    *string              `json:"name,omitempty"`
+    Subdomain                               *string              `json:"subdomain,omitempty"`
+    Currency                                *string              `json:"currency,omitempty"`
+    SellerId                                *int                 `json:"seller_id,omitempty"`
+    NonPrimaryCurrencies                    []string             `json:"non_primary_currencies,omitempty"`
+    RelationshipInvoicingEnabled            *bool                `json:"relationship_invoicing_enabled,omitempty"`
+    ScheduleSubscriptionCancellationEnabled *bool                `json:"schedule_subscription_cancellation_enabled,omitempty"`
+    CustomerHierarchyEnabled                *bool                `json:"customer_hierarchy_enabled,omitempty"`
+    WhopaysEnabled                          *bool                `json:"whopays_enabled,omitempty"`
+    WhopaysDefaultPayer                     *string              `json:"whopays_default_payer,omitempty"`
+    AllocationSettings                      *AllocationSettings  `json:"allocation_settings,omitempty"`
+    DefaultPaymentCollectionMethod          *string              `json:"default_payment_collection_method,omitempty"`
+    OrganizationAddress                     *OrganizationAddress `json:"organization_address,omitempty"`
+    TaxConfiguration                        *TaxConfiguration    `json:"tax_configuration,omitempty"`
+    NetTerms                                *NetTerms            `json:"net_terms,omitempty"`
+    Test                                    *bool                `json:"test,omitempty"`
 }

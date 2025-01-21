@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "strings"
 )
 
@@ -15,6 +16,14 @@ import (
 type SignupProformaPreviewResponse struct {
     ProformaInvoicePreview SignupProformaPreview  `json:"proforma_invoice_preview"`
     AdditionalProperties   map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for SignupProformaPreviewResponse,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (s SignupProformaPreviewResponse) String() string {
+    return fmt.Sprintf(
+    	"SignupProformaPreviewResponse[ProformaInvoicePreview=%v, AdditionalProperties=%v]",
+    	s.ProformaInvoicePreview, s.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for SignupProformaPreviewResponse.

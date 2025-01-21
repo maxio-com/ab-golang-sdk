@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // ComponentAllocationErrorItem represents a ComponentAllocationErrorItem struct.
@@ -16,6 +17,14 @@ type ComponentAllocationErrorItem struct {
     Kind                 *string                `json:"kind,omitempty"`
     On                   *string                `json:"on,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for ComponentAllocationErrorItem,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (c ComponentAllocationErrorItem) String() string {
+    return fmt.Sprintf(
+    	"ComponentAllocationErrorItem[ComponentId=%v, Message=%v, Kind=%v, On=%v, AdditionalProperties=%v]",
+    	c.ComponentId, c.Message, c.Kind, c.On, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for ComponentAllocationErrorItem.

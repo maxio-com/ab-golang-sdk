@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "strings"
 )
 
@@ -19,6 +20,14 @@ type BulkUpdateSegmentsItem struct {
     PricingScheme        PricingScheme                `json:"pricing_scheme"`
     Prices               []CreateOrUpdateSegmentPrice `json:"prices"`
     AdditionalProperties map[string]interface{}       `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for BulkUpdateSegmentsItem,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (b BulkUpdateSegmentsItem) String() string {
+    return fmt.Sprintf(
+    	"BulkUpdateSegmentsItem[Id=%v, PricingScheme=%v, Prices=%v, AdditionalProperties=%v]",
+    	b.Id, b.PricingScheme, b.Prices, b.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for BulkUpdateSegmentsItem.

@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "strings"
 )
 
@@ -15,6 +16,14 @@ import (
 type UpdateCustomerRequest struct {
     Customer             UpdateCustomer         `json:"customer"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for UpdateCustomerRequest,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (u UpdateCustomerRequest) String() string {
+    return fmt.Sprintf(
+    	"UpdateCustomerRequest[Customer=%v, AdditionalProperties=%v]",
+    	u.Customer, u.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for UpdateCustomerRequest.

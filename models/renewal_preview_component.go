@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // RenewalPreviewComponent represents a RenewalPreviewComponent struct.
@@ -23,6 +24,14 @@ type RenewalPreviewComponent struct {
     // Either the component price point's Chargify id or its handle prefixed with `handle:`
     PricePointId         *RenewalPreviewComponentPricePointId `json:"price_point_id,omitempty"`
     AdditionalProperties map[string]interface{}               `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for RenewalPreviewComponent,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (r RenewalPreviewComponent) String() string {
+    return fmt.Sprintf(
+    	"RenewalPreviewComponent[ComponentId=%v, Quantity=%v, PricePointId=%v, AdditionalProperties=%v]",
+    	r.ComponentId, r.Quantity, r.PricePointId, r.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for RenewalPreviewComponent.

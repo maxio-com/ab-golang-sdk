@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // InvoiceLineItemEventData represents a InvoiceLineItemEventData struct.
@@ -32,6 +33,14 @@ type InvoiceLineItemEventData struct {
     BillingScheduleItemId Optional[int]                  `json:"billing_schedule_item_id"`
     CustomItem            Optional[bool]                 `json:"custom_item"`
     AdditionalProperties  map[string]interface{}         `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for InvoiceLineItemEventData,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (i InvoiceLineItemEventData) String() string {
+    return fmt.Sprintf(
+    	"InvoiceLineItemEventData[Uid=%v, Title=%v, Description=%v, Quantity=%v, QuantityDelta=%v, UnitPrice=%v, PeriodRangeStart=%v, PeriodRangeEnd=%v, Amount=%v, LineReferences=%v, PricingDetailsIndex=%v, PricingDetails=%v, TaxCode=%v, TaxAmount=%v, ProductId=%v, ProductPricePointId=%v, PricePointId=%v, ComponentId=%v, BillingScheduleItemId=%v, CustomItem=%v, AdditionalProperties=%v]",
+    	i.Uid, i.Title, i.Description, i.Quantity, i.QuantityDelta, i.UnitPrice, i.PeriodRangeStart, i.PeriodRangeEnd, i.Amount, i.LineReferences, i.PricingDetailsIndex, i.PricingDetails, i.TaxCode, i.TaxAmount, i.ProductId, i.ProductPricePointId, i.PricePointId, i.ComponentId, i.BillingScheduleItemId, i.CustomItem, i.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for InvoiceLineItemEventData.

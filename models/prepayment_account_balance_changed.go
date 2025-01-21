@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "strings"
 )
 
@@ -18,6 +19,14 @@ type PrepaymentAccountBalanceChanged struct {
     PrepaymentBalanceChangeInCents  int64                  `json:"prepayment_balance_change_in_cents"`
     CurrencyCode                    string                 `json:"currency_code"`
     AdditionalProperties            map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for PrepaymentAccountBalanceChanged,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (p PrepaymentAccountBalanceChanged) String() string {
+    return fmt.Sprintf(
+    	"PrepaymentAccountBalanceChanged[Reason=%v, PrepaymentAccountBalanceInCents=%v, PrepaymentBalanceChangeInCents=%v, CurrencyCode=%v, AdditionalProperties=%v]",
+    	p.Reason, p.PrepaymentAccountBalanceInCents, p.PrepaymentBalanceChangeInCents, p.CurrencyCode, p.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for PrepaymentAccountBalanceChanged.

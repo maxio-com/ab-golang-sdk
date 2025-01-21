@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // OfferSignupPage represents a OfferSignupPage struct.
@@ -18,6 +19,14 @@ type OfferSignupPage struct {
     ReturnParams         *string                `json:"return_params,omitempty"`
     Url                  *string                `json:"url,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for OfferSignupPage,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (o OfferSignupPage) String() string {
+    return fmt.Sprintf(
+    	"OfferSignupPage[Id=%v, Nickname=%v, Enabled=%v, ReturnUrl=%v, ReturnParams=%v, Url=%v, AdditionalProperties=%v]",
+    	o.Id, o.Nickname, o.Enabled, o.ReturnUrl, o.ReturnParams, o.Url, o.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for OfferSignupPage.

@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // ProformaInvoiceDiscount represents a ProformaInvoiceDiscount struct.
@@ -20,6 +21,14 @@ type ProformaInvoiceDiscount struct {
     DiscountAmount       *string                            `json:"discount_amount,omitempty"`
     LineItemBreakouts    []InvoiceDiscountBreakout          `json:"line_item_breakouts,omitempty"`
     AdditionalProperties map[string]interface{}             `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for ProformaInvoiceDiscount,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (p ProformaInvoiceDiscount) String() string {
+    return fmt.Sprintf(
+    	"ProformaInvoiceDiscount[Uid=%v, Title=%v, Code=%v, SourceType=%v, DiscountType=%v, EligibleAmount=%v, DiscountAmount=%v, LineItemBreakouts=%v, AdditionalProperties=%v]",
+    	p.Uid, p.Title, p.Code, p.SourceType, p.DiscountType, p.EligibleAmount, p.DiscountAmount, p.LineItemBreakouts, p.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for ProformaInvoiceDiscount.

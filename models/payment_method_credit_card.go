@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "strings"
 )
 
@@ -19,6 +20,14 @@ type PaymentMethodCreditCard struct {
     MaskedCardNumber     string                    `json:"masked_card_number"`
     Type                 InvoiceEventPaymentMethod `json:"type"`
     AdditionalProperties map[string]interface{}    `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for PaymentMethodCreditCard,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (p PaymentMethodCreditCard) String() string {
+    return fmt.Sprintf(
+    	"PaymentMethodCreditCard[CardBrand=%v, CardExpiration=%v, LastFour=%v, MaskedCardNumber=%v, Type=%v, AdditionalProperties=%v]",
+    	p.CardBrand, p.CardExpiration, p.LastFour, p.MaskedCardNumber, p.Type, p.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for PaymentMethodCreditCard.

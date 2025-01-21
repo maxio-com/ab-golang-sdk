@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
     "log"
     "time"
 )
@@ -21,6 +22,14 @@ type MRR struct {
     // ISO8601 timestamp
     AtTime               *time.Time             `json:"at_time,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for MRR,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (m MRR) String() string {
+    return fmt.Sprintf(
+    	"MRR[AmountInCents=%v, AmountFormatted=%v, Currency=%v, CurrencySymbol=%v, Breakouts=%v, AtTime=%v, AdditionalProperties=%v]",
+    	m.AmountInCents, m.AmountFormatted, m.Currency, m.CurrencySymbol, m.Breakouts, m.AtTime, m.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for MRR.

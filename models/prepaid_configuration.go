@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // PrepaidConfiguration represents a PrepaidConfiguration struct.
@@ -17,6 +18,14 @@ type PrepaidConfiguration struct {
     AutoReplenish                   *bool                  `json:"auto_replenish,omitempty"`
     ReplenishThresholdAmountInCents *int64                 `json:"replenish_threshold_amount_in_cents,omitempty"`
     AdditionalProperties            map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for PrepaidConfiguration,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (p PrepaidConfiguration) String() string {
+    return fmt.Sprintf(
+    	"PrepaidConfiguration[Id=%v, InitialFundingAmountInCents=%v, ReplenishToAmountInCents=%v, AutoReplenish=%v, ReplenishThresholdAmountInCents=%v, AdditionalProperties=%v]",
+    	p.Id, p.InitialFundingAmountInCents, p.ReplenishToAmountInCents, p.AutoReplenish, p.ReplenishThresholdAmountInCents, p.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for PrepaidConfiguration.

@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
     "log"
     "time"
 )
@@ -59,6 +60,14 @@ type ProductPricePoint struct {
     // An array of currency pricing data is available when multiple currencies are defined for the site. It varies based on the use_site_exchange_rate setting for the price point. This parameter is present only in the response of read endpoints, after including the appropriate query parameter.
     CurrencyPrices          []CurrencyPrice                  `json:"currency_prices,omitempty"`
     AdditionalProperties    map[string]interface{}           `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for ProductPricePoint,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (p ProductPricePoint) String() string {
+    return fmt.Sprintf(
+    	"ProductPricePoint[Id=%v, Name=%v, Handle=%v, PriceInCents=%v, Interval=%v, IntervalUnit=%v, TrialPriceInCents=%v, TrialInterval=%v, TrialIntervalUnit=%v, TrialType=%v, IntroductoryOffer=%v, InitialChargeInCents=%v, InitialChargeAfterTrial=%v, ExpirationInterval=%v, ExpirationIntervalUnit=%v, ProductId=%v, ArchivedAt=%v, CreatedAt=%v, UpdatedAt=%v, UseSiteExchangeRate=%v, Type=%v, TaxIncluded=%v, SubscriptionId=%v, CurrencyPrices=%v, AdditionalProperties=%v]",
+    	p.Id, p.Name, p.Handle, p.PriceInCents, p.Interval, p.IntervalUnit, p.TrialPriceInCents, p.TrialInterval, p.TrialIntervalUnit, p.TrialType, p.IntroductoryOffer, p.InitialChargeInCents, p.InitialChargeAfterTrial, p.ExpirationInterval, p.ExpirationIntervalUnit, p.ProductId, p.ArchivedAt, p.CreatedAt, p.UpdatedAt, p.UseSiteExchangeRate, p.Type, p.TaxIncluded, p.SubscriptionId, p.CurrencyPrices, p.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for ProductPricePoint.

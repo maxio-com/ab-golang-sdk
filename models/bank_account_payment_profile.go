@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "strings"
 )
 
@@ -55,6 +56,14 @@ type BankAccountPaymentProfile struct {
     SiteGatewaySettingId    Optional[int]          `json:"site_gateway_setting_id"`
     GatewayHandle           Optional[string]       `json:"gateway_handle"`
     AdditionalProperties    map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for BankAccountPaymentProfile,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (b BankAccountPaymentProfile) String() string {
+    return fmt.Sprintf(
+    	"BankAccountPaymentProfile[Id=%v, FirstName=%v, LastName=%v, CustomerId=%v, CurrentVault=%v, VaultToken=%v, BillingAddress=%v, BillingCity=%v, BillingState=%v, BillingZip=%v, BillingCountry=%v, CustomerVaultToken=%v, BillingAddress2=%v, BankName=%v, MaskedBankRoutingNumber=%v, MaskedBankAccountNumber=%v, BankAccountType=%v, BankAccountHolderType=%v, PaymentType=%v, Verified=%v, SiteGatewaySettingId=%v, GatewayHandle=%v, AdditionalProperties=%v]",
+    	b.Id, b.FirstName, b.LastName, b.CustomerId, b.CurrentVault, b.VaultToken, b.BillingAddress, b.BillingCity, b.BillingState, b.BillingZip, b.BillingCountry, b.CustomerVaultToken, b.BillingAddress2, b.BankName, b.MaskedBankRoutingNumber, b.MaskedBankAccountNumber, b.BankAccountType, b.BankAccountHolderType, b.PaymentType, b.Verified, b.SiteGatewaySettingId, b.GatewayHandle, b.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for BankAccountPaymentProfile.

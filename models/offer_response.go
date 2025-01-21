@@ -7,12 +7,21 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // OfferResponse represents a OfferResponse struct.
 type OfferResponse struct {
     Offer                *Offer                 `json:"offer,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for OfferResponse,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (o OfferResponse) String() string {
+    return fmt.Sprintf(
+    	"OfferResponse[Offer=%v, AdditionalProperties=%v]",
+    	o.Offer, o.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for OfferResponse.

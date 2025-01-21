@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "strings"
 )
 
@@ -49,6 +50,14 @@ type QuantityBasedComponent struct {
     // A string representing the interval unit for this component's default price point, either month or day. This property is only available for sites with Multifrequency enabled.
     IntervalUnit              Optional[IntervalUnit]           `json:"interval_unit"`
     AdditionalProperties      map[string]interface{}           `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for QuantityBasedComponent,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (q QuantityBasedComponent) String() string {
+    return fmt.Sprintf(
+    	"QuantityBasedComponent[Name=%v, UnitName=%v, Description=%v, Handle=%v, Taxable=%v, PricingScheme=%v, Prices=%v, UpgradeCharge=%v, DowngradeCredit=%v, PricePoints=%v, UnitPrice=%v, TaxCode=%v, HideDateRangeOnInvoice=%v, Recurring=%v, DisplayOnHostedPage=%v, AllowFractionalQuantities=%v, PublicSignupPageIds=%v, Interval=%v, IntervalUnit=%v, AdditionalProperties=%v]",
+    	q.Name, q.UnitName, q.Description, q.Handle, q.Taxable, q.PricingScheme, q.Prices, q.UpgradeCharge, q.DowngradeCredit, q.PricePoints, q.UnitPrice, q.TaxCode, q.HideDateRangeOnInvoice, q.Recurring, q.DisplayOnHostedPage, q.AllowFractionalQuantities, q.PublicSignupPageIds, q.Interval, q.IntervalUnit, q.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for QuantityBasedComponent.

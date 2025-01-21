@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
     "log"
     "time"
 )
@@ -149,6 +150,14 @@ type Subscription struct {
     // Returned only for list/read Subscription operation when `include[]=self_service_page_token` parameter is provided.
     SelfServicePageToken              *string                           `json:"self_service_page_token,omitempty"`
     AdditionalProperties              map[string]interface{}            `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for Subscription,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (s Subscription) String() string {
+    return fmt.Sprintf(
+    	"Subscription[Id=%v, State=%v, BalanceInCents=%v, TotalRevenueInCents=%v, ProductPriceInCents=%v, ProductVersionNumber=%v, CurrentPeriodEndsAt=%v, NextAssessmentAt=%v, TrialStartedAt=%v, TrialEndedAt=%v, ActivatedAt=%v, ExpiresAt=%v, CreatedAt=%v, UpdatedAt=%v, CancellationMessage=%v, CancellationMethod=%v, CancelAtEndOfPeriod=%v, CanceledAt=%v, CurrentPeriodStartedAt=%v, PreviousState=%v, SignupPaymentId=%v, SignupRevenue=%v, DelayedCancelAt=%v, CouponCode=%v, SnapDay=%v, PaymentCollectionMethod=%v, Customer=%v, Product=%v, CreditCard=%v, Group=%v, BankAccount=%v, PaymentType=%v, ReferralCode=%v, NextProductId=%v, NextProductHandle=%v, CouponUseCount=%v, CouponUsesAllowed=%v, ReasonCode=%v, AutomaticallyResumeAt=%v, CouponCodes=%v, OfferId=%v, PayerId=%v, CurrentBillingAmountInCents=%v, ProductPricePointId=%v, ProductPricePointType=%v, NextProductPricePointId=%v, NetTerms=%v, StoredCredentialTransactionId=%v, Reference=%v, OnHoldAt=%v, PrepaidDunning=%v, Coupons=%v, DunningCommunicationDelayEnabled=%v, DunningCommunicationDelayTimeZone=%v, ReceivesInvoiceEmails=%v, Locale=%v, Currency=%v, ScheduledCancellationAt=%v, CreditBalanceInCents=%v, PrepaymentBalanceInCents=%v, PrepaidConfiguration=%v, SelfServicePageToken=%v, AdditionalProperties=%v]",
+    	s.Id, s.State, s.BalanceInCents, s.TotalRevenueInCents, s.ProductPriceInCents, s.ProductVersionNumber, s.CurrentPeriodEndsAt, s.NextAssessmentAt, s.TrialStartedAt, s.TrialEndedAt, s.ActivatedAt, s.ExpiresAt, s.CreatedAt, s.UpdatedAt, s.CancellationMessage, s.CancellationMethod, s.CancelAtEndOfPeriod, s.CanceledAt, s.CurrentPeriodStartedAt, s.PreviousState, s.SignupPaymentId, s.SignupRevenue, s.DelayedCancelAt, s.CouponCode, s.SnapDay, s.PaymentCollectionMethod, s.Customer, s.Product, s.CreditCard, s.Group, s.BankAccount, s.PaymentType, s.ReferralCode, s.NextProductId, s.NextProductHandle, s.CouponUseCount, s.CouponUsesAllowed, s.ReasonCode, s.AutomaticallyResumeAt, s.CouponCodes, s.OfferId, s.PayerId, s.CurrentBillingAmountInCents, s.ProductPricePointId, s.ProductPricePointType, s.NextProductPricePointId, s.NetTerms, s.StoredCredentialTransactionId, s.Reference, s.OnHoldAt, s.PrepaidDunning, s.Coupons, s.DunningCommunicationDelayEnabled, s.DunningCommunicationDelayTimeZone, s.ReceivesInvoiceEmails, s.Locale, s.Currency, s.ScheduledCancellationAt, s.CreditBalanceInCents, s.PrepaymentBalanceInCents, s.PrepaidConfiguration, s.SelfServicePageToken, s.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for Subscription.

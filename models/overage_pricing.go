@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "strings"
 )
 
@@ -17,6 +18,14 @@ type OveragePricing struct {
     PricingScheme        PricingScheme          `json:"pricing_scheme"`
     Prices               []Price                `json:"prices,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for OveragePricing,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (o OveragePricing) String() string {
+    return fmt.Sprintf(
+    	"OveragePricing[PricingScheme=%v, Prices=%v, AdditionalProperties=%v]",
+    	o.PricingScheme, o.Prices, o.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for OveragePricing.

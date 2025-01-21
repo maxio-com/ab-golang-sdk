@@ -7,7 +7,6 @@ package advancedbilling
 
 import (
     "context"
-    "fmt"
     "github.com/apimatic/go-core-runtime/https"
     "github.com/apimatic/go-core-runtime/utilities"
     "github.com/maxio-com/ab-golang-sdk/errors"
@@ -36,11 +35,8 @@ func (s *SubscriptionGroupInvoiceAccountController) CreateSubscriptionGroupPrepa
     body *models.SubscriptionGroupPrepaymentRequest) (
     models.ApiResponse[models.SubscriptionGroupPrepaymentResponse],
     error) {
-    req := s.prepareRequest(
-      ctx,
-      "POST",
-      fmt.Sprintf("/subscription_groups/%v/prepayments.json", uid),
-    )
+    req := s.prepareRequest(ctx, "POST", "/subscription_groups/%v/prepayments.json")
+    req.AppendTemplateParams(uid)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
@@ -83,11 +79,8 @@ func (s *SubscriptionGroupInvoiceAccountController) ListPrepaymentsForSubscripti
     input ListPrepaymentsForSubscriptionGroupInput) (
     models.ApiResponse[models.ListSubscriptionGroupPrepaymentResponse],
     error) {
-    req := s.prepareRequest(
-      ctx,
-      "GET",
-      fmt.Sprintf("/subscription_groups/%v/prepayments.json", input.Uid),
-    )
+    req := s.prepareRequest(ctx, "GET", "/subscription_groups/%v/prepayments.json")
+    req.AppendTemplateParams(input.Uid)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
@@ -125,8 +118,9 @@ func (s *SubscriptionGroupInvoiceAccountController) IssueSubscriptionGroupServic
     req := s.prepareRequest(
       ctx,
       "POST",
-      fmt.Sprintf("/subscription_groups/%v/service_credits.json", uid),
+      "/subscription_groups/%v/service_credits.json",
     )
+    req.AppendTemplateParams(uid)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
@@ -159,8 +153,9 @@ func (s *SubscriptionGroupInvoiceAccountController) DeductSubscriptionGroupServi
     req := s.prepareRequest(
       ctx,
       "POST",
-      fmt.Sprintf("/subscription_groups/%v/service_credit_deductions.json", uid),
+      "/subscription_groups/%v/service_credit_deductions.json",
     )
+    req.AppendTemplateParams(uid)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},

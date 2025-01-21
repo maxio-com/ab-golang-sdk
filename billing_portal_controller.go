@@ -7,7 +7,6 @@ package advancedbilling
 
 import (
     "context"
-    "fmt"
     "github.com/apimatic/go-core-runtime/https"
     "github.com/apimatic/go-core-runtime/utilities"
     "github.com/maxio-com/ab-golang-sdk/errors"
@@ -43,11 +42,8 @@ func (b *BillingPortalController) EnableBillingPortalForCustomer(
     autoInvite *models.AutoInvite) (
     models.ApiResponse[models.CustomerResponse],
     error) {
-    req := b.prepareRequest(
-      ctx,
-      "POST",
-      fmt.Sprintf("/portal/customers/%v/enable.json", customerId),
-    )
+    req := b.prepareRequest(ctx, "POST", "/portal/customers/%v/enable.json")
+    req.AppendTemplateParams(customerId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
@@ -81,11 +77,8 @@ func (b *BillingPortalController) ReadBillingPortalLink(
     customerId int) (
     models.ApiResponse[models.PortalManagementLink],
     error) {
-    req := b.prepareRequest(
-      ctx,
-      "GET",
-      fmt.Sprintf("/portal/customers/%v/management_link.json", customerId),
-    )
+    req := b.prepareRequest(ctx, "GET", "/portal/customers/%v/management_link.json")
+    req.AppendTemplateParams(customerId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
@@ -120,8 +113,9 @@ func (b *BillingPortalController) ResendBillingPortalInvitation(
     req := b.prepareRequest(
       ctx,
       "POST",
-      fmt.Sprintf("/portal/customers/%v/invitations/invite.json", customerId),
+      "/portal/customers/%v/invitations/invite.json",
     )
+    req.AppendTemplateParams(customerId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
@@ -153,8 +147,9 @@ func (b *BillingPortalController) RevokeBillingPortalAccess(
     req := b.prepareRequest(
       ctx,
       "DELETE",
-      fmt.Sprintf("/portal/customers/%v/invitations/revoke.json", customerId),
+      "/portal/customers/%v/invitations/revoke.json",
     )
+    req.AppendTemplateParams(customerId)
     req.Authenticate(NewAuth("BasicAuth"))
     
     var result models.RevokedInvitation

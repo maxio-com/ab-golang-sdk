@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // ListPublicKeysMeta represents a ListPublicKeysMeta struct.
@@ -16,6 +17,14 @@ type ListPublicKeysMeta struct {
     TotalPages           *int                   `json:"total_pages,omitempty"`
     PerPage              *int                   `json:"per_page,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for ListPublicKeysMeta,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (l ListPublicKeysMeta) String() string {
+    return fmt.Sprintf(
+    	"ListPublicKeysMeta[TotalCount=%v, CurrentPage=%v, TotalPages=%v, PerPage=%v, AdditionalProperties=%v]",
+    	l.TotalCount, l.CurrentPage, l.TotalPages, l.PerPage, l.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for ListPublicKeysMeta.

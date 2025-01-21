@@ -7,12 +7,21 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // ReplayWebhooksResponse represents a ReplayWebhooksResponse struct.
 type ReplayWebhooksResponse struct {
     Status               *string                `json:"status,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for ReplayWebhooksResponse,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (r ReplayWebhooksResponse) String() string {
+    return fmt.Sprintf(
+    	"ReplayWebhooksResponse[Status=%v, AdditionalProperties=%v]",
+    	r.Status, r.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for ReplayWebhooksResponse.

@@ -7,12 +7,21 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // AddSubscriptionToAGroup represents a AddSubscriptionToAGroup struct.
 type AddSubscriptionToAGroup struct {
     Group                *GroupSettings         `json:"group,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for AddSubscriptionToAGroup,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (a AddSubscriptionToAGroup) String() string {
+    return fmt.Sprintf(
+    	"AddSubscriptionToAGroup[Group=%v, AdditionalProperties=%v]",
+    	a.Group, a.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for AddSubscriptionToAGroup.

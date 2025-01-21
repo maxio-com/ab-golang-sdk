@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // DeleteSubscriptionGroupResponse represents a DeleteSubscriptionGroupResponse struct.
@@ -14,6 +15,14 @@ type DeleteSubscriptionGroupResponse struct {
     Uid                  *string                `json:"uid,omitempty"`
     Deleted              *bool                  `json:"deleted,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for DeleteSubscriptionGroupResponse,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (d DeleteSubscriptionGroupResponse) String() string {
+    return fmt.Sprintf(
+    	"DeleteSubscriptionGroupResponse[Uid=%v, Deleted=%v, AdditionalProperties=%v]",
+    	d.Uid, d.Deleted, d.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for DeleteSubscriptionGroupResponse.

@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // SubscriptionGroupPrepaymentResponse represents a SubscriptionGroupPrepaymentResponse struct.
@@ -21,6 +22,14 @@ type SubscriptionGroupPrepaymentResponse struct {
     // A memo attached to the entry.
     Memo                 Optional[string]       `json:"memo"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for SubscriptionGroupPrepaymentResponse,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (s SubscriptionGroupPrepaymentResponse) String() string {
+    return fmt.Sprintf(
+    	"SubscriptionGroupPrepaymentResponse[Id=%v, AmountInCents=%v, EndingBalanceInCents=%v, EntryType=%v, Memo=%v, AdditionalProperties=%v]",
+    	s.Id, s.AmountInCents, s.EndingBalanceInCents, s.EntryType, s.Memo, s.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for SubscriptionGroupPrepaymentResponse.

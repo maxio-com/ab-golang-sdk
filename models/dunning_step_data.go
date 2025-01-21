@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "strings"
 )
 
@@ -22,6 +23,14 @@ type DunningStepData struct {
     SendSms              bool                   `json:"send_sms"`
     SmsBody              Optional[string]       `json:"sms_body"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for DunningStepData,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (d DunningStepData) String() string {
+    return fmt.Sprintf(
+    	"DunningStepData[DayThreshold=%v, Action=%v, EmailBody=%v, EmailSubject=%v, SendEmail=%v, SendBccEmail=%v, SendSms=%v, SmsBody=%v, AdditionalProperties=%v]",
+    	d.DayThreshold, d.Action, d.EmailBody, d.EmailSubject, d.SendEmail, d.SendBccEmail, d.SendSms, d.SmsBody, d.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for DunningStepData.

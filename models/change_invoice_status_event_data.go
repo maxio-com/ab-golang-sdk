@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "strings"
 )
 
@@ -24,6 +25,14 @@ type ChangeInvoiceStatusEventData struct {
     ToStatus             InvoiceStatus              `json:"to_status"`
     ConsolidationLevel   *InvoiceConsolidationLevel `json:"consolidation_level,omitempty"`
     AdditionalProperties map[string]interface{}     `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for ChangeInvoiceStatusEventData,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (c ChangeInvoiceStatusEventData) String() string {
+    return fmt.Sprintf(
+    	"ChangeInvoiceStatusEventData[GatewayTransId=%v, Amount=%v, FromStatus=%v, ToStatus=%v, ConsolidationLevel=%v, AdditionalProperties=%v]",
+    	c.GatewayTransId, c.Amount, c.FromStatus, c.ToStatus, c.ConsolidationLevel, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for ChangeInvoiceStatusEventData.

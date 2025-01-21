@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // ProductPricePointErrors represents a ProductPricePointErrors struct.
@@ -18,6 +19,14 @@ type ProductPricePointErrors struct {
     Price                []string               `json:"price,omitempty"`
     PriceInCents         []string               `json:"price_in_cents,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for ProductPricePointErrors,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (p ProductPricePointErrors) String() string {
+    return fmt.Sprintf(
+    	"ProductPricePointErrors[PricePoint=%v, Interval=%v, IntervalUnit=%v, Name=%v, Price=%v, PriceInCents=%v, AdditionalProperties=%v]",
+    	p.PricePoint, p.Interval, p.IntervalUnit, p.Name, p.Price, p.PriceInCents, p.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for ProductPricePointErrors.

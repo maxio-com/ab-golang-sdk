@@ -12,7 +12,7 @@ require (
 )
 
 require (
-	github.com/apimatic/go-core-runtime v0.0.27
+	github.com/apimatic/go-core-runtime v0.0.28
 	github.com/caarlos0/env/v10 v10.0.0
 	github.com/jaswdr/faker v1.19.1
 	github.com/maxio-com/ab-golang-sdk v0.0.1

@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "strings"
 )
 
@@ -17,6 +18,14 @@ type DunningStepReached struct {
     CurrentStep          DunningStepData        `json:"current_step"`
     NextStep             DunningStepData        `json:"next_step"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for DunningStepReached,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (d DunningStepReached) String() string {
+    return fmt.Sprintf(
+    	"DunningStepReached[Dunner=%v, CurrentStep=%v, NextStep=%v, AdditionalProperties=%v]",
+    	d.Dunner, d.CurrentStep, d.NextStep, d.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for DunningStepReached.

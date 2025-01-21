@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // ACHAgreement represents a ACHAgreement struct.
@@ -21,6 +22,14 @@ type ACHAgreement struct {
     // (Required when providing ACH agreement params) The IP address of the person authorizing the ACH agreement.
     IpAddress            *string                `json:"ip_address,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for ACHAgreement,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (a ACHAgreement) String() string {
+    return fmt.Sprintf(
+    	"ACHAgreement[AgreementTerms=%v, AuthorizerFirstName=%v, AuthorizerLastName=%v, IpAddress=%v, AdditionalProperties=%v]",
+    	a.AgreementTerms, a.AuthorizerFirstName, a.AuthorizerLastName, a.IpAddress, a.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for ACHAgreement.

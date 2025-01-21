@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // UpdatePaymentProfile represents a UpdatePaymentProfile struct.
@@ -38,6 +39,14 @@ type UpdatePaymentProfile struct {
     // Second line of the customer’s billing address i.e. Apt. 100
     BillingAddress2      Optional[string]       `json:"billing_address_2"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for UpdatePaymentProfile,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (u UpdatePaymentProfile) String() string {
+    return fmt.Sprintf(
+    	"UpdatePaymentProfile[FirstName=%v, LastName=%v, FullNumber=%v, CardType=%v, ExpirationMonth=%v, ExpirationYear=%v, CurrentVault=%v, BillingAddress=%v, BillingCity=%v, BillingState=%v, BillingZip=%v, BillingCountry=%v, BillingAddress2=%v, AdditionalProperties=%v]",
+    	u.FirstName, u.LastName, u.FullNumber, u.CardType, u.ExpirationMonth, u.ExpirationYear, u.CurrentVault, u.BillingAddress, u.BillingCity, u.BillingState, u.BillingZip, u.BillingCountry, u.BillingAddress2, u.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for UpdatePaymentProfile.

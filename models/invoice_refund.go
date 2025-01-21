@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // InvoiceRefund represents a InvoiceRefund struct.
@@ -22,6 +23,14 @@ type InvoiceRefund struct {
     GatewayHandle        Optional[string]       `json:"gateway_handle"`
     AchLateReject        Optional[bool]         `json:"ach_late_reject"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for InvoiceRefund,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (i InvoiceRefund) String() string {
+    return fmt.Sprintf(
+    	"InvoiceRefund[TransactionId=%v, PaymentId=%v, Memo=%v, OriginalAmount=%v, AppliedAmount=%v, GatewayTransactionId=%v, GatewayUsed=%v, GatewayHandle=%v, AchLateReject=%v, AdditionalProperties=%v]",
+    	i.TransactionId, i.PaymentId, i.Memo, i.OriginalAmount, i.AppliedAmount, i.GatewayTransactionId, i.GatewayUsed, i.GatewayHandle, i.AchLateReject, i.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for InvoiceRefund.

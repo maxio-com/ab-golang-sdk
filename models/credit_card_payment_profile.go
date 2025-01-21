@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "strings"
 )
 
@@ -55,6 +56,14 @@ type CreditCardPaymentProfile struct {
     // An identifier of connected gateway.
     GatewayHandle        Optional[string]       `json:"gateway_handle"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for CreditCardPaymentProfile,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (c CreditCardPaymentProfile) String() string {
+    return fmt.Sprintf(
+    	"CreditCardPaymentProfile[Id=%v, FirstName=%v, LastName=%v, MaskedCardNumber=%v, CardType=%v, ExpirationMonth=%v, ExpirationYear=%v, CustomerId=%v, CurrentVault=%v, VaultToken=%v, BillingAddress=%v, BillingCity=%v, BillingState=%v, BillingZip=%v, BillingCountry=%v, CustomerVaultToken=%v, BillingAddress2=%v, PaymentType=%v, Disabled=%v, ChargifyToken=%v, SiteGatewaySettingId=%v, GatewayHandle=%v, AdditionalProperties=%v]",
+    	c.Id, c.FirstName, c.LastName, c.MaskedCardNumber, c.CardType, c.ExpirationMonth, c.ExpirationYear, c.CustomerId, c.CurrentVault, c.VaultToken, c.BillingAddress, c.BillingCity, c.BillingState, c.BillingZip, c.BillingCountry, c.CustomerVaultToken, c.BillingAddress2, c.PaymentType, c.Disabled, c.ChargifyToken, c.SiteGatewaySettingId, c.GatewayHandle, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreditCardPaymentProfile.

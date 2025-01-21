@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "strings"
 )
 
@@ -15,6 +16,14 @@ import (
 type CreateMetadataRequest struct {
     Metadata             []CreateMetadata       `json:"metadata"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for CreateMetadataRequest,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (c CreateMetadataRequest) String() string {
+    return fmt.Sprintf(
+    	"CreateMetadataRequest[Metadata=%v, AdditionalProperties=%v]",
+    	c.Metadata, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreateMetadataRequest.

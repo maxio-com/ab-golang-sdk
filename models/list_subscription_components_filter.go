@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // ListSubscriptionComponentsFilter represents a ListSubscriptionComponentsFilter struct.
@@ -16,6 +17,14 @@ type ListSubscriptionComponentsFilter struct {
     // Allows fetching components allocation with matching use_site_exchange_rate based on provided value. Use in query `filter[use_site_exchange_rate]=true`.
     UseSiteExchangeRate  *bool                  `json:"use_site_exchange_rate,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for ListSubscriptionComponentsFilter,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (l ListSubscriptionComponentsFilter) String() string {
+    return fmt.Sprintf(
+    	"ListSubscriptionComponentsFilter[Currencies=%v, UseSiteExchangeRate=%v, AdditionalProperties=%v]",
+    	l.Currencies, l.UseSiteExchangeRate, l.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for ListSubscriptionComponentsFilter.

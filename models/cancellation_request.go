@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "strings"
 )
 
@@ -15,6 +16,14 @@ import (
 type CancellationRequest struct {
     Subscription         CancellationOptions    `json:"subscription"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for CancellationRequest,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (c CancellationRequest) String() string {
+    return fmt.Sprintf(
+    	"CancellationRequest[Subscription=%v, AdditionalProperties=%v]",
+    	c.Subscription, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for CancellationRequest.

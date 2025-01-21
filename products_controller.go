@@ -7,7 +7,6 @@ package advancedbilling
 
 import (
     "context"
-    "fmt"
     "github.com/apimatic/go-core-runtime/https"
     "github.com/apimatic/go-core-runtime/utilities"
     "github.com/maxio-com/ab-golang-sdk/errors"
@@ -39,11 +38,8 @@ func (p *ProductsController) CreateProduct(
     body *models.CreateOrUpdateProductRequest) (
     models.ApiResponse[models.ProductResponse],
     error) {
-    req := p.prepareRequest(
-      ctx,
-      "POST",
-      fmt.Sprintf("/product_families/%v/products.json", productFamilyId),
-    )
+    req := p.prepareRequest(ctx, "POST", "/product_families/%v/products.json")
+    req.AppendTemplateParams(productFamilyId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
@@ -72,7 +68,8 @@ func (p *ProductsController) ReadProduct(
     productId int) (
     models.ApiResponse[models.ProductResponse],
     error) {
-    req := p.prepareRequest(ctx, "GET", fmt.Sprintf("/products/%v.json", productId))
+    req := p.prepareRequest(ctx, "GET", "/products/%v.json")
+    req.AppendTemplateParams(productId)
     req.Authenticate(NewAuth("BasicAuth"))
     
     var result models.ProductResponse
@@ -99,7 +96,8 @@ func (p *ProductsController) UpdateProduct(
     body *models.CreateOrUpdateProductRequest) (
     models.ApiResponse[models.ProductResponse],
     error) {
-    req := p.prepareRequest(ctx, "PUT", fmt.Sprintf("/products/%v.json", productId))
+    req := p.prepareRequest(ctx, "PUT", "/products/%v.json")
+    req.AppendTemplateParams(productId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
@@ -129,11 +127,8 @@ func (p *ProductsController) ArchiveProduct(
     productId int) (
     models.ApiResponse[models.ProductResponse],
     error) {
-    req := p.prepareRequest(
-      ctx,
-      "DELETE",
-      fmt.Sprintf("/products/%v.json", productId),
-    )
+    req := p.prepareRequest(ctx, "DELETE", "/products/%v.json")
+    req.AppendTemplateParams(productId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
@@ -158,11 +153,8 @@ func (p *ProductsController) ReadProductByHandle(
     apiHandle string) (
     models.ApiResponse[models.ProductResponse],
     error) {
-    req := p.prepareRequest(
-      ctx,
-      "GET",
-      fmt.Sprintf("/products/handle/%v.json", apiHandle),
-    )
+    req := p.prepareRequest(ctx, "GET", "/products/handle/%v.json")
+    req.AppendTemplateParams(apiHandle)
     req.Authenticate(NewAuth("BasicAuth"))
     
     var result models.ProductResponse
@@ -212,6 +204,7 @@ func (p *ProductsController) ListProducts(
     models.ApiResponse[[]models.ProductResponse],
     error) {
     req := p.prepareRequest(ctx, "GET", "/products.json")
+    
     req.Authenticate(NewAuth("BasicAuth"))
     if input.DateField != nil {
         req.QueryParam("date_field", *input.DateField)

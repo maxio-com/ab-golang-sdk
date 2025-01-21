@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // RenewalPreviewLineItem represents a RenewalPreviewLineItem struct.
@@ -28,6 +29,14 @@ type RenewalPreviewLineItem struct {
     PeriodRangeStart      *string                  `json:"period_range_start,omitempty"`
     PeriodRangeEnd        *string                  `json:"period_range_end,omitempty"`
     AdditionalProperties  map[string]interface{}   `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for RenewalPreviewLineItem,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (r RenewalPreviewLineItem) String() string {
+    return fmt.Sprintf(
+    	"RenewalPreviewLineItem[TransactionType=%v, Kind=%v, AmountInCents=%v, Memo=%v, DiscountAmountInCents=%v, TaxableAmountInCents=%v, ProductId=%v, ProductName=%v, ComponentId=%v, ComponentHandle=%v, ComponentName=%v, ProductHandle=%v, PeriodRangeStart=%v, PeriodRangeEnd=%v, AdditionalProperties=%v]",
+    	r.TransactionType, r.Kind, r.AmountInCents, r.Memo, r.DiscountAmountInCents, r.TaxableAmountInCents, r.ProductId, r.ProductName, r.ComponentId, r.ComponentHandle, r.ComponentName, r.ProductHandle, r.PeriodRangeStart, r.PeriodRangeEnd, r.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for RenewalPreviewLineItem.

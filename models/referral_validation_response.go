@@ -7,12 +7,21 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // ReferralValidationResponse represents a ReferralValidationResponse struct.
 type ReferralValidationResponse struct {
     ReferralCode         *ReferralCode          `json:"referral_code,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for ReferralValidationResponse,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (r ReferralValidationResponse) String() string {
+    return fmt.Sprintf(
+    	"ReferralValidationResponse[ReferralCode=%v, AdditionalProperties=%v]",
+    	r.ReferralCode, r.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for ReferralValidationResponse.

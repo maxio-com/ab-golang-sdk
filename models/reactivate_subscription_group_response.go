@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
     "log"
     "time"
 )
@@ -23,6 +24,14 @@ type ReactivateSubscriptionGroupResponse struct {
     State                 *string                `json:"state,omitempty"`
     CancelAtEndOfPeriod   *bool                  `json:"cancel_at_end_of_period,omitempty"`
     AdditionalProperties  map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for ReactivateSubscriptionGroupResponse,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (r ReactivateSubscriptionGroupResponse) String() string {
+    return fmt.Sprintf(
+    	"ReactivateSubscriptionGroupResponse[Uid=%v, Scheme=%v, CustomerId=%v, PaymentProfileId=%v, SubscriptionIds=%v, PrimarySubscriptionId=%v, NextAssessmentAt=%v, State=%v, CancelAtEndOfPeriod=%v, AdditionalProperties=%v]",
+    	r.Uid, r.Scheme, r.CustomerId, r.PaymentProfileId, r.SubscriptionIds, r.PrimarySubscriptionId, r.NextAssessmentAt, r.State, r.CancelAtEndOfPeriod, r.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for ReactivateSubscriptionGroupResponse.

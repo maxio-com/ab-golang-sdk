@@ -7,7 +7,6 @@ package advancedbilling
 
 import (
     "context"
-    "fmt"
     "github.com/apimatic/go-core-runtime/https"
     "github.com/apimatic/go-core-runtime/utilities"
     "github.com/maxio-com/ab-golang-sdk/errors"
@@ -41,6 +40,7 @@ func (s *SubscriptionGroupsController) SignupWithSubscriptionGroup(
     models.ApiResponse[models.SubscriptionGroupSignupResponse],
     error) {
     req := s.prepareRequest(ctx, "POST", "/subscription_groups/signup.json")
+    
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewSubscriptionGroupSignupErrorResponse},
@@ -69,6 +69,7 @@ func (s *SubscriptionGroupsController) CreateSubscriptionGroup(
     models.ApiResponse[models.SubscriptionGroupResponse],
     error) {
     req := s.prepareRequest(ctx, "POST", "/subscription_groups.json")
+    
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewSubscriptionGroupCreateErrorResponse},
@@ -112,6 +113,7 @@ func (s *SubscriptionGroupsController) ListSubscriptionGroups(
     models.ApiResponse[models.ListSubscriptionGroupsResponse],
     error) {
     req := s.prepareRequest(ctx, "GET", "/subscription_groups.json")
+    
     req.Authenticate(NewAuth("BasicAuth"))
     if input.Page != nil {
         req.QueryParamWithArraySerializationOption("page", *input.Page, https.UnIndexed)
@@ -144,11 +146,8 @@ func (s *SubscriptionGroupsController) ReadSubscriptionGroup(
     include []models.SubscriptionGroupInclude) (
     models.ApiResponse[models.FullSubscriptionGroupResponse],
     error) {
-    req := s.prepareRequest(
-      ctx,
-      "GET",
-      fmt.Sprintf("/subscription_groups/%v.json", uid),
-    )
+    req := s.prepareRequest(ctx, "GET", "/subscription_groups/%v.json")
+    req.AppendTemplateParams(uid)
     req.Authenticate(NewAuth("BasicAuth"))
     if include != nil {
         req.QueryParamWithArraySerializationOption("include", include, https.UnIndexed)
@@ -175,11 +174,8 @@ func (s *SubscriptionGroupsController) UpdateSubscriptionGroupMembers(
     body *models.UpdateSubscriptionGroupRequest) (
     models.ApiResponse[models.SubscriptionGroupResponse],
     error) {
-    req := s.prepareRequest(
-      ctx,
-      "PUT",
-      fmt.Sprintf("/subscription_groups/%v.json", uid),
-    )
+    req := s.prepareRequest(ctx, "PUT", "/subscription_groups/%v.json")
+    req.AppendTemplateParams(uid)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewSubscriptionGroupUpdateErrorResponse},
@@ -209,11 +205,8 @@ func (s *SubscriptionGroupsController) DeleteSubscriptionGroup(
     uid string) (
     models.ApiResponse[models.DeleteSubscriptionGroupResponse],
     error) {
-    req := s.prepareRequest(
-      ctx,
-      "DELETE",
-      fmt.Sprintf("/subscription_groups/%v.json", uid),
-    )
+    req := s.prepareRequest(ctx, "DELETE", "/subscription_groups/%v.json")
+    req.AppendTemplateParams(uid)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
@@ -240,6 +233,7 @@ func (s *SubscriptionGroupsController) FindSubscriptionGroup(
     models.ApiResponse[models.FullSubscriptionGroupResponse],
     error) {
     req := s.prepareRequest(ctx, "GET", "/subscription_groups/lookup.json")
+    
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
@@ -273,11 +267,8 @@ func (s *SubscriptionGroupsController) AddSubscriptionToGroup(
     body *models.AddSubscriptionToAGroup) (
     models.ApiResponse[models.SubscriptionGroupResponse],
     error) {
-    req := s.prepareRequest(
-      ctx,
-      "POST",
-      fmt.Sprintf("/subscriptions/%v/group.json", subscriptionId),
-    )
+    req := s.prepareRequest(ctx, "POST", "/subscriptions/%v/group.json")
+    req.AppendTemplateParams(subscriptionId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.Header("Content-Type", "application/json")
     if body != nil {
@@ -303,11 +294,8 @@ func (s *SubscriptionGroupsController) RemoveSubscriptionFromGroup(
     subscriptionId int) (
     *http.Response,
     error) {
-    req := s.prepareRequest(
-      ctx,
-      "DELETE",
-      fmt.Sprintf("/subscriptions/%v/group.json", subscriptionId),
-    )
+    req := s.prepareRequest(ctx, "DELETE", "/subscriptions/%v/group.json")
+    req.AppendTemplateParams(subscriptionId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "404": {TemplatedMessage: "Not Found:'{$response.body}'"},

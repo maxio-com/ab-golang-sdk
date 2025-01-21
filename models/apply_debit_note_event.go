@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "log"
     "strings"
     "time"
@@ -22,6 +23,14 @@ type ApplyDebitNoteEvent struct {
     // Example schema for an `apply_debit_note` event
     EventData            ApplyDebitNoteEventData `json:"event_data"`
     AdditionalProperties map[string]interface{}  `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for ApplyDebitNoteEvent,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (a ApplyDebitNoteEvent) String() string {
+    return fmt.Sprintf(
+    	"ApplyDebitNoteEvent[Id=%v, Timestamp=%v, Invoice=%v, EventType=%v, EventData=%v, AdditionalProperties=%v]",
+    	a.Id, a.Timestamp, a.Invoice, a.EventType, a.EventData, a.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for ApplyDebitNoteEvent.

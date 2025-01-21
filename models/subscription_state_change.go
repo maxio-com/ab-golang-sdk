@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "strings"
 )
 
@@ -16,6 +17,14 @@ type SubscriptionStateChange struct {
     PreviousSubscriptionState string                 `json:"previous_subscription_state"`
     NewSubscriptionState      string                 `json:"new_subscription_state"`
     AdditionalProperties      map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for SubscriptionStateChange,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (s SubscriptionStateChange) String() string {
+    return fmt.Sprintf(
+    	"SubscriptionStateChange[PreviousSubscriptionState=%v, NewSubscriptionState=%v, AdditionalProperties=%v]",
+    	s.PreviousSubscriptionState, s.NewSubscriptionState, s.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for SubscriptionStateChange.

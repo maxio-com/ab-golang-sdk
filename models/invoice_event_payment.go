@@ -8,7 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
-    "strings"
+    "fmt"
 )
 
 // InvoiceEventPayment represents a InvoiceEventPayment struct.
@@ -22,12 +22,10 @@ type InvoiceEventPayment struct {
     isPaymentMethodPaypal      bool
 }
 
-// String converts the InvoiceEventPayment object to a string representation.
+// String implements the fmt.Stringer interface for InvoiceEventPayment,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
 func (i InvoiceEventPayment) String() string {
-    if bytes, err := json.Marshal(i.value); err == nil {
-         return strings.Trim(string(bytes), "\"")
-    }
-    return ""
+    return fmt.Sprintf("%v", i.value)
 }
 
 // MarshalJSON implements the json.Marshaler interface for InvoiceEventPayment.

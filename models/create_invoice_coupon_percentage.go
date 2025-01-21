@@ -8,7 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
-    "strings"
+    "fmt"
 )
 
 // CreateInvoiceCouponPercentage represents a CreateInvoiceCouponPercentage struct.
@@ -19,12 +19,10 @@ type CreateInvoiceCouponPercentage struct {
     isPrecision bool
 }
 
-// String converts the CreateInvoiceCouponPercentage object to a string representation.
+// String implements the fmt.Stringer interface for CreateInvoiceCouponPercentage,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
 func (c CreateInvoiceCouponPercentage) String() string {
-    if bytes, err := json.Marshal(c.value); err == nil {
-         return strings.Trim(string(bytes), "\"")
-    }
-    return ""
+    return fmt.Sprintf("%v", c.value)
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreateInvoiceCouponPercentage.

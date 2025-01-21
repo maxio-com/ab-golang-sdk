@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "strings"
 )
 
@@ -25,6 +26,14 @@ type CreateSegment struct {
     PricingScheme         PricingScheme                       `json:"pricing_scheme"`
     Prices                []CreateOrUpdateSegmentPrice        `json:"prices,omitempty"`
     AdditionalProperties  map[string]interface{}              `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for CreateSegment,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (c CreateSegment) String() string {
+    return fmt.Sprintf(
+    	"CreateSegment[SegmentProperty1Value=%v, SegmentProperty2Value=%v, SegmentProperty3Value=%v, SegmentProperty4Value=%v, PricingScheme=%v, Prices=%v, AdditionalProperties=%v]",
+    	c.SegmentProperty1Value, c.SegmentProperty2Value, c.SegmentProperty3Value, c.SegmentProperty4Value, c.PricingScheme, c.Prices, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreateSegment.

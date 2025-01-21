@@ -8,7 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
-    "strings"
+    "fmt"
 )
 
 // DeductServiceCreditAmount represents a DeductServiceCreditAmount struct.
@@ -19,12 +19,10 @@ type DeductServiceCreditAmount struct {
     isPrecision bool
 }
 
-// String converts the DeductServiceCreditAmount object to a string representation.
+// String implements the fmt.Stringer interface for DeductServiceCreditAmount,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
 func (d DeductServiceCreditAmount) String() string {
-    if bytes, err := json.Marshal(d.value); err == nil {
-         return strings.Trim(string(bytes), "\"")
-    }
-    return ""
+    return fmt.Sprintf("%v", d.value)
 }
 
 // MarshalJSON implements the json.Marshaler interface for DeductServiceCreditAmount.

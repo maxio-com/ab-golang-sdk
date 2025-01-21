@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // ReactivateSubscriptionRequest represents a ReactivateSubscriptionRequest struct.
@@ -24,6 +25,14 @@ type ReactivateSubscriptionRequest struct {
     // If `true`, Chargify will attempt to resume the subscription's billing period. if not resumable, the subscription will be reactivated with a new billing period. If `false`: Chargify will only attempt to reactivate the subscription.
     Resume                   *ReactivateSubscriptionRequestResume `json:"resume,omitempty"`
     AdditionalProperties     map[string]interface{}               `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for ReactivateSubscriptionRequest,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (r ReactivateSubscriptionRequest) String() string {
+    return fmt.Sprintf(
+    	"ReactivateSubscriptionRequest[CalendarBilling=%v, IncludeTrial=%v, PreserveBalance=%v, CouponCode=%v, UseCreditsAndPrepayments=%v, Resume=%v, AdditionalProperties=%v]",
+    	r.CalendarBilling, r.IncludeTrial, r.PreserveBalance, r.CouponCode, r.UseCreditsAndPrepayments, r.Resume, r.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for ReactivateSubscriptionRequest.

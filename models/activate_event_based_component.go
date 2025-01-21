@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // ActivateEventBasedComponent represents a ActivateEventBasedComponent struct.
@@ -18,6 +19,14 @@ type ActivateEventBasedComponent struct {
     // Create or update custom pricing unique to the subscription. Used in place of `price_point_id`.
     CustomPrice          *ComponentCustomPrice  `json:"custom_price,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for ActivateEventBasedComponent,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (a ActivateEventBasedComponent) String() string {
+    return fmt.Sprintf(
+    	"ActivateEventBasedComponent[PricePointId=%v, BillingSchedule=%v, CustomPrice=%v, AdditionalProperties=%v]",
+    	a.PricePointId, a.BillingSchedule, a.CustomPrice, a.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for ActivateEventBasedComponent.

@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // SegmentPrice represents a SegmentPrice struct.
@@ -20,6 +21,14 @@ type SegmentPrice struct {
     FormattedUnitPrice   *string                `json:"formatted_unit_price,omitempty"`
     SegmentId            *int                   `json:"segment_id,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for SegmentPrice,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (s SegmentPrice) String() string {
+    return fmt.Sprintf(
+    	"SegmentPrice[Id=%v, ComponentId=%v, StartingQuantity=%v, EndingQuantity=%v, UnitPrice=%v, PricePointId=%v, FormattedUnitPrice=%v, SegmentId=%v, AdditionalProperties=%v]",
+    	s.Id, s.ComponentId, s.StartingQuantity, s.EndingQuantity, s.UnitPrice, s.PricePointId, s.FormattedUnitPrice, s.SegmentId, s.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for SegmentPrice.

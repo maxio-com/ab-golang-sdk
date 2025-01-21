@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "strings"
 )
 
@@ -15,6 +16,14 @@ import (
 type SubscriptionGroupSingleError struct {
     SubscriptionGroup    string                 `json:"subscription_group"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for SubscriptionGroupSingleError,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (s SubscriptionGroupSingleError) String() string {
+    return fmt.Sprintf(
+    	"SubscriptionGroupSingleError[SubscriptionGroup=%v, AdditionalProperties=%v]",
+    	s.SubscriptionGroup, s.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for SubscriptionGroupSingleError.

@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
     "log"
     "time"
 )
@@ -20,6 +21,14 @@ type ListPrepaymentsFilter struct {
     // The end date (format YYYY-MM-DD) with which to filter the date_field. Returns prepayments with a timestamp up to and including 11:59:59PM in your site's time zone on the date specified. Use in query: `filter[end_date]=2011-12-15`.
     EndDate              *time.Time               `json:"end_date,omitempty"`
     AdditionalProperties map[string]interface{}   `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for ListPrepaymentsFilter,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (l ListPrepaymentsFilter) String() string {
+    return fmt.Sprintf(
+    	"ListPrepaymentsFilter[DateField=%v, StartDate=%v, EndDate=%v, AdditionalProperties=%v]",
+    	l.DateField, l.StartDate, l.EndDate, l.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for ListPrepaymentsFilter.

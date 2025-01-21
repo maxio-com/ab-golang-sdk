@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // CreateInvoiceCoupon represents a CreateInvoiceCoupon struct.
@@ -19,6 +20,14 @@ type CreateInvoiceCoupon struct {
     // Applicable only to stackable coupons. For `compound`, Percentage-based discounts will be calculated against the remaining price, after prior discounts have been calculated. For `full-price`, Percentage-based discounts will always be calculated against the original item price, before other discounts are applied.
     CompoundingStrategy  *CompoundingStrategy                `json:"compounding_strategy,omitempty"`
     AdditionalProperties map[string]interface{}              `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for CreateInvoiceCoupon,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (c CreateInvoiceCoupon) String() string {
+    return fmt.Sprintf(
+    	"CreateInvoiceCoupon[Code=%v, Percentage=%v, Amount=%v, Description=%v, ProductFamilyId=%v, CompoundingStrategy=%v, AdditionalProperties=%v]",
+    	c.Code, c.Percentage, c.Amount, c.Description, c.ProductFamilyId, c.CompoundingStrategy, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreateInvoiceCoupon.

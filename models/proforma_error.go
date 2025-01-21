@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // ProformaError represents a ProformaError struct.
@@ -14,6 +15,14 @@ type ProformaError struct {
     // The error is base if it is not directly associated with a single attribute.
     Subscription         *BaseStringError       `json:"subscription,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for ProformaError,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (p ProformaError) String() string {
+    return fmt.Sprintf(
+    	"ProformaError[Subscription=%v, AdditionalProperties=%v]",
+    	p.Subscription, p.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for ProformaError.

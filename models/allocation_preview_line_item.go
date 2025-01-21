@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // AllocationPreviewLineItem represents a AllocationPreviewLineItem struct.
@@ -24,6 +25,14 @@ type AllocationPreviewLineItem struct {
     // Visible when using Fine-grained Component Control
     Direction             *AllocationPreviewDirection    `json:"direction,omitempty"`
     AdditionalProperties  map[string]interface{}         `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for AllocationPreviewLineItem,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (a AllocationPreviewLineItem) String() string {
+    return fmt.Sprintf(
+    	"AllocationPreviewLineItem[TransactionType=%v, Kind=%v, AmountInCents=%v, Memo=%v, DiscountAmountInCents=%v, TaxableAmountInCents=%v, ComponentId=%v, ComponentHandle=%v, Direction=%v, AdditionalProperties=%v]",
+    	a.TransactionType, a.Kind, a.AmountInCents, a.Memo, a.DiscountAmountInCents, a.TaxableAmountInCents, a.ComponentId, a.ComponentHandle, a.Direction, a.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for AllocationPreviewLineItem.

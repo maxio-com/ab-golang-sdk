@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "strings"
 )
 
@@ -15,6 +16,14 @@ import (
 type CreditSchemeRequest struct {
     CreditScheme         CreditScheme           `json:"credit_scheme"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for CreditSchemeRequest,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (c CreditSchemeRequest) String() string {
+    return fmt.Sprintf(
+    	"CreditSchemeRequest[CreditScheme=%v, AdditionalProperties=%v]",
+    	c.CreditScheme, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreditSchemeRequest.

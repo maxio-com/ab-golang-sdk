@@ -8,7 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
-    "strings"
+    "fmt"
 )
 
 // OnOffComponentUnitPrice represents a OnOffComponentUnitPrice struct.
@@ -19,12 +19,10 @@ type OnOffComponentUnitPrice struct {
     isPrecision bool
 }
 
-// String converts the OnOffComponentUnitPrice object to a string representation.
+// String implements the fmt.Stringer interface for OnOffComponentUnitPrice,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
 func (o OnOffComponentUnitPrice) String() string {
-    if bytes, err := json.Marshal(o.value); err == nil {
-         return strings.Trim(string(bytes), "\"")
-    }
-    return ""
+    return fmt.Sprintf("%v", o.value)
 }
 
 // MarshalJSON implements the json.Marshaler interface for OnOffComponentUnitPrice.

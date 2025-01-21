@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // ListSaleRepItem represents a ListSaleRepItem struct.
@@ -17,6 +18,14 @@ type ListSaleRepItem struct {
     MrrData              map[string]SaleRepItemMrr `json:"mrr_data,omitempty"`
     TestMode             *bool                     `json:"test_mode,omitempty"`
     AdditionalProperties map[string]interface{}    `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for ListSaleRepItem,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (l ListSaleRepItem) String() string {
+    return fmt.Sprintf(
+    	"ListSaleRepItem[Id=%v, FullName=%v, SubscriptionsCount=%v, MrrData=%v, TestMode=%v, AdditionalProperties=%v]",
+    	l.Id, l.FullName, l.SubscriptionsCount, l.MrrData, l.TestMode, l.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for ListSaleRepItem.

@@ -7,12 +7,21 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // IssueAdvanceInvoiceRequest represents a IssueAdvanceInvoiceRequest struct.
 type IssueAdvanceInvoiceRequest struct {
     Force                *bool                  `json:"force,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for IssueAdvanceInvoiceRequest,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (i IssueAdvanceInvoiceRequest) String() string {
+    return fmt.Sprintf(
+    	"IssueAdvanceInvoiceRequest[Force=%v, AdditionalProperties=%v]",
+    	i.Force, i.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for IssueAdvanceInvoiceRequest.

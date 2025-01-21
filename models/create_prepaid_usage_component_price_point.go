@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "strings"
 )
 
@@ -30,6 +31,14 @@ type CreatePrepaidUsageComponentPricePoint struct {
     // (only for prepaid usage components where rollover_prepaid_remainder is true) A string representing the expiration interval unit for this component, either month or day
     ExpirationIntervalUnit   Optional[ExpirationIntervalUnit] `json:"expiration_interval_unit"`
     AdditionalProperties     map[string]interface{}           `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for CreatePrepaidUsageComponentPricePoint,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (c CreatePrepaidUsageComponentPricePoint) String() string {
+    return fmt.Sprintf(
+    	"CreatePrepaidUsageComponentPricePoint[Name=%v, Handle=%v, PricingScheme=%v, Prices=%v, OveragePricing=%v, UseSiteExchangeRate=%v, RolloverPrepaidRemainder=%v, RenewPrepaidAllocation=%v, ExpirationInterval=%v, ExpirationIntervalUnit=%v, AdditionalProperties=%v]",
+    	c.Name, c.Handle, c.PricingScheme, c.Prices, c.OveragePricing, c.UseSiteExchangeRate, c.RolloverPrepaidRemainder, c.RenewPrepaidAllocation, c.ExpirationInterval, c.ExpirationIntervalUnit, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreatePrepaidUsageComponentPricePoint.

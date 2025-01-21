@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // PaginatedMetadata represents a PaginatedMetadata struct.
@@ -17,6 +18,14 @@ type PaginatedMetadata struct {
     PerPage              *int                   `json:"per_page,omitempty"`
     Metadata             []Metadata             `json:"metadata,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for PaginatedMetadata,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (p PaginatedMetadata) String() string {
+    return fmt.Sprintf(
+    	"PaginatedMetadata[TotalCount=%v, CurrentPage=%v, TotalPages=%v, PerPage=%v, Metadata=%v, AdditionalProperties=%v]",
+    	p.TotalCount, p.CurrentPage, p.TotalPages, p.PerPage, p.Metadata, p.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for PaginatedMetadata.

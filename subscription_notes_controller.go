@@ -7,7 +7,6 @@ package advancedbilling
 
 import (
     "context"
-    "fmt"
     "github.com/apimatic/go-core-runtime/https"
     "github.com/apimatic/go-core-runtime/utilities"
     "github.com/maxio-com/ab-golang-sdk/errors"
@@ -41,11 +40,8 @@ func (s *SubscriptionNotesController) CreateSubscriptionNote(
     body *models.UpdateSubscriptionNoteRequest) (
     models.ApiResponse[models.SubscriptionNoteResponse],
     error) {
-    req := s.prepareRequest(
-      ctx,
-      "POST",
-      fmt.Sprintf("/subscriptions/%v/notes.json", subscriptionId),
-    )
+    req := s.prepareRequest(ctx, "POST", "/subscriptions/%v/notes.json")
+    req.AppendTemplateParams(subscriptionId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
@@ -86,11 +82,8 @@ func (s *SubscriptionNotesController) ListSubscriptionNotes(
     input ListSubscriptionNotesInput) (
     models.ApiResponse[[]models.SubscriptionNoteResponse],
     error) {
-    req := s.prepareRequest(
-      ctx,
-      "GET",
-      fmt.Sprintf("/subscriptions/%v/notes.json", input.SubscriptionId),
-    )
+    req := s.prepareRequest(ctx, "GET", "/subscriptions/%v/notes.json")
+    req.AppendTemplateParams(input.SubscriptionId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
@@ -122,11 +115,8 @@ func (s *SubscriptionNotesController) ReadSubscriptionNote(
     noteId int) (
     models.ApiResponse[models.SubscriptionNoteResponse],
     error) {
-    req := s.prepareRequest(
-      ctx,
-      "GET",
-      fmt.Sprintf("/subscriptions/%v/notes/%v.json", subscriptionId, noteId),
-    )
+    req := s.prepareRequest(ctx, "GET", "/subscriptions/%v/notes/%v.json")
+    req.AppendTemplateParams(subscriptionId, noteId)
     req.Authenticate(NewAuth("BasicAuth"))
     
     var result models.SubscriptionNoteResponse
@@ -150,11 +140,8 @@ func (s *SubscriptionNotesController) UpdateSubscriptionNote(
     body *models.UpdateSubscriptionNoteRequest) (
     models.ApiResponse[models.SubscriptionNoteResponse],
     error) {
-    req := s.prepareRequest(
-      ctx,
-      "PUT",
-      fmt.Sprintf("/subscriptions/%v/notes/%v.json", subscriptionId, noteId),
-    )
+    req := s.prepareRequest(ctx, "PUT", "/subscriptions/%v/notes/%v.json")
+    req.AppendTemplateParams(subscriptionId, noteId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
@@ -184,11 +171,8 @@ func (s *SubscriptionNotesController) DeleteSubscriptionNote(
     noteId int) (
     *http.Response,
     error) {
-    req := s.prepareRequest(
-      ctx,
-      "DELETE",
-      fmt.Sprintf("/subscriptions/%v/notes/%v.json", subscriptionId, noteId),
-    )
+    req := s.prepareRequest(ctx, "DELETE", "/subscriptions/%v/notes/%v.json")
+    req.AppendTemplateParams(subscriptionId, noteId)
     req.Authenticate(NewAuth("BasicAuth"))
     
     httpCtx, err := req.Call()

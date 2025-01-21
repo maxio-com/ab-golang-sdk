@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // SendInvoiceRequest represents a SendInvoiceRequest struct.
@@ -15,6 +16,14 @@ type SendInvoiceRequest struct {
     CcRecipientEmails    []string               `json:"cc_recipient_emails,omitempty"`
     BccRecipientEmails   []string               `json:"bcc_recipient_emails,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for SendInvoiceRequest,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (s SendInvoiceRequest) String() string {
+    return fmt.Sprintf(
+    	"SendInvoiceRequest[RecipientEmails=%v, CcRecipientEmails=%v, BccRecipientEmails=%v, AdditionalProperties=%v]",
+    	s.RecipientEmails, s.CcRecipientEmails, s.BccRecipientEmails, s.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for SendInvoiceRequest.

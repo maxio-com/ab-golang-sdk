@@ -8,7 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
-    "strings"
+    "fmt"
 )
 
 // CreateMultiInvoicePaymentAmount represents a CreateMultiInvoicePaymentAmount struct.
@@ -19,12 +19,10 @@ type CreateMultiInvoicePaymentAmount struct {
     isPrecision bool
 }
 
-// String converts the CreateMultiInvoicePaymentAmount object to a string representation.
+// String implements the fmt.Stringer interface for CreateMultiInvoicePaymentAmount,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
 func (c CreateMultiInvoicePaymentAmount) String() string {
-    if bytes, err := json.Marshal(c.value); err == nil {
-         return strings.Trim(string(bytes), "\"")
-    }
-    return ""
+    return fmt.Sprintf("%v", c.value)
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreateMultiInvoicePaymentAmount.

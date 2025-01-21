@@ -41,6 +41,7 @@ func (s *SitesController) ReadSite(ctx context.Context) (
     models.ApiResponse[models.SiteResponse],
     error) {
     req := s.prepareRequest(ctx, "GET", "/site.json")
+    
     req.Authenticate(NewAuth("BasicAuth"))
     var result models.SiteResponse
     decoder, resp, err := req.CallAsJson()
@@ -63,6 +64,7 @@ func (s *SitesController) ClearSite(
     *http.Response,
     error) {
     req := s.prepareRequest(ctx, "POST", "/sites/clear_data.json")
+    
     req.Authenticate(NewAuth("BasicAuth"))
     if cleanupScope != nil {
         req.QueryParam("cleanup_scope", *cleanupScope)
@@ -94,6 +96,7 @@ func (s *SitesController) ListChargifyJsPublicKeys(
     models.ApiResponse[models.ListPublicKeysResponse],
     error) {
     req := s.prepareRequest(ctx, "GET", "/chargify_js_keys.json")
+    
     req.Authenticate(NewAuth("BasicAuth"))
     if input.Page != nil {
         req.QueryParam("page", *input.Page)

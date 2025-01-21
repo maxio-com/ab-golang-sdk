@@ -39,6 +39,7 @@ func (r *ReferralCodesController) ValidateReferralCode(
     models.ApiResponse[models.ReferralValidationResponse],
     error) {
     req := r.prepareRequest(ctx, "GET", "/referral_codes/validate.json")
+    
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "404": {TemplatedMessage: "Invalid referral code.", Unmarshaller: errors.NewSingleStringErrorResponse},

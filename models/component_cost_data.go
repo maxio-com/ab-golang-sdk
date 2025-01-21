@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // ComponentCostData represents a ComponentCostData struct.
@@ -20,6 +21,14 @@ type ComponentCostData struct {
     PricingScheme        *PricingScheme              `json:"pricing_scheme,omitempty"`
     Tiers                []ComponentCostDataRateTier `json:"tiers,omitempty"`
     AdditionalProperties map[string]interface{}      `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for ComponentCostData,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (c ComponentCostData) String() string {
+    return fmt.Sprintf(
+    	"ComponentCostData[ComponentCodeId=%v, PricePointId=%v, ProductId=%v, Quantity=%v, Amount=%v, PricingScheme=%v, Tiers=%v, AdditionalProperties=%v]",
+    	c.ComponentCodeId, c.PricePointId, c.ProductId, c.Quantity, c.Amount, c.PricingScheme, c.Tiers, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for ComponentCostData.

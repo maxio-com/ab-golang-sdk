@@ -7,7 +7,6 @@ package advancedbilling
 
 import (
     "context"
-    "fmt"
     "github.com/apimatic/go-core-runtime/https"
     "github.com/apimatic/go-core-runtime/utilities"
     "github.com/maxio-com/ab-golang-sdk/errors"
@@ -73,11 +72,8 @@ func (s *SubscriptionProductsController) MigrateSubscriptionProduct(
     body *models.SubscriptionProductMigrationRequest) (
     models.ApiResponse[models.SubscriptionResponse],
     error) {
-    req := s.prepareRequest(
-      ctx,
-      "POST",
-      fmt.Sprintf("/subscriptions/%v/migrations.json", subscriptionId),
-    )
+    req := s.prepareRequest(ctx, "POST", "/subscriptions/%v/migrations.json")
+    req.AppendTemplateParams(subscriptionId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
@@ -109,11 +105,8 @@ func (s *SubscriptionProductsController) PreviewSubscriptionProductMigration(
     body *models.SubscriptionMigrationPreviewRequest) (
     models.ApiResponse[models.SubscriptionMigrationPreviewResponse],
     error) {
-    req := s.prepareRequest(
-      ctx,
-      "POST",
-      fmt.Sprintf("/subscriptions/%v/migrations/preview.json", subscriptionId),
-    )
+    req := s.prepareRequest(ctx, "POST", "/subscriptions/%v/migrations/preview.json")
+    req.AppendTemplateParams(subscriptionId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},

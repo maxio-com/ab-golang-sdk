@@ -7,12 +7,21 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // DelayedCancellationResponse represents a DelayedCancellationResponse struct.
 type DelayedCancellationResponse struct {
     Message              *string                `json:"message,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for DelayedCancellationResponse,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (d DelayedCancellationResponse) String() string {
+    return fmt.Sprintf(
+    	"DelayedCancellationResponse[Message=%v, AdditionalProperties=%v]",
+    	d.Message, d.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for DelayedCancellationResponse.

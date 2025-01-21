@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // ListSegmentsFilter represents a ListSegmentsFilter struct.
@@ -20,6 +21,14 @@ type ListSegmentsFilter struct {
     // The value passed here would be used to filter segments. Pass a value related to `segment_property_4` on attached Metric. If empty string is passed, this filter would be rejected.
     SegmentProperty4Value *string                `json:"segment_property_4_value,omitempty"`
     AdditionalProperties  map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for ListSegmentsFilter,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (l ListSegmentsFilter) String() string {
+    return fmt.Sprintf(
+    	"ListSegmentsFilter[SegmentProperty1Value=%v, SegmentProperty2Value=%v, SegmentProperty3Value=%v, SegmentProperty4Value=%v, AdditionalProperties=%v]",
+    	l.SegmentProperty1Value, l.SegmentProperty2Value, l.SegmentProperty3Value, l.SegmentProperty4Value, l.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for ListSegmentsFilter.

@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
     "log"
     "time"
 )
@@ -67,6 +68,14 @@ type InvoiceLineItem struct {
     CustomItem            *bool                                      `json:"custom_item,omitempty"`
     Kind                  *string                                    `json:"kind,omitempty"`
     AdditionalProperties  map[string]interface{}                     `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for InvoiceLineItem,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (i InvoiceLineItem) String() string {
+    return fmt.Sprintf(
+    	"InvoiceLineItem[Uid=%v, Title=%v, Description=%v, Quantity=%v, UnitPrice=%v, SubtotalAmount=%v, DiscountAmount=%v, TaxAmount=%v, TotalAmount=%v, TieredUnitPrice=%v, PeriodRangeStart=%v, PeriodRangeEnd=%v, TransactionId=%v, ProductId=%v, ProductVersion=%v, ComponentId=%v, PricePointId=%v, BillingScheduleItemId=%v, Hide=%v, ComponentCostData=%v, ProductPricePointId=%v, CustomItem=%v, Kind=%v, AdditionalProperties=%v]",
+    	i.Uid, i.Title, i.Description, i.Quantity, i.UnitPrice, i.SubtotalAmount, i.DiscountAmount, i.TaxAmount, i.TotalAmount, i.TieredUnitPrice, i.PeriodRangeStart, i.PeriodRangeEnd, i.TransactionId, i.ProductId, i.ProductVersion, i.ComponentId, i.PricePointId, i.BillingScheduleItemId, i.Hide, i.ComponentCostData, i.ProductPricePointId, i.CustomItem, i.Kind, i.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for InvoiceLineItem.

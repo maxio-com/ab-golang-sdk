@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // MultiInvoicePayment represents a MultiInvoicePayment struct.
@@ -19,6 +20,14 @@ type MultiInvoicePayment struct {
     CurrencyCode         *string                     `json:"currency_code,omitempty"`
     Applications         []InvoicePaymentApplication `json:"applications,omitempty"`
     AdditionalProperties map[string]interface{}      `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for MultiInvoicePayment,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (m MultiInvoicePayment) String() string {
+    return fmt.Sprintf(
+    	"MultiInvoicePayment[TransactionId=%v, TotalAmount=%v, CurrencyCode=%v, Applications=%v, AdditionalProperties=%v]",
+    	m.TransactionId, m.TotalAmount, m.CurrencyCode, m.Applications, m.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for MultiInvoicePayment.

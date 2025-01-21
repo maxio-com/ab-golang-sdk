@@ -7,7 +7,6 @@ package advancedbilling
 
 import (
     "context"
-    "fmt"
     "github.com/apimatic/go-core-runtime/https"
     "github.com/apimatic/go-core-runtime/utilities"
     "github.com/maxio-com/ab-golang-sdk/errors"
@@ -43,6 +42,7 @@ func (r *ReasonCodesController) CreateReasonCode(
     models.ApiResponse[models.ReasonCodeResponse],
     error) {
     req := r.prepareRequest(ctx, "POST", "/reason_codes.json")
+    
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
@@ -81,6 +81,7 @@ func (r *ReasonCodesController) ListReasonCodes(
     models.ApiResponse[[]models.ReasonCodeResponse],
     error) {
     req := r.prepareRequest(ctx, "GET", "/reason_codes.json")
+    
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
@@ -110,11 +111,8 @@ func (r *ReasonCodesController) ReadReasonCode(
     reasonCodeId int) (
     models.ApiResponse[models.ReasonCodeResponse],
     error) {
-    req := r.prepareRequest(
-      ctx,
-      "GET",
-      fmt.Sprintf("/reason_codes/%v.json", reasonCodeId),
-    )
+    req := r.prepareRequest(ctx, "GET", "/reason_codes/%v.json")
+    req.AppendTemplateParams(reasonCodeId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
@@ -140,11 +138,8 @@ func (r *ReasonCodesController) UpdateReasonCode(
     body *models.UpdateReasonCodeRequest) (
     models.ApiResponse[models.ReasonCodeResponse],
     error) {
-    req := r.prepareRequest(
-      ctx,
-      "PUT",
-      fmt.Sprintf("/reason_codes/%v.json", reasonCodeId),
-    )
+    req := r.prepareRequest(ctx, "PUT", "/reason_codes/%v.json")
+    req.AppendTemplateParams(reasonCodeId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
@@ -174,11 +169,8 @@ func (r *ReasonCodesController) DeleteReasonCode(
     reasonCodeId int) (
     models.ApiResponse[models.OkResponse],
     error) {
-    req := r.prepareRequest(
-      ctx,
-      "DELETE",
-      fmt.Sprintf("/reason_codes/%v.json", reasonCodeId),
-    )
+    req := r.prepareRequest(ctx, "DELETE", "/reason_codes/%v.json")
+    req.AppendTemplateParams(reasonCodeId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "404": {TemplatedMessage: "Not Found:'{$response.body}'"},

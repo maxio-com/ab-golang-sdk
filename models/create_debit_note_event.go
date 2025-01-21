@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "log"
     "strings"
     "time"
@@ -22,6 +23,14 @@ type CreateDebitNoteEvent struct {
     // Example schema for an `create_debit_note` event
     EventData            DebitNote              `json:"event_data"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for CreateDebitNoteEvent,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (c CreateDebitNoteEvent) String() string {
+    return fmt.Sprintf(
+    	"CreateDebitNoteEvent[Id=%v, Timestamp=%v, Invoice=%v, EventType=%v, EventData=%v, AdditionalProperties=%v]",
+    	c.Id, c.Timestamp, c.Invoice, c.EventType, c.EventData, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreateDebitNoteEvent.

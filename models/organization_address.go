@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // OrganizationAddress represents a OrganizationAddress struct.
@@ -20,6 +21,14 @@ type OrganizationAddress struct {
     Name                 Optional[string]       `json:"name"`
     Phone                Optional[string]       `json:"phone"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for OrganizationAddress,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (o OrganizationAddress) String() string {
+    return fmt.Sprintf(
+    	"OrganizationAddress[Street=%v, Line2=%v, City=%v, State=%v, Zip=%v, Country=%v, Name=%v, Phone=%v, AdditionalProperties=%v]",
+    	o.Street, o.Line2, o.City, o.State, o.Zip, o.Country, o.Name, o.Phone, o.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for OrganizationAddress.

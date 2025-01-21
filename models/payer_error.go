@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // PayerError represents a PayerError struct.
@@ -15,6 +16,14 @@ type PayerError struct {
     FirstName            []string               `json:"first_name,omitempty"`
     Email                []string               `json:"email,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for PayerError,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (p PayerError) String() string {
+    return fmt.Sprintf(
+    	"PayerError[LastName=%v, FirstName=%v, Email=%v, AdditionalProperties=%v]",
+    	p.LastName, p.FirstName, p.Email, p.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for PayerError.

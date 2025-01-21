@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // UpdatePrice represents a UpdatePrice struct.
@@ -18,6 +19,14 @@ type UpdatePrice struct {
     Destroy              *bool                        `json:"_destroy,omitempty"`
     StartingQuantity     *UpdatePriceStartingQuantity `json:"starting_quantity,omitempty"`
     AdditionalProperties map[string]interface{}       `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for UpdatePrice,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (u UpdatePrice) String() string {
+    return fmt.Sprintf(
+    	"UpdatePrice[Id=%v, EndingQuantity=%v, UnitPrice=%v, Destroy=%v, StartingQuantity=%v, AdditionalProperties=%v]",
+    	u.Id, u.EndingQuantity, u.UnitPrice, u.Destroy, u.StartingQuantity, u.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for UpdatePrice.

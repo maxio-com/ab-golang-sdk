@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
     "log"
     "time"
 )
@@ -16,6 +17,14 @@ type InvoicePreviousBalance struct {
     CapturedAt           *time.Time             `json:"captured_at,omitempty"`
     Invoices             []InvoiceBalanceItem   `json:"invoices,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for InvoicePreviousBalance,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (i InvoicePreviousBalance) String() string {
+    return fmt.Sprintf(
+    	"InvoicePreviousBalance[CapturedAt=%v, Invoices=%v, AdditionalProperties=%v]",
+    	i.CapturedAt, i.Invoices, i.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for InvoicePreviousBalance.

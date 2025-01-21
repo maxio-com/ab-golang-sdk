@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // InvoiceCustomField represents a InvoiceCustomField struct.
@@ -17,6 +18,14 @@ type InvoiceCustomField struct {
     Value                *string                `json:"value,omitempty"`
     MetadatumId          *int                   `json:"metadatum_id,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for InvoiceCustomField,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (i InvoiceCustomField) String() string {
+    return fmt.Sprintf(
+    	"InvoiceCustomField[OwnerId=%v, OwnerType=%v, Name=%v, Value=%v, MetadatumId=%v, AdditionalProperties=%v]",
+    	i.OwnerId, i.OwnerType, i.Name, i.Value, i.MetadatumId, i.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for InvoiceCustomField.

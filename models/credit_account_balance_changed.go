@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "log"
     "strings"
     "time"
@@ -21,6 +22,14 @@ type CreditAccountBalanceChanged struct {
     CurrencyCode                       string                 `json:"currency_code"`
     AtTime                             time.Time              `json:"at_time"`
     AdditionalProperties               map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for CreditAccountBalanceChanged,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (c CreditAccountBalanceChanged) String() string {
+    return fmt.Sprintf(
+    	"CreditAccountBalanceChanged[Reason=%v, ServiceCreditAccountBalanceInCents=%v, ServiceCreditBalanceChangeInCents=%v, CurrencyCode=%v, AtTime=%v, AdditionalProperties=%v]",
+    	c.Reason, c.ServiceCreditAccountBalanceInCents, c.ServiceCreditBalanceChangeInCents, c.CurrencyCode, c.AtTime, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreditAccountBalanceChanged.

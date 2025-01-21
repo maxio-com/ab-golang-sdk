@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "strings"
 )
 
@@ -27,6 +28,14 @@ type CreateComponentPricePoint struct {
     // A string representing the interval unit for this price point, either month or day. This property is only available for sites with Multifrequency enabled.
     IntervalUnit         Optional[IntervalUnit] `json:"interval_unit"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for CreateComponentPricePoint,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (c CreateComponentPricePoint) String() string {
+    return fmt.Sprintf(
+    	"CreateComponentPricePoint[Name=%v, Handle=%v, PricingScheme=%v, Prices=%v, UseSiteExchangeRate=%v, TaxIncluded=%v, Interval=%v, IntervalUnit=%v, AdditionalProperties=%v]",
+    	c.Name, c.Handle, c.PricingScheme, c.Prices, c.UseSiteExchangeRate, c.TaxIncluded, c.Interval, c.IntervalUnit, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreateComponentPricePoint.

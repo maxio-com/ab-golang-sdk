@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
     "log"
     "time"
 )
@@ -60,6 +61,14 @@ type DebitNote struct {
     Taxes                  []InvoiceTax           `json:"taxes,omitempty"`
     Refunds                []InvoiceRefund        `json:"refunds,omitempty"`
     AdditionalProperties   map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for DebitNote,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (d DebitNote) String() string {
+    return fmt.Sprintf(
+    	"DebitNote[Uid=%v, SiteId=%v, CustomerId=%v, SubscriptionId=%v, Number=%v, SequenceNumber=%v, OriginCreditNoteUid=%v, OriginCreditNoteNumber=%v, IssueDate=%v, AppliedDate=%v, DueDate=%v, Status=%v, Memo=%v, Role=%v, Currency=%v, Seller=%v, Customer=%v, BillingAddress=%v, ShippingAddress=%v, LineItems=%v, Discounts=%v, Taxes=%v, Refunds=%v, AdditionalProperties=%v]",
+    	d.Uid, d.SiteId, d.CustomerId, d.SubscriptionId, d.Number, d.SequenceNumber, d.OriginCreditNoteUid, d.OriginCreditNoteNumber, d.IssueDate, d.AppliedDate, d.DueDate, d.Status, d.Memo, d.Role, d.Currency, d.Seller, d.Customer, d.BillingAddress, d.ShippingAddress, d.LineItems, d.Discounts, d.Taxes, d.Refunds, d.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for DebitNote.

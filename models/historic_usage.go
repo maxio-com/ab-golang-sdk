@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
     "log"
     "time"
 )
@@ -21,6 +22,14 @@ type HistoricUsage struct {
     // End date of billing period
     BillingPeriodEndsAt   *time.Time             `json:"billing_period_ends_at,omitempty"`
     AdditionalProperties  map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for HistoricUsage,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (h HistoricUsage) String() string {
+    return fmt.Sprintf(
+    	"HistoricUsage[TotalUsageQuantity=%v, BillingPeriodStartsAt=%v, BillingPeriodEndsAt=%v, AdditionalProperties=%v]",
+    	h.TotalUsageQuantity, h.BillingPeriodStartsAt, h.BillingPeriodEndsAt, h.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for HistoricUsage.

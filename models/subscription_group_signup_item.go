@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // SubscriptionGroupSignupItem represents a SubscriptionGroupSignupItem struct.
@@ -37,6 +38,14 @@ type SubscriptionGroupSignupItem struct {
     // (Optional) A set of key/value pairs representing custom fields and their values. Metafields will be created “on-the-fly” in your site for a given key, if they have not been created yet.
     Metafields              map[string]string                  `json:"metafields,omitempty"`
     AdditionalProperties    map[string]interface{}             `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for SubscriptionGroupSignupItem,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (s SubscriptionGroupSignupItem) String() string {
+    return fmt.Sprintf(
+    	"SubscriptionGroupSignupItem[ProductHandle=%v, ProductId=%v, ProductPricePointId=%v, ProductPricePointHandle=%v, OfferId=%v, Reference=%v, Primary=%v, Currency=%v, CouponCodes=%v, Components=%v, CustomPrice=%v, CalendarBilling=%v, Metafields=%v, AdditionalProperties=%v]",
+    	s.ProductHandle, s.ProductId, s.ProductPricePointId, s.ProductPricePointHandle, s.OfferId, s.Reference, s.Primary, s.Currency, s.CouponCodes, s.Components, s.CustomPrice, s.CalendarBilling, s.Metafields, s.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for SubscriptionGroupSignupItem.

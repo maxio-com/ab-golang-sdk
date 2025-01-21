@@ -8,7 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
-    "strings"
+    "fmt"
 )
 
 // RefundPrepaymentAmount represents a RefundPrepaymentAmount struct.
@@ -19,12 +19,10 @@ type RefundPrepaymentAmount struct {
     isPrecision bool
 }
 
-// String converts the RefundPrepaymentAmount object to a string representation.
+// String implements the fmt.Stringer interface for RefundPrepaymentAmount,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
 func (r RefundPrepaymentAmount) String() string {
-    if bytes, err := json.Marshal(r.value); err == nil {
-         return strings.Trim(string(bytes), "\"")
-    }
-    return ""
+    return fmt.Sprintf("%v", r.value)
 }
 
 // MarshalJSON implements the json.Marshaler interface for RefundPrepaymentAmount.

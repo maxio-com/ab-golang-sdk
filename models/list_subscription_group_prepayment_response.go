@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "strings"
 )
 
@@ -15,6 +16,14 @@ import (
 type ListSubscriptionGroupPrepaymentResponse struct {
     Prepayments          []ListSubscriptionGroupPrepayment `json:"prepayments"`
     AdditionalProperties map[string]interface{}            `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for ListSubscriptionGroupPrepaymentResponse,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (l ListSubscriptionGroupPrepaymentResponse) String() string {
+    return fmt.Sprintf(
+    	"ListSubscriptionGroupPrepaymentResponse[Prepayments=%v, AdditionalProperties=%v]",
+    	l.Prepayments, l.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for ListSubscriptionGroupPrepaymentResponse.

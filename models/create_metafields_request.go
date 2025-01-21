@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "strings"
 )
 
@@ -15,6 +16,14 @@ import (
 type CreateMetafieldsRequest struct {
     Metafields           CreateMetafieldsRequestMetafields `json:"metafields"`
     AdditionalProperties map[string]interface{}            `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for CreateMetafieldsRequest,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (c CreateMetafieldsRequest) String() string {
+    return fmt.Sprintf(
+    	"CreateMetafieldsRequest[Metafields=%v, AdditionalProperties=%v]",
+    	c.Metafields, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreateMetafieldsRequest.

@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "strings"
 )
 
@@ -23,6 +24,14 @@ type SubscriptionGroupSignup struct {
     BankAccountAttributes   *SubscriptionGroupBankAccount `json:"bank_account_attributes,omitempty"`
     Subscriptions           []SubscriptionGroupSignupItem `json:"subscriptions"`
     AdditionalProperties    map[string]interface{}        `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for SubscriptionGroupSignup,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (s SubscriptionGroupSignup) String() string {
+    return fmt.Sprintf(
+    	"SubscriptionGroupSignup[PaymentProfileId=%v, PayerId=%v, PayerReference=%v, PaymentCollectionMethod=%v, PayerAttributes=%v, CreditCardAttributes=%v, BankAccountAttributes=%v, Subscriptions=%v, AdditionalProperties=%v]",
+    	s.PaymentProfileId, s.PayerId, s.PayerReference, s.PaymentCollectionMethod, s.PayerAttributes, s.CreditCardAttributes, s.BankAccountAttributes, s.Subscriptions, s.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for SubscriptionGroupSignup.

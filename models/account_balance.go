@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // AccountBalance represents a AccountBalance struct.
@@ -18,6 +19,14 @@ type AccountBalance struct {
     // The remittance balance in cents.
     RemittanceBalanceInCents Optional[int64]        `json:"remittance_balance_in_cents"`
     AdditionalProperties     map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for AccountBalance,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (a AccountBalance) String() string {
+    return fmt.Sprintf(
+    	"AccountBalance[BalanceInCents=%v, AutomaticBalanceInCents=%v, RemittanceBalanceInCents=%v, AdditionalProperties=%v]",
+    	a.BalanceInCents, a.AutomaticBalanceInCents, a.RemittanceBalanceInCents, a.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for AccountBalance.

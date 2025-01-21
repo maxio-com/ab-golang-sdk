@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // RecordPaymentResponse represents a RecordPaymentResponse struct.
@@ -14,6 +15,14 @@ type RecordPaymentResponse struct {
     PaidInvoices         []PaidInvoice               `json:"paid_invoices,omitempty"`
     Prepayment           Optional[InvoicePrePayment] `json:"prepayment"`
     AdditionalProperties map[string]interface{}      `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for RecordPaymentResponse,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (r RecordPaymentResponse) String() string {
+    return fmt.Sprintf(
+    	"RecordPaymentResponse[PaidInvoices=%v, Prepayment=%v, AdditionalProperties=%v]",
+    	r.PaidInvoices, r.Prepayment, r.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for RecordPaymentResponse.

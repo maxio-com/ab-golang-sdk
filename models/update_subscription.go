@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
     "log"
     "time"
 )
@@ -43,6 +44,14 @@ type UpdateSubscription struct {
     // Set to change the current product's price point.
     ProductPricePointHandle           *string                       `json:"product_price_point_handle,omitempty"`
     AdditionalProperties              map[string]interface{}        `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for UpdateSubscription,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (u UpdateSubscription) String() string {
+    return fmt.Sprintf(
+    	"UpdateSubscription[CreditCardAttributes=%v, ProductHandle=%v, ProductId=%v, ProductChangeDelayed=%v, NextProductId=%v, NextProductPricePointId=%v, SnapDay=%v, NextBillingAt=%v, PaymentCollectionMethod=%v, ReceivesInvoiceEmails=%v, NetTerms=%v, StoredCredentialTransactionId=%v, Reference=%v, CustomPrice=%v, Components=%v, DunningCommunicationDelayEnabled=%v, DunningCommunicationDelayTimeZone=%v, ProductPricePointId=%v, ProductPricePointHandle=%v, AdditionalProperties=%v]",
+    	u.CreditCardAttributes, u.ProductHandle, u.ProductId, u.ProductChangeDelayed, u.NextProductId, u.NextProductPricePointId, u.SnapDay, u.NextBillingAt, u.PaymentCollectionMethod, u.ReceivesInvoiceEmails, u.NetTerms, u.StoredCredentialTransactionId, u.Reference, u.CustomPrice, u.Components, u.DunningCommunicationDelayEnabled, u.DunningCommunicationDelayTimeZone, u.ProductPricePointId, u.ProductPricePointHandle, u.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for UpdateSubscription.

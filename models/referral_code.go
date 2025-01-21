@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // ReferralCode represents a ReferralCode struct.
@@ -16,6 +17,14 @@ type ReferralCode struct {
     SubscriptionId       *int                   `json:"subscription_id,omitempty"`
     Code                 *string                `json:"code,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for ReferralCode,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (r ReferralCode) String() string {
+    return fmt.Sprintf(
+    	"ReferralCode[Id=%v, SiteId=%v, SubscriptionId=%v, Code=%v, AdditionalProperties=%v]",
+    	r.Id, r.SiteId, r.SubscriptionId, r.Code, r.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for ReferralCode.

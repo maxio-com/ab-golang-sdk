@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // SaleRepSettings represents a SaleRepSettings struct.
@@ -19,6 +20,14 @@ type SaleRepSettings struct {
     SalesRepId           *int                   `json:"sales_rep_id,omitempty"`
     SalesRepName         *string                `json:"sales_rep_name,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for SaleRepSettings,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (s SaleRepSettings) String() string {
+    return fmt.Sprintf(
+    	"SaleRepSettings[CustomerName=%v, SubscriptionId=%v, SiteLink=%v, SiteName=%v, SubscriptionMrr=%v, SalesRepId=%v, SalesRepName=%v, AdditionalProperties=%v]",
+    	s.CustomerName, s.SubscriptionId, s.SiteLink, s.SiteName, s.SubscriptionMrr, s.SalesRepId, s.SalesRepName, s.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for SaleRepSettings.

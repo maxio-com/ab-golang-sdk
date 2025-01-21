@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // MetafieldScope represents a MetafieldScope struct.
@@ -26,6 +27,14 @@ type MetafieldScope struct {
     PublicEdit           *IncludeOption         `json:"public_edit,omitempty"`
     Hosted               []string               `json:"hosted,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for MetafieldScope,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (m MetafieldScope) String() string {
+    return fmt.Sprintf(
+    	"MetafieldScope[Csv=%v, Invoices=%v, Statements=%v, Portal=%v, PublicShow=%v, PublicEdit=%v, Hosted=%v, AdditionalProperties=%v]",
+    	m.Csv, m.Invoices, m.Statements, m.Portal, m.PublicShow, m.PublicEdit, m.Hosted, m.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for MetafieldScope.

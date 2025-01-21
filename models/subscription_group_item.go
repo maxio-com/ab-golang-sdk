@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // SubscriptionGroupItem represents a SubscriptionGroupItem struct.
@@ -22,6 +23,14 @@ type SubscriptionGroupItem struct {
     TotalRevenueInCents     *int64                 `json:"total_revenue_in_cents,omitempty"`
     BalanceInCents          *int64                 `json:"balance_in_cents,omitempty"`
     AdditionalProperties    map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for SubscriptionGroupItem,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (s SubscriptionGroupItem) String() string {
+    return fmt.Sprintf(
+    	"SubscriptionGroupItem[Id=%v, Reference=%v, ProductId=%v, ProductHandle=%v, ProductPricePointId=%v, ProductPricePointHandle=%v, Currency=%v, CouponCode=%v, TotalRevenueInCents=%v, BalanceInCents=%v, AdditionalProperties=%v]",
+    	s.Id, s.Reference, s.ProductId, s.ProductHandle, s.ProductPricePointId, s.ProductPricePointHandle, s.Currency, s.CouponCode, s.TotalRevenueInCents, s.BalanceInCents, s.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for SubscriptionGroupItem.

@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // Breakouts represents a Breakouts struct.
@@ -16,6 +17,14 @@ type Breakouts struct {
     UsageAmountInCents   *int64                 `json:"usage_amount_in_cents,omitempty"`
     UsageAmountFormatted *string                `json:"usage_amount_formatted,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for Breakouts,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (b Breakouts) String() string {
+    return fmt.Sprintf(
+    	"Breakouts[PlanAmountInCents=%v, PlanAmountFormatted=%v, UsageAmountInCents=%v, UsageAmountFormatted=%v, AdditionalProperties=%v]",
+    	b.PlanAmountInCents, b.PlanAmountFormatted, b.UsageAmountInCents, b.UsageAmountFormatted, b.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for Breakouts.

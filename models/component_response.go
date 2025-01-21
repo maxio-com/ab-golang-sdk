@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "strings"
 )
 
@@ -15,6 +16,14 @@ import (
 type ComponentResponse struct {
     Component            Component              `json:"component"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for ComponentResponse,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (c ComponentResponse) String() string {
+    return fmt.Sprintf(
+    	"ComponentResponse[Component=%v, AdditionalProperties=%v]",
+    	c.Component, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for ComponentResponse.

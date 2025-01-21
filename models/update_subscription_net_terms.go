@@ -8,7 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
-    "strings"
+    "fmt"
 )
 
 // UpdateSubscriptionNetTerms represents a UpdateSubscriptionNetTerms struct.
@@ -19,12 +19,10 @@ type UpdateSubscriptionNetTerms struct {
     isNumber bool
 }
 
-// String converts the UpdateSubscriptionNetTerms object to a string representation.
+// String implements the fmt.Stringer interface for UpdateSubscriptionNetTerms,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
 func (u UpdateSubscriptionNetTerms) String() string {
-    if bytes, err := json.Marshal(u.value); err == nil {
-         return strings.Trim(string(bytes), "\"")
-    }
-    return ""
+    return fmt.Sprintf("%v", u.value)
 }
 
 // MarshalJSON implements the json.Marshaler interface for UpdateSubscriptionNetTerms.

@@ -7,12 +7,21 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // UpdateSubscriptionGroup represents a UpdateSubscriptionGroup struct.
 type UpdateSubscriptionGroup struct {
     MemberIds            []int                  `json:"member_ids,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for UpdateSubscriptionGroup,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (u UpdateSubscriptionGroup) String() string {
+    return fmt.Sprintf(
+    	"UpdateSubscriptionGroup[MemberIds=%v, AdditionalProperties=%v]",
+    	u.MemberIds, u.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for UpdateSubscriptionGroup.

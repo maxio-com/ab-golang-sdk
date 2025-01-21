@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "strings"
 )
 
@@ -15,6 +16,14 @@ import (
 type ReplayWebhooksRequest struct {
     Ids                  []int64                `json:"ids"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for ReplayWebhooksRequest,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (r ReplayWebhooksRequest) String() string {
+    return fmt.Sprintf(
+    	"ReplayWebhooksRequest[Ids=%v, AdditionalProperties=%v]",
+    	r.Ids, r.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for ReplayWebhooksRequest.

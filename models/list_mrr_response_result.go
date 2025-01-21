@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // ListMRRResponseResult represents a ListMRRResponseResult struct.
@@ -19,6 +20,14 @@ type ListMRRResponseResult struct {
     CurrencySymbol       *string                `json:"currency_symbol,omitempty"`
     Movements            []Movement             `json:"movements,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for ListMRRResponseResult,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (l ListMRRResponseResult) String() string {
+    return fmt.Sprintf(
+    	"ListMRRResponseResult[Page=%v, PerPage=%v, TotalPages=%v, TotalEntries=%v, Currency=%v, CurrencySymbol=%v, Movements=%v, AdditionalProperties=%v]",
+    	l.Page, l.PerPage, l.TotalPages, l.TotalEntries, l.Currency, l.CurrencySymbol, l.Movements, l.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for ListMRRResponseResult.

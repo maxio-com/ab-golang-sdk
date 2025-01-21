@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "strings"
 )
 
@@ -40,6 +41,14 @@ type CreateProductPricePoint struct {
     // Whether or not to use the site's exchange rate or define your own pricing when your site has multiple currencies defined.
     UseSiteExchangeRate     *bool                            `json:"use_site_exchange_rate,omitempty"`
     AdditionalProperties    map[string]interface{}           `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for CreateProductPricePoint,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (c CreateProductPricePoint) String() string {
+    return fmt.Sprintf(
+    	"CreateProductPricePoint[Name=%v, Handle=%v, PriceInCents=%v, Interval=%v, IntervalUnit=%v, TrialPriceInCents=%v, TrialInterval=%v, TrialIntervalUnit=%v, TrialType=%v, InitialChargeInCents=%v, InitialChargeAfterTrial=%v, ExpirationInterval=%v, ExpirationIntervalUnit=%v, UseSiteExchangeRate=%v, AdditionalProperties=%v]",
+    	c.Name, c.Handle, c.PriceInCents, c.Interval, c.IntervalUnit, c.TrialPriceInCents, c.TrialInterval, c.TrialIntervalUnit, c.TrialType, c.InitialChargeInCents, c.InitialChargeAfterTrial, c.ExpirationInterval, c.ExpirationIntervalUnit, c.UseSiteExchangeRate, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreateProductPricePoint.

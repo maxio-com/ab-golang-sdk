@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "strings"
 )
 
@@ -19,6 +20,14 @@ type CreatePayment struct {
     // The type of payment method used. Defaults to other.
     PaymentMethod        InvoicePaymentMethodType `json:"payment_method"`
     AdditionalProperties map[string]interface{}   `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for CreatePayment,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (c CreatePayment) String() string {
+    return fmt.Sprintf(
+    	"CreatePayment[Amount=%v, Memo=%v, PaymentDetails=%v, PaymentMethod=%v, AdditionalProperties=%v]",
+    	c.Amount, c.Memo, c.PaymentDetails, c.PaymentMethod, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreatePayment.

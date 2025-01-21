@@ -7,12 +7,21 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // EBBEvent represents a EBBEvent struct.
 type EBBEvent struct {
     Chargify             *ChargifyEBB           `json:"chargify,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for EBBEvent,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (e EBBEvent) String() string {
+    return fmt.Sprintf(
+    	"EBBEvent[Chargify=%v, AdditionalProperties=%v]",
+    	e.Chargify, e.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for EBBEvent.

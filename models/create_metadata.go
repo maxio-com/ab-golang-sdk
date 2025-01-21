@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // CreateMetadata represents a CreateMetadata struct.
@@ -14,6 +15,14 @@ type CreateMetadata struct {
     Name                 *string                `json:"name,omitempty"`
     Value                *string                `json:"value,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for CreateMetadata,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (c CreateMetadata) String() string {
+    return fmt.Sprintf(
+    	"CreateMetadata[Name=%v, Value=%v, AdditionalProperties=%v]",
+    	c.Name, c.Value, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreateMetadata.

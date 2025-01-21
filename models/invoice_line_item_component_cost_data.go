@@ -7,12 +7,21 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // InvoiceLineItemComponentCostData represents a InvoiceLineItemComponentCostData struct.
 type InvoiceLineItemComponentCostData struct {
     Rates                []ComponentCostData    `json:"rates,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for InvoiceLineItemComponentCostData,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (i InvoiceLineItemComponentCostData) String() string {
+    return fmt.Sprintf(
+    	"InvoiceLineItemComponentCostData[Rates=%v, AdditionalProperties=%v]",
+    	i.Rates, i.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for InvoiceLineItemComponentCostData.

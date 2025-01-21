@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
     "log"
     "time"
 )
@@ -23,6 +24,14 @@ type Movement struct {
     SubscriptionId       *int                   `json:"subscription_id,omitempty"`
     SubscriberName       *string                `json:"subscriber_name,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for Movement,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (m Movement) String() string {
+    return fmt.Sprintf(
+    	"Movement[Timestamp=%v, AmountInCents=%v, AmountFormatted=%v, Description=%v, Category=%v, Breakouts=%v, LineItems=%v, SubscriptionId=%v, SubscriberName=%v, AdditionalProperties=%v]",
+    	m.Timestamp, m.AmountInCents, m.AmountFormatted, m.Description, m.Category, m.Breakouts, m.LineItems, m.SubscriptionId, m.SubscriberName, m.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for Movement.

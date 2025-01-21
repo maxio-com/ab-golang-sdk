@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "strings"
 )
 
@@ -36,6 +37,14 @@ type CreateCustomer struct {
     // The Salesforce ID of the customer
     SalesforceId         Optional[string]       `json:"salesforce_id"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for CreateCustomer,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (c CreateCustomer) String() string {
+    return fmt.Sprintf(
+    	"CreateCustomer[FirstName=%v, LastName=%v, Email=%v, CcEmails=%v, Organization=%v, Reference=%v, Address=%v, Address2=%v, City=%v, State=%v, Zip=%v, Country=%v, Phone=%v, Locale=%v, VatNumber=%v, TaxExempt=%v, TaxExemptReason=%v, ParentId=%v, SalesforceId=%v, AdditionalProperties=%v]",
+    	c.FirstName, c.LastName, c.Email, c.CcEmails, c.Organization, c.Reference, c.Address, c.Address2, c.City, c.State, c.Zip, c.Country, c.Phone, c.Locale, c.VatNumber, c.TaxExempt, c.TaxExemptReason, c.ParentId, c.SalesforceId, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreateCustomer.

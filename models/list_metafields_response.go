@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // ListMetafieldsResponse represents a ListMetafieldsResponse struct.
@@ -17,6 +18,14 @@ type ListMetafieldsResponse struct {
     PerPage              *int                   `json:"per_page,omitempty"`
     Metafields           []Metafield            `json:"metafields,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for ListMetafieldsResponse,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (l ListMetafieldsResponse) String() string {
+    return fmt.Sprintf(
+    	"ListMetafieldsResponse[TotalCount=%v, CurrentPage=%v, TotalPages=%v, PerPage=%v, Metafields=%v, AdditionalProperties=%v]",
+    	l.TotalCount, l.CurrentPage, l.TotalPages, l.PerPage, l.Metafields, l.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for ListMetafieldsResponse.

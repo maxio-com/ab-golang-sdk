@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
     "log"
     "time"
 )
@@ -33,6 +34,14 @@ type Offer struct {
     ProductPriceInCents    *int64                 `json:"product_price_in_cents,omitempty"`
     OfferSignupPages       []OfferSignupPage      `json:"offer_signup_pages,omitempty"`
     AdditionalProperties   map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for Offer,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (o Offer) String() string {
+    return fmt.Sprintf(
+    	"Offer[Id=%v, SiteId=%v, ProductFamilyId=%v, ProductId=%v, ProductPricePointId=%v, ProductRevisableNumber=%v, Name=%v, Handle=%v, Description=%v, CreatedAt=%v, UpdatedAt=%v, ArchivedAt=%v, OfferItems=%v, OfferDiscounts=%v, ProductFamilyName=%v, ProductName=%v, ProductPricePointName=%v, ProductPriceInCents=%v, OfferSignupPages=%v, AdditionalProperties=%v]",
+    	o.Id, o.SiteId, o.ProductFamilyId, o.ProductId, o.ProductPricePointId, o.ProductRevisableNumber, o.Name, o.Handle, o.Description, o.CreatedAt, o.UpdatedAt, o.ArchivedAt, o.OfferItems, o.OfferDiscounts, o.ProductFamilyName, o.ProductName, o.ProductPricePointName, o.ProductPriceInCents, o.OfferSignupPages, o.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for Offer.

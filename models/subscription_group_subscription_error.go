@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // SubscriptionGroupSubscriptionError represents a SubscriptionGroupSubscriptionError struct.
@@ -21,6 +22,14 @@ type SubscriptionGroupSubscriptionError struct {
     PaymentProfileExpirationYear  []string               `json:"payment_profile.expiration_year,omitempty"`
     PaymentProfileFullNumber      []string               `json:"payment_profile.full_number,omitempty"`
     AdditionalProperties          map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for SubscriptionGroupSubscriptionError,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (s SubscriptionGroupSubscriptionError) String() string {
+    return fmt.Sprintf(
+    	"SubscriptionGroupSubscriptionError[Product=%v, ProductPricePointId=%v, PaymentProfile=%v, PaymentProfileChargifyToken=%v, Base=%v, PaymentProfileExpirationMonth=%v, PaymentProfileExpirationYear=%v, PaymentProfileFullNumber=%v, AdditionalProperties=%v]",
+    	s.Product, s.ProductPricePointId, s.PaymentProfile, s.PaymentProfileChargifyToken, s.Base, s.PaymentProfileExpirationMonth, s.PaymentProfileExpirationYear, s.PaymentProfileFullNumber, s.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for SubscriptionGroupSubscriptionError.

@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // SubscriptionMigrationPreview represents a SubscriptionMigrationPreview struct.
@@ -20,6 +21,14 @@ type SubscriptionMigrationPreview struct {
     // Represents a credit in cents that is applied to your subscription as part of a migration process for a specific product, which reduces the amount owed for the subscription.
     CreditAppliedInCents      *int64                 `json:"credit_applied_in_cents,omitempty"`
     AdditionalProperties      map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for SubscriptionMigrationPreview,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (s SubscriptionMigrationPreview) String() string {
+    return fmt.Sprintf(
+    	"SubscriptionMigrationPreview[ProratedAdjustmentInCents=%v, ChargeInCents=%v, PaymentDueInCents=%v, CreditAppliedInCents=%v, AdditionalProperties=%v]",
+    	s.ProratedAdjustmentInCents, s.ChargeInCents, s.PaymentDueInCents, s.CreditAppliedInCents, s.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for SubscriptionMigrationPreview.

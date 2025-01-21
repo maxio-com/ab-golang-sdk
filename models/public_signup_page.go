@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // PublicSignupPage represents a PublicSignupPage struct.
@@ -20,6 +21,14 @@ type PublicSignupPage struct {
     // The url where the signup page can be viewed (public_signup_pages only)
     Url                  *string                `json:"url,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for PublicSignupPage,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (p PublicSignupPage) String() string {
+    return fmt.Sprintf(
+    	"PublicSignupPage[Id=%v, ReturnUrl=%v, ReturnParams=%v, Url=%v, AdditionalProperties=%v]",
+    	p.Id, p.ReturnUrl, p.ReturnParams, p.Url, p.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for PublicSignupPage.

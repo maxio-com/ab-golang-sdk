@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // CustomerAttributes represents a CustomerAttributes struct.
@@ -51,6 +52,14 @@ type CustomerAttributes struct {
     // (Optional) The default auto-renewal profile ID for the customer
     DefaultAutoRenewalProfileId Optional[int]          `json:"default_auto_renewal_profile_id"`
     AdditionalProperties        map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for CustomerAttributes,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (c CustomerAttributes) String() string {
+    return fmt.Sprintf(
+    	"CustomerAttributes[FirstName=%v, LastName=%v, Email=%v, CcEmails=%v, Organization=%v, Reference=%v, Address=%v, Address2=%v, City=%v, State=%v, Zip=%v, Country=%v, Phone=%v, Verified=%v, TaxExempt=%v, VatNumber=%v, Metafields=%v, ParentId=%v, SalesforceId=%v, DefaultAutoRenewalProfileId=%v, AdditionalProperties=%v]",
+    	c.FirstName, c.LastName, c.Email, c.CcEmails, c.Organization, c.Reference, c.Address, c.Address2, c.City, c.State, c.Zip, c.Country, c.Phone, c.Verified, c.TaxExempt, c.VatNumber, c.Metafields, c.ParentId, c.SalesforceId, c.DefaultAutoRenewalProfileId, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for CustomerAttributes.

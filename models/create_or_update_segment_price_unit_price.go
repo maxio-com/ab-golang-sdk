@@ -8,7 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
-    "strings"
+    "fmt"
 )
 
 // CreateOrUpdateSegmentPriceUnitPrice represents a CreateOrUpdateSegmentPriceUnitPrice struct.
@@ -19,12 +19,10 @@ type CreateOrUpdateSegmentPriceUnitPrice struct {
     isPrecision bool
 }
 
-// String converts the CreateOrUpdateSegmentPriceUnitPrice object to a string representation.
+// String implements the fmt.Stringer interface for CreateOrUpdateSegmentPriceUnitPrice,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
 func (c CreateOrUpdateSegmentPriceUnitPrice) String() string {
-    if bytes, err := json.Marshal(c.value); err == nil {
-         return strings.Trim(string(bytes), "\"")
-    }
-    return ""
+    return fmt.Sprintf("%v", c.value)
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreateOrUpdateSegmentPriceUnitPrice.

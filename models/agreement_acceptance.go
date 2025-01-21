@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // AgreementAcceptance represents a AgreementAcceptance struct.
@@ -21,6 +22,14 @@ type AgreementAcceptance struct {
     DeliveryPolicyUrl       *string                `json:"delivery_policy_url,omitempty"`
     SecureCheckoutPolicyUrl *string                `json:"secure_checkout_policy_url,omitempty"`
     AdditionalProperties    map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for AgreementAcceptance,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (a AgreementAcceptance) String() string {
+    return fmt.Sprintf(
+    	"AgreementAcceptance[IpAddress=%v, TermsUrl=%v, PrivacyPolicyUrl=%v, ReturnRefundPolicyUrl=%v, DeliveryPolicyUrl=%v, SecureCheckoutPolicyUrl=%v, AdditionalProperties=%v]",
+    	a.IpAddress, a.TermsUrl, a.PrivacyPolicyUrl, a.ReturnRefundPolicyUrl, a.DeliveryPolicyUrl, a.SecureCheckoutPolicyUrl, a.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for AgreementAcceptance.

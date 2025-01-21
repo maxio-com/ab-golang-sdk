@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "log"
     "strings"
     "time"
@@ -29,6 +30,14 @@ type ApplyDebitNoteEventData struct {
     // The time the debit note was applied, in ISO 8601 format, i.e. "2019-06-07T17:20:06Z"
     TransactionTime      Optional[time.Time]    `json:"transaction_time"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for ApplyDebitNoteEventData,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (a ApplyDebitNoteEventData) String() string {
+    return fmt.Sprintf(
+    	"ApplyDebitNoteEventData[DebitNoteNumber=%v, DebitNoteUid=%v, OriginalAmount=%v, AppliedAmount=%v, Memo=%v, TransactionTime=%v, AdditionalProperties=%v]",
+    	a.DebitNoteNumber, a.DebitNoteUid, a.OriginalAmount, a.AppliedAmount, a.Memo, a.TransactionTime, a.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for ApplyDebitNoteEventData.

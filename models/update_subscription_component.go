@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // UpdateSubscriptionComponent represents a UpdateSubscriptionComponent struct.
@@ -15,6 +16,14 @@ type UpdateSubscriptionComponent struct {
     // Create or update custom pricing unique to the subscription. Used in place of `price_point_id`.
     CustomPrice          *ComponentCustomPrice  `json:"custom_price,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for UpdateSubscriptionComponent,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (u UpdateSubscriptionComponent) String() string {
+    return fmt.Sprintf(
+    	"UpdateSubscriptionComponent[ComponentId=%v, CustomPrice=%v, AdditionalProperties=%v]",
+    	u.ComponentId, u.CustomPrice, u.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for UpdateSubscriptionComponent.

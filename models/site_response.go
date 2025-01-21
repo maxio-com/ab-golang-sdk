@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "strings"
 )
 
@@ -15,6 +16,14 @@ import (
 type SiteResponse struct {
     Site                 Site                   `json:"site"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for SiteResponse,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (s SiteResponse) String() string {
+    return fmt.Sprintf(
+    	"SiteResponse[Site=%v, AdditionalProperties=%v]",
+    	s.Site, s.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for SiteResponse.

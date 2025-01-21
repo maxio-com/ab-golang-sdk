@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // SubscriptionGroupPaymentProfile represents a SubscriptionGroupPaymentProfile struct.
@@ -16,6 +17,14 @@ type SubscriptionGroupPaymentProfile struct {
     LastName             *string                `json:"last_name,omitempty"`
     MaskedCardNumber     *string                `json:"masked_card_number,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for SubscriptionGroupPaymentProfile,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (s SubscriptionGroupPaymentProfile) String() string {
+    return fmt.Sprintf(
+    	"SubscriptionGroupPaymentProfile[Id=%v, FirstName=%v, LastName=%v, MaskedCardNumber=%v, AdditionalProperties=%v]",
+    	s.Id, s.FirstName, s.LastName, s.MaskedCardNumber, s.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for SubscriptionGroupPaymentProfile.

@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
     "log"
     "time"
 )
@@ -19,6 +20,14 @@ type BatchJob struct {
     CreatedAt            Optional[time.Time]    `json:"created_at"`
     Completed            *string                `json:"completed,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for BatchJob,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (b BatchJob) String() string {
+    return fmt.Sprintf(
+    	"BatchJob[Id=%v, FinishedAt=%v, RowCount=%v, CreatedAt=%v, Completed=%v, AdditionalProperties=%v]",
+    	b.Id, b.FinishedAt, b.RowCount, b.CreatedAt, b.Completed, b.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for BatchJob.

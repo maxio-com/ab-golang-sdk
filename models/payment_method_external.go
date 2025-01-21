@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "strings"
 )
 
@@ -18,6 +19,14 @@ type PaymentMethodExternal struct {
     Memo                 *string                   `json:"memo"`
     Type                 InvoiceEventPaymentMethod `json:"type"`
     AdditionalProperties map[string]interface{}    `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for PaymentMethodExternal,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (p PaymentMethodExternal) String() string {
+    return fmt.Sprintf(
+    	"PaymentMethodExternal[Details=%v, Kind=%v, Memo=%v, Type=%v, AdditionalProperties=%v]",
+    	p.Details, p.Kind, p.Memo, p.Type, p.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for PaymentMethodExternal.

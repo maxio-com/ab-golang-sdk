@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // SignupProformaPreview represents a SignupProformaPreview struct.
@@ -14,6 +15,14 @@ type SignupProformaPreview struct {
     CurrentProformaInvoice *ProformaInvoice       `json:"current_proforma_invoice,omitempty"`
     NextProformaInvoice    *ProformaInvoice       `json:"next_proforma_invoice,omitempty"`
     AdditionalProperties   map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for SignupProformaPreview,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (s SignupProformaPreview) String() string {
+    return fmt.Sprintf(
+    	"SignupProformaPreview[CurrentProformaInvoice=%v, NextProformaInvoice=%v, AdditionalProperties=%v]",
+    	s.CurrentProformaInvoice, s.NextProformaInvoice, s.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for SignupProformaPreview.

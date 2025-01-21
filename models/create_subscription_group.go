@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "strings"
 )
 
@@ -16,6 +17,14 @@ type CreateSubscriptionGroup struct {
     SubscriptionId       int                    `json:"subscription_id"`
     MemberIds            []int                  `json:"member_ids,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for CreateSubscriptionGroup,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (c CreateSubscriptionGroup) String() string {
+    return fmt.Sprintf(
+    	"CreateSubscriptionGroup[SubscriptionId=%v, MemberIds=%v, AdditionalProperties=%v]",
+    	c.SubscriptionId, c.MemberIds, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreateSubscriptionGroup.

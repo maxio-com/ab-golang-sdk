@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // SiteStatistics represents a SiteStatistics struct.
@@ -23,6 +24,14 @@ type SiteStatistics struct {
     TotalUnpaidSubscriptions   *int                   `json:"total_unpaid_subscriptions,omitempty"`
     TotalDunningSubscriptions  *int                   `json:"total_dunning_subscriptions,omitempty"`
     AdditionalProperties       map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for SiteStatistics,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (s SiteStatistics) String() string {
+    return fmt.Sprintf(
+    	"SiteStatistics[TotalSubscriptions=%v, SubscriptionsToday=%v, TotalRevenue=%v, RevenueToday=%v, RevenueThisMonth=%v, RevenueThisYear=%v, TotalCanceledSubscriptions=%v, TotalActiveSubscriptions=%v, TotalPastDueSubscriptions=%v, TotalUnpaidSubscriptions=%v, TotalDunningSubscriptions=%v, AdditionalProperties=%v]",
+    	s.TotalSubscriptions, s.SubscriptionsToday, s.TotalRevenue, s.RevenueToday, s.RevenueThisMonth, s.RevenueThisYear, s.TotalCanceledSubscriptions, s.TotalActiveSubscriptions, s.TotalPastDueSubscriptions, s.TotalUnpaidSubscriptions, s.TotalDunningSubscriptions, s.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for SiteStatistics.

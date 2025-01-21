@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "strings"
 )
 
@@ -15,6 +16,14 @@ import (
 type PaymentMethodApplePay struct {
     Type                 InvoiceEventPaymentMethod `json:"type"`
     AdditionalProperties map[string]interface{}    `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for PaymentMethodApplePay,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (p PaymentMethodApplePay) String() string {
+    return fmt.Sprintf(
+    	"PaymentMethodApplePay[Type=%v, AdditionalProperties=%v]",
+    	p.Type, p.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for PaymentMethodApplePay.

@@ -8,7 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
-    "strings"
+    "fmt"
 )
 
 // CreateSubscriptionComponentAllocatedQuantity represents a CreateSubscriptionComponentAllocatedQuantity struct.
@@ -19,12 +19,10 @@ type CreateSubscriptionComponentAllocatedQuantity struct {
     isString bool
 }
 
-// String converts the CreateSubscriptionComponentAllocatedQuantity object to a string representation.
+// String implements the fmt.Stringer interface for CreateSubscriptionComponentAllocatedQuantity,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
 func (c CreateSubscriptionComponentAllocatedQuantity) String() string {
-    if bytes, err := json.Marshal(c.value); err == nil {
-         return strings.Trim(string(bytes), "\"")
-    }
-    return ""
+    return fmt.Sprintf("%v", c.value)
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreateSubscriptionComponentAllocatedQuantity.

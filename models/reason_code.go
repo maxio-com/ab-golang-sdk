@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
     "log"
     "time"
 )
@@ -21,6 +22,14 @@ type ReasonCode struct {
     CreatedAt            *time.Time             `json:"created_at,omitempty"`
     UpdatedAt            *time.Time             `json:"updated_at,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for ReasonCode,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (r ReasonCode) String() string {
+    return fmt.Sprintf(
+    	"ReasonCode[Id=%v, SiteId=%v, Code=%v, Description=%v, Position=%v, CreatedAt=%v, UpdatedAt=%v, AdditionalProperties=%v]",
+    	r.Id, r.SiteId, r.Code, r.Description, r.Position, r.CreatedAt, r.UpdatedAt, r.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for ReasonCode.

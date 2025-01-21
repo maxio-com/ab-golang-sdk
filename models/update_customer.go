@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // UpdateCustomer represents a UpdateCustomer struct.
@@ -35,6 +36,14 @@ type UpdateCustomer struct {
     // The Salesforce ID of the customer
     SalesforceId         Optional[string]       `json:"salesforce_id"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for UpdateCustomer,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (u UpdateCustomer) String() string {
+    return fmt.Sprintf(
+    	"UpdateCustomer[FirstName=%v, LastName=%v, Email=%v, CcEmails=%v, Organization=%v, Reference=%v, Address=%v, Address2=%v, City=%v, State=%v, Zip=%v, Country=%v, Phone=%v, Locale=%v, VatNumber=%v, TaxExempt=%v, TaxExemptReason=%v, ParentId=%v, Verified=%v, SalesforceId=%v, AdditionalProperties=%v]",
+    	u.FirstName, u.LastName, u.Email, u.CcEmails, u.Organization, u.Reference, u.Address, u.Address2, u.City, u.State, u.Zip, u.Country, u.Phone, u.Locale, u.VatNumber, u.TaxExempt, u.TaxExemptReason, u.ParentId, u.Verified, u.SalesforceId, u.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for UpdateCustomer.

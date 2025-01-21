@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
     "log"
     "time"
 )
@@ -68,6 +69,14 @@ type CreditNote struct {
     // An array of origin invoices for the credit note. Learn more about [Origin Invoice from our docs](https://maxio.zendesk.com/hc/en-us/articles/24252261284749-Credit-Notes-Proration#origin-invoices)
     OriginInvoices       []OriginInvoice         `json:"origin_invoices,omitempty"`
     AdditionalProperties map[string]interface{}  `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for CreditNote,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (c CreditNote) String() string {
+    return fmt.Sprintf(
+    	"CreditNote[Uid=%v, SiteId=%v, CustomerId=%v, SubscriptionId=%v, Number=%v, SequenceNumber=%v, IssueDate=%v, AppliedDate=%v, Status=%v, Currency=%v, Memo=%v, Seller=%v, Customer=%v, BillingAddress=%v, ShippingAddress=%v, SubtotalAmount=%v, DiscountAmount=%v, TaxAmount=%v, TotalAmount=%v, AppliedAmount=%v, RemainingAmount=%v, LineItems=%v, Discounts=%v, Taxes=%v, Applications=%v, Refunds=%v, OriginInvoices=%v, AdditionalProperties=%v]",
+    	c.Uid, c.SiteId, c.CustomerId, c.SubscriptionId, c.Number, c.SequenceNumber, c.IssueDate, c.AppliedDate, c.Status, c.Currency, c.Memo, c.Seller, c.Customer, c.BillingAddress, c.ShippingAddress, c.SubtotalAmount, c.DiscountAmount, c.TaxAmount, c.TotalAmount, c.AppliedAmount, c.RemainingAmount, c.LineItems, c.Discounts, c.Taxes, c.Applications, c.Refunds, c.OriginInvoices, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreditNote.

@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // UpdateComponent represents a UpdateComponent struct.
@@ -28,6 +29,14 @@ type UpdateComponent struct {
     // Available values: `full`, `prorated`, `none`.
     UpgradeCharge        Optional[CreditType]   `json:"upgrade_charge"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for UpdateComponent,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (u UpdateComponent) String() string {
+    return fmt.Sprintf(
+    	"UpdateComponent[Handle=%v, Name=%v, Description=%v, AccountingCode=%v, Taxable=%v, TaxCode=%v, ItemCategory=%v, DisplayOnHostedPage=%v, UpgradeCharge=%v, AdditionalProperties=%v]",
+    	u.Handle, u.Name, u.Description, u.AccountingCode, u.Taxable, u.TaxCode, u.ItemCategory, u.DisplayOnHostedPage, u.UpgradeCharge, u.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for UpdateComponent.

@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // PayerAttributes represents a PayerAttributes struct.
@@ -31,6 +32,14 @@ type PayerAttributes struct {
     // (Optional) A set of key/value pairs representing custom fields and their values. Metafields will be created “on-the-fly” in your site for a given key, if they have not been created yet.
     Metafields           map[string]string      `json:"metafields,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for PayerAttributes,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (p PayerAttributes) String() string {
+    return fmt.Sprintf(
+    	"PayerAttributes[FirstName=%v, LastName=%v, Email=%v, CcEmails=%v, Organization=%v, Reference=%v, Address=%v, Address2=%v, City=%v, State=%v, Zip=%v, Country=%v, Phone=%v, Locale=%v, VatNumber=%v, TaxExempt=%v, TaxExemptReason=%v, Metafields=%v, AdditionalProperties=%v]",
+    	p.FirstName, p.LastName, p.Email, p.CcEmails, p.Organization, p.Reference, p.Address, p.Address2, p.City, p.State, p.Zip, p.Country, p.Phone, p.Locale, p.VatNumber, p.TaxExempt, p.TaxExemptReason, p.Metafields, p.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for PayerAttributes.

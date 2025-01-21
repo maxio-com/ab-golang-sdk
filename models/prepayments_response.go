@@ -7,12 +7,21 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // PrepaymentsResponse represents a PrepaymentsResponse struct.
 type PrepaymentsResponse struct {
     Prepayments          []Prepayment           `json:"prepayments,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for PrepaymentsResponse,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (p PrepaymentsResponse) String() string {
+    return fmt.Sprintf(
+    	"PrepaymentsResponse[Prepayments=%v, AdditionalProperties=%v]",
+    	p.Prepayments, p.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for PrepaymentsResponse.

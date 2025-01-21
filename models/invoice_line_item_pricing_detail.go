@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // InvoiceLineItemPricingDetail represents a InvoiceLineItemPricingDetail struct.
@@ -14,6 +15,14 @@ type InvoiceLineItemPricingDetail struct {
     Label                *string                `json:"label,omitempty"`
     Amount               *string                `json:"amount,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for InvoiceLineItemPricingDetail,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (i InvoiceLineItemPricingDetail) String() string {
+    return fmt.Sprintf(
+    	"InvoiceLineItemPricingDetail[Label=%v, Amount=%v, AdditionalProperties=%v]",
+    	i.Label, i.Amount, i.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for InvoiceLineItemPricingDetail.

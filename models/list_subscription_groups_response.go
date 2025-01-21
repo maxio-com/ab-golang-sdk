@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // ListSubscriptionGroupsResponse represents a ListSubscriptionGroupsResponse struct.
@@ -14,6 +15,14 @@ type ListSubscriptionGroupsResponse struct {
     SubscriptionGroups   []ListSubscriptionGroupsItem `json:"subscription_groups,omitempty"`
     Meta                 *ListSubscriptionGroupsMeta  `json:"meta,omitempty"`
     AdditionalProperties map[string]interface{}       `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for ListSubscriptionGroupsResponse,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (l ListSubscriptionGroupsResponse) String() string {
+    return fmt.Sprintf(
+    	"ListSubscriptionGroupsResponse[SubscriptionGroups=%v, Meta=%v, AdditionalProperties=%v]",
+    	l.SubscriptionGroups, l.Meta, l.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for ListSubscriptionGroupsResponse.

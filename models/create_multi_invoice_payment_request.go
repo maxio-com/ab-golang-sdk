@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "strings"
 )
 
@@ -15,6 +16,14 @@ import (
 type CreateMultiInvoicePaymentRequest struct {
     Payment              CreateMultiInvoicePayment `json:"payment"`
     AdditionalProperties map[string]interface{}    `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for CreateMultiInvoicePaymentRequest,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (c CreateMultiInvoicePaymentRequest) String() string {
+    return fmt.Sprintf(
+    	"CreateMultiInvoicePaymentRequest[Payment=%v, AdditionalProperties=%v]",
+    	c.Payment, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreateMultiInvoicePaymentRequest.

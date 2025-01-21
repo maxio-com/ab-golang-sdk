@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // MovementLineItem represents a MovementLineItem struct.
@@ -23,6 +24,14 @@ type MovementLineItem struct {
     // When `true`, the line item's MRR value will contribute to the `plan` breakout. When `false`, the line item contributes to the `usage` breakout.
     Recurring            *bool                  `json:"recurring,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for MovementLineItem,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (m MovementLineItem) String() string {
+    return fmt.Sprintf(
+    	"MovementLineItem[ProductId=%v, ComponentId=%v, PricePointId=%v, Name=%v, Mrr=%v, MrrMovements=%v, Quantity=%v, PrevQuantity=%v, Recurring=%v, AdditionalProperties=%v]",
+    	m.ProductId, m.ComponentId, m.PricePointId, m.Name, m.Mrr, m.MrrMovements, m.Quantity, m.PrevQuantity, m.Recurring, m.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for MovementLineItem.

@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // CreateInvoiceItem represents a CreateInvoiceItem struct.
@@ -33,6 +34,14 @@ type CreateInvoiceItem struct {
     ProductPricePointId  *CreateInvoiceItemProductPricePointId `json:"product_price_point_id,omitempty"`
     Description          *string                               `json:"description,omitempty"`
     AdditionalProperties map[string]interface{}                `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for CreateInvoiceItem,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (c CreateInvoiceItem) String() string {
+    return fmt.Sprintf(
+    	"CreateInvoiceItem[Title=%v, Quantity=%v, UnitPrice=%v, Taxable=%v, TaxCode=%v, PeriodRangeStart=%v, PeriodRangeEnd=%v, ProductId=%v, ComponentId=%v, PricePointId=%v, ProductPricePointId=%v, Description=%v, AdditionalProperties=%v]",
+    	c.Title, c.Quantity, c.UnitPrice, c.Taxable, c.TaxCode, c.PeriodRangeStart, c.PeriodRangeEnd, c.ProductId, c.ComponentId, c.PricePointId, c.ProductPricePointId, c.Description, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreateInvoiceItem.

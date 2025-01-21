@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "log"
     "strings"
     "time"
@@ -22,6 +23,14 @@ type FailedPaymentEvent struct {
     // Example schema for an `failed_payment` event
     EventData            FailedPaymentEventData `json:"event_data"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for FailedPaymentEvent,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (f FailedPaymentEvent) String() string {
+    return fmt.Sprintf(
+    	"FailedPaymentEvent[Id=%v, Timestamp=%v, Invoice=%v, EventType=%v, EventData=%v, AdditionalProperties=%v]",
+    	f.Id, f.Timestamp, f.Invoice, f.EventType, f.EventData, f.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for FailedPaymentEvent.

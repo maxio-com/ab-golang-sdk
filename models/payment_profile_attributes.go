@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // PaymentProfileAttributes represents a PaymentProfileAttributes struct.
@@ -58,6 +59,14 @@ type PaymentProfileAttributes struct {
     // (Optional, used only for Subscription Import) If you have the last 4 digits of the credit card number, you may supply them here so that we may create a masked card number (i.e. XXXX-XXXX-XXXX-1234) for display in the UI. Last 4 digits are required for refunds in Auth.Net.
     LastFour             *string                                  `json:"last_four,omitempty"`
     AdditionalProperties map[string]interface{}                   `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for PaymentProfileAttributes,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (p PaymentProfileAttributes) String() string {
+    return fmt.Sprintf(
+    	"PaymentProfileAttributes[ChargifyToken=%v, Id=%v, PaymentType=%v, FirstName=%v, LastName=%v, MaskedCardNumber=%v, FullNumber=%v, CardType=%v, ExpirationMonth=%v, ExpirationYear=%v, BillingAddress=%v, BillingAddress2=%v, BillingCity=%v, BillingState=%v, BillingCountry=%v, BillingZip=%v, CurrentVault=%v, VaultToken=%v, CustomerVaultToken=%v, CustomerId=%v, PaypalEmail=%v, PaymentMethodNonce=%v, GatewayHandle=%v, Cvv=%v, LastFour=%v, AdditionalProperties=%v]",
+    	p.ChargifyToken, p.Id, p.PaymentType, p.FirstName, p.LastName, p.MaskedCardNumber, p.FullNumber, p.CardType, p.ExpirationMonth, p.ExpirationYear, p.BillingAddress, p.BillingAddress2, p.BillingCity, p.BillingState, p.BillingCountry, p.BillingZip, p.CurrentVault, p.VaultToken, p.CustomerVaultToken, p.CustomerId, p.PaypalEmail, p.PaymentMethodNonce, p.GatewayHandle, p.Cvv, p.LastFour, p.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for PaymentProfileAttributes.

@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "strings"
 )
 
@@ -17,6 +18,14 @@ type CreateInvoicePaymentRequest struct {
     // The type of payment to be applied to an Invoice. Defaults to external.
     Type                 *InvoicePaymentType    `json:"type,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for CreateInvoicePaymentRequest,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (c CreateInvoicePaymentRequest) String() string {
+    return fmt.Sprintf(
+    	"CreateInvoicePaymentRequest[Payment=%v, Type=%v, AdditionalProperties=%v]",
+    	c.Payment, c.Type, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreateInvoicePaymentRequest.

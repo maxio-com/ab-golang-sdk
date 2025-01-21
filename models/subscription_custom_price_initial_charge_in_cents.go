@@ -8,7 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
-    "strings"
+    "fmt"
 )
 
 // SubscriptionCustomPriceInitialChargeInCents represents a SubscriptionCustomPriceInitialChargeInCents struct.
@@ -19,12 +19,10 @@ type SubscriptionCustomPriceInitialChargeInCents struct {
     isLong   bool
 }
 
-// String converts the SubscriptionCustomPriceInitialChargeInCents object to a string representation.
+// String implements the fmt.Stringer interface for SubscriptionCustomPriceInitialChargeInCents,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
 func (s SubscriptionCustomPriceInitialChargeInCents) String() string {
-    if bytes, err := json.Marshal(s.value); err == nil {
-         return strings.Trim(string(bytes), "\"")
-    }
-    return ""
+    return fmt.Sprintf("%v", s.value)
 }
 
 // MarshalJSON implements the json.Marshaler interface for SubscriptionCustomPriceInitialChargeInCents.

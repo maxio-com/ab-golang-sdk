@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
     "log"
     "time"
 )
@@ -56,6 +57,14 @@ type SubscriptionComponent struct {
     // A string representing the interval unit for this component price point, either month or day. This property is only available for sites with Multifrequency enabled.
     IntervalUnit              Optional[IntervalUnit]                  `json:"interval_unit"`
     AdditionalProperties      map[string]interface{}                  `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for SubscriptionComponent,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (s SubscriptionComponent) String() string {
+    return fmt.Sprintf(
+    	"SubscriptionComponent[Id=%v, Name=%v, Kind=%v, UnitName=%v, Enabled=%v, UnitBalance=%v, Currency=%v, AllocatedQuantity=%v, PricingScheme=%v, ComponentId=%v, ComponentHandle=%v, SubscriptionId=%v, Recurring=%v, UpgradeCharge=%v, DowngradeCredit=%v, ArchivedAt=%v, PricePointId=%v, PricePointHandle=%v, PricePointType=%v, PricePointName=%v, ProductFamilyId=%v, ProductFamilyHandle=%v, CreatedAt=%v, UpdatedAt=%v, UseSiteExchangeRate=%v, Description=%v, AllowFractionalQuantities=%v, Subscription=%v, HistoricUsages=%v, DisplayOnHostedPage=%v, Interval=%v, IntervalUnit=%v, AdditionalProperties=%v]",
+    	s.Id, s.Name, s.Kind, s.UnitName, s.Enabled, s.UnitBalance, s.Currency, s.AllocatedQuantity, s.PricingScheme, s.ComponentId, s.ComponentHandle, s.SubscriptionId, s.Recurring, s.UpgradeCharge, s.DowngradeCredit, s.ArchivedAt, s.PricePointId, s.PricePointHandle, s.PricePointType, s.PricePointName, s.ProductFamilyId, s.ProductFamilyHandle, s.CreatedAt, s.UpdatedAt, s.UseSiteExchangeRate, s.Description, s.AllowFractionalQuantities, s.Subscription, s.HistoricUsages, s.DisplayOnHostedPage, s.Interval, s.IntervalUnit, s.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for SubscriptionComponent.

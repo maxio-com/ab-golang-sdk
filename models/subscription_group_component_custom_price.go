@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // SubscriptionGroupComponentCustomPrice represents a SubscriptionGroupComponentCustomPrice struct.
@@ -17,6 +18,14 @@ type SubscriptionGroupComponentCustomPrice struct {
     Prices               []Price                `json:"prices,omitempty"`
     OveragePricing       []ComponentCustomPrice `json:"overage_pricing,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for SubscriptionGroupComponentCustomPrice,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (s SubscriptionGroupComponentCustomPrice) String() string {
+    return fmt.Sprintf(
+    	"SubscriptionGroupComponentCustomPrice[PricingScheme=%v, Prices=%v, OveragePricing=%v, AdditionalProperties=%v]",
+    	s.PricingScheme, s.Prices, s.OveragePricing, s.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for SubscriptionGroupComponentCustomPrice.

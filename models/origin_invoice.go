@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // OriginInvoice represents a OriginInvoice struct.
@@ -16,6 +17,14 @@ type OriginInvoice struct {
     // The number of the invoice serving as an origin invoice.
     Number               *string                `json:"number,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for OriginInvoice,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (o OriginInvoice) String() string {
+    return fmt.Sprintf(
+    	"OriginInvoice[Uid=%v, Number=%v, AdditionalProperties=%v]",
+    	o.Uid, o.Number, o.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for OriginInvoice.

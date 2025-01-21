@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // SaleRepItemMrr represents a SaleRepItemMrr struct.
@@ -15,6 +16,14 @@ type SaleRepItemMrr struct {
     Usage                *string                `json:"usage,omitempty"`
     Recurring            *string                `json:"recurring,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for SaleRepItemMrr,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (s SaleRepItemMrr) String() string {
+    return fmt.Sprintf(
+    	"SaleRepItemMrr[Mrr=%v, Usage=%v, Recurring=%v, AdditionalProperties=%v]",
+    	s.Mrr, s.Usage, s.Recurring, s.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for SaleRepItemMrr.

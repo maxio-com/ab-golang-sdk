@@ -7,12 +7,21 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // WebhookResponse represents a WebhookResponse struct.
 type WebhookResponse struct {
     Webhook              *Webhook               `json:"webhook,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for WebhookResponse,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (w WebhookResponse) String() string {
+    return fmt.Sprintf(
+    	"WebhookResponse[Webhook=%v, AdditionalProperties=%v]",
+    	w.Webhook, w.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for WebhookResponse.

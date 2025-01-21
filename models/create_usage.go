@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // CreateUsage represents a CreateUsage struct.
@@ -18,6 +19,14 @@ type CreateUsage struct {
     // This attribute is particularly useful when you need to align billing events for different components on distinct schedules within a subscription. Please note this only works for site with Multifrequency enabled
     BillingSchedule      *BillingSchedule       `json:"billing_schedule,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for CreateUsage,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (c CreateUsage) String() string {
+    return fmt.Sprintf(
+    	"CreateUsage[Quantity=%v, PricePointId=%v, Memo=%v, BillingSchedule=%v, AdditionalProperties=%v]",
+    	c.Quantity, c.PricePointId, c.Memo, c.BillingSchedule, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreateUsage.

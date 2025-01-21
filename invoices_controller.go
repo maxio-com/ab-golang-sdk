@@ -7,7 +7,6 @@ package advancedbilling
 
 import (
     "context"
-    "fmt"
     "github.com/apimatic/go-core-runtime/https"
     "github.com/apimatic/go-core-runtime/utilities"
     "github.com/maxio-com/ab-golang-sdk/errors"
@@ -40,11 +39,8 @@ func (i *InvoicesController) RefundInvoice(
     body *models.RefundInvoiceRequest) (
     models.ApiResponse[models.Invoice],
     error) {
-    req := i.prepareRequest(
-      ctx,
-      "POST",
-      fmt.Sprintf("/invoices/%v/refunds.json", uid),
-    )
+    req := i.prepareRequest(ctx, "POST", "/invoices/%v/refunds.json")
+    req.AppendTemplateParams(uid)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
@@ -124,6 +120,7 @@ func (i *InvoicesController) ListInvoices(
     models.ApiResponse[models.ListInvoicesResponse],
     error) {
     req := i.prepareRequest(ctx, "GET", "/invoices.json")
+    
     req.Authenticate(NewAuth("BasicAuth"))
     if input.StartDate != nil {
         req.QueryParam("start_date", *input.StartDate)
@@ -220,7 +217,8 @@ func (i *InvoicesController) ReadInvoice(
     uid string) (
     models.ApiResponse[models.Invoice],
     error) {
-    req := i.prepareRequest(ctx, "GET", fmt.Sprintf("/invoices/%v.json", uid))
+    req := i.prepareRequest(ctx, "GET", "/invoices/%v.json")
+    req.AppendTemplateParams(uid)
     req.Authenticate(NewAuth("BasicAuth"))
     
     var result models.Invoice
@@ -280,6 +278,7 @@ func (i *InvoicesController) ListInvoiceEvents(
     models.ApiResponse[models.ListInvoiceEventsResponse],
     error) {
     req := i.prepareRequest(ctx, "GET", "/invoices/events.json")
+    
     req.Authenticate(NewAuth("BasicAuth"))
     if input.SinceDate != nil {
         req.QueryParam("since_date", *input.SinceDate)
@@ -355,11 +354,8 @@ func (i *InvoicesController) RecordPaymentForInvoice(
     body *models.CreateInvoicePaymentRequest) (
     models.ApiResponse[models.Invoice],
     error) {
-    req := i.prepareRequest(
-      ctx,
-      "POST",
-      fmt.Sprintf("/invoices/%v/payments.json", uid),
-    )
+    req := i.prepareRequest(ctx, "POST", "/invoices/%v/payments.json")
+    req.AppendTemplateParams(uid)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
@@ -411,6 +407,7 @@ func (i *InvoicesController) RecordPaymentForMultipleInvoices(
     models.ApiResponse[models.MultiInvoicePaymentResponse],
     error) {
     req := i.prepareRequest(ctx, "POST", "/invoices/payments.json")
+    
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
@@ -462,6 +459,7 @@ func (i *InvoicesController) ListCreditNotes(
     models.ApiResponse[models.ListCreditNotesResponse],
     error) {
     req := i.prepareRequest(ctx, "GET", "/credit_notes.json")
+    
     req.Authenticate(NewAuth("BasicAuth"))
     if input.SubscriptionId != nil {
         req.QueryParam("subscription_id", *input.SubscriptionId)
@@ -506,7 +504,8 @@ func (i *InvoicesController) ReadCreditNote(
     uid string) (
     models.ApiResponse[models.CreditNote],
     error) {
-    req := i.prepareRequest(ctx, "GET", fmt.Sprintf("/credit_notes/%v.json", uid))
+    req := i.prepareRequest(ctx, "GET", "/credit_notes/%v.json")
+    req.AppendTemplateParams(uid)
     req.Authenticate(NewAuth("BasicAuth"))
     
     var result models.CreditNote
@@ -532,11 +531,8 @@ func (i *InvoicesController) RecordPaymentForSubscription(
     body *models.RecordPaymentRequest) (
     models.ApiResponse[models.RecordPaymentResponse],
     error) {
-    req := i.prepareRequest(
-      ctx,
-      "POST",
-      fmt.Sprintf("/subscriptions/%v/payments.json", subscriptionId),
-    )
+    req := i.prepareRequest(ctx, "POST", "/subscriptions/%v/payments.json")
+    req.AppendTemplateParams(subscriptionId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
@@ -571,11 +567,8 @@ func (i *InvoicesController) ReopenInvoice(
     uid string) (
     models.ApiResponse[models.Invoice],
     error) {
-    req := i.prepareRequest(
-      ctx,
-      "POST",
-      fmt.Sprintf("/invoices/%v/reopen.json", uid),
-    )
+    req := i.prepareRequest(ctx, "POST", "/invoices/%v/reopen.json")
+    req.AppendTemplateParams(uid)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
@@ -602,7 +595,8 @@ func (i *InvoicesController) VoidInvoice(
     body *models.VoidInvoiceRequest) (
     models.ApiResponse[models.Invoice],
     error) {
-    req := i.prepareRequest(ctx, "POST", fmt.Sprintf("/invoices/%v/void.json", uid))
+    req := i.prepareRequest(ctx, "POST", "/invoices/%v/void.json")
+    req.AppendTemplateParams(uid)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
@@ -646,11 +640,8 @@ func (i *InvoicesController) ListConsolidatedInvoiceSegments(
     input ListConsolidatedInvoiceSegmentsInput) (
     models.ApiResponse[models.ConsolidatedInvoice],
     error) {
-    req := i.prepareRequest(
-      ctx,
-      "GET",
-      fmt.Sprintf("/invoices/%v/segments.json", input.InvoiceUid),
-    )
+    req := i.prepareRequest(ctx, "GET", "/invoices/%v/segments.json")
+    req.AppendTemplateParams(input.InvoiceUid)
     req.Authenticate(NewAuth("BasicAuth"))
     if input.Page != nil {
         req.QueryParam("page", *input.Page)
@@ -792,11 +783,8 @@ func (i *InvoicesController) CreateInvoice(
     body *models.CreateInvoiceRequest) (
     models.ApiResponse[models.InvoiceResponse],
     error) {
-    req := i.prepareRequest(
-      ctx,
-      "POST",
-      fmt.Sprintf("/subscriptions/%v/invoices.json", subscriptionId),
-    )
+    req := i.prepareRequest(ctx, "POST", "/subscriptions/%v/invoices.json")
+    req.AppendTemplateParams(subscriptionId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorArrayMapResponse},
@@ -828,11 +816,8 @@ func (i *InvoicesController) SendInvoice(
     body *models.SendInvoiceRequest) (
     *http.Response,
     error) {
-    req := i.prepareRequest(
-      ctx,
-      "POST",
-      fmt.Sprintf("/invoices/%v/deliveries.json", uid),
-    )
+    req := i.prepareRequest(ctx, "POST", "/invoices/%v/deliveries.json")
+    req.AppendTemplateParams(uid)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
@@ -862,8 +847,9 @@ func (i *InvoicesController) PreviewCustomerInformationChanges(
     req := i.prepareRequest(
       ctx,
       "POST",
-      fmt.Sprintf("/invoices/%v/customer_information/preview.json", uid),
+      "/invoices/%v/customer_information/preview.json",
     )
+    req.AppendTemplateParams(uid)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "404": {TemplatedMessage: "Not Found:'{$response.body}'", Unmarshaller: errors.NewErrorListResponse},
@@ -890,11 +876,8 @@ func (i *InvoicesController) UpdateCustomerInformation(
     uid string) (
     models.ApiResponse[models.Invoice],
     error) {
-    req := i.prepareRequest(
-      ctx,
-      "PUT",
-      fmt.Sprintf("/invoices/%v/customer_information.json", uid),
-    )
+    req := i.prepareRequest(ctx, "PUT", "/invoices/%v/customer_information.json")
+    req.AppendTemplateParams(uid)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "404": {TemplatedMessage: "Not Found:'{$response.body}'", Unmarshaller: errors.NewErrorListResponse},
@@ -927,7 +910,8 @@ func (i *InvoicesController) IssueInvoice(
     body *models.IssueInvoiceRequest) (
     models.ApiResponse[models.Invoice],
     error) {
-    req := i.prepareRequest(ctx, "POST", fmt.Sprintf("/invoices/%v/issue.json", uid))
+    req := i.prepareRequest(ctx, "POST", "/invoices/%v/issue.json")
+    req.AppendTemplateParams(uid)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "404": {TemplatedMessage: "Not Found:'{$response.body}'"},

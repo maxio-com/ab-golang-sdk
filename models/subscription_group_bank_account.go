@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // SubscriptionGroupBankAccount represents a SubscriptionGroupBankAccount struct.
@@ -36,6 +37,14 @@ type SubscriptionGroupBankAccount struct {
     CurrentVault          *BankAccountVault      `json:"current_vault,omitempty"`
     GatewayHandle         *string                `json:"gateway_handle,omitempty"`
     AdditionalProperties  map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for SubscriptionGroupBankAccount,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (s SubscriptionGroupBankAccount) String() string {
+    return fmt.Sprintf(
+    	"SubscriptionGroupBankAccount[BankName=%v, BankAccountNumber=%v, BankRoutingNumber=%v, BankIban=%v, BankBranchCode=%v, BankAccountType=%v, BankAccountHolderType=%v, PaymentType=%v, BillingAddress=%v, BillingCity=%v, BillingState=%v, BillingZip=%v, BillingCountry=%v, ChargifyToken=%v, CurrentVault=%v, GatewayHandle=%v, AdditionalProperties=%v]",
+    	s.BankName, s.BankAccountNumber, s.BankRoutingNumber, s.BankIban, s.BankBranchCode, s.BankAccountType, s.BankAccountHolderType, s.PaymentType, s.BillingAddress, s.BillingCity, s.BillingState, s.BillingZip, s.BillingCountry, s.ChargifyToken, s.CurrentVault, s.GatewayHandle, s.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for SubscriptionGroupBankAccount.

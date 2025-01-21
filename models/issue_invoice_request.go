@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // IssueInvoiceRequest represents a IssueInvoiceRequest struct.
@@ -17,6 +18,14 @@ type IssueInvoiceRequest struct {
     // - `initiate_dunning` - prepayments and credits applied to the invoice; invoice status set to "open"; email sent to the customer for the issued invoice (if setting applies); payment failure recorded in the invoice history; subscription will  most likely go into "past_due" or "canceled" state (depending upon net terms and dunning settings).
     OnFailedPayment      *FailedPaymentAction   `json:"on_failed_payment,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for IssueInvoiceRequest,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (i IssueInvoiceRequest) String() string {
+    return fmt.Sprintf(
+    	"IssueInvoiceRequest[OnFailedPayment=%v, AdditionalProperties=%v]",
+    	i.OnFailedPayment, i.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for IssueInvoiceRequest.

@@ -7,7 +7,6 @@ package advancedbilling
 
 import (
     "context"
-    "fmt"
     "github.com/apimatic/go-core-runtime/https"
     "github.com/apimatic/go-core-runtime/utilities"
     "github.com/maxio-com/ab-golang-sdk/errors"
@@ -50,11 +49,8 @@ func (c *CustomFieldsController) CreateMetafields(
     body *models.CreateMetafieldsRequest) (
     models.ApiResponse[[]models.Metafield],
     error) {
-    req := c.prepareRequest(
-      ctx,
-      "POST",
-      fmt.Sprintf("/%v/metafields.json", resourceType),
-    )
+    req := c.prepareRequest(ctx, "POST", "/%v/metafields.json")
+    req.AppendTemplateParams(resourceType)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewSingleErrorResponse},
@@ -100,11 +96,8 @@ func (c *CustomFieldsController) ListMetafields(
     input ListMetafieldsInput) (
     models.ApiResponse[models.ListMetafieldsResponse],
     error) {
-    req := c.prepareRequest(
-      ctx,
-      "GET",
-      fmt.Sprintf("/%v/metafields.json", input.ResourceType),
-    )
+    req := c.prepareRequest(ctx, "GET", "/%v/metafields.json")
+    req.AppendTemplateParams(input.ResourceType)
     req.Authenticate(NewAuth("BasicAuth"))
     if input.Name != nil {
         req.QueryParam("name", *input.Name)
@@ -139,11 +132,8 @@ func (c *CustomFieldsController) UpdateMetafield(
     body *models.UpdateMetafieldsRequest) (
     models.ApiResponse[[]models.Metafield],
     error) {
-    req := c.prepareRequest(
-      ctx,
-      "PUT",
-      fmt.Sprintf("/%v/metafields.json", resourceType),
-    )
+    req := c.prepareRequest(ctx, "PUT", "/%v/metafields.json")
+    req.AppendTemplateParams(resourceType)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewSingleErrorResponse},
@@ -174,11 +164,8 @@ func (c *CustomFieldsController) DeleteMetafield(
     name *string) (
     *http.Response,
     error) {
-    req := c.prepareRequest(
-      ctx,
-      "DELETE",
-      fmt.Sprintf("/%v/metafields.json", resourceType),
-    )
+    req := c.prepareRequest(ctx, "DELETE", "/%v/metafields.json")
+    req.AppendTemplateParams(resourceType)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
@@ -216,11 +203,8 @@ func (c *CustomFieldsController) CreateMetadata(
     body *models.CreateMetadataRequest) (
     models.ApiResponse[[]models.Metadata],
     error) {
-    req := c.prepareRequest(
-      ctx,
-      "POST",
-      fmt.Sprintf("/%v/%v/metadata.json", resourceType, resourceId),
-    )
+    req := c.prepareRequest(ctx, "POST", "/%v/%v/metadata.json")
+    req.AppendTemplateParams(resourceType, resourceId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewSingleErrorResponse},
@@ -265,11 +249,8 @@ func (c *CustomFieldsController) ListMetadata(
     input ListMetadataInput) (
     models.ApiResponse[models.PaginatedMetadata],
     error) {
-    req := c.prepareRequest(
-      ctx,
-      "GET",
-      fmt.Sprintf("/%v/%v/metadata.json", input.ResourceType, input.ResourceId),
-    )
+    req := c.prepareRequest(ctx, "GET", "/%v/%v/metadata.json")
+    req.AppendTemplateParams(input.ResourceType, input.ResourceId)
     req.Authenticate(NewAuth("BasicAuth"))
     if input.Page != nil {
         req.QueryParam("page", *input.Page)
@@ -299,11 +280,8 @@ func (c *CustomFieldsController) UpdateMetadata(
     body *models.UpdateMetadataRequest) (
     models.ApiResponse[[]models.Metadata],
     error) {
-    req := c.prepareRequest(
-      ctx,
-      "PUT",
-      fmt.Sprintf("/%v/%v/metadata.json", resourceType, resourceId),
-    )
+    req := c.prepareRequest(ctx, "PUT", "/%v/%v/metadata.json")
+    req.AppendTemplateParams(resourceType, resourceId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewSingleErrorResponse},
@@ -348,11 +326,8 @@ func (c *CustomFieldsController) DeleteMetadata(
     names []string) (
     *http.Response,
     error) {
-    req := c.prepareRequest(
-      ctx,
-      "DELETE",
-      fmt.Sprintf("/%v/%v/metadata.json", resourceType, resourceId),
-    )
+    req := c.prepareRequest(ctx, "DELETE", "/%v/%v/metadata.json")
+    req.AppendTemplateParams(resourceType, resourceId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
@@ -415,11 +390,8 @@ func (c *CustomFieldsController) ListMetadataForResourceType(
     input ListMetadataForResourceTypeInput) (
     models.ApiResponse[models.PaginatedMetadata],
     error) {
-    req := c.prepareRequest(
-      ctx,
-      "GET",
-      fmt.Sprintf("/%v/metadata.json", input.ResourceType),
-    )
+    req := c.prepareRequest(ctx, "GET", "/%v/metadata.json")
+    req.AppendTemplateParams(input.ResourceType)
     req.Authenticate(NewAuth("BasicAuth"))
     if input.Page != nil {
         req.QueryParamWithArraySerializationOption("page", *input.Page, https.UnIndexed)

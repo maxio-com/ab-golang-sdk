@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "strings"
 )
 
@@ -37,6 +38,14 @@ type GetOneTimeTokenPaymentProfile struct {
     CustomerVaultToken   Optional[string]       `json:"customer_vault_token"`
     GatewayHandle        Optional[string]       `json:"gateway_handle"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for GetOneTimeTokenPaymentProfile,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (g GetOneTimeTokenPaymentProfile) String() string {
+    return fmt.Sprintf(
+    	"GetOneTimeTokenPaymentProfile[Id=%v, FirstName=%v, LastName=%v, MaskedCardNumber=%v, CardType=%v, ExpirationMonth=%v, ExpirationYear=%v, CustomerId=%v, CurrentVault=%v, VaultToken=%v, BillingAddress=%v, BillingAddress2=%v, BillingCity=%v, BillingCountry=%v, BillingState=%v, BillingZip=%v, PaymentType=%v, Disabled=%v, SiteGatewaySettingId=%v, CustomerVaultToken=%v, GatewayHandle=%v, AdditionalProperties=%v]",
+    	g.Id, g.FirstName, g.LastName, g.MaskedCardNumber, g.CardType, g.ExpirationMonth, g.ExpirationYear, g.CustomerId, g.CurrentVault, g.VaultToken, g.BillingAddress, g.BillingAddress2, g.BillingCity, g.BillingCountry, g.BillingState, g.BillingZip, g.PaymentType, g.Disabled, g.SiteGatewaySettingId, g.CustomerVaultToken, g.GatewayHandle, g.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for GetOneTimeTokenPaymentProfile.

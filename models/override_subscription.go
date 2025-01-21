@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
     "log"
     "time"
 )
@@ -24,6 +25,14 @@ type OverrideSubscription struct {
     // Can only be used when a subscription is unbilled, which happens when a future initial billing date is passed at subscription creation. The value passed must be before the current date and time. Allows you to set when the period started so mid period component allocations have the correct proration. Only ISO8601 format is supported.
     CurrentPeriodStartsAt *time.Time             `json:"current_period_starts_at,omitempty"`
     AdditionalProperties  map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for OverrideSubscription,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (o OverrideSubscription) String() string {
+    return fmt.Sprintf(
+    	"OverrideSubscription[ActivatedAt=%v, CanceledAt=%v, CancellationMessage=%v, ExpiresAt=%v, CurrentPeriodStartsAt=%v, AdditionalProperties=%v]",
+    	o.ActivatedAt, o.CanceledAt, o.CancellationMessage, o.ExpiresAt, o.CurrentPeriodStartsAt, o.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for OverrideSubscription.

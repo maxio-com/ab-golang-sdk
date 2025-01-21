@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // SubscriptionGroupCreditCard represents a SubscriptionGroupCreditCard struct.
@@ -34,6 +35,14 @@ type SubscriptionGroupCreditCard struct {
     Cvv                  *string                                     `json:"cvv,omitempty"`
     PaymentType          *string                                     `json:"payment_type,omitempty"`
     AdditionalProperties map[string]interface{}                      `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for SubscriptionGroupCreditCard,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (s SubscriptionGroupCreditCard) String() string {
+    return fmt.Sprintf(
+    	"SubscriptionGroupCreditCard[FullNumber=%v, ExpirationMonth=%v, ExpirationYear=%v, ChargifyToken=%v, VaultToken=%v, CurrentVault=%v, GatewayHandle=%v, FirstName=%v, LastName=%v, BillingAddress=%v, BillingAddress2=%v, BillingCity=%v, BillingState=%v, BillingZip=%v, BillingCountry=%v, LastFour=%v, CardType=%v, CustomerVaultToken=%v, Cvv=%v, PaymentType=%v, AdditionalProperties=%v]",
+    	s.FullNumber, s.ExpirationMonth, s.ExpirationYear, s.ChargifyToken, s.VaultToken, s.CurrentVault, s.GatewayHandle, s.FirstName, s.LastName, s.BillingAddress, s.BillingAddress2, s.BillingCity, s.BillingState, s.BillingZip, s.BillingCountry, s.LastFour, s.CardType, s.CustomerVaultToken, s.Cvv, s.PaymentType, s.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for SubscriptionGroupCreditCard.

@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
     "log"
     "time"
 )
@@ -28,6 +29,14 @@ type AllocationPreview struct {
     // An integer representing the amount of the subscription's current balance
     ExistingBalanceInCents *int64                      `json:"existing_balance_in_cents,omitempty"`
     AdditionalProperties   map[string]interface{}      `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for AllocationPreview,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (a AllocationPreview) String() string {
+    return fmt.Sprintf(
+    	"AllocationPreview[StartDate=%v, EndDate=%v, SubtotalInCents=%v, TotalTaxInCents=%v, TotalDiscountInCents=%v, TotalInCents=%v, Direction=%v, ProrationScheme=%v, LineItems=%v, AccrueCharge=%v, Allocations=%v, PeriodType=%v, ExistingBalanceInCents=%v, AdditionalProperties=%v]",
+    	a.StartDate, a.EndDate, a.SubtotalInCents, a.TotalTaxInCents, a.TotalDiscountInCents, a.TotalInCents, a.Direction, a.ProrationScheme, a.LineItems, a.AccrueCharge, a.Allocations, a.PeriodType, a.ExistingBalanceInCents, a.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for AllocationPreview.

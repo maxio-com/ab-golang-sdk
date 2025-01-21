@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
     "log"
     "time"
 )
@@ -27,6 +28,14 @@ type Segment struct {
     UpdatedAt                 *time.Time                    `json:"updated_at,omitempty"`
     Prices                    []SegmentPrice                `json:"prices,omitempty"`
     AdditionalProperties      map[string]interface{}        `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for Segment,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (s Segment) String() string {
+    return fmt.Sprintf(
+    	"Segment[Id=%v, ComponentId=%v, PricePointId=%v, EventBasedBillingMetricId=%v, PricingScheme=%v, SegmentProperty1Value=%v, SegmentProperty2Value=%v, SegmentProperty3Value=%v, SegmentProperty4Value=%v, CreatedAt=%v, UpdatedAt=%v, Prices=%v, AdditionalProperties=%v]",
+    	s.Id, s.ComponentId, s.PricePointId, s.EventBasedBillingMetricId, s.PricingScheme, s.SegmentProperty1Value, s.SegmentProperty2Value, s.SegmentProperty3Value, s.SegmentProperty4Value, s.CreatedAt, s.UpdatedAt, s.Prices, s.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for Segment.

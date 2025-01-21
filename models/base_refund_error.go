@@ -7,12 +7,21 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // BaseRefundError represents a BaseRefundError struct.
 type BaseRefundError struct {
     Base                 []interface{}          `json:"base,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for BaseRefundError,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (b BaseRefundError) String() string {
+    return fmt.Sprintf(
+    	"BaseRefundError[Base=%v, AdditionalProperties=%v]",
+    	b.Base, b.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for BaseRefundError.

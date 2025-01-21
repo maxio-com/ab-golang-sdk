@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "strings"
 )
 
@@ -15,6 +16,14 @@ import (
 type GetOneTimeTokenRequest struct {
     PaymentProfile       GetOneTimeTokenPaymentProfile `json:"payment_profile"`
     AdditionalProperties map[string]interface{}        `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for GetOneTimeTokenRequest,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (g GetOneTimeTokenRequest) String() string {
+    return fmt.Sprintf(
+    	"GetOneTimeTokenRequest[PaymentProfile=%v, AdditionalProperties=%v]",
+    	g.PaymentProfile, g.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for GetOneTimeTokenRequest.

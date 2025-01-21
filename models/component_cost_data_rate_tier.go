@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // ComponentCostDataRateTier represents a ComponentCostDataRateTier struct.
@@ -17,6 +18,14 @@ type ComponentCostDataRateTier struct {
     UnitPrice            *string                `json:"unit_price,omitempty"`
     Amount               *string                `json:"amount,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for ComponentCostDataRateTier,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (c ComponentCostDataRateTier) String() string {
+    return fmt.Sprintf(
+    	"ComponentCostDataRateTier[StartingQuantity=%v, EndingQuantity=%v, Quantity=%v, UnitPrice=%v, Amount=%v, AdditionalProperties=%v]",
+    	c.StartingQuantity, c.EndingQuantity, c.Quantity, c.UnitPrice, c.Amount, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for ComponentCostDataRateTier.

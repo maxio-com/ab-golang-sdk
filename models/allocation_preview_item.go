@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // AllocationPreviewItem represents a AllocationPreviewItem struct.
@@ -36,6 +37,14 @@ type AllocationPreviewItem struct {
     PricePointName           *string                                `json:"price_point_name,omitempty"`
     ComponentHandle          Optional[string]                       `json:"component_handle"`
     AdditionalProperties     map[string]interface{}                 `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for AllocationPreviewItem,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (a AllocationPreviewItem) String() string {
+    return fmt.Sprintf(
+    	"AllocationPreviewItem[ComponentId=%v, SubscriptionId=%v, Quantity=%v, PreviousQuantity=%v, Memo=%v, Timestamp=%v, ProrationUpgradeScheme=%v, ProrationDowngradeScheme=%v, AccrueCharge=%v, UpgradeCharge=%v, DowngradeCredit=%v, PricePointId=%v, Interval=%v, IntervalUnit=%v, PreviousPricePointId=%v, PricePointHandle=%v, PricePointName=%v, ComponentHandle=%v, AdditionalProperties=%v]",
+    	a.ComponentId, a.SubscriptionId, a.Quantity, a.PreviousQuantity, a.Memo, a.Timestamp, a.ProrationUpgradeScheme, a.ProrationDowngradeScheme, a.AccrueCharge, a.UpgradeCharge, a.DowngradeCredit, a.PricePointId, a.Interval, a.IntervalUnit, a.PreviousPricePointId, a.PricePointHandle, a.PricePointName, a.ComponentHandle, a.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for AllocationPreviewItem.

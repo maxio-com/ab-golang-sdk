@@ -9,7 +9,7 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `ProductPricePointId` | `string` | Required, Constant | Passed as a parameter to list methods to return only non null values.<br>**Default**: `"not_null"` |
+| `ProductPricePointId` | `string` | Required, Constant | Passed as a parameter to list methods to return only non null values.<br>**Value**: `"not_null"` |
 
 ## Example (as JSON)
 

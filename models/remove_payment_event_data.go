@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "log"
     "strings"
     "time"
@@ -31,6 +32,14 @@ type RemovePaymentEventData struct {
     // The flag that shows whether the original payment was a prepayment or not
     Prepayment           bool                   `json:"prepayment"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for RemovePaymentEventData,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (r RemovePaymentEventData) String() string {
+    return fmt.Sprintf(
+    	"RemovePaymentEventData[TransactionId=%v, Memo=%v, OriginalAmount=%v, AppliedAmount=%v, TransactionTime=%v, PaymentMethod=%v, Prepayment=%v, AdditionalProperties=%v]",
+    	r.TransactionId, r.Memo, r.OriginalAmount, r.AppliedAmount, r.TransactionTime, r.PaymentMethod, r.Prepayment, r.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for RemovePaymentEventData.

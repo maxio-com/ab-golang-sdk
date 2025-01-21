@@ -8,7 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
-    "strings"
+    "fmt"
 )
 
 // SubscriptionGroupCreateErrorResponseErrors represents a SubscriptionGroupCreateErrorResponseErrors struct.
@@ -20,12 +20,10 @@ type SubscriptionGroupCreateErrorResponseErrors struct {
     isString                             bool
 }
 
-// String converts the SubscriptionGroupCreateErrorResponseErrors object to a string representation.
+// String implements the fmt.Stringer interface for SubscriptionGroupCreateErrorResponseErrors,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
 func (s SubscriptionGroupCreateErrorResponseErrors) String() string {
-    if bytes, err := json.Marshal(s.value); err == nil {
-         return strings.Trim(string(bytes), "\"")
-    }
-    return ""
+    return fmt.Sprintf("%v", s.value)
 }
 
 // MarshalJSON implements the json.Marshaler interface for SubscriptionGroupCreateErrorResponseErrors.

@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "strings"
 )
 
@@ -15,6 +16,14 @@ import (
 type SubscriptionNoteResponse struct {
     Note                 SubscriptionNote       `json:"note"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for SubscriptionNoteResponse,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (s SubscriptionNoteResponse) String() string {
+    return fmt.Sprintf(
+    	"SubscriptionNoteResponse[Note=%v, AdditionalProperties=%v]",
+    	s.Note, s.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for SubscriptionNoteResponse.

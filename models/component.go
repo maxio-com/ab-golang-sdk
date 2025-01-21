@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
     "log"
     "time"
 )
@@ -78,6 +79,14 @@ type Component struct {
     // A string representing the interval unit for this component's default price point, either month or day. This property is only available for sites with Multifrequency enabled.
     IntervalUnit              Optional[IntervalUnit]     `json:"interval_unit"`
     AdditionalProperties      map[string]interface{}     `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for Component,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (c Component) String() string {
+    return fmt.Sprintf(
+    	"Component[Id=%v, Name=%v, Handle=%v, PricingScheme=%v, UnitName=%v, UnitPrice=%v, ProductFamilyId=%v, ProductFamilyName=%v, PricePerUnitInCents=%v, Kind=%v, Archived=%v, Taxable=%v, Description=%v, DefaultPricePointId=%v, OveragePrices=%v, Prices=%v, PricePointCount=%v, PricePointsUrl=%v, DefaultPricePointName=%v, TaxCode=%v, Recurring=%v, UpgradeCharge=%v, DowngradeCredit=%v, CreatedAt=%v, UpdatedAt=%v, ArchivedAt=%v, HideDateRangeOnInvoice=%v, AllowFractionalQuantities=%v, ItemCategory=%v, UseSiteExchangeRate=%v, AccountingCode=%v, EventBasedBillingMetricId=%v, Interval=%v, IntervalUnit=%v, AdditionalProperties=%v]",
+    	c.Id, c.Name, c.Handle, c.PricingScheme, c.UnitName, c.UnitPrice, c.ProductFamilyId, c.ProductFamilyName, c.PricePerUnitInCents, c.Kind, c.Archived, c.Taxable, c.Description, c.DefaultPricePointId, c.OveragePrices, c.Prices, c.PricePointCount, c.PricePointsUrl, c.DefaultPricePointName, c.TaxCode, c.Recurring, c.UpgradeCharge, c.DowngradeCredit, c.CreatedAt, c.UpdatedAt, c.ArchivedAt, c.HideDateRangeOnInvoice, c.AllowFractionalQuantities, c.ItemCategory, c.UseSiteExchangeRate, c.AccountingCode, c.EventBasedBillingMetricId, c.Interval, c.IntervalUnit, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for Component.

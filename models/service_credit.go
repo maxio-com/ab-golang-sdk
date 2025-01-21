@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // ServiceCredit represents a ServiceCredit struct.
@@ -21,6 +22,14 @@ type ServiceCredit struct {
     // The memo attached to the entry
     Memo                 *string                `json:"memo,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for ServiceCredit,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (s ServiceCredit) String() string {
+    return fmt.Sprintf(
+    	"ServiceCredit[Id=%v, AmountInCents=%v, EndingBalanceInCents=%v, EntryType=%v, Memo=%v, AdditionalProperties=%v]",
+    	s.Id, s.AmountInCents, s.EndingBalanceInCents, s.EntryType, s.Memo, s.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for ServiceCredit.

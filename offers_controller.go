@@ -7,7 +7,6 @@ package advancedbilling
 
 import (
     "context"
-    "fmt"
     "github.com/apimatic/go-core-runtime/https"
     "github.com/apimatic/go-core-runtime/utilities"
     "github.com/maxio-com/ab-golang-sdk/errors"
@@ -43,6 +42,7 @@ func (o *OffersController) CreateOffer(
     models.ApiResponse[models.OfferResponse],
     error) {
     req := o.prepareRequest(ctx, "POST", "/offers.json")
+    
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorArrayMapResponse},
@@ -83,6 +83,7 @@ func (o *OffersController) ListOffers(
     models.ApiResponse[models.ListOffersResponse],
     error) {
     req := o.prepareRequest(ctx, "GET", "/offers.json")
+    
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
@@ -115,7 +116,8 @@ func (o *OffersController) ReadOffer(
     offerId int) (
     models.ApiResponse[models.OfferResponse],
     error) {
-    req := o.prepareRequest(ctx, "GET", fmt.Sprintf("/offers/%v.json", offerId))
+    req := o.prepareRequest(ctx, "GET", "/offers/%v.json")
+    req.AppendTemplateParams(offerId)
     req.Authenticate(NewAuth("BasicAuth"))
     
     var result models.OfferResponse
@@ -137,11 +139,8 @@ func (o *OffersController) ArchiveOffer(
     offerId int) (
     *http.Response,
     error) {
-    req := o.prepareRequest(
-      ctx,
-      "PUT",
-      fmt.Sprintf("/offers/%v/archive.json", offerId),
-    )
+    req := o.prepareRequest(ctx, "PUT", "/offers/%v/archive.json")
+    req.AppendTemplateParams(offerId)
     req.Authenticate(NewAuth("BasicAuth"))
     
     httpCtx, err := req.Call()
@@ -160,11 +159,8 @@ func (o *OffersController) UnarchiveOffer(
     offerId int) (
     *http.Response,
     error) {
-    req := o.prepareRequest(
-      ctx,
-      "PUT",
-      fmt.Sprintf("/offers/%v/unarchive.json", offerId),
-    )
+    req := o.prepareRequest(ctx, "PUT", "/offers/%v/unarchive.json")
+    req.AppendTemplateParams(offerId)
     req.Authenticate(NewAuth("BasicAuth"))
     
     httpCtx, err := req.Call()

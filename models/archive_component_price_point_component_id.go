@@ -8,7 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
-    "strings"
+    "fmt"
 )
 
 // ArchiveComponentPricePointComponentId represents a ArchiveComponentPricePointComponentId struct.
@@ -19,12 +19,10 @@ type ArchiveComponentPricePointComponentId struct {
     isString bool
 }
 
-// String converts the ArchiveComponentPricePointComponentId object to a string representation.
+// String implements the fmt.Stringer interface for ArchiveComponentPricePointComponentId,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
 func (a ArchiveComponentPricePointComponentId) String() string {
-    if bytes, err := json.Marshal(a.value); err == nil {
-         return strings.Trim(string(bytes), "\"")
-    }
-    return ""
+    return fmt.Sprintf("%v", a.value)
 }
 
 // MarshalJSON implements the json.Marshaler interface for ArchiveComponentPricePointComponentId.

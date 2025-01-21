@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // InvoiceAddress represents a InvoiceAddress struct.
@@ -18,6 +19,14 @@ type InvoiceAddress struct {
     Zip                  Optional[string]       `json:"zip"`
     Country              Optional[string]       `json:"country"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for InvoiceAddress,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (i InvoiceAddress) String() string {
+    return fmt.Sprintf(
+    	"InvoiceAddress[Street=%v, Line2=%v, City=%v, State=%v, Zip=%v, Country=%v, AdditionalProperties=%v]",
+    	i.Street, i.Line2, i.City, i.State, i.Zip, i.Country, i.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for InvoiceAddress.

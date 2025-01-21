@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "strings"
 )
 
@@ -15,6 +16,14 @@ import (
 type AttributeError struct {
     Attribute            []string               `json:"attribute"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for AttributeError,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (a AttributeError) String() string {
+    return fmt.Sprintf(
+    	"AttributeError[Attribute=%v, AdditionalProperties=%v]",
+    	a.Attribute, a.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for AttributeError.

@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // NetTerms represents a NetTerms struct.
@@ -17,6 +18,14 @@ type NetTerms struct {
     NetTermsOnRemittanceSignupsEnabled *bool                  `json:"net_terms_on_remittance_signups_enabled,omitempty"`
     CustomNetTermsEnabled              *bool                  `json:"custom_net_terms_enabled,omitempty"`
     AdditionalProperties               map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for NetTerms,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (n NetTerms) String() string {
+    return fmt.Sprintf(
+    	"NetTerms[DefaultNetTerms=%v, AutomaticNetTerms=%v, RemittanceNetTerms=%v, NetTermsOnRemittanceSignupsEnabled=%v, CustomNetTermsEnabled=%v, AdditionalProperties=%v]",
+    	n.DefaultNetTerms, n.AutomaticNetTerms, n.RemittanceNetTerms, n.NetTermsOnRemittanceSignupsEnabled, n.CustomNetTermsEnabled, n.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for NetTerms.

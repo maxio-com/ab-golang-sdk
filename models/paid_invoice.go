@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // PaidInvoice represents a PaidInvoice struct.
@@ -20,6 +21,14 @@ type PaidInvoice struct {
     // The total amount paid on this invoice (including any prior payments)
     PaidAmount           *string                `json:"paid_amount,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for PaidInvoice,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (p PaidInvoice) String() string {
+    return fmt.Sprintf(
+    	"PaidInvoice[InvoiceId=%v, Status=%v, DueAmount=%v, PaidAmount=%v, AdditionalProperties=%v]",
+    	p.InvoiceId, p.Status, p.DueAmount, p.PaidAmount, p.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for PaidInvoice.

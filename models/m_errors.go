@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // Errors represents a Errors struct.
@@ -14,6 +15,14 @@ type Errors struct {
     PerPage              []string               `json:"per_page,omitempty"`
     PricePoint           []string               `json:"price_point,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for Errors,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (m Errors) String() string {
+    return fmt.Sprintf(
+    	"Errors[PerPage=%v, PricePoint=%v, AdditionalProperties=%v]",
+    	m.PerPage, m.PricePoint, m.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for Errors.

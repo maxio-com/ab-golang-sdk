@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // ComponentPricePointAssignment represents a ComponentPricePointAssignment struct.
@@ -14,6 +15,14 @@ type ComponentPricePointAssignment struct {
     ComponentId          *int                                     `json:"component_id,omitempty"`
     PricePoint           *ComponentPricePointAssignmentPricePoint `json:"price_point,omitempty"`
     AdditionalProperties map[string]interface{}                   `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for ComponentPricePointAssignment,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (c ComponentPricePointAssignment) String() string {
+    return fmt.Sprintf(
+    	"ComponentPricePointAssignment[ComponentId=%v, PricePoint=%v, AdditionalProperties=%v]",
+    	c.ComponentId, c.PricePoint, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for ComponentPricePointAssignment.

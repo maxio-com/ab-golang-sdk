@@ -7,12 +7,21 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // RefundPrepaymentBaseRefundError represents a RefundPrepaymentBaseRefundError struct.
 type RefundPrepaymentBaseRefundError struct {
     Refund               *BaseRefundError       `json:"refund,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for RefundPrepaymentBaseRefundError,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (r RefundPrepaymentBaseRefundError) String() string {
+    return fmt.Sprintf(
+    	"RefundPrepaymentBaseRefundError[Refund=%v, AdditionalProperties=%v]",
+    	r.Refund, r.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for RefundPrepaymentBaseRefundError.

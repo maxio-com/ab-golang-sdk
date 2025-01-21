@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // InvoicePrePayment represents a InvoicePrePayment struct.
@@ -18,6 +19,14 @@ type InvoicePrePayment struct {
     // The total balance of the prepayment account for this subscription including any prior prepayments
     EndingBalanceInCents *int64                 `json:"ending_balance_in_cents,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for InvoicePrePayment,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (i InvoicePrePayment) String() string {
+    return fmt.Sprintf(
+    	"InvoicePrePayment[SubscriptionId=%v, AmountInCents=%v, EndingBalanceInCents=%v, AdditionalProperties=%v]",
+    	i.SubscriptionId, i.AmountInCents, i.EndingBalanceInCents, i.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for InvoicePrePayment.

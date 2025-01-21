@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // OfferDiscount represents a OfferDiscount struct.
@@ -15,6 +16,14 @@ type OfferDiscount struct {
     CouponId             *int                   `json:"coupon_id,omitempty"`
     CouponName           *string                `json:"coupon_name,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for OfferDiscount,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (o OfferDiscount) String() string {
+    return fmt.Sprintf(
+    	"OfferDiscount[CouponCode=%v, CouponId=%v, CouponName=%v, AdditionalProperties=%v]",
+    	o.CouponCode, o.CouponId, o.CouponName, o.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for OfferDiscount.

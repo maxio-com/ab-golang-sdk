@@ -7,7 +7,6 @@ package advancedbilling
 
 import (
     "context"
-    "fmt"
     "github.com/apimatic/go-core-runtime/https"
     "github.com/apimatic/go-core-runtime/utilities"
     "github.com/maxio-com/ab-golang-sdk/errors"
@@ -64,6 +63,7 @@ func (w *WebhooksController) ListWebhooks(
     models.ApiResponse[[]models.WebhookResponse],
     error) {
     req := w.prepareRequest(ctx, "GET", "/webhooks.json")
+    
     req.Authenticate(NewAuth("BasicAuth"))
     if input.Status != nil {
         req.QueryParam("status", *input.Status)
@@ -106,6 +106,7 @@ func (w *WebhooksController) EnableWebhooks(
     models.ApiResponse[models.EnableWebhooksResponse],
     error) {
     req := w.prepareRequest(ctx, "PUT", "/webhooks/settings.json")
+    
     req.Authenticate(NewAuth("BasicAuth"))
     req.Header("Content-Type", "application/json")
     if body != nil {
@@ -132,6 +133,7 @@ func (w *WebhooksController) ReplayWebhooks(
     models.ApiResponse[models.ReplayWebhooksResponse],
     error) {
     req := w.prepareRequest(ctx, "POST", "/webhooks/replay.json")
+    
     req.Authenticate(NewAuth("BasicAuth"))
     req.Header("Content-Type", "application/json")
     if body != nil {
@@ -159,6 +161,7 @@ func (w *WebhooksController) CreateEndpoint(
     models.ApiResponse[models.EndpointResponse],
     error) {
     req := w.prepareRequest(ctx, "POST", "/endpoints.json")
+    
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
@@ -185,6 +188,7 @@ func (w *WebhooksController) ListEndpoints(ctx context.Context) (
     models.ApiResponse[[]models.Endpoint],
     error) {
     req := w.prepareRequest(ctx, "GET", "/endpoints.json")
+    
     req.Authenticate(NewAuth("BasicAuth"))
     var result []models.Endpoint
     decoder, resp, err := req.CallAsJson()
@@ -211,11 +215,8 @@ func (w *WebhooksController) UpdateEndpoint(
     body *models.CreateOrUpdateEndpointRequest) (
     models.ApiResponse[models.EndpointResponse],
     error) {
-    req := w.prepareRequest(
-      ctx,
-      "PUT",
-      fmt.Sprintf("/endpoints/%v.json", endpointId),
-    )
+    req := w.prepareRequest(ctx, "PUT", "/endpoints/%v.json")
+    req.AppendTemplateParams(endpointId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "404": {TemplatedMessage: "Not Found:'{$response.body}'"},

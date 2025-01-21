@@ -7,6 +7,7 @@ package models
 
 import (
     "encoding/json"
+    "fmt"
 )
 
 // ProformaInvoiceCredit represents a ProformaInvoiceCredit struct.
@@ -16,6 +17,14 @@ type ProformaInvoiceCredit struct {
     OriginalAmount       *string                `json:"original_amount,omitempty"`
     AppliedAmount        *string                `json:"applied_amount,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for ProformaInvoiceCredit,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (p ProformaInvoiceCredit) String() string {
+    return fmt.Sprintf(
+    	"ProformaInvoiceCredit[Uid=%v, Memo=%v, OriginalAmount=%v, AppliedAmount=%v, AdditionalProperties=%v]",
+    	p.Uid, p.Memo, p.OriginalAmount, p.AppliedAmount, p.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for ProformaInvoiceCredit.

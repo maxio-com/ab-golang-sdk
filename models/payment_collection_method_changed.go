@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "strings"
 )
 
@@ -16,6 +17,14 @@ type PaymentCollectionMethodChanged struct {
     PreviousValue        string                 `json:"previous_value"`
     CurrentValue         string                 `json:"current_value"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for PaymentCollectionMethodChanged,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (p PaymentCollectionMethodChanged) String() string {
+    return fmt.Sprintf(
+    	"PaymentCollectionMethodChanged[PreviousValue=%v, CurrentValue=%v, AdditionalProperties=%v]",
+    	p.PreviousValue, p.CurrentValue, p.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for PaymentCollectionMethodChanged.

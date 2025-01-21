@@ -8,7 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
-    "strings"
+    "fmt"
 )
 
 // PaymentProfileAttributesExpirationMonth represents a PaymentProfileAttributesExpirationMonth struct.
@@ -19,12 +19,10 @@ type PaymentProfileAttributesExpirationMonth struct {
     isString bool
 }
 
-// String converts the PaymentProfileAttributesExpirationMonth object to a string representation.
+// String implements the fmt.Stringer interface for PaymentProfileAttributesExpirationMonth,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
 func (p PaymentProfileAttributesExpirationMonth) String() string {
-    if bytes, err := json.Marshal(p.value); err == nil {
-         return strings.Trim(string(bytes), "\"")
-    }
-    return ""
+    return fmt.Sprintf("%v", p.value)
 }
 
 // MarshalJSON implements the json.Marshaler interface for PaymentProfileAttributesExpirationMonth.

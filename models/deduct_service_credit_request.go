@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "strings"
 )
 
@@ -15,6 +16,14 @@ import (
 type DeductServiceCreditRequest struct {
     Deduction            DeductServiceCredit    `json:"deduction"`
     AdditionalProperties map[string]interface{} `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for DeductServiceCreditRequest,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (d DeductServiceCreditRequest) String() string {
+    return fmt.Sprintf(
+    	"DeductServiceCreditRequest[Deduction=%v, AdditionalProperties=%v]",
+    	d.Deduction, d.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for DeductServiceCreditRequest.

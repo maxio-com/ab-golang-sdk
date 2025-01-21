@@ -8,6 +8,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "fmt"
     "strings"
 )
 
@@ -27,6 +28,14 @@ type RefundConsolidatedInvoice struct {
     // The amount of payment to be refunded in decimal format. Example: "10.50". This will default to the full amount of the payment if not provided.
     Amount               *string                              `json:"amount,omitempty"`
     AdditionalProperties map[string]interface{}               `json:"_"`
+}
+
+// String implements the fmt.Stringer interface for RefundConsolidatedInvoice,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (r RefundConsolidatedInvoice) String() string {
+    return fmt.Sprintf(
+    	"RefundConsolidatedInvoice[Memo=%v, PaymentId=%v, SegmentUids=%v, External=%v, ApplyCredit=%v, Amount=%v, AdditionalProperties=%v]",
+    	r.Memo, r.PaymentId, r.SegmentUids, r.External, r.ApplyCredit, r.Amount, r.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for RefundConsolidatedInvoice.
