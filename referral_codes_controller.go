@@ -1,28 +1,25 @@
-/*
-Package advancedbilling
-
-This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
-*/
+// Package advancedbilling
+// This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
 package advancedbilling
 
 import (
-    "context"
-    "github.com/apimatic/go-core-runtime/https"
-    "github.com/apimatic/go-core-runtime/utilities"
-    "github.com/maxio-com/ab-golang-sdk/errors"
-    "github.com/maxio-com/ab-golang-sdk/models"
+	"context"
+	"github.com/apimatic/go-core-runtime/https"
+	"github.com/apimatic/go-core-runtime/utilities"
+	"github.com/maxio-com/ab-golang-sdk/errors"
+	"github.com/maxio-com/ab-golang-sdk/models"
 )
 
 // ReferralCodesController represents a controller struct.
 type ReferralCodesController struct {
-    baseController
+	baseController
 }
 
 // NewReferralCodesController creates a new instance of ReferralCodesController.
 // It takes a baseController as a parameter and returns a pointer to the ReferralCodesController.
 func NewReferralCodesController(baseController baseController) *ReferralCodesController {
-    referralCodesController := ReferralCodesController{baseController: baseController}
-    return &referralCodesController
+	referralCodesController := ReferralCodesController{baseController: baseController}
+	return &referralCodesController
 }
 
 // ValidateReferralCode takes context, code as parameters and
@@ -34,23 +31,23 @@ func NewReferralCodesController(baseController baseController) *ReferralCodesCon
 // ## Server Response
 // If the referral code is valid the status code will be `200` and the referral code will be returned. If the referral code is invalid, a `404` response will be returned.
 func (r *ReferralCodesController) ValidateReferralCode(
-    ctx context.Context,
-    code string) (
-    models.ApiResponse[models.ReferralValidationResponse],
-    error) {
-    req := r.prepareRequest(ctx, "GET", "/referral_codes/validate.json")
-    
-    req.Authenticate(NewAuth("BasicAuth"))
-    req.AppendErrors(map[string]https.ErrorBuilder[error]{
-        "404": {TemplatedMessage: "Invalid referral code.", Unmarshaller: errors.NewSingleStringErrorResponse},
-    })
-    req.QueryParam("code", code)
-    var result models.ReferralValidationResponse
-    decoder, resp, err := req.CallAsJson()
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    result, err = utilities.DecodeResults[models.ReferralValidationResponse](decoder)
-    return models.NewApiResponse(result, resp), err
+	ctx context.Context,
+	code string) (
+	models.ApiResponse[models.ReferralValidationResponse],
+	error) {
+	req := r.prepareRequest(ctx, "GET", "/referral_codes/validate.json")
+
+	req.Authenticate(NewAuth("BasicAuth"))
+	req.AppendErrors(map[string]https.ErrorBuilder[error]{
+		"404": {TemplatedMessage: "Invalid referral code.", Unmarshaller: errors.NewSingleStringErrorResponse},
+	})
+	req.QueryParam("code", code)
+	var result models.ReferralValidationResponse
+	decoder, resp, err := req.CallAsJson()
+	if err != nil {
+		return models.NewApiResponse(result, resp), err
+	}
+
+	result, err = utilities.DecodeResults[models.ReferralValidationResponse](decoder)
+	return models.NewApiResponse(result, resp), err
 }

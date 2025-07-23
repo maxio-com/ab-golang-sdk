@@ -5,31 +5,39 @@ The following parameters are configurable for the API Client:
 
 | Parameter | Type | Description |
 |  --- | --- | --- |
-| `site` | `string` | The subdomain for your Advanced Billing site.<br>*Default*: `"subdomain"` |
-| `environment` | `Environment` | The API environment. <br> **Default: `Environment.US`** |
-| `httpConfiguration` | [`HttpConfiguration`](http-configuration.md) | Configurable http client options like timeout and retries. |
-| `basicAuthCredentials` | [`BasicAuthCredentials`](auth/basic-authentication.md) | The Credentials Setter for Basic Authentication |
+| site | `string` | The subdomain for your Advanced Billing site.<br>*Default*: `"subdomain"` |
+| environment | `Environment` | The API environment. <br> **Default: `Environment.US`** |
+| httpConfiguration | [`HttpConfiguration`](../doc/http-configuration.md) | Configurable http client options like timeout and retries. |
+| basicAuthCredentials | [`BasicAuthCredentials`](auth/basic-authentication.md) | The Credentials Setter for Basic Authentication |
 
 The API client can be initialized as follows:
 
 ```go
-client := advancedbilling.NewClient(
-    advancedbilling.CreateConfiguration(
-        advancedbilling.WithHttpConfiguration(
-            advancedbilling.CreateHttpConfiguration(
-                advancedbilling.WithTimeout(120),
-            ),
-        ),
-        advancedbilling.WithEnvironment(advancedbilling.US),
-        advancedbilling.WithBasicAuthCredentials(
-            advancedbilling.NewBasicAuthCredentials(
-                "BasicAuthUserName",
-                "BasicAuthPassword",
-            ),
-        ),
-        advancedbilling.WithSite("subdomain"),
-    ),
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk"
 )
+
+func main() {
+    client := advancedbilling.NewClient(
+    advancedbilling.CreateConfiguration(
+            advancedbilling.WithHttpConfiguration(
+                advancedbilling.CreateHttpConfiguration(
+                    advancedbilling.WithTimeout(120),
+                ),
+            ),
+            advancedbilling.WithEnvironment(advancedbilling.US),
+            advancedbilling.WithBasicAuthCredentials(
+                advancedbilling.NewBasicAuthCredentials(
+                    "BasicAuthUserName",
+                    "BasicAuthPassword",
+                ),
+            ),
+            advancedbilling.WithSite("subdomain"),
+        ),
+    )
+}
 ```
 
 ## Maxio Advanced Billing Client

@@ -40,7 +40,7 @@ CancelSubscriptionsInGroup(
 
 ## Response Type
 
-``
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance.
 
 ## Example Usage
 
@@ -90,7 +90,7 @@ InitiateDelayedCancellationForGroup(
 
 ## Response Type
 
-``
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance.
 
 ## Example Usage
 
@@ -134,7 +134,7 @@ CancelDelayedCancellationForGroup(
 
 ## Response Type
 
-``
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance.
 
 ## Example Usage
 
@@ -198,7 +198,7 @@ ReactivateSubscriptionGroup(
 
 ## Response Type
 
-[`models.ReactivateSubscriptionGroupResponse`](../../doc/models/reactivate-subscription-group-response.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.ReactivateSubscriptionGroupResponse](../../doc/models/reactivate-subscription-group-response.md).
 
 ## Example Usage
 

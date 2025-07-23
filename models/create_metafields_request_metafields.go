@@ -1,94 +1,91 @@
-/*
-Package advancedbilling
-
-This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
-*/
+// Package advancedbilling
+// This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
 package models
 
 import (
-    "encoding/json"
-    "errors"
-    "fmt"
+	"encoding/json"
+	"errors"
+	"fmt"
 )
 
 // CreateMetafieldsRequestMetafields represents a CreateMetafieldsRequestMetafields struct.
 // This is a container for one-of cases.
 type CreateMetafieldsRequestMetafields struct {
-    value                    any
-    isCreateMetafield        bool
-    isArrayOfCreateMetafield bool
+	value                    any
+	isCreateMetafield        bool
+	isArrayOfCreateMetafield bool
 }
 
 // String implements the fmt.Stringer interface for CreateMetafieldsRequestMetafields,
 // providing a human-readable string representation useful for logging, debugging or displaying information.
 func (c CreateMetafieldsRequestMetafields) String() string {
-    return fmt.Sprintf("%v", c.value)
+	return fmt.Sprintf("%v", c.value)
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreateMetafieldsRequestMetafields.
 // It customizes the JSON marshaling process for CreateMetafieldsRequestMetafields objects.
 func (c CreateMetafieldsRequestMetafields) MarshalJSON() (
-    []byte,
-    error) {
-    if c.value == nil {
-        return nil, errors.New("No underlying type is set. Please use any of the `models.CreateMetafieldsRequestMetafieldsContainer.From*` functions to initialize the CreateMetafieldsRequestMetafields object.")
-    }
-    return json.Marshal(c.toMap())
+	[]byte,
+	error) {
+	if c.value == nil {
+		return nil, errors.New("No underlying type is set. Please use any of the `models.CreateMetafieldsRequestMetafieldsContainer.From*` functions to initialize the CreateMetafieldsRequestMetafields object.")
+	}
+	return json.Marshal(c.toMap())
 }
 
 // toMap converts the CreateMetafieldsRequestMetafields object to a map representation for JSON marshaling.
 func (c *CreateMetafieldsRequestMetafields) toMap() any {
-    switch obj := c.value.(type) {
-    case *CreateMetafield:
-        return obj.toMap()
-    case *[]CreateMetafield:
-        return *obj
-    }
-    return nil
+	switch obj := c.value.(type) {
+	case *CreateMetafield:
+		return obj.toMap()
+	case *[]CreateMetafield:
+		return *obj
+	}
+	return nil
 }
 
 // UnmarshalJSON implements the json.Unmarshaler interface for CreateMetafieldsRequestMetafields.
 // It customizes the JSON unmarshaling process for CreateMetafieldsRequestMetafields objects.
 func (c *CreateMetafieldsRequestMetafields) UnmarshalJSON(input []byte) error {
-    result, err := UnmarshallOneOf(input,
-        NewTypeHolder(&CreateMetafield{}, false, &c.isCreateMetafield),
-        NewTypeHolder(&[]CreateMetafield{}, false, &c.isArrayOfCreateMetafield),
-    )
-    
-    c.value = result
-    return err
+	result, err := UnmarshallOneOf(input,
+		NewTypeHolder(&CreateMetafield{}, false, &c.isCreateMetafield),
+		NewTypeHolder(&[]CreateMetafield{}, false, &c.isArrayOfCreateMetafield),
+	)
+
+	c.value = result
+	return err
 }
 
 func (c *CreateMetafieldsRequestMetafields) AsCreateMetafield() (
-    *CreateMetafield,
-    bool) {
-    if !c.isCreateMetafield {
-        return nil, false
-    }
-    return c.value.(*CreateMetafield), true
+	*CreateMetafield,
+	bool) {
+	if !c.isCreateMetafield {
+		return nil, false
+	}
+	return c.value.(*CreateMetafield), true
 }
 
 func (c *CreateMetafieldsRequestMetafields) AsArrayOfCreateMetafield() (
-    *[]CreateMetafield,
-    bool) {
-    if !c.isArrayOfCreateMetafield {
-        return nil, false
-    }
-    return c.value.(*[]CreateMetafield), true
+	*[]CreateMetafield,
+	bool) {
+	if !c.isArrayOfCreateMetafield {
+		return nil, false
+	}
+	return c.value.(*[]CreateMetafield), true
 }
 
 // internalCreateMetafieldsRequestMetafields represents a createMetafieldsRequestMetafields struct.
 // This is a container for one-of cases.
-type internalCreateMetafieldsRequestMetafields struct {}
+type internalCreateMetafieldsRequestMetafields struct{}
 
 var CreateMetafieldsRequestMetafieldsContainer internalCreateMetafieldsRequestMetafields
 
 // The internalCreateMetafieldsRequestMetafields instance, wrapping the provided CreateMetafield value.
 func (c *internalCreateMetafieldsRequestMetafields) FromCreateMetafield(val CreateMetafield) CreateMetafieldsRequestMetafields {
-    return CreateMetafieldsRequestMetafields{value: &val}
+	return CreateMetafieldsRequestMetafields{value: &val}
 }
 
 // The internalCreateMetafieldsRequestMetafields instance, wrapping the provided []CreateMetafield value.
 func (c *internalCreateMetafieldsRequestMetafields) FromArrayOfCreateMetafield(val []CreateMetafield) CreateMetafieldsRequestMetafields {
-    return CreateMetafieldsRequestMetafields{value: &val}
+	return CreateMetafieldsRequestMetafields{value: &val}
 }

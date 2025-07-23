@@ -4,22 +4,21 @@
 ## Introduction
 
 Maxio Advanced Billing (formerly Chargify) provides an HTTP-based API that conforms to the principles of REST.
-One of the many reasons to use Advanced Billing is the immense feature set and surrounding community [client libraries](http://localhost:8080/go/development-tools/development-tools/client-libraries).
-The Maxio API returns JSON responses as the primary and recommended format, but XML is also provided as a backwards compatible option for Merchants who require it.
+One of the many reasons to use Advanced Billing is the immense feature set and [client libraries](http://localhost:8080/go/development-tools/development-tools/client-libraries).
+The Maxio API returns JSON responses as the primary and recommended format, but XML is also provided as a backwards compatible option for merchants who require it.
 
 ### Steps to make your first Maxio Advanced Billing API call
 
 1. [Sign-up](https://app.chargify.com/signup/maxio-billing-sandbox) or [log-in](https://app.chargify.com/login.html) to your [test site](https://maxio.zendesk.com/hc/en-us/articles/24250712113165-Testing-Overview) account.
-2. [Setup and configure authentication](https://maxio.zendesk.com/hc/en-us/articles/24294819360525-API-Keys) credentials.
-3. Submit your API request and try it out.
-4. Verify results through response.
-5. Test our integrations.
+2. [Setup authentication](https://maxio.zendesk.com/hc/en-us/articles/24294819360525-API-Keys) credentials.
+3. [Submit an API request and verify the response](http://localhost:8080/go/development-tools/development-tools/client-libraries#make-your-first-maxio-advanced-billing-api-request).
+4. Test the Advanced Billing [integrations](https://www.maxio.com/integrations).
 
-We strongly suggest exploring the developer portal, our [integrations](https://www.maxio.com/integrations) and the API guide, as well as the entire set of application-based documentation to aid in your discovery of the product.
+Next, you can explore [authentication methods](http://localhost:8080/go/getting-started/introduction/authentication), [basic concepts](http://localhost:8080/go) for interacting with Advanced Billing via the API, and the entire set of [application-based documentation](https://docs.maxio.com/hc/en-us) to aid in your discovery of the product.
 
-#### Example
+#### Request Example
 
-The following example uses the curl command-line tool to execute API requests.
+The following example uses the curl command-line tool to make an API request.
 
 **Request**
 
@@ -38,10 +37,10 @@ The following section explains how to use the advancedbilling library in a new p
 To use the package in your application, you can install the package from [pkg.go.dev](https://pkg.go.dev/) using the following command:
 
 ```bash
-$ go get github.com/maxio-com/ab-golang-sdk@v0.6.0
+$ go get github.com/maxio-com/ab-golang-sdk@v0.7.0
 ```
 
-You can also view the package at: https://pkg.go.dev/github.com/maxio-com/ab-golang-sdk@v0.6.0
+You can also view the package at: https://pkg.go.dev/github.com/maxio-com/ab-golang-sdk@v0.7.0
 
 ## Initialize the API Client
 
@@ -51,31 +50,39 @@ The following parameters are configurable for the API Client:
 
 | Parameter | Type | Description |
 |  --- | --- | --- |
-| `site` | `string` | The subdomain for your Advanced Billing site.<br>*Default*: `"subdomain"` |
-| `environment` | `Environment` | The API environment. <br> **Default: `Environment.US`** |
-| `httpConfiguration` | [`HttpConfiguration`](doc/http-configuration.md) | Configurable http client options like timeout and retries. |
-| `basicAuthCredentials` | [`BasicAuthCredentials`](doc/auth/basic-authentication.md) | The Credentials Setter for Basic Authentication |
+| site | `string` | The subdomain for your Advanced Billing site.<br>*Default*: `"subdomain"` |
+| environment | `Environment` | The API environment. <br> **Default: `Environment.US`** |
+| httpConfiguration | [`HttpConfiguration`](doc/http-configuration.md) | Configurable http client options like timeout and retries. |
+| basicAuthCredentials | [`BasicAuthCredentials`](doc/auth/basic-authentication.md) | The Credentials Setter for Basic Authentication |
 
 The API client can be initialized as follows:
 
 ```go
-client := advancedbilling.NewClient(
-    advancedbilling.CreateConfiguration(
-        advancedbilling.WithHttpConfiguration(
-            advancedbilling.CreateHttpConfiguration(
-                advancedbilling.WithTimeout(120),
-            ),
-        ),
-        advancedbilling.WithEnvironment(advancedbilling.US),
-        advancedbilling.WithBasicAuthCredentials(
-            advancedbilling.NewBasicAuthCredentials(
-                "BasicAuthUserName",
-                "BasicAuthPassword",
-            ),
-        ),
-        advancedbilling.WithSite("subdomain"),
-    ),
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk"
 )
+
+func main() {
+    client := advancedbilling.NewClient(
+    advancedbilling.CreateConfiguration(
+            advancedbilling.WithHttpConfiguration(
+                advancedbilling.CreateHttpConfiguration(
+                    advancedbilling.WithTimeout(120),
+                ),
+            ),
+            advancedbilling.WithEnvironment(advancedbilling.US),
+            advancedbilling.WithBasicAuthCredentials(
+                advancedbilling.NewBasicAuthCredentials(
+                    "BasicAuthUserName",
+                    "BasicAuthPassword",
+                ),
+            ),
+            advancedbilling.WithSite("subdomain"),
+        ),
+    )
+}
 ```
 
 ## Environments
@@ -130,8 +137,14 @@ This API uses the following authentication schemes.
 * [Subscriptions](doc/controllers/subscriptions.md)
 * [Webhooks](doc/controllers/webhooks.md)
 
-## Classes Documentation
+## SDK Infrastructure
+
+### Configuration
 
 * [HttpConfiguration](doc/http-configuration.md)
 * [RetryConfiguration](doc/retry-configuration.md)
+
+### Utilities
+
+* [ApiResponse](doc/api-response.md)
 

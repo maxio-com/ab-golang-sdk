@@ -40,12 +40,12 @@ ListExportedProformaInvoices(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `batchId` | `string` | Template, Required | Id of a Batch Job. |
-| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request.<br>Default value is 100.<br>The maximum allowed values is 10000; any per_page value over 10000 will be changed to 10000.<br>**Default**: `100`<br>**Constraints**: `>= 1`, `<= 10000` |
-| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br>**Default**: `1`<br>**Constraints**: `>= 1` |
+| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request.<br>Default value is 100.<br>The maximum allowed values is 10000; any per_page value over 10000 will be changed to 10000.<br><br>**Default**: `100`<br><br>**Constraints**: `>= 1`, `<= 10000` |
+| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br><br>**Default**: `1`<br><br>**Constraints**: `>= 1` |
 
 ## Response Type
 
-[`[]models.ProformaInvoice`](../../doc/models/proforma-invoice.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [[]models.ProformaInvoice](../../doc/models/proforma-invoice.md).
 
 ## Example Usage
 
@@ -94,12 +94,12 @@ ListExportedInvoices(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `batchId` | `string` | Template, Required | Id of a Batch Job. |
-| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request.<br>Default value is 100.<br>The maximum allowed values is 10000; any per_page value over 10000 will be changed to 10000.<br>**Default**: `100`<br>**Constraints**: `>= 1`, `<= 10000` |
-| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br>**Default**: `1`<br>**Constraints**: `>= 1` |
+| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request.<br>Default value is 100.<br>The maximum allowed values is 10000; any per_page value over 10000 will be changed to 10000.<br><br>**Default**: `100`<br><br>**Constraints**: `>= 1`, `<= 10000` |
+| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br><br>**Default**: `1`<br><br>**Constraints**: `>= 1` |
 
 ## Response Type
 
-[`[]models.Invoice`](../../doc/models/invoice.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [[]models.Invoice](../../doc/models/invoice.md).
 
 ## Example Usage
 
@@ -148,12 +148,12 @@ ListExportedSubscriptions(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `batchId` | `string` | Template, Required | Id of a Batch Job. |
-| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request.<br>Default value is 100.<br>The maximum allowed values is 10000; any per_page value over 10000 will be changed to 10000.<br>**Default**: `100`<br>**Constraints**: `>= 1`, `<= 10000` |
-| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br>**Default**: `1`<br>**Constraints**: `>= 1` |
+| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request.<br>Default value is 100.<br>The maximum allowed values is 10000; any per_page value over 10000 will be changed to 10000.<br><br>**Default**: `100`<br><br>**Constraints**: `>= 1`, `<= 10000` |
+| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br><br>**Default**: `1`<br><br>**Constraints**: `>= 1` |
 
 ## Response Type
 
-[`[]models.Subscription`](../../doc/models/subscription.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [[]models.Subscription](../../doc/models/subscription.md).
 
 ## Example Usage
 
@@ -198,7 +198,7 @@ ExportProformaInvoices(
 
 ## Response Type
 
-[`models.BatchJobResponse`](../../doc/models/batch-job-response.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.BatchJobResponse](../../doc/models/batch-job-response.md).
 
 ## Example Usage
 
@@ -236,7 +236,7 @@ ExportInvoices(
 
 ## Response Type
 
-[`models.BatchJobResponse`](../../doc/models/batch-job-response.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.BatchJobResponse](../../doc/models/batch-job-response.md).
 
 ## Example Usage
 
@@ -274,7 +274,7 @@ ExportSubscriptions(
 
 ## Response Type
 
-[`models.BatchJobResponse`](../../doc/models/batch-job-response.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.BatchJobResponse](../../doc/models/batch-job-response.md).
 
 ## Example Usage
 
@@ -318,7 +318,7 @@ ReadProformaInvoicesExport(
 
 ## Response Type
 
-[`models.BatchJobResponse`](../../doc/models/batch-job-response.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.BatchJobResponse](../../doc/models/batch-job-response.md).
 
 ## Example Usage
 
@@ -364,7 +364,7 @@ ReadInvoicesExport(
 
 ## Response Type
 
-[`models.BatchJobResponse`](../../doc/models/batch-job-response.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.BatchJobResponse](../../doc/models/batch-job-response.md).
 
 ## Example Usage
 
@@ -410,7 +410,7 @@ ReadSubscriptionsExport(
 
 ## Response Type
 
-[`models.BatchJobResponse`](../../doc/models/batch-job-response.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.BatchJobResponse](../../doc/models/batch-job-response.md).
 
 ## Example Usage
 

@@ -1,130 +1,127 @@
-/*
-Package advancedbilling
-
-This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
-*/
+// Package advancedbilling
+// This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
 package models
 
 import (
-    "encoding/json"
-    "errors"
-    "fmt"
+	"encoding/json"
+	"errors"
+	"fmt"
 )
 
 // CreateSegmentSegmentProperty4Value represents a CreateSegmentSegmentProperty4Value struct.
 // This is a container for one-of cases.
 type CreateSegmentSegmentProperty4Value struct {
-    value       any
-    isString    bool
-    isPrecision bool
-    isNumber    bool
-    isBoolean   bool
+	value       any
+	isString    bool
+	isPrecision bool
+	isNumber    bool
+	isBoolean   bool
 }
 
 // String implements the fmt.Stringer interface for CreateSegmentSegmentProperty4Value,
 // providing a human-readable string representation useful for logging, debugging or displaying information.
 func (c CreateSegmentSegmentProperty4Value) String() string {
-    return fmt.Sprintf("%v", c.value)
+	return fmt.Sprintf("%v", c.value)
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreateSegmentSegmentProperty4Value.
 // It customizes the JSON marshaling process for CreateSegmentSegmentProperty4Value objects.
 func (c CreateSegmentSegmentProperty4Value) MarshalJSON() (
-    []byte,
-    error) {
-    if c.value == nil {
-        return nil, errors.New("No underlying type is set. Please use any of the `models.CreateSegmentSegmentProperty4ValueContainer.From*` functions to initialize the CreateSegmentSegmentProperty4Value object.")
-    }
-    return json.Marshal(c.toMap())
+	[]byte,
+	error) {
+	if c.value == nil {
+		return nil, errors.New("No underlying type is set. Please use any of the `models.CreateSegmentSegmentProperty4ValueContainer.From*` functions to initialize the CreateSegmentSegmentProperty4Value object.")
+	}
+	return json.Marshal(c.toMap())
 }
 
 // toMap converts the CreateSegmentSegmentProperty4Value object to a map representation for JSON marshaling.
 func (c *CreateSegmentSegmentProperty4Value) toMap() any {
-    switch obj := c.value.(type) {
-    case *string:
-        return *obj
-    case *float64:
-        return *obj
-    case *int:
-        return *obj
-    case *bool:
-        return *obj
-    }
-    return nil
+	switch obj := c.value.(type) {
+	case *string:
+		return *obj
+	case *float64:
+		return *obj
+	case *int:
+		return *obj
+	case *bool:
+		return *obj
+	}
+	return nil
 }
 
 // UnmarshalJSON implements the json.Unmarshaler interface for CreateSegmentSegmentProperty4Value.
 // It customizes the JSON unmarshaling process for CreateSegmentSegmentProperty4Value objects.
 func (c *CreateSegmentSegmentProperty4Value) UnmarshalJSON(input []byte) error {
-    result, err := UnmarshallOneOf(input,
-        NewTypeHolder(new(string), false, &c.isString),
-        NewTypeHolder(new(float64), false, &c.isPrecision),
-        NewTypeHolder(new(int), false, &c.isNumber),
-        NewTypeHolder(new(bool), false, &c.isBoolean),
-    )
-    
-    c.value = result
-    return err
+	result, err := UnmarshallOneOf(input,
+		NewTypeHolder(new(string), false, &c.isString),
+		NewTypeHolder(new(float64), false, &c.isPrecision),
+		NewTypeHolder(new(int), false, &c.isNumber),
+		NewTypeHolder(new(bool), false, &c.isBoolean),
+	)
+
+	c.value = result
+	return err
 }
 
 func (c *CreateSegmentSegmentProperty4Value) AsString() (
-    *string,
-    bool) {
-    if !c.isString {
-        return nil, false
-    }
-    return c.value.(*string), true
+	*string,
+	bool) {
+	if !c.isString {
+		return nil, false
+	}
+	return c.value.(*string), true
 }
 
 func (c *CreateSegmentSegmentProperty4Value) AsPrecision() (
-    *float64,
-    bool) {
-    if !c.isPrecision {
-        return nil, false
-    }
-    return c.value.(*float64), true
+	*float64,
+	bool) {
+	if !c.isPrecision {
+		return nil, false
+	}
+	return c.value.(*float64), true
 }
 
 func (c *CreateSegmentSegmentProperty4Value) AsNumber() (
-    *int,
-    bool) {
-    if !c.isNumber {
-        return nil, false
-    }
-    return c.value.(*int), true
+	*int,
+	bool) {
+	if !c.isNumber {
+		return nil, false
+	}
+	return c.value.(*int), true
 }
 
 func (c *CreateSegmentSegmentProperty4Value) AsBoolean() (
-    *bool,
-    bool) {
-    if !c.isBoolean {
-        return nil, false
-    }
-    return c.value.(*bool), true
+	*bool,
+	bool) {
+	if !c.isBoolean {
+		return nil, false
+	}
+	return c.value.(*bool), true
 }
 
 // internalCreateSegmentSegmentProperty4Value represents a createSegmentSegmentProperty4Value struct.
 // This is a container for one-of cases.
-type internalCreateSegmentSegmentProperty4Value struct {}
+type internalCreateSegmentSegmentProperty4Value struct{}
 
 var CreateSegmentSegmentProperty4ValueContainer internalCreateSegmentSegmentProperty4Value
 
 // The internalCreateSegmentSegmentProperty4Value instance, wrapping the provided string value.
 func (c *internalCreateSegmentSegmentProperty4Value) FromString(val string) CreateSegmentSegmentProperty4Value {
-    return CreateSegmentSegmentProperty4Value{value: &val}
+	return CreateSegmentSegmentProperty4Value{value: &val}
 }
 
 // The internalCreateSegmentSegmentProperty4Value instance, wrapping the provided float64 value.
 func (c *internalCreateSegmentSegmentProperty4Value) FromPrecision(val float64) CreateSegmentSegmentProperty4Value {
-    return CreateSegmentSegmentProperty4Value{value: &val}
+	return CreateSegmentSegmentProperty4Value{value: &val}
 }
 
 // The internalCreateSegmentSegmentProperty4Value instance, wrapping the provided int value.
 func (c *internalCreateSegmentSegmentProperty4Value) FromNumber(val int) CreateSegmentSegmentProperty4Value {
-    return CreateSegmentSegmentProperty4Value{value: &val}
+	return CreateSegmentSegmentProperty4Value{value: &val}
 }
 
 // The internalCreateSegmentSegmentProperty4Value instance, wrapping the provided bool value.
 func (c *internalCreateSegmentSegmentProperty4Value) FromBoolean(val bool) CreateSegmentSegmentProperty4Value {
-    return CreateSegmentSegmentProperty4Value{value: &val}
+	return CreateSegmentSegmentProperty4Value{value: &val}
 }

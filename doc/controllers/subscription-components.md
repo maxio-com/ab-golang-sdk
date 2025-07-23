@@ -51,7 +51,7 @@ ReadSubscriptionComponent(
 
 ## Response Type
 
-[`models.SubscriptionComponentResponse`](../../doc/models/subscription-component-response.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.SubscriptionComponentResponse](../../doc/models/subscription-component-response.md).
 
 ## Example Usage
 
@@ -134,7 +134,7 @@ ListSubscriptionComponents(
 
 ## Response Type
 
-[`[]models.SubscriptionComponentResponse`](../../doc/models/subscription-component-response.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [[]models.SubscriptionComponentResponse](../../doc/models/subscription-component-response.md).
 
 ## Example Usage
 
@@ -143,23 +143,23 @@ ctx := context.Background()
 
 collectedInput := advancedbilling.ListSubscriptionComponentsInput{
     SubscriptionId:   222,
-    DateField:        models.ToPointer(models.SubscriptionListDateField("updated_at")),
+    DateField:        models.ToPointer(models.SubscriptionListDateField_UPDATEDAT),
     Filter:           models.ToPointer(models.ListSubscriptionComponentsFilter{
         Currencies:           []string{
             "EUR",
             "USD",
         },
     }),
-    PricePointIds:    models.ToPointer(models.IncludeNotNull("not_null")),
+    PricePointIds:    models.ToPointer(models.IncludeNotNull_NOTNULL),
     ProductFamilyIds: []int{
         1,
         2,
         3,
     },
-    Sort:             models.ToPointer(models.ListSubscriptionComponentsSort("updated_at")),
+    Sort:             models.ToPointer(models.ListSubscriptionComponentsSort_UPDATEDAT),
     Include:          []models.ListSubscriptionComponentsInclude{
-        models.ListSubscriptionComponentsInclude("subscription"),
-        models.ListSubscriptionComponentsInclude("historic_usages"),
+        models.ListSubscriptionComponentsInclude_SUBSCRIPTION,
+        models.ListSubscriptionComponentsInclude_HISTORICUSAGES,
     },
     InUse:            models.ToPointer(true),
 }
@@ -232,7 +232,7 @@ BulkUpdateSubscriptionComponentsPricePoints(
 
 ## Response Type
 
-[`models.BulkComponentsPricePointAssignment`](../../doc/models/bulk-components-price-point-assignment.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.BulkComponentsPricePointAssignment](../../doc/models/bulk-components-price-point-assignment.md).
 
 ## Example Usage
 
@@ -314,7 +314,7 @@ BulkResetSubscriptionComponentsPricePoints(
 
 ## Response Type
 
-[`models.SubscriptionResponse`](../../doc/models/subscription-response.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.SubscriptionResponse](../../doc/models/subscription-response.md).
 
 ## Example Usage
 
@@ -506,7 +506,7 @@ AllocateComponent(
 
 ## Response Type
 
-[`models.AllocationResponse`](../../doc/models/allocation-response.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.AllocationResponse](../../doc/models/allocation-response.md).
 
 ## Example Usage
 
@@ -608,11 +608,11 @@ ListAllocations(
 |  --- | --- | --- | --- |
 | `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription |
 | `componentId` | `int` | Template, Required | The Advanced Billing id of the component |
-| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br>**Default**: `1`<br>**Constraints**: `>= 1` |
+| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br><br>**Default**: `1`<br><br>**Constraints**: `>= 1` |
 
 ## Response Type
 
-[`[]models.AllocationResponse`](../../doc/models/allocation-response.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [[]models.AllocationResponse](../../doc/models/allocation-response.md).
 
 ## Example Usage
 
@@ -714,7 +714,7 @@ AllocateComponents(
 
 ## Response Type
 
-[`[]models.AllocationResponse`](../../doc/models/allocation-response.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [[]models.AllocationResponse](../../doc/models/allocation-response.md).
 
 ## Example Usage
 
@@ -829,7 +829,7 @@ PreviewAllocations(
 
 ## Response Type
 
-[`models.AllocationPreviewResponse`](../../doc/models/allocation-preview-response.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.AllocationPreviewResponse](../../doc/models/allocation-preview-response.md).
 
 ## Example Usage
 
@@ -1008,7 +1008,7 @@ UpdatePrepaidUsageAllocationExpirationDate(
 
 ## Response Type
 
-``
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance.
 
 ## Example Usage
 
@@ -1077,7 +1077,7 @@ DeletePrepaidUsageAllocation(
 
 ## Response Type
 
-``
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance.
 
 ## Example Usage
 
@@ -1091,7 +1091,7 @@ componentId := 222
 allocationId := 24
 
 body := models.CreditSchemeRequest{
-    CreditScheme:         models.CreditScheme("none"),
+    CreditScheme:         models.CreditScheme_NONE,
 }
 
 resp, err := subscriptionComponentsController.DeletePrepaidUsageAllocation(ctx, subscriptionId, componentId, allocationId, &body)
@@ -1189,7 +1189,7 @@ CreateUsage(
 
 ## Response Type
 
-[`models.UsageResponse`](../../doc/models/usage-response.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.UsageResponse](../../doc/models/usage-response.md).
 
 ## Example Usage
 
@@ -1278,12 +1278,12 @@ ListUsages(
 | `maxId` | `*int64` | Query, Optional | Returns usages with an id less than or equal to the one specified |
 | `sinceDate` | `*time.Time` | Query, Optional | Returns usages with a created_at date greater than or equal to midnight (12:00 AM) on the date specified. |
 | `untilDate` | `*time.Time` | Query, Optional | Returns usages with a created_at date less than or equal to midnight (12:00 AM) on the date specified. |
-| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br>**Default**: `1`<br>**Constraints**: `>= 1` |
-| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`.<br>**Default**: `20`<br>**Constraints**: `<= 200` |
+| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br><br>**Default**: `1`<br><br>**Constraints**: `>= 1` |
+| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`.<br><br>**Default**: `20`<br><br>**Constraints**: `<= 200` |
 
 ## Response Type
 
-[`[]models.UsageResponse`](../../doc/models/usage-response.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [[]models.UsageResponse](../../doc/models/usage-response.md).
 
 ## Example Usage
 
@@ -1369,7 +1369,7 @@ ActivateEventBasedComponent(
 
 ## Response Type
 
-``
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance.
 
 ## Example Usage
 
@@ -1387,9 +1387,9 @@ body := models.ActivateEventBasedComponent{
     }),
     CustomPrice:          models.ToPointer(models.ComponentCustomPrice{
         TaxIncluded:          models.ToPointer(false),
-        PricingScheme:        models.ToPointer(models.PricingScheme("per_unit")),
+        PricingScheme:        models.ToPointer(models.PricingScheme_PERUNIT),
         Interval:             models.ToPointer(30),
-        IntervalUnit:         models.NewOptional(models.ToPointer(models.IntervalUnit("day"))),
+        IntervalUnit:         models.NewOptional(models.ToPointer(models.IntervalUnit_DAY)),
         Prices:               []models.Price{
             models.Price{
                 StartingQuantity:     models.PriceStartingQuantityContainer.FromNumber(1),
@@ -1430,7 +1430,7 @@ DeactivateEventBasedComponent(
 
 ## Response Type
 
-``
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance.
 
 ## Example Usage
 
@@ -1492,7 +1492,7 @@ RecordEvent(
 
 ## Response Type
 
-``
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance.
 
 ## Example Usage
 
@@ -1547,7 +1547,7 @@ BulkRecordEvents(
 
 ## Response Type
 
-``
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance.
 
 ## Example Usage
 
@@ -1592,8 +1592,8 @@ ListSubscriptionComponentsForSite(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br>**Default**: `1`<br>**Constraints**: `>= 1` |
-| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`.<br>**Default**: `20`<br>**Constraints**: `<= 200` |
+| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br><br>**Default**: `1`<br><br>**Constraints**: `>= 1` |
+| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`.<br><br>**Default**: `20`<br><br>**Constraints**: `<= 200` |
 | `sort` | [`*models.ListSubscriptionComponentsSort`](../../doc/models/list-subscription-components-sort.md) | Query, Optional | The attribute by which to sort. Use in query: `sort=updated_at`. |
 | `direction` | [`*models.SortingDirection`](../../doc/models/sorting-direction.md) | Query, Optional | Controls the order in which results are returned.<br>Use in query `direction=asc`. |
 | `filter` | [`*models.ListSubscriptionComponentsForSiteFilter`](../../doc/models/list-subscription-components-for-site-filter.md) | Query, Optional | Filter to use for List Subscription Components For Site operation |
@@ -1602,14 +1602,14 @@ ListSubscriptionComponentsForSite(
 | `startDatetime` | `*string` | Query, Optional | The start date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns components with a timestamp at or after exact time provided in query. You can specify timezone in query - otherwise your site''s time zone will be used. If provided, this parameter will be used instead of start_date. Use in query `start_datetime=2022-07-01 09:00:05`. |
 | `endDate` | `*string` | Query, Optional | The end date (format YYYY-MM-DD) with which to filter the date_field. Returns components with a timestamp up to and including 11:59:59PM in your site’s time zone on the date specified. Use in query `end_date=2011-12-16`. |
 | `endDatetime` | `*string` | Query, Optional | The end date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns components with a timestamp at or before exact time provided in query. You can specify timezone in query - otherwise your site''s time zone will be used. If provided, this parameter will be used instead of end_date. Use in query `end_datetime=2022-07-01 09:00:05`. |
-| `subscriptionIds` | `[]int` | Query, Optional | Allows fetching components allocation with matching subscription id based on provided ids. Use in query `subscription_ids=1,2,3`.<br>**Constraints**: *Minimum Items*: `1`, *Maximum Items*: `200` |
+| `subscriptionIds` | `[]int` | Query, Optional | Allows fetching components allocation with matching subscription id based on provided ids. Use in query `subscription_ids=1,2,3`.<br><br>**Constraints**: *Minimum Items*: `1`, *Maximum Items*: `200` |
 | `pricePointIds` | [`*models.IncludeNotNull`](../../doc/models/include-not-null.md) | Query, Optional | Allows fetching components allocation only if price point id is present. Use in query `price_point_ids=not_null`. |
 | `productFamilyIds` | `[]int` | Query, Optional | Allows fetching components allocation with matching product family id based on provided ids. Use in query `product_family_ids=1,2,3`. |
 | `include` | [`*models.ListSubscriptionComponentsInclude`](../../doc/models/list-subscription-components-include.md) | Query, Optional | Allows including additional data in the response. Use in query `include=subscription,historic_usages`. |
 
 ## Response Type
 
-[`models.ListSubscriptionComponentsResponse`](../../doc/models/list-subscription-components-response.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.ListSubscriptionComponentsResponse](../../doc/models/list-subscription-components-response.md).
 
 ## Example Usage
 
@@ -1619,26 +1619,26 @@ ctx := context.Background()
 collectedInput := advancedbilling.ListSubscriptionComponentsForSiteInput{
     Page:             models.ToPointer(2),
     PerPage:          models.ToPointer(50),
-    Sort:             models.ToPointer(models.ListSubscriptionComponentsSort("updated_at")),
+    Sort:             models.ToPointer(models.ListSubscriptionComponentsSort_UPDATEDAT),
     Filter:           models.ToPointer(models.ListSubscriptionComponentsForSiteFilter{
         Currencies:           []string{
             "EUR",
             "USD",
         },
     }),
-    DateField:        models.ToPointer(models.SubscriptionListDateField("updated_at")),
+    DateField:        models.ToPointer(models.SubscriptionListDateField_UPDATEDAT),
     SubscriptionIds:  []int{
         1,
         2,
         3,
     },
-    PricePointIds:    models.ToPointer(models.IncludeNotNull("not_null")),
+    PricePointIds:    models.ToPointer(models.IncludeNotNull_NOTNULL),
     ProductFamilyIds: []int{
         1,
         2,
         3,
     },
-    Include:          models.ToPointer(models.ListSubscriptionComponentsInclude("subscription")),
+    Include:          models.ToPointer(models.ListSubscriptionComponentsInclude_SUBSCRIPTION),
 }
 
 apiResponse, err := subscriptionComponentsController.ListSubscriptionComponentsForSite(ctx, collectedInput)

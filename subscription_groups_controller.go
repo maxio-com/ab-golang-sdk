@@ -1,29 +1,26 @@
-/*
-Package advancedbilling
-
-This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
-*/
+// Package advancedbilling
+// This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
 package advancedbilling
 
 import (
-    "context"
-    "github.com/apimatic/go-core-runtime/https"
-    "github.com/apimatic/go-core-runtime/utilities"
-    "github.com/maxio-com/ab-golang-sdk/errors"
-    "github.com/maxio-com/ab-golang-sdk/models"
-    "net/http"
+	"context"
+	"github.com/apimatic/go-core-runtime/https"
+	"github.com/apimatic/go-core-runtime/utilities"
+	"github.com/maxio-com/ab-golang-sdk/errors"
+	"github.com/maxio-com/ab-golang-sdk/models"
+	"net/http"
 )
 
 // SubscriptionGroupsController represents a controller struct.
 type SubscriptionGroupsController struct {
-    baseController
+	baseController
 }
 
 // NewSubscriptionGroupsController creates a new instance of SubscriptionGroupsController.
 // It takes a baseController as a parameter and returns a pointer to the SubscriptionGroupsController.
 func NewSubscriptionGroupsController(baseController baseController) *SubscriptionGroupsController {
-    subscriptionGroupsController := SubscriptionGroupsController{baseController: baseController}
-    return &subscriptionGroupsController
+	subscriptionGroupsController := SubscriptionGroupsController{baseController: baseController}
+	return &subscriptionGroupsController
 }
 
 // SignupWithSubscriptionGroup takes context, body as parameters and
@@ -35,28 +32,28 @@ func NewSubscriptionGroupsController(baseController baseController) *Subscriptio
 // Only one of the `subscriptions` can have `"primary": true` attribute set.
 // When passing product to a subscription you can use either `product_id` or `product_handle` or `offer_id`. You can also use `custom_price` instead.
 func (s *SubscriptionGroupsController) SignupWithSubscriptionGroup(
-    ctx context.Context,
-    body *models.SubscriptionGroupSignupRequest) (
-    models.ApiResponse[models.SubscriptionGroupSignupResponse],
-    error) {
-    req := s.prepareRequest(ctx, "POST", "/subscription_groups/signup.json")
-    
-    req.Authenticate(NewAuth("BasicAuth"))
-    req.AppendErrors(map[string]https.ErrorBuilder[error]{
-        "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewSubscriptionGroupSignupErrorResponse},
-    })
-    req.Header("Content-Type", "application/json")
-    if body != nil {
-        req.Json(body)
-    }
-    var result models.SubscriptionGroupSignupResponse
-    decoder, resp, err := req.CallAsJson()
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    result, err = utilities.DecodeResults[models.SubscriptionGroupSignupResponse](decoder)
-    return models.NewApiResponse(result, resp), err
+	ctx context.Context,
+	body *models.SubscriptionGroupSignupRequest) (
+	models.ApiResponse[models.SubscriptionGroupSignupResponse],
+	error) {
+	req := s.prepareRequest(ctx, "POST", "/subscription_groups/signup.json")
+
+	req.Authenticate(NewAuth("BasicAuth"))
+	req.AppendErrors(map[string]https.ErrorBuilder[error]{
+		"422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewSubscriptionGroupSignupErrorResponse},
+	})
+	req.Header("Content-Type", "application/json")
+	if body != nil {
+		req.Json(body)
+	}
+	var result models.SubscriptionGroupSignupResponse
+	decoder, resp, err := req.CallAsJson()
+	if err != nil {
+		return models.NewApiResponse(result, resp), err
+	}
+
+	result, err = utilities.DecodeResults[models.SubscriptionGroupSignupResponse](decoder)
+	return models.NewApiResponse(result, resp), err
 }
 
 // CreateSubscriptionGroup takes context, body as parameters and
@@ -64,41 +61,41 @@ func (s *SubscriptionGroupsController) SignupWithSubscriptionGroup(
 // an error if there was an issue with the request or response.
 // Creates a subscription group with given members.
 func (s *SubscriptionGroupsController) CreateSubscriptionGroup(
-    ctx context.Context,
-    body *models.CreateSubscriptionGroupRequest) (
-    models.ApiResponse[models.SubscriptionGroupResponse],
-    error) {
-    req := s.prepareRequest(ctx, "POST", "/subscription_groups.json")
-    
-    req.Authenticate(NewAuth("BasicAuth"))
-    req.AppendErrors(map[string]https.ErrorBuilder[error]{
-        "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewSubscriptionGroupCreateErrorResponse},
-    })
-    req.Header("Content-Type", "application/json")
-    if body != nil {
-        req.Json(body)
-    }
-    var result models.SubscriptionGroupResponse
-    decoder, resp, err := req.CallAsJson()
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    result, err = utilities.DecodeResults[models.SubscriptionGroupResponse](decoder)
-    return models.NewApiResponse(result, resp), err
+	ctx context.Context,
+	body *models.CreateSubscriptionGroupRequest) (
+	models.ApiResponse[models.SubscriptionGroupResponse],
+	error) {
+	req := s.prepareRequest(ctx, "POST", "/subscription_groups.json")
+
+	req.Authenticate(NewAuth("BasicAuth"))
+	req.AppendErrors(map[string]https.ErrorBuilder[error]{
+		"422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewSubscriptionGroupCreateErrorResponse},
+	})
+	req.Header("Content-Type", "application/json")
+	if body != nil {
+		req.Json(body)
+	}
+	var result models.SubscriptionGroupResponse
+	decoder, resp, err := req.CallAsJson()
+	if err != nil {
+		return models.NewApiResponse(result, resp), err
+	}
+
+	result, err = utilities.DecodeResults[models.SubscriptionGroupResponse](decoder)
+	return models.NewApiResponse(result, resp), err
 }
 
 // ListSubscriptionGroupsInput represents the input of the ListSubscriptionGroups endpoint.
 type ListSubscriptionGroupsInput struct {
-    // Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.
-    // Use in query `page=1`.
-    Page    *int                                   
-    // This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.
-    // Use in query `per_page=200`.
-    PerPage *int                                   
-    // A list of additional information to include in the response. The following values are supported:
-    // - `account_balances`: Account balance information for the subscription groups. Use in query: `include[]=account_balances`
-    Include []models.SubscriptionGroupsListInclude 
+	// Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.
+	// Use in query `page=1`.
+	Page *int
+	// This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.
+	// Use in query `per_page=200`.
+	PerPage *int
+	// A list of additional information to include in the response. The following values are supported:
+	// - `account_balances`: Account balance information for the subscription groups. Use in query: `include[]=account_balances`
+	Include []models.SubscriptionGroupsListInclude
 }
 
 // ListSubscriptionGroups takes context, page, perPage, include as parameters and
@@ -108,30 +105,30 @@ type ListSubscriptionGroupsInput struct {
 // #### Account Balance Information
 // Account balance information for the subscription groups is not returned by default. If this information is desired, the `include[]=account_balances` parameter must be provided with the request.
 func (s *SubscriptionGroupsController) ListSubscriptionGroups(
-    ctx context.Context,
-    input ListSubscriptionGroupsInput) (
-    models.ApiResponse[models.ListSubscriptionGroupsResponse],
-    error) {
-    req := s.prepareRequest(ctx, "GET", "/subscription_groups.json")
-    
-    req.Authenticate(NewAuth("BasicAuth"))
-    if input.Page != nil {
-        req.QueryParamWithArraySerializationOption("page", *input.Page, https.UnIndexed)
-    }
-    if input.PerPage != nil {
-        req.QueryParamWithArraySerializationOption("per_page", *input.PerPage, https.UnIndexed)
-    }
-    if input.Include != nil {
-        req.QueryParamWithArraySerializationOption("include", input.Include, https.UnIndexed)
-    }
-    var result models.ListSubscriptionGroupsResponse
-    decoder, resp, err := req.CallAsJson()
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    result, err = utilities.DecodeResults[models.ListSubscriptionGroupsResponse](decoder)
-    return models.NewApiResponse(result, resp), err
+	ctx context.Context,
+	input ListSubscriptionGroupsInput) (
+	models.ApiResponse[models.ListSubscriptionGroupsResponse],
+	error) {
+	req := s.prepareRequest(ctx, "GET", "/subscription_groups.json")
+
+	req.Authenticate(NewAuth("BasicAuth"))
+	if input.Page != nil {
+		req.QueryParamWithArraySerializationOption("page", *input.Page, https.UnIndexed)
+	}
+	if input.PerPage != nil {
+		req.QueryParamWithArraySerializationOption("per_page", *input.PerPage, https.UnIndexed)
+	}
+	if input.Include != nil {
+		req.QueryParamWithArraySerializationOption("include", input.Include, https.UnIndexed)
+	}
+	var result models.ListSubscriptionGroupsResponse
+	decoder, resp, err := req.CallAsJson()
+	if err != nil {
+		return models.NewApiResponse(result, resp), err
+	}
+
+	result, err = utilities.DecodeResults[models.ListSubscriptionGroupsResponse](decoder)
+	return models.NewApiResponse(result, resp), err
 }
 
 // ReadSubscriptionGroup takes context, uid, include as parameters and
@@ -141,26 +138,26 @@ func (s *SubscriptionGroupsController) ListSubscriptionGroups(
 // #### Current Billing Amount in Cents
 // Current billing amount for the subscription group is not returned by default. If this information is desired, the `include[]=current_billing_amount_in_cents` parameter must be provided with the request.
 func (s *SubscriptionGroupsController) ReadSubscriptionGroup(
-    ctx context.Context,
-    uid string,
-    include []models.SubscriptionGroupInclude) (
-    models.ApiResponse[models.FullSubscriptionGroupResponse],
-    error) {
-    req := s.prepareRequest(ctx, "GET", "/subscription_groups/%v.json")
-    req.AppendTemplateParams(uid)
-    req.Authenticate(NewAuth("BasicAuth"))
-    if include != nil {
-        req.QueryParamWithArraySerializationOption("include", include, https.UnIndexed)
-    }
-    
-    var result models.FullSubscriptionGroupResponse
-    decoder, resp, err := req.CallAsJson()
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    result, err = utilities.DecodeResults[models.FullSubscriptionGroupResponse](decoder)
-    return models.NewApiResponse(result, resp), err
+	ctx context.Context,
+	uid string,
+	include []models.SubscriptionGroupInclude) (
+	models.ApiResponse[models.FullSubscriptionGroupResponse],
+	error) {
+	req := s.prepareRequest(ctx, "GET", "/subscription_groups/%v.json")
+	req.AppendTemplateParams(uid)
+	req.Authenticate(NewAuth("BasicAuth"))
+	if include != nil {
+		req.QueryParamWithArraySerializationOption("include", include, https.UnIndexed)
+	}
+
+	var result models.FullSubscriptionGroupResponse
+	decoder, resp, err := req.CallAsJson()
+	if err != nil {
+		return models.NewApiResponse(result, resp), err
+	}
+
+	result, err = utilities.DecodeResults[models.FullSubscriptionGroupResponse](decoder)
+	return models.NewApiResponse(result, resp), err
 }
 
 // UpdateSubscriptionGroupMembers takes context, uid, body as parameters and
@@ -169,30 +166,30 @@ func (s *SubscriptionGroupsController) ReadSubscriptionGroup(
 // Use this endpoint to update subscription group members.
 // `"member_ids"` should contain an array of both subscription IDs to set as group members and subscription IDs already present in the groups. Not including them will result in removing them from subscription group. To clean up members, just leave the array empty.
 func (s *SubscriptionGroupsController) UpdateSubscriptionGroupMembers(
-    ctx context.Context,
-    uid string,
-    body *models.UpdateSubscriptionGroupRequest) (
-    models.ApiResponse[models.SubscriptionGroupResponse],
-    error) {
-    req := s.prepareRequest(ctx, "PUT", "/subscription_groups/%v.json")
-    req.AppendTemplateParams(uid)
-    req.Authenticate(NewAuth("BasicAuth"))
-    req.AppendErrors(map[string]https.ErrorBuilder[error]{
-        "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewSubscriptionGroupUpdateErrorResponse},
-    })
-    req.Header("Content-Type", "application/json")
-    if body != nil {
-        req.Json(body)
-    }
-    
-    var result models.SubscriptionGroupResponse
-    decoder, resp, err := req.CallAsJson()
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    result, err = utilities.DecodeResults[models.SubscriptionGroupResponse](decoder)
-    return models.NewApiResponse(result, resp), err
+	ctx context.Context,
+	uid string,
+	body *models.UpdateSubscriptionGroupRequest) (
+	models.ApiResponse[models.SubscriptionGroupResponse],
+	error) {
+	req := s.prepareRequest(ctx, "PUT", "/subscription_groups/%v.json")
+	req.AppendTemplateParams(uid)
+	req.Authenticate(NewAuth("BasicAuth"))
+	req.AppendErrors(map[string]https.ErrorBuilder[error]{
+		"422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewSubscriptionGroupUpdateErrorResponse},
+	})
+	req.Header("Content-Type", "application/json")
+	if body != nil {
+		req.Json(body)
+	}
+
+	var result models.SubscriptionGroupResponse
+	decoder, resp, err := req.CallAsJson()
+	if err != nil {
+		return models.NewApiResponse(result, resp), err
+	}
+
+	result, err = utilities.DecodeResults[models.SubscriptionGroupResponse](decoder)
+	return models.NewApiResponse(result, resp), err
 }
 
 // DeleteSubscriptionGroup takes context, uid as parameters and
@@ -201,25 +198,25 @@ func (s *SubscriptionGroupsController) UpdateSubscriptionGroupMembers(
 // Use this endpoint to delete subscription group.
 // Only groups without members can be deleted
 func (s *SubscriptionGroupsController) DeleteSubscriptionGroup(
-    ctx context.Context,
-    uid string) (
-    models.ApiResponse[models.DeleteSubscriptionGroupResponse],
-    error) {
-    req := s.prepareRequest(ctx, "DELETE", "/subscription_groups/%v.json")
-    req.AppendTemplateParams(uid)
-    req.Authenticate(NewAuth("BasicAuth"))
-    req.AppendErrors(map[string]https.ErrorBuilder[error]{
-        "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
-    })
-    
-    var result models.DeleteSubscriptionGroupResponse
-    decoder, resp, err := req.CallAsJson()
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    result, err = utilities.DecodeResults[models.DeleteSubscriptionGroupResponse](decoder)
-    return models.NewApiResponse(result, resp), err
+	ctx context.Context,
+	uid string) (
+	models.ApiResponse[models.DeleteSubscriptionGroupResponse],
+	error) {
+	req := s.prepareRequest(ctx, "DELETE", "/subscription_groups/%v.json")
+	req.AppendTemplateParams(uid)
+	req.Authenticate(NewAuth("BasicAuth"))
+	req.AppendErrors(map[string]https.ErrorBuilder[error]{
+		"404": {TemplatedMessage: "Not Found:'{$response.body}'"},
+	})
+
+	var result models.DeleteSubscriptionGroupResponse
+	decoder, resp, err := req.CallAsJson()
+	if err != nil {
+		return models.NewApiResponse(result, resp), err
+	}
+
+	result, err = utilities.DecodeResults[models.DeleteSubscriptionGroupResponse](decoder)
+	return models.NewApiResponse(result, resp), err
 }
 
 // FindSubscriptionGroup takes context, subscriptionId as parameters and
@@ -228,25 +225,25 @@ func (s *SubscriptionGroupsController) DeleteSubscriptionGroup(
 // Use this endpoint to find subscription group associated with subscription.
 // If the subscription is not in a group endpoint will return 404 code.
 func (s *SubscriptionGroupsController) FindSubscriptionGroup(
-    ctx context.Context,
-    subscriptionId string) (
-    models.ApiResponse[models.FullSubscriptionGroupResponse],
-    error) {
-    req := s.prepareRequest(ctx, "GET", "/subscription_groups/lookup.json")
-    
-    req.Authenticate(NewAuth("BasicAuth"))
-    req.AppendErrors(map[string]https.ErrorBuilder[error]{
-        "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
-    })
-    req.QueryParam("subscription_id", subscriptionId)
-    var result models.FullSubscriptionGroupResponse
-    decoder, resp, err := req.CallAsJson()
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    result, err = utilities.DecodeResults[models.FullSubscriptionGroupResponse](decoder)
-    return models.NewApiResponse(result, resp), err
+	ctx context.Context,
+	subscriptionId string) (
+	models.ApiResponse[models.FullSubscriptionGroupResponse],
+	error) {
+	req := s.prepareRequest(ctx, "GET", "/subscription_groups/lookup.json")
+
+	req.Authenticate(NewAuth("BasicAuth"))
+	req.AppendErrors(map[string]https.ErrorBuilder[error]{
+		"404": {TemplatedMessage: "Not Found:'{$response.body}'"},
+	})
+	req.QueryParam("subscription_id", subscriptionId)
+	var result models.FullSubscriptionGroupResponse
+	decoder, resp, err := req.CallAsJson()
+	if err != nil {
+		return models.NewApiResponse(result, resp), err
+	}
+
+	result, err = utilities.DecodeResults[models.FullSubscriptionGroupResponse](decoder)
+	return models.NewApiResponse(result, resp), err
 }
 
 // AddSubscriptionToGroup takes context, subscriptionId, body as parameters and
@@ -262,27 +259,27 @@ func (s *SubscriptionGroupsController) FindSubscriptionGroup(
 // To create a new subscription into a subscription group, please reference the following:
 // [Create Subscription in a Subscription Group](https://developers.chargify.com/docs/api-docs/d571659cf0f24-create-subscription#subscription-in-a-subscription-group)
 func (s *SubscriptionGroupsController) AddSubscriptionToGroup(
-    ctx context.Context,
-    subscriptionId int,
-    body *models.AddSubscriptionToAGroup) (
-    models.ApiResponse[models.SubscriptionGroupResponse],
-    error) {
-    req := s.prepareRequest(ctx, "POST", "/subscriptions/%v/group.json")
-    req.AppendTemplateParams(subscriptionId)
-    req.Authenticate(NewAuth("BasicAuth"))
-    req.Header("Content-Type", "application/json")
-    if body != nil {
-        req.Json(body)
-    }
-    
-    var result models.SubscriptionGroupResponse
-    decoder, resp, err := req.CallAsJson()
-    if err != nil {
-        return models.NewApiResponse(result, resp), err
-    }
-    
-    result, err = utilities.DecodeResults[models.SubscriptionGroupResponse](decoder)
-    return models.NewApiResponse(result, resp), err
+	ctx context.Context,
+	subscriptionId int,
+	body *models.AddSubscriptionToAGroup) (
+	models.ApiResponse[models.SubscriptionGroupResponse],
+	error) {
+	req := s.prepareRequest(ctx, "POST", "/subscriptions/%v/group.json")
+	req.AppendTemplateParams(subscriptionId)
+	req.Authenticate(NewAuth("BasicAuth"))
+	req.Header("Content-Type", "application/json")
+	if body != nil {
+		req.Json(body)
+	}
+
+	var result models.SubscriptionGroupResponse
+	decoder, resp, err := req.CallAsJson()
+	if err != nil {
+		return models.NewApiResponse(result, resp), err
+	}
+
+	result, err = utilities.DecodeResults[models.SubscriptionGroupResponse](decoder)
+	return models.NewApiResponse(result, resp), err
 }
 
 // RemoveSubscriptionFromGroup takes context, subscriptionId as parameters and
@@ -290,21 +287,21 @@ func (s *SubscriptionGroupsController) AddSubscriptionToGroup(
 // an error if there was an issue with the request or response.
 // For sites making use of the [Relationship Billing](https://maxio.zendesk.com/hc/en-us/articles/24252287829645-Advanced-Billing-Invoices-Overview) and [Customer Hierarchy](https://maxio.zendesk.com/hc/en-us/articles/24252185211533-Customer-Hierarchies-WhoPays#customer-hierarchies) features, it is possible to remove existing subscription from subscription group.
 func (s *SubscriptionGroupsController) RemoveSubscriptionFromGroup(
-    ctx context.Context,
-    subscriptionId int) (
-    *http.Response,
-    error) {
-    req := s.prepareRequest(ctx, "DELETE", "/subscriptions/%v/group.json")
-    req.AppendTemplateParams(subscriptionId)
-    req.Authenticate(NewAuth("BasicAuth"))
-    req.AppendErrors(map[string]https.ErrorBuilder[error]{
-        "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
-        "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
-    })
-    
-    httpCtx, err := req.Call()
-    if err != nil {
-        return httpCtx.Response, err
-    }
-    return httpCtx.Response, err
+	ctx context.Context,
+	subscriptionId int) (
+	*http.Response,
+	error) {
+	req := s.prepareRequest(ctx, "DELETE", "/subscriptions/%v/group.json")
+	req.AppendTemplateParams(subscriptionId)
+	req.Authenticate(NewAuth("BasicAuth"))
+	req.AppendErrors(map[string]https.ErrorBuilder[error]{
+		"404": {TemplatedMessage: "Not Found:'{$response.body}'"},
+		"422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
+	})
+
+	httpCtx, err := req.Call()
+	if err != nil {
+		return httpCtx.Response, err
+	}
+	return httpCtx.Response, err
 }

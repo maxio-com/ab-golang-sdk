@@ -21,7 +21,7 @@ reasonCodesController := client.ReasonCodesController()
 
 # Reason Codes Intro
 
-ReasonCodes are a way to gain a high level view of why your customers are cancelling the subcription to your product or service.
+ReasonCodes are a way to gain a high level view of why your customers are cancelling the subscription to your product or service.
 
 Add a set of churn reason codes to be displayed in-app and/or the Maxio Billing Portal. As your subscribers decide to cancel their subscription, learn why they decided to cancel.
 
@@ -51,7 +51,7 @@ CreateReasonCode(
 
 ## Response Type
 
-[`models.ReasonCodeResponse`](../../doc/models/reason-code-response.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.ReasonCodeResponse](../../doc/models/reason-code-response.md).
 
 ## Example Usage
 
@@ -99,12 +99,12 @@ ListReasonCodes(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br>**Default**: `1`<br>**Constraints**: `>= 1` |
-| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`.<br>**Default**: `20`<br>**Constraints**: `<= 200` |
+| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br><br>**Default**: `1`<br><br>**Constraints**: `>= 1` |
+| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`.<br><br>**Default**: `20`<br><br>**Constraints**: `<= 200` |
 
 ## Response Type
 
-[`[]models.ReasonCodeResponse`](../../doc/models/reason-code-response.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [[]models.ReasonCodeResponse](../../doc/models/reason-code-response.md).
 
 ## Example Usage
 
@@ -146,7 +146,7 @@ if err != nil {
       "id": 1,
       "site_id": 2,
       "code": "CH1",
-      "description": "This doesnt meet my needs",
+      "description": "This does not meet my needs",
       "position": 2,
       "created_at": "2017-02-16T16:48:45-05:00",
       "updated_at": "2017-02-17T16:29:59-05:00"
@@ -193,7 +193,7 @@ ReadReasonCode(
 
 ## Response Type
 
-[`models.ReasonCodeResponse`](../../doc/models/reason-code-response.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.ReasonCodeResponse](../../doc/models/reason-code-response.md).
 
 ## Example Usage
 
@@ -241,7 +241,7 @@ UpdateReasonCode(
 
 ## Response Type
 
-[`models.ReasonCodeResponse`](../../doc/models/reason-code-response.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.ReasonCodeResponse](../../doc/models/reason-code-response.md).
 
 ## Example Usage
 
@@ -272,7 +272,7 @@ if err != nil {
 
 # Delete Reason Code
 
-This method gives a merchant the option to delete one reason code from the Churn Reason Codes. This code will be immediately removed. This action is not reversable.
+This method gives a merchant the option to delete one reason code from the Churn Reason Codes. This code will be immediately removed. This action is not reversible.
 
 ```go
 DeleteReasonCode(
@@ -290,7 +290,7 @@ DeleteReasonCode(
 
 ## Response Type
 
-[`models.OkResponse`](../../doc/models/ok-response.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.OkResponse](../../doc/models/ok-response.md).
 
 ## Example Usage
 

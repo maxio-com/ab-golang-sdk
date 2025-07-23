@@ -315,7 +315,7 @@ CreatePaymentProfile(
 
 ## Response Type
 
-[`models.PaymentProfileResponse`](../../doc/models/payment-profile-response.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.PaymentProfileResponse](../../doc/models/payment-profile-response.md).
 
 ## Example Usage
 
@@ -324,13 +324,13 @@ ctx := context.Background()
 
 body := models.CreatePaymentProfileRequest{
     PaymentProfile:       models.CreatePaymentProfile{
-        PaymentType:           models.ToPointer(models.PaymentType("bank_account")),
+        PaymentType:           models.ToPointer(models.PaymentType_BANKACCOUNT),
         CustomerId:            models.ToPointer(123),
         BankName:              models.ToPointer("Best Bank"),
         BankRoutingNumber:     models.ToPointer("021000089"),
         BankAccountNumber:     models.ToPointer("111111111111"),
-        BankAccountType:       models.ToPointer(models.BankAccountType("checking")),
-        BankAccountHolderType: models.ToPointer(models.BankAccountHolderType("business")),
+        BankAccountType:       models.ToPointer(models.BankAccountType_CHECKING),
+        BankAccountHolderType: models.ToPointer(models.BankAccountHolderType_BUSINESS),
     },
 }
 
@@ -397,13 +397,13 @@ ListPaymentProfiles(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br>**Default**: `1`<br>**Constraints**: `>= 1` |
-| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`.<br>**Default**: `20`<br>**Constraints**: `<= 200` |
+| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br><br>**Default**: `1`<br><br>**Constraints**: `>= 1` |
+| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`.<br><br>**Default**: `20`<br><br>**Constraints**: `<= 200` |
 | `customerId` | `*int` | Query, Optional | The ID of the customer for which you wish to list payment profiles |
 
 ## Response Type
 
-[`[]models.PaymentProfileResponse`](../../doc/models/payment-profile-response.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [[]models.PaymentProfileResponse](../../doc/models/payment-profile-response.md).
 
 ## Example Usage
 
@@ -434,6 +434,8 @@ if err != nil {
       "id": 10089892,
       "first_name": "Chester",
       "last_name": "Tester",
+      "created_at": "2025-01-01T00:00:00-05:00",
+      "updated_at": "2025-01-01T00:00:00-05:00",
       "customer_id": 14543792,
       "current_vault": "bogus",
       "vault_token": "0011223344",
@@ -460,6 +462,8 @@ if err != nil {
       "id": 10188522,
       "first_name": "Frankie",
       "last_name": "Tester",
+      "created_at": "2025-01-01T00:00:00-05:00",
+      "updated_at": "2025-01-01T00:00:00-05:00",
       "customer_id": 14543712,
       "current_vault": "bogus",
       "vault_token": "123456789",
@@ -501,6 +505,8 @@ Example response for Bank Account:
     "id": 10089892,
     "first_name": "Chester",
     "last_name": "Tester",
+    "created_at": "2025-01-01T00:00:00-05:00",
+    "updated_at": "2025-01-01T00:00:00-05:00",
     "customer_id": 14543792,
     "current_vault": "bogus",
     "vault_token": "0011223344",
@@ -539,7 +545,7 @@ ReadPaymentProfile(
 
 ## Response Type
 
-[`models.PaymentProfileResponse`](../../doc/models/payment-profile-response.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.PaymentProfileResponse](../../doc/models/payment-profile-response.md).
 
 ## Example Usage
 
@@ -570,6 +576,8 @@ if err != nil {
     "card_type": "bogus",
     "expiration_month": 1,
     "expiration_year": 2022,
+    "created_at": "2025-01-01T00:00:00-05:00",
+    "updated_at": "2025-01-01T00:00:00-05:00",
     "customer_id": 14543792,
     "current_vault": "bogus",
     "vault_token": "1",
@@ -649,7 +657,7 @@ UpdatePaymentProfile(
 
 ## Response Type
 
-[`models.PaymentProfileResponse`](../../doc/models/payment-profile-response.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.PaymentProfileResponse](../../doc/models/payment-profile-response.md).
 
 ## Example Usage
 
@@ -663,10 +671,10 @@ body := models.UpdatePaymentProfileRequest{
         FirstName:            models.ToPointer("Graham"),
         LastName:             models.ToPointer("Test"),
         FullNumber:           models.ToPointer("4111111111111111"),
-        CardType:             models.ToPointer(models.CardType("master")),
+        CardType:             models.ToPointer(models.CardType_MASTER),
         ExpirationMonth:      models.ToPointer("04"),
         ExpirationYear:       models.ToPointer("2030"),
-        CurrentVault:         models.ToPointer(models.AllVaults("bogus")),
+        CurrentVault:         models.ToPointer(models.AllVaults_BOGUS),
         BillingAddress:       models.ToPointer("456 Juniper Court"),
         BillingCity:          models.ToPointer("Boulder"),
         BillingState:         models.ToPointer("CO"),
@@ -745,7 +753,7 @@ DeleteUnusedPaymentProfile(
 
 ## Response Type
 
-``
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance.
 
 ## Example Usage
 
@@ -796,7 +804,7 @@ DeleteSubscriptionsPaymentProfile(
 
 ## Response Type
 
-``
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance.
 
 ## Example Usage
 
@@ -838,7 +846,7 @@ VerifyBankAccount(
 
 ## Response Type
 
-[`models.BankAccountResponse`](../../doc/models/bank-account-response.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.BankAccountResponse](../../doc/models/bank-account-response.md).
 
 ## Example Usage
 
@@ -924,7 +932,7 @@ DeleteSubscriptionGroupPaymentProfile(
 
 ## Response Type
 
-``
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance.
 
 ## Example Usage
 
@@ -968,7 +976,7 @@ ChangeSubscriptionDefaultPaymentProfile(
 
 ## Response Type
 
-[`models.PaymentProfileResponse`](../../doc/models/payment-profile-response.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.PaymentProfileResponse](../../doc/models/payment-profile-response.md).
 
 ## Example Usage
 
@@ -1052,7 +1060,7 @@ ChangeSubscriptionGroupDefaultPaymentProfile(
 
 ## Response Type
 
-[`models.PaymentProfileResponse`](../../doc/models/payment-profile-response.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.PaymentProfileResponse](../../doc/models/payment-profile-response.md).
 
 ## Example Usage
 
@@ -1133,7 +1141,7 @@ ReadOneTimeToken(
 
 ## Response Type
 
-[`models.GetOneTimeTokenRequest`](../../doc/models/get-one-time-token-request.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.GetOneTimeTokenRequest](../../doc/models/get-one-time-token-request.md).
 
 ## Example Usage
 
@@ -1185,7 +1193,7 @@ SendRequestUpdatePaymentEmail(
 
 ## Response Type
 
-``
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance.
 
 ## Example Usage
 

@@ -33,8 +33,8 @@ ListProductsForProductFamily(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `productFamilyId` | `string` | Template, Required | Either the product family's id or its handle prefixed with `handle:` |
-| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br>**Default**: `1`<br>**Constraints**: `>= 1` |
-| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`.<br>**Default**: `20`<br>**Constraints**: `<= 200` |
+| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br><br>**Default**: `1`<br><br>**Constraints**: `>= 1` |
+| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`.<br><br>**Default**: `20`<br><br>**Constraints**: `<= 200` |
 | `dateField` | [`*models.BasicDateField`](../../doc/models/basic-date-field.md) | Query, Optional | The type of filter you would like to apply to your search.<br>Use in query: `date_field=created_at`. |
 | `filter` | [`*models.ListProductsFilter`](../../doc/models/list-products-filter.md) | Query, Optional | Filter to use for List Products operations |
 | `startDate` | `*time.Time` | Query, Optional | The start date (format YYYY-MM-DD) with which to filter the date_field. Returns products with a timestamp at or after midnight (12:00:00 AM) in your site’s time zone on the date specified. |
@@ -46,7 +46,7 @@ ListProductsForProductFamily(
 
 ## Response Type
 
-[`[]models.ProductResponse`](../../doc/models/product-response.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [[]models.ProductResponse](../../doc/models/product-response.md).
 
 ## Example Usage
 
@@ -57,7 +57,7 @@ collectedInput := advancedbilling.ListProductsForProductFamilyInput{
     ProductFamilyId: "product_family_id4",
     Page:            models.ToPointer(2),
     PerPage:         models.ToPointer(50),
-    DateField:       models.ToPointer(models.BasicDateField("updated_at")),
+    DateField:       models.ToPointer(models.BasicDateField_UPDATEDAT),
     Filter:          models.ToPointer(models.ListProductsFilter{
         Ids:                      []int{
             1,
@@ -65,7 +65,7 @@ collectedInput := advancedbilling.ListProductsForProductFamilyInput{
             3,
         },
     }),
-    Include:         models.ToPointer(models.ListProductsInclude("prepaid_product_price_point")),
+    Include:         models.ToPointer(models.ListProductsInclude_PREPAIDPRODUCTPRICEPOINT),
 }
 
 apiResponse, err := productFamiliesController.ListProductsForProductFamily(ctx, collectedInput)
@@ -206,7 +206,7 @@ CreateProductFamily(
 
 ## Response Type
 
-[`models.ProductFamilyResponse`](../../doc/models/product-family-response.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.ProductFamilyResponse](../../doc/models/product-family-response.md).
 
 ## Example Usage
 
@@ -275,7 +275,7 @@ ListProductFamilies(
 
 ## Response Type
 
-[`[]models.ProductFamilyResponse`](../../doc/models/product-family-response.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [[]models.ProductFamilyResponse](../../doc/models/product-family-response.md).
 
 ## Example Usage
 
@@ -283,7 +283,7 @@ ListProductFamilies(
 ctx := context.Background()
 
 collectedInput := advancedbilling.ListProductFamiliesInput{
-    DateField:     models.ToPointer(models.BasicDateField("updated_at")),
+    DateField:     models.ToPointer(models.BasicDateField_UPDATEDAT),
 }
 
 apiResponse, err := productFamiliesController.ListProductFamilies(ctx, collectedInput)
@@ -348,7 +348,7 @@ ReadProductFamily(
 
 ## Response Type
 
-[`models.ProductFamilyResponse`](../../doc/models/product-family-response.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.ProductFamilyResponse](../../doc/models/product-family-response.md).
 
 ## Example Usage
 

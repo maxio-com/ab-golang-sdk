@@ -1,4 +1,1 @@
-github.com/apimatic/go-core-runtime v0.0.28 h1:R8IREeVuWNLqQq/7GkM18wF7c+hs6/ui3Oq6D4/xMak=
 github.com/apimatic/go-core-runtime v0.0.28/go.mod h1:eYSG9icLyMjbPWq212ELOQ4PZdlT2RihZGXEaAZdx6Q=
-github.com/google/uuid v1.6.0 h1:NIvaJDMOsjHA8n1jAhLSgzrAzy1Hgr+hNrb57e+94F0=
-github.com/google/uuid v1.6.0/go.mod h1:TIyPZe4MgqvfeYDBFedMoGGpEw/LqOeaOT+nhxU+yHo=

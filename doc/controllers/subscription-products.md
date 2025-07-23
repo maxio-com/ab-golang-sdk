@@ -91,7 +91,7 @@ MigrateSubscriptionProduct(
 
 ## Response Type
 
-[`models.SubscriptionResponse`](../../doc/models/subscription-response.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.SubscriptionResponse](../../doc/models/subscription-response.md).
 
 ## Example Usage
 
@@ -277,7 +277,7 @@ PreviewSubscriptionProductMigration(
 
 ## Response Type
 
-[`models.SubscriptionMigrationPreviewResponse`](../../doc/models/subscription-migration-preview-response.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.SubscriptionMigrationPreviewResponse](../../doc/models/subscription-migration-preview-response.md).
 
 ## Example Usage
 

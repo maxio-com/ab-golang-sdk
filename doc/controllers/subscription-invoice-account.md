@@ -15,6 +15,7 @@ subscriptionInvoiceAccountController := client.SubscriptionInvoiceAccountControl
 * [List Prepayments](../../doc/controllers/subscription-invoice-account.md#list-prepayments)
 * [Issue Service Credit](../../doc/controllers/subscription-invoice-account.md#issue-service-credit)
 * [Deduct Service Credit](../../doc/controllers/subscription-invoice-account.md#deduct-service-credit)
+* [List Service Credits](../../doc/controllers/subscription-invoice-account.md#list-service-credits)
 * [Refund Prepayment](../../doc/controllers/subscription-invoice-account.md#refund-prepayment)
 
 
@@ -38,7 +39,7 @@ ReadAccountBalances(
 
 ## Response Type
 
-[`models.AccountBalances`](../../doc/models/account-balances.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.AccountBalances](../../doc/models/account-balances.md).
 
 ## Example Usage
 
@@ -86,7 +87,7 @@ CreatePrepayment(
 
 ## Response Type
 
-[`models.CreatePrepaymentResponse`](../../doc/models/create-prepayment-response.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.CreatePrepaymentResponse](../../doc/models/create-prepayment-response.md).
 
 ## Example Usage
 
@@ -100,7 +101,7 @@ body := models.CreatePrepaymentRequest{
         Amount:               float64(100),
         Details:              "John Doe signup for $100",
         Memo:                 "Signup for $100",
-        Method:               models.CreatePrepaymentMethod("check"),
+        Method:               models.CreatePrepaymentMethod_CHECK,
     },
 }
 
@@ -154,13 +155,13 @@ ListPrepayments(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription |
-| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br>**Default**: `1`<br>**Constraints**: `>= 1` |
-| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`.<br>**Default**: `20`<br>**Constraints**: `<= 200` |
+| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br><br>**Default**: `1`<br><br>**Constraints**: `>= 1` |
+| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`.<br><br>**Default**: `20`<br><br>**Constraints**: `<= 200` |
 | `filter` | [`*models.ListPrepaymentsFilter`](../../doc/models/list-prepayments-filter.md) | Query, Optional | Filter to use for List Prepayments operations |
 
 ## Response Type
 
-[`models.PrepaymentsResponse`](../../doc/models/prepayments-response.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.PrepaymentsResponse](../../doc/models/prepayments-response.md).
 
 ## Example Usage
 
@@ -172,7 +173,7 @@ collectedInput := advancedbilling.ListPrepaymentsInput{
     Page:           models.ToPointer(2),
     PerPage:        models.ToPointer(50),
     Filter:         models.ToPointer(models.ListPrepaymentsFilter{
-        DateField:            models.ToPointer(models.ListPrepaymentDateField("created_at")),
+        DateField:            models.ToPointer(models.ListPrepaymentDateField_CREATEDAT),
         StartDate:            models.ToPointer(parseTime(models.DEFAULT_DATE, "2024-01-01", func(err error) { log.Fatalln(err) })),
         EndDate:              models.ToPointer(parseTime(models.DEFAULT_DATE, "2024-01-31", func(err error) { log.Fatalln(err) })),
     }),
@@ -238,7 +239,7 @@ IssueServiceCredit(
 
 ## Response Type
 
-[`models.ServiceCredit`](../../doc/models/service-credit.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.ServiceCredit](../../doc/models/service-credit.md).
 
 ## Example Usage
 
@@ -304,7 +305,7 @@ DeductServiceCredit(
 
 ## Response Type
 
-``
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance.
 
 ## Example Usage
 
@@ -335,6 +336,94 @@ if err != nil {
 | 422 | Unprocessable Entity (WebDAV) | `ApiError` |
 
 
+# List Service Credits
+
+This request will list a subscription's service credits.
+
+```go
+ListServiceCredits(
+    ctx context.Context,
+    subscriptionId int,
+    page *int,
+    perPage *int,
+    direction *models.SortingDirection) (
+    models.ApiResponse[models.ListServiceCreditsResponse],
+    error)
+```
+
+## Parameters
+
+| Parameter | Type | Tags | Description |
+|  --- | --- | --- | --- |
+| `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription |
+| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br><br>**Default**: `1`<br><br>**Constraints**: `>= 1` |
+| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`.<br><br>**Default**: `20`<br><br>**Constraints**: `<= 200` |
+| `direction` | [`*models.SortingDirection`](../../doc/models/sorting-direction.md) | Query, Optional | Controls the order in which results are returned.<br>Use in query `direction=asc`. |
+
+## Response Type
+
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.ListServiceCreditsResponse](../../doc/models/list-service-credits-response.md).
+
+## Example Usage
+
+```go
+ctx := context.Background()
+
+subscriptionId := 222
+
+page := 2
+
+perPage := 50
+
+
+
+apiResponse, err := subscriptionInvoiceAccountController.ListServiceCredits(ctx, subscriptionId, &page, &perPage, nil)
+if err != nil {
+    log.Fatalln(err)
+} else {
+    // Printing the result and response
+    fmt.Println(apiResponse.Data)
+    fmt.Println(apiResponse.Response.StatusCode)
+}
+```
+
+## Example Response *(as JSON)*
+
+```json
+{
+  "service_credits": [
+    {
+      "id": 68,
+      "amount_in_cents": 2200,
+      "ending_balance_in_cents": 1100,
+      "entry_type": "Debit",
+      "memo": "Service credit memo",
+      "invoice_uid": "inv_brntdvmmqxc3j",
+      "remaining_balance_in_cents": 1100,
+      "created_at": "2025-04-01T09:54:49-04:00"
+    },
+    {
+      "id": 67,
+      "amount_in_cents": 3300,
+      "ending_balance_in_cents": 3300,
+      "entry_type": "Credit",
+      "memo": "Service credit memo",
+      "invoice_uid": null,
+      "remaining_balance_in_cents": 1100,
+      "created_at": "2025-03-05T16:06:08-05:00"
+    }
+  ]
+}
+```
+
+## Errors
+
+| HTTP Status Code | Error Description | Exception Class |
+|  --- | --- | --- |
+| 404 | Not Found | `ApiError` |
+| 422 | Unprocessable Entity | [`ErrorListResponseException`](../../doc/models/error-list-response-exception.md) |
+
+
 # Refund Prepayment
 
 This endpoint will refund, completely or partially, a particular prepayment applied to a subscription. The `prepayment_id` will be the account transaction ID of the original payment. The prepayment must have some amount remaining in order to be refunded.
@@ -361,7 +450,7 @@ RefundPrepayment(
 
 ## Response Type
 
-[`models.PrepaymentResponse`](../../doc/models/prepayment-response.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.PrepaymentResponse](../../doc/models/prepayment-response.md).
 
 ## Example Usage
 

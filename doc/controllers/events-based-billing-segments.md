@@ -44,7 +44,7 @@ CreateSegment(
 
 ## Response Type
 
-[`models.SegmentResponse`](../../doc/models/segment-response.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.SegmentResponse](../../doc/models/segment-response.md).
 
 ## Example Usage
 
@@ -59,7 +59,7 @@ body := models.CreateSegmentRequest{
     Segment:              models.CreateSegment{
         SegmentProperty1Value: models.ToPointer(models.CreateSegmentSegmentProperty1ValueContainer.FromString("France")),
         SegmentProperty2Value: models.ToPointer(models.CreateSegmentSegmentProperty2ValueContainer.FromString("Spain")),
-        PricingScheme:         models.PricingScheme("volume"),
+        PricingScheme:         models.PricingScheme_VOLUME,
         Prices:                []models.CreateOrUpdateSegmentPrice{
             models.CreateOrUpdateSegmentPrice{
                 StartingQuantity:     models.ToPointer(1),
@@ -114,13 +114,13 @@ ListSegmentsForPricePoint(
 |  --- | --- | --- | --- |
 | `componentId` | `string` | Template, Required | ID or Handle for the Component |
 | `pricePointId` | `string` | Template, Required | ID or Handle for the Price Point belonging to the Component |
-| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br>**Default**: `1`<br>**Constraints**: `>= 1` |
-| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 30. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`.<br>**Default**: `30`<br>**Constraints**: `<= 200` |
+| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br><br>**Default**: `1`<br><br>**Constraints**: `>= 1` |
+| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 30. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`.<br><br>**Default**: `30`<br><br>**Constraints**: `<= 200` |
 | `filter` | [`*models.ListSegmentsFilter`](../../doc/models/list-segments-filter.md) | Query, Optional | Filter to use for List Segments for a Price Point operation |
 
 ## Response Type
 
-[`models.ListSegmentsResponse`](../../doc/models/list-segments-response.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.ListSegmentsResponse](../../doc/models/list-segments-response.md).
 
 ## Example Usage
 
@@ -183,7 +183,7 @@ UpdateSegment(
 
 ## Response Type
 
-[`models.SegmentResponse`](../../doc/models/segment-response.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.SegmentResponse](../../doc/models/segment-response.md).
 
 ## Example Usage
 
@@ -242,7 +242,7 @@ DeleteSegment(
 
 ## Response Type
 
-``
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance.
 
 ## Example Usage
 
@@ -299,7 +299,7 @@ BulkCreateSegments(
 
 ## Response Type
 
-[`models.ListSegmentsResponse`](../../doc/models/list-segments-response.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.ListSegmentsResponse](../../doc/models/list-segments-response.md).
 
 ## Example Usage
 
@@ -358,7 +358,7 @@ BulkUpdateSegments(
 
 ## Response Type
 
-[`models.ListSegmentsResponse`](../../doc/models/list-segments-response.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.ListSegmentsResponse](../../doc/models/list-segments-response.md).
 
 ## Example Usage
 

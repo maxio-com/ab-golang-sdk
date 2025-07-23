@@ -42,7 +42,7 @@ Each site is limited to 100 unique Metafields (i.e. keys, or names) per resource
 
 ### Metafields "On-the-Fly"
 
-It is possible to create Metafields “on the fly” when you create your Metadata – if a non-existant name is passed when creating Metadata, a Metafield for that key will be automatically created. The Metafield API, however, gives you more control over your “keys”.
+It is possible to create Metafields “on the fly” when you create your Metadata – if a non-existent name is passed when creating Metadata, a Metafield for that key will be automatically created. The Metafield API, however, gives you more control over your “keys”.
 
 ### Metafield Scope Warning
 
@@ -66,23 +66,23 @@ CreateMetafields(
 
 ## Response Type
 
-[`[]models.Metafield`](../../doc/models/metafield.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [[]models.Metafield](../../doc/models/metafield.md).
 
 ## Example Usage
 
 ```go
 ctx := context.Background()
 
-resourceType := models.ResourceType("subscriptions")
+resourceType := models.ResourceType_SUBSCRIPTIONS
 
 body := models.CreateMetafieldsRequest{
     Metafields:           models.CreateMetafieldsRequestMetafieldsContainer.FromCreateMetafield(models.CreateMetafield{
         Name:                 models.ToPointer("Dropdown field"),
         Scope:                models.ToPointer(models.MetafieldScope{
-            PublicShow:           models.ToPointer(models.IncludeOption("1")),
-            PublicEdit:           models.ToPointer(models.IncludeOption("1")),
+            PublicShow:           models.ToPointer(models.IncludeOption_INCLUDE),
+            PublicEdit:           models.ToPointer(models.IncludeOption_INCLUDE),
         }),
-        InputType:            models.ToPointer(models.MetafieldInput("dropdown")),
+        InputType:            models.ToPointer(models.MetafieldInput_DROPDOWN),
         Enum:                 []string{
             "option 1",
             "option 2",
@@ -156,13 +156,13 @@ ListMetafields(
 |  --- | --- | --- | --- |
 | `resourceType` | [`models.ResourceType`](../../doc/models/resource-type.md) | Template, Required | the resource type to which the metafields belong |
 | `name` | `*string` | Query, Optional | filter by the name of the metafield |
-| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br>**Default**: `1`<br>**Constraints**: `>= 1` |
-| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`.<br>**Default**: `20`<br>**Constraints**: `<= 200` |
+| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br><br>**Default**: `1`<br><br>**Constraints**: `>= 1` |
+| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`.<br><br>**Default**: `20`<br><br>**Constraints**: `<= 200` |
 | `direction` | [`*models.SortingDirection`](../../doc/models/sorting-direction.md) | Query, Optional | Controls the order in which results are returned.<br>Use in query `direction=asc`. |
 
 ## Response Type
 
-[`models.ListMetafieldsResponse`](../../doc/models/list-metafields-response.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.ListMetafieldsResponse](../../doc/models/list-metafields-response.md).
 
 ## Example Usage
 
@@ -170,7 +170,7 @@ ListMetafields(
 ctx := context.Background()
 
 collectedInput := advancedbilling.ListMetafieldsInput{
-    ResourceType: models.ResourceType("subscriptions"),
+    ResourceType: models.ResourceType_SUBSCRIPTIONS,
     Page:         models.ToPointer(2),
     PerPage:      models.ToPointer(50),
 }
@@ -236,14 +236,14 @@ UpdateMetafield(
 
 ## Response Type
 
-[`[]models.Metafield`](../../doc/models/metafield.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [[]models.Metafield](../../doc/models/metafield.md).
 
 ## Example Usage
 
 ```go
 ctx := context.Background()
 
-resourceType := models.ResourceType("subscriptions")
+resourceType := models.ResourceType_SUBSCRIPTIONS
 
 
 
@@ -288,14 +288,14 @@ DeleteMetafield(
 
 ## Response Type
 
-``
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance.
 
 ## Example Usage
 
 ```go
 ctx := context.Background()
 
-resourceType := models.ResourceType("subscriptions")
+resourceType := models.ResourceType_SUBSCRIPTIONS
 
 
 
@@ -359,14 +359,14 @@ CreateMetadata(
 
 ## Response Type
 
-[`[]models.Metadata`](../../doc/models/metadata.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [[]models.Metadata](../../doc/models/metadata.md).
 
 ## Example Usage
 
 ```go
 ctx := context.Background()
 
-resourceType := models.ResourceType("subscriptions")
+resourceType := models.ResourceType_SUBSCRIPTIONS
 
 resourceId := 60
 
@@ -422,12 +422,12 @@ ListMetadata(
 |  --- | --- | --- | --- |
 | `resourceType` | [`models.ResourceType`](../../doc/models/resource-type.md) | Template, Required | the resource type to which the metafields belong |
 | `resourceId` | `int` | Template, Required | The Advanced Billing id of the customer or the subscription for which the metadata applies |
-| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br>**Default**: `1`<br>**Constraints**: `>= 1` |
-| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`.<br>**Default**: `20`<br>**Constraints**: `<= 200` |
+| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br><br>**Default**: `1`<br><br>**Constraints**: `>= 1` |
+| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`.<br><br>**Default**: `20`<br><br>**Constraints**: `<= 200` |
 
 ## Response Type
 
-[`models.PaginatedMetadata`](../../doc/models/paginated-metadata.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.PaginatedMetadata](../../doc/models/paginated-metadata.md).
 
 ## Example Usage
 
@@ -435,7 +435,7 @@ ListMetadata(
 ctx := context.Background()
 
 collectedInput := advancedbilling.ListMetadataInput{
-    ResourceType: models.ResourceType("subscriptions"),
+    ResourceType: models.ResourceType_SUBSCRIPTIONS,
     ResourceId:   60,
     Page:         models.ToPointer(2),
     PerPage:      models.ToPointer(50),
@@ -476,14 +476,14 @@ UpdateMetadata(
 
 ## Response Type
 
-[`[]models.Metadata`](../../doc/models/metadata.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [[]models.Metadata](../../doc/models/metadata.md).
 
 ## Example Usage
 
 ```go
 ctx := context.Background()
 
-resourceType := models.ResourceType("subscriptions")
+resourceType := models.ResourceType_SUBSCRIPTIONS
 
 resourceId := 60
 
@@ -554,14 +554,14 @@ DeleteMetadata(
 
 ## Response Type
 
-``
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance.
 
 ## Example Usage
 
 ```go
 ctx := context.Background()
 
-resourceType := models.ResourceType("subscriptions")
+resourceType := models.ResourceType_SUBSCRIPTIONS
 
 resourceId := 60
 
@@ -613,20 +613,20 @@ ListMetadataForResourceType(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `resourceType` | [`models.ResourceType`](../../doc/models/resource-type.md) | Template, Required | the resource type to which the metafields belong |
-| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br>**Default**: `1`<br>**Constraints**: `>= 1` |
-| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`.<br>**Default**: `20`<br>**Constraints**: `<= 200` |
+| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br><br>**Default**: `1`<br><br>**Constraints**: `>= 1` |
+| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`.<br><br>**Default**: `20`<br><br>**Constraints**: `<= 200` |
 | `dateField` | [`*models.BasicDateField`](../../doc/models/basic-date-field.md) | Query, Optional | The type of filter you would like to apply to your search. |
 | `startDate` | `*time.Time` | Query, Optional | The start date (format YYYY-MM-DD) with which to filter the date_field. Returns metadata with a timestamp at or after midnight (12:00:00 AM) in your site’s time zone on the date specified. |
 | `endDate` | `*time.Time` | Query, Optional | The end date (format YYYY-MM-DD) with which to filter the date_field. Returns metadata with a timestamp up to and including 11:59:59PM in your site’s time zone on the date specified. |
 | `startDatetime` | `*time.Time` | Query, Optional | The start date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns metadata with a timestamp at or after exact time provided in query. You can specify timezone in query - otherwise your site's time zone will be used. If provided, this parameter will be used instead of start_date. |
 | `endDatetime` | `*time.Time` | Query, Optional | The end date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns metadata with a timestamp at or before exact time provided in query. You can specify timezone in query - otherwise your site's time zone will be used. If provided, this parameter will be used instead of end_date. |
 | `withDeleted` | `*bool` | Query, Optional | Allow to fetch deleted metadata. |
-| `resourceIds` | `[]int` | Query, Optional | Allow to fetch metadata for multiple records based on provided ids. Use in query: `resource_ids[]=122&resource_ids[]=123&resource_ids[]=124`.<br>**Constraints**: *Maximum Items*: `50` |
+| `resourceIds` | `[]int` | Query, Optional | Allow to fetch metadata for multiple records based on provided ids. Use in query: `resource_ids[]=122&resource_ids[]=123&resource_ids[]=124`.<br><br>**Constraints**: *Maximum Items*: `50` |
 | `direction` | [`*models.SortingDirection`](../../doc/models/sorting-direction.md) | Query, Optional | Controls the order in which results are returned.<br>Use in query `direction=asc`. |
 
 ## Response Type
 
-[`models.PaginatedMetadata`](../../doc/models/paginated-metadata.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.PaginatedMetadata](../../doc/models/paginated-metadata.md).
 
 ## Example Usage
 
@@ -634,10 +634,10 @@ ListMetadataForResourceType(
 ctx := context.Background()
 
 collectedInput := advancedbilling.ListMetadataForResourceTypeInput{
-    ResourceType:  models.ResourceType("subscriptions"),
+    ResourceType:  models.ResourceType_SUBSCRIPTIONS,
     Page:          models.ToPointer(2),
     PerPage:       models.ToPointer(50),
-    DateField:     models.ToPointer(models.BasicDateField("updated_at")),
+    DateField:     models.ToPointer(models.BasicDateField_UPDATEDAT),
 }
 
 apiResponse, err := customFieldsController.ListMetadataForResourceType(ctx, collectedInput)
