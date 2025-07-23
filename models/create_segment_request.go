@@ -3,80 +3,80 @@
 package models
 
 import (
-	"encoding/json"
-	"errors"
-	"fmt"
-	"strings"
+    "encoding/json"
+    "errors"
+    "fmt"
+    "strings"
 )
 
 // CreateSegmentRequest represents a CreateSegmentRequest struct.
 type CreateSegmentRequest struct {
-	Segment              CreateSegment          `json:"segment"`
-	AdditionalProperties map[string]interface{} `json:"_"`
+    Segment              CreateSegment          `json:"segment"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // String implements the fmt.Stringer interface for CreateSegmentRequest,
 // providing a human-readable string representation useful for logging, debugging or displaying information.
 func (c CreateSegmentRequest) String() string {
-	return fmt.Sprintf(
-		"CreateSegmentRequest[Segment=%v, AdditionalProperties=%v]",
-		c.Segment, c.AdditionalProperties)
+    return fmt.Sprintf(
+    	"CreateSegmentRequest[Segment=%v, AdditionalProperties=%v]",
+    	c.Segment, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreateSegmentRequest.
 // It customizes the JSON marshaling process for CreateSegmentRequest objects.
 func (c CreateSegmentRequest) MarshalJSON() (
-	[]byte,
-	error) {
-	if err := DetectConflictingProperties(c.AdditionalProperties,
-		"segment"); err != nil {
-		return []byte{}, err
-	}
-	return json.Marshal(c.toMap())
+    []byte,
+    error) {
+    if err := DetectConflictingProperties(c.AdditionalProperties,
+        "segment"); err != nil {
+        return []byte{}, err
+    }
+    return json.Marshal(c.toMap())
 }
 
 // toMap converts the CreateSegmentRequest object to a map representation for JSON marshaling.
 func (c CreateSegmentRequest) toMap() map[string]any {
-	structMap := make(map[string]any)
-	MergeAdditionalProperties(structMap, c.AdditionalProperties)
-	structMap["segment"] = c.Segment.toMap()
-	return structMap
+    structMap := make(map[string]any)
+    MergeAdditionalProperties(structMap, c.AdditionalProperties)
+    structMap["segment"] = c.Segment.toMap()
+    return structMap
 }
 
 // UnmarshalJSON implements the json.Unmarshaler interface for CreateSegmentRequest.
 // It customizes the JSON unmarshaling process for CreateSegmentRequest objects.
 func (c *CreateSegmentRequest) UnmarshalJSON(input []byte) error {
-	var temp tempCreateSegmentRequest
-	err := json.Unmarshal(input, &temp)
-	if err != nil {
-		return err
-	}
-	err = temp.validate()
-	if err != nil {
-		return err
-	}
-	additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "segment")
-	if err != nil {
-		return err
-	}
-	c.AdditionalProperties = additionalProperties
-
-	c.Segment = *temp.Segment
-	return nil
+    var temp tempCreateSegmentRequest
+    err := json.Unmarshal(input, &temp)
+    if err != nil {
+    	return err
+    }
+    err = temp.validate()
+    if err != nil {
+    	return err
+    }
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "segment")
+    if err != nil {
+    	return err
+    }
+    c.AdditionalProperties = additionalProperties
+    
+    c.Segment = *temp.Segment
+    return nil
 }
 
 // tempCreateSegmentRequest is a temporary struct used for validating the fields of CreateSegmentRequest.
-type tempCreateSegmentRequest struct {
-	Segment *CreateSegment `json:"segment"`
+type tempCreateSegmentRequest  struct {
+    Segment *CreateSegment `json:"segment"`
 }
 
 func (c *tempCreateSegmentRequest) validate() error {
-	var errs []string
-	if c.Segment == nil {
-		errs = append(errs, "required field `segment` is missing for type `Create Segment Request`")
-	}
-	if len(errs) == 0 {
-		return nil
-	}
-	return errors.New(strings.Join(errs, "\n"))
+    var errs []string
+    if c.Segment == nil {
+        errs = append(errs, "required field `segment` is missing for type `Create Segment Request`")
+    }
+    if len(errs) == 0 {
+        return nil
+    }
+    return errors.New(strings.Join (errs, "\n"))
 }

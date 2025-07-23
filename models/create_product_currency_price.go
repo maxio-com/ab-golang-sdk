@@ -3,97 +3,97 @@
 package models
 
 import (
-	"encoding/json"
-	"errors"
-	"fmt"
-	"strings"
+    "encoding/json"
+    "errors"
+    "fmt"
+    "strings"
 )
 
 // CreateProductCurrencyPrice represents a CreateProductCurrencyPrice struct.
 type CreateProductCurrencyPrice struct {
-	// ISO code for one of the site level currencies.
-	Currency string `json:"currency"`
-	// Price for the given role.
-	Price int `json:"price"`
-	// Role for the price.
-	Role                 CurrencyPriceRole      `json:"role"`
-	AdditionalProperties map[string]interface{} `json:"_"`
+    // ISO code for one of the site level currencies.
+    Currency             string                 `json:"currency"`
+    // Price for the given role.
+    Price                int                    `json:"price"`
+    // Role for the price.
+    Role                 CurrencyPriceRole      `json:"role"`
+    AdditionalProperties map[string]interface{} `json:"_"`
 }
 
 // String implements the fmt.Stringer interface for CreateProductCurrencyPrice,
 // providing a human-readable string representation useful for logging, debugging or displaying information.
 func (c CreateProductCurrencyPrice) String() string {
-	return fmt.Sprintf(
-		"CreateProductCurrencyPrice[Currency=%v, Price=%v, Role=%v, AdditionalProperties=%v]",
-		c.Currency, c.Price, c.Role, c.AdditionalProperties)
+    return fmt.Sprintf(
+    	"CreateProductCurrencyPrice[Currency=%v, Price=%v, Role=%v, AdditionalProperties=%v]",
+    	c.Currency, c.Price, c.Role, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreateProductCurrencyPrice.
 // It customizes the JSON marshaling process for CreateProductCurrencyPrice objects.
 func (c CreateProductCurrencyPrice) MarshalJSON() (
-	[]byte,
-	error) {
-	if err := DetectConflictingProperties(c.AdditionalProperties,
-		"currency", "price", "role"); err != nil {
-		return []byte{}, err
-	}
-	return json.Marshal(c.toMap())
+    []byte,
+    error) {
+    if err := DetectConflictingProperties(c.AdditionalProperties,
+        "currency", "price", "role"); err != nil {
+        return []byte{}, err
+    }
+    return json.Marshal(c.toMap())
 }
 
 // toMap converts the CreateProductCurrencyPrice object to a map representation for JSON marshaling.
 func (c CreateProductCurrencyPrice) toMap() map[string]any {
-	structMap := make(map[string]any)
-	MergeAdditionalProperties(structMap, c.AdditionalProperties)
-	structMap["currency"] = c.Currency
-	structMap["price"] = c.Price
-	structMap["role"] = c.Role
-	return structMap
+    structMap := make(map[string]any)
+    MergeAdditionalProperties(structMap, c.AdditionalProperties)
+    structMap["currency"] = c.Currency
+    structMap["price"] = c.Price
+    structMap["role"] = c.Role
+    return structMap
 }
 
 // UnmarshalJSON implements the json.Unmarshaler interface for CreateProductCurrencyPrice.
 // It customizes the JSON unmarshaling process for CreateProductCurrencyPrice objects.
 func (c *CreateProductCurrencyPrice) UnmarshalJSON(input []byte) error {
-	var temp tempCreateProductCurrencyPrice
-	err := json.Unmarshal(input, &temp)
-	if err != nil {
-		return err
-	}
-	err = temp.validate()
-	if err != nil {
-		return err
-	}
-	additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "currency", "price", "role")
-	if err != nil {
-		return err
-	}
-	c.AdditionalProperties = additionalProperties
-
-	c.Currency = *temp.Currency
-	c.Price = *temp.Price
-	c.Role = *temp.Role
-	return nil
+    var temp tempCreateProductCurrencyPrice
+    err := json.Unmarshal(input, &temp)
+    if err != nil {
+    	return err
+    }
+    err = temp.validate()
+    if err != nil {
+    	return err
+    }
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "currency", "price", "role")
+    if err != nil {
+    	return err
+    }
+    c.AdditionalProperties = additionalProperties
+    
+    c.Currency = *temp.Currency
+    c.Price = *temp.Price
+    c.Role = *temp.Role
+    return nil
 }
 
 // tempCreateProductCurrencyPrice is a temporary struct used for validating the fields of CreateProductCurrencyPrice.
-type tempCreateProductCurrencyPrice struct {
-	Currency *string            `json:"currency"`
-	Price    *int               `json:"price"`
-	Role     *CurrencyPriceRole `json:"role"`
+type tempCreateProductCurrencyPrice  struct {
+    Currency *string            `json:"currency"`
+    Price    *int               `json:"price"`
+    Role     *CurrencyPriceRole `json:"role"`
 }
 
 func (c *tempCreateProductCurrencyPrice) validate() error {
-	var errs []string
-	if c.Currency == nil {
-		errs = append(errs, "required field `currency` is missing for type `Create Product Currency Price`")
-	}
-	if c.Price == nil {
-		errs = append(errs, "required field `price` is missing for type `Create Product Currency Price`")
-	}
-	if c.Role == nil {
-		errs = append(errs, "required field `role` is missing for type `Create Product Currency Price`")
-	}
-	if len(errs) == 0 {
-		return nil
-	}
-	return errors.New(strings.Join(errs, "\n"))
+    var errs []string
+    if c.Currency == nil {
+        errs = append(errs, "required field `currency` is missing for type `Create Product Currency Price`")
+    }
+    if c.Price == nil {
+        errs = append(errs, "required field `price` is missing for type `Create Product Currency Price`")
+    }
+    if c.Role == nil {
+        errs = append(errs, "required field `role` is missing for type `Create Product Currency Price`")
+    }
+    if len(errs) == 0 {
+        return nil
+    }
+    return errors.New(strings.Join (errs, "\n"))
 }

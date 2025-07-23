@@ -3,65 +3,65 @@
 package models
 
 import (
-	"encoding/json"
-	"fmt"
+    "encoding/json"
+    "fmt"
 )
 
 // BulkComponentsPricePointAssignment represents a BulkComponentsPricePointAssignment struct.
 type BulkComponentsPricePointAssignment struct {
-	Components           []ComponentPricePointAssignment `json:"components,omitempty"`
-	AdditionalProperties map[string]interface{}          `json:"_"`
+    Components           []ComponentPricePointAssignment `json:"components,omitempty"`
+    AdditionalProperties map[string]interface{}          `json:"_"`
 }
 
 // String implements the fmt.Stringer interface for BulkComponentsPricePointAssignment,
 // providing a human-readable string representation useful for logging, debugging or displaying information.
 func (b BulkComponentsPricePointAssignment) String() string {
-	return fmt.Sprintf(
-		"BulkComponentsPricePointAssignment[Components=%v, AdditionalProperties=%v]",
-		b.Components, b.AdditionalProperties)
+    return fmt.Sprintf(
+    	"BulkComponentsPricePointAssignment[Components=%v, AdditionalProperties=%v]",
+    	b.Components, b.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for BulkComponentsPricePointAssignment.
 // It customizes the JSON marshaling process for BulkComponentsPricePointAssignment objects.
 func (b BulkComponentsPricePointAssignment) MarshalJSON() (
-	[]byte,
-	error) {
-	if err := DetectConflictingProperties(b.AdditionalProperties,
-		"components"); err != nil {
-		return []byte{}, err
-	}
-	return json.Marshal(b.toMap())
+    []byte,
+    error) {
+    if err := DetectConflictingProperties(b.AdditionalProperties,
+        "components"); err != nil {
+        return []byte{}, err
+    }
+    return json.Marshal(b.toMap())
 }
 
 // toMap converts the BulkComponentsPricePointAssignment object to a map representation for JSON marshaling.
 func (b BulkComponentsPricePointAssignment) toMap() map[string]any {
-	structMap := make(map[string]any)
-	MergeAdditionalProperties(structMap, b.AdditionalProperties)
-	if b.Components != nil {
-		structMap["components"] = b.Components
-	}
-	return structMap
+    structMap := make(map[string]any)
+    MergeAdditionalProperties(structMap, b.AdditionalProperties)
+    if b.Components != nil {
+        structMap["components"] = b.Components
+    }
+    return structMap
 }
 
 // UnmarshalJSON implements the json.Unmarshaler interface for BulkComponentsPricePointAssignment.
 // It customizes the JSON unmarshaling process for BulkComponentsPricePointAssignment objects.
 func (b *BulkComponentsPricePointAssignment) UnmarshalJSON(input []byte) error {
-	var temp tempBulkComponentsPricePointAssignment
-	err := json.Unmarshal(input, &temp)
-	if err != nil {
-		return err
-	}
-	additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "components")
-	if err != nil {
-		return err
-	}
-	b.AdditionalProperties = additionalProperties
-
-	b.Components = temp.Components
-	return nil
+    var temp tempBulkComponentsPricePointAssignment
+    err := json.Unmarshal(input, &temp)
+    if err != nil {
+    	return err
+    }
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "components")
+    if err != nil {
+    	return err
+    }
+    b.AdditionalProperties = additionalProperties
+    
+    b.Components = temp.Components
+    return nil
 }
 
 // tempBulkComponentsPricePointAssignment is a temporary struct used for validating the fields of BulkComponentsPricePointAssignment.
-type tempBulkComponentsPricePointAssignment struct {
-	Components []ComponentPricePointAssignment `json:"components,omitempty"`
+type tempBulkComponentsPricePointAssignment  struct {
+    Components []ComponentPricePointAssignment `json:"components,omitempty"`
 }

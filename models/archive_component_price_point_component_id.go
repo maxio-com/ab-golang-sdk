@@ -3,89 +3,89 @@
 package models
 
 import (
-	"encoding/json"
-	"errors"
-	"fmt"
+    "encoding/json"
+    "errors"
+    "fmt"
 )
 
 // ArchiveComponentPricePointComponentId represents a ArchiveComponentPricePointComponentId struct.
 // This is a container for one-of cases.
 type ArchiveComponentPricePointComponentId struct {
-	value    any
-	isNumber bool
-	isString bool
+    value    any
+    isNumber bool
+    isString bool
 }
 
 // String implements the fmt.Stringer interface for ArchiveComponentPricePointComponentId,
 // providing a human-readable string representation useful for logging, debugging or displaying information.
 func (a ArchiveComponentPricePointComponentId) String() string {
-	return fmt.Sprintf("%v", a.value)
+    return fmt.Sprintf("%v", a.value)
 }
 
 // MarshalJSON implements the json.Marshaler interface for ArchiveComponentPricePointComponentId.
 // It customizes the JSON marshaling process for ArchiveComponentPricePointComponentId objects.
 func (a ArchiveComponentPricePointComponentId) MarshalJSON() (
-	[]byte,
-	error) {
-	if a.value == nil {
-		return nil, errors.New("No underlying type is set. Please use any of the `models.ArchiveComponentPricePointComponentIdContainer.From*` functions to initialize the ArchiveComponentPricePointComponentId object.")
-	}
-	return json.Marshal(a.toMap())
+    []byte,
+    error) {
+    if a.value == nil {
+        return nil, errors.New("No underlying type is set. Please use any of the `models.ArchiveComponentPricePointComponentIdContainer.From*` functions to initialize the ArchiveComponentPricePointComponentId object.")
+    }
+    return json.Marshal(a.toMap())
 }
 
 // toMap converts the ArchiveComponentPricePointComponentId object to a map representation for JSON marshaling.
 func (a *ArchiveComponentPricePointComponentId) toMap() any {
-	switch obj := a.value.(type) {
-	case *int:
-		return *obj
-	case *string:
-		return *obj
-	}
-	return nil
+    switch obj := a.value.(type) {
+    case *int:
+        return *obj
+    case *string:
+        return *obj
+    }
+    return nil
 }
 
 // UnmarshalJSON implements the json.Unmarshaler interface for ArchiveComponentPricePointComponentId.
 // It customizes the JSON unmarshaling process for ArchiveComponentPricePointComponentId objects.
 func (a *ArchiveComponentPricePointComponentId) UnmarshalJSON(input []byte) error {
-	result, err := UnmarshallOneOf(input,
-		NewTypeHolder(new(int), false, &a.isNumber),
-		NewTypeHolder(new(string), false, &a.isString),
-	)
-
-	a.value = result
-	return err
+    result, err := UnmarshallOneOf(input,
+        NewTypeHolder(new(int), false, &a.isNumber),
+        NewTypeHolder(new(string), false, &a.isString),
+    )
+    
+    a.value = result
+    return err
 }
 
 func (a *ArchiveComponentPricePointComponentId) AsNumber() (
-	*int,
-	bool) {
-	if !a.isNumber {
-		return nil, false
-	}
-	return a.value.(*int), true
+    *int,
+    bool) {
+    if !a.isNumber {
+        return nil, false
+    }
+    return a.value.(*int), true
 }
 
 func (a *ArchiveComponentPricePointComponentId) AsString() (
-	*string,
-	bool) {
-	if !a.isString {
-		return nil, false
-	}
-	return a.value.(*string), true
+    *string,
+    bool) {
+    if !a.isString {
+        return nil, false
+    }
+    return a.value.(*string), true
 }
 
 // internalArchiveComponentPricePointComponentId represents a archiveComponentPricePointComponentId struct.
 // This is a container for one-of cases.
-type internalArchiveComponentPricePointComponentId struct{}
+type internalArchiveComponentPricePointComponentId struct {}
 
 var ArchiveComponentPricePointComponentIdContainer internalArchiveComponentPricePointComponentId
 
 // The internalArchiveComponentPricePointComponentId instance, wrapping the provided int value.
 func (a *internalArchiveComponentPricePointComponentId) FromNumber(val int) ArchiveComponentPricePointComponentId {
-	return ArchiveComponentPricePointComponentId{value: &val}
+    return ArchiveComponentPricePointComponentId{value: &val}
 }
 
 // The internalArchiveComponentPricePointComponentId instance, wrapping the provided string value.
 func (a *internalArchiveComponentPricePointComponentId) FromString(val string) ArchiveComponentPricePointComponentId {
-	return ArchiveComponentPricePointComponentId{value: &val}
+    return ArchiveComponentPricePointComponentId{value: &val}
 }

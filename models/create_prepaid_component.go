@@ -3,80 +3,80 @@
 package models
 
 import (
-	"encoding/json"
-	"errors"
-	"fmt"
-	"strings"
+    "encoding/json"
+    "errors"
+    "fmt"
+    "strings"
 )
 
 // CreatePrepaidComponent represents a CreatePrepaidComponent struct.
 type CreatePrepaidComponent struct {
-	PrepaidUsageComponent PrepaidUsageComponent  `json:"prepaid_usage_component"`
-	AdditionalProperties  map[string]interface{} `json:"_"`
+    PrepaidUsageComponent PrepaidUsageComponent  `json:"prepaid_usage_component"`
+    AdditionalProperties  map[string]interface{} `json:"_"`
 }
 
 // String implements the fmt.Stringer interface for CreatePrepaidComponent,
 // providing a human-readable string representation useful for logging, debugging or displaying information.
 func (c CreatePrepaidComponent) String() string {
-	return fmt.Sprintf(
-		"CreatePrepaidComponent[PrepaidUsageComponent=%v, AdditionalProperties=%v]",
-		c.PrepaidUsageComponent, c.AdditionalProperties)
+    return fmt.Sprintf(
+    	"CreatePrepaidComponent[PrepaidUsageComponent=%v, AdditionalProperties=%v]",
+    	c.PrepaidUsageComponent, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreatePrepaidComponent.
 // It customizes the JSON marshaling process for CreatePrepaidComponent objects.
 func (c CreatePrepaidComponent) MarshalJSON() (
-	[]byte,
-	error) {
-	if err := DetectConflictingProperties(c.AdditionalProperties,
-		"prepaid_usage_component"); err != nil {
-		return []byte{}, err
-	}
-	return json.Marshal(c.toMap())
+    []byte,
+    error) {
+    if err := DetectConflictingProperties(c.AdditionalProperties,
+        "prepaid_usage_component"); err != nil {
+        return []byte{}, err
+    }
+    return json.Marshal(c.toMap())
 }
 
 // toMap converts the CreatePrepaidComponent object to a map representation for JSON marshaling.
 func (c CreatePrepaidComponent) toMap() map[string]any {
-	structMap := make(map[string]any)
-	MergeAdditionalProperties(structMap, c.AdditionalProperties)
-	structMap["prepaid_usage_component"] = c.PrepaidUsageComponent.toMap()
-	return structMap
+    structMap := make(map[string]any)
+    MergeAdditionalProperties(structMap, c.AdditionalProperties)
+    structMap["prepaid_usage_component"] = c.PrepaidUsageComponent.toMap()
+    return structMap
 }
 
 // UnmarshalJSON implements the json.Unmarshaler interface for CreatePrepaidComponent.
 // It customizes the JSON unmarshaling process for CreatePrepaidComponent objects.
 func (c *CreatePrepaidComponent) UnmarshalJSON(input []byte) error {
-	var temp tempCreatePrepaidComponent
-	err := json.Unmarshal(input, &temp)
-	if err != nil {
-		return err
-	}
-	err = temp.validate()
-	if err != nil {
-		return err
-	}
-	additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "prepaid_usage_component")
-	if err != nil {
-		return err
-	}
-	c.AdditionalProperties = additionalProperties
-
-	c.PrepaidUsageComponent = *temp.PrepaidUsageComponent
-	return nil
+    var temp tempCreatePrepaidComponent
+    err := json.Unmarshal(input, &temp)
+    if err != nil {
+    	return err
+    }
+    err = temp.validate()
+    if err != nil {
+    	return err
+    }
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "prepaid_usage_component")
+    if err != nil {
+    	return err
+    }
+    c.AdditionalProperties = additionalProperties
+    
+    c.PrepaidUsageComponent = *temp.PrepaidUsageComponent
+    return nil
 }
 
 // tempCreatePrepaidComponent is a temporary struct used for validating the fields of CreatePrepaidComponent.
-type tempCreatePrepaidComponent struct {
-	PrepaidUsageComponent *PrepaidUsageComponent `json:"prepaid_usage_component"`
+type tempCreatePrepaidComponent  struct {
+    PrepaidUsageComponent *PrepaidUsageComponent `json:"prepaid_usage_component"`
 }
 
 func (c *tempCreatePrepaidComponent) validate() error {
-	var errs []string
-	if c.PrepaidUsageComponent == nil {
-		errs = append(errs, "required field `prepaid_usage_component` is missing for type `Create Prepaid Component`")
-	}
-	if len(errs) == 0 {
-		return nil
-	}
-	return errors.New(strings.Join(errs, "\n"))
+    var errs []string
+    if c.PrepaidUsageComponent == nil {
+        errs = append(errs, "required field `prepaid_usage_component` is missing for type `Create Prepaid Component`")
+    }
+    if len(errs) == 0 {
+        return nil
+    }
+    return errors.New(strings.Join (errs, "\n"))
 }

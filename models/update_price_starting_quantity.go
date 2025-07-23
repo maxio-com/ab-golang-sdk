@@ -3,89 +3,89 @@
 package models
 
 import (
-	"encoding/json"
-	"errors"
-	"fmt"
+    "encoding/json"
+    "errors"
+    "fmt"
 )
 
 // UpdatePriceStartingQuantity represents a UpdatePriceStartingQuantity struct.
 // This is a container for one-of cases.
 type UpdatePriceStartingQuantity struct {
-	value    any
-	isNumber bool
-	isString bool
+    value    any
+    isNumber bool
+    isString bool
 }
 
 // String implements the fmt.Stringer interface for UpdatePriceStartingQuantity,
 // providing a human-readable string representation useful for logging, debugging or displaying information.
 func (u UpdatePriceStartingQuantity) String() string {
-	return fmt.Sprintf("%v", u.value)
+    return fmt.Sprintf("%v", u.value)
 }
 
 // MarshalJSON implements the json.Marshaler interface for UpdatePriceStartingQuantity.
 // It customizes the JSON marshaling process for UpdatePriceStartingQuantity objects.
 func (u UpdatePriceStartingQuantity) MarshalJSON() (
-	[]byte,
-	error) {
-	if u.value == nil {
-		return nil, errors.New("No underlying type is set. Please use any of the `models.UpdatePriceStartingQuantityContainer.From*` functions to initialize the UpdatePriceStartingQuantity object.")
-	}
-	return json.Marshal(u.toMap())
+    []byte,
+    error) {
+    if u.value == nil {
+        return nil, errors.New("No underlying type is set. Please use any of the `models.UpdatePriceStartingQuantityContainer.From*` functions to initialize the UpdatePriceStartingQuantity object.")
+    }
+    return json.Marshal(u.toMap())
 }
 
 // toMap converts the UpdatePriceStartingQuantity object to a map representation for JSON marshaling.
 func (u *UpdatePriceStartingQuantity) toMap() any {
-	switch obj := u.value.(type) {
-	case *int:
-		return *obj
-	case *string:
-		return *obj
-	}
-	return nil
+    switch obj := u.value.(type) {
+    case *int:
+        return *obj
+    case *string:
+        return *obj
+    }
+    return nil
 }
 
 // UnmarshalJSON implements the json.Unmarshaler interface for UpdatePriceStartingQuantity.
 // It customizes the JSON unmarshaling process for UpdatePriceStartingQuantity objects.
 func (u *UpdatePriceStartingQuantity) UnmarshalJSON(input []byte) error {
-	result, err := UnmarshallOneOf(input,
-		NewTypeHolder(new(int), false, &u.isNumber),
-		NewTypeHolder(new(string), false, &u.isString),
-	)
-
-	u.value = result
-	return err
+    result, err := UnmarshallOneOf(input,
+        NewTypeHolder(new(int), false, &u.isNumber),
+        NewTypeHolder(new(string), false, &u.isString),
+    )
+    
+    u.value = result
+    return err
 }
 
 func (u *UpdatePriceStartingQuantity) AsNumber() (
-	*int,
-	bool) {
-	if !u.isNumber {
-		return nil, false
-	}
-	return u.value.(*int), true
+    *int,
+    bool) {
+    if !u.isNumber {
+        return nil, false
+    }
+    return u.value.(*int), true
 }
 
 func (u *UpdatePriceStartingQuantity) AsString() (
-	*string,
-	bool) {
-	if !u.isString {
-		return nil, false
-	}
-	return u.value.(*string), true
+    *string,
+    bool) {
+    if !u.isString {
+        return nil, false
+    }
+    return u.value.(*string), true
 }
 
 // internalUpdatePriceStartingQuantity represents a updatePriceStartingQuantity struct.
 // This is a container for one-of cases.
-type internalUpdatePriceStartingQuantity struct{}
+type internalUpdatePriceStartingQuantity struct {}
 
 var UpdatePriceStartingQuantityContainer internalUpdatePriceStartingQuantity
 
 // The internalUpdatePriceStartingQuantity instance, wrapping the provided int value.
 func (u *internalUpdatePriceStartingQuantity) FromNumber(val int) UpdatePriceStartingQuantity {
-	return UpdatePriceStartingQuantity{value: &val}
+    return UpdatePriceStartingQuantity{value: &val}
 }
 
 // The internalUpdatePriceStartingQuantity instance, wrapping the provided string value.
 func (u *internalUpdatePriceStartingQuantity) FromString(val string) UpdatePriceStartingQuantity {
-	return UpdatePriceStartingQuantity{value: &val}
+    return UpdatePriceStartingQuantity{value: &val}
 }

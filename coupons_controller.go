@@ -3,24 +3,24 @@
 package advancedbilling
 
 import (
-	"context"
-	"github.com/apimatic/go-core-runtime/https"
-	"github.com/apimatic/go-core-runtime/utilities"
-	"github.com/maxio-com/ab-golang-sdk/errors"
-	"github.com/maxio-com/ab-golang-sdk/models"
-	"net/http"
+    "context"
+    "github.com/apimatic/go-core-runtime/https"
+    "github.com/apimatic/go-core-runtime/utilities"
+    "github.com/maxio-com/ab-golang-sdk/errors"
+    "github.com/maxio-com/ab-golang-sdk/models"
+    "net/http"
 )
 
 // CouponsController represents a controller struct.
 type CouponsController struct {
-	baseController
+    baseController
 }
 
 // NewCouponsController creates a new instance of CouponsController.
 // It takes a baseController as a parameter and returns a pointer to the CouponsController.
 func NewCouponsController(baseController baseController) *CouponsController {
-	couponsController := CouponsController{baseController: baseController}
-	return &couponsController
+    couponsController := CouponsController{baseController: baseController}
+    return &couponsController
 }
 
 // CreateCoupon takes context, productFamilyId, body as parameters and
@@ -35,46 +35,46 @@ func NewCouponsController(baseController baseController) *CouponsController {
 // You can restrict a coupon to only apply to specific products / components by optionally passing in `restricted_products` and/or `restricted_components` objects in the format:
 // `{ "<product_id/component_id>": boolean_value }`
 func (c *CouponsController) CreateCoupon(
-	ctx context.Context,
-	productFamilyId int,
-	body *models.CouponRequest) (
-	models.ApiResponse[models.CouponResponse],
-	error) {
-	req := c.prepareRequest(ctx, "POST", "/product_families/%v/coupons.json")
-	req.AppendTemplateParams(productFamilyId)
-	req.Authenticate(NewAuth("BasicAuth"))
-	req.AppendErrors(map[string]https.ErrorBuilder[error]{
-		"422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
-	})
-	req.Header("Content-Type", "application/json")
-	if body != nil {
-		req.Json(body)
-	}
-
-	var result models.CouponResponse
-	decoder, resp, err := req.CallAsJson()
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	result, err = utilities.DecodeResults[models.CouponResponse](decoder)
-	return models.NewApiResponse(result, resp), err
+    ctx context.Context,
+    productFamilyId int,
+    body *models.CouponRequest) (
+    models.ApiResponse[models.CouponResponse],
+    error) {
+    req := c.prepareRequest(ctx, "POST", "/product_families/%v/coupons.json")
+    req.AppendTemplateParams(productFamilyId)
+    req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
+    })
+    req.Header("Content-Type", "application/json")
+    if body != nil {
+        req.Json(body)
+    }
+    
+    var result models.CouponResponse
+    decoder, resp, err := req.CallAsJson()
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    result, err = utilities.DecodeResults[models.CouponResponse](decoder)
+    return models.NewApiResponse(result, resp), err
 }
 
 // ListCouponsForProductFamilyInput represents the input of the ListCouponsForProductFamily endpoint.
 type ListCouponsForProductFamilyInput struct {
-	// The Advanced Billing id of the product family to which the coupon belongs
-	ProductFamilyId int
-	// Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.
-	// Use in query `page=1`.
-	Page *int
-	// This parameter indicates how many records to fetch in each request. Default value is 30. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.
-	// Use in query `per_page=200`.
-	PerPage *int
-	// Filter to use for List Coupons operations
-	Filter *models.ListCouponsFilter
-	// When fetching coupons, if you have defined multiple currencies at the site level, you can optionally pass the `?currency_prices=true` query param to include an array of currency price data in the response. Use in query `currency_prices=true`.
-	CurrencyPrices *bool
+    // The Advanced Billing id of the product family to which the coupon belongs
+    ProductFamilyId int                       
+    // Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.
+    // Use in query `page=1`.
+    Page            *int                      
+    // This parameter indicates how many records to fetch in each request. Default value is 30. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.
+    // Use in query `per_page=200`.
+    PerPage         *int                      
+    // Filter to use for List Coupons operations
+    Filter          *models.ListCouponsFilter 
+    // When fetching coupons, if you have defined multiple currencies at the site level, you can optionally pass the `?currency_prices=true` query param to include an array of currency price data in the response. Use in query `currency_prices=true`.
+    CurrencyPrices  *bool                     
 }
 
 // ListCouponsForProductFamily takes context, productFamilyId, page, perPage, filter, currencyPrices as parameters and
@@ -83,34 +83,34 @@ type ListCouponsForProductFamilyInput struct {
 // List coupons for a specific Product Family in a Site.
 // If the coupon is set to `use_site_exchange_rate: true`, it will return pricing based on the current exchange rate. If the flag is set to false, it will return all of the defined prices for each currency.
 func (c *CouponsController) ListCouponsForProductFamily(
-	ctx context.Context,
-	input ListCouponsForProductFamilyInput) (
-	models.ApiResponse[[]models.CouponResponse],
-	error) {
-	req := c.prepareRequest(ctx, "GET", "/product_families/%v/coupons.json")
-	req.AppendTemplateParams(input.ProductFamilyId)
-	req.Authenticate(NewAuth("BasicAuth"))
-	if input.Page != nil {
-		req.QueryParam("page", *input.Page)
-	}
-	if input.PerPage != nil {
-		req.QueryParam("per_page", *input.PerPage)
-	}
-	if input.Filter != nil {
-		req.QueryParam("filter", *input.Filter)
-	}
-	if input.CurrencyPrices != nil {
-		req.QueryParam("currency_prices", *input.CurrencyPrices)
-	}
-
-	var result []models.CouponResponse
-	decoder, resp, err := req.CallAsJson()
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	result, err = utilities.DecodeResults[[]models.CouponResponse](decoder)
-	return models.NewApiResponse(result, resp), err
+    ctx context.Context,
+    input ListCouponsForProductFamilyInput) (
+    models.ApiResponse[[]models.CouponResponse],
+    error) {
+    req := c.prepareRequest(ctx, "GET", "/product_families/%v/coupons.json")
+    req.AppendTemplateParams(input.ProductFamilyId)
+    req.Authenticate(NewAuth("BasicAuth"))
+    if input.Page != nil {
+        req.QueryParam("page", *input.Page)
+    }
+    if input.PerPage != nil {
+        req.QueryParam("per_page", *input.PerPage)
+    }
+    if input.Filter != nil {
+        req.QueryParam("filter", *input.Filter)
+    }
+    if input.CurrencyPrices != nil {
+        req.QueryParam("currency_prices", *input.CurrencyPrices)
+    }
+    
+    var result []models.CouponResponse
+    decoder, resp, err := req.CallAsJson()
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    result, err = utilities.DecodeResults[[]models.CouponResponse](decoder)
+    return models.NewApiResponse(result, resp), err
 }
 
 // FindCoupon takes context, productFamilyId, code, currencyPrices as parameters and
@@ -119,32 +119,32 @@ func (c *CouponsController) ListCouponsForProductFamily(
 // You can search for a coupon via the API with the find method. By passing a code parameter, the find will attempt to locate a coupon that matches that code. If no coupon is found, a 404 is returned.
 // If you have more than one product family and if the coupon you are trying to find does not belong to the default product family in your site, then you will need to specify (either in the url or as a query string param) the product family id.
 func (c *CouponsController) FindCoupon(
-	ctx context.Context,
-	productFamilyId *int,
-	code *string,
-	currencyPrices *bool) (
-	models.ApiResponse[models.CouponResponse],
-	error) {
-	req := c.prepareRequest(ctx, "GET", "/coupons/find.json")
-
-	req.Authenticate(NewAuth("BasicAuth"))
-	if productFamilyId != nil {
-		req.QueryParam("product_family_id", *productFamilyId)
-	}
-	if code != nil {
-		req.QueryParam("code", *code)
-	}
-	if currencyPrices != nil {
-		req.QueryParam("currency_prices", *currencyPrices)
-	}
-	var result models.CouponResponse
-	decoder, resp, err := req.CallAsJson()
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	result, err = utilities.DecodeResults[models.CouponResponse](decoder)
-	return models.NewApiResponse(result, resp), err
+    ctx context.Context,
+    productFamilyId *int,
+    code *string,
+    currencyPrices *bool) (
+    models.ApiResponse[models.CouponResponse],
+    error) {
+    req := c.prepareRequest(ctx, "GET", "/coupons/find.json")
+    
+    req.Authenticate(NewAuth("BasicAuth"))
+    if productFamilyId != nil {
+        req.QueryParam("product_family_id", *productFamilyId)
+    }
+    if code != nil {
+        req.QueryParam("code", *code)
+    }
+    if currencyPrices != nil {
+        req.QueryParam("currency_prices", *currencyPrices)
+    }
+    var result models.CouponResponse
+    decoder, resp, err := req.CallAsJson()
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    result, err = utilities.DecodeResults[models.CouponResponse](decoder)
+    return models.NewApiResponse(result, resp), err
 }
 
 // ReadCoupon takes context, productFamilyId, couponId, currencyPrices as parameters and
@@ -155,27 +155,27 @@ func (c *CouponsController) FindCoupon(
 // When fetching a coupon, if you have defined multiple currencies at the site level, you can optionally pass the `?currency_prices=true` query param to include an array of currency price data in the response.
 // If the coupon is set to `use_site_exchange_rate: true`, it will return pricing based on the current exchange rate. If the flag is set to false, it will return all of the defined prices for each currency.
 func (c *CouponsController) ReadCoupon(
-	ctx context.Context,
-	productFamilyId int,
-	couponId int,
-	currencyPrices *bool) (
-	models.ApiResponse[models.CouponResponse],
-	error) {
-	req := c.prepareRequest(ctx, "GET", "/product_families/%v/coupons/%v.json")
-	req.AppendTemplateParams(productFamilyId, couponId)
-	req.Authenticate(NewAuth("BasicAuth"))
-	if currencyPrices != nil {
-		req.QueryParam("currency_prices", *currencyPrices)
-	}
-
-	var result models.CouponResponse
-	decoder, resp, err := req.CallAsJson()
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	result, err = utilities.DecodeResults[models.CouponResponse](decoder)
-	return models.NewApiResponse(result, resp), err
+    ctx context.Context,
+    productFamilyId int,
+    couponId int,
+    currencyPrices *bool) (
+    models.ApiResponse[models.CouponResponse],
+    error) {
+    req := c.prepareRequest(ctx, "GET", "/product_families/%v/coupons/%v.json")
+    req.AppendTemplateParams(productFamilyId, couponId)
+    req.Authenticate(NewAuth("BasicAuth"))
+    if currencyPrices != nil {
+        req.QueryParam("currency_prices", *currencyPrices)
+    }
+    
+    var result models.CouponResponse
+    decoder, resp, err := req.CallAsJson()
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    result, err = utilities.DecodeResults[models.CouponResponse](decoder)
+    return models.NewApiResponse(result, resp), err
 }
 
 // UpdateCoupon takes context, productFamilyId, couponId, body as parameters and
@@ -186,31 +186,31 @@ func (c *CouponsController) ReadCoupon(
 // You can restrict a coupon to only apply to specific products / components by optionally passing in hashes of `restricted_products` and/or `restricted_components` in the format:
 // `{ "<product/component_id>": boolean_value }`
 func (c *CouponsController) UpdateCoupon(
-	ctx context.Context,
-	productFamilyId int,
-	couponId int,
-	body *models.CouponRequest) (
-	models.ApiResponse[models.CouponResponse],
-	error) {
-	req := c.prepareRequest(ctx, "PUT", "/product_families/%v/coupons/%v.json")
-	req.AppendTemplateParams(productFamilyId, couponId)
-	req.Authenticate(NewAuth("BasicAuth"))
-	req.AppendErrors(map[string]https.ErrorBuilder[error]{
-		"422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
-	})
-	req.Header("Content-Type", "application/json")
-	if body != nil {
-		req.Json(body)
-	}
-
-	var result models.CouponResponse
-	decoder, resp, err := req.CallAsJson()
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	result, err = utilities.DecodeResults[models.CouponResponse](decoder)
-	return models.NewApiResponse(result, resp), err
+    ctx context.Context,
+    productFamilyId int,
+    couponId int,
+    body *models.CouponRequest) (
+    models.ApiResponse[models.CouponResponse],
+    error) {
+    req := c.prepareRequest(ctx, "PUT", "/product_families/%v/coupons/%v.json")
+    req.AppendTemplateParams(productFamilyId, couponId)
+    req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
+    })
+    req.Header("Content-Type", "application/json")
+    if body != nil {
+        req.Json(body)
+    }
+    
+    var result models.CouponResponse
+    decoder, resp, err := req.CallAsJson()
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    result, err = utilities.DecodeResults[models.CouponResponse](decoder)
+    return models.NewApiResponse(result, resp), err
 }
 
 // ArchiveCoupon takes context, productFamilyId, couponId as parameters and
@@ -220,37 +220,37 @@ func (c *CouponsController) UpdateCoupon(
 // Archiving makes that Coupon unavailable for future use, but allows it to remain attached and functional on existing Subscriptions that are using it.
 // The `archived_at` date and time will be assigned.
 func (c *CouponsController) ArchiveCoupon(
-	ctx context.Context,
-	productFamilyId int,
-	couponId int) (
-	models.ApiResponse[models.CouponResponse],
-	error) {
-	req := c.prepareRequest(ctx, "DELETE", "/product_families/%v/coupons/%v.json")
-	req.AppendTemplateParams(productFamilyId, couponId)
-	req.Authenticate(NewAuth("BasicAuth"))
-
-	var result models.CouponResponse
-	decoder, resp, err := req.CallAsJson()
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	result, err = utilities.DecodeResults[models.CouponResponse](decoder)
-	return models.NewApiResponse(result, resp), err
+    ctx context.Context,
+    productFamilyId int,
+    couponId int) (
+    models.ApiResponse[models.CouponResponse],
+    error) {
+    req := c.prepareRequest(ctx, "DELETE", "/product_families/%v/coupons/%v.json")
+    req.AppendTemplateParams(productFamilyId, couponId)
+    req.Authenticate(NewAuth("BasicAuth"))
+    
+    var result models.CouponResponse
+    decoder, resp, err := req.CallAsJson()
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    result, err = utilities.DecodeResults[models.CouponResponse](decoder)
+    return models.NewApiResponse(result, resp), err
 }
 
 // ListCouponsInput represents the input of the ListCoupons endpoint.
 type ListCouponsInput struct {
-	// Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.
-	// Use in query `page=1`.
-	Page *int
-	// This parameter indicates how many records to fetch in each request. Default value is 30. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.
-	// Use in query `per_page=200`.
-	PerPage *int
-	// Filter to use for List Coupons operations
-	Filter *models.ListCouponsFilter
-	// When fetching coupons, if you have defined multiple currencies at the site level, you can optionally pass the `?currency_prices=true` query param to include an array of currency price data in the response. Use in query `currency_prices=true`.
-	CurrencyPrices *bool
+    // Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.
+    // Use in query `page=1`.
+    Page           *int                      
+    // This parameter indicates how many records to fetch in each request. Default value is 30. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.
+    // Use in query `per_page=200`.
+    PerPage        *int                      
+    // Filter to use for List Coupons operations
+    Filter         *models.ListCouponsFilter 
+    // When fetching coupons, if you have defined multiple currencies at the site level, you can optionally pass the `?currency_prices=true` query param to include an array of currency price data in the response. Use in query `currency_prices=true`.
+    CurrencyPrices *bool                     
 }
 
 // ListCoupons takes context, page, perPage, filter, currencyPrices as parameters and
@@ -259,33 +259,33 @@ type ListCouponsInput struct {
 // You can retrieve a list of coupons.
 // If the coupon is set to `use_site_exchange_rate: true`, it will return pricing based on the current exchange rate. If the flag is set to false, it will return all of the defined prices for each currency.
 func (c *CouponsController) ListCoupons(
-	ctx context.Context,
-	input ListCouponsInput) (
-	models.ApiResponse[[]models.CouponResponse],
-	error) {
-	req := c.prepareRequest(ctx, "GET", "/coupons.json")
-
-	req.Authenticate(NewAuth("BasicAuth"))
-	if input.Page != nil {
-		req.QueryParam("page", *input.Page)
-	}
-	if input.PerPage != nil {
-		req.QueryParam("per_page", *input.PerPage)
-	}
-	if input.Filter != nil {
-		req.QueryParam("filter", *input.Filter)
-	}
-	if input.CurrencyPrices != nil {
-		req.QueryParam("currency_prices", *input.CurrencyPrices)
-	}
-	var result []models.CouponResponse
-	decoder, resp, err := req.CallAsJson()
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	result, err = utilities.DecodeResults[[]models.CouponResponse](decoder)
-	return models.NewApiResponse(result, resp), err
+    ctx context.Context,
+    input ListCouponsInput) (
+    models.ApiResponse[[]models.CouponResponse],
+    error) {
+    req := c.prepareRequest(ctx, "GET", "/coupons.json")
+    
+    req.Authenticate(NewAuth("BasicAuth"))
+    if input.Page != nil {
+        req.QueryParam("page", *input.Page)
+    }
+    if input.PerPage != nil {
+        req.QueryParam("per_page", *input.PerPage)
+    }
+    if input.Filter != nil {
+        req.QueryParam("filter", *input.Filter)
+    }
+    if input.CurrencyPrices != nil {
+        req.QueryParam("currency_prices", *input.CurrencyPrices)
+    }
+    var result []models.CouponResponse
+    decoder, resp, err := req.CallAsJson()
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    result, err = utilities.DecodeResults[[]models.CouponResponse](decoder)
+    return models.NewApiResponse(result, resp), err
 }
 
 // ReadCouponUsage takes context, productFamilyId, couponId as parameters and
@@ -293,23 +293,23 @@ func (c *CouponsController) ListCoupons(
 // an error if there was an issue with the request or response.
 // This request will provide details about the coupon usage as an array of data hashes, one per product.
 func (c *CouponsController) ReadCouponUsage(
-	ctx context.Context,
-	productFamilyId int,
-	couponId int) (
-	models.ApiResponse[[]models.CouponUsage],
-	error) {
-	req := c.prepareRequest(ctx, "GET", "/product_families/%v/coupons/%v/usage.json")
-	req.AppendTemplateParams(productFamilyId, couponId)
-	req.Authenticate(NewAuth("BasicAuth"))
-
-	var result []models.CouponUsage
-	decoder, resp, err := req.CallAsJson()
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	result, err = utilities.DecodeResults[[]models.CouponUsage](decoder)
-	return models.NewApiResponse(result, resp), err
+    ctx context.Context,
+    productFamilyId int,
+    couponId int) (
+    models.ApiResponse[[]models.CouponUsage],
+    error) {
+    req := c.prepareRequest(ctx, "GET", "/product_families/%v/coupons/%v/usage.json")
+    req.AppendTemplateParams(productFamilyId, couponId)
+    req.Authenticate(NewAuth("BasicAuth"))
+    
+    var result []models.CouponUsage
+    decoder, resp, err := req.CallAsJson()
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    result, err = utilities.DecodeResults[[]models.CouponUsage](decoder)
+    return models.NewApiResponse(result, resp), err
 }
 
 // ValidateCoupon takes context, code, productFamilyId as parameters and
@@ -330,29 +330,29 @@ func (c *CouponsController) ReadCouponUsage(
 // https://<subdomain>.chargify.com/coupons/validate.<format>?code=<coupon_code>&product_family_id=<id>
 // ```
 func (c *CouponsController) ValidateCoupon(
-	ctx context.Context,
-	code string,
-	productFamilyId *int) (
-	models.ApiResponse[models.CouponResponse],
-	error) {
-	req := c.prepareRequest(ctx, "GET", "/coupons/validate.json")
-
-	req.Authenticate(NewAuth("BasicAuth"))
-	req.AppendErrors(map[string]https.ErrorBuilder[error]{
-		"404": {TemplatedMessage: "Not Found: '{$response.body}'", Unmarshaller: errors.NewSingleStringErrorResponse},
-	})
-	req.QueryParam("code", code)
-	if productFamilyId != nil {
-		req.QueryParam("product_family_id", *productFamilyId)
-	}
-	var result models.CouponResponse
-	decoder, resp, err := req.CallAsJson()
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	result, err = utilities.DecodeResults[models.CouponResponse](decoder)
-	return models.NewApiResponse(result, resp), err
+    ctx context.Context,
+    code string,
+    productFamilyId *int) (
+    models.ApiResponse[models.CouponResponse],
+    error) {
+    req := c.prepareRequest(ctx, "GET", "/coupons/validate.json")
+    
+    req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "404": {TemplatedMessage: "Not Found: '{$response.body}'", Unmarshaller: errors.NewSingleStringErrorResponse},
+    })
+    req.QueryParam("code", code)
+    if productFamilyId != nil {
+        req.QueryParam("product_family_id", *productFamilyId)
+    }
+    var result models.CouponResponse
+    decoder, resp, err := req.CallAsJson()
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    result, err = utilities.DecodeResults[models.CouponResponse](decoder)
+    return models.NewApiResponse(result, resp), err
 }
 
 // CreateOrUpdateCouponCurrencyPrices takes context, couponId, body as parameters and
@@ -361,30 +361,30 @@ func (c *CouponsController) ValidateCoupon(
 // This endpoint allows you to create and/or update currency prices for an existing coupon. Multiple prices can be created or updated in a single request but each of the currencies must be defined on the site level already and the coupon must be an amount-based coupon, not percentage.
 // Currency pricing for coupons must mirror the setup of the primary coupon pricing - if the primary coupon is percentage based, you will not be able to define pricing in non-primary currencies.
 func (c *CouponsController) CreateOrUpdateCouponCurrencyPrices(
-	ctx context.Context,
-	couponId int,
-	body *models.CouponCurrencyRequest) (
-	models.ApiResponse[models.CouponCurrencyResponse],
-	error) {
-	req := c.prepareRequest(ctx, "PUT", "/coupons/%v/currency_prices.json")
-	req.AppendTemplateParams(couponId)
-	req.Authenticate(NewAuth("BasicAuth"))
-	req.AppendErrors(map[string]https.ErrorBuilder[error]{
-		"422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorStringMapResponse},
-	})
-	req.Header("Content-Type", "application/json")
-	if body != nil {
-		req.Json(body)
-	}
-
-	var result models.CouponCurrencyResponse
-	decoder, resp, err := req.CallAsJson()
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	result, err = utilities.DecodeResults[models.CouponCurrencyResponse](decoder)
-	return models.NewApiResponse(result, resp), err
+    ctx context.Context,
+    couponId int,
+    body *models.CouponCurrencyRequest) (
+    models.ApiResponse[models.CouponCurrencyResponse],
+    error) {
+    req := c.prepareRequest(ctx, "PUT", "/coupons/%v/currency_prices.json")
+    req.AppendTemplateParams(couponId)
+    req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorStringMapResponse},
+    })
+    req.Header("Content-Type", "application/json")
+    if body != nil {
+        req.Json(body)
+    }
+    
+    var result models.CouponCurrencyResponse
+    decoder, resp, err := req.CallAsJson()
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    result, err = utilities.DecodeResults[models.CouponCurrencyResponse](decoder)
+    return models.NewApiResponse(result, resp), err
 }
 
 // CreateCouponSubcodes takes context, couponId, body as parameters and
@@ -415,39 +415,39 @@ func (c *CouponsController) CreateOrUpdateCouponCurrencyPrices(
 // . to %2E
 // So, if the coupon subcode is `20%OFF`, the URL to delete this coupon subcode would be: `https://<subdomain>.chargify.com/coupons/567/codes/20%25OFF.<format>`
 func (c *CouponsController) CreateCouponSubcodes(
-	ctx context.Context,
-	couponId int,
-	body *models.CouponSubcodes) (
-	models.ApiResponse[models.CouponSubcodesResponse],
-	error) {
-	req := c.prepareRequest(ctx, "POST", "/coupons/%v/codes.json")
-	req.AppendTemplateParams(couponId)
-	req.Authenticate(NewAuth("BasicAuth"))
-	req.Header("Content-Type", "application/json")
-	if body != nil {
-		req.Json(body)
-	}
-
-	var result models.CouponSubcodesResponse
-	decoder, resp, err := req.CallAsJson()
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	result, err = utilities.DecodeResults[models.CouponSubcodesResponse](decoder)
-	return models.NewApiResponse(result, resp), err
+    ctx context.Context,
+    couponId int,
+    body *models.CouponSubcodes) (
+    models.ApiResponse[models.CouponSubcodesResponse],
+    error) {
+    req := c.prepareRequest(ctx, "POST", "/coupons/%v/codes.json")
+    req.AppendTemplateParams(couponId)
+    req.Authenticate(NewAuth("BasicAuth"))
+    req.Header("Content-Type", "application/json")
+    if body != nil {
+        req.Json(body)
+    }
+    
+    var result models.CouponSubcodesResponse
+    decoder, resp, err := req.CallAsJson()
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    result, err = utilities.DecodeResults[models.CouponSubcodesResponse](decoder)
+    return models.NewApiResponse(result, resp), err
 }
 
 // ListCouponSubcodesInput represents the input of the ListCouponSubcodes endpoint.
 type ListCouponSubcodesInput struct {
-	// The Advanced Billing id of the coupon
-	CouponId int
-	// Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.
-	// Use in query `page=1`.
-	Page *int
-	// This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.
-	// Use in query `per_page=200`.
-	PerPage *int
+    // The Advanced Billing id of the coupon
+    CouponId int  
+    // Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.
+    // Use in query `page=1`.
+    Page     *int 
+    // This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.
+    // Use in query `per_page=200`.
+    PerPage  *int 
 }
 
 // ListCouponSubcodes takes context, couponId, page, perPage as parameters and
@@ -455,28 +455,28 @@ type ListCouponSubcodesInput struct {
 // an error if there was an issue with the request or response.
 // This request allows you to request the subcodes that are attached to a coupon.
 func (c *CouponsController) ListCouponSubcodes(
-	ctx context.Context,
-	input ListCouponSubcodesInput) (
-	models.ApiResponse[models.CouponSubcodes],
-	error) {
-	req := c.prepareRequest(ctx, "GET", "/coupons/%v/codes.json")
-	req.AppendTemplateParams(input.CouponId)
-	req.Authenticate(NewAuth("BasicAuth"))
-	if input.Page != nil {
-		req.QueryParam("page", *input.Page)
-	}
-	if input.PerPage != nil {
-		req.QueryParam("per_page", *input.PerPage)
-	}
-
-	var result models.CouponSubcodes
-	decoder, resp, err := req.CallAsJson()
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	result, err = utilities.DecodeResults[models.CouponSubcodes](decoder)
-	return models.NewApiResponse(result, resp), err
+    ctx context.Context,
+    input ListCouponSubcodesInput) (
+    models.ApiResponse[models.CouponSubcodes],
+    error) {
+    req := c.prepareRequest(ctx, "GET", "/coupons/%v/codes.json")
+    req.AppendTemplateParams(input.CouponId)
+    req.Authenticate(NewAuth("BasicAuth"))
+    if input.Page != nil {
+        req.QueryParam("page", *input.Page)
+    }
+    if input.PerPage != nil {
+        req.QueryParam("per_page", *input.PerPage)
+    }
+    
+    var result models.CouponSubcodes
+    decoder, resp, err := req.CallAsJson()
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    result, err = utilities.DecodeResults[models.CouponSubcodes](decoder)
+    return models.NewApiResponse(result, resp), err
 }
 
 // UpdateCouponSubcodes takes context, couponId, body as parameters and
@@ -490,27 +490,27 @@ func (c *CouponsController) ListCouponSubcodes(
 // + Subcodes that were not created because they already exist,
 // + Any subcodes not created because they are invalid.
 func (c *CouponsController) UpdateCouponSubcodes(
-	ctx context.Context,
-	couponId int,
-	body *models.CouponSubcodes) (
-	models.ApiResponse[models.CouponSubcodesResponse],
-	error) {
-	req := c.prepareRequest(ctx, "PUT", "/coupons/%v/codes.json")
-	req.AppendTemplateParams(couponId)
-	req.Authenticate(NewAuth("BasicAuth"))
-	req.Header("Content-Type", "application/json")
-	if body != nil {
-		req.Json(body)
-	}
-
-	var result models.CouponSubcodesResponse
-	decoder, resp, err := req.CallAsJson()
-	if err != nil {
-		return models.NewApiResponse(result, resp), err
-	}
-
-	result, err = utilities.DecodeResults[models.CouponSubcodesResponse](decoder)
-	return models.NewApiResponse(result, resp), err
+    ctx context.Context,
+    couponId int,
+    body *models.CouponSubcodes) (
+    models.ApiResponse[models.CouponSubcodesResponse],
+    error) {
+    req := c.prepareRequest(ctx, "PUT", "/coupons/%v/codes.json")
+    req.AppendTemplateParams(couponId)
+    req.Authenticate(NewAuth("BasicAuth"))
+    req.Header("Content-Type", "application/json")
+    if body != nil {
+        req.Json(body)
+    }
+    
+    var result models.CouponSubcodesResponse
+    decoder, resp, err := req.CallAsJson()
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    result, err = utilities.DecodeResults[models.CouponSubcodesResponse](decoder)
+    return models.NewApiResponse(result, resp), err
 }
 
 // DeleteCouponSubcode takes context, couponId, subcode as parameters and
@@ -533,21 +533,21 @@ func (c *CouponsController) UpdateCouponSubcodes(
 // ## Percent Encoding Example
 // Or if the coupon subcode is 20%OFF, the URL to delete this coupon subcode would be: @https://<subdomain>.chargify.com/coupons/567/codes/20%25OFF.<format>
 func (c *CouponsController) DeleteCouponSubcode(
-	ctx context.Context,
-	couponId int,
-	subcode string) (
-	*http.Response,
-	error) {
-	req := c.prepareRequest(ctx, "DELETE", "/coupons/%v/codes/%v.json")
-	req.AppendTemplateParams(couponId, subcode)
-	req.Authenticate(NewAuth("BasicAuth"))
-	req.AppendErrors(map[string]https.ErrorBuilder[error]{
-		"404": {TemplatedMessage: "Not Found:'{$response.body}'"},
-	})
-
-	httpCtx, err := req.Call()
-	if err != nil {
-		return httpCtx.Response, err
-	}
-	return httpCtx.Response, err
+    ctx context.Context,
+    couponId int,
+    subcode string) (
+    *http.Response,
+    error) {
+    req := c.prepareRequest(ctx, "DELETE", "/coupons/%v/codes/%v.json")
+    req.AppendTemplateParams(couponId, subcode)
+    req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
+    })
+    
+    httpCtx, err := req.Call()
+    if err != nil {
+        return httpCtx.Response, err
+    }
+    return httpCtx.Response, err
 }
