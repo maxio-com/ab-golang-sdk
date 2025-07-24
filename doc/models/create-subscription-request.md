@@ -16,6 +16,7 @@
 ```json
 {
   "subscription": {
+    "defer_signup": false,
     "metafields": {
       "custom_field_name_1": "custom_field_value_1",
       "custom_field_name_2": "custom_field_value_2"

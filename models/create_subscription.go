@@ -1,8 +1,5 @@
-/*
-Package advancedbilling
-
-This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
-*/
+// Package advancedbilling
+// This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
 package models
 
 import (
@@ -38,14 +35,16 @@ type CreateSubscription struct {
     CustomerId                        *int                          `json:"customer_id,omitempty"`
     // (Optional) Set this attribute to a future date/time to sync imported subscriptions to your existing renewal schedule. See the notes on “Date/Time Format” in our [subscription import documentation](https://maxio.zendesk.com/hc/en-us/articles/24251489107213-Advanced-Billing-Subscription-Imports#date-format). If you provide a next_billing_at timestamp that is in the future, no trial or initial charges will be applied when you create the subscription. In fact, no payment will be captured at all. The first payment will be captured, according to the prices defined by the product, near the time specified by next_billing_at. If you do not provide a value for next_billing_at, any trial and/or initial charges will be assessed and charged at the time of subscription creation. If the card cannot be successfully charged, the subscription will not be created. See further notes in the section on Importing Subscriptions.
     NextBillingAt                     *time.Time                    `json:"next_billing_at,omitempty"`
-    // (Optional) Set this attribute to a future date/time to create a subscription in the "Awaiting Signup" state, rather than "Active" or "Trialing". See the notes on “Date/Time Format” in our [subscription import documentation](https://maxio.zendesk.com/hc/en-us/articles/24251489107213-Advanced-Billing-Subscription-Imports#date-format). In the "Awaiting Signup" state, a subscription behaves like any other. It can be canceled, allocated to, had its billing date changed. etc. When the initial_billing_at date hits, the subscription will transition to the expected state. If the product has a trial, the subscription will enter a trial, otherwise it will go active. Setup fees will be respected either before or after the trial, as configured on the price point. If the payment is due at the initial_billing_at and it fails the subscription will be immediately canceled. See further notes in the section on Delayed Signups.
+    // (Optional) Set this attribute to a future date/time to create a subscription in the Awaiting Signup state, rather than Active or Trialing. You can omit the initial_billing_at date to activate the subscription immediately. In the Awaiting Signup state, a subscription behaves like any other. It can be canceled, allocated to, or have its billing date changed. etc. When the initial_billing_at date hits, the subscription will transition to the expected state. If the product has a trial, the subscription will enter a trial, otherwise it will go active. Setup fees will be respected either before or after the trial, as configured on the price point. If the payment is due at the initial_billing_at and it fails the subscription will be immediately canceled. See the [subscription import](https://maxio.zendesk.com/hc/en-us/articles/24251489107213-Advanced-Billing-Subscription-Imports#date-format) documentation for more information about Date/Time Formats.
     InitialBillingAt                  *time.Time                    `json:"initial_billing_at,omitempty"`
+    // (Optional) Set this attribute to true to create the subscription in the Awaiting Signup Date state. Use this when you want to create a subscription that has an unknown first  billing date. When the first billing date is known, update a subscription and set the `initial_billing_at` date. The subscription moves to the Awaiting Signup state with a scheduled initial billing date. You can omit the initial_billing_at date to activate the subscription immediately. See [Subscription States](https://maxio-chargify.zendesk.com/hc/en-us/articles/5404222005773-Subscription-States) for more information.
+    DeferSignup                       *bool                         `json:"defer_signup,omitempty"`
     // For European sites subject to PSD2 and using 3D Secure, this can be used to reference a previous transaction for the customer. This will ensure the card will be charged successfully at renewal.
     StoredCredentialTransactionId     *int                          `json:"stored_credential_transaction_id,omitempty"`
     SalesRepId                        *int                          `json:"sales_rep_id,omitempty"`
     // The Payment Profile ID of an existing card or bank account, which belongs to an existing customer to use for payment for this subscription. If the card, bank account, or customer does not exist already, or if you want to use a new (unstored) card or bank account for the subscription, use `payment_profile_attributes` instead to create a new payment profile along with the subscription. (This value is available on an existing subscription via the API as `credit_card` > id or `bank_account` > id)
     PaymentProfileId                  *int                          `json:"payment_profile_id,omitempty"`
-    // The reference value (provided by your app) for the subscription itelf.
+    // The reference value (provided by your app) for the subscription itself.
     Reference                         *string                       `json:"reference,omitempty"`
     CustomerAttributes                *CustomerAttributes           `json:"customer_attributes,omitempty"`
     // alias to credit_card_attributes
@@ -84,7 +83,7 @@ type CreateSubscription struct {
     CalendarBillingFirstCharge        *string                       `json:"calendar_billing_first_charge,omitempty"`
     // (Optional) Can be used when canceling a subscription (via the HTTP DELETE method) to indicate why a subscription was canceled.
     ReasonCode                        *string                       `json:"reason_code,omitempty"`
-    // (Optional, used only for Delayed Product Change When set to true, indicates that a changed value for product_handle should schedule the product change to the next subscription renewal.
+    // (Optional) used only for Delayed Product Change When set to true, indicates that a changed value for product_handle should schedule the product change to the next subscription renewal.
     ProductChangeDelayed              *bool                         `json:"product_change_delayed,omitempty"`
     // Use in place of passing product and component information to set up the subscription with an existing offer. May be either the Chargify id of the offer or its handle prefixed with `handle:`.er
     OfferId                           *CreateSubscriptionOfferId    `json:"offer_id,omitempty"`
@@ -112,8 +111,8 @@ type CreateSubscription struct {
 // providing a human-readable string representation useful for logging, debugging or displaying information.
 func (c CreateSubscription) String() string {
     return fmt.Sprintf(
-    	"CreateSubscription[ProductHandle=%v, ProductId=%v, ProductPricePointHandle=%v, ProductPricePointId=%v, CustomPrice=%v, CouponCode=%v, CouponCodes=%v, PaymentCollectionMethod=%v, ReceivesInvoiceEmails=%v, NetTerms=%v, CustomerId=%v, NextBillingAt=%v, InitialBillingAt=%v, StoredCredentialTransactionId=%v, SalesRepId=%v, PaymentProfileId=%v, Reference=%v, CustomerAttributes=%v, PaymentProfileAttributes=%v, CreditCardAttributes=%v, BankAccountAttributes=%v, Components=%v, CalendarBilling=%v, Metafields=%v, CustomerReference=%v, Group=%v, Ref=%v, CancellationMessage=%v, CancellationMethod=%v, Currency=%v, ExpiresAt=%v, ExpirationTracksNextBillingChange=%v, AgreementTerms=%v, AuthorizerFirstName=%v, AuthorizerLastName=%v, CalendarBillingFirstCharge=%v, ReasonCode=%v, ProductChangeDelayed=%v, OfferId=%v, PrepaidConfiguration=%v, PreviousBillingAt=%v, ImportMrr=%v, CanceledAt=%v, ActivatedAt=%v, AgreementAcceptance=%v, AchAgreement=%v, DunningCommunicationDelayEnabled=%v, DunningCommunicationDelayTimeZone=%v, SkipBillingManifestTaxes=%v, AdditionalProperties=%v]",
-    	c.ProductHandle, c.ProductId, c.ProductPricePointHandle, c.ProductPricePointId, c.CustomPrice, c.CouponCode, c.CouponCodes, c.PaymentCollectionMethod, c.ReceivesInvoiceEmails, c.NetTerms, c.CustomerId, c.NextBillingAt, c.InitialBillingAt, c.StoredCredentialTransactionId, c.SalesRepId, c.PaymentProfileId, c.Reference, c.CustomerAttributes, c.PaymentProfileAttributes, c.CreditCardAttributes, c.BankAccountAttributes, c.Components, c.CalendarBilling, c.Metafields, c.CustomerReference, c.Group, c.Ref, c.CancellationMessage, c.CancellationMethod, c.Currency, c.ExpiresAt, c.ExpirationTracksNextBillingChange, c.AgreementTerms, c.AuthorizerFirstName, c.AuthorizerLastName, c.CalendarBillingFirstCharge, c.ReasonCode, c.ProductChangeDelayed, c.OfferId, c.PrepaidConfiguration, c.PreviousBillingAt, c.ImportMrr, c.CanceledAt, c.ActivatedAt, c.AgreementAcceptance, c.AchAgreement, c.DunningCommunicationDelayEnabled, c.DunningCommunicationDelayTimeZone, c.SkipBillingManifestTaxes, c.AdditionalProperties)
+    	"CreateSubscription[ProductHandle=%v, ProductId=%v, ProductPricePointHandle=%v, ProductPricePointId=%v, CustomPrice=%v, CouponCode=%v, CouponCodes=%v, PaymentCollectionMethod=%v, ReceivesInvoiceEmails=%v, NetTerms=%v, CustomerId=%v, NextBillingAt=%v, InitialBillingAt=%v, DeferSignup=%v, StoredCredentialTransactionId=%v, SalesRepId=%v, PaymentProfileId=%v, Reference=%v, CustomerAttributes=%v, PaymentProfileAttributes=%v, CreditCardAttributes=%v, BankAccountAttributes=%v, Components=%v, CalendarBilling=%v, Metafields=%v, CustomerReference=%v, Group=%v, Ref=%v, CancellationMessage=%v, CancellationMethod=%v, Currency=%v, ExpiresAt=%v, ExpirationTracksNextBillingChange=%v, AgreementTerms=%v, AuthorizerFirstName=%v, AuthorizerLastName=%v, CalendarBillingFirstCharge=%v, ReasonCode=%v, ProductChangeDelayed=%v, OfferId=%v, PrepaidConfiguration=%v, PreviousBillingAt=%v, ImportMrr=%v, CanceledAt=%v, ActivatedAt=%v, AgreementAcceptance=%v, AchAgreement=%v, DunningCommunicationDelayEnabled=%v, DunningCommunicationDelayTimeZone=%v, SkipBillingManifestTaxes=%v, AdditionalProperties=%v]",
+    	c.ProductHandle, c.ProductId, c.ProductPricePointHandle, c.ProductPricePointId, c.CustomPrice, c.CouponCode, c.CouponCodes, c.PaymentCollectionMethod, c.ReceivesInvoiceEmails, c.NetTerms, c.CustomerId, c.NextBillingAt, c.InitialBillingAt, c.DeferSignup, c.StoredCredentialTransactionId, c.SalesRepId, c.PaymentProfileId, c.Reference, c.CustomerAttributes, c.PaymentProfileAttributes, c.CreditCardAttributes, c.BankAccountAttributes, c.Components, c.CalendarBilling, c.Metafields, c.CustomerReference, c.Group, c.Ref, c.CancellationMessage, c.CancellationMethod, c.Currency, c.ExpiresAt, c.ExpirationTracksNextBillingChange, c.AgreementTerms, c.AuthorizerFirstName, c.AuthorizerLastName, c.CalendarBillingFirstCharge, c.ReasonCode, c.ProductChangeDelayed, c.OfferId, c.PrepaidConfiguration, c.PreviousBillingAt, c.ImportMrr, c.CanceledAt, c.ActivatedAt, c.AgreementAcceptance, c.AchAgreement, c.DunningCommunicationDelayEnabled, c.DunningCommunicationDelayTimeZone, c.SkipBillingManifestTaxes, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreateSubscription.
@@ -122,7 +121,7 @@ func (c CreateSubscription) MarshalJSON() (
     []byte,
     error) {
     if err := DetectConflictingProperties(c.AdditionalProperties,
-        "product_handle", "product_id", "product_price_point_handle", "product_price_point_id", "custom_price", "coupon_code", "coupon_codes", "payment_collection_method", "receives_invoice_emails", "net_terms", "customer_id", "next_billing_at", "initial_billing_at", "stored_credential_transaction_id", "sales_rep_id", "payment_profile_id", "reference", "customer_attributes", "payment_profile_attributes", "credit_card_attributes", "bank_account_attributes", "components", "calendar_billing", "metafields", "customer_reference", "group", "ref", "cancellation_message", "cancellation_method", "currency", "expires_at", "expiration_tracks_next_billing_change", "agreement_terms", "authorizer_first_name", "authorizer_last_name", "calendar_billing_first_charge", "reason_code", "product_change_delayed", "offer_id", "prepaid_configuration", "previous_billing_at", "import_mrr", "canceled_at", "activated_at", "agreement_acceptance", "ach_agreement", "dunning_communication_delay_enabled", "dunning_communication_delay_time_zone", "skip_billing_manifest_taxes"); err != nil {
+        "product_handle", "product_id", "product_price_point_handle", "product_price_point_id", "custom_price", "coupon_code", "coupon_codes", "payment_collection_method", "receives_invoice_emails", "net_terms", "customer_id", "next_billing_at", "initial_billing_at", "defer_signup", "stored_credential_transaction_id", "sales_rep_id", "payment_profile_id", "reference", "customer_attributes", "payment_profile_attributes", "credit_card_attributes", "bank_account_attributes", "components", "calendar_billing", "metafields", "customer_reference", "group", "ref", "cancellation_message", "cancellation_method", "currency", "expires_at", "expiration_tracks_next_billing_change", "agreement_terms", "authorizer_first_name", "authorizer_last_name", "calendar_billing_first_charge", "reason_code", "product_change_delayed", "offer_id", "prepaid_configuration", "previous_billing_at", "import_mrr", "canceled_at", "activated_at", "agreement_acceptance", "ach_agreement", "dunning_communication_delay_enabled", "dunning_communication_delay_time_zone", "skip_billing_manifest_taxes"); err != nil {
         return []byte{}, err
     }
     return json.Marshal(c.toMap())
@@ -170,6 +169,9 @@ func (c CreateSubscription) toMap() map[string]any {
     }
     if c.InitialBillingAt != nil {
         structMap["initial_billing_at"] = c.InitialBillingAt.Format(time.RFC3339)
+    }
+    if c.DeferSignup != nil {
+        structMap["defer_signup"] = c.DeferSignup
     }
     if c.StoredCredentialTransactionId != nil {
         structMap["stored_credential_transaction_id"] = c.StoredCredentialTransactionId
@@ -294,7 +296,7 @@ func (c *CreateSubscription) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "product_handle", "product_id", "product_price_point_handle", "product_price_point_id", "custom_price", "coupon_code", "coupon_codes", "payment_collection_method", "receives_invoice_emails", "net_terms", "customer_id", "next_billing_at", "initial_billing_at", "stored_credential_transaction_id", "sales_rep_id", "payment_profile_id", "reference", "customer_attributes", "payment_profile_attributes", "credit_card_attributes", "bank_account_attributes", "components", "calendar_billing", "metafields", "customer_reference", "group", "ref", "cancellation_message", "cancellation_method", "currency", "expires_at", "expiration_tracks_next_billing_change", "agreement_terms", "authorizer_first_name", "authorizer_last_name", "calendar_billing_first_charge", "reason_code", "product_change_delayed", "offer_id", "prepaid_configuration", "previous_billing_at", "import_mrr", "canceled_at", "activated_at", "agreement_acceptance", "ach_agreement", "dunning_communication_delay_enabled", "dunning_communication_delay_time_zone", "skip_billing_manifest_taxes")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "product_handle", "product_id", "product_price_point_handle", "product_price_point_id", "custom_price", "coupon_code", "coupon_codes", "payment_collection_method", "receives_invoice_emails", "net_terms", "customer_id", "next_billing_at", "initial_billing_at", "defer_signup", "stored_credential_transaction_id", "sales_rep_id", "payment_profile_id", "reference", "customer_attributes", "payment_profile_attributes", "credit_card_attributes", "bank_account_attributes", "components", "calendar_billing", "metafields", "customer_reference", "group", "ref", "cancellation_message", "cancellation_method", "currency", "expires_at", "expiration_tracks_next_billing_change", "agreement_terms", "authorizer_first_name", "authorizer_last_name", "calendar_billing_first_charge", "reason_code", "product_change_delayed", "offer_id", "prepaid_configuration", "previous_billing_at", "import_mrr", "canceled_at", "activated_at", "agreement_acceptance", "ach_agreement", "dunning_communication_delay_enabled", "dunning_communication_delay_time_zone", "skip_billing_manifest_taxes")
     if err != nil {
     	return err
     }
@@ -325,6 +327,7 @@ func (c *CreateSubscription) UnmarshalJSON(input []byte) error {
         }
         c.InitialBillingAt = &InitialBillingAtVal
     }
+    c.DeferSignup = temp.DeferSignup
     c.StoredCredentialTransactionId = temp.StoredCredentialTransactionId
     c.SalesRepId = temp.SalesRepId
     c.PaymentProfileId = temp.PaymentProfileId
@@ -403,6 +406,7 @@ type tempCreateSubscription  struct {
     CustomerId                        *int                          `json:"customer_id,omitempty"`
     NextBillingAt                     *string                       `json:"next_billing_at,omitempty"`
     InitialBillingAt                  *string                       `json:"initial_billing_at,omitempty"`
+    DeferSignup                       *bool                         `json:"defer_signup,omitempty"`
     StoredCredentialTransactionId     *int                          `json:"stored_credential_transaction_id,omitempty"`
     SalesRepId                        *int                          `json:"sales_rep_id,omitempty"`
     PaymentProfileId                  *int                          `json:"payment_profile_id,omitempty"`

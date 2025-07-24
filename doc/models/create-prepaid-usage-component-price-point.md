@@ -14,7 +14,7 @@
 | `PricingScheme` | [`models.PricingScheme`](../../doc/models/pricing-scheme.md) | Required | The identifier for the pricing scheme. See [Product Components](https://help.chargify.com/products/product-components.html) for an overview of pricing schemes. |
 | `Prices` | [`[]models.Price`](../../doc/models/price.md) | Required | - |
 | `OveragePricing` | [`models.OveragePricing`](../../doc/models/overage-pricing.md) | Required | - |
-| `UseSiteExchangeRate` | `*bool` | Optional | Whether to use the site level exchange rate or define your own prices for each currency if you have multiple currencies defined on the site.<br>**Default**: `true` |
+| `UseSiteExchangeRate` | `*bool` | Optional | Whether to use the site level exchange rate or define your own prices for each currency if you have multiple currencies defined on the site.<br><br>**Default**: `true` |
 | `RolloverPrepaidRemainder` | `*bool` | Optional | (only for prepaid usage components) Boolean which controls whether or not remaining units should be rolled over to the next period |
 | `RenewPrepaidAllocation` | `*bool` | Optional | (only for prepaid usage components) Boolean which controls whether or not the allocated quantity should be renewed at the beginning of each period |
 | `ExpirationInterval` | `*float64` | Optional | (only for prepaid usage components where rollover_prepaid_remainder is true) The number of `expiration_interval_unit`s after which rollover amounts should expire |

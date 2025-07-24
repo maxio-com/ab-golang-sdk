@@ -26,6 +26,8 @@
 | `SiteGatewaySettingId` | `models.Optional[int]` | Optional | - |
 | `GatewayHandle` | `models.Optional[string]` | Optional | - |
 | `PaypalEmail` | `*string` | Optional | - |
+| `CreatedAt` | `*time.Time` | Optional | A timestamp indicating when this payment profile was created |
+| `UpdatedAt` | `*time.Time` | Optional | A timestamp indicating when this payment profile was last updated |
 
 ## Example (as JSON)
 

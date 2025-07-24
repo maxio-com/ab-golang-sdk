@@ -45,7 +45,7 @@ CreateProductPricePoint(
 
 ## Response Type
 
-[`models.ProductPricePointResponse`](../../doc/models/product-price-point-response.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.ProductPricePointResponse](../../doc/models/product-price-point-response.md).
 
 ## Example Usage
 
@@ -60,15 +60,15 @@ body := models.CreateProductPricePointRequest{
         Handle:                  models.ToPointer("educational"),
         PriceInCents:            int64(1000),
         Interval:                1,
-        IntervalUnit:            models.IntervalUnit("month"),
+        IntervalUnit:            models.IntervalUnit_MONTH,
         TrialPriceInCents:       models.ToPointer(int64(4900)),
         TrialInterval:           models.ToPointer(1),
-        TrialIntervalUnit:       models.ToPointer(models.IntervalUnit("month")),
+        TrialIntervalUnit:       models.ToPointer(models.IntervalUnit_MONTH),
         TrialType:               models.ToPointer("payment_expected"),
         InitialChargeInCents:    models.ToPointer(int64(120000)),
         InitialChargeAfterTrial: models.ToPointer(false),
         ExpirationInterval:      models.ToPointer(12),
-        ExpirationIntervalUnit:  models.NewOptional(models.ToPointer(models.ExpirationIntervalUnit("month"))),
+        ExpirationIntervalUnit:  models.NewOptional(models.ToPointer(models.ExpirationIntervalUnit_MONTH)),
     },
 }
 
@@ -133,15 +133,15 @@ ListProductPricePoints(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `productId` | [`models.ListProductPricePointsInputProductId`](../../doc/models/containers/list-product-price-points-input-product-id.md) | Template, Required | This is a container for one-of cases. |
-| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br>**Default**: `1`<br>**Constraints**: `>= 1` |
-| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 10. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>**Default**: `10`<br>**Constraints**: `<= 200` |
+| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br><br>**Default**: `1`<br><br>**Constraints**: `>= 1` |
+| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 10. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br><br>**Default**: `10`<br><br>**Constraints**: `<= 200` |
 | `currencyPrices` | `*bool` | Query, Optional | When fetching a product's price points, if you have defined multiple currencies at the site level, you can optionally pass the ?currency_prices=true query param to include an array of currency price data in the response. If the product price point is set to use_site_exchange_rate: true, it will return pricing based on the current exchange rate. If the flag is set to false, it will return all of the defined prices for each currency. |
 | `filterType` | [`[]models.PricePointType`](../../doc/models/price-point-type.md) | Query, Optional | Use in query: `filter[type]=catalog,default`. |
 | `archived` | `*bool` | Query, Optional | Set to include archived price points in the response. |
 
 ## Response Type
 
-[`models.ListProductPricePointsResponse`](../../doc/models/list-product-price-points-response.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.ListProductPricePointsResponse](../../doc/models/list-product-price-points-response.md).
 
 ## Example Usage
 
@@ -220,7 +220,7 @@ UpdateProductPricePoint(
 
 ## Response Type
 
-[`models.ProductPricePointResponse`](../../doc/models/product-price-point-response.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.ProductPricePointResponse](../../doc/models/product-price-point-response.md).
 
 ## Example Usage
 
@@ -300,7 +300,7 @@ ReadProductPricePoint(
 
 ## Response Type
 
-[`models.ProductPricePointResponse`](../../doc/models/product-price-point-response.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.ProductPricePointResponse](../../doc/models/product-price-point-response.md).
 
 ## Example Usage
 
@@ -373,7 +373,7 @@ ArchiveProductPricePoint(
 
 ## Response Type
 
-[`models.ProductPricePointResponse`](../../doc/models/product-price-point-response.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.ProductPricePointResponse](../../doc/models/product-price-point-response.md).
 
 ## Example Usage
 
@@ -450,7 +450,7 @@ UnarchiveProductPricePoint(
 
 ## Response Type
 
-[`models.ProductPricePointResponse`](../../doc/models/product-price-point-response.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.ProductPricePointResponse](../../doc/models/product-price-point-response.md).
 
 ## Example Usage
 
@@ -523,7 +523,7 @@ PromoteProductPricePointToDefault(
 
 ## Response Type
 
-[`models.ProductResponse`](../../doc/models/product-response.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.ProductResponse](../../doc/models/product-response.md).
 
 ## Example Usage
 
@@ -620,7 +620,7 @@ BulkCreateProductPricePoints(
 
 ## Response Type
 
-[`models.BulkCreateProductPricePointsResponse`](../../doc/models/bulk-create-product-price-points-response.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.BulkCreateProductPricePointsResponse](../../doc/models/bulk-create-product-price-points-response.md).
 
 ## Example Usage
 
@@ -636,30 +636,30 @@ body := models.BulkCreateProductPricePointsRequest{
             Handle:                  models.ToPointer("educational"),
             PriceInCents:            int64(1000),
             Interval:                1,
-            IntervalUnit:            models.IntervalUnit("month"),
+            IntervalUnit:            models.IntervalUnit_MONTH,
             TrialPriceInCents:       models.ToPointer(int64(4900)),
             TrialInterval:           models.ToPointer(1),
-            TrialIntervalUnit:       models.ToPointer(models.IntervalUnit("month")),
+            TrialIntervalUnit:       models.ToPointer(models.IntervalUnit_MONTH),
             TrialType:               models.ToPointer("payment_expected"),
             InitialChargeInCents:    models.ToPointer(int64(120000)),
             InitialChargeAfterTrial: models.ToPointer(false),
             ExpirationInterval:      models.ToPointer(12),
-            ExpirationIntervalUnit:  models.NewOptional(models.ToPointer(models.ExpirationIntervalUnit("month"))),
+            ExpirationIntervalUnit:  models.NewOptional(models.ToPointer(models.ExpirationIntervalUnit_MONTH)),
         },
         models.CreateProductPricePoint{
             Name:                    "More Educational",
             Handle:                  models.ToPointer("more-educational"),
             PriceInCents:            int64(2000),
             Interval:                1,
-            IntervalUnit:            models.IntervalUnit("month"),
+            IntervalUnit:            models.IntervalUnit_MONTH,
             TrialPriceInCents:       models.ToPointer(int64(4900)),
             TrialInterval:           models.ToPointer(1),
-            TrialIntervalUnit:       models.ToPointer(models.IntervalUnit("month")),
+            TrialIntervalUnit:       models.ToPointer(models.IntervalUnit_MONTH),
             TrialType:               models.ToPointer("payment_expected"),
             InitialChargeInCents:    models.ToPointer(int64(120000)),
             InitialChargeAfterTrial: models.ToPointer(false),
             ExpirationInterval:      models.ToPointer(12),
-            ExpirationIntervalUnit:  models.NewOptional(models.ToPointer(models.ExpirationIntervalUnit("month"))),
+            ExpirationIntervalUnit:  models.NewOptional(models.ToPointer(models.ExpirationIntervalUnit_MONTH)),
         },
     },
 }
@@ -736,7 +736,7 @@ CreateProductCurrencyPrices(
 
 ## Response Type
 
-[`models.CurrencyPricesResponse`](../../doc/models/currency-prices-response.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.CurrencyPricesResponse](../../doc/models/currency-prices-response.md).
 
 ## Example Usage
 
@@ -750,17 +750,17 @@ body := models.CreateProductCurrencyPricesRequest{
         models.CreateProductCurrencyPrice{
             Currency:             "EUR",
             Price:                60,
-            Role:                 models.CurrencyPriceRole("baseline"),
+            Role:                 models.CurrencyPriceRole_BASELINE,
         },
         models.CreateProductCurrencyPrice{
             Currency:             "EUR",
             Price:                30,
-            Role:                 models.CurrencyPriceRole("trial"),
+            Role:                 models.CurrencyPriceRole_TRIAL,
         },
         models.CreateProductCurrencyPrice{
             Currency:             "EUR",
             Price:                100,
-            Role:                 models.CurrencyPriceRole("initial"),
+            Role:                 models.CurrencyPriceRole_INITIAL,
         },
     },
 }
@@ -825,7 +825,7 @@ UpdateProductCurrencyPrices(
 
 ## Response Type
 
-[`models.CurrencyPricesResponse`](../../doc/models/currency-prices-response.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.CurrencyPricesResponse](../../doc/models/currency-prices-response.md).
 
 ## Example Usage
 
@@ -900,12 +900,12 @@ ListAllProductPricePoints(
 | `direction` | [`*models.SortingDirection`](../../doc/models/sorting-direction.md) | Query, Optional | Controls the order in which results are returned.<br>Use in query `direction=asc`. |
 | `filter` | [`*models.ListPricePointsFilter`](../../doc/models/list-price-points-filter.md) | Query, Optional | Filter to use for List PricePoints operations |
 | `include` | [`*models.ListProductsPricePointsInclude`](../../doc/models/list-products-price-points-include.md) | Query, Optional | Allows including additional data in the response. Use in query: `include=currency_prices`. |
-| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br>**Default**: `1`<br>**Constraints**: `>= 1` |
-| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`.<br>**Default**: `20`<br>**Constraints**: `<= 200` |
+| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br><br>**Default**: `1`<br><br>**Constraints**: `>= 1` |
+| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`.<br><br>**Default**: `20`<br><br>**Constraints**: `<= 200` |
 
 ## Response Type
 
-[`models.ListProductPricePointsResponse`](../../doc/models/list-product-price-points-response.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.ListProductPricePointsResponse](../../doc/models/list-product-price-points-response.md).
 
 ## Example Usage
 
@@ -919,9 +919,9 @@ collectedInput := advancedbilling.ListAllProductPricePointsInput{
         StartDatetime:        models.ToPointer(parseTime(time.RFC3339, "12/19/2011 09:15:30", func(err error) { log.Fatalln(err) })),
         EndDatetime:          models.ToPointer(parseTime(time.RFC3339, "06/07/2019 17:20:06", func(err error) { log.Fatalln(err) })),
         Type:                 []models.PricePointType{
-            models.PricePointType("catalog"),
-            models.PricePointType("default"),
-            models.PricePointType("custom"),
+            models.PricePointType_CATALOG,
+            models.PricePointType_ENUMDEFAULT,
+            models.PricePointType_CUSTOM,
         },
         Ids:                  []int{
             1,
@@ -929,7 +929,7 @@ collectedInput := advancedbilling.ListAllProductPricePointsInput{
             3,
         },
     }),
-    Include:   models.ToPointer(models.ListProductsPricePointsInclude("currency_prices")),
+    Include:   models.ToPointer(models.ListProductsPricePointsInclude_CURRENCYPRICES),
     Page:      models.ToPointer(2),
     PerPage:   models.ToPointer(50),
 }

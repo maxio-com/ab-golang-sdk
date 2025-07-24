@@ -1,8 +1,5 @@
-/*
-Package advancedbilling
-
-This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
-*/
+// Package advancedbilling
+// This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
 package models
 
 import (
@@ -29,6 +26,8 @@ type Component struct {
     ProductFamilyId           *int                       `json:"product_family_id,omitempty"`
     // The name of the Product Family to which the Component belongs
     ProductFamilyName         *string                    `json:"product_family_name,omitempty"`
+    // The handle of the Product Family to which the Component belongs
+    ProductFamilyHandle       *string                    `json:"product_family_handle,omitempty"`
     // deprecated - use unit_price instead
     PricePerUnitInCents       Optional[int64]            `json:"price_per_unit_in_cents"`
     // A handle for the component type
@@ -85,8 +84,8 @@ type Component struct {
 // providing a human-readable string representation useful for logging, debugging or displaying information.
 func (c Component) String() string {
     return fmt.Sprintf(
-    	"Component[Id=%v, Name=%v, Handle=%v, PricingScheme=%v, UnitName=%v, UnitPrice=%v, ProductFamilyId=%v, ProductFamilyName=%v, PricePerUnitInCents=%v, Kind=%v, Archived=%v, Taxable=%v, Description=%v, DefaultPricePointId=%v, OveragePrices=%v, Prices=%v, PricePointCount=%v, PricePointsUrl=%v, DefaultPricePointName=%v, TaxCode=%v, Recurring=%v, UpgradeCharge=%v, DowngradeCredit=%v, CreatedAt=%v, UpdatedAt=%v, ArchivedAt=%v, HideDateRangeOnInvoice=%v, AllowFractionalQuantities=%v, ItemCategory=%v, UseSiteExchangeRate=%v, AccountingCode=%v, EventBasedBillingMetricId=%v, Interval=%v, IntervalUnit=%v, AdditionalProperties=%v]",
-    	c.Id, c.Name, c.Handle, c.PricingScheme, c.UnitName, c.UnitPrice, c.ProductFamilyId, c.ProductFamilyName, c.PricePerUnitInCents, c.Kind, c.Archived, c.Taxable, c.Description, c.DefaultPricePointId, c.OveragePrices, c.Prices, c.PricePointCount, c.PricePointsUrl, c.DefaultPricePointName, c.TaxCode, c.Recurring, c.UpgradeCharge, c.DowngradeCredit, c.CreatedAt, c.UpdatedAt, c.ArchivedAt, c.HideDateRangeOnInvoice, c.AllowFractionalQuantities, c.ItemCategory, c.UseSiteExchangeRate, c.AccountingCode, c.EventBasedBillingMetricId, c.Interval, c.IntervalUnit, c.AdditionalProperties)
+    	"Component[Id=%v, Name=%v, Handle=%v, PricingScheme=%v, UnitName=%v, UnitPrice=%v, ProductFamilyId=%v, ProductFamilyName=%v, ProductFamilyHandle=%v, PricePerUnitInCents=%v, Kind=%v, Archived=%v, Taxable=%v, Description=%v, DefaultPricePointId=%v, OveragePrices=%v, Prices=%v, PricePointCount=%v, PricePointsUrl=%v, DefaultPricePointName=%v, TaxCode=%v, Recurring=%v, UpgradeCharge=%v, DowngradeCredit=%v, CreatedAt=%v, UpdatedAt=%v, ArchivedAt=%v, HideDateRangeOnInvoice=%v, AllowFractionalQuantities=%v, ItemCategory=%v, UseSiteExchangeRate=%v, AccountingCode=%v, EventBasedBillingMetricId=%v, Interval=%v, IntervalUnit=%v, AdditionalProperties=%v]",
+    	c.Id, c.Name, c.Handle, c.PricingScheme, c.UnitName, c.UnitPrice, c.ProductFamilyId, c.ProductFamilyName, c.ProductFamilyHandle, c.PricePerUnitInCents, c.Kind, c.Archived, c.Taxable, c.Description, c.DefaultPricePointId, c.OveragePrices, c.Prices, c.PricePointCount, c.PricePointsUrl, c.DefaultPricePointName, c.TaxCode, c.Recurring, c.UpgradeCharge, c.DowngradeCredit, c.CreatedAt, c.UpdatedAt, c.ArchivedAt, c.HideDateRangeOnInvoice, c.AllowFractionalQuantities, c.ItemCategory, c.UseSiteExchangeRate, c.AccountingCode, c.EventBasedBillingMetricId, c.Interval, c.IntervalUnit, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for Component.
@@ -95,7 +94,7 @@ func (c Component) MarshalJSON() (
     []byte,
     error) {
     if err := DetectConflictingProperties(c.AdditionalProperties,
-        "id", "name", "handle", "pricing_scheme", "unit_name", "unit_price", "product_family_id", "product_family_name", "price_per_unit_in_cents", "kind", "archived", "taxable", "description", "default_price_point_id", "overage_prices", "prices", "price_point_count", "price_points_url", "default_price_point_name", "tax_code", "recurring", "upgrade_charge", "downgrade_credit", "created_at", "updated_at", "archived_at", "hide_date_range_on_invoice", "allow_fractional_quantities", "item_category", "use_site_exchange_rate", "accounting_code", "event_based_billing_metric_id", "interval", "interval_unit"); err != nil {
+        "id", "name", "handle", "pricing_scheme", "unit_name", "unit_price", "product_family_id", "product_family_name", "product_family_handle", "price_per_unit_in_cents", "kind", "archived", "taxable", "description", "default_price_point_id", "overage_prices", "prices", "price_point_count", "price_points_url", "default_price_point_name", "tax_code", "recurring", "upgrade_charge", "downgrade_credit", "created_at", "updated_at", "archived_at", "hide_date_range_on_invoice", "allow_fractional_quantities", "item_category", "use_site_exchange_rate", "accounting_code", "event_based_billing_metric_id", "interval", "interval_unit"); err != nil {
         return []byte{}, err
     }
     return json.Marshal(c.toMap())
@@ -140,6 +139,9 @@ func (c Component) toMap() map[string]any {
     }
     if c.ProductFamilyName != nil {
         structMap["product_family_name"] = c.ProductFamilyName
+    }
+    if c.ProductFamilyHandle != nil {
+        structMap["product_family_handle"] = c.ProductFamilyHandle
     }
     if c.PricePerUnitInCents.IsValueSet() {
         if c.PricePerUnitInCents.Value() != nil {
@@ -291,7 +293,7 @@ func (c *Component) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "id", "name", "handle", "pricing_scheme", "unit_name", "unit_price", "product_family_id", "product_family_name", "price_per_unit_in_cents", "kind", "archived", "taxable", "description", "default_price_point_id", "overage_prices", "prices", "price_point_count", "price_points_url", "default_price_point_name", "tax_code", "recurring", "upgrade_charge", "downgrade_credit", "created_at", "updated_at", "archived_at", "hide_date_range_on_invoice", "allow_fractional_quantities", "item_category", "use_site_exchange_rate", "accounting_code", "event_based_billing_metric_id", "interval", "interval_unit")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "id", "name", "handle", "pricing_scheme", "unit_name", "unit_price", "product_family_id", "product_family_name", "product_family_handle", "price_per_unit_in_cents", "kind", "archived", "taxable", "description", "default_price_point_id", "overage_prices", "prices", "price_point_count", "price_points_url", "default_price_point_name", "tax_code", "recurring", "upgrade_charge", "downgrade_credit", "created_at", "updated_at", "archived_at", "hide_date_range_on_invoice", "allow_fractional_quantities", "item_category", "use_site_exchange_rate", "accounting_code", "event_based_billing_metric_id", "interval", "interval_unit")
     if err != nil {
     	return err
     }
@@ -305,6 +307,7 @@ func (c *Component) UnmarshalJSON(input []byte) error {
     c.UnitPrice = temp.UnitPrice
     c.ProductFamilyId = temp.ProductFamilyId
     c.ProductFamilyName = temp.ProductFamilyName
+    c.ProductFamilyHandle = temp.ProductFamilyHandle
     c.PricePerUnitInCents = temp.PricePerUnitInCents
     c.Kind = temp.Kind
     c.Archived = temp.Archived
@@ -363,6 +366,7 @@ type tempComponent  struct {
     UnitPrice                 Optional[string]           `json:"unit_price"`
     ProductFamilyId           *int                       `json:"product_family_id,omitempty"`
     ProductFamilyName         *string                    `json:"product_family_name,omitempty"`
+    ProductFamilyHandle       *string                    `json:"product_family_handle,omitempty"`
     PricePerUnitInCents       Optional[int64]            `json:"price_per_unit_in_cents"`
     Kind                      *ComponentKind             `json:"kind,omitempty"`
     Archived                  *bool                      `json:"archived,omitempty"`

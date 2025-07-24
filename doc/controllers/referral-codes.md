@@ -37,7 +37,7 @@ ValidateReferralCode(
 
 ## Response Type
 
-[`models.ReferralValidationResponse`](../../doc/models/referral-validation-response.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.ReferralValidationResponse](../../doc/models/referral-validation-response.md).
 
 ## Example Usage
 

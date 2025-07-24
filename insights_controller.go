@@ -1,8 +1,5 @@
-/*
-Package advancedbilling
-
-This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
-*/
+// Package advancedbilling
+// This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
 package advancedbilling
 
 import (
@@ -31,7 +28,7 @@ func NewInsightsController(baseController baseController) *InsightsController {
 // an error if there was an issue with the request or response.
 // The Stats API is a very basic view of some Site-level stats. This API call only answers with JSON responses. An XML version is not provided.
 // ## Stats Documentation
-// There currently is not a complimentary matching set of documentation that compliments this endpoint. However, each Site's dashboard will reflect the summary of information provided in the Stats reposnse.
+// There currently is not a complimentary matching set of documentation that compliments this endpoint. However, each Site's dashboard will reflect the summary of information provided in the Stats response.
 // ```
 // https://subdomain.chargify.com/dashboard
 // ```

@@ -1,15 +1,14 @@
-/*
-Package advancedbilling
-
-This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
-*/
+// Package advancedbilling
+// This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
 package models
 
 import (
     "encoding/json"
     "errors"
     "fmt"
+    "log"
     "strings"
+    "time"
 )
 
 // BankAccountPaymentProfile represents a BankAccountPaymentProfile struct.
@@ -55,6 +54,10 @@ type BankAccountPaymentProfile struct {
     Verified                *bool                  `json:"verified,omitempty"`
     SiteGatewaySettingId    Optional[int]          `json:"site_gateway_setting_id"`
     GatewayHandle           Optional[string]       `json:"gateway_handle"`
+    // A timestamp indicating when this payment profile was created
+    CreatedAt               *time.Time             `json:"created_at,omitempty"`
+    // A timestamp indicating when this payment profile was last updated
+    UpdatedAt               *time.Time             `json:"updated_at,omitempty"`
     AdditionalProperties    map[string]interface{} `json:"_"`
 }
 
@@ -62,8 +65,8 @@ type BankAccountPaymentProfile struct {
 // providing a human-readable string representation useful for logging, debugging or displaying information.
 func (b BankAccountPaymentProfile) String() string {
     return fmt.Sprintf(
-    	"BankAccountPaymentProfile[Id=%v, FirstName=%v, LastName=%v, CustomerId=%v, CurrentVault=%v, VaultToken=%v, BillingAddress=%v, BillingCity=%v, BillingState=%v, BillingZip=%v, BillingCountry=%v, CustomerVaultToken=%v, BillingAddress2=%v, BankName=%v, MaskedBankRoutingNumber=%v, MaskedBankAccountNumber=%v, BankAccountType=%v, BankAccountHolderType=%v, PaymentType=%v, Verified=%v, SiteGatewaySettingId=%v, GatewayHandle=%v, AdditionalProperties=%v]",
-    	b.Id, b.FirstName, b.LastName, b.CustomerId, b.CurrentVault, b.VaultToken, b.BillingAddress, b.BillingCity, b.BillingState, b.BillingZip, b.BillingCountry, b.CustomerVaultToken, b.BillingAddress2, b.BankName, b.MaskedBankRoutingNumber, b.MaskedBankAccountNumber, b.BankAccountType, b.BankAccountHolderType, b.PaymentType, b.Verified, b.SiteGatewaySettingId, b.GatewayHandle, b.AdditionalProperties)
+    	"BankAccountPaymentProfile[Id=%v, FirstName=%v, LastName=%v, CustomerId=%v, CurrentVault=%v, VaultToken=%v, BillingAddress=%v, BillingCity=%v, BillingState=%v, BillingZip=%v, BillingCountry=%v, CustomerVaultToken=%v, BillingAddress2=%v, BankName=%v, MaskedBankRoutingNumber=%v, MaskedBankAccountNumber=%v, BankAccountType=%v, BankAccountHolderType=%v, PaymentType=%v, Verified=%v, SiteGatewaySettingId=%v, GatewayHandle=%v, CreatedAt=%v, UpdatedAt=%v, AdditionalProperties=%v]",
+    	b.Id, b.FirstName, b.LastName, b.CustomerId, b.CurrentVault, b.VaultToken, b.BillingAddress, b.BillingCity, b.BillingState, b.BillingZip, b.BillingCountry, b.CustomerVaultToken, b.BillingAddress2, b.BankName, b.MaskedBankRoutingNumber, b.MaskedBankAccountNumber, b.BankAccountType, b.BankAccountHolderType, b.PaymentType, b.Verified, b.SiteGatewaySettingId, b.GatewayHandle, b.CreatedAt, b.UpdatedAt, b.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for BankAccountPaymentProfile.
@@ -72,7 +75,7 @@ func (b BankAccountPaymentProfile) MarshalJSON() (
     []byte,
     error) {
     if err := DetectConflictingProperties(b.AdditionalProperties,
-        "id", "first_name", "last_name", "customer_id", "current_vault", "vault_token", "billing_address", "billing_city", "billing_state", "billing_zip", "billing_country", "customer_vault_token", "billing_address_2", "bank_name", "masked_bank_routing_number", "masked_bank_account_number", "bank_account_type", "bank_account_holder_type", "payment_type", "verified", "site_gateway_setting_id", "gateway_handle"); err != nil {
+        "id", "first_name", "last_name", "customer_id", "current_vault", "vault_token", "billing_address", "billing_city", "billing_state", "billing_zip", "billing_country", "customer_vault_token", "billing_address_2", "bank_name", "masked_bank_routing_number", "masked_bank_account_number", "bank_account_type", "bank_account_holder_type", "payment_type", "verified", "site_gateway_setting_id", "gateway_handle", "created_at", "updated_at"); err != nil {
         return []byte{}, err
     }
     return json.Marshal(b.toMap())
@@ -180,6 +183,12 @@ func (b BankAccountPaymentProfile) toMap() map[string]any {
             structMap["gateway_handle"] = nil
         }
     }
+    if b.CreatedAt != nil {
+        structMap["created_at"] = b.CreatedAt.Format(time.RFC3339)
+    }
+    if b.UpdatedAt != nil {
+        structMap["updated_at"] = b.UpdatedAt.Format(time.RFC3339)
+    }
     return structMap
 }
 
@@ -195,7 +204,7 @@ func (b *BankAccountPaymentProfile) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "id", "first_name", "last_name", "customer_id", "current_vault", "vault_token", "billing_address", "billing_city", "billing_state", "billing_zip", "billing_country", "customer_vault_token", "billing_address_2", "bank_name", "masked_bank_routing_number", "masked_bank_account_number", "bank_account_type", "bank_account_holder_type", "payment_type", "verified", "site_gateway_setting_id", "gateway_handle")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "id", "first_name", "last_name", "customer_id", "current_vault", "vault_token", "billing_address", "billing_city", "billing_state", "billing_zip", "billing_country", "customer_vault_token", "billing_address_2", "bank_name", "masked_bank_routing_number", "masked_bank_account_number", "bank_account_type", "bank_account_holder_type", "payment_type", "verified", "site_gateway_setting_id", "gateway_handle", "created_at", "updated_at")
     if err != nil {
     	return err
     }
@@ -223,6 +232,20 @@ func (b *BankAccountPaymentProfile) UnmarshalJSON(input []byte) error {
     b.Verified = temp.Verified
     b.SiteGatewaySettingId = temp.SiteGatewaySettingId
     b.GatewayHandle = temp.GatewayHandle
+    if temp.CreatedAt != nil {
+        CreatedAtVal, err := time.Parse(time.RFC3339, *temp.CreatedAt)
+        if err != nil {
+            log.Fatalf("Cannot Parse created_at as % s format.", time.RFC3339)
+        }
+        b.CreatedAt = &CreatedAtVal
+    }
+    if temp.UpdatedAt != nil {
+        UpdatedAtVal, err := time.Parse(time.RFC3339, *temp.UpdatedAt)
+        if err != nil {
+            log.Fatalf("Cannot Parse updated_at as % s format.", time.RFC3339)
+        }
+        b.UpdatedAt = &UpdatedAtVal
+    }
     return nil
 }
 
@@ -250,6 +273,8 @@ type tempBankAccountPaymentProfile  struct {
     Verified                *bool                  `json:"verified,omitempty"`
     SiteGatewaySettingId    Optional[int]          `json:"site_gateway_setting_id"`
     GatewayHandle           Optional[string]       `json:"gateway_handle"`
+    CreatedAt               *string                `json:"created_at,omitempty"`
+    UpdatedAt               *string                `json:"updated_at,omitempty"`
 }
 
 func (b *tempBankAccountPaymentProfile) validate() error {

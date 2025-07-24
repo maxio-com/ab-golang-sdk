@@ -52,7 +52,7 @@ EnableBillingPortalForCustomer(
 
 ## Response Type
 
-[`models.CustomerResponse`](../../doc/models/customer-response.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.CustomerResponse](../../doc/models/customer-response.md).
 
 ## Example Usage
 
@@ -108,7 +108,7 @@ ReadBillingPortalLink(
 
 ## Response Type
 
-[`models.PortalManagementLink`](../../doc/models/portal-management-link.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.PortalManagementLink](../../doc/models/portal-management-link.md).
 
 ## Example Usage
 
@@ -180,7 +180,7 @@ ResendBillingPortalInvitation(
 
 ## Response Type
 
-[`models.ResentInvitation`](../../doc/models/resent-invitation.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.ResentInvitation](../../doc/models/resent-invitation.md).
 
 ## Example Usage
 
@@ -244,7 +244,7 @@ RevokeBillingPortalAccess(
 
 ## Response Type
 
-[`models.RevokedInvitation`](../../doc/models/revoked-invitation.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.RevokedInvitation](../../doc/models/revoked-invitation.md).
 
 ## Example Usage
 

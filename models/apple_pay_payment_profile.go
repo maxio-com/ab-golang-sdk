@@ -1,15 +1,14 @@
-/*
-Package advancedbilling
-
-This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
-*/
+// Package advancedbilling
+// This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
 package models
 
 import (
     "encoding/json"
     "errors"
     "fmt"
+    "log"
     "strings"
+    "time"
 )
 
 // ApplePayPaymentProfile represents a ApplePayPaymentProfile struct.
@@ -42,6 +41,10 @@ type ApplePayPaymentProfile struct {
     PaymentType          PaymentType            `json:"payment_type"`
     SiteGatewaySettingId Optional[int]          `json:"site_gateway_setting_id"`
     GatewayHandle        Optional[string]       `json:"gateway_handle"`
+    // A timestamp indicating when this payment profile was created
+    CreatedAt            *time.Time             `json:"created_at,omitempty"`
+    // A timestamp indicating when this payment profile was last updated
+    UpdatedAt            *time.Time             `json:"updated_at,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
 }
 
@@ -49,8 +52,8 @@ type ApplePayPaymentProfile struct {
 // providing a human-readable string representation useful for logging, debugging or displaying information.
 func (a ApplePayPaymentProfile) String() string {
     return fmt.Sprintf(
-    	"ApplePayPaymentProfile[Id=%v, FirstName=%v, LastName=%v, CustomerId=%v, CurrentVault=%v, VaultToken=%v, BillingAddress=%v, BillingCity=%v, BillingState=%v, BillingZip=%v, BillingCountry=%v, CustomerVaultToken=%v, BillingAddress2=%v, PaymentType=%v, SiteGatewaySettingId=%v, GatewayHandle=%v, AdditionalProperties=%v]",
-    	a.Id, a.FirstName, a.LastName, a.CustomerId, a.CurrentVault, a.VaultToken, a.BillingAddress, a.BillingCity, a.BillingState, a.BillingZip, a.BillingCountry, a.CustomerVaultToken, a.BillingAddress2, a.PaymentType, a.SiteGatewaySettingId, a.GatewayHandle, a.AdditionalProperties)
+    	"ApplePayPaymentProfile[Id=%v, FirstName=%v, LastName=%v, CustomerId=%v, CurrentVault=%v, VaultToken=%v, BillingAddress=%v, BillingCity=%v, BillingState=%v, BillingZip=%v, BillingCountry=%v, CustomerVaultToken=%v, BillingAddress2=%v, PaymentType=%v, SiteGatewaySettingId=%v, GatewayHandle=%v, CreatedAt=%v, UpdatedAt=%v, AdditionalProperties=%v]",
+    	a.Id, a.FirstName, a.LastName, a.CustomerId, a.CurrentVault, a.VaultToken, a.BillingAddress, a.BillingCity, a.BillingState, a.BillingZip, a.BillingCountry, a.CustomerVaultToken, a.BillingAddress2, a.PaymentType, a.SiteGatewaySettingId, a.GatewayHandle, a.CreatedAt, a.UpdatedAt, a.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for ApplePayPaymentProfile.
@@ -59,7 +62,7 @@ func (a ApplePayPaymentProfile) MarshalJSON() (
     []byte,
     error) {
     if err := DetectConflictingProperties(a.AdditionalProperties,
-        "id", "first_name", "last_name", "customer_id", "current_vault", "vault_token", "billing_address", "billing_city", "billing_state", "billing_zip", "billing_country", "customer_vault_token", "billing_address_2", "payment_type", "site_gateway_setting_id", "gateway_handle"); err != nil {
+        "id", "first_name", "last_name", "customer_id", "current_vault", "vault_token", "billing_address", "billing_city", "billing_state", "billing_zip", "billing_country", "customer_vault_token", "billing_address_2", "payment_type", "site_gateway_setting_id", "gateway_handle", "created_at", "updated_at"); err != nil {
         return []byte{}, err
     }
     return json.Marshal(a.toMap())
@@ -151,6 +154,12 @@ func (a ApplePayPaymentProfile) toMap() map[string]any {
             structMap["gateway_handle"] = nil
         }
     }
+    if a.CreatedAt != nil {
+        structMap["created_at"] = a.CreatedAt.Format(time.RFC3339)
+    }
+    if a.UpdatedAt != nil {
+        structMap["updated_at"] = a.UpdatedAt.Format(time.RFC3339)
+    }
     return structMap
 }
 
@@ -166,7 +175,7 @@ func (a *ApplePayPaymentProfile) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "id", "first_name", "last_name", "customer_id", "current_vault", "vault_token", "billing_address", "billing_city", "billing_state", "billing_zip", "billing_country", "customer_vault_token", "billing_address_2", "payment_type", "site_gateway_setting_id", "gateway_handle")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "id", "first_name", "last_name", "customer_id", "current_vault", "vault_token", "billing_address", "billing_city", "billing_state", "billing_zip", "billing_country", "customer_vault_token", "billing_address_2", "payment_type", "site_gateway_setting_id", "gateway_handle", "created_at", "updated_at")
     if err != nil {
     	return err
     }
@@ -188,6 +197,20 @@ func (a *ApplePayPaymentProfile) UnmarshalJSON(input []byte) error {
     a.PaymentType = *temp.PaymentType
     a.SiteGatewaySettingId = temp.SiteGatewaySettingId
     a.GatewayHandle = temp.GatewayHandle
+    if temp.CreatedAt != nil {
+        CreatedAtVal, err := time.Parse(time.RFC3339, *temp.CreatedAt)
+        if err != nil {
+            log.Fatalf("Cannot Parse created_at as % s format.", time.RFC3339)
+        }
+        a.CreatedAt = &CreatedAtVal
+    }
+    if temp.UpdatedAt != nil {
+        UpdatedAtVal, err := time.Parse(time.RFC3339, *temp.UpdatedAt)
+        if err != nil {
+            log.Fatalf("Cannot Parse updated_at as % s format.", time.RFC3339)
+        }
+        a.UpdatedAt = &UpdatedAtVal
+    }
     return nil
 }
 
@@ -209,6 +232,8 @@ type tempApplePayPaymentProfile  struct {
     PaymentType          *PaymentType     `json:"payment_type"`
     SiteGatewaySettingId Optional[int]    `json:"site_gateway_setting_id"`
     GatewayHandle        Optional[string] `json:"gateway_handle"`
+    CreatedAt            *string          `json:"created_at,omitempty"`
+    UpdatedAt            *string          `json:"updated_at,omitempty"`
 }
 
 func (a *tempApplePayPaymentProfile) validate() error {

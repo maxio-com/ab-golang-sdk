@@ -38,7 +38,7 @@ CreateSubscriptionGroupPrepayment(
 
 ## Response Type
 
-[`models.SubscriptionGroupPrepaymentResponse`](../../doc/models/subscription-group-prepayment-response.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.SubscriptionGroupPrepaymentResponse](../../doc/models/subscription-group-prepayment-response.md).
 
 ## Example Usage
 
@@ -95,13 +95,13 @@ ListPrepaymentsForSubscriptionGroup(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `uid` | `string` | Template, Required | The uid of the subscription group |
-| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br>**Default**: `1`<br>**Constraints**: `>= 1` |
-| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`.<br>**Default**: `20`<br>**Constraints**: `<= 200` |
+| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br><br>**Default**: `1`<br><br>**Constraints**: `>= 1` |
+| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`.<br><br>**Default**: `20`<br><br>**Constraints**: `<= 200` |
 | `filter` | [`*models.ListPrepaymentsFilter`](../../doc/models/list-prepayments-filter.md) | Query, Optional | Filter to use for List Prepayments operations |
 
 ## Response Type
 
-[`models.ListSubscriptionGroupPrepaymentResponse`](../../doc/models/list-subscription-group-prepayment-response.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.ListSubscriptionGroupPrepaymentResponse](../../doc/models/list-subscription-group-prepayment-response.md).
 
 ## Example Usage
 
@@ -113,7 +113,7 @@ collectedInput := advancedbilling.ListPrepaymentsForSubscriptionGroupInput{
     Page:    models.ToPointer(2),
     PerPage: models.ToPointer(50),
     Filter:  models.ToPointer(models.ListPrepaymentsFilter{
-        DateField:            models.ToPointer(models.ListPrepaymentDateField("created_at")),
+        DateField:            models.ToPointer(models.ListPrepaymentDateField_CREATEDAT),
         StartDate:            models.ToPointer(parseTime(models.DEFAULT_DATE, "2024-01-01", func(err error) { log.Fatalln(err) })),
         EndDate:              models.ToPointer(parseTime(models.DEFAULT_DATE, "2024-01-31", func(err error) { log.Fatalln(err) })),
     }),
@@ -180,7 +180,7 @@ IssueSubscriptionGroupServiceCredit(
 
 ## Response Type
 
-[`models.ServiceCreditResponse`](../../doc/models/service-credit-response.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.ServiceCreditResponse](../../doc/models/service-credit-response.md).
 
 ## Example Usage
 
@@ -249,7 +249,7 @@ DeductSubscriptionGroupServiceCredit(
 
 ## Response Type
 
-[`models.ServiceCredit`](../../doc/models/service-credit.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.ServiceCredit](../../doc/models/service-credit.md).
 
 ## Example Usage
 

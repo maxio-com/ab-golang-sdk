@@ -1,8 +1,5 @@
-/*
-Package advancedbilling
-
-This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
-*/
+// Package advancedbilling
+// This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
 package advancedbilling
 
 import (
@@ -119,40 +116,6 @@ func NewSubscriptionsController(baseController baseController) *SubscriptionsCon
 // last_four: "1234",
 // vault_token: "12345abc",
 // current_vault: "braintree_blue"
-// }
-// }
-// ```
-// ## Subscription with Credit Card
-// ```json
-// "subscription": {
-// "product_handle": "basic",
-// "customer_attributes": {
-// "first_name": "Joe",
-// "last_name": "Blow",
-// "email": "joe@example.com",
-// "zip": "02120",
-// "state": "MA",
-// "reference": "XYZ",
-// "phone": "(617) 111 - 0000",
-// "organization": "Acme",
-// "country": "US",
-// "city": "Boston",
-// "address_2": null,
-// "address": "123 Mass Ave."
-// },
-// "credit_card_attributes": {
-// "last_name": "Smith",
-// "first_name": "Joe",
-// "full_number": "4111111111111111",
-// "expiration_year": "2021",
-// "expiration_month": "1",
-// "card_type": "visa",
-// "billing_zip": "02120",
-// "billing_state": "MA",
-// "billing_country": "US",
-// "billing_city": "Boston",
-// "billing_address_2": null,
-// "billing_address": "123 Mass Ave."
 // }
 // }
 // ```
@@ -563,6 +526,8 @@ type ListSubscriptionsInput struct {
     ProductPricePointId *int                             
     // The numeric id of the coupon currently applied to the subscription. (This can be found in the URL when editing a coupon. Note that the coupon code cannot be used.)
     Coupon              *int                             
+    // The coupon code currently applied to the subscription
+    CouponCode          *string                          
     // The type of filter you'd like to apply to your search.  Allowed Values: , current_period_ends_at, current_period_starts_at, created_at, activated_at, canceled_at, expires_at, trial_started_at, trial_ended_at, updated_at
     DateField           *models.SubscriptionDateField    
     // The start date (format YYYY-MM-DD) with which to filter the date_field. Returns subscriptions with a timestamp at or after midnight (12:00:00 AM) in your site’s time zone on the date specified. Use in query `start_date=2022-07-01`.
@@ -584,7 +549,7 @@ type ListSubscriptionsInput struct {
     Include             []models.SubscriptionListInclude 
 }
 
-// ListSubscriptions takes context, page, perPage, state, product, productPricePointId, coupon, dateField, startDate, endDate, startDatetime, endDatetime, metadata, direction, sort, include as parameters and
+// ListSubscriptions takes context, page, perPage, state, product, productPricePointId, coupon, couponCode, dateField, startDate, endDate, startDatetime, endDatetime, metadata, direction, sort, include as parameters and
 // returns an models.ApiResponse with []models.SubscriptionResponse data and
 // an error if there was an issue with the request or response.
 // This method will return an array of subscriptions from a Site. Pay close attention to query string filters and pagination in order to control responses from the server.
@@ -617,6 +582,9 @@ func (s *SubscriptionsController) ListSubscriptions(
     }
     if input.Coupon != nil {
         req.QueryParamWithArraySerializationOption("coupon", *input.Coupon, https.UnIndexed)
+    }
+    if input.CouponCode != nil {
+        req.QueryParamWithArraySerializationOption("coupon_code", *input.CouponCode, https.UnIndexed)
     }
     if input.DateField != nil {
         req.QueryParamWithArraySerializationOption("date_field", *input.DateField, https.UnIndexed)
@@ -876,9 +844,9 @@ func (s *SubscriptionsController) UpdatePrepaidSubscriptionConfiguration(
 // returns an models.ApiResponse with models.SubscriptionPreviewResponse data and
 // an error if there was an issue with the request or response.
 // The Chargify API allows you to preview a subscription by POSTing the same JSON or XML as for a subscription creation.
-// The "Next Billing" amount and "Next Billing" date are represented in each Subscriber's Summary. For more information, please see our documentation [here](https://maxio.zendesk.com/hc/en-us/articles/24252493695757-Subscriber-Interface-Overview).
-// ## Side effects
-// A subscription will not be created by sending a POST to this endpoint. It is meant to serve as a prediction.
+// The "Next Billing" amount and "Next Billing" date are represented in each Subscriber's Summary.
+// A subscription will not be created by utilizing this endpoint; it is meant to serve as a prediction.
+// For more information, please see our documentation [here](https://maxio.zendesk.com/hc/en-us/articles/24252493695757-Subscriber-Interface-Overview).
 // ## Taxable Subscriptions
 // This endpoint will preview taxes applicable to a purchase. In order for taxes to be previewed, the following conditions must be met:
 // + Taxes must be configured on the subscription

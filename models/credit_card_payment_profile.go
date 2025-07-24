@@ -1,15 +1,14 @@
-/*
-Package advancedbilling
-
-This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
-*/
+// Package advancedbilling
+// This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
 package models
 
 import (
     "encoding/json"
     "errors"
     "fmt"
+    "log"
     "strings"
+    "time"
 )
 
 // CreditCardPaymentProfile represents a CreditCardPaymentProfile struct.
@@ -55,6 +54,10 @@ type CreditCardPaymentProfile struct {
     SiteGatewaySettingId Optional[int]          `json:"site_gateway_setting_id"`
     // An identifier of connected gateway.
     GatewayHandle        Optional[string]       `json:"gateway_handle"`
+    // A timestamp indicating when this payment profile was created
+    CreatedAt            *time.Time             `json:"created_at,omitempty"`
+    // A timestamp indicating when this payment profile was last updated
+    UpdatedAt            *time.Time             `json:"updated_at,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
 }
 
@@ -62,8 +65,8 @@ type CreditCardPaymentProfile struct {
 // providing a human-readable string representation useful for logging, debugging or displaying information.
 func (c CreditCardPaymentProfile) String() string {
     return fmt.Sprintf(
-    	"CreditCardPaymentProfile[Id=%v, FirstName=%v, LastName=%v, MaskedCardNumber=%v, CardType=%v, ExpirationMonth=%v, ExpirationYear=%v, CustomerId=%v, CurrentVault=%v, VaultToken=%v, BillingAddress=%v, BillingCity=%v, BillingState=%v, BillingZip=%v, BillingCountry=%v, CustomerVaultToken=%v, BillingAddress2=%v, PaymentType=%v, Disabled=%v, ChargifyToken=%v, SiteGatewaySettingId=%v, GatewayHandle=%v, AdditionalProperties=%v]",
-    	c.Id, c.FirstName, c.LastName, c.MaskedCardNumber, c.CardType, c.ExpirationMonth, c.ExpirationYear, c.CustomerId, c.CurrentVault, c.VaultToken, c.BillingAddress, c.BillingCity, c.BillingState, c.BillingZip, c.BillingCountry, c.CustomerVaultToken, c.BillingAddress2, c.PaymentType, c.Disabled, c.ChargifyToken, c.SiteGatewaySettingId, c.GatewayHandle, c.AdditionalProperties)
+    	"CreditCardPaymentProfile[Id=%v, FirstName=%v, LastName=%v, MaskedCardNumber=%v, CardType=%v, ExpirationMonth=%v, ExpirationYear=%v, CustomerId=%v, CurrentVault=%v, VaultToken=%v, BillingAddress=%v, BillingCity=%v, BillingState=%v, BillingZip=%v, BillingCountry=%v, CustomerVaultToken=%v, BillingAddress2=%v, PaymentType=%v, Disabled=%v, ChargifyToken=%v, SiteGatewaySettingId=%v, GatewayHandle=%v, CreatedAt=%v, UpdatedAt=%v, AdditionalProperties=%v]",
+    	c.Id, c.FirstName, c.LastName, c.MaskedCardNumber, c.CardType, c.ExpirationMonth, c.ExpirationYear, c.CustomerId, c.CurrentVault, c.VaultToken, c.BillingAddress, c.BillingCity, c.BillingState, c.BillingZip, c.BillingCountry, c.CustomerVaultToken, c.BillingAddress2, c.PaymentType, c.Disabled, c.ChargifyToken, c.SiteGatewaySettingId, c.GatewayHandle, c.CreatedAt, c.UpdatedAt, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreditCardPaymentProfile.
@@ -72,7 +75,7 @@ func (c CreditCardPaymentProfile) MarshalJSON() (
     []byte,
     error) {
     if err := DetectConflictingProperties(c.AdditionalProperties,
-        "id", "first_name", "last_name", "masked_card_number", "card_type", "expiration_month", "expiration_year", "customer_id", "current_vault", "vault_token", "billing_address", "billing_city", "billing_state", "billing_zip", "billing_country", "customer_vault_token", "billing_address_2", "payment_type", "disabled", "chargify_token", "site_gateway_setting_id", "gateway_handle"); err != nil {
+        "id", "first_name", "last_name", "masked_card_number", "card_type", "expiration_month", "expiration_year", "customer_id", "current_vault", "vault_token", "billing_address", "billing_city", "billing_state", "billing_zip", "billing_country", "customer_vault_token", "billing_address_2", "payment_type", "disabled", "chargify_token", "site_gateway_setting_id", "gateway_handle", "created_at", "updated_at"); err != nil {
         return []byte{}, err
     }
     return json.Marshal(c.toMap())
@@ -186,6 +189,12 @@ func (c CreditCardPaymentProfile) toMap() map[string]any {
             structMap["gateway_handle"] = nil
         }
     }
+    if c.CreatedAt != nil {
+        structMap["created_at"] = c.CreatedAt.Format(time.RFC3339)
+    }
+    if c.UpdatedAt != nil {
+        structMap["updated_at"] = c.UpdatedAt.Format(time.RFC3339)
+    }
     return structMap
 }
 
@@ -201,7 +210,7 @@ func (c *CreditCardPaymentProfile) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "id", "first_name", "last_name", "masked_card_number", "card_type", "expiration_month", "expiration_year", "customer_id", "current_vault", "vault_token", "billing_address", "billing_city", "billing_state", "billing_zip", "billing_country", "customer_vault_token", "billing_address_2", "payment_type", "disabled", "chargify_token", "site_gateway_setting_id", "gateway_handle")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "id", "first_name", "last_name", "masked_card_number", "card_type", "expiration_month", "expiration_year", "customer_id", "current_vault", "vault_token", "billing_address", "billing_city", "billing_state", "billing_zip", "billing_country", "customer_vault_token", "billing_address_2", "payment_type", "disabled", "chargify_token", "site_gateway_setting_id", "gateway_handle", "created_at", "updated_at")
     if err != nil {
     	return err
     }
@@ -229,6 +238,20 @@ func (c *CreditCardPaymentProfile) UnmarshalJSON(input []byte) error {
     c.ChargifyToken = temp.ChargifyToken
     c.SiteGatewaySettingId = temp.SiteGatewaySettingId
     c.GatewayHandle = temp.GatewayHandle
+    if temp.CreatedAt != nil {
+        CreatedAtVal, err := time.Parse(time.RFC3339, *temp.CreatedAt)
+        if err != nil {
+            log.Fatalf("Cannot Parse created_at as % s format.", time.RFC3339)
+        }
+        c.CreatedAt = &CreatedAtVal
+    }
+    if temp.UpdatedAt != nil {
+        UpdatedAtVal, err := time.Parse(time.RFC3339, *temp.UpdatedAt)
+        if err != nil {
+            log.Fatalf("Cannot Parse updated_at as % s format.", time.RFC3339)
+        }
+        c.UpdatedAt = &UpdatedAtVal
+    }
     return nil
 }
 
@@ -256,6 +279,8 @@ type tempCreditCardPaymentProfile  struct {
     ChargifyToken        *string          `json:"chargify_token,omitempty"`
     SiteGatewaySettingId Optional[int]    `json:"site_gateway_setting_id"`
     GatewayHandle        Optional[string] `json:"gateway_handle"`
+    CreatedAt            *string          `json:"created_at,omitempty"`
+    UpdatedAt            *string          `json:"updated_at,omitempty"`
 }
 
 func (c *tempCreditCardPaymentProfile) validate() error {

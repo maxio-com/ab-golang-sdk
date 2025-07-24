@@ -50,7 +50,7 @@ RetrySubscription(
 
 ## Response Type
 
-[`models.SubscriptionResponse`](../../doc/models/subscription-response.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.SubscriptionResponse](../../doc/models/subscription-response.md).
 
 ## Example Usage
 
@@ -234,7 +234,7 @@ CancelSubscription(
 
 ## Response Type
 
-[`models.SubscriptionResponse`](../../doc/models/subscription-response.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.SubscriptionResponse](../../doc/models/subscription-response.md).
 
 ## Example Usage
 
@@ -417,11 +417,11 @@ ResumeSubscription(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription |
-| `calendarBillingResumptionCharge` | [`*models.ResumptionCharge`](../../doc/models/resumption-charge.md) | Query, Optional | (For calendar billing subscriptions only) The way that the resumed subscription's charge should be handled<br>**Default**: `"prorated"` |
+| `calendarBillingResumptionCharge` | [`*models.ResumptionCharge`](../../doc/models/resumption-charge.md) | Query, Optional | (For calendar billing subscriptions only) The way that the resumed subscription's charge should be handled<br><br>**Default**: `"prorated"` |
 
 ## Response Type
 
-[`models.SubscriptionResponse`](../../doc/models/subscription-response.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.SubscriptionResponse](../../doc/models/subscription-response.md).
 
 ## Example Usage
 
@@ -584,7 +584,7 @@ PauseSubscription(
 
 ## Response Type
 
-[`models.SubscriptionResponse`](../../doc/models/subscription-response.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.SubscriptionResponse](../../doc/models/subscription-response.md).
 
 ## Example Usage
 
@@ -753,7 +753,7 @@ UpdateAutomaticSubscriptionResumption(
 
 ## Response Type
 
-[`models.SubscriptionResponse`](../../doc/models/subscription-response.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.SubscriptionResponse](../../doc/models/subscription-response.md).
 
 ## Example Usage
 
@@ -1085,7 +1085,7 @@ ReactivateSubscription(
 
 ## Response Type
 
-[`models.SubscriptionResponse`](../../doc/models/subscription-response.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.SubscriptionResponse](../../doc/models/subscription-response.md).
 
 ## Example Usage
 
@@ -1096,7 +1096,7 @@ subscriptionId := 222
 
 body := models.ReactivateSubscriptionRequest{
     CalendarBilling:          models.ToPointer(models.ReactivationBilling{
-        ReactivationCharge:   models.ToPointer(models.ReactivationCharge("prorated")),
+        ReactivationCharge:   models.ToPointer(models.ReactivationCharge_PRORATED),
     }),
     IncludeTrial:             models.ToPointer(true),
     PreserveBalance:          models.ToPointer(true),
@@ -1258,7 +1258,7 @@ InitiateDelayedCancellation(
 
 ## Response Type
 
-[`models.DelayedCancellationResponse`](../../doc/models/delayed-cancellation-response.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.DelayedCancellationResponse](../../doc/models/delayed-cancellation-response.md).
 
 ## Example Usage
 
@@ -1309,7 +1309,7 @@ CancelDelayedCancellation(
 
 ## Response Type
 
-[`models.DelayedCancellationResponse`](../../doc/models/delayed-cancellation-response.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.DelayedCancellationResponse](../../doc/models/delayed-cancellation-response.md).
 
 ## Example Usage
 
@@ -1363,7 +1363,7 @@ CancelDunning(
 
 ## Response Type
 
-[`models.SubscriptionResponse`](../../doc/models/subscription-response.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.SubscriptionResponse](../../doc/models/subscription-response.md).
 
 ## Example Usage
 
@@ -1432,7 +1432,7 @@ PreviewRenewal(
 
 ## Response Type
 
-[`models.RenewalPreviewResponse`](../../doc/models/renewal-preview-response.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.RenewalPreviewResponse](../../doc/models/renewal-preview-response.md).
 
 ## Example Usage
 

@@ -10,8 +10,8 @@
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `Coupon` | [`*models.CouponPayload`](../../doc/models/coupon-payload.md) | Optional | - |
-| `RestrictedProducts` | `map[string]bool` | Optional | An object where the keys are product_ids and the values are booleans indicating if the coupon should be applicable to the product |
-| `RestrictedComponents` | `map[string]bool` | Optional | An object where the keys are component_ids and the values are booleans indicating if the coupon should be applicable to the component |
+| `RestrictedProducts` | `map[string]bool` | Optional | An object where the keys are product IDs or handles (prefixed with 'handle:'), and the values are booleans indicating if the coupon should be applicable to the product |
+| `RestrictedComponents` | `map[string]bool` | Optional | An object where the keys are component IDs or handles (prefixed with 'handle:'), and the values are booleans indicating if the coupon should be applicable to the component |
 
 ## Example (as JSON)
 

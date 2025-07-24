@@ -1,8 +1,5 @@
-/*
-Package advancedbilling
-
-This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
-*/
+// Package advancedbilling
+// This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
 package advancedbilling
 
 import (
@@ -317,6 +314,8 @@ func (p *PaymentProfilesController) ListPaymentProfiles(
 // "id": 10089892,
 // "first_name": "Chester",
 // "last_name": "Tester",
+// "created_at": "2025-01-01T00:00:00-05:00",
+// "updated_at": "2025-01-01T00:00:00-05:00",
 // "customer_id": 14543792,
 // "current_vault": "bogus",
 // "vault_token": "0011223344",

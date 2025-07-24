@@ -1,15 +1,14 @@
-/*
-Package advancedbilling
-
-This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
-*/
+// Package advancedbilling
+// This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
 package models
 
 import (
     "encoding/json"
     "errors"
     "fmt"
+    "log"
     "strings"
+    "time"
 )
 
 // PaypalPaymentProfile represents a PaypalPaymentProfile struct.
@@ -43,6 +42,10 @@ type PaypalPaymentProfile struct {
     SiteGatewaySettingId Optional[int]          `json:"site_gateway_setting_id"`
     GatewayHandle        Optional[string]       `json:"gateway_handle"`
     PaypalEmail          *string                `json:"paypal_email,omitempty"`
+    // A timestamp indicating when this payment profile was created
+    CreatedAt            *time.Time             `json:"created_at,omitempty"`
+    // A timestamp indicating when this payment profile was last updated
+    UpdatedAt            *time.Time             `json:"updated_at,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
 }
 
@@ -50,8 +53,8 @@ type PaypalPaymentProfile struct {
 // providing a human-readable string representation useful for logging, debugging or displaying information.
 func (p PaypalPaymentProfile) String() string {
     return fmt.Sprintf(
-    	"PaypalPaymentProfile[Id=%v, FirstName=%v, LastName=%v, CustomerId=%v, CurrentVault=%v, VaultToken=%v, BillingAddress=%v, BillingCity=%v, BillingState=%v, BillingZip=%v, BillingCountry=%v, CustomerVaultToken=%v, BillingAddress2=%v, PaymentType=%v, SiteGatewaySettingId=%v, GatewayHandle=%v, PaypalEmail=%v, AdditionalProperties=%v]",
-    	p.Id, p.FirstName, p.LastName, p.CustomerId, p.CurrentVault, p.VaultToken, p.BillingAddress, p.BillingCity, p.BillingState, p.BillingZip, p.BillingCountry, p.CustomerVaultToken, p.BillingAddress2, p.PaymentType, p.SiteGatewaySettingId, p.GatewayHandle, p.PaypalEmail, p.AdditionalProperties)
+    	"PaypalPaymentProfile[Id=%v, FirstName=%v, LastName=%v, CustomerId=%v, CurrentVault=%v, VaultToken=%v, BillingAddress=%v, BillingCity=%v, BillingState=%v, BillingZip=%v, BillingCountry=%v, CustomerVaultToken=%v, BillingAddress2=%v, PaymentType=%v, SiteGatewaySettingId=%v, GatewayHandle=%v, PaypalEmail=%v, CreatedAt=%v, UpdatedAt=%v, AdditionalProperties=%v]",
+    	p.Id, p.FirstName, p.LastName, p.CustomerId, p.CurrentVault, p.VaultToken, p.BillingAddress, p.BillingCity, p.BillingState, p.BillingZip, p.BillingCountry, p.CustomerVaultToken, p.BillingAddress2, p.PaymentType, p.SiteGatewaySettingId, p.GatewayHandle, p.PaypalEmail, p.CreatedAt, p.UpdatedAt, p.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for PaypalPaymentProfile.
@@ -60,7 +63,7 @@ func (p PaypalPaymentProfile) MarshalJSON() (
     []byte,
     error) {
     if err := DetectConflictingProperties(p.AdditionalProperties,
-        "id", "first_name", "last_name", "customer_id", "current_vault", "vault_token", "billing_address", "billing_city", "billing_state", "billing_zip", "billing_country", "customer_vault_token", "billing_address_2", "payment_type", "site_gateway_setting_id", "gateway_handle", "paypal_email"); err != nil {
+        "id", "first_name", "last_name", "customer_id", "current_vault", "vault_token", "billing_address", "billing_city", "billing_state", "billing_zip", "billing_country", "customer_vault_token", "billing_address_2", "payment_type", "site_gateway_setting_id", "gateway_handle", "paypal_email", "created_at", "updated_at"); err != nil {
         return []byte{}, err
     }
     return json.Marshal(p.toMap())
@@ -155,6 +158,12 @@ func (p PaypalPaymentProfile) toMap() map[string]any {
     if p.PaypalEmail != nil {
         structMap["paypal_email"] = p.PaypalEmail
     }
+    if p.CreatedAt != nil {
+        structMap["created_at"] = p.CreatedAt.Format(time.RFC3339)
+    }
+    if p.UpdatedAt != nil {
+        structMap["updated_at"] = p.UpdatedAt.Format(time.RFC3339)
+    }
     return structMap
 }
 
@@ -170,7 +179,7 @@ func (p *PaypalPaymentProfile) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "id", "first_name", "last_name", "customer_id", "current_vault", "vault_token", "billing_address", "billing_city", "billing_state", "billing_zip", "billing_country", "customer_vault_token", "billing_address_2", "payment_type", "site_gateway_setting_id", "gateway_handle", "paypal_email")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "id", "first_name", "last_name", "customer_id", "current_vault", "vault_token", "billing_address", "billing_city", "billing_state", "billing_zip", "billing_country", "customer_vault_token", "billing_address_2", "payment_type", "site_gateway_setting_id", "gateway_handle", "paypal_email", "created_at", "updated_at")
     if err != nil {
     	return err
     }
@@ -193,6 +202,20 @@ func (p *PaypalPaymentProfile) UnmarshalJSON(input []byte) error {
     p.SiteGatewaySettingId = temp.SiteGatewaySettingId
     p.GatewayHandle = temp.GatewayHandle
     p.PaypalEmail = temp.PaypalEmail
+    if temp.CreatedAt != nil {
+        CreatedAtVal, err := time.Parse(time.RFC3339, *temp.CreatedAt)
+        if err != nil {
+            log.Fatalf("Cannot Parse created_at as % s format.", time.RFC3339)
+        }
+        p.CreatedAt = &CreatedAtVal
+    }
+    if temp.UpdatedAt != nil {
+        UpdatedAtVal, err := time.Parse(time.RFC3339, *temp.UpdatedAt)
+        if err != nil {
+            log.Fatalf("Cannot Parse updated_at as % s format.", time.RFC3339)
+        }
+        p.UpdatedAt = &UpdatedAtVal
+    }
     return nil
 }
 
@@ -215,6 +238,8 @@ type tempPaypalPaymentProfile  struct {
     SiteGatewaySettingId Optional[int]    `json:"site_gateway_setting_id"`
     GatewayHandle        Optional[string] `json:"gateway_handle"`
     PaypalEmail          *string          `json:"paypal_email,omitempty"`
+    CreatedAt            *string          `json:"created_at,omitempty"`
+    UpdatedAt            *string          `json:"updated_at,omitempty"`
 }
 
 func (p *tempPaypalPaymentProfile) validate() error {

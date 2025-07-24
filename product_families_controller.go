@@ -1,8 +1,5 @@
-/*
-Package advancedbilling
-
-This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
-*/
+// Package advancedbilling
+// This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
 package advancedbilling
 
 import (
@@ -68,7 +65,7 @@ func (p *ProductFamiliesController) ListProductsForProductFamily(
     req.AppendTemplateParams(input.ProductFamilyId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
-        "404": {Message: "Not Found"},
+        "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
     })
     if input.Page != nil {
         req.QueryParam("page", *input.Page)

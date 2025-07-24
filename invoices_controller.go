@@ -1,8 +1,5 @@
-/*
-Package advancedbilling
-
-This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
-*/
+// Package advancedbilling
+// This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
 package advancedbilling
 
 import (
@@ -72,6 +69,8 @@ type ListInvoicesInput struct {
     SubscriptionId       *int                     
     // The UID of the subscription group you want to fetch consolidated invoices for. This will return a paginated list of consolidated invoices for the specified group.
     SubscriptionGroupUid *string                  
+    // The consolidation level of the invoice. Allowed Values: none, parent, child or comma-separated lists of thereof, e.g. none,parent.
+    ConsolidationLevel   *string                  
     // Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.
     // Use in query `page=1`.
     Page                 *int                     
@@ -110,7 +109,7 @@ type ListInvoicesInput struct {
     Sort                 *models.InvoiceSortField 
 }
 
-// ListInvoices takes context, startDate, endDate, status, subscriptionId, subscriptionGroupUid, page, perPage, direction, lineItems, discounts, taxes, credits, payments, customFields, refunds, dateField, startDatetime, endDatetime, customerIds, number, productIds, sort as parameters and
+// ListInvoices takes context, startDate, endDate, status, subscriptionId, subscriptionGroupUid, consolidationLevel, page, perPage, direction, lineItems, discounts, taxes, credits, payments, customFields, refunds, dateField, startDatetime, endDatetime, customerIds, number, productIds, sort as parameters and
 // returns an models.ApiResponse with models.ListInvoicesResponse data and
 // an error if there was an issue with the request or response.
 // By default, invoices returned on the index will only include totals, not detailed breakdowns for `line_items`, `discounts`, `taxes`, `credits`, `payments`, `custom_fields`, or `refunds`. To include breakdowns, pass the specific field as a key in the query with a value set to `true`.
@@ -136,6 +135,9 @@ func (i *InvoicesController) ListInvoices(
     }
     if input.SubscriptionGroupUid != nil {
         req.QueryParam("subscription_group_uid", *input.SubscriptionGroupUid)
+    }
+    if input.ConsolidationLevel != nil {
+        req.QueryParam("consolidation_level", *input.ConsolidationLevel)
     }
     if input.Page != nil {
         req.QueryParam("page", *input.Page)
@@ -314,40 +316,7 @@ func (i *InvoicesController) ListInvoiceEvents(
 // RecordPaymentForInvoice takes context, uid, body as parameters and
 // returns an models.ApiResponse with models.Invoice data and
 // an error if there was an issue with the request or response.
-// This API call should be used when you want to record a payment of a given type against a specific invoice. If you would like to apply a payment across multiple invoices, you can use the Bulk Payment endpoint.
-// ## Create a Payment from the existing payment profile
-// In order to apply a payment to an invoice using an existing payment profile, specify `type` as `payment`, the amount less than the invoice total, and the customer's `payment_profile_id`. The ID of a payment profile might be retrieved via the Payment Profiles API endpoint.
-// ```
-// {
-// "type": "payment",
-// "payment": {
-// "amount": 10.00,
-// "payment_profile_id": 123
-// }
-// }
-// ```
-// ## Create a Payment from the Subscription's Prepayment Account
-// In order apply a prepayment to an invoice, specify the `type` as `prepayment`, and also the `amount`.
-// ```
-// {
-// "type": "prepayment",
-// "payment": {
-// "amount": 10.00
-// }
-// }
-// ```
-// Note that the `amount` must be less than or equal to the Subscription's Prepayment account balance.
-// ## Create a Payment from the Subscription's Service Credit Account
-// In order to apply a service credit to an invoice, specify the `type` as `service_credit`, and also the `amount`:
-// ```
-// {
-// "type": "service_credit",
-// "payment": {
-// "amount": 10.00
-// }
-// }
-// ```
-// Note that Advanced Billing will attempt to fully pay the invoice's `due_amount` from the Subscription's Service Credit account. At this time, partial payments from a Service Credit Account are only allowed for consolidated invoices (subscription groups). Therefore, for normal invoices the Service Credit account balance must be greater than or equal to the invoice's `due_amount`.
+// Applies a payment of a given type against a specific invoice. If you would like to apply a payment across multiple invoices, you can use the Bulk Payment endpoint.
 func (i *InvoicesController) RecordPaymentForInvoice(
     ctx context.Context,
     uid string,

@@ -9,8 +9,8 @@ Documentation for accessing and setting credentials for BasicAuth.
 
 | Name | Type | Description | Setter | Getter |
 |  --- | --- | --- | --- | --- |
-| Username | `string` | The username to use with basic authentication | `WithUsername` | `Username` |
-| Password | `string` | The password to use with basic authentication | `WithPassword` | `Password` |
+| username | `string` | The username to use with basic authentication | `WithUsername` | `Username()` |
+| password | `string` | The password to use with basic authentication | `WithPassword` | `Password()` |
 
 
 
@@ -23,16 +23,24 @@ Documentation for accessing and setting credentials for BasicAuth.
 You must provide credentials in the client as shown in the following code snippet.
 
 ```go
-client := advancedbilling.NewClient(
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk"
+)
+
+func main() {
+    client := advancedbilling.NewClient(
     advancedbilling.CreateConfiguration(
-        advancedbilling.WithBasicAuthCredentials(
-            advancedbilling.NewBasicAuthCredentials(
-                "BasicAuthUserName",
-                "BasicAuthPassword",
+            advancedbilling.WithBasicAuthCredentials(
+                advancedbilling.NewBasicAuthCredentials(
+                    "BasicAuthUserName",
+                    "BasicAuthPassword",
+                ),
             ),
         ),
-    ),
-)
+    )
+}
 ```
 
 

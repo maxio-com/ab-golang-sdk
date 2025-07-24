@@ -1,8 +1,5 @@
-/*
-Package advancedbilling
-
-This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
-*/
+// Package advancedbilling
+// This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
 package advancedbilling
 
 import (
@@ -193,6 +190,49 @@ func (s *SubscriptionInvoiceAccountController) DeductServiceCredit(
         return httpCtx.Response, err
     }
     return httpCtx.Response, err
+}
+
+// ListServiceCredits takes context, subscriptionId, page, perPage, direction as parameters and
+// returns an models.ApiResponse with models.ListServiceCreditsResponse data and
+// an error if there was an issue with the request or response.
+// This request will list a subscription's service credits.
+func (s *SubscriptionInvoiceAccountController) ListServiceCredits(
+    ctx context.Context,
+    subscriptionId int,
+    page *int,
+    perPage *int,
+    direction *models.SortingDirection) (
+    models.ApiResponse[models.ListServiceCreditsResponse],
+    error) {
+    req := s.prepareRequest(
+      ctx,
+      "GET",
+      "/subscriptions/%v/service_credits/list.json",
+    )
+    req.AppendTemplateParams(subscriptionId)
+    req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
+        "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
+    })
+    if page != nil {
+        req.QueryParam("page", *page)
+    }
+    if perPage != nil {
+        req.QueryParam("per_page", *perPage)
+    }
+    if direction != nil {
+        req.QueryParam("direction", *direction)
+    }
+    
+    var result models.ListServiceCreditsResponse
+    decoder, resp, err := req.CallAsJson()
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    result, err = utilities.DecodeResults[models.ListServiceCreditsResponse](decoder)
+    return models.NewApiResponse(result, resp), err
 }
 
 // RefundPrepayment takes context, subscriptionId, prepaymentId, body as parameters and

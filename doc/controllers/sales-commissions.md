@@ -40,14 +40,14 @@ ListSalesCommissionSettings(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `sellerId` | `string` | Template, Required | The Chargify id of your seller account |
-| `authorization` | `*string` | Header, Optional | For authorization use user API key. See details [here](https://developers.chargify.com/docs/developer-docs/ZG9jOjMyNzk5NTg0-2020-04-20-new-api-authentication).<br>**Default**: `"Bearer <<apiKey>>"` |
+| `authorization` | `*string` | Header, Optional | For authorization use user API key. See details [here](https://developers.chargify.com/docs/developer-docs/ZG9jOjMyNzk5NTg0-2020-04-20-new-api-authentication).<br><br>**Default**: `"Bearer <<apiKey>>"` |
 | `liveMode` | `*bool` | Query, Optional | This parameter indicates if records should be fetched from live mode sites. Default value is true. |
-| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br>**Default**: `1`<br>**Constraints**: `>= 1` |
-| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 100.<br>**Default**: `100` |
+| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br><br>**Default**: `1`<br><br>**Constraints**: `>= 1` |
+| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 100.<br><br>**Default**: `100` |
 
 ## Response Type
 
-[`[]models.SaleRepSettings`](../../doc/models/sale-rep-settings.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [[]models.SaleRepSettings](../../doc/models/sale-rep-settings.md).
 
 ## Example Usage
 
@@ -131,14 +131,14 @@ ListSalesReps(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `sellerId` | `string` | Template, Required | The Chargify id of your seller account |
-| `authorization` | `*string` | Header, Optional | For authorization use user API key. See details [here](https://developers.chargify.com/docs/developer-docs/ZG9jOjMyNzk5NTg0-2020-04-20-new-api-authentication).<br>**Default**: `"Bearer <<apiKey>>"` |
+| `authorization` | `*string` | Header, Optional | For authorization use user API key. See details [here](https://developers.chargify.com/docs/developer-docs/ZG9jOjMyNzk5NTg0-2020-04-20-new-api-authentication).<br><br>**Default**: `"Bearer <<apiKey>>"` |
 | `liveMode` | `*bool` | Query, Optional | This parameter indicates if records should be fetched from live mode sites. Default value is true. |
-| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br>**Default**: `1`<br>**Constraints**: `>= 1` |
-| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 100.<br>**Default**: `100` |
+| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br><br>**Default**: `1`<br><br>**Constraints**: `>= 1` |
+| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 100.<br><br>**Default**: `100` |
 
 ## Response Type
 
-[`[]models.ListSaleRepItem`](../../doc/models/list-sale-rep-item.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [[]models.ListSaleRepItem](../../doc/models/list-sale-rep-item.md).
 
 ## Example Usage
 
@@ -277,14 +277,14 @@ ReadSalesRep(
 |  --- | --- | --- | --- |
 | `sellerId` | `string` | Template, Required | The Chargify id of your seller account |
 | `salesRepId` | `string` | Template, Required | The Advanced Billing id of sales rep. |
-| `authorization` | `*string` | Header, Optional | For authorization use user API key. See details [here](https://developers.chargify.com/docs/developer-docs/ZG9jOjMyNzk5NTg0-2020-04-20-new-api-authentication).<br>**Default**: `"Bearer <<apiKey>>"` |
+| `authorization` | `*string` | Header, Optional | For authorization use user API key. See details [here](https://developers.chargify.com/docs/developer-docs/ZG9jOjMyNzk5NTg0-2020-04-20-new-api-authentication).<br><br>**Default**: `"Bearer <<apiKey>>"` |
 | `liveMode` | `*bool` | Query, Optional | This parameter indicates if records should be fetched from live mode sites. Default value is true. |
-| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br>**Default**: `1`<br>**Constraints**: `>= 1` |
-| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 100.<br>**Default**: `100` |
+| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br><br>**Default**: `1`<br><br>**Constraints**: `>= 1` |
+| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 100.<br><br>**Default**: `100` |
 
 ## Response Type
 
-[`models.SaleRep`](../../doc/models/sale-rep.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.SaleRep](../../doc/models/sale-rep.md).
 
 ## Example Usage
 

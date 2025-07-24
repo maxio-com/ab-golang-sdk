@@ -16,6 +16,7 @@
 ```json
 {
   "subscription": {
+    "defer_signup": false,
     "dunning_communication_delay_time_zone": "\"Eastern Time (US & Canada)\"",
     "credit_card_attributes": {
       "full_number": "full_number2",

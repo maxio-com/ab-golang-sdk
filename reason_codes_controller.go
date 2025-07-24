@@ -1,8 +1,5 @@
-/*
-Package advancedbilling
-
-This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
-*/
+// Package advancedbilling
+// This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
 package advancedbilling
 
 import (
@@ -29,7 +26,7 @@ func NewReasonCodesController(baseController baseController) *ReasonCodesControl
 // returns an models.ApiResponse with models.ReasonCodeResponse data and
 // an error if there was an issue with the request or response.
 // # Reason Codes Intro
-// ReasonCodes are a way to gain a high level view of why your customers are cancelling the subcription to your product or service.
+// ReasonCodes are a way to gain a high level view of why your customers are cancelling the subscription to your product or service.
 // Add a set of churn reason codes to be displayed in-app and/or the Maxio Billing Portal. As your subscribers decide to cancel their subscription, learn why they decided to cancel.
 // ## Reason Code Documentation
 // Full documentation on how Reason Codes operate within Advanced Billing can be located under the following links.
@@ -163,7 +160,7 @@ func (r *ReasonCodesController) UpdateReasonCode(
 // DeleteReasonCode takes context, reasonCodeId as parameters and
 // returns an models.ApiResponse with models.OkResponse data and
 // an error if there was an issue with the request or response.
-// This method gives a merchant the option to delete one reason code from the Churn Reason Codes. This code will be immediately removed. This action is not reversable.
+// This method gives a merchant the option to delete one reason code from the Churn Reason Codes. This code will be immediately removed. This action is not reversible.
 func (r *ReasonCodesController) DeleteReasonCode(
     ctx context.Context,
     reasonCodeId int) (

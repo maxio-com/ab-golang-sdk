@@ -1,8 +1,5 @@
-/*
-Package advancedbilling
-
-This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
-*/
+// Package advancedbilling
+// This file was automatically generated for Maxio by APIMATIC v3.0 ( https://www.apimatic.io ).
 package advancedbilling
 
 import (
@@ -40,7 +37,7 @@ func NewCustomFieldsController(baseController baseController) *CustomFieldsContr
 // Use this endpoint to create metafields for your Site. Metafields can be populated with metadata after the fact.
 // Each site is limited to 100 unique Metafields (i.e. keys, or names) per resource. This means you can have 100 Metafields for Subscription and another 100 for Customer.
 // ### Metafields "On-the-Fly"
-// It is possible to create Metafields “on the fly” when you create your Metadata – if a non-existant name is passed when creating Metadata, a Metafield for that key will be automatically created. The Metafield API, however, gives you more control over your “keys”.
+// It is possible to create Metafields “on the fly” when you create your Metadata – if a non-existent name is passed when creating Metadata, a Metafield for that key will be automatically created. The Metafield API, however, gives you more control over your “keys”.
 // ### Metafield Scope Warning
 // If configuring metafields in the Admin UI or via the API, be careful sending updates to metafields with the scope attribute – **if a partial update is sent it will overwrite the current configuration**.
 func (c *CustomFieldsController) CreateMetafields(

@@ -40,7 +40,7 @@ IssueAdvanceInvoice(
 
 ## Response Type
 
-[`models.Invoice`](../../doc/models/invoice.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.Invoice](../../doc/models/invoice.md).
 
 ## Example Usage
 
@@ -91,7 +91,7 @@ ReadAdvanceInvoice(
 
 ## Response Type
 
-[`models.Invoice`](../../doc/models/invoice.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.Invoice](../../doc/models/invoice.md).
 
 ## Example Usage
 
@@ -140,7 +140,7 @@ VoidAdvanceInvoice(
 
 ## Response Type
 
-[`models.Invoice`](../../doc/models/invoice.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.Invoice](../../doc/models/invoice.md).
 
 ## Example Usage
 

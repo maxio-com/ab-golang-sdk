@@ -52,7 +52,7 @@ CreateMeteredComponent(
 
 ## Response Type
 
-[`models.ComponentResponse`](../../doc/models/component-response.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.ComponentResponse](../../doc/models/component-response.md).
 
 ## Example Usage
 
@@ -66,7 +66,7 @@ body := models.CreateMeteredComponent{
         Name:                      "Text messages",
         UnitName:                  "text message",
         Taxable:                   models.ToPointer(false),
-        PricingScheme:             models.PricingScheme("per_unit"),
+        PricingScheme:             models.PricingScheme_PERUNIT,
         Prices:                    []models.Price{
             models.Price{
                 StartingQuantity:     models.PriceStartingQuantityContainer.FromNumber(1),
@@ -180,7 +180,7 @@ CreateQuantityBasedComponent(
 
 ## Response Type
 
-[`models.ComponentResponse`](../../doc/models/component-response.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.ComponentResponse](../../doc/models/component-response.md).
 
 ## Example Usage
 
@@ -195,7 +195,7 @@ body := models.CreateQuantityBasedComponent{
         UnitName:                  "Component",
         Description:               models.ToPointer("Example of JSON per-unit component example"),
         Taxable:                   models.ToPointer(true),
-        PricingScheme:             models.PricingScheme("per_unit"),
+        PricingScheme:             models.PricingScheme_PERUNIT,
         UnitPrice:                 models.ToPointer(models.QuantityBasedComponentUnitPriceContainer.FromString("10")),
         DisplayOnHostedPage:       models.ToPointer(true),
         AllowFractionalQuantities: models.ToPointer(true),
@@ -299,7 +299,7 @@ CreateOnOffComponent(
 
 ## Response Type
 
-[`models.ComponentResponse`](../../doc/models/component-response.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.ComponentResponse](../../doc/models/component-response.md).
 
 ## Example Usage
 
@@ -403,7 +403,7 @@ CreatePrepaidUsageComponent(
 
 ## Response Type
 
-[`models.ComponentResponse`](../../doc/models/component-response.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.ComponentResponse](../../doc/models/component-response.md).
 
 ## Example Usage
 
@@ -416,10 +416,10 @@ body := models.CreatePrepaidComponent{
     PrepaidUsageComponent: models.PrepaidUsageComponent{
         Name:                      "Minutes",
         UnitName:                  "minutes",
-        PricingScheme:             models.PricingScheme("per_unit"),
+        PricingScheme:             models.PricingScheme_PERUNIT,
         UnitPrice:                 models.ToPointer(models.PrepaidUsageComponentUnitPriceContainer.FromPrecision(float64(2))),
         OveragePricing:            models.OveragePricing{
-            PricingScheme:        models.PricingScheme("stairstep"),
+            PricingScheme:        models.PricingScheme_STAIRSTEP,
             Prices:               []models.Price{
                 models.Price{
                     StartingQuantity:     models.PriceStartingQuantityContainer.FromNumber(1),
@@ -435,7 +435,7 @@ body := models.CreatePrepaidComponent{
         RolloverPrepaidRemainder:  models.ToPointer(true),
         RenewPrepaidAllocation:    models.ToPointer(true),
         ExpirationInterval:        models.ToPointer(float64(15)),
-        ExpirationIntervalUnit:    models.NewOptional(models.ToPointer(models.ExpirationIntervalUnit("day"))),
+        ExpirationIntervalUnit:    models.NewOptional(models.ToPointer(models.ExpirationIntervalUnit_DAY)),
     },
 }
 
@@ -547,7 +547,7 @@ CreateEventBasedComponent(
 
 ## Response Type
 
-[`models.ComponentResponse`](../../doc/models/component-response.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.ComponentResponse](../../doc/models/component-response.md).
 
 ## Example Usage
 
@@ -563,7 +563,7 @@ body := models.CreateEBBComponent{
         Description:               models.ToPointer("string"),
         Handle:                    models.ToPointer("some_handle"),
         Taxable:                   models.ToPointer(true),
-        PricingScheme:             models.PricingScheme("per_unit"),
+        PricingScheme:             models.PricingScheme_PERUNIT,
         Prices:                    []models.Price{
             models.Price{
                 StartingQuantity:     models.PriceStartingQuantityContainer.FromNumber(1),
@@ -651,7 +651,7 @@ FindComponent(
 
 ## Response Type
 
-[`models.ComponentResponse`](../../doc/models/component-response.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.ComponentResponse](../../doc/models/component-response.md).
 
 ## Example Usage
 
@@ -721,11 +721,11 @@ ReadComponent(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `productFamilyId` | `int` | Template, Required | The Advanced Billing id of the product family to which the component belongs |
-| `componentId` | `string` | Template, Required | Either the Advanced Billing id of the component or the handle for the component prefixed with `handle:`<br>**Constraints**: *Pattern*: `/\A(?:\d+\|handle:(?:uuid:\|[a-z])(?:\w\|-)+)\z/` |
+| `componentId` | `string` | Template, Required | Either the Advanced Billing id of the component or the handle for the component prefixed with `handle:`<br><br>**Constraints**: *Pattern*: `/\A(?:\d+\|handle:(?:uuid:\|[a-z])(?:\w\|-)+)\z/` |
 
 ## Response Type
 
-[`models.ComponentResponse`](../../doc/models/component-response.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.ComponentResponse](../../doc/models/component-response.md).
 
 ## Example Usage
 
@@ -771,7 +771,8 @@ if err != nil {
     "downgrade_credit": null,
     "created_at": "2019-08-02T05:54:53-04:00",
     "default_price_point_name": "Original",
-    "product_family_name": "Chargify"
+    "product_family_name": "Chargify",
+    "product_family_handle": "chargify"
   }
 }
 ```
@@ -798,12 +799,12 @@ UpdateProductFamilyComponent(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `productFamilyId` | `int` | Template, Required | The Advanced Billing id of the product family to which the component belongs |
-| `componentId` | `string` | Template, Required | Either the Advanced Billing id of the component or the handle for the component prefixed with `handle:`<br>**Constraints**: *Pattern*: `/\A(?:\d+\|handle:(?:uuid:\|[a-z])(?:\w\|-)+)\z/` |
+| `componentId` | `string` | Template, Required | Either the Advanced Billing id of the component or the handle for the component prefixed with `handle:`<br><br>**Constraints**: *Pattern*: `/\A(?:\d+\|handle:(?:uuid:\|[a-z])(?:\w\|-)+)\z/` |
 | `body` | [`*models.UpdateComponentRequest`](../../doc/models/update-component-request.md) | Body, Optional | - |
 
 ## Response Type
 
-[`models.ComponentResponse`](../../doc/models/component-response.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.ComponentResponse](../../doc/models/component-response.md).
 
 ## Example Usage
 
@@ -816,7 +817,7 @@ componentId := "component_id8"
 
 body := models.UpdateComponentRequest{
     Component:            models.UpdateComponent{
-        ItemCategory:         models.NewOptional(models.ToPointer(models.ItemCategory("Business Software"))),
+        ItemCategory:         models.NewOptional(models.ToPointer(models.ItemCategory_ENUMBUSINESSSOFTWARE)),
     },
 }
 
@@ -885,11 +886,11 @@ ArchiveComponent(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `productFamilyId` | `int` | Template, Required | The Advanced Billing id of the product family to which the component belongs |
-| `componentId` | `string` | Template, Required | Either the Advanced Billing id of the component or the handle for the component prefixed with `handle:`<br>**Constraints**: *Pattern*: `/\A(?:\d+\|handle:(?:uuid:\|[a-z])(?:\w\|-)+)\z/` |
+| `componentId` | `string` | Template, Required | Either the Advanced Billing id of the component or the handle for the component prefixed with `handle:`<br><br>**Constraints**: *Pattern*: `/\A(?:\d+\|handle:(?:uuid:\|[a-z])(?:\w\|-)+)\z/` |
 
 ## Response Type
 
-[`models.Component`](../../doc/models/component.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.Component](../../doc/models/component.md).
 
 ## Example Usage
 
@@ -965,13 +966,13 @@ ListComponents(
 | `startDatetime` | `*string` | Query, Optional | The start date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns components with a timestamp at or after exact time provided in query. You can specify timezone in query - otherwise your site's time zone will be used. If provided, this parameter will be used instead of start_date. |
 | `endDatetime` | `*string` | Query, Optional | The end date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns components with a timestamp at or before exact time provided in query. You can specify timezone in query - otherwise your site's time zone will be used. If provided, this parameter will be used instead of end_date.  optional |
 | `includeArchived` | `*bool` | Query, Optional | Include archived items |
-| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br>**Default**: `1`<br>**Constraints**: `>= 1` |
-| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`.<br>**Default**: `20`<br>**Constraints**: `<= 200` |
+| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br><br>**Default**: `1`<br><br>**Constraints**: `>= 1` |
+| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`.<br><br>**Default**: `20`<br><br>**Constraints**: `<= 200` |
 | `filter` | [`*models.ListComponentsFilter`](../../doc/models/list-components-filter.md) | Query, Optional | Filter to use for List Components operations |
 
 ## Response Type
 
-[`[]models.ComponentResponse`](../../doc/models/component-response.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [[]models.ComponentResponse](../../doc/models/component-response.md).
 
 ## Example Usage
 
@@ -979,7 +980,7 @@ ListComponents(
 ctx := context.Background()
 
 collectedInput := advancedbilling.ListComponentsInput{
-    DateField:       models.ToPointer(models.BasicDateField("updated_at")),
+    DateField:       models.ToPointer(models.BasicDateField_UPDATEDAT),
     Page:            models.ToPointer(2),
     PerPage:         models.ToPointer(50),
     Filter:          models.ToPointer(models.ListComponentsFilter{
@@ -1039,6 +1040,7 @@ if err != nil {
       "created_at": "2019-08-01T09:35:38-04:00",
       "default_price_point_name": "Original",
       "product_family_name": "Chargify",
+      "product_family_handle": "chargify",
       "use_site_exchange_rate": true
     }
   },
@@ -1065,6 +1067,7 @@ if err != nil {
       "created_at": "2019-08-01T09:35:37-04:00",
       "default_price_point_name": "Original",
       "product_family_name": "Chargify",
+      "product_family_handle": "chargify",
       "use_site_exchange_rate": true
     }
   },
@@ -1091,6 +1094,7 @@ if err != nil {
       "created_at": "2019-08-01T09:35:38-04:00",
       "default_price_point_name": "Original",
       "product_family_name": "Chargify",
+      "product_family_handle": "chargify",
       "use_site_exchange_rate": true
     }
   }
@@ -1122,7 +1126,7 @@ UpdateComponent(
 
 ## Response Type
 
-[`models.ComponentResponse`](../../doc/models/component-response.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.ComponentResponse](../../doc/models/component-response.md).
 
 ## Example Usage
 
@@ -1133,7 +1137,7 @@ componentId := "component_id8"
 
 body := models.UpdateComponentRequest{
     Component:            models.UpdateComponent{
-        ItemCategory:         models.NewOptional(models.ToPointer(models.ItemCategory("Business Software"))),
+        ItemCategory:         models.NewOptional(models.ToPointer(models.ItemCategory_ENUMBUSINESSSOFTWARE)),
     },
 }
 
@@ -1202,8 +1206,8 @@ ListComponentsForProductFamily(
 |  --- | --- | --- | --- |
 | `productFamilyId` | `int` | Template, Required | The Advanced Billing id of the product family |
 | `includeArchived` | `*bool` | Query, Optional | Include archived items. |
-| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br>**Default**: `1`<br>**Constraints**: `>= 1` |
-| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`.<br>**Default**: `20`<br>**Constraints**: `<= 200` |
+| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br><br>**Default**: `1`<br><br>**Constraints**: `>= 1` |
+| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`.<br><br>**Default**: `20`<br><br>**Constraints**: `<= 200` |
 | `filter` | [`*models.ListComponentsFilter`](../../doc/models/list-components-filter.md) | Query, Optional | Filter to use for List Components operations |
 | `dateField` | [`*models.BasicDateField`](../../doc/models/basic-date-field.md) | Query, Optional | The type of filter you would like to apply to your search. Use in query `date_field=created_at`. |
 | `endDate` | `*string` | Query, Optional | The end date (format YYYY-MM-DD) with which to filter the date_field. Returns components with a timestamp up to and including 11:59:59PM in your site’s time zone on the date specified. |
@@ -1213,7 +1217,7 @@ ListComponentsForProductFamily(
 
 ## Response Type
 
-[`[]models.ComponentResponse`](../../doc/models/component-response.md)
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [[]models.ComponentResponse](../../doc/models/component-response.md).
 
 ## Example Usage
 
@@ -1231,7 +1235,7 @@ collectedInput := advancedbilling.ListComponentsForProductFamilyInput{
             3,
         },
     }),
-    DateField:       models.ToPointer(models.BasicDateField("updated_at")),
+    DateField:       models.ToPointer(models.BasicDateField_UPDATEDAT),
 }
 
 apiResponse, err := componentsController.ListComponentsForProductFamily(ctx, collectedInput)
