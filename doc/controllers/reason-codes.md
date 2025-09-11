@@ -250,8 +250,6 @@ ctx := context.Background()
 
 reasonCodeId := 32
 
-
-
 apiResponse, err := reasonCodesController.UpdateReasonCode(ctx, reasonCodeId, nil)
 if err != nil {
     log.Fatalln(err)

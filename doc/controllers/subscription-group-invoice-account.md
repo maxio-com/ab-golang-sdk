@@ -47,8 +47,6 @@ ctx := context.Background()
 
 uid := "uid0"
 
-
-
 apiResponse, err := subscriptionGroupInvoiceAccountController.CreateSubscriptionGroupPrepayment(ctx, uid, nil)
 if err != nil {
     log.Fatalln(err)

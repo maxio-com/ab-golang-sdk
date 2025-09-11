@@ -150,7 +150,7 @@ func (c *CustomersController) ListCustomers(
 // ReadCustomer takes context, id as parameters and
 // returns an models.ApiResponse with models.CustomerResponse data and
 // an error if there was an issue with the request or response.
-// This method allows to retrieve the Customer properties by Advanced Billing-generated Customer ID.
+// Retrieves the Customer properties by Advanced Billing-generated Customer ID.
 func (c *CustomersController) ReadCustomer(
     ctx context.Context,
     id int) (

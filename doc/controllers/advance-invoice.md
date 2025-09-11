@@ -149,8 +149,6 @@ ctx := context.Background()
 
 subscriptionId := 222
 
-
-
 apiResponse, err := advanceInvoiceController.VoidAdvanceInvoice(ctx, subscriptionId, nil)
 if err != nil {
     log.Fatalln(err)

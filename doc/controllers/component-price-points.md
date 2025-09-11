@@ -106,7 +106,7 @@ if err != nil {
 
 # Create Component Price Point
 
-This endpoint can be used to create a new price point for an existing component.
+Creates a price point for an existing component.
 
 ```go
 CreateComponentPricePoint(
@@ -148,6 +148,7 @@ body := models.CreateComponentPricePointRequest{
             },
             models.Price{
                 StartingQuantity:     models.PriceStartingQuantityContainer.FromString("101"),
+                EndingQuantity:       models.NewOptional(models.ToPointer(models.PriceEndingQuantityContainer.FromString("200"))),
                 UnitPrice:            models.PriceUnitPriceContainer.FromString("4.00"),
             },
         },
@@ -213,7 +214,8 @@ collectedInput := advancedbilling.ListComponentPricePointsInput{
     ComponentId:    222,
     Page:           models.ToPointer(2),
     PerPage:        models.ToPointer(50),
-Liquid error: Value cannot be null. (Parameter 'key')}
+    FilterType:     Liquid error: Value cannot be null. (Parameter 'key'),
+}
 
 apiResponse, err := componentPricePointsController.ListComponentPricePoints(ctx, collectedInput)
 if err != nil {
@@ -523,8 +525,6 @@ ctx := context.Background()
 componentId := models.ReadComponentPricePointComponentIdContainer.FromNumber(144)
 
 pricePointId := models.ReadComponentPricePointPricePointIdContainer.FromNumber(188)
-
-
 
 apiResponse, err := componentPricePointsController.ReadComponentPricePoint(ctx, componentId, pricePointId, nil)
 if err != nil {

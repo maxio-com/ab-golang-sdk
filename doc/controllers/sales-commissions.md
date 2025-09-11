@@ -297,8 +297,6 @@ salesRepId := "sales_rep_id4"
 
 authorization := "Bearer <<apiKey>>"
 
-
-
 page := 2
 
 perPage := 100

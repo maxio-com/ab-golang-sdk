@@ -61,8 +61,6 @@ ctx := context.Background()
 
 customerId := 150
 
-
-
 apiResponse, err := billingPortalController.EnableBillingPortalForCustomer(ctx, customerId, nil)
 if err != nil {
     log.Fatalln(err)

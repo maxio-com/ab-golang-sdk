@@ -245,8 +245,6 @@ ctx := context.Background()
 
 resourceType := models.ResourceType_SUBSCRIPTIONS
 
-
-
 apiResponse, err := customFieldsController.UpdateMetafield(ctx, resourceType, nil)
 if err != nil {
     log.Fatalln(err)
@@ -296,8 +294,6 @@ This method returns an [`ApiResponse`](../../doc/api-response.md) instance.
 ctx := context.Background()
 
 resourceType := models.ResourceType_SUBSCRIPTIONS
-
-
 
 resp, err := customFieldsController.DeleteMetafield(ctx, resourceType, nil)
 if err != nil {
@@ -487,8 +483,6 @@ resourceType := models.ResourceType_SUBSCRIPTIONS
 
 resourceId := 60
 
-
-
 apiResponse, err := customFieldsController.UpdateMetadata(ctx, resourceType, resourceId, nil)
 if err != nil {
     log.Fatalln(err)
@@ -564,10 +558,6 @@ ctx := context.Background()
 resourceType := models.ResourceType_SUBSCRIPTIONS
 
 resourceId := 60
-
-
-
-
 
 resp, err := customFieldsController.DeleteMetadata(ctx, resourceType, resourceId, nil, nil)
 if err != nil {

@@ -1172,7 +1172,7 @@ A. No. Usage should be reported as one API call per component on a single subscr
 ```go
 CreateUsage(
     ctx context.Context,
-    subscriptionId int,
+    subscriptionIdOrReference models.CreateUsageSubscriptionIdOrReference,
     componentId models.CreateUsageComponentId,
     body *models.CreateUsageRequest) (
     models.ApiResponse[models.UsageResponse],
@@ -1183,7 +1183,7 @@ CreateUsage(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription |
+| `subscriptionIdOrReference` | [`models.CreateUsageSubscriptionIdOrReference`](../../doc/models/containers/create-usage-subscription-id-or-reference.md) | Template, Required | This is a container for one-of cases. |
 | `componentId` | [`models.CreateUsageComponentId`](../../doc/models/containers/create-usage-component-id.md) | Template, Required | This is a container for one-of cases. |
 | `body` | [`*models.CreateUsageRequest`](../../doc/models/create-usage-request.md) | Body, Optional | - |
 
@@ -1196,7 +1196,7 @@ This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The 
 ```go
 ctx := context.Background()
 
-subscriptionId := 222
+subscriptionIdOrReference := models.CreateUsageSubscriptionIdOrReferenceContainer.FromNumber(234)
 
 componentId := models.CreateUsageComponentIdContainer.FromNumber(144)
 
@@ -1208,7 +1208,7 @@ body := models.CreateUsageRequest{
     },
 }
 
-apiResponse, err := subscriptionComponentsController.CreateUsage(ctx, subscriptionId, componentId, &body)
+apiResponse, err := subscriptionComponentsController.CreateUsage(ctx, subscriptionIdOrReference, componentId, &body)
 if err != nil {
     log.Fatalln(err)
 } else {
@@ -1272,7 +1272,7 @@ ListUsages(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription |
+| `subscriptionIdOrReference` | [`models.ListUsagesInputSubscriptionIdOrReference`](../../doc/models/containers/list-usages-input-subscription-id-or-reference.md) | Template, Required | This is a container for one-of cases. |
 | `componentId` | [`models.ListUsagesInputComponentId`](../../doc/models/containers/list-usages-input-component-id.md) | Template, Required | This is a container for one-of cases. |
 | `sinceId` | `*int64` | Query, Optional | Returns usages with an id greater than or equal to the one specified |
 | `maxId` | `*int64` | Query, Optional | Returns usages with an id less than or equal to the one specified |
@@ -1291,10 +1291,10 @@ This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The 
 ctx := context.Background()
 
 collectedInput := advancedbilling.ListUsagesInput{
-    SubscriptionId: 222,
-    ComponentId:    models.ListUsagesInputComponentIdContainer.FromNumber(144),
-    Page:           models.ToPointer(2),
-    PerPage:        models.ToPointer(50),
+    SubscriptionIdOrReference: models.ListUsagesInputSubscriptionIdOrReferenceContainer.FromNumber(234),
+    ComponentId:               models.ListUsagesInputComponentIdContainer.FromNumber(144),
+    Page:                      models.ToPointer(2),
+    PerPage:                   models.ToPointer(50),
 }
 
 apiResponse, err := subscriptionComponentsController.ListUsages(ctx, collectedInput)
@@ -1393,6 +1393,7 @@ body := models.ActivateEventBasedComponent{
         Prices:               []models.Price{
             models.Price{
                 StartingQuantity:     models.PriceStartingQuantityContainer.FromNumber(1),
+                EndingQuantity:       models.NewOptional[models.PriceEndingQuantity](nil),
                 UnitPrice:            models.PriceUnitPriceContainer.FromString("5.0"),
             },
         },
@@ -1501,8 +1502,6 @@ ctx := context.Background()
 
 apiHandle := "api_handle6"
 
-
-
 body := models.EBBEvent{
     Chargify:             models.ToPointer(models.ChargifyEBB{
         Timestamp:             models.ToPointer(parseTime(time.RFC3339, "2020-02-27T17:45:50-05:00", func(err error) { log.Fatalln(err) })),
@@ -1555,8 +1554,6 @@ This method returns an [`ApiResponse`](../../doc/api-response.md) instance.
 ctx := context.Background()
 
 apiHandle := "api_handle6"
-
-
 
 body := []models.EBBEvent{
     models.EBBEvent{

@@ -105,10 +105,6 @@ This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The 
 ```go
 ctx := context.Background()
 
-
-
-
-
 apiResponse, err := insightsController.ReadMrr(ctx, nil, nil)
 if err != nil {
     log.Fatalln(err)
