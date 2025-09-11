@@ -472,7 +472,7 @@ func (s *SubscriptionComponentsController) DeletePrepaidUsageAllocation(
     return httpCtx.Response, err
 }
 
-// CreateUsage takes context, subscriptionId, componentId, body as parameters and
+// CreateUsage takes context, subscriptionIdOrReference, componentId, body as parameters and
 // returns an models.ApiResponse with models.UsageResponse data and
 // an error if there was an issue with the request or response.
 // ## Documentation
@@ -513,7 +513,7 @@ func (s *SubscriptionComponentsController) DeletePrepaidUsageAllocation(
 // A. No. Usage should be reported as one API call per component on a single subscription. For example, to record that a subscriber has sent both an SMS Message and an Email, send an API call for each.
 func (s *SubscriptionComponentsController) CreateUsage(
     ctx context.Context,
-    subscriptionId int,
+    subscriptionIdOrReference models.CreateUsageSubscriptionIdOrReference,
     componentId models.CreateUsageComponentId,
     body *models.CreateUsageRequest) (
     models.ApiResponse[models.UsageResponse],
@@ -523,7 +523,7 @@ func (s *SubscriptionComponentsController) CreateUsage(
       "POST",
       "/subscriptions/%v/components/%v/usages.json",
     )
-    req.AppendTemplateParams(subscriptionId, componentId)
+    req.AppendTemplateParams(subscriptionIdOrReference, componentId)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
@@ -545,27 +545,27 @@ func (s *SubscriptionComponentsController) CreateUsage(
 
 // ListUsagesInput represents the input of the ListUsages endpoint.
 type ListUsagesInput struct {
-    // The Chargify id of the subscription
-    SubscriptionId int                               
+    // Either the Advanced Billing subscription ID (integer) or the subscription reference (string). Important: In cases where a numeric string value matches both an existing subscription ID and an existing subscription reference, the system will prioritize the subscription ID lookup. For example, if both subscription ID 123 and subscription reference "123" exist, passing "123" will return the subscription with ID 123.
+    SubscriptionIdOrReference models.ListUsagesInputSubscriptionIdOrReference 
     // Either the Advanced Billing id for the component or the component's handle prefixed by `handle:`
-    ComponentId    models.ListUsagesInputComponentId 
+    ComponentId               models.ListUsagesInputComponentId               
     // Returns usages with an id greater than or equal to the one specified
-    SinceId        *int64                            
+    SinceId                   *int64                                          
     // Returns usages with an id less than or equal to the one specified
-    MaxId          *int64                            
+    MaxId                     *int64                                          
     // Returns usages with a created_at date greater than or equal to midnight (12:00 AM) on the date specified.
-    SinceDate      *time.Time                        
+    SinceDate                 *time.Time                                      
     // Returns usages with a created_at date less than or equal to midnight (12:00 AM) on the date specified.
-    UntilDate      *time.Time                        
+    UntilDate                 *time.Time                                      
     // Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.
     // Use in query `page=1`.
-    Page           *int                              
+    Page                      *int                                            
     // This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.
     // Use in query `per_page=200`.
-    PerPage        *int                              
+    PerPage                   *int                                            
 }
 
-// ListUsages takes context, subscriptionId, componentId, sinceId, maxId, sinceDate, untilDate, page, perPage as parameters and
+// ListUsages takes context, subscriptionIdOrReference, componentId, sinceId, maxId, sinceDate, untilDate, page, perPage as parameters and
 // returns an models.ApiResponse with []models.UsageResponse data and
 // an error if there was an issue with the request or response.
 // This request will return a list of the usages associated with a subscription for a particular metered component. This will display the previously recorded components for a subscription.
@@ -587,7 +587,7 @@ func (s *SubscriptionComponentsController) ListUsages(
       "GET",
       "/subscriptions/%v/components/%v/usages.json",
     )
-    req.AppendTemplateParams(input.SubscriptionId, input.ComponentId)
+    req.AppendTemplateParams(input.SubscriptionIdOrReference, input.ComponentId)
     req.Authenticate(NewAuth("BasicAuth"))
     if input.SinceId != nil {
         req.QueryParam("since_id", *input.SinceId)

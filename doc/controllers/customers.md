@@ -292,7 +292,7 @@ if err != nil {
 
 # Read Customer
 
-This method allows to retrieve the Customer properties by Advanced Billing-generated Customer ID.
+Retrieves the Customer properties by Advanced Billing-generated Customer ID.
 
 ```go
 ReadCustomer(
@@ -326,6 +326,43 @@ if err != nil {
     // Printing the result and response
     fmt.Println(apiResponse.Data)
     fmt.Println(apiResponse.Response.StatusCode)
+}
+```
+
+## Example Response *(as JSON)*
+
+```json
+{
+  "customer": {
+    "first_name": "Jane",
+    "last_name": "Doe",
+    "email": "jane@example.com",
+    "cc_emails": "joe@example.com",
+    "organization": "ABC, Inc.",
+    "reference": "1234567890",
+    "id": 88833369,
+    "created_at": "2025-05-08T11:39:18-04:00",
+    "updated_at": "2025-05-08T11:39:18-04:00",
+    "address": "123 Main Street",
+    "address_2": "Unit 10",
+    "city": "Anytown",
+    "state": "MA",
+    "state_name": "Massachusetts",
+    "zip": "02120",
+    "country": "US",
+    "country_name": "United States",
+    "phone": "555-555-1212",
+    "verified": false,
+    "portal_customer_created_at": null,
+    "portal_invite_last_sent_at": null,
+    "portal_invite_last_accepted_at": null,
+    "tax_exempt": false,
+    "vat_number": null,
+    "parent_id": null,
+    "locale": "es-MX",
+    "salesforce_id": null,
+    "default_auto_renewal_profile_id": null
+  }
 }
 ```
 

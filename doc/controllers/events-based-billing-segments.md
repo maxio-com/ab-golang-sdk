@@ -196,8 +196,6 @@ pricePointId := "price_point_id8"
 
 id := float64(60)
 
-
-
 apiResponse, err := eventsBasedBillingSegmentsController.UpdateSegment(ctx, componentId, pricePointId, id, nil)
 if err != nil {
     log.Fatalln(err)
@@ -310,8 +308,6 @@ componentId := "component_id8"
 
 pricePointId := "price_point_id8"
 
-
-
 apiResponse, err := eventsBasedBillingSegmentsController.BulkCreateSegments(ctx, componentId, pricePointId, nil)
 if err != nil {
     log.Fatalln(err)
@@ -368,8 +364,6 @@ ctx := context.Background()
 componentId := "component_id8"
 
 pricePointId := "price_point_id8"
-
-
 
 apiResponse, err := eventsBasedBillingSegmentsController.BulkUpdateSegments(ctx, componentId, pricePointId, nil)
 if err != nil {

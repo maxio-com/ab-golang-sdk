@@ -152,7 +152,8 @@ collectedInput := advancedbilling.ListProductPricePointsInput{
     ProductId:      models.ListProductPricePointsInputProductIdContainer.FromNumber(124),
     Page:           models.ToPointer(2),
     PerPage:        models.ToPointer(10),
-Liquid error: Value cannot be null. (Parameter 'key')}
+    FilterType:     Liquid error: Value cannot be null. (Parameter 'key'),
+}
 
 apiResponse, err := productPricePointsController.ListProductPricePoints(ctx, collectedInput)
 if err != nil {
@@ -310,8 +311,6 @@ ctx := context.Background()
 productId := models.ReadProductPricePointProductIdContainer.FromNumber(124)
 
 pricePointId := models.ReadProductPricePointPricePointIdContainer.FromNumber(188)
-
-
 
 apiResponse, err := productPricePointsController.ReadProductPricePoint(ctx, productId, pricePointId, nil)
 if err != nil {

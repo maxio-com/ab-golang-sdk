@@ -337,8 +337,6 @@ ctx := context.Background()
 
 proformaInvoiceUid := "proforma_invoice_uid4"
 
-
-
 apiResponse, err := proformaInvoicesController.VoidProformaInvoice(ctx, proformaInvoiceUid, nil)
 if err != nil {
     log.Fatalln(err)
@@ -506,8 +504,6 @@ This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The 
 
 ```go
 ctx := context.Background()
-
-
 
 body := models.CreateSubscriptionRequest{
     Subscription:         models.CreateSubscription{

@@ -245,8 +245,8 @@ func (c *ComponentsController) FindComponent(
 // ReadComponent takes context, productFamilyId, componentId as parameters and
 // returns an models.ApiResponse with models.ComponentResponse data and
 // an error if there was an issue with the request or response.
-// This request will return information regarding a component from a specific product family.
-// You may read the component by either the component's id or handle. When using the handle, it must be prefixed with `handle:`.
+// Returns information regarding a component from a specific product family.
+// You can read the component by either the component's id or handle. When using the handle, it must be prefixed with `handle:`.
 func (c *ComponentsController) ReadComponent(
     ctx context.Context,
     productFamilyId int,

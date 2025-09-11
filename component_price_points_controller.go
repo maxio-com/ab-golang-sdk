@@ -55,7 +55,7 @@ func (c *ComponentPricePointsController) PromoteComponentPricePointToDefault(
 // CreateComponentPricePoint takes context, componentId, body as parameters and
 // returns an models.ApiResponse with models.ComponentPricePointResponse data and
 // an error if there was an issue with the request or response.
-// This endpoint can be used to create a new price point for an existing component.
+// Creates a price point for an existing component.
 func (c *ComponentPricePointsController) CreateComponentPricePoint(
     ctx context.Context,
     componentId int,

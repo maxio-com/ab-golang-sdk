@@ -301,10 +301,6 @@ This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The 
 ```go
 ctx := context.Background()
 
-
-
-
-
 currencyPrices := true
 
 apiResponse, err := couponsController.FindCoupon(ctx, nil, nil, &currencyPrices)
@@ -823,8 +819,6 @@ This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The 
 ctx := context.Background()
 
 code := "code8"
-
-
 
 apiResponse, err := couponsController.ValidateCoupon(ctx, code, nil)
 if err != nil {

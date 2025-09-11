@@ -255,8 +255,6 @@ ctx := context.Background()
 
 productId := 202
 
-
-
 apiResponse, err := productsController.UpdateProduct(ctx, productId, nil)
 if err != nil {
     log.Fatalln(err)

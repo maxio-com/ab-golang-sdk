@@ -375,8 +375,6 @@ page := 2
 
 perPage := 50
 
-
-
 apiResponse, err := subscriptionInvoiceAccountController.ListServiceCredits(ctx, subscriptionId, &page, &perPage, nil)
 if err != nil {
     log.Fatalln(err)
@@ -460,8 +458,6 @@ ctx := context.Background()
 subscriptionId := 222
 
 prepaymentId := int64(228)
-
-
 
 apiResponse, err := subscriptionInvoiceAccountController.RefundPrepayment(ctx, subscriptionId, prepaymentId, nil)
 if err != nil {

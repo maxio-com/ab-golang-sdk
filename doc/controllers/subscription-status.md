@@ -243,8 +243,6 @@ ctx := context.Background()
 
 subscriptionId := 222
 
-
-
 apiResponse, err := subscriptionStatusController.CancelSubscription(ctx, subscriptionId, nil)
 if err != nil {
     log.Fatalln(err)
@@ -430,9 +428,7 @@ ctx := context.Background()
 
 subscriptionId := 222
 
-Liquid error: Value cannot be null. (Parameter 'key')
-
-apiResponse, err := subscriptionStatusController.ResumeSubscription(ctx, subscriptionId, Liquid error: Value cannot be null. (Parameter 'key'))
+apiResponse, err := subscriptionStatusController.ResumeSubscription(ctx, subscriptionId, nil)
 if err != nil {
     log.Fatalln(err)
 } else {
@@ -1266,8 +1262,6 @@ This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The 
 ctx := context.Background()
 
 subscriptionId := 222
-
-
 
 apiResponse, err := subscriptionStatusController.InitiateDelayedCancellation(ctx, subscriptionId, nil)
 if err != nil {
