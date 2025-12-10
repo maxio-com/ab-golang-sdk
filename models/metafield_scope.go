@@ -18,9 +18,9 @@ type MetafieldScope struct {
     Statements           *IncludeOption         `json:"statements,omitempty"`
     // Include (1) or exclude (0) metafields from the portal.
     Portal               *IncludeOption         `json:"portal,omitempty"`
-    // Include (1) or exclude (0) metafields from being viewable by your ecosystem.
+    // Include (1) or exclude (0) metafields used in [Embeddable Components](page:development-tools/embeddable-components/overview) from being viewable by your ecosystem.
     PublicShow           *IncludeOption         `json:"public_show,omitempty"`
-    // Include (1) or exclude (0) metafields from being edited by your ecosystem.
+    // Include (1) or exclude (0) metafields used in [Embeddable Components](page:development-tools/embeddable-components/overview) from being editable by your ecosystem.
     PublicEdit           *IncludeOption         `json:"public_edit,omitempty"`
     Hosted               []string               `json:"hosted,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`

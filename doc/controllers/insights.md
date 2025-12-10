@@ -192,7 +192,7 @@ This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The 
 ctx := context.Background()
 
 collectedInput := advancedbilling.ListMrrMovementsInput{
-    Page:           models.ToPointer(2),
+    Page:           models.ToPointer(1),
     PerPage:        models.ToPointer(20),
 }
 
@@ -301,7 +301,7 @@ collectedInput := advancedbilling.ListMrrPerSubscriptionInput{
         },
     }),
     AtTime:    models.ToPointer("at_time=2022-01-10T10:00:00-05:00"),
-    Page:      models.ToPointer(2),
+    Page:      models.ToPointer(1),
     PerPage:   models.ToPointer(50),
     Direction: models.ToPointer(models.Direction_DESC),
 }

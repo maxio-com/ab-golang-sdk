@@ -26,624 +26,21 @@ subscriptionsController := client.SubscriptionsController()
 
 # Create Subscription
 
-Full documentation on how subscriptions operate within Advanced Billing can be located under the following topics:
+Creates a Subscription for a customer and product
 
-+ [Subscriptions Reference](https://maxio.zendesk.com/hc/en-us/articles/24251526991757-Subscription-Overview)
-+ [Subscriptions Actions](https://maxio.zendesk.com/hc/en-us/articles/24251983024653-Subscription-Actions-Overview)
-+ [Subscription Cancellation](https://maxio.zendesk.com/hc/en-us/articles/24251957778829-Cancel-Subscriptions)
-+ [Subscription Reactivation](https://maxio.zendesk.com/hc/en-us/articles/24252109503629-Reactivating-and-Resuming)
-+ [Subscription Import](https://maxio.zendesk.com/hc/en-us/articles/24251489107213-Imports)
+Specify the product with `product_id` or `product_handle`. To set a specific product pricepPoint, use `product_price_point_handle` or `product_price_point_id`.
 
-When creating a subscription, you must specify a product and a customer. Credit card details may be required, depending on the options for the Product being subscribed ([see Product Options](https://maxio.zendesk.com/hc/en-us/articles/24261076617869-Product-Editing)).
+Identify an existing customer with `customer_id` or `customer_reference`. Optionally, include an existing payment profile using `payment_profile_id`. To create a new customer, pass customer_attributes.
 
-The product may be specified by `product_id` or by `product_handle` (API Handle). In similar fashion, to pass a particular product price point, you may either use `product_price_point_handle` or `product_price_point_id`.
+Select an option from the **Request Examples** drop-down on the right side of the portal to see examples of common scenarios for creating subscriptions.
 
-An existing customer may be specified by a `customer_id` (ID within Advanced Billing) or a `customer_reference` (unique value within your app that you have shared with Advanced Billing via the reference attribute on a customer). You may also pass in an existing payment profile for that customer with `payment_profile_id`. A new customer may be created by providing `customer_attributes`.
+Payment information may be required to create a subscription, depending on the options for the Product being subscribed. See [product options](https://docs.maxio.com/hc/en-us/articles/24261076617869-Edit-Products) for more information. See the [Payments Profile](../../doc/controllers/payment-profiles.md#create-payment-profile) endpoint for details on payment parameters.
 
-Credit card details may be required, depending on the options for the product being subscribed. The product can be specified by `product_id` or by `product_handle` (API Handle).
+Do not use real card information for testing. See the Sites articles that cover [testing your site setup](https://docs.maxio.com/hc/en-us/articles/24250712113165-Testing-Overview#testing-overview-0-0) for more details on testing in your sandbox.
 
-If you are creating a subscription with a payment profile, the attribute to send will be `credit_card_attributes` or `bank_account_attributes` for ACH and Direct Debit. That said, when you read the subscription after creation, we return the profile details under `credit_card` or `bank_account`.
+Note that collecting and sending raw card details in production requires [PCI compliance](https://docs.maxio.com/hc/en-us/articles/24183956938381-PCI-Compliance#pci-compliance-0-0) on your end. If your business is not PCI compliant, use [Chargify.js](https://docs.maxio.com/hc/en-us/articles/38163190843789-Chargify-js-Overview#chargify-js-overview-0-0) to collect credit card or bank account information.
 
-## Bulk creation of subscriptions
-
-Bulk creation of subscriptions is currently not supported. For scenarios where multiple subscriptions must be added, particularly when assigning to the same subscription group, it is essential to switch to a single-threaded approach.
-
-To avoid data conflicts or inaccuracies, incorporate a sleep interval between requests.
-
-While this single-threaded approach may impact performance, it ensures data consistency and accuracy in cases where concurrent creation attempts could otherwise lead to issues with subscription alignment and integrity.
-
-## Taxable Subscriptions
-
-If your intent is to charge your subscribers tax via [Avalara Taxes](https://maxio.zendesk.com/hc/en-us/articles/24287043035661-Avalara-VAT-Tax) or [Custom Taxes](https://maxio.zendesk.com/hc/en-us/articles/24287044212749-Custom-Taxes), there are a few considerations to be made regarding collecting subscription data.
-For subscribers to be eligible to be taxed, the following information for the `customer` object or `payment_profile` object must by supplied:
-
-+ A subscription to a [taxable product](https://maxio.zendesk.com/hc/en-us/articles/24261076617869-Product-Editing#tax-settings)
-+ [Full valid billing or shipping address](https://maxio.zendesk.com/hc/en-us/articles/24287008131853-Advanced-Billing-Managed-Sales-Tax#full-address-required-for-taxable-subscriptions) to identify the tax locale
-+ The portion of the address that houses the [state information](https://maxio.zendesk.com/hc/en-us/articles/24287008131853-Advanced-Billing-Managed-Sales-Tax#required-state-format-for-taxable-subscriptions) of either adddress must adhere to the ISO standard of a 2-3 character limit/format.
-+ The portion of the address that houses the [country information](https://maxio.zendesk.com/hc/en-us/articles/24287008131853-Advanced-Billing-Managed-Sales-Tax#required-country-format-for-taxable-subscriptions) must adhere to the ISO standard of a 2 character limit/format.
-
-## Subscription Request Examples
-
-The subscription examples below will be split into two sections.
-
-The first section, "Subscription Customization", will focus on passing different information with a subscription, such as components, calendar billing, and custom fields. These examples will presume you are using a secure `chargify_token` generated by Chargify.js.
-
-The second section, "Passing Payment Information", will focus on passing payment information into Advanced Billing. Please be aware that <b>collecting and sending Advanced Billing raw card details requires PCI compliance on your end</b>; these examples are provided as guidance. If your business is not PCI compliant, we recommend using Chargify.js to collect credit cards or bank accounts.
-
-# Subscription Customization
-
-## With Components
-
-Different components require slightly different data. For example, quantity-based and on/off components accept `allocated_quantity`, while metered components accept `unit_balance`.
-
-When creating a subscription with a component, a `price_point_id` can be passed in along with the `component_id` to specify which price point to use. If not passed in, the default price point will be used.
-
-Note: if an invalid `price_point_id` is used, the subscription will still proceed but will use the component's default price point.
-
-Components and their price points may be added by ID or by handle. See the example request body labeled "Components By Handle (Quantity-Based)"; the format will be the same for other component types.
-
-## With Coupon(s)
-
-Pass an array of `coupon_codes`. See the example request body "With Coupon".
-
-## With Manual Invoice Collection
-
-The `invoice` collection method works only on legacy Statement Architecture.
-
-On Relationship Invoicing Architecture use the `remittance` collection method.
-
-## Prepaid Subscription
-
-A prepaid subscription can be created with the usual subscription creation parameters, specifying `prepaid` as the `payment_collection_method` and including a nested `prepaid_configuration`.
-
-After a prepaid subscription has been created, additional funds can be manually added to the prepayment account through the [Create Prepayment Endpoint](https://developers.chargify.com/docs/api-docs/7ec482de77ba7-create-prepayment).
-
-Prepaid subscriptions do not work on legacy Statement Architecture.
-
-## With Metafields
-
-Metafields can either attach to subscriptions or customers. Metafields are popuplated with the supplied metadata to the resource specified.
-
-If the metafield doesn't exist yet, it will be created on-the-fly.
-
-## With Custom Pricing
-
-Custom pricing is pricing specific to the subscription in question.
-Create a subscription with custom pricing by passing pricing information instead of a price point.
-For a custom priced product, pass the custom_price object in place of `product_price_point_id`. For a custom priced component, pass the `custom_price` object within the component object.
-Custom prices and price points can exist in harmony on a subscription.
-
-# Passing Payment Information
-
-## Subscription with Chargify.js token
-
-The `chargify_token` can be obtained using [Chargify.js](https://docs.maxio.com/hc/en-us/articles/38163190843789-Chargify-js-Overview#chargify-js-overview-0-0). The token represents payment profile attributes that were provided by the customer in their browser and stored at the payment gateway.
-
-The `payment_type` attribute may either be `credit_card` or `bank_account`, depending on the type of payment method being added. If a bank account is being passed, the payment attributes should be changed to `bank_account_attributes`.
-
-```json
-{
-  "subscription": {
-    "product_handle": "pro-plan",
-    "customer_attributes": {
-      "first_name": "Joe",
-      "last_name": "Smith",
-      "email": "j.smith@example.com"
-    },
-    "credit_card_attributes": {
-      "chargify_token": "tok_cwhvpfcnbtgkd8nfkzf9dnjn",
-      "payment_type": "credit_card"
-    }
-  }
-}
-```
-
-## Subscription with vault token
-
-If you already have a customer and card stored in your payment gateway, you may create a subscription with a `vault_token`.  Providing the last_four, card type and expiration date will allow the card to be displayed properly in the Advanced Billing UI.
-
-```json
-{
-  "subscription": {
-    "product_handle": "pro-plan",
-    "customer_attributes": {
-      "first_name": "Joe",
-      "last_name": "Smith",
-      "email": "j.smith@example.com"
-    },
-    "credit_card_attributes": {
-      first_name: "Joe,
-      last_name: "Smith",
-      card_type: "visa",
-      expiration_month: "05",
-      expiration_year: "2025",
-      last_four: "1234",
-      vault_token: "12345abc",
-      current_vault: "braintree_blue"
-  }
-}
-```
-
-## Subscription with ACH as Payment Profile
-
-```json
-{
-  "subscription": {
-    "product_handle": "gold-product",
-    "customer_attributes": {
-      "first_name": "Joe",
-      "last_name": "Blow",
-      "email": "joe@example.com",
-      "zip": "02120",
-      "state": "MA",
-      "reference": "XYZ",
-      "phone": "(617) 111 - 0000",
-      "organization": "Acme",
-      "country": "US",
-      "city": "Boston",
-      "address_2": null,
-      "address": "123 Mass Ave."
-    },
-    "bank_account_attributes": {
-      "bank_name": "Best Bank",
-      "bank_routing_number": "021000089",
-      "bank_account_number": "111111111111",
-      "bank_account_type": "checking",
-      "bank_account_holder_type": "business",
-      "payment_type": "bank_account"
-    }
-  }
-}
-```
-
-## Subscription with PayPal payment profile
-
-### With the nonce from Braintree JS
-
-```json
-{ "subscription": {
-    "product_handle":"test-product-b",
-    "customer_attributes": {
-      "first_name":"Amelia",
-      "last_name":"Johnson",
-      "email":"amelia@example.com",
-      "organization":"My Awesome Company"
-    },
-    "payment_profile_attributes":{
-      "paypal_email": "amelia@example.com",
-      "current_vault": "braintree_blue",
-      "payment_method_nonce":"abc123",
-      "payment_type":"paypal_account"
-    }
-  }
-```
-
-### With the Braintree Customer ID as the vault token:
-
-```json
-{ "subscription": {
-    "product_handle":"test-product-b",
-    "customer_attributes": {
-      "first_name":"Amelia",
-      "last_name":"Johnson",
-      "email":"amelia@example.com",
-      "organization":"My Awesome Company"
-    },
-    "payment_profile_attributes":{
-      "paypal_email": "amelia@example.com",
-      "current_vault": "braintree_blue",
-      "vault_token":"58271347",
-      "payment_type":"paypal_account"
-    }
-  }
-```
-
-## Subscription using GoCardless Bank Number
-
-These examples creates a customer, bank account and mandate in GoCardless.
-
-For more information on GoCardless, please view the following two resources:
-
-+ [Payment Profiles via API for GoCardless](https://developers.chargify.com/docs/api-docs/1f10a4f170405-create-payment-profile#gocardless)
-
-+ [Full documentation on GoCardless](https://maxio.zendesk.com/hc/en-us/articles/24176159136909-GoCardless)
-
-+ [Using Chargify.js with GoCardless - minimal example](https://docs.maxio.com/hc/en-us/articles/38206331271693-Examples#h_01K0PJ15QQZKCER8CFK40MR6XJ)
-
-+ [Using Chargify.js with GoCardless - full example](https://docs.maxio.com/hc/en-us/articles/38206331271693-Examples#h_01K0PJ15QR09JVHWW0MCA7HVJV)
-
-```json
-{
-  "subscription": {
-    "product_handle": "gold-product",
-    "customer_attributes": {
-      "first_name": "Jane",
-      "last_name": "Doe",
-      "email": "jd@chargify.test"
-    },
-    "bank_account_attributes": {
-      "bank_name": "Royal Bank of France",
-      "bank_account_number": "0000000",
-      "bank_routing_number": "0003",
-      "bank_branch_code": "00006",
-      "payment_type": "bank_account",
-      "billing_address": "20 Place de la Gare",
-      "billing_city": "Colombes",
-      "billing_state": "Île-de-France",
-      "billing_zip": "92700",
-      "billing_country": "FR"
-    }
-  }
-}
-```
-
-## Subscription using GoCardless IBAN Number
-
-```json
-{
-  "subscription": {
-    "product_handle": "gold-product",
-    "customer_attributes": {
-      "first_name": "Jane",
-      "last_name": "Doe",
-      "email": "jd@chargify.test"
-    },
-    "bank_account_attributes": {
-      "bank_name": "French Bank",
-      "bank_iban": "FR1420041010050500013M02606",
-      "payment_type": "bank_account",
-      "billing_address": "20 Place de la Gare",
-      "billing_city": "Colombes",
-      "billing_state": "Île-de-France",
-      "billing_zip": "92700",
-      "billing_country": "FR"
-    }
-  }
-}
-```
-
-## Subscription using Stripe SEPA Direct Debit
-
-For more information on Stripe Direct Debit, please view the following two resources:
-
-+ [Payment Profiles via API for Stripe SEPA Direct Debit](https://developers.chargify.com/docs/api-docs/1f10a4f170405-create-payment-profile#sepa-direct-debit)
-
-+ [Full documentation on Stripe Direct Debit](https://maxio.zendesk.com/hc/en-us/articles/24176170430093-Stripe-SEPA-and-BECS-Direct-Debit)
-
-+ [Using Chargify.js with Stripe SEPA or BECS Direct Debit - minimal example](https://docs.maxio.com/hc/en-us/articles/38206331271693-Examples#h_01K0PJ15QQFKKN8Z7B7DZ9AJS5)
-
-+ [Using Chargify.js with Stripe SEPA Direct Debit - full example](https://docs.maxio.com/hc/en-us/articles/38206331271693-Examples#h_01K0PJ15QR09JVHWW0MCA7HVJV)
-
-```json
-{
-  "subscription": {
-    "product_handle": "gold-product",
-    "customer_attributes": {
-      "first_name": "Jane",
-      "last_name": "Doe",
-      "email": "jd@chargify.test"
-    },
-    "bank_account_attributes": {
-      "bank_name": "Test Bank",
-      "bank_iban": "DE89370400440532013000",
-      "payment_type": "bank_account"
-    }
-  }
-}
-```
-
-## Subscription using Stripe BECS Direct Debit
-
-For more information on Stripe Direct Debit, please view the following two resources:
-
-+ [Payment Profiles via API for Stripe BECS Direct Debit](../../doc/controllers/payment-profiles.md#create-payment-profile)
-
-+ [Full documentation on Stripe Direct Debit](https://maxio.zendesk.com/hc/en-us/articles/24176170430093-Stripe-SEPA-and-BECS-Direct-Debit)
-
-+ [Using Chargify.js with Stripe SEPA, BECS or BACS Direct Debit - minimal example](https://docs.maxio.com/hc/en-us/articles/38206331271693-Examples#h_01K0PJ15QQFKKN8Z7B7DZ9AJS5)
-
-+ [Using Chargify.js with Stripe BECS Direct Debit - full example](https://docs.maxio.com/hc/en-us/articles/38206331271693-Examples#h_01K0PJ15QRX4B1TYZKZD8ZND6D)
-
-```json
-{
-  "subscription": {
-    "product_handle": "gold-product",
-    "customer_attributes": {
-      "first_name": "Jane",
-      "last_name": "Doe",
-      "email": "jd@chargify.test"
-    },
-    "bank_account_attributes": {
-      "bank_name": "Test Bank",
-      "bank_branch_code": "000000",
-      "bank_account_number": "000123456",
-      "payment_type": "bank_account"
-    }
-  }
-}
-```
-
-## Subscription using Stripe BACS Direct Debit
-
-For more information on Stripe Direct Debit, please view the following two resources:
-
-+ [Payment Profiles via API for Stripe BACS Direct Debit](../../doc/controllers/payment-profiles.md#create-payment-profile)
-
-+ [Full documentation on Stripe Direct Debit](https://maxio.zendesk.com/hc/en-us/articles/24176170430093-Stripe-SEPA-and-BECS-Direct-Debit)
-
-+ [Using Chargify.js with Stripe SEPA, BECS or BACS Direct Debit - minimal example](https://docs.maxio.com/hc/en-us/articles/38206331271693-Examples#h_01K0PJ15QQFKKN8Z7B7DZ9AJS5)
-
-+ [Using Chargify.js with Stripe BACS Direct Debit - full example](https://docs.maxio.com/hc/en-us/articles/38206331271693-Examples#h_01K0PJ15QR7PA1DJ3XE9MD05FM)
-
-```json
-{
-  "subscription": {
-    "product_handle": "gold-product",
-    "customer_attributes": {
-      "first_name": "Jane",
-      "last_name": "Doe",
-      "email": "jd@chargify.test"
-    },
-    "bank_account_attributes": {
-      "bank_name": "Test Bank",
-      "bank_branch_code": "108800",
-      "bank_account_number": "00012345",
-      "payment_type": "bank_account",
-      "billing_address": "123 Main St.",
-      "billing_city": "London",
-      "billing_state": "LND",
-      "billing_zip": "W1A 1AA",
-      "billing_country": "GB"
-    }
-  }
-}
-```
-
-## 3D Secure - Stripe
-
-It may happen that a payment needs 3D Secure Authentication when the subscription is created; this is referred to in our help docs as a [post-authentication flow](https://maxio.zendesk.com/hc/en-us/articles/24176278996493-Testing-Implementing-3D-Secure#psd2-flows-pre-authentication-and-post-authentication). The server returns `422 Unprocessable Entity` in this case with the following response:
-
-```json
-{
-  "errors": [
-    "Your card was declined. This transaction requires 3D secure authentication."
-  ],
-  "gateway_payment_id": "pi_1F0aGoJ2UDb3Q4av7zU3sHPh",
-  "description": "This card requires 3D secure authentication. Redirect the customer to the URL from the action_link attribute to authenticate. Attach callback_url param to this URL if you want to be notified about the result of 3D Secure authentication. Attach redirect_url param to this URL if you want to redirect a customer back to your page after 3D Secure authentication. Example: https://mysite.chargify.com/3d-secure/pi_1FCm4RKDeye4C0XfbqquXRYm?one_time_token_id=128&callback_url=https://localhost:4000&redirect_url=https://yourpage.com will do a POST request to https://localhost:4000 after payment is authenticated and will redirect a customer to https://yourpage.com after 3DS authentication.",
-  "action_link": "http://acme.chargify.com/3d-secure/pi_1F0aGoJ2UDb3Q4av7zU3sHPh?one_time_token_id=242"
-}
-```
-
-To let the customer go through 3D Secure Authentication, they need to be redirected to the URL specified in `action_link`.
-Optionally, you can specify `callback_url` parameter in the `action_link` URL if you’d like to be notified about the result of 3D Secure Authentication. The `callback_url` will return the following information:
-
-- whether the authentication was successful (`success`)
-- the gateway ID for the payment (`gateway_payment_id`)
-- the subscription ID (`subscription_id`)
-
-Lastly, you can also specify a `redirect_url` within the `action_link` URL if you’d like to redirect a customer back to your site.
-
-It is not possible to use `action_link` in an iframe inside a custom application. You have to redirect the customer directly to the `action_link`, then, to be notified about the result, use `redirect_url` or `callback_url`.
-
-The final URL that you send a customer to to complete 3D Secure may resemble the following, where the first half is the `action_link` and the second half contains a `redirect_url` and `callback_url`: `https://mysite.chargify.com/3d-secure/pi_1FCm4RKDeye4C0XfbqquXRYm?one_time_token_id=128&callback_url=https://localhost:4000&redirect_url=https://yourpage.com`
-
-## 3D Secure - Checkout
-
-It may happen that a payment needs 3D Secure Authentication when the subscription is created; this is referred to in our help docs as a [post-authentication flow](https://maxio.zendesk.com/hc/en-us/articles/24176278996493-Testing-Implementing-3D-Secure#psd2-flows-pre-authentication-and-post-authentication). The server returns `422 Unprocessable Entity` in this case with the following response:
-
-```json
-{
-  "errors": [
-    "Your card was declined. This transaction requires 3D secure authentication."
-  ],
-  "gateway_payment_id": "pay_6gjofv7dlyrkpizlolsuspvtiu",
-  "description": "This card requires 3D secure authentication. Redirect the customer to the URL from the action_link attribute to authenticate. Attach callback_url param to this URL if you want to be notified about the result of 3D Secure authentication. Attach redirect_url param to this URL if you want to redirect a customer back to your page after 3D Secure authentication. Example: https://mysite.chargify.com/3d-secure/pay_6gjofv7dlyrkpizlolsuspvtiu?one_time_token_id=123&callback_url=https://localhost:4000&redirect_url=https://yourpage.com will do a POST request to https://localhost:4000 after payment is authenticated and will redirect a customer to https://yourpage.com after 3DS authentication.",
-  "action_link": "http://mysite.chargify.com/3d-secure/pay_6gjofv7dlyrkpizlolsuspvtiu?one_time_token_id=123"
-}
-```
-
-To let the customer go through 3D Secure Authentication, they need to be redirected to the URL specified in `action_link`.
-Optionally, you can specify `callback_url` parameter in the `action_link` URL if you’d like to be notified about the result of 3D Secure Authentication. The `callback_url` will return the following information:
-
-- whether the authentication was successful (`success`)
-- the gateway ID for the payment (`gateway_payment_id`)
-- the subscription ID (`subscription_id`)
-
-Lastly, you can also specify a `redirect_url` parameter within the `action_link` URL if you’d like to redirect a customer back to your site.
-
-It is not possible to use `action_link` in an iframe inside a custom application. You have to redirect the customer directly to the `action_link`, then, to be notified about the result, use `redirect_url` or `callback_url`.
-
-The final URL that you send a customer to complete 3D Secure may resemble the following, where the first half is the `action_link` and the second half contains a `redirect_url` and `callback_url`: `https://mysite.chargify.com/3d-secure/pay_6gjofv7dlyrkpizlolsuspvtiu?one_time_token_id=123&callback_url=https://localhost:4000&redirect_url=https://yourpage.com`
-
-### Example Redirect Flow
-
-You may wish to redirect customers to different pages depending on whether their SCA was performed successfully. Here's an example flow to use as a reference:
-
-1. Create a subscription via API; it requires 3DS
-2. You receive a `gateway_payment_id` in the `action_link` along other params in the response.
-3. Use this `gateway_payment_id` to, for example, connect with your internal resources or generate a session_id
-4. Include 1 of those attributes inside the `callback_url` and `redirect_url` to be aware which “session” this applies to
-5. Redirect the customer to the `action_link` with `callback_url` and `redirect_url` applied
-6. After the customer finishes 3DS authentication, we let you know the result by making a request to applied `callback_url`.
-7. After that, we redirect the customer to the `redirect_url`; at this point the result of authentication is known
-8. Optionally, you can use the applied "msg" param in the `redirect_url` to determine whether it was successful or not
-
-## Subscriptions Import
-
-Subscriptions can be “imported” via the API to handle the following scenarios:
-
-+ You already have existing subscriptions with specific start and renewal dates that you would like to import to Advanced Billing
-+ You already have credit cards stored in your provider’s vault and you would like to create subscriptions using those tokens
-
-Before importing, you should have already set up your products to match your offerings. Then, you can create Subscriptions via the API just like you normally would, but using a few special attributes.
-
-Full documentation on how import Subscriptions using the **import tool** in the Advanced Billing UI can be located [here](https://maxio.zendesk.com/hc/en-us/articles/24251489107213-Imports).
-
-### Important Notices and Disclaimers regarding Imports
-
-Before performing a bulk import of subscriptions via the API, we suggest reading the [Subscriptions Import](https://maxio.zendesk.com/hc/en-us/articles/24251489107213-Imports) instructions to understand the repurcussions of a large import.
-
-### Subscription Input Attributes
-
-The following _additional_ attributes to the subscription input attributes make imports possible: `next_billing_at`, `previous_billing_at`, and `import_mrr`.
-
-### Current Vault
-
-If you are using a Legacy gateway such as "eWAY Rapid (Legacy)" or "Stripe (Legacy)" then please contact Support for further instructions on subscription imports.
-
-### Braintree Blue (Braintree v2) Imports
-
-Braintree Blue is Braintree’s newer (version 2) API. For this gateway, please provide the `vault_token` parameter with the value from Braintree’s “Customer ID” rather than the “Payment Profile Token”. At this time we do not use `current_vault_token` with the Braintree Blue gateway, and we only support a single payment profile per Braintree Customer.
-
-When importing PayPal type payment profiles, please set `payment_type` to `paypal_account`.
-
-### Stripe ACH Imports
-
-If the bank account has already been verified, currently you will need to create the customer, create the payment profile in Advanced Billing - setting verified=true, then create a subscription using the customer_id and payment_profile_id.
-
-### Webhooks During Import
-
-If no `next_billing_at` is provided, webhooks will be fired as normal. If you do set a future `next_billing_at`, only a subset of the webhooks are fired when the subscription is created. Keep reading for more information as to what webhooks will be fired under which scenarios.
-
-#### Successful creation with Billing Date
-
-Scenario: If `next_billing_at` provided
-
-+ `signup_success`
-+ `billing_date_change`
-
-#### Successful creation without Billing Date
-
-Scenario: If no `next_billing_at` provided
-
-+ `signup_success`
-+ `payment_success`
-
-#### Unsuccessful creation
-
-Scenario: If card can’t be charged, and no `next_billing_at` provided
-
-+ signup_failure
-
-#### Webhooks fired when next_billing_at is reached:
-
-+ `renewal_success or renewal_failure`
-+ `payment_success or payment_failure`
-
-### Date and Time Formats
-
-We will attempt to parse any string you send as the value of next_billing_at in to a date or time. For best results, use a known format like described in “Date and Time Specification” of RFC 2822 or ISO 8601 .
-
-The following are all equivalent and will work as input to `next_billing_at`:
-
-```
-Aug 06 2030 11:34:00 -0400
-Aug 06 2030 11:34 -0400
-2030-08-06T11:34:00-04:00
-8/6/2030 11:34:00 EDT
-8/6/2030 8:34:00 PDT
-2030-08-06T15:34:00Z
-```
-
-You may also pass just a date, in which case we will assume the time to be noon
-
-```
-2010-08-06
-```
-
-## Subscription Hierarchies & WhoPays
-
-When subscription groups were first added to our Relationship Invoicing architecture, to group together invoices for related subscriptions and allow for complex customer hierarchies and WhoPays scenarios, they were designed to consist of a primary and a collection of group members. The primary would control many aspects of the group, such as when the consolidated invoice is generated. As of today, groups still function this way.
-
-In the future, the concept of a "primary" will be removed in order to offer more flexibility into group management and reduce confusion concerning what actions must be done on a primary level, rather than a member level.
-
-We have introduced a two scheme system as a bridge between these two group organizations. Scheme 1, which is relevant to all subscription groups today, marks the group as being "ruled" by a primary.
-
-When reading a subscription via API, they will return a top-level attribute called `group`, which will denote which scheme is being used. At this time, the `scheme` attribute will always be 1.
-
-### Subscription in a Customer Hierarchy
-
-For sites making use of the [Relationship Billing](https://maxio.zendesk.com/hc/en-us/articles/24252287829645-Advanced-Billing-Invoices-Overview) and [Customer Hierarchy](https://maxio.zendesk.com/hc/en-us/articles/24252185211533-Customer-Hierarchies-WhoPays) features, it is possible to create subscriptions within a customer hierarchy.  This can be achieved through the API by passing group parameters in the **Create Subscription** request.
-
-+ The `group` parameters are optional and consist of the required `target` and optional `billing` parameters.
-
-When the `target` parameter specifies a customer that is already part of a hierarchy, the new subscription will become a member of the customer hierarchy as well.  If the target customer is not part of a hierarchy, a new customer hierarchy will be created and both the target customer and the new subscription will become part of the hierarchy with the specified target customer set as the responsible payer for the hierarchy's subscriptions.
-
-Rather than specifying a customer, the `target` parameter could instead simply have a value of `self` which indicates the subscription will be paid for not by some other customer, but by the subscribing customer.  This will be true whether the customer is being created new, is already part of a hierarchy, or already exists outside a hierarchy.  A valid payment method must also be specified in the subscription parameters.
-
-Note that when creating subscriptions in a customer hierarchy, if the customer hierarchy does not already have a payment method, passing valid credit card attributes in the subscription parameters will also result in the payment method being established as the default payment method for the customer hierarchy irrespective of the responsible payer.
-
-The optional `billing` parameters specify how some aspects of the billing for the new subscription should be handled.  Rather than capturing payment immediately, the `accrue` parameter can be included so that the new subscription charges accrue until the next assessment date.  Regarding the date, the `align_date` parameter can be included so that the billing date of the new subscription matches up with the default subscription group in the customer hierarchy.  When choosing to align the dates, the `prorate` parameter can also be specified so that the new subscription charges are prorated based on the billing period of the default subscription group in the customer hierarchy also.
-
-### Subscription in a Subscription Group
-
-For sites making use of [Relationship Billing](https://maxio.zendesk.com/hc/en-us/articles/24252287829645-Advanced-Billing-Invoices-Overview) it may be desireable to create a subscription as part of a [subscription group](https://maxio.zendesk.com/hc/en-us/articles/24252172565005-Subscription-Groups-Overview) in order to rely on [invoice consolidation](https://maxio.zendesk.com/hc/en-us/articles/24252269909389-Invoice-Consolidation). This can be achieved through the API by passing group parameters in the Create Subscription request.  The `group` parameters are optional and consist of the required `target` and optional `billing` parameters.
-
-The `target` parameters specify an existing subscription with which the newly created subscription should be grouped.  If the target subscription is already part of a group, the new subscription will become a member of the group as well.  If the target subscription is not part of a group, a new group will be created and both the target and the new subscription will become part of the group with the target as the group's primary subscription.
-
-The optional `billing` parameters specify how some aspects of the billing for the new subscription should be handled.  Rather than capturing payment immediately, the `accrue` parameter can be included so that the new subscription charges accrue until the next assessment date.  Regarding the date, the `align_date` parameter can be included so that the billing date of the new subscription matches up with the target subscription.  When choosing to align the dates, the `prorate` parameter can also be specified so that the new subscription charges are prorated based on the billing period of the target subscription also.
-
-## Providing Agreement Acceptance Params
-
-It is possible to provide a proof of customer's acceptance of terms and policies.
-We will be storing this proof in case it might be required (i.e. chargeback).
-Currently, we already keep it for subscriptions created via Public Signup Pages.
-In order to create a subscription with the proof of agreement acceptance, you must provide additional parameters `agreement acceptance` with `ip_address` and at least one url to the policy that was accepted: `terms_url` or `privacy_policy_url`. Additional urls that can be provided: `return_refund_policy_url`, `delivery_policy_url` and
-`secure_checkout_policy_url`.
-
-```json
-  "subscription": {
-    "product_handle": "gold-product",
-    "customer_attributes": {
-      "first_name": "Jane",
-      "last_name": "Doe",
-      "email": "jd@chargify.test"
-    },
-    "agreement_acceptance": {
-      "ip_address": "1.2.3.4",
-      "terms_url": "https://terms.url",
-      "privacy_policy_url": "https://privacy_policy.url",
-      "return_refund_policy_url": "https://return_refund_policy.url",
-      "delivery_policy_url": "https://delivery_policy.url",
-      "secure_checkout_policy_url": "https://secure_checkout_policy.url"
-    }
-  }
-}
-```
-
-**For Maxio Payments subscriptions, the agreement acceptance params are required, with at least terms_url provided.**
-
-## Providing ACH Agreement params
-
-It is also possible to provide a proof that a customer authorized ACH agreement terms.
-The proof will be stored and the email will be sent to the customer with a copy of the terms (if enabled).
-In order to create a subscription with the proof of authorized ACH agreement terms, you must provide the additional parameter `ach_agreement` with the following nested parameters: `agreement_terms`, `authorizer_first_name`, `authorizer_last_name` and `ip_address`.
-Each of them is required.
-
-```json
-  "subscription": {
-    "product_handle": "gold-product",
-    "customer_attributes": {
-      "first_name": "Jane",
-      "last_name": "Doe",
-      "email": "jd@chargify.test"
-    },
-    "bank_account_attributes": {
-      "bank_name": "Test Bank",
-      "bank_routing_number": "021000089",
-      "bank_account_number": "111111111111",
-      "bank_account_type": "checking",
-      "bank_account_holder_type": "business",
-      "payment_type": "bank_account"
-    },
-    "ach_agreement": {
-      "agreement_terms": "ACH agreement terms",
-      "authorizer_first_name": "Jane",
-      "authorizer_last_name": "Doe",
-      "ip_address": "1.2.3.4"
-    }
-  }
-```
+See the [Subscription Signups](http://localhost:8080/go) article for more information on working with subscriptions in Advanced Billing.
 
 ```go
 CreateSubscription(
@@ -674,7 +71,7 @@ body := models.CreateSubscriptionRequest{
         PaymentCollectionMethod:           models.ToPointer(models.CollectionMethod_REMITTANCE),
         CustomerAttributes:                models.ToPointer(models.CustomerAttributes{
             FirstName:                   models.ToPointer("Joe"),
-            LastName:                    models.ToPointer("Blow"),
+            LastName:                    models.ToPointer("Smith"),
             Email:                       models.ToPointer("joe@example.com"),
             Organization:                models.ToPointer("Acme"),
             Reference:                   models.ToPointer("XYZ"),
@@ -896,7 +293,7 @@ This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The 
 ctx := context.Background()
 
 collectedInput := advancedbilling.ListSubscriptionsInput{
-    Page:                models.ToPointer(2),
+    Page:                models.ToPointer(1),
     PerPage:             models.ToPointer(50),
     StartDate:           models.ToPointer(parseTime(time.RFC3339, "2022-07-01", func(err error) { log.Fatalln(err) })),
     EndDate:             models.ToPointer(parseTime(time.RFC3339, "2022-08-01", func(err error) { log.Fatalln(err) })),
@@ -921,47 +318,55 @@ if err != nil {
 
 # Update Subscription
 
-The subscription endpoint allows you to instantly update one or many attributes about a subscription in a single call.
+Updates one or more attributes of a subscription.
 
 ## Update Subscription Payment Method
 
-Change the card that your Subscriber uses for their subscription. You can also use this method to simply change the expiration date of the card **if your gateway allows**.
+Change the card that your subscriber uses for their subscription. You can also use this method to change the expiration date of the card **if your gateway allows**.
 
-Note that partial card updates for **Authorize.Net** are not allowed via this endpoint. The existing Payment Profile must be directly updated instead.
+Do not use real card information for testing. See the Sites articles that cover [testing your site setup](https://docs.maxio.com/hc/en-us/articles/24250712113165-Testing-Overview#testing-overview-0-0) for more details on testing in your sandbox.
+
+Note that collecting and sending raw card details in production requires [PCI compliance](https://docs.maxio.com/hc/en-us/articles/24183956938381-PCI-Compliance#pci-compliance-0-0) on your end. If your business is not PCI compliant, use [Chargify.js](https://docs.maxio.com/hc/en-us/articles/38163190843789-Chargify-js-Overview#chargify-js-overview-0-0) to collect credit card or bank account information.
+
+> Note: Partial card updates for **Authorize.Net** are not allowed via this endpoint. The existing Payment Profile must be directly updated instead.
+
+## Update Product
 
 You also use this method to change the subscription to a different product by setting a new value for product_handle. A product change can be done in two different ways, **product change** or **delayed product change**.
 
-## Product Change
+### Product Change
 
-This endpoint may be used to change a subscription's product. The new payment amount is calculated and charged at the normal start of the next period. If you desire complex product changes or prorated upgrades and downgrades instead, please see the documentation on Migrating Subscription Products.
+You can change a subscription's product. The new payment amount is calculated and charged at the normal start of the next period. If you require complex product changes or prorated upgrades and downgrades instead, please see the documentation on [Migrating Subscription Products](https://docs.maxio.com/hc/en-us/articles/24252069837581-Product-Changes-and-Migrations#product-changes-and-migrations-0-0).
 
-To perform a product change, simply set either the `product_handle` or `product_id` attribute to that of a different product from the same site as the subscription. You can also change the price point by passing in either `product_price_point_id` or `product_price_point_handle` - otherwise the new product's default price point will be used.
+To perform a product change, set either the `product_handle` or `product_id` attribute to that of a different product from the same site as the subscription. You can also change the price point by passing in either `product_price_point_id` or `product_price_point_handle` - otherwise the new product's default price point is used.
 
 ### Delayed Product Change
 
 This method also changes the product and/or price point, and the new payment amount is calculated and charged at the normal start of the next period.
 
-This method schedules the product change to happen automatically at the subscription’s next renewal date. To perform a Delayed Product Change, set the `product_handle` attribute as you would in a regular product change, but also set the `product_change_delayed` attribute to `true`. No proration applies in this case.
+This method schedules the product change to happen automatically at the subscription’s next renewal date. To perform a delayed product change, set the `product_handle` attribute as you would in a regular product change, but also set the `product_change_delayed` attribute to `true`. No proration applies in this case.
 
 You can also perform a delayed change to the price point by passing in either `product_price_point_id` or `product_price_point_handle`
 
-**Note: To cancel a delayed product change, set `next_product_id` to an empty string.**
+> **Note:** To cancel a delayed product change, set `next_product_id` to an empty string.
 
 ## Billing Date Changes
+
+You can update dates for a subscrption.
 
 ### Regular Billing Date Changes
 
 Send the `next_billing_at` to set the next billing date for the subscription. After that date passes and the subscription is processed, the following billing date will be set according to the subscription's product period.
 
-Note that if you pass an invalid date, we will automatically interpret and set the correct date. For example, when February 30 is entered, the next billing will be set to March 2nd in a non-leap year.
+> Note: If you pass an invalid date, the correct date is automatically set to he correct date. For example, if February 30 is passed, the next billing would be set to March 2nd in a non-leap year.
 
-The server response will not return data under the key/value pair of `next_billing`. Please view the key/value pair of `current_period_ends_at` to verify that the `next_billing` date has been changed successfully.
+The server response will not return data under the key/value pair of `next_billing_at`. View the key/value pair of `current_period_ends_at` to verify that the `next_billing_at` date has been changed successfully.
 
-### Snap Day Changes
+### Calendar Billing  and Snap Day Changes
 
 For a subscription using Calendar Billing, setting the next billing date is a bit different. Send the `snap_day` attribute to change the calendar billing date for **a subscription using a product eligible for calendar billing**.
 
-Note: If you change the product associated with a subscription that contains a `snap_date` and immediately `READ/GET` the subscription data, it will still contain evidence of the existing `snap_date`. This is due to the fact that a product change is instantanous and only affects the product associated with a subscription. After the `next_billing` date arrives, the `snap_day` associated with the subscription will return to `null.` Another way of looking at this is that you willl have to wait for the next billing cycle to arrive before the `snap_date` will reset to `null`.
+> Note: If you change the product associated with a subscription that contains a `snap_day` and immediately `READ/GET` the subscription data, it will still contain original `snap_day`. The `snap_day`will will reset to 'null on the next billing cycle. This is because  a product change is instantanous and only affects the product associated with a subscription.
 
 ```go
 UpdateSubscription(
@@ -1437,7 +842,7 @@ For sites in test mode, you may purge individual subscriptions.
 
 Provide the subscription ID in the url.  To confirm, supply the customer ID in the query string `ack` parameter. You may also delete the customer record and/or payment profiles by passing `cascade` parameters. For example, to delete just the customer record, the query params would be: `?ack={customer_id}&cascade[]=customer`
 
-If you need to remove subscriptions from a live site, please contact support to discuss your use case.
+If you need to remove subscriptions from a live site, contact support to discuss your use case.
 
 ### Delete customer and payment profile
 
@@ -1575,7 +980,7 @@ The "Next Billing" amount and "Next Billing" date are represented in each Subscr
 
 A subscription will not be created by utilizing this endpoint; it is meant to serve as a prediction.
 
-For more information, please see our documentation [here](https://maxio.zendesk.com/hc/en-us/articles/24252493695757-Subscriber-Interface-Overview).
+For more information, see our documentation [here](https://maxio.zendesk.com/hc/en-us/articles/24252493695757-Subscriber-Interface-Overview).
 
 ## Taxable Subscriptions
 
@@ -1585,15 +990,15 @@ This endpoint will preview taxes applicable to a purchase. In order for taxes to
 + The preview must be for the purchase of a taxable product or component, or combination of the two.
 + The subscription payload must contain a full billing or shipping address in order to calculate tax
 
-For more information about creating taxable previews, please see our documentation guide on how to create [taxable subscriptions.](https://maxio.zendesk.com/hc/en-us/sections/24287012349325-Taxes)
+For more information about creating taxable previews, see our documentation guide on how to create [taxable subscriptions.](https://maxio.zendesk.com/hc/en-us/sections/24287012349325-Taxes)
 
-You do **not** need to include a card number to generate tax information when you are previewing a subscription. However, please note that when you actually want to create the subscription, you must include the credit card information if you want the billing address to be stored in Advanced Billing. The billing address and the credit card information are stored together within the payment profile object. Also, you may not send a billing address to Advanced Billing without payment profile information, as the address is stored on the card.
+You do **not** need to include a card number to generate tax information when you are previewing a subscription. However, when you actually want to create the subscription, you must include the credit card information if you want the billing address to be stored in Advanced Billing. The billing address and the credit card information are stored together within the payment profile object. Also, you may not send a billing address to Advanced Billing without payment profile information, as the address is stored on the card.
 
 You can pass shipping and billing addresses and still decide not to calculate taxes. To do that, pass `skip_billing_manifest_taxes: true` attribute.
 
 ## Non-taxable Subscriptions
 
-If you'd like to calculate subscriptions that do not include tax, please feel free to leave off the billing information.
+If you'd like to calculate subscriptions that do not include tax you may leave off the billing information.
 
 ```go
 PreviewSubscription(
@@ -1972,7 +1377,7 @@ if err != nil {
 
 Use this endpoint to remove a coupon from an existing subscription.
 
-For more information on the expected behaviour of removing a coupon from a subscription, please see our documentation [here.](https://maxio.zendesk.com/hc/en-us/articles/24261259337101-Coupons-and-Subscriptions#removing-a-coupon)
+For more information on the expected behaviour of removing a coupon from a subscription, See our documentation [here.](https://maxio.zendesk.com/hc/en-us/articles/24261259337101-Coupons-and-Subscriptions#removing-a-coupon)
 
 ```go
 RemoveCouponFromSubscription(

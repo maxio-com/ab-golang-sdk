@@ -11,42 +11,42 @@ import (
 
 // UpdateSubscription represents a UpdateSubscription struct.
 type UpdateSubscription struct {
-    CreditCardAttributes              *CreditCardAttributes         `json:"credit_card_attributes,omitempty"`
+    CreditCardAttributes              *CreditCardAttributes               `json:"credit_card_attributes,omitempty"`
     // Set to the handle of a different product to change the subscription's product
-    ProductHandle                     *string                       `json:"product_handle,omitempty"`
+    ProductHandle                     *string                             `json:"product_handle,omitempty"`
     // Set to the id of a different product to change the subscription's product
-    ProductId                         *int                          `json:"product_id,omitempty"`
-    ProductChangeDelayed              *bool                         `json:"product_change_delayed,omitempty"`
+    ProductId                         *int                                `json:"product_id,omitempty"`
+    ProductChangeDelayed              *bool                               `json:"product_change_delayed,omitempty"`
     // Set to an empty string to cancel a delayed product change.
-    NextProductId                     *string                       `json:"next_product_id,omitempty"`
-    NextProductPricePointId           *string                       `json:"next_product_price_point_id,omitempty"`
+    NextProductId                     *string                             `json:"next_product_id,omitempty"`
+    NextProductPricePointId           *string                             `json:"next_product_price_point_id,omitempty"`
     // Use for subscriptions with product eligible for calendar billing only. Value can be 1-28 or 'end'.
-    SnapDay                           *UpdateSubscriptionSnapDay    `json:"snap_day,omitempty"`
+    SnapDay                           Optional[UpdateSubscriptionSnapDay] `json:"snap_day"`
     // (Optional) Set this attribute to a future date/time to update a subscription in the Awaiting Signup Date state, to Awaiting Signup. In the Awaiting Signup state, a subscription behaves like any other. It can be canceled, allocated to, or have its billing date changed. etc. When the `initial_billing_at` date hits, the subscription will transition to the expected state. If the product has a trial, the subscription will enter a trial, otherwise it will go active. Setup fees will be respected either before or after the trial, as configured on the price point. If the payment is due at the initial_billing_at and it fails the subscription will be immediately canceled. You can omit the initial_billing_at date to activate the subscription immediately. See the [subscription import](https://maxio.zendesk.com/hc/en-us/articles/24251489107213-Advanced-Billing-Subscription-Imports#date-format) documentation for more information about Date/Time formats.
-    InitialBillingAt                  *time.Time                    `json:"initial_billing_at,omitempty"`
+    InitialBillingAt                  *time.Time                          `json:"initial_billing_at,omitempty"`
     // (Optional) Set this attribute to true to move the subscription from Awaiting Signup, to Awaiting Signup Date. Use this when you want to update a subscription that has an unknown initial billing date. When the first billing date is known, update a subscription to set the `initial_billing_at` date. The subscription moves to the awaiting signup with a scheduled initial billing date. You can omit the initial_billing_at date to activate the subscription immediately. See [Subscription States](https://maxio-chargify.zendesk.com/hc/en-us/articles/5404222005773-Subscription-States) for more information.
-    DeferSignup                       *bool                         `json:"defer_signup,omitempty"`
-    NextBillingAt                     *time.Time                    `json:"next_billing_at,omitempty"`
+    DeferSignup                       *bool                               `json:"defer_signup,omitempty"`
+    NextBillingAt                     *time.Time                          `json:"next_billing_at,omitempty"`
     // Timestamp giving the expiration date of this subscription (if any). You may manually change the expiration date at any point during a subscription period.
-    ExpiresAt                         *time.Time                    `json:"expires_at,omitempty"`
-    PaymentCollectionMethod           *string                       `json:"payment_collection_method,omitempty"`
-    ReceivesInvoiceEmails             *bool                         `json:"receives_invoice_emails,omitempty"`
-    NetTerms                          *UpdateSubscriptionNetTerms   `json:"net_terms,omitempty"`
-    StoredCredentialTransactionId     *int                          `json:"stored_credential_transaction_id,omitempty"`
-    Reference                         *string                       `json:"reference,omitempty"`
+    ExpiresAt                         *time.Time                          `json:"expires_at,omitempty"`
+    PaymentCollectionMethod           *string                             `json:"payment_collection_method,omitempty"`
+    ReceivesInvoiceEmails             *bool                               `json:"receives_invoice_emails,omitempty"`
+    NetTerms                          *UpdateSubscriptionNetTerms         `json:"net_terms,omitempty"`
+    StoredCredentialTransactionId     *int                                `json:"stored_credential_transaction_id,omitempty"`
+    Reference                         *string                             `json:"reference,omitempty"`
     // (Optional) Used in place of `product_price_point_id` to define a custom price point unique to the subscription
-    CustomPrice                       *SubscriptionCustomPrice      `json:"custom_price,omitempty"`
+    CustomPrice                       *SubscriptionCustomPrice            `json:"custom_price,omitempty"`
     // (Optional) An array of component ids and custom prices to be added to the subscription.
-    Components                        []UpdateSubscriptionComponent `json:"components,omitempty"`
+    Components                        []UpdateSubscriptionComponent       `json:"components,omitempty"`
     // Enable Communication Delay feature, making sure no communication (email or SMS) is sent to the Customer between 9PM and 8AM in time zone set by the `dunning_communication_delay_time_zone` attribute.
-    DunningCommunicationDelayEnabled  *bool                         `json:"dunning_communication_delay_enabled,omitempty"`
+    DunningCommunicationDelayEnabled  *bool                               `json:"dunning_communication_delay_enabled,omitempty"`
     // Time zone for the Dunning Communication Delay feature.
-    DunningCommunicationDelayTimeZone Optional[string]              `json:"dunning_communication_delay_time_zone"`
+    DunningCommunicationDelayTimeZone Optional[string]                    `json:"dunning_communication_delay_time_zone"`
     // Set to change the current product's price point.
-    ProductPricePointId               *int                          `json:"product_price_point_id,omitempty"`
+    ProductPricePointId               *int                                `json:"product_price_point_id,omitempty"`
     // Set to change the current product's price point.
-    ProductPricePointHandle           *string                       `json:"product_price_point_handle,omitempty"`
-    AdditionalProperties              map[string]interface{}        `json:"_"`
+    ProductPricePointHandle           *string                             `json:"product_price_point_handle,omitempty"`
+    AdditionalProperties              map[string]interface{}              `json:"_"`
 }
 
 // String implements the fmt.Stringer interface for UpdateSubscription,
@@ -91,8 +91,12 @@ func (u UpdateSubscription) toMap() map[string]any {
     if u.NextProductPricePointId != nil {
         structMap["next_product_price_point_id"] = u.NextProductPricePointId
     }
-    if u.SnapDay != nil {
-        structMap["snap_day"] = u.SnapDay.toMap()
+    if u.SnapDay.IsValueSet() {
+        if u.SnapDay.Value() != nil {
+            structMap["snap_day"] = u.SnapDay.Value().toMap()
+        } else {
+            structMap["snap_day"] = nil
+        }
     }
     if u.InitialBillingAt != nil {
         structMap["initial_billing_at"] = u.InitialBillingAt.Format(time.RFC3339)
@@ -205,26 +209,26 @@ func (u *UpdateSubscription) UnmarshalJSON(input []byte) error {
 
 // tempUpdateSubscription is a temporary struct used for validating the fields of UpdateSubscription.
 type tempUpdateSubscription  struct {
-    CreditCardAttributes              *CreditCardAttributes         `json:"credit_card_attributes,omitempty"`
-    ProductHandle                     *string                       `json:"product_handle,omitempty"`
-    ProductId                         *int                          `json:"product_id,omitempty"`
-    ProductChangeDelayed              *bool                         `json:"product_change_delayed,omitempty"`
-    NextProductId                     *string                       `json:"next_product_id,omitempty"`
-    NextProductPricePointId           *string                       `json:"next_product_price_point_id,omitempty"`
-    SnapDay                           *UpdateSubscriptionSnapDay    `json:"snap_day,omitempty"`
-    InitialBillingAt                  *string                       `json:"initial_billing_at,omitempty"`
-    DeferSignup                       *bool                         `json:"defer_signup,omitempty"`
-    NextBillingAt                     *string                       `json:"next_billing_at,omitempty"`
-    ExpiresAt                         *string                       `json:"expires_at,omitempty"`
-    PaymentCollectionMethod           *string                       `json:"payment_collection_method,omitempty"`
-    ReceivesInvoiceEmails             *bool                         `json:"receives_invoice_emails,omitempty"`
-    NetTerms                          *UpdateSubscriptionNetTerms   `json:"net_terms,omitempty"`
-    StoredCredentialTransactionId     *int                          `json:"stored_credential_transaction_id,omitempty"`
-    Reference                         *string                       `json:"reference,omitempty"`
-    CustomPrice                       *SubscriptionCustomPrice      `json:"custom_price,omitempty"`
-    Components                        []UpdateSubscriptionComponent `json:"components,omitempty"`
-    DunningCommunicationDelayEnabled  *bool                         `json:"dunning_communication_delay_enabled,omitempty"`
-    DunningCommunicationDelayTimeZone Optional[string]              `json:"dunning_communication_delay_time_zone"`
-    ProductPricePointId               *int                          `json:"product_price_point_id,omitempty"`
-    ProductPricePointHandle           *string                       `json:"product_price_point_handle,omitempty"`
+    CreditCardAttributes              *CreditCardAttributes               `json:"credit_card_attributes,omitempty"`
+    ProductHandle                     *string                             `json:"product_handle,omitempty"`
+    ProductId                         *int                                `json:"product_id,omitempty"`
+    ProductChangeDelayed              *bool                               `json:"product_change_delayed,omitempty"`
+    NextProductId                     *string                             `json:"next_product_id,omitempty"`
+    NextProductPricePointId           *string                             `json:"next_product_price_point_id,omitempty"`
+    SnapDay                           Optional[UpdateSubscriptionSnapDay] `json:"snap_day"`
+    InitialBillingAt                  *string                             `json:"initial_billing_at,omitempty"`
+    DeferSignup                       *bool                               `json:"defer_signup,omitempty"`
+    NextBillingAt                     *string                             `json:"next_billing_at,omitempty"`
+    ExpiresAt                         *string                             `json:"expires_at,omitempty"`
+    PaymentCollectionMethod           *string                             `json:"payment_collection_method,omitempty"`
+    ReceivesInvoiceEmails             *bool                               `json:"receives_invoice_emails,omitempty"`
+    NetTerms                          *UpdateSubscriptionNetTerms         `json:"net_terms,omitempty"`
+    StoredCredentialTransactionId     *int                                `json:"stored_credential_transaction_id,omitempty"`
+    Reference                         *string                             `json:"reference,omitempty"`
+    CustomPrice                       *SubscriptionCustomPrice            `json:"custom_price,omitempty"`
+    Components                        []UpdateSubscriptionComponent       `json:"components,omitempty"`
+    DunningCommunicationDelayEnabled  *bool                               `json:"dunning_communication_delay_enabled,omitempty"`
+    DunningCommunicationDelayTimeZone Optional[string]                    `json:"dunning_communication_delay_time_zone"`
+    ProductPricePointId               *int                                `json:"product_price_point_id,omitempty"`
+    ProductPricePointHandle           *string                             `json:"product_price_point_handle,omitempty"`
 }

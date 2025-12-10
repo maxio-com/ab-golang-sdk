@@ -26,179 +26,29 @@ func NewPaymentProfilesController(baseController baseController) *PaymentProfile
 // CreatePaymentProfile takes context, body as parameters and
 // returns an models.ApiResponse with models.PaymentProfileResponse data and
 // an error if there was an issue with the request or response.
-// Use this endpoint to create a payment profile for a customer.
-// Payment Profiles house the credit card, ACH (Authorize.Net or Stripe only,) or PayPal (Braintree only,) data for a customer. The payment information is attached to the customer within Advanced Billing, as opposed to the Subscription itself.
-// You must include a customer_id so that Advanced Billing will attach it to the customer entry. If no customer_id is included the API will return a 404.
-// ## Create a Payment Profile for ACH usage
-// If you would like to create a payment method that is a Bank Account applicable for ACH payments use the following:
-// ```json
-// {
-// "payment_profile": {
-// "customer_id": [Valid-Customer-ID],
-// "bank_name": "Best Bank",
-// "bank_routing_number": "021000089",
-// "bank_account_number": "111111111111",
-// "bank_account_type": "checking",
-// "bank_account_holder_type": "business",
-// "payment_type": "bank_account"
-// }
-// }
-// ```
-// ## Taxable Subscriptions
-// If your subscriber pays taxes on their purchased product, and you are attempting to create or update the `payment_profile`, complete address information is required. For information on required address formatting to allow your subscriber to be taxed, please see our documentation [here](https://developers.chargify.com/docs/developer-docs/d2e9e34db740e-signups#taxes)
-// ## Payment Profile Documentation
-// Full documentation on how Payment Profiles operate within Advanced Billing can be located under the following links:
+// Creates a payment profile for a customer.
+// When you create a new payment profile for a customer via the API, it does not automatically make the profile current for any of the customer’s subscriptions. To use the payment profile as the default, you must set it explicitly for the subscription or subscription group.
+// Select an option from the **Request Examples** drop-down on the right side of the portal to see examples of common scenarios for creating payment profiles. 
+// Do not use real card information for testing. See the Sites articles that cover [testing your site setup](https://docs.maxio.com/hc/en-us/articles/24250712113165-Testing-Overview#testing-overview-0-0) for more details on testing in your sandbox.
+// Note that collecting and sending raw card details in production requires [PCI compliance](https://docs.maxio.com/hc/en-us/articles/24183956938381-PCI-Compliance#pci-compliance-0-0) on your end. If your business is not PCI compliant, use [Chargify.js](https://docs.maxio.com/hc/en-us/articles/38163190843789-Chargify-js-Overview#chargify-js-overview-0-0) to collect credit card or bank account information.
+// See the following articles to learn more about subscriptions and payments:
 // + [Subscriber Payment Details](https://maxio.zendesk.com/hc/en-us/articles/24251599929613-Subscription-Summary-Payment-Details-Tab)
 // + [Self Service Pages](https://maxio.zendesk.com/hc/en-us/articles/24261425318541-Self-Service-Pages) (Allows credit card updates by Subscriber)
 // + [Public Signup Pages payment settings](https://maxio.zendesk.com/hc/en-us/articles/24261368332557-Individual-Page-Settings)
-// ## Create a Payment Profile with a Chargify.js token
-// ```json
-// {
-// "payment_profile": {
-// "customer_id": 1036,
-// "chargify_token": "tok_w68qcpnftyv53jk33jv6wk3w"
-// }
-// }
-// ```
-// ## Active Payment Methods
-// Creating a new payment profile for a Customer via the API will not make that Payment Profile current for any of the Customer’s Subscriptions. In order to utilize the payment profile as the default, it must be set as the default payment profile for the subscription or subscription group.
-// ## Requirements
-// Either the full_number, expiration_month, and expiration_year or if you have an existing vault_token from your gateway, that vault_token and the current_vault are required.
-// Passing in the vault_token and current_vault are only allowed when creating a new payment profile.
-// ### Taxable Subscriptions
-// If your subscriber pays taxes on their purchased product, and you are attempting to create or update the `payment_profile`, complete address information is required. For information on required address formatting to allow your subscriber to be taxed, please see our documentation [here](https://developers.chargify.com/docs/developer-docs/d2e9e34db740e-signups#taxes)
-// ## BraintreeBlue
-// Some merchants use Braintree JavaScript libraries directly and then pass `payment_method_nonce` and/or `paypal_email` to create a payment profile. This implementation is deprecated and does not handle 3D Secure.  Instead, we have provided [Chargify.js](https://developers.chargify.com/docs/developer-docs/ZG9jOjE0NjAzNDI0-overview) which is continuously improved and supports Credit Cards (along with 3D Secure), PayPal and ApplePay payment types.
-// ## GoCardless
-// For more information on GoCardless, please view the following resources:
+// + [Taxes](https://developers.chargify.com/docs/developer-docs/d2e9e34db740e-signups#taxes)
+// + [Chargify.js](https://docs.maxio.com/hc/en-us/articles/38163190843789-Chargify-js-Overview)
+// + [Chargify.js with GoCardless - minimal example](https://docs.maxio.com/hc/en-us/articles/38206331271693-Examples#h_01K0PJ15QQZKCER8CFK40MR6XJ)
+// + [Chargify.js with GoCardless - full example](https://docs.maxio.com/hc/en-us/articles/38206331271693-Examples#h_01K0PJ15QR09JVHWW0MCA7HVJV)
+// + [Chargify.js with Stripe Direct Debit - minimal example](https://docs.maxio.com/hc/en-us/articles/38206331271693-Examples#h_01K0PJ15QQFKKN8Z7B7DZ9AJS5)
+// + [Chargify.js with Stripe Direct Debit - full example](https://docs.maxio.com/hc/en-us/articles/38206331271693-Examples#h_01K0PJ15QRECQQ4ECS3ZA55GY7)
+// + [Chargify.js with Stripe BECS Direct Debit - minimal example](https://developers.chargify.com/docs/developer-docs/ZG9jOjE0NjAzNDIy-examples#minimal-example-with-sepa-or-becs-direct-debit-stripe-gateway)
+// + [Chargify.js with Stripe BECS Direct Debit - full example](https://developers.chargify.com/docs/developer-docs/ZG9jOjE0NjAzNDIy-examples#full-example-with-sepa-direct-debit-stripe-gateway)
 // + [Full documentation on GoCardless](https://maxio.zendesk.com/hc/en-us/articles/24176159136909-GoCardless)
-// + [Using Chargify.js with GoCardless - minimal example](https://docs.maxio.com/hc/en-us/articles/38206331271693-Examples#h_01K0PJ15QQZKCER8CFK40MR6XJ)
-// + [Using Chargify.js with GoCardless - full example](https://docs.maxio.com/hc/en-us/articles/38206331271693-Examples#h_01K0PJ15QR09JVHWW0MCA7HVJV)
-// ### GoCardless with Local Bank Details
-// Following examples create customer, bank account and mandate in GoCardless:
-// ```json
-// {
-// "payment_profile": {
-// "customer_id": "Valid-Customer-ID",
-// "bank_name": "Royal Bank of France",
-// "bank_account_number": "0000000",
-// "bank_routing_number": "0003",
-// "bank_branch_code": "00006",
-// "payment_type": "bank_account",
-// "billing_address": "20 Place de la Gare",
-// "billing_city": "Colombes",
-// "billing_state": "Île-de-France",
-// "billing_zip": "92700",
-// "billing_country": "FR"
-// }
-// }
-// ```
-// ### GoCardless with IBAN
-// ```json
-// {
-// "payment_profile": {
-// "customer_id": "24907598",
-// "bank_name": "French Bank",
-// "bank_iban": "FR1420041010050500013M02606",
-// "payment_type": "bank_account",
-// "billing_address": "20 Place de la Gare",
-// "billing_city": "Colombes",
-// "billing_state": "Île-de-France",
-// "billing_zip": "92700",
-// "billing_country": "FR"
-// }
-// }
-// ```
-// ### Importing GoCardless
-// If the customer, bank account, and mandate already exist in GoCardless, a payment profile can be created by using the IDs. In order to create masked versions of `bank_account_number` and `bank_routing_number` that are used to display within Advanced Billing Admin UI, you can pass the last four digits for this fields which then will be saved in this form `XXXX[four-provided-digits]`.
-// ```json
-// {
-// "payment_profile": {
-// "customer_id": "24907598",
-// "customer_vault_token": [Existing GoCardless Customer ID]
-// "vault_token": [Existing GoCardless Mandate ID],
-// "current_vault": "gocardless",
-// "bank_name": "French Bank",
-// "bank_account_number": [Last Four Of The Existing Account Number or IBAN if applicable],
-// "bank_routing_number": [Last Four Of The Existing Routing Number],
-// "payment_type": "bank_account",
-// "billing_address": "20 Place de la Gare",
-// "billing_city": "Colombes",
-// "billing_state": "Île-de-France",
-// "billing_zip": "92700",
-// "billing_country": "FR"
-// }
-// }
-// ```
-// ## SEPA Direct Debit
-// For more information on Stripe SEPA Direct Debit, please view the following resources:
 // + [Full documentation on Stripe SEPA Direct Debit](https://maxio.zendesk.com/hc/en-us/articles/24176170430093-Stripe-SEPA-and-BECS-Direct-Debit)
-// + [Using Chargify.js with Stripe Direct Debit - minimal example](https://docs.maxio.com/hc/en-us/articles/38206331271693-Examples#h_01K0PJ15QQFKKN8Z7B7DZ9AJS5)
-// + [Using Chargify.js with Stripe Direct Debit - full example](https://docs.maxio.com/hc/en-us/articles/38206331271693-Examples#h_01K0PJ15QRECQQ4ECS3ZA55GY7)
-// ### Stripe SEPA Direct Debit Payment Profiles
-// The following example creates a customer, bank account and mandate in Stripe:
-// ```json
-// {
-// "payment_profile": {
-// "customer_id": "24907598",
-// "bank_name": "Deutsche bank",
-// "bank_iban": "DE89370400440532013000",
-// "payment_type": "bank_account",
-// "billing_address": "Test",
-// "billing_city": "Berlin",
-// "billing_state": "Brandenburg",
-// "billing_zip": "12345",
-// "billing_country": "DE"
-// }
-// }
-// ```
-// ## Stripe BECS Direct Debit
-// For more information on Stripe BECS Direct Debit, please view the following resources:
 // + [Full documentation on Stripe BECS Direct Debit](https://maxio.zendesk.com/hc/en-us/articles/24176170430093-Stripe-SEPA-and-BECS-Direct-Debit)
-// + [Using Chargify.js with Stripe BECS Direct Debit - minimal example](https://developers.chargify.com/docs/developer-docs/ZG9jOjE0NjAzNDIy-examples#minimal-example-with-sepa-or-becs-direct-debit-stripe-gateway)
-// + [Using Chargify.js with Stripe BECS Direct Debit - full example](https://developers.chargify.com/docs/developer-docs/ZG9jOjE0NjAzNDIy-examples#full-example-with-sepa-direct-debit-stripe-gateway)
-// ### Stripe BECS Direct Debit Payment Profiles
-// The following example creates a customer, bank account and mandate in Stripe:
-// ```json
-// {
-// "payment_profile": {
-// "customer_id": "24907598",
-// "bank_name": "Australian bank",
-// "bank_branch_code": "000000",
-// "bank_account_number": "000123456"
-// "payment_type": "bank_account",
-// "billing_address": "Test",
-// "billing_city": "Stony Rise",
-// "billing_state": "Tasmania",
-// "billing_zip": "12345",
-// "billing_country": "AU"
-// }
-// }
-// ```
-// ## Stripe BACS Direct Debit
-// Contact the support team to enable this payment method.
-// For more information on Stripe BACS Direct Debit, please view the following resources:
 // + [Full documentation on Stripe BACS Direct Debit](https://maxio.zendesk.com/hc/en-us/articles/24176170430093-Stripe-SEPA-and-BECS-Direct-Debit)
-// ### Stripe BACS Direct Debit Payment Profiles
-// The following example creates a customer, bank account and mandate in Stripe:
-// ```json
-// {
-// "payment_profile": {
-// "customer_id": "24907598",
-// "bank_name": "British bank",
-// "bank_branch_code": "108800",
-// "bank_account_number": "00012345"
-// "payment_type": "bank_account",
-// "billing_address": "Test",
-// "billing_city": "London",
-// "billing_state": "LND",
-// "billing_zip": "12345",
-// "billing_country": "GB"
-// }
-// }
-// ```
-// ## 3D Secure - Checkout
-// It may happen that a payment needs 3D Secure Authentication when the payment profile is created; this is referred to in our help docs as a [post-authentication flow](https://maxio.zendesk.com/hc/en-us/articles/24176278996493-Testing-Implementing-3D-Secure#psd2-flows-pre-authentication-and-post-authentication). The server returns `422 Unprocessable Entity` in this case with the following response:
+// ## 3D Secure Authentication during payment profile creation.
+// When a payment requires 3D Secure Authentication to adhear to Strong Customer Authentication (SCA) during payment profile creation, the request enters a [post-authentication flow](https://maxio.zendesk.com/hc/en-us/articles/24176278996493-Testing-Implementing-3D-Secure#psd2-flows-pre-authentication-and-post-authentication). In this case, a 422 Unprocessable Entity status is returned with the following response:
 // ```json
 // {
 // "jsonapi": {
@@ -216,22 +66,24 @@ func NewPaymentProfilesController(baseController baseController) *PaymentProfile
 // }
 // ```
 // To let the customer go through 3D Secure Authentication, they need to be redirected to the URL specified in `action_link`.
-// Optionally, you can specify `callback_url` parameter in the `action_link` URL if you’d like to be notified about the result of 3D Secure Authentication. The `callback_url` will return the following information:
+// Optionally, you can specify the `callback_url` parameter in the `action_link` URL to receive notification about the result of 3D Secure Authentication.
+// The `callback_url` will return the following information:
 // - whether the authentication was successful (`success`)
 // - the payment profile ID (`payment_profile_id`)
-// Lastly, you can also specify a `redirect_url` parameter within the `action_link` URL if you’d like to redirect a customer back to your site.
-// It is not possible to use `action_link` in an iframe inside a custom application. You have to redirect the customer directly to the `action_link`, then, to be notified about the result, use `redirect_url` or `callback_url`.
-// The final URL that you send a customer to complete 3D Secure may resemble the following, where the first half is the `action_link` and the second half contains a `redirect_url` and `callback_url`: `https://checkout-test.chargifypay.test/3d-secure/checkout/pay_uerzhsxd5uhkbodx5jhvkg6yeu?one_time_token_id=93&callback_url=http://localhost:4000&redirect_url=https://yourpage.com`
+// You can also specify a `redirect_url` parameter in the `action_link` URL to redirect the customer back to your site.
+// You cannot use action_link in an iframe inside a custom application. You must redirect the customer directly to the `action_link` and use the `redirect_url` or `callback_url` to be notified of the result.
+// The final URL that you send a customer to complete 3D Secure may resemble the following, where the first half is the `action_link` and the second half contains a `redirect_url` and `callback_url`:
+// `https://checkout-test.chargifypay.test/3d-secure/checkout/pay_uerzhsxd5uhkbodx5jhvkg6yeu?one_time_token_id=93&callback_url=http://localhost:4000&redirect_url=https://yourpage.com`
 // ### Example Redirect Flow
-// You may wish to redirect customers to different pages depending on whether their SCA was performed successfully. Here's an example flow to use as a reference:
-// 1. Create a payment profile via API; it requires 3DS
-// 2. You receive a `action_link` in the response.
-// 3. Use this `action_link` to, for example, connect with your internal resources or generate a session_id
-// 4. Include 1 of those attributes inside the `callback_url` and `redirect_url` to be aware which “session” this applies to
+// Here's an example flow to redirect customers to different pages depending on whether SCA was performed successfully:
+// 1. Create a payment profile via the API; it requires 3DS.
+// 2. You receive an `action_link` in the response.
+// 3. Use this `action_link` to, for example, connect with your internal resources or generate a `session_id`.
+// 4. Include one of those attributes inside the `callback_url` and `redirect_url` to be aware which “session” this applies to.
 // 5. Redirect the customer to the `action_link` with `callback_url` and `redirect_url` applied
-// 6. After the customer finishes 3DS authentication, we let you know the result by making a request to applied `callback_url`.
-// 7. After that, we redirect the customer to the `redirect_url`; at this point the result of authentication is known
-// 8. Optionally, you can use the applied "msg" param in the `redirect_url` to determine whether it was successful or not
+// 6. After the customer completes 3DS authentication, we notify you of the result via the applied `callback_url`.
+// 7. After that, we redirect the customer to the `redirect_url`; at this point the result of authentication is known.
+// 8. Optionally, you can use the applied "msg" param in the `redirect_url` to determine if the redirect was successful.
 func (p *PaymentProfilesController) CreatePaymentProfile(
     ctx context.Context,
     body *models.CreatePaymentProfileRequest) (
@@ -305,7 +157,7 @@ func (p *PaymentProfilesController) ListPaymentProfiles(
 // returns an models.ApiResponse with models.PaymentProfileResponse data and
 // an error if there was an issue with the request or response.
 // Using the GET method you can retrieve a Payment Profile identified by its unique ID.
-// Please note that a different JSON object will be returned if the card method on file is a bank account.
+// Note that a different JSON object will be returned if the card method on file is a bank account.
 // ### Response for Bank Account
 // Example response for Bank Account:
 // ```

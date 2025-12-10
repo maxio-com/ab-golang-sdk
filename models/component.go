@@ -34,8 +34,6 @@ type Component struct {
     Kind                      *ComponentKind             `json:"kind,omitempty"`
     // Boolean flag describing whether a component is archived or not.
     Archived                  *bool                      `json:"archived,omitempty"`
-    // Boolean flag describing whether a component is taxable or not.
-    Taxable                   *bool                      `json:"taxable,omitempty"`
     // The description of the component.
     Description               Optional[string]           `json:"description"`
     DefaultPricePointId       Optional[int]              `json:"default_price_point_id"`
@@ -48,7 +46,9 @@ type Component struct {
     // URL that points to the location to read the existing price points via GET request
     PricePointsUrl            Optional[string]           `json:"price_points_url"`
     DefaultPricePointName     *string                    `json:"default_price_point_name,omitempty"`
-    // A string representing the tax code related to the component type. This is especially important when using the Avalara service to tax based on locale. This attribute has a max length of 10 characters.
+    // Boolean flag describing whether a component is taxable or not.
+    Taxable                   *bool                      `json:"taxable,omitempty"`
+    // A string representing the tax code related to the component type. This is especially important when using AvaTax to tax based on locale. This attribute has a max length of 25 characters.
     TaxCode                   Optional[string]           `json:"tax_code"`
     Recurring                 *bool                      `json:"recurring,omitempty"`
     // The type of credit to be created when upgrading/downgrading. Defaults to the component and then site setting if one is not provided.
@@ -84,8 +84,8 @@ type Component struct {
 // providing a human-readable string representation useful for logging, debugging or displaying information.
 func (c Component) String() string {
     return fmt.Sprintf(
-    	"Component[Id=%v, Name=%v, Handle=%v, PricingScheme=%v, UnitName=%v, UnitPrice=%v, ProductFamilyId=%v, ProductFamilyName=%v, ProductFamilyHandle=%v, PricePerUnitInCents=%v, Kind=%v, Archived=%v, Taxable=%v, Description=%v, DefaultPricePointId=%v, OveragePrices=%v, Prices=%v, PricePointCount=%v, PricePointsUrl=%v, DefaultPricePointName=%v, TaxCode=%v, Recurring=%v, UpgradeCharge=%v, DowngradeCredit=%v, CreatedAt=%v, UpdatedAt=%v, ArchivedAt=%v, HideDateRangeOnInvoice=%v, AllowFractionalQuantities=%v, ItemCategory=%v, UseSiteExchangeRate=%v, AccountingCode=%v, EventBasedBillingMetricId=%v, Interval=%v, IntervalUnit=%v, AdditionalProperties=%v]",
-    	c.Id, c.Name, c.Handle, c.PricingScheme, c.UnitName, c.UnitPrice, c.ProductFamilyId, c.ProductFamilyName, c.ProductFamilyHandle, c.PricePerUnitInCents, c.Kind, c.Archived, c.Taxable, c.Description, c.DefaultPricePointId, c.OveragePrices, c.Prices, c.PricePointCount, c.PricePointsUrl, c.DefaultPricePointName, c.TaxCode, c.Recurring, c.UpgradeCharge, c.DowngradeCredit, c.CreatedAt, c.UpdatedAt, c.ArchivedAt, c.HideDateRangeOnInvoice, c.AllowFractionalQuantities, c.ItemCategory, c.UseSiteExchangeRate, c.AccountingCode, c.EventBasedBillingMetricId, c.Interval, c.IntervalUnit, c.AdditionalProperties)
+    	"Component[Id=%v, Name=%v, Handle=%v, PricingScheme=%v, UnitName=%v, UnitPrice=%v, ProductFamilyId=%v, ProductFamilyName=%v, ProductFamilyHandle=%v, PricePerUnitInCents=%v, Kind=%v, Archived=%v, Description=%v, DefaultPricePointId=%v, OveragePrices=%v, Prices=%v, PricePointCount=%v, PricePointsUrl=%v, DefaultPricePointName=%v, Taxable=%v, TaxCode=%v, Recurring=%v, UpgradeCharge=%v, DowngradeCredit=%v, CreatedAt=%v, UpdatedAt=%v, ArchivedAt=%v, HideDateRangeOnInvoice=%v, AllowFractionalQuantities=%v, ItemCategory=%v, UseSiteExchangeRate=%v, AccountingCode=%v, EventBasedBillingMetricId=%v, Interval=%v, IntervalUnit=%v, AdditionalProperties=%v]",
+    	c.Id, c.Name, c.Handle, c.PricingScheme, c.UnitName, c.UnitPrice, c.ProductFamilyId, c.ProductFamilyName, c.ProductFamilyHandle, c.PricePerUnitInCents, c.Kind, c.Archived, c.Description, c.DefaultPricePointId, c.OveragePrices, c.Prices, c.PricePointCount, c.PricePointsUrl, c.DefaultPricePointName, c.Taxable, c.TaxCode, c.Recurring, c.UpgradeCharge, c.DowngradeCredit, c.CreatedAt, c.UpdatedAt, c.ArchivedAt, c.HideDateRangeOnInvoice, c.AllowFractionalQuantities, c.ItemCategory, c.UseSiteExchangeRate, c.AccountingCode, c.EventBasedBillingMetricId, c.Interval, c.IntervalUnit, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for Component.
@@ -94,7 +94,7 @@ func (c Component) MarshalJSON() (
     []byte,
     error) {
     if err := DetectConflictingProperties(c.AdditionalProperties,
-        "id", "name", "handle", "pricing_scheme", "unit_name", "unit_price", "product_family_id", "product_family_name", "product_family_handle", "price_per_unit_in_cents", "kind", "archived", "taxable", "description", "default_price_point_id", "overage_prices", "prices", "price_point_count", "price_points_url", "default_price_point_name", "tax_code", "recurring", "upgrade_charge", "downgrade_credit", "created_at", "updated_at", "archived_at", "hide_date_range_on_invoice", "allow_fractional_quantities", "item_category", "use_site_exchange_rate", "accounting_code", "event_based_billing_metric_id", "interval", "interval_unit"); err != nil {
+        "id", "name", "handle", "pricing_scheme", "unit_name", "unit_price", "product_family_id", "product_family_name", "product_family_handle", "price_per_unit_in_cents", "kind", "archived", "description", "default_price_point_id", "overage_prices", "prices", "price_point_count", "price_points_url", "default_price_point_name", "taxable", "tax_code", "recurring", "upgrade_charge", "downgrade_credit", "created_at", "updated_at", "archived_at", "hide_date_range_on_invoice", "allow_fractional_quantities", "item_category", "use_site_exchange_rate", "accounting_code", "event_based_billing_metric_id", "interval", "interval_unit"); err != nil {
         return []byte{}, err
     }
     return json.Marshal(c.toMap())
@@ -156,9 +156,6 @@ func (c Component) toMap() map[string]any {
     if c.Archived != nil {
         structMap["archived"] = c.Archived
     }
-    if c.Taxable != nil {
-        structMap["taxable"] = c.Taxable
-    }
     if c.Description.IsValueSet() {
         if c.Description.Value() != nil {
             structMap["description"] = c.Description.Value()
@@ -199,6 +196,9 @@ func (c Component) toMap() map[string]any {
     }
     if c.DefaultPricePointName != nil {
         structMap["default_price_point_name"] = c.DefaultPricePointName
+    }
+    if c.Taxable != nil {
+        structMap["taxable"] = c.Taxable
     }
     if c.TaxCode.IsValueSet() {
         if c.TaxCode.Value() != nil {
@@ -293,7 +293,7 @@ func (c *Component) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "id", "name", "handle", "pricing_scheme", "unit_name", "unit_price", "product_family_id", "product_family_name", "product_family_handle", "price_per_unit_in_cents", "kind", "archived", "taxable", "description", "default_price_point_id", "overage_prices", "prices", "price_point_count", "price_points_url", "default_price_point_name", "tax_code", "recurring", "upgrade_charge", "downgrade_credit", "created_at", "updated_at", "archived_at", "hide_date_range_on_invoice", "allow_fractional_quantities", "item_category", "use_site_exchange_rate", "accounting_code", "event_based_billing_metric_id", "interval", "interval_unit")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "id", "name", "handle", "pricing_scheme", "unit_name", "unit_price", "product_family_id", "product_family_name", "product_family_handle", "price_per_unit_in_cents", "kind", "archived", "description", "default_price_point_id", "overage_prices", "prices", "price_point_count", "price_points_url", "default_price_point_name", "taxable", "tax_code", "recurring", "upgrade_charge", "downgrade_credit", "created_at", "updated_at", "archived_at", "hide_date_range_on_invoice", "allow_fractional_quantities", "item_category", "use_site_exchange_rate", "accounting_code", "event_based_billing_metric_id", "interval", "interval_unit")
     if err != nil {
     	return err
     }
@@ -311,7 +311,6 @@ func (c *Component) UnmarshalJSON(input []byte) error {
     c.PricePerUnitInCents = temp.PricePerUnitInCents
     c.Kind = temp.Kind
     c.Archived = temp.Archived
-    c.Taxable = temp.Taxable
     c.Description = temp.Description
     c.DefaultPricePointId = temp.DefaultPricePointId
     c.OveragePrices = temp.OveragePrices
@@ -319,6 +318,7 @@ func (c *Component) UnmarshalJSON(input []byte) error {
     c.PricePointCount = temp.PricePointCount
     c.PricePointsUrl = temp.PricePointsUrl
     c.DefaultPricePointName = temp.DefaultPricePointName
+    c.Taxable = temp.Taxable
     c.TaxCode = temp.TaxCode
     c.Recurring = temp.Recurring
     c.UpgradeCharge = temp.UpgradeCharge
@@ -370,7 +370,6 @@ type tempComponent  struct {
     PricePerUnitInCents       Optional[int64]            `json:"price_per_unit_in_cents"`
     Kind                      *ComponentKind             `json:"kind,omitempty"`
     Archived                  *bool                      `json:"archived,omitempty"`
-    Taxable                   *bool                      `json:"taxable,omitempty"`
     Description               Optional[string]           `json:"description"`
     DefaultPricePointId       Optional[int]              `json:"default_price_point_id"`
     OveragePrices             Optional[[]ComponentPrice] `json:"overage_prices"`
@@ -378,6 +377,7 @@ type tempComponent  struct {
     PricePointCount           *int                       `json:"price_point_count,omitempty"`
     PricePointsUrl            Optional[string]           `json:"price_points_url"`
     DefaultPricePointName     *string                    `json:"default_price_point_name,omitempty"`
+    Taxable                   *bool                      `json:"taxable,omitempty"`
     TaxCode                   Optional[string]           `json:"tax_code"`
     Recurring                 *bool                      `json:"recurring,omitempty"`
     UpgradeCharge             Optional[CreditType]       `json:"upgrade_charge"`

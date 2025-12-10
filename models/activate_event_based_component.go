@@ -11,7 +11,7 @@ import (
 type ActivateEventBasedComponent struct {
     // The Chargify id of the price point
     PricePointId         *int                   `json:"price_point_id,omitempty"`
-    // This attribute is particularly useful when you need to align billing events for different components on distinct schedules within a subscription. Please note this only works for site with Multifrequency enabled
+    // This attribute is particularly useful when you need to align billing events for different components on distinct schedules within a subscription. This only works for site with Multifrequency enabled.
     BillingSchedule      *BillingSchedule       `json:"billing_schedule,omitempty"`
     // Create or update custom pricing unique to the subscription. Used in place of `price_point_id`.
     CustomPrice          *ComponentCustomPrice  `json:"custom_price,omitempty"`

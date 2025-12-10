@@ -21,7 +21,6 @@
 | `PricePerUnitInCents` | `models.Optional[int64]` | Optional | deprecated - use unit_price instead |
 | `Kind` | [`*models.ComponentKind`](../../doc/models/component-kind.md) | Optional | A handle for the component type |
 | `Archived` | `*bool` | Optional | Boolean flag describing whether a component is archived or not. |
-| `Taxable` | `*bool` | Optional | Boolean flag describing whether a component is taxable or not. |
 | `Description` | `models.Optional[string]` | Optional | The description of the component. |
 | `DefaultPricePointId` | `models.Optional[int]` | Optional | - |
 | `OveragePrices` | [`models.Optional[[]models.ComponentPrice]`](../../doc/models/component-price.md) | Optional | Applicable only to prepaid usage components. An array of overage price brackets. |
@@ -29,7 +28,8 @@
 | `PricePointCount` | `*int` | Optional | Count for the number of price points associated with the component |
 | `PricePointsUrl` | `models.Optional[string]` | Optional | URL that points to the location to read the existing price points via GET request |
 | `DefaultPricePointName` | `*string` | Optional | - |
-| `TaxCode` | `models.Optional[string]` | Optional | A string representing the tax code related to the component type. This is especially important when using the Avalara service to tax based on locale. This attribute has a max length of 10 characters. |
+| `Taxable` | `*bool` | Optional | Boolean flag describing whether a component is taxable or not. |
+| `TaxCode` | `models.Optional[string]` | Optional | A string representing the tax code related to the component type. This is especially important when using AvaTax to tax based on locale. This attribute has a max length of 25 characters. |
 | `Recurring` | `*bool` | Optional | - |
 | `UpgradeCharge` | [`models.Optional[models.CreditType]`](../../doc/models/credit-type.md) | Optional | The type of credit to be created when upgrading/downgrading. Defaults to the component and then site setting if one is not provided.<br>Available values: `full`, `prorated`, `none`. |
 | `DowngradeCredit` | [`models.Optional[models.CreditType]`](../../doc/models/credit-type.md) | Optional | The type of credit to be created when upgrading/downgrading. Defaults to the component and then site setting if one is not provided.<br>Available values: `full`, `prorated`, `none`. |

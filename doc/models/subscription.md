@@ -33,7 +33,7 @@
 | `SignupRevenue` | `*string` | Optional | The revenue, formatted as a string of decimal separated dollars and,cents, from the subscription signup ($50.00 would be formatted as,50.00) |
 | `DelayedCancelAt` | `models.Optional[time.Time]` | Optional | Timestamp for when the subscription is currently set to cancel. |
 | `CouponCode` | `models.Optional[string]` | Optional | (deprecated) The coupon code of the single coupon currently applied to the subscription. See coupon_codes instead as subscriptions can now have more than one coupon. |
-| `SnapDay` | `models.Optional[string]` | Optional | The day of the month that the subscription will charge according to calendar billing rules, if used. |
+| `SnapDay` | [`models.Optional[models.SubscriptionSnapDay]`](../../doc/models/containers/subscription-snap-day.md) | Optional | This is a container for one-of cases. |
 | `PaymentCollectionMethod` | [`*models.CollectionMethod`](../../doc/models/collection-method.md) | Optional | The type of payment collection to be used in the subscription. For legacy Statements Architecture valid options are - `invoice`, `automatic`. For current Relationship Invoicing Architecture valid options are - `remittance`, `automatic`, `prepaid`. |
 | `Customer` | [`*models.Customer`](../../doc/models/customer.md) | Optional | - |
 | `Product` | [`*models.Product`](../../doc/models/product.md) | Optional | - |
@@ -51,7 +51,7 @@
 | `CouponCodes` | `[]string` | Optional | An array for all the coupons attached to the subscription. |
 | `OfferId` | `models.Optional[int]` | Optional | The ID of the offer associated with the subscription. |
 | `PayerId` | `models.Optional[int]` | Optional | On Relationship Invoicing, the ID of the individual paying for the subscription. Defaults to the Customer ID unless the 'Customer Hierarchies & WhoPays' feature is enabled. |
-| `CurrentBillingAmountInCents` | `*int64` | Optional | The balance in cents plus the estimated renewal amount in cents. Returned ONLY for readSubscription operation as it's compute intensive operation. |
+| `CurrentBillingAmountInCents` | `*int64` | Optional | The balance in cents plus the estimated renewal amount in cents. Returned ONLY for the readSubscription operation as it's a compute intensive operation. |
 | `ProductPricePointId` | `*int` | Optional | The product price point currently subscribed to. |
 | `ProductPricePointType` | [`*models.PricePointType`](../../doc/models/price-point-type.md) | Optional | Price point type. We expose the following types:<br><br>1. **default**: a price point that is marked as a default price for a certain product.<br>2. **custom**: a custom price point.<br>3. **catalog**: a price point that is **not** marked as a default price for a certain product and is **not** a custom one. |
 | `NextProductPricePointId` | `models.Optional[int]` | Optional | If a delayed product change is scheduled, the ID of the product price point that the subscription will be changed to at the next renewal. |

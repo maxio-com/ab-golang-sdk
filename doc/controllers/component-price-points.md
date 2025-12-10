@@ -212,7 +212,7 @@ ctx := context.Background()
 
 collectedInput := advancedbilling.ListComponentPricePointsInput{
     ComponentId:    222,
-    Page:           models.ToPointer(2),
+    Page:           models.ToPointer(1),
     PerPage:        models.ToPointer(50),
     FilterType:     Liquid error: Value cannot be null. (Parameter 'key'),
 }
@@ -414,7 +414,7 @@ if err != nil {
 
 # Update Component Price Point
 
-When updating a price point, it's prices can be updated as well by creating new prices or editing / removing existing ones.
+When updating a price point, prices can be updated as well by creating new prices or editing / removing existing ones.
 
 Passing in a price bracket without an `id` will attempt to create a new price.
 
@@ -896,7 +896,7 @@ ctx := context.Background()
 
 collectedInput := advancedbilling.ListAllComponentPricePointsInput{
     Include:   models.ToPointer(models.ListComponentsPricePointsInclude_CURRENCYPRICES),
-    Page:      models.ToPointer(2),
+    Page:      models.ToPointer(1),
     PerPage:   models.ToPointer(50),
     Filter:    models.ToPointer(models.ListPricePointsFilter{
         StartDate:            models.ToPointer(parseTime(models.DEFAULT_DATE, "2011-12-17", func(err error) { log.Fatalln(err) })),

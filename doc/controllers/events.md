@@ -120,7 +120,7 @@ This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The 
 ctx := context.Background()
 
 collectedInput := advancedbilling.ListEventsInput{
-    Page:          models.ToPointer(2),
+    Page:          models.ToPointer(1),
     PerPage:       models.ToPointer(50),
     Direction:     models.ToPointer(models.Direction_DESC),
     Filter:        []models.EventKey{
@@ -248,7 +248,7 @@ ctx := context.Background()
 
 collectedInput := advancedbilling.ListSubscriptionEventsInput{
     SubscriptionId: 222,
-    Page:           models.ToPointer(2),
+    Page:           models.ToPointer(1),
     PerPage:        models.ToPointer(50),
     Direction:      models.ToPointer(models.Direction_DESC),
     Filter:         []models.EventKey{
@@ -344,7 +344,7 @@ This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The 
 ctx := context.Background()
 
 collectedInput := advancedbilling.ReadEventsCountInput{
-    Page:      models.ToPointer(2),
+    Page:      models.ToPointer(1),
     PerPage:   models.ToPointer(50),
     Direction: models.ToPointer(models.Direction_DESC),
     Filter:    []models.EventKey{

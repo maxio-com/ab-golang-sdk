@@ -17,7 +17,7 @@ type UpdateComponent struct {
     AccountingCode       Optional[string]       `json:"accounting_code"`
     // Boolean flag describing whether a component is taxable or not.
     Taxable              *bool                  `json:"taxable,omitempty"`
-    // A string representing the tax code related to the component type. This is especially important when using the Avalara service to tax based on locale. This attribute has a max length of 10 characters.
+    // A string representing the tax code related to the component type. This is especially important when using AvaTax to tax based on locale. This attribute has a max length of 25 characters.
     TaxCode              Optional[string]       `json:"tax_code"`
     // One of the following: Business Software, Consumer Software, Digital Services, Physical Goods, Other
     ItemCategory         Optional[ItemCategory] `json:"item_category"`

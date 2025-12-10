@@ -14,7 +14,7 @@
 | `Handle` | `models.Optional[string]` | Optional | The product API handle |
 | `Description` | `models.Optional[string]` | Optional | The product description |
 | `AccountingCode` | `models.Optional[string]` | Optional | E.g. Internal ID or SKU Number |
-| `RequestCreditCard` | `*bool` | Optional | Deprecated value that can be ignored unless you have legacy hosted pages. For Public Signup Page users, please read this attribute from under the signup page. |
+| `RequestCreditCard` | `*bool` | Optional | Deprecated value that can be ignored unless you have legacy hosted pages. For Public Signup Page users, read this attribute from under the signup page. |
 | `ExpirationInterval` | `models.Optional[int]` | Optional | A numerical interval for the length a subscription to this product will run before it expires. See the description of interval for a description of how this value is coupled with an interval unit to calculate the full interval |
 | `ExpirationIntervalUnit` | [`models.Optional[models.ExpirationIntervalUnit]`](../../doc/models/expiration-interval-unit.md) | Optional | A string representing the expiration interval unit for this product, either month, day or never |
 | `CreatedAt` | `*time.Time` | Optional | Timestamp indicating when this product was created |
@@ -40,7 +40,7 @@
 | `RequestBillingAddress` | `*bool` | Optional | A boolean indicating whether to request a billing address on any Self-Service Pages that are used by subscribers of this product. |
 | `RequireBillingAddress` | `*bool` | Optional | A boolean indicating whether a billing address is required to add a payment profile, especially at signup. |
 | `RequireShippingAddress` | `*bool` | Optional | A boolean indicating whether a shipping address is required for the customer, especially at signup. |
-| `TaxCode` | `models.Optional[string]` | Optional | A string representing the tax code related to the product type. This is especially important when using the Avalara service to tax based on locale. This attribute has a max length of 10 characters. |
+| `TaxCode` | `models.Optional[string]` | Optional | A string representing the tax code related to the product type. This is especially important when using AvaTax to tax based on locale. This attribute has a max length of 25 characters. |
 | `DefaultProductPricePointId` | `*int` | Optional | - |
 | `UseSiteExchangeRate` | `models.Optional[bool]` | Optional | - |
 | `ItemCategory` | `models.Optional[string]` | Optional | One of the following: Business Software, Consumer Software, Digital Services, Physical Goods, Other |

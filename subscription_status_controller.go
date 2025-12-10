@@ -119,7 +119,7 @@ func (s *SubscriptionStatusController) ResumeSubscription(
 // an error if there was an issue with the request or response.
 // This will place the subscription in the on_hold state and it will not renew.
 // ## Limitations
-// You may not place a subscription on hold if the `next_billing` date is within 24 hours.
+// You may not place a subscription on hold if the `next_billing_at` date is within 24 hours.
 func (s *SubscriptionStatusController) PauseSubscription(
     ctx context.Context,
     subscriptionId int,
@@ -185,8 +185,7 @@ func (s *SubscriptionStatusController) UpdateAutomaticSubscriptionResumption(
 // returns an models.ApiResponse with models.SubscriptionResponse data and
 // an error if there was an issue with the request or response.
 // Advanced Billing offers the ability to reactivate a previously canceled subscription. For details on how the reactivation works, and how to reactivate subscriptions through the application, see [reactivation](https://maxio.zendesk.com/hc/en-us/articles/24252109503629-Reactivating-and-Resuming).
-// **Please note: The term
-// "resume" is used also during another process in Advanced Billing. This occurs when an on-hold subscription is "resumed". This returns the subscription to an active state.**
+// **Note: The term "resume" is used also during another process in Advanced Billing. This occurs when an on-hold subscription is "resumed". This returns the subscription to an active state.**
 // + The response returns the subscription object in the `active` or `trialing` state.
 // + The `canceled_at` and `cancellation_message` fields do not have values.
 // + The method works for "Canceled" or "Trial Ended" subscriptions.
@@ -400,7 +399,7 @@ func (s *SubscriptionStatusController) CancelDunning(
 // returns an models.ApiResponse with models.RenewalPreviewResponse data and
 // an error if there was an issue with the request or response.
 // The Chargify API allows you to preview a renewal by posting to the renewals endpoint. Renewal Preview is an object representing a subscription’s next assessment. You can retrieve it to see a snapshot of how much your customer will be charged on their next renewal.
-// The "Next Billing" amount and "Next Billing" date are already represented in the UI on each Subscriber's Summary. For more information, please see our documentation [here](https://maxio.zendesk.com/hc/en-us/articles/24252493695757-Subscriber-Interface-Overview).
+// The "Next Billing" amount and "Next Billing" date are already represented in the UI on each Subscriber's Summary. For more information, see our documentation [here](https://maxio.zendesk.com/hc/en-us/articles/24252493695757-Subscriber-Interface-Overview).
 // ## Optional Component Fields
 // This endpoint is particularly useful due to the fact that it will return the computed billing amount for the base product and the components which are in use by a subscriber.
 // By default, the preview will include billing details for all components _at their **current** quantities_. This means:

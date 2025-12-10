@@ -37,10 +37,10 @@ The following section explains how to use the advancedbilling library in a new p
 To use the package in your application, you can install the package from [pkg.go.dev](https://pkg.go.dev/) using the following command:
 
 ```bash
-$ go get github.com/maxio-com/ab-golang-sdk@v0.7.1
+$ go get github.com/maxio-com/ab-golang-sdk@v0.8.0
 ```
 
-You can also view the package at: https://pkg.go.dev/github.com/maxio-com/ab-golang-sdk@v0.7.1
+You can also view the package at: https://pkg.go.dev/github.com/maxio-com/ab-golang-sdk@v0.8.0
 
 ## Initialize the API Client
 

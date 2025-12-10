@@ -34,7 +34,7 @@ type CreateAllocation struct {
     InitiateDunning          *bool                                  `json:"initiate_dunning,omitempty"`
     // Price point that the allocation should be charged at. Accepts either the price point's id (integer) or handle (string). When not specified, the default price point will be used.
     PricePointId             Optional[CreateAllocationPricePointId] `json:"price_point_id"`
-    // This attribute is particularly useful when you need to align billing events for different components on distinct schedules within a subscription. Please note this only works for site with Multifrequency enabled
+    // This attribute is particularly useful when you need to align billing events for different components on distinct schedules within a subscription. This only works for site with Multifrequency enabled.
     BillingSchedule          *BillingSchedule                       `json:"billing_schedule,omitempty"`
     AdditionalProperties     map[string]interface{}                 `json:"_"`
 }

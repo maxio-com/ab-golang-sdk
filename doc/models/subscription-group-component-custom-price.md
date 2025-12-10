@@ -39,7 +39,8 @@ Used in place of `price_point_id` to define a custom price point unique to the s
           "ending_quantity": 40,
           "unit_price": 23.26
         }
-      ]
+      ],
+      "renew_prepaid_allocation": false
     }
   ]
 }

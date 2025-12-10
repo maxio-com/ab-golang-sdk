@@ -55,7 +55,7 @@ type ListProductsForProductFamilyInput struct {
 // ListProductsForProductFamily takes context, productFamilyId, page, perPage, dateField, filter, startDate, endDate, startDatetime, endDatetime, includeArchived, include as parameters and
 // returns an models.ApiResponse with []models.ProductResponse data and
 // an error if there was an issue with the request or response.
-// This method allows to retrieve a list of Products belonging to a Product Family.
+// Retrieves a list of Products belonging to a Product Family.
 func (p *ProductFamiliesController) ListProductsForProductFamily(
     ctx context.Context,
     input ListProductsForProductFamilyInput) (
@@ -111,7 +111,7 @@ func (p *ProductFamiliesController) ListProductsForProductFamily(
 // CreateProductFamily takes context, body as parameters and
 // returns an models.ApiResponse with models.ProductFamilyResponse data and
 // an error if there was an issue with the request or response.
-// This method will create a Product Family within your Advanced Billing site. Create a Product Family to act as a container for your products, components and coupons.
+// Creates a Product Family within your Advanced Billing site. Create a Product Family to act as a container for your products, components and coupons.
 // Full documentation on how Product Families operate within the Advanced Billing UI can be located [here](https://maxio.zendesk.com/hc/en-us/articles/24261098936205-Product-Families).
 func (p *ProductFamiliesController) CreateProductFamily(
     ctx context.Context,
@@ -156,7 +156,7 @@ type ListProductFamiliesInput struct {
 // ListProductFamilies takes context, dateField, startDate, endDate, startDatetime, endDatetime as parameters and
 // returns an models.ApiResponse with []models.ProductFamilyResponse data and
 // an error if there was an issue with the request or response.
-// This method allows to retrieve a list of Product Families for a site.
+// Retrieve a list of Product Families for a site.
 func (p *ProductFamiliesController) ListProductFamilies(
     ctx context.Context,
     input ListProductFamiliesInput) (
@@ -193,7 +193,7 @@ func (p *ProductFamiliesController) ListProductFamilies(
 // ReadProductFamily takes context, id as parameters and
 // returns an models.ApiResponse with models.ProductFamilyResponse data and
 // an error if there was an issue with the request or response.
-// This method allows to retrieve a Product Family via the `product_family_id`. The response will contain a Product Family object.
+// Retrieves a Product Family via the `product_family_id`. The response will contain a Product Family object.
 // The product family can be specified either with the id number, or with the `handle:my-family` format.
 func (p *ProductFamiliesController) ReadProductFamily(
     ctx context.Context,

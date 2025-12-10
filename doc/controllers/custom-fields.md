@@ -23,30 +23,20 @@ customFieldsController := client.CustomFieldsController()
 
 # Create Metafields
 
-## Custom Fields: Metafield Intro
+Creates metafields on a Site for either the Subscriptions or Customers resource.
 
-**Advanced Billing refers to Custom Fields in the API documentation as metafields and metadata.** Within the Advanced Billing UI, metadata and metafields are grouped together under the umbrella of "Custom Fields." All of our UI-based documentation that references custom fields will not cite the terminology metafields or metadata.
+Metafields and their metadata are created in the Custom Fields configuration page on your Site. Metafields can be populated with metadata when you create them or later with the [Update Metafield](../../doc/controllers/custom-fields.md#update-metafield), [Create Metadata](../../doc/controllers/custom-fields.md#create-metadata), or [Update Metadata](../../doc/controllers/custom-fields.md#update-metadata) endpoints. The Create Metadata and Update Metadata endpoints allow you to add metafields and metadata values to a specific subscription or customer.
 
-+ **Metafield is the custom field**
-+ **Metadata is the data populating the custom field.**
+Each site is limited to 100 unique metafields per resource. This means you can have 100 metafields for Subscriptions and another 100 for Customers.
 
-Advanced Billing Metafields are used to add meaningful attributes to subscription and customer resources. Full documentation on how to create Custom Fields in the Advanced Billing UI can be located [here](https://maxio.zendesk.com/hc/en-us/sections/24266118312589-Custom-Fields). For additional documentation on how to record data within custom fields, please see our subscription-based documentation [here](https://maxio.zendesk.com/hc/en-us/articles/24251701302925-Subscription-Summary-Custom-Fields-Tab).
+> Note: After creating a metafield, the resource type cannot be modified.
 
-Metafield are the place where you will set up your resource to accept additional data. It is scoped to the site instead of a specific customer or subscription. Think of it as the key, and Metadata as the value on every record.
+In the UI and product documentation, metafields and metadata are called Custom Fields.
 
-## Create Metafields
+- Metafield is the custom field
+- Metadata is the data populating the custom field.
 
-Use this endpoint to create metafields for your Site. Metafields can be populated with metadata after the fact.
-
-Each site is limited to 100 unique Metafields (i.e. keys, or names) per resource. This means you can have 100 Metafields for Subscription and another 100 for Customer.
-
-### Metafields "On-the-Fly"
-
-It is possible to create Metafields “on the fly” when you create your Metadata – if a non-existent name is passed when creating Metadata, a Metafield for that key will be automatically created. The Metafield API, however, gives you more control over your “keys”.
-
-### Metafield Scope Warning
-
-If configuring metafields in the Admin UI or via the API, be careful sending updates to metafields with the scope attribute – **if a partial update is sent it will overwrite the current configuration**.
+See [Custom Fields Reference](https://docs.maxio.com/hc/en-us/articles/24266140850573-Custom-Fields-Reference) and [Custom Fields Tab](https://maxio.zendesk.com/hc/en-us/articles/24251701302925-Subscription-Summary-Custom-Fields-Tab) for information on using Custom Fields in the Advanced Billing UI.
 
 ```go
 CreateMetafields(
@@ -61,7 +51,7 @@ CreateMetafields(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `resourceType` | [`models.ResourceType`](../../doc/models/resource-type.md) | Template, Required | the resource type to which the metafields belong |
+| `resourceType` | [`models.ResourceType`](../../doc/models/resource-type.md) | Template, Required | The resource type to which the metafields belong. |
 | `body` | [`*models.CreateMetafieldsRequest`](../../doc/models/create-metafields-request.md) | Body, Optional | - |
 
 ## Response Type
@@ -79,8 +69,10 @@ body := models.CreateMetafieldsRequest{
     Metafields:           models.CreateMetafieldsRequestMetafieldsContainer.FromCreateMetafield(models.CreateMetafield{
         Name:                 models.ToPointer("Dropdown field"),
         Scope:                models.ToPointer(models.MetafieldScope{
-            PublicShow:           models.ToPointer(models.IncludeOption_INCLUDE),
-            PublicEdit:           models.ToPointer(models.IncludeOption_INCLUDE),
+            Csv:                  models.ToPointer(models.IncludeOption_EXCLUDE),
+            Invoices:             models.ToPointer(models.IncludeOption_EXCLUDE),
+            Statements:           models.ToPointer(models.IncludeOption_EXCLUDE),
+            Portal:               models.ToPointer(models.IncludeOption_INCLUDE),
         }),
         InputType:            models.ToPointer(models.MetafieldInput_DROPDOWN),
         Enum:                 []string{
@@ -140,7 +132,7 @@ if err != nil {
 
 # List Metafields
 
-This endpoint lists metafields associated with a site. The metafield description and usage is contained in the response.
+Lists the metafields and their associated details for a Site and resource type. You can filter the request to a specific metafield.
 
 ```go
 ListMetafields(
@@ -154,8 +146,8 @@ ListMetafields(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `resourceType` | [`models.ResourceType`](../../doc/models/resource-type.md) | Template, Required | the resource type to which the metafields belong |
-| `name` | `*string` | Query, Optional | filter by the name of the metafield |
+| `resourceType` | [`models.ResourceType`](../../doc/models/resource-type.md) | Template, Required | The resource type to which the metafields belong. |
+| `name` | `*string` | Query, Optional | Filter by the name of the metafield. |
 | `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br><br>**Default**: `1`<br><br>**Constraints**: `>= 1` |
 | `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`.<br><br>**Default**: `20`<br><br>**Constraints**: `<= 200` |
 | `direction` | [`*models.SortingDirection`](../../doc/models/sorting-direction.md) | Query, Optional | Controls the order in which results are returned.<br>Use in query `direction=asc`. |
@@ -171,7 +163,7 @@ ctx := context.Background()
 
 collectedInput := advancedbilling.ListMetafieldsInput{
     ResourceType: models.ResourceType_SUBSCRIPTIONS,
-    Page:         models.ToPointer(2),
+    Page:         models.ToPointer(1),
     PerPage:      models.ToPointer(50),
 }
 
@@ -189,10 +181,10 @@ if err != nil {
 
 ```json
 {
-  "total_count": 0,
-  "current_page": 0,
+  "total_count": 1,
+  "current_page": 1,
   "total_pages": 0,
-  "per_page": 0,
+  "per_page": 50,
   "metafields": [
     {
       "id": 0,
@@ -216,7 +208,33 @@ if err != nil {
 
 # Update Metafield
 
-Use the following method to update metafields for your Site. Metafields can be populated with metadata after the fact.
+Updates metafields on your Site for a resource type.  Depending on the request structure, you can update or add metafields and metadata to the Subscriptions or Customers resource.
+
+With this endpoint, you can:
+
+- Add metafields. If the metafield specified in current_name does not exist, a new metafield is added.
+  
+  > Note: Each site is limited to 100 unique metafields per resource. This means you can have 100 metafields for Subscriptions and another 100 for Customers.
+
+- Change the name of a metafield.
+  
+  > Note: To keep the metafield name the same and only update the metadata for the metafield, you must use the current metafield name in both the `current_name` and `name` parameters.
+
+- Change the input type for the metafield. For example, you can change a metafield input type from text to a dropdown. If you change the input type from text to a dropdown or radio, you must update the specific subscriptions or customers where the metafield was used to reflect the updated metafield and metadata.
+
+- Add metadata values to the existing metadata for a dropdown or radio metafield.
+  
+  > Note: Updates to metadata overwrite. To add one or more values, you must specify all metadata values including the new value you want to add.
+
+- Add new metadata to a dropdown or radio for a metafield that was created without metadata.
+
+- Remove  metadata for a dropdown or radio for a metafield.
+  
+  > Note: Updates to metadata overwrite existing values. To remove one or more values, specify all metadata values except those you want to remove.
+
+- Add or update scope settings for a metafield.
+  
+  > Note: Scope changes overwrite existing settings. You must specify the complete scope, including the changes you want to make.
 
 ```go
 UpdateMetafield(
@@ -231,7 +249,7 @@ UpdateMetafield(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `resourceType` | [`models.ResourceType`](../../doc/models/resource-type.md) | Template, Required | the resource type to which the metafields belong |
+| `resourceType` | [`models.ResourceType`](../../doc/models/resource-type.md) | Template, Required | The resource type to which the metafields belong. |
 | `body` | [`*models.UpdateMetafieldsRequest`](../../doc/models/update-metafields-request.md) | Body, Optional | - |
 
 ## Response Type
@@ -264,9 +282,7 @@ if err != nil {
 
 # Delete Metafield
 
-Use the following method to delete a metafield. This will remove the metafield from the Site.
-
-Additionally, this will remove the metafield and associated metadata with all Subscriptions on the Site.
+Deletes a metafield from your Site. Removes the metafield and associated metadata from all Subscriptions or Customers resources on the Site.
 
 ```go
 DeleteMetafield(
@@ -281,7 +297,7 @@ DeleteMetafield(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `resourceType` | [`models.ResourceType`](../../doc/models/resource-type.md) | Template, Required | the resource type to which the metafields belong |
+| `resourceType` | [`models.ResourceType`](../../doc/models/resource-type.md) | Template, Required | The resource type to which the metafields belong. |
 | `name` | `*string` | Query, Optional | The name of the metafield to be deleted |
 
 ## Response Type
@@ -312,28 +328,11 @@ if err != nil {
 
 # Create Metadata
 
-## Custom Fields: Metadata Intro
+Creates metadata and metafields for a specific subscription or customer, or updates metadata values of existing metafields for a subscription or customer. Metadata values are limited to 2 KB in size.
 
-**Advanced Billing refers to Custom Fields in the API documentation as metafields and metadata.** Within the Advanced Billing UI, metadata and metafields are grouped together under the umbrella of "Custom Fields." All of our UI-based documentation that references custom fields will not cite the terminology metafields or metadata.
+If you create metadata on a subscription or customer with a metafield that does not already exist, the metafield is created with the metadata you specify and it is always added as a text field. You can update the input_type for the metafield with the [Update Metafield](../../doc/controllers/custom-fields.md#update-metafield) endpoint.
 
-+ **Metafield is the custom field**
-+ **Metadata is the data populating the custom field.**
-
-Advanced Billing Metafields are used to add meaningful attributes to subscription and customer resources. Full documentation on how to create Custom Fields in the Advanced Billing UI can be located [here](https://maxio.zendesk.com/hc/en-us/articles/24266164865677-Custom-Fields-Overview). For additional documentation on how to record data within custom fields, please see our subscription-based documentation [here.](https://maxio.zendesk.com/hc/en-us/articles/24251701302925-Subscription-Summary-Custom-Fields-Tab)
-
-Metadata is associated to a customer or subscription, and corresponds to a Metafield. When creating a new metadata object for a given record, **if the metafield is not present it will be created**.
-
-## Metadata limits
-
-Metadata values are limited to 2kB in size. Additonally, there are limits on the number of unique metafields available per resource.
-
-## Create Metadata
-
-This method will create a metafield for the site on the fly if it does not already exist, and populate the metadata value.
-
-### Subscription or Customer Resource
-
-Please pay special attention to the resource you use when creating metadata.
+> Note: Each site is limited to 100 unique metafields per resource. This means you can have 100 metafields for Subscriptions and another 100 for Customers.
 
 ```go
 CreateMetadata(
@@ -349,7 +348,7 @@ CreateMetadata(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `resourceType` | [`models.ResourceType`](../../doc/models/resource-type.md) | Template, Required | the resource type to which the metafields belong |
+| `resourceType` | [`models.ResourceType`](../../doc/models/resource-type.md) | Template, Required | The resource type to which the metafields belong. |
 | `resourceId` | `int` | Template, Required | The Advanced Billing id of the customer or the subscription for which the metadata applies |
 | `body` | [`*models.CreateMetadataRequest`](../../doc/models/create-metadata-request.md) | Body, Optional | - |
 
@@ -398,11 +397,7 @@ if err != nil {
 
 # List Metadata
 
-This request will list all of the metadata belonging to a particular resource (ie. subscription, customer) that is specified.
-
-## Metadata Data
-
-This endpoint will also display the current stats of your metadata to use as a tool for pagination.
+Lists metadata and metafields for a specific customer or subscription.
 
 ```go
 ListMetadata(
@@ -416,7 +411,7 @@ ListMetadata(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `resourceType` | [`models.ResourceType`](../../doc/models/resource-type.md) | Template, Required | the resource type to which the metafields belong |
+| `resourceType` | [`models.ResourceType`](../../doc/models/resource-type.md) | Template, Required | The resource type to which the metafields belong. |
 | `resourceId` | `int` | Template, Required | The Advanced Billing id of the customer or the subscription for which the metadata applies |
 | `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br><br>**Default**: `1`<br><br>**Constraints**: `>= 1` |
 | `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`.<br><br>**Default**: `20`<br><br>**Constraints**: `<= 200` |
@@ -433,7 +428,7 @@ ctx := context.Background()
 collectedInput := advancedbilling.ListMetadataInput{
     ResourceType: models.ResourceType_SUBSCRIPTIONS,
     ResourceId:   60,
-    Page:         models.ToPointer(2),
+    Page:         models.ToPointer(1),
     PerPage:      models.ToPointer(50),
 }
 
@@ -447,10 +442,35 @@ if err != nil {
 }
 ```
 
+## Example Response *(as JSON)*
+
+```json
+{
+  "total_count": 1,
+  "current_page": 1,
+  "total_pages": 1,
+  "per_page": 50,
+  "metadata": [
+    {
+      "id": 77889911,
+      "value": "green",
+      "resource_id": 1234567,
+      "metafield_id": 112233,
+      "deleted_at": null,
+      "name": "Color"
+    }
+  ]
+}
+```
+
 
 # Update Metadata
 
-This method allows you to update the existing metadata associated with a subscription or customer.
+Updates metadata and metafields on the Site and the customer or subscription specified, and updates the metadata value on a subscription or customer.
+
+If you update metadata on a subscription or customer with a metafield that does not already exist, the metafield is created with the metadata you specify and it is always added as a text field to the Site and to the subscription or customer you specify. You can update the input_type for the metafield with the Update Metafield endpoint.
+
+Each site is limited to 100 unique metafields per resource. This means you can have 100 metafields for Subscription and another 100 for Customer.
 
 ```go
 UpdateMetadata(
@@ -466,7 +486,7 @@ UpdateMetadata(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `resourceType` | [`models.ResourceType`](../../doc/models/resource-type.md) | Template, Required | the resource type to which the metafields belong |
+| `resourceType` | [`models.ResourceType`](../../doc/models/resource-type.md) | Template, Required | The resource type to which the metafields belong. |
 | `resourceId` | `int` | Template, Required | The Advanced Billing id of the customer or the subscription for which the metadata applies |
 | `body` | [`*models.UpdateMetadataRequest`](../../doc/models/update-metadata-request.md) | Body, Optional | - |
 
@@ -502,29 +522,7 @@ if err != nil {
 
 # Delete Metadata
 
-This method removes the metadata from the subscriber/customer cited.
-
-## Query String Usage
-
-For instance if you wanted to delete the metadata for customer 99 named weight you would request:
-
-```
-https://acme.chargify.com/customers/99/metadata.json?name=weight
-```
-
-If you want to delete multiple metadata fields for a customer 99 named: `weight` and `age` you wrould request:
-
-```
-https://acme.chargify.com/customers/99/metadata.json?names[]=weight&names[]=age
-```
-
-## Successful Response
-
-For a success, there will be a code `200` and the plain text response `true`.
-
-## Unsuccessful Response
-
-When a failed response is encountered, you will receive a `404` response and the plain text response of `true`.
+Deletes one or more metafields (and associated metadata) from the specified subscription or customer.
 
 ```go
 DeleteMetadata(
@@ -541,7 +539,7 @@ DeleteMetadata(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `resourceType` | [`models.ResourceType`](../../doc/models/resource-type.md) | Template, Required | the resource type to which the metafields belong |
+| `resourceType` | [`models.ResourceType`](../../doc/models/resource-type.md) | Template, Required | The resource type to which the metafields belong. |
 | `resourceId` | `int` | Template, Required | The Advanced Billing id of the customer or the subscription for which the metadata applies |
 | `name` | `*string` | Query, Optional | Name of field to be removed. |
 | `names` | `[]string` | Query, Optional | Names of fields to be removed. Use in query: `names[]=field1&names[]=my-field&names[]=another-field`. |
@@ -576,19 +574,7 @@ if err != nil {
 
 # List Metadata for Resource Type
 
-This method will provide you information on usage of metadata across your selected resource (ie. subscriptions, customers)
-
-## Metadata Data
-
-This endpoint will also display the current stats of your metadata to use as a tool for pagination.
-
-### Metadata for multiple records
-
-`https://acme.chargify.com/subscriptions/metadata.json?resource_ids[]=1&resource_ids[]=2`
-
-## Read Metadata for a Site
-
-This endpoint will list the number of pages of metadata information that are contained within a site.
+Lists  metadata for a specified array of subscriptions or customers.
 
 ```go
 ListMetadataForResourceType(
@@ -602,7 +588,7 @@ ListMetadataForResourceType(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `resourceType` | [`models.ResourceType`](../../doc/models/resource-type.md) | Template, Required | the resource type to which the metafields belong |
+| `resourceType` | [`models.ResourceType`](../../doc/models/resource-type.md) | Template, Required | The resource type to which the metafields belong. |
 | `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br><br>**Default**: `1`<br><br>**Constraints**: `>= 1` |
 | `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`.<br><br>**Default**: `20`<br><br>**Constraints**: `<= 200` |
 | `dateField` | [`*models.BasicDateField`](../../doc/models/basic-date-field.md) | Query, Optional | The type of filter you would like to apply to your search. |
@@ -625,7 +611,7 @@ ctx := context.Background()
 
 collectedInput := advancedbilling.ListMetadataForResourceTypeInput{
     ResourceType:  models.ResourceType_SUBSCRIPTIONS,
-    Page:          models.ToPointer(2),
+    Page:          models.ToPointer(1),
     PerPage:       models.ToPointer(50),
     DateField:     models.ToPointer(models.BasicDateField_UPDATEDAT),
 }

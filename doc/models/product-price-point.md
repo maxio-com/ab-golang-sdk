@@ -18,7 +18,7 @@
 | `TrialPriceInCents` | `models.Optional[int64]` | Optional | The product price point trial price, in integer cents |
 | `TrialInterval` | `models.Optional[int]` | Optional | The numerical trial interval. i.e. an interval of ‘30’ coupled with a trial_interval_unit of day would mean this product price point trial would last 30 days |
 | `TrialIntervalUnit` | [`models.Optional[models.IntervalUnit]`](../../doc/models/interval-unit.md) | Optional | A string representing the trial interval unit for this product price point, either month or day |
-| `TrialType` | `*string` | Optional | - |
+| `TrialType` | [`models.Optional[models.TrialType]`](../../doc/models/trial-type.md) | Optional | Indicates how a trial is handled when the trail period ends and there is no credit card on file. For `no_obligation`, the subscription transitions to a Trial Ended state. Maxio will not send any emails or statements. For `payment_expected`, the subscription transitions to a Past Due state. Maxio will send normal dunning emails and statements according to your other settings. |
 | `IntroductoryOffer` | `models.Optional[bool]` | Optional | reserved for future use |
 | `InitialChargeInCents` | `models.Optional[int64]` | Optional | The product price point initial charge, in integer cents |
 | `InitialChargeAfterTrial` | `models.Optional[bool]` | Optional | - |

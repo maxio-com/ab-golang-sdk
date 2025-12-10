@@ -27,7 +27,8 @@ type CreateProductPricePoint struct {
     TrialInterval           *int                             `json:"trial_interval,omitempty"`
     // A string representing the trial interval unit for this product price point, either month or day
     TrialIntervalUnit       *IntervalUnit                    `json:"trial_interval_unit,omitempty"`
-    TrialType               *string                          `json:"trial_type,omitempty"`
+    // Indicates how a trial is handled when the trail period ends and there is no credit card on file. For `no_obligation`, the subscription transitions to a Trial Ended state. Maxio will not send any emails or statements. For `payment_expected`, the subscription transitions to a Past Due state. Maxio will send normal dunning emails and statements according to your other settings.
+    TrialType               Optional[TrialType]              `json:"trial_type"`
     // The product price point initial charge, in integer cents
     InitialChargeInCents    *int64                           `json:"initial_charge_in_cents,omitempty"`
     InitialChargeAfterTrial *bool                            `json:"initial_charge_after_trial,omitempty"`
@@ -80,8 +81,12 @@ func (c CreateProductPricePoint) toMap() map[string]any {
     if c.TrialIntervalUnit != nil {
         structMap["trial_interval_unit"] = c.TrialIntervalUnit
     }
-    if c.TrialType != nil {
-        structMap["trial_type"] = c.TrialType
+    if c.TrialType.IsValueSet() {
+        if c.TrialType.Value() != nil {
+            structMap["trial_type"] = c.TrialType.Value()
+        } else {
+            structMap["trial_type"] = nil
+        }
     }
     if c.InitialChargeInCents != nil {
         structMap["initial_charge_in_cents"] = c.InitialChargeInCents
@@ -150,7 +155,7 @@ type tempCreateProductPricePoint  struct {
     TrialPriceInCents       *int64                           `json:"trial_price_in_cents,omitempty"`
     TrialInterval           *int                             `json:"trial_interval,omitempty"`
     TrialIntervalUnit       *IntervalUnit                    `json:"trial_interval_unit,omitempty"`
-    TrialType               *string                          `json:"trial_type,omitempty"`
+    TrialType               Optional[TrialType]              `json:"trial_type"`
     InitialChargeInCents    *int64                           `json:"initial_charge_in_cents,omitempty"`
     InitialChargeAfterTrial *bool                            `json:"initial_charge_after_trial,omitempty"`
     ExpirationInterval      *int                             `json:"expiration_interval,omitempty"`

@@ -34,7 +34,7 @@ type PrepaidUsageComponent struct {
     PricePoints               []CreatePrepaidUsageComponentPricePoint `json:"price_points,omitempty"`
     // The amount the customer will be charged per unit when the pricing scheme is “per_unit”. For On/Off Components, this is the amount that the customer will be charged when they turn the component on for the subscription. The price can contain up to 8 decimal places. i.e. 1.00 or 0.0012 or 0.00000065
     UnitPrice                 *PrepaidUsageComponentUnitPrice         `json:"unit_price,omitempty"`
-    // A string representing the tax code related to the component type. This is especially important when using the Avalara service to tax based on locale. This attribute has a max length of 10 characters.
+    // A string representing the tax code related to the component type. This is especially important when using AvaTax to tax based on locale. This attribute has a max length of 25 characters.
     TaxCode                   *string                                 `json:"tax_code,omitempty"`
     // (Only available on Relationship Invoicing sites) Boolean flag describing if the service date range should show for the component on generated invoices.
     HideDateRangeOnInvoice    *bool                                   `json:"hide_date_range_on_invoice,omitempty"`

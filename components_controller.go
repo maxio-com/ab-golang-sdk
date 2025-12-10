@@ -28,7 +28,7 @@ func NewComponentsController(baseController baseController) *ComponentsControlle
 // This request will create a component definition of kind **metered_component** under the specified product family. Metered component can then be added and “allocated” for a subscription.
 // Metered components are used to bill for any type of unit that resets to 0 at the end of the billing period (think daily Google Adwords clicks or monthly cell phone minutes). This is most commonly associated with usage-based billing and many other pricing schemes.
 // Note that this is different from recurring quantity-based components, which DO NOT reset to zero at the start of every billing period. If you want to bill for a quantity of something that does not change unless you change it, then you want quantity components, instead.
-// For more information on components, please see our documentation [here](https://maxio.zendesk.com/hc/en-us/articles/24261141522189-Components-Overview).
+// For more information on components, see our documentation [here](https://maxio.zendesk.com/hc/en-us/articles/24261141522189-Components-Overview).
 func (c *ComponentsController) CreateMeteredComponent(
     ctx context.Context,
     productFamilyId string,
@@ -71,7 +71,7 @@ func (c *ComponentsController) CreateMeteredComponent(
 // #### One-time
 // One-time quantity-based components are used to create ad hoc usage charges that do not recur. For example, at the time of signup, you might want to charge your customer a one-time fee for onboarding or other services.
 // The allocated quantity for one-time quantity-based components immediately gets reset back to zero after the allocation is made.
-// For more information on components, please see our documentation [here](https://maxio.zendesk.com/hc/en-us/articles/24261141522189-Components-Overview).
+// For more information on components, see our documentation [here](https://maxio.zendesk.com/hc/en-us/articles/24261141522189-Components-Overview).
 func (c *ComponentsController) CreateQuantityBasedComponent(
     ctx context.Context,
     productFamilyId string,
@@ -109,7 +109,7 @@ func (c *ComponentsController) CreateQuantityBasedComponent(
 // an error if there was an issue with the request or response.
 // This request will create a component definition of kind **on_off_component** under the specified product family. On/Off component can then be added and “allocated” for a subscription.
 // On/off components are used for any flat fee, recurring add on (think $99/month for tech support or a flat add on shipping fee).
-// For more information on components, please see our documentation [here](https://maxio.zendesk.com/hc/en-us/articles/24261141522189-Components-Overview).
+// For more information on components, see our documentation [here](https://maxio.zendesk.com/hc/en-us/articles/24261141522189-Components-Overview).
 func (c *ComponentsController) CreateOnOffComponent(
     ctx context.Context,
     productFamilyId string,
@@ -147,7 +147,7 @@ func (c *ComponentsController) CreateOnOffComponent(
 // an error if there was an issue with the request or response.
 // This request will create a component definition of kind **prepaid_usage_component** under the specified product family. Prepaid component can then be added and “allocated” for a subscription.
 // Prepaid components allow customers to pre-purchase units that can be used up over time on their subscription. In a sense, they are the mirror image of metered components; while metered components charge at the end of the period for the amount of units used, prepaid components are charged for at the time of purchase, and we subsequently keep track of the usage against the amount purchased.
-// For more information on components, please see our documentation [here](https://maxio.zendesk.com/hc/en-us/articles/24261141522189-Components-Overview).
+// For more information on components, see our documentation [here](https://maxio.zendesk.com/hc/en-us/articles/24261141522189-Components-Overview).
 func (c *ComponentsController) CreatePrepaidUsageComponent(
     ctx context.Context,
     productFamilyId string,
@@ -186,7 +186,7 @@ func (c *ComponentsController) CreatePrepaidUsageComponent(
 // This request will create a component definition of kind **event_based_component** under the specified product family. Event-based component can then be added and “allocated” for a subscription.
 // Event-based components are similar to other component types, in that you define the component parameters (such as name and taxability) and the pricing. A key difference for the event-based component is that it must be attached to a metric. This is because the metric provides the component with the actual quantity used in computing what and how much will be billed each period for each subscription.
 // So, instead of reporting usage directly for each component (as you would with metered components), the usage is derived from analysis of your events.
-// For more information on components, please see our documentation [here](https://maxio.zendesk.com/hc/en-us/articles/24261141522189-Components-Overview).
+// For more information on components, see our documentation [here](https://maxio.zendesk.com/hc/en-us/articles/24261141522189-Components-Overview).
 func (c *ComponentsController) CreateEventBasedComponent(
     ctx context.Context,
     productFamilyId string,

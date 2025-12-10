@@ -12,8 +12,8 @@
 | `CurrentName` | `*string` | Optional | - |
 | `Name` | `*string` | Optional | - |
 | `Scope` | [`*models.MetafieldScope`](../../doc/models/metafield-scope.md) | Optional | Warning: When updating a metafield's scope attribute, all scope attributes must be passed. Partially complete scope attributes will override the existing settings. |
-| `InputType` | [`*models.MetafieldInput`](../../doc/models/metafield-input.md) | Optional | Indicates how data should be added to the metafield. For example, a text type is just a string, so a given metafield of this type can have any value attached. On the other hand, dropdown and radio have a set of allowed values that can be input, and appear differently on a Public Signup Page. Defaults to 'text' |
-| `Enum` | `[]string` | Optional | Only applicable when input_type is radio or dropdown |
+| `InputType` | [`*models.MetafieldInput`](../../doc/models/metafield-input.md) | Optional | Indicates the type of metafield. A text metafield allows any string value. Dropdown and radio metafields have a set of values that can be selected.  Defaults to 'text'. |
+| `Enum` | `[]string` | Optional | Only applicable when input_type is radio or dropdown. |
 
 ## Example (as JSON)
 

@@ -28,7 +28,8 @@ type ProductPricePoint struct {
     TrialInterval           Optional[int]                    `json:"trial_interval"`
     // A string representing the trial interval unit for this product price point, either month or day
     TrialIntervalUnit       Optional[IntervalUnit]           `json:"trial_interval_unit"`
-    TrialType               *string                          `json:"trial_type,omitempty"`
+    // Indicates how a trial is handled when the trail period ends and there is no credit card on file. For `no_obligation`, the subscription transitions to a Trial Ended state. Maxio will not send any emails or statements. For `payment_expected`, the subscription transitions to a Past Due state. Maxio will send normal dunning emails and statements according to your other settings.
+    TrialType               Optional[TrialType]              `json:"trial_type"`
     // reserved for future use
     IntroductoryOffer       Optional[bool]                   `json:"introductory_offer"`
     // The product price point initial charge, in integer cents
@@ -126,8 +127,12 @@ func (p ProductPricePoint) toMap() map[string]any {
             structMap["trial_interval_unit"] = nil
         }
     }
-    if p.TrialType != nil {
-        structMap["trial_type"] = p.TrialType
+    if p.TrialType.IsValueSet() {
+        if p.TrialType.Value() != nil {
+            structMap["trial_type"] = p.TrialType.Value()
+        } else {
+            structMap["trial_type"] = nil
+        }
     }
     if p.IntroductoryOffer.IsValueSet() {
         if p.IntroductoryOffer.Value() != nil {
@@ -278,7 +283,7 @@ type tempProductPricePoint  struct {
     TrialPriceInCents       Optional[int64]                  `json:"trial_price_in_cents"`
     TrialInterval           Optional[int]                    `json:"trial_interval"`
     TrialIntervalUnit       Optional[IntervalUnit]           `json:"trial_interval_unit"`
-    TrialType               *string                          `json:"trial_type,omitempty"`
+    TrialType               Optional[TrialType]              `json:"trial_type"`
     IntroductoryOffer       Optional[bool]                   `json:"introductory_offer"`
     InitialChargeInCents    Optional[int64]                  `json:"initial_charge_in_cents"`
     InitialChargeAfterTrial Optional[bool]                   `json:"initial_charge_after_trial"`

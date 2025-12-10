@@ -13,8 +13,10 @@ type CreateUsage struct {
     Quantity             *float64               `json:"quantity,omitempty"`
     PricePointId         *string                `json:"price_point_id,omitempty"`
     Memo                 *string                `json:"memo,omitempty"`
-    // This attribute is particularly useful when you need to align billing events for different components on distinct schedules within a subscription. Please note this only works for site with Multifrequency enabled
+    // This attribute is particularly useful when you need to align billing events for different components on distinct schedules within a subscription. This only works for site with Multifrequency enabled.
     BillingSchedule      *BillingSchedule       `json:"billing_schedule,omitempty"`
+    // Create or update custom pricing unique to the subscription. Used in place of `price_point_id`.
+    CustomPrice          *ComponentCustomPrice  `json:"custom_price,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
 }
 
@@ -22,8 +24,8 @@ type CreateUsage struct {
 // providing a human-readable string representation useful for logging, debugging or displaying information.
 func (c CreateUsage) String() string {
     return fmt.Sprintf(
-    	"CreateUsage[Quantity=%v, PricePointId=%v, Memo=%v, BillingSchedule=%v, AdditionalProperties=%v]",
-    	c.Quantity, c.PricePointId, c.Memo, c.BillingSchedule, c.AdditionalProperties)
+    	"CreateUsage[Quantity=%v, PricePointId=%v, Memo=%v, BillingSchedule=%v, CustomPrice=%v, AdditionalProperties=%v]",
+    	c.Quantity, c.PricePointId, c.Memo, c.BillingSchedule, c.CustomPrice, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreateUsage.
@@ -32,7 +34,7 @@ func (c CreateUsage) MarshalJSON() (
     []byte,
     error) {
     if err := DetectConflictingProperties(c.AdditionalProperties,
-        "quantity", "price_point_id", "memo", "billing_schedule"); err != nil {
+        "quantity", "price_point_id", "memo", "billing_schedule", "custom_price"); err != nil {
         return []byte{}, err
     }
     return json.Marshal(c.toMap())
@@ -54,6 +56,9 @@ func (c CreateUsage) toMap() map[string]any {
     if c.BillingSchedule != nil {
         structMap["billing_schedule"] = c.BillingSchedule.toMap()
     }
+    if c.CustomPrice != nil {
+        structMap["custom_price"] = c.CustomPrice.toMap()
+    }
     return structMap
 }
 
@@ -65,7 +70,7 @@ func (c *CreateUsage) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "quantity", "price_point_id", "memo", "billing_schedule")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "quantity", "price_point_id", "memo", "billing_schedule", "custom_price")
     if err != nil {
     	return err
     }
@@ -75,13 +80,15 @@ func (c *CreateUsage) UnmarshalJSON(input []byte) error {
     c.PricePointId = temp.PricePointId
     c.Memo = temp.Memo
     c.BillingSchedule = temp.BillingSchedule
+    c.CustomPrice = temp.CustomPrice
     return nil
 }
 
 // tempCreateUsage is a temporary struct used for validating the fields of CreateUsage.
 type tempCreateUsage  struct {
-    Quantity        *float64         `json:"quantity,omitempty"`
-    PricePointId    *string          `json:"price_point_id,omitempty"`
-    Memo            *string          `json:"memo,omitempty"`
-    BillingSchedule *BillingSchedule `json:"billing_schedule,omitempty"`
+    Quantity        *float64              `json:"quantity,omitempty"`
+    PricePointId    *string               `json:"price_point_id,omitempty"`
+    Memo            *string               `json:"memo,omitempty"`
+    BillingSchedule *BillingSchedule      `json:"billing_schedule,omitempty"`
+    CustomPrice     *ComponentCustomPrice `json:"custom_price,omitempty"`
 }

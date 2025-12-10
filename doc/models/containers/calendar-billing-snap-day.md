@@ -10,5 +10,5 @@
 | Type | Factory Method |
 |  --- | --- |
 | `int` | models.CalendarBillingSnapDayContainer.FromNumber(int number) |
-| `string` | models.CalendarBillingSnapDayContainer.FromString(string mString) |
+| [`models.SnapDay`](../../../doc/models/snap-day.md) | models.CalendarBillingSnapDayContainer.FromSnapDay(models.SnapDay snapDay) |
 

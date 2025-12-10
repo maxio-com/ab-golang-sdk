@@ -26,8 +26,8 @@ func NewSubscriptionGroupStatusController(baseController baseController) *Subscr
 // CancelSubscriptionsInGroup takes context, uid, body as parameters and
 // returns an *Response and
 // an error if there was an issue with the request or response.
-// This endpoint will immediately cancel all subscriptions within the specified group. The group is identified by it's `uid` passed in the URL. To successfully cancel the group, the primary subscription must be on automatic billing. The group members as well must be on automatic billing or they must be prepaid.
-// In order to cancel a subscription group while also charging for any unbilled usage on metered or prepaid components, the `charge_unbilled_usage=true` parameter must be included in the request.
+// Cancels all subscriptions within the specified group immediately. The group is identified by the `uid` that is passed in the URL. To successfully cancel the group, the primary subscription must be on automatic billing. The group members must be on automatic billing or prepaid.
+// To cancel a subscription group while also charging for any unbilled usage on metered or prepaid components, the `charge_unbilled_usage=true` parameter must be included in the request.
 func (s *SubscriptionGroupStatusController) CancelSubscriptionsInGroup(
     ctx context.Context,
     uid string,
@@ -55,7 +55,7 @@ func (s *SubscriptionGroupStatusController) CancelSubscriptionsInGroup(
 // InitiateDelayedCancellationForGroup takes context, uid as parameters and
 // returns an *Response and
 // an error if there was an issue with the request or response.
-// This endpoint will schedule all subscriptions within the specified group to be canceled at the end of their billing period. The group is identified by it's uid passed in the URL.
+// This endpoint will schedule all subscriptions within the specified group to be canceled at the end of their billing period. The group is identified by its uid passed in the URL.
 // All subscriptions in the group must be on automatic billing in order to successfully cancel them, and the group must not be in a "past_due" state.
 func (s *SubscriptionGroupStatusController) InitiateDelayedCancellationForGroup(
     ctx context.Context,

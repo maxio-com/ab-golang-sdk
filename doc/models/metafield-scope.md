@@ -15,8 +15,8 @@ Warning: When updating a metafield's scope attribute, all scope attributes must 
 | `Invoices` | [`*models.IncludeOption`](../../doc/models/include-option.md) | Optional | Include (1) or exclude (0) metafields from invoices. |
 | `Statements` | [`*models.IncludeOption`](../../doc/models/include-option.md) | Optional | Include (1) or exclude (0) metafields from statements. |
 | `Portal` | [`*models.IncludeOption`](../../doc/models/include-option.md) | Optional | Include (1) or exclude (0) metafields from the portal. |
-| `PublicShow` | [`*models.IncludeOption`](../../doc/models/include-option.md) | Optional | Include (1) or exclude (0) metafields from being viewable by your ecosystem. |
-| `PublicEdit` | [`*models.IncludeOption`](../../doc/models/include-option.md) | Optional | Include (1) or exclude (0) metafields from being edited by your ecosystem. |
+| `PublicShow` | [`*models.IncludeOption`](../../doc/models/include-option.md) | Optional | Include (1) or exclude (0) metafields used in [Embeddable Components](http://localhost:8080/go) from being viewable by your ecosystem. |
+| `PublicEdit` | [`*models.IncludeOption`](../../doc/models/include-option.md) | Optional | Include (1) or exclude (0) metafields used in [Embeddable Components](http://localhost:8080/go) from being editable by your ecosystem. |
 | `Hosted` | `[]string` | Optional | - |
 
 ## Example (as JSON)

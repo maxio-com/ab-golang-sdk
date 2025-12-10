@@ -623,7 +623,7 @@ subscriptionId := 222
 
 componentId := 222
 
-page := 2
+page := 1
 
 apiResponse, err := subscriptionComponentsController.ListAllocations(ctx, subscriptionId, componentId, &page)
 if err != nil {
@@ -1112,34 +1112,35 @@ if err != nil {
 
 # Create Usage
 
-## Documentation
+Records an instance of metered or prepaid usage for a subscription.
 
-Full documentation on how to create Components in the Advanced Billing UI can be located [here](https://maxio.zendesk.com/hc/en-us/articles/24261149711501-Create-Edit-and-Archive-Components). Additionally, for information on how to record component usage against a subscription, please see the following resources:
+You can report metered or prepaid usage to Advanced Billing as often as you wish. You can report usage as it happens or periodically, such as each night or once per billing period.
 
-+ [Recording Metered Component Usage](https://maxio.zendesk.com/hc/en-us/articles/24251890500109-Reporting-Component-Allocations#reporting-metered-component-usage)
-+ [Reporting Prepaid Component Status](https://maxio.zendesk.com/hc/en-us/articles/24251890500109-Reporting-Component-Allocations#reporting-prepaid-component-status)
+Full documentation on how to create Components in the Advanced Billing UI can be located [here](https://maxio.zendesk.com/hc/en-us/articles/24261149711501-Create-Edit-and-Archive-Components). Additionally, for information on how to record component usage against a subscription, see the following resources:
 
-You may choose to report metered or prepaid usage to Advanced Billing as often as you wish. You may report usage as it happens. You may also report usage periodically, such as each night or once per billing period. If usage events occur in your system very frequently (on the order of thousands of times an hour), it is best to accumulate usage into batches on your side, and then report those batches less frequently, such as daily. This will ensure you remain below any API throttling limits. If your use case requires higher rates of usage reporting, we recommend utilizing Events Based Components.
+It is not possible to record metered usage for more than one component at a time Usage should be reported as one API call per component on a single subscription. For example, to record that a subscriber has sent both an SMS Message and an Email, send an API call for each.
 
-## Create Usage for Subscription
+See the following product documention articles for more information:
 
-This endpoint allows you to record an instance of metered or prepaid usage for a subscription. The `quantity` from usage for each component is accumulated to the `unit_balance` on the [Component Line Item](./b3A6MTQxMDgzNzQ-read-subscription-component) for the subscription.
+- [Create and Manage Components](https://maxio.zendesk.com/hc/en-us/articles/24261149711501-Create-Edit-and-Archive-Components). A
+- [Recording Metered Component Usage](https://maxio.zendesk.com/hc/en-us/articles/24251890500109-Reporting-Component-Allocations#reporting-metered-component-usage)
+- [Reporting Prepaid Component Status](https://maxio.zendesk.com/hc/en-us/articles/24251890500109-Reporting-Component-Allocations#reporting-prepaid-component-status)
+
+The `quantity` from usage for each component is accumulated to the `unit_balance` on the [Component Line Item](../../doc/controllers/subscription-components.md#read-subscription-component) for the subscription.
 
 ## Price Point ID usage
 
-If you are using price points, for metered and prepaid usage components, Advanced Billing gives you the option to specify a price point in your request.
+If you are using price points, for metered and prepaid usage components Advanced Billing gives you the option to specify a price point in your request.
 
 You do not need to specify a price point ID. If a price point is not included, the default price point for the component will be used when the usage is recorded.
 
-If an invalid `price_point_id` is submitted, the endpoint will return an error.
-
 ## Deducting Usage
 
-In the event that you need to reverse a previous usage report or otherwise deduct from the current usage balance, you may provide a negative quantity.
+If you need to reverse a previous usage report or otherwise deduct from the current usage balance, you can provide a negative quantity.
 
 Example:
 
-Previously recorded:
+Previously recorded quantity was 5000:
 
 ```json
 {
@@ -1150,7 +1151,7 @@ Previously recorded:
 }
 ```
 
-At this point, `unit_balance` would be `5000`. To reduce the balance to `0`, POST the following payload:
+To reduce the quantity to `0`, POST the following payload:
 
 ```json
 {
@@ -1162,12 +1163,6 @@ At this point, `unit_balance` would be `5000`. To reduce the balance to `0`, POS
 ```
 
 The `unit_balance` has a floor of `0`; negative unit balances are never allowed. For example, if the usage balance is 100 and you deduct 200 units, the unit balance would then be `0`, not `-100`.
-
-## FAQ
-
-Q. Is it possible to record metered usage for more than one component at a time?
-
-A. No. Usage should be reported as one API call per component on a single subscription. For example, to record that a subscriber has sent both an SMS Message and an Email, send an API call for each.
 
 ```go
 CreateUsage(
@@ -1293,7 +1288,7 @@ ctx := context.Background()
 collectedInput := advancedbilling.ListUsagesInput{
     SubscriptionIdOrReference: models.ListUsagesInputSubscriptionIdOrReferenceContainer.FromNumber(234),
     ComponentId:               models.ListUsagesInputComponentIdContainer.FromNumber(144),
-    Page:                      models.ToPointer(2),
+    Page:                      models.ToPointer(1),
     PerPage:                   models.ToPointer(50),
 }
 
@@ -1386,11 +1381,11 @@ body := models.ActivateEventBasedComponent{
         InitialBillingAt:     models.ToPointer(parseTime(models.DEFAULT_DATE, "2022-01-01", func(err error) { log.Fatalln(err) })),
     }),
     CustomPrice:          models.ToPointer(models.ComponentCustomPrice{
-        TaxIncluded:          models.ToPointer(false),
-        PricingScheme:        models.ToPointer(models.PricingScheme_PERUNIT),
-        Interval:             models.ToPointer(30),
-        IntervalUnit:         models.NewOptional(models.ToPointer(models.IntervalUnit_DAY)),
-        Prices:               []models.Price{
+        TaxIncluded:              models.ToPointer(false),
+        PricingScheme:            models.ToPointer(models.PricingScheme_PERUNIT),
+        Interval:                 models.ToPointer(30),
+        IntervalUnit:             models.NewOptional(models.ToPointer(models.IntervalUnit_DAY)),
+        Prices:                   []models.Price{
             models.Price{
                 StartingQuantity:     models.PriceStartingQuantityContainer.FromNumber(1),
                 EndingQuantity:       models.NewOptional[models.PriceEndingQuantity](nil),
@@ -1614,7 +1609,7 @@ This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The 
 ctx := context.Background()
 
 collectedInput := advancedbilling.ListSubscriptionComponentsForSiteInput{
-    Page:             models.ToPointer(2),
+    Page:             models.ToPointer(1),
     PerPage:          models.ToPointer(50),
     Sort:             models.ToPointer(models.ListSubscriptionComponentsSort_UPDATEDAT),
     Filter:           models.ToPointer(models.ListSubscriptionComponentsForSiteFilter{

@@ -26,7 +26,8 @@ func NewProductsController(baseController baseController) *ProductsController {
 // CreateProduct takes context, productFamilyId, body as parameters and
 // returns an models.ApiResponse with models.ProductResponse data and
 // an error if there was an issue with the request or response.
-// Use this method to create a product within your Advanced Billing site.
+// Creates a product in your Advanced Billing site.
+// See the following product docuemation for more information:
 // + [Products Documentation](https://maxio.zendesk.com/hc/en-us/articles/24261090117645-Products-Overview)
 // + [Changing a Subscription's Product](https://maxio.zendesk.com/hc/en-us/articles/24252069837581-Product-Changes-and-Migrations)
 func (p *ProductsController) CreateProduct(
@@ -59,7 +60,7 @@ func (p *ProductsController) CreateProduct(
 // ReadProduct takes context, productId as parameters and
 // returns an models.ApiResponse with models.ProductResponse data and
 // an error if there was an issue with the request or response.
-// This endpoint allows you to read the current details of a product that you've created in Advanced Billing.
+// Reads the current details of a product.
 func (p *ProductsController) ReadProduct(
     ctx context.Context,
     productId int) (
@@ -82,7 +83,7 @@ func (p *ProductsController) ReadProduct(
 // UpdateProduct takes context, productId, body as parameters and
 // returns an models.ApiResponse with models.ProductResponse data and
 // an error if there was an issue with the request or response.
-// Use this method to change aspects of an existing product.
+// Updates aspects of an existing product.
 // ### Input Attributes Update Notes
 // + `update_return_params` The parameters we will append to your `update_return_url`. See Return URLs and Parameters
 // ### Product Price Point
@@ -117,7 +118,7 @@ func (p *ProductsController) UpdateProduct(
 // ArchiveProduct takes context, productId as parameters and
 // returns an models.ApiResponse with models.ProductResponse data and
 // an error if there was an issue with the request or response.
-// Sending a DELETE request to this endpoint will archive the product. All current subscribers will be unffected; their subscription/purchase will continue to be charged monthly.
+// Archives the product. All current subscribers will be unffected; their subscription/purchase will continue to be charged monthly.
 // This will restrict the option to chose the product for purchase via the Billing Portal, as well as disable Public Signup Pages for the product.
 func (p *ProductsController) ArchiveProduct(
     ctx context.Context,
@@ -144,7 +145,7 @@ func (p *ProductsController) ArchiveProduct(
 // ReadProductByHandle takes context, apiHandle as parameters and
 // returns an models.ApiResponse with models.ProductResponse data and
 // an error if there was an issue with the request or response.
-// This method allows to retrieve a Product object by its `api_handle`.
+// Retrieves a Product object by its `api_handle`.
 func (p *ProductsController) ReadProductByHandle(
     ctx context.Context,
     apiHandle string) (

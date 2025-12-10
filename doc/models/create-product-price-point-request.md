@@ -25,7 +25,7 @@
     "trial_price_in_cents": 108,
     "trial_interval": 202,
     "trial_interval_unit": "day",
-    "trial_type": "trial_type4"
+    "trial_type": "no_obligation"
   }
 }
 ```

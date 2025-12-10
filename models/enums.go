@@ -3278,7 +3278,7 @@ const (
 )
 
 // MetafieldInput is a string enum.
-// Indicates how data should be added to the metafield. For example, a text type is just a string, so a given metafield of this type can have any value attached. On the other hand, dropdown and radio have a set of allowed values that can be input, and appear differently on a Public Signup Page. Defaults to 'text'
+// Indicates the type of metafield. A text metafield allows any string value. Dropdown and radio metafields have a set of values that can be selected.  Defaults to 'text'.
 type MetafieldInput string
 
 // MarshalJSON implements the json.Marshaler interface for MetafieldInput.
@@ -4033,7 +4033,6 @@ const (
 )
 
 // SnapDay is a string enum.
-// Use for subscriptions with product eligible for calendar billing only. Value can be 1-28 or 'end'.
 type SnapDay string
 
 // MarshalJSON implements the json.Marshaler interface for SnapDay.
@@ -4787,6 +4786,51 @@ const (
     TaxDestinationAddress_BILLINGTHENSHIPPING TaxDestinationAddress = "billing_then_shipping"
     TaxDestinationAddress_SHIPPINGONLY        TaxDestinationAddress = "shipping_only"
     TaxDestinationAddress_BILLINGONLY         TaxDestinationAddress = "billing_only"
+)
+
+// TrialType is a string enum.
+// Indicates how a trial is handled when the trail period ends and there is no credit card on file. For `no_obligation`, the subscription transitions to a Trial Ended state. Maxio will not send any emails or statements. For `payment_expected`, the subscription transitions to a Past Due state. Maxio will send normal dunning emails and statements according to your other settings.
+type TrialType string
+
+// MarshalJSON implements the json.Marshaler interface for TrialType.
+// It customizes the JSON marshaling process for TrialType objects.
+func (e TrialType) MarshalJSON() (
+    []byte,
+    error) {
+    if e.isValid() {
+        return []byte(fmt.Sprintf("\"%v\"", e)), nil
+    }
+    return nil, errors.New("the provided enum value is not allowed for TrialType")
+}
+
+// UnmarshalJSON implements the json.Unmarshaler interface for TrialType.
+// It customizes the JSON unmarshaling process for TrialType objects.
+func (e *TrialType) UnmarshalJSON(input []byte) error {
+    var enumValue string
+    err := json.Unmarshal(input, &enumValue)
+    if err != nil {
+        return err
+    }
+    *e = TrialType(enumValue)
+    if !e.isValid() {
+        return errors.New("the value " + string(input) + " cannot be unmarshalled to TrialType")
+    }
+    return nil
+}
+
+// Checks whether the value is actually a member of TrialType.
+func (e TrialType) isValid() bool {
+    switch e {
+    case TrialType_NOOBLIGATION,
+        TrialType_PAYMENTEXPECTED:
+        return true
+    }
+    return false
+}
+
+const (
+    TrialType_NOOBLIGATION    TrialType = "no_obligation"
+    TrialType_PAYMENTEXPECTED TrialType = "payment_expected"
 )
 
 // WebhookOrder is a string enum.
