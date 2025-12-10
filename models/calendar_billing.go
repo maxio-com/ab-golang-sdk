@@ -11,9 +11,9 @@ import (
 // (Optional). Cannot be used when also specifying next_billing_at
 type CalendarBilling struct {
     // A day of month that subscription will be processed on. Can be 1 up to 28 or 'end'.
-    SnapDay                    *CalendarBillingSnapDay `json:"snap_day,omitempty"`
-    CalendarBillingFirstCharge *FirstChargeType        `json:"calendar_billing_first_charge,omitempty"`
-    AdditionalProperties       map[string]interface{}  `json:"_"`
+    SnapDay                    Optional[CalendarBillingSnapDay] `json:"snap_day"`
+    CalendarBillingFirstCharge *FirstChargeType                 `json:"calendar_billing_first_charge,omitempty"`
+    AdditionalProperties       map[string]interface{}           `json:"_"`
 }
 
 // String implements the fmt.Stringer interface for CalendarBilling,
@@ -40,8 +40,12 @@ func (c CalendarBilling) MarshalJSON() (
 func (c CalendarBilling) toMap() map[string]any {
     structMap := make(map[string]any)
     MergeAdditionalProperties(structMap, c.AdditionalProperties)
-    if c.SnapDay != nil {
-        structMap["snap_day"] = c.SnapDay.toMap()
+    if c.SnapDay.IsValueSet() {
+        if c.SnapDay.Value() != nil {
+            structMap["snap_day"] = c.SnapDay.Value().toMap()
+        } else {
+            structMap["snap_day"] = nil
+        }
     }
     if c.CalendarBillingFirstCharge != nil {
         structMap["calendar_billing_first_charge"] = c.CalendarBillingFirstCharge
@@ -70,6 +74,6 @@ func (c *CalendarBilling) UnmarshalJSON(input []byte) error {
 
 // tempCalendarBilling is a temporary struct used for validating the fields of CalendarBilling.
 type tempCalendarBilling  struct {
-    SnapDay                    *CalendarBillingSnapDay `json:"snap_day,omitempty"`
-    CalendarBillingFirstCharge *FirstChargeType        `json:"calendar_billing_first_charge,omitempty"`
+    SnapDay                    Optional[CalendarBillingSnapDay] `json:"snap_day"`
+    CalendarBillingFirstCharge *FirstChargeType                 `json:"calendar_billing_first_charge,omitempty"`
 }

@@ -130,7 +130,7 @@ ctx := context.Background()
 collectedInput := advancedbilling.ListSegmentsForPricePointInput{
     ComponentId:  "component_id8",
     PricePointId: "price_point_id8",
-    Page:         models.ToPointer(2),
+    Page:         models.ToPointer(1),
     PerPage:      models.ToPointer(50),
     Filter:       models.ToPointer(models.ListSegmentsFilter{
         SegmentProperty1Value: models.ToPointer("EU"),

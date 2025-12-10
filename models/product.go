@@ -20,7 +20,7 @@ type Product struct {
     Description                Optional[string]                 `json:"description"`
     // E.g. Internal ID or SKU Number
     AccountingCode             Optional[string]                 `json:"accounting_code"`
-    // Deprecated value that can be ignored unless you have legacy hosted pages. For Public Signup Page users, please read this attribute from under the signup page.
+    // Deprecated value that can be ignored unless you have legacy hosted pages. For Public Signup Page users, read this attribute from under the signup page.
     RequestCreditCard          *bool                            `json:"request_credit_card,omitempty"`
     // A numerical interval for the length a subscription to this product will run before it expires. See the description of interval for a description of how this value is coupled with an interval unit to calculate the full interval
     ExpirationInterval         Optional[int]                    `json:"expiration_interval"`
@@ -66,7 +66,7 @@ type Product struct {
     RequireBillingAddress      *bool                            `json:"require_billing_address,omitempty"`
     // A boolean indicating whether a shipping address is required for the customer, especially at signup.
     RequireShippingAddress     *bool                            `json:"require_shipping_address,omitempty"`
-    // A string representing the tax code related to the product type. This is especially important when using the Avalara service to tax based on locale. This attribute has a max length of 10 characters.
+    // A string representing the tax code related to the product type. This is especially important when using AvaTax to tax based on locale. This attribute has a max length of 25 characters.
     TaxCode                    Optional[string]                 `json:"tax_code"`
     DefaultProductPricePointId *int                             `json:"default_product_price_point_id,omitempty"`
     UseSiteExchangeRate        Optional[bool]                   `json:"use_site_exchange_rate"`

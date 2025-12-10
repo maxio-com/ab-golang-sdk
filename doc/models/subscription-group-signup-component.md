@@ -49,7 +49,8 @@
             "ending_quantity": 40,
             "unit_price": 23.26
           }
-        ]
+        ],
+        "renew_prepaid_allocation": false
       },
       {
         "tax_included": false,
@@ -62,7 +63,8 @@
             "ending_quantity": 40,
             "unit_price": 23.26
           }
-        ]
+        ],
+        "renew_prepaid_allocation": false
       },
       {
         "tax_included": false,
@@ -75,7 +77,8 @@
             "ending_quantity": 40,
             "unit_price": 23.26
           }
-        ]
+        ],
+        "renew_prepaid_allocation": false
       }
     ]
   }

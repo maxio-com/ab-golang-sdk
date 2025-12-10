@@ -144,7 +144,7 @@ This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The 
 ctx := context.Background()
 
 collectedInput := advancedbilling.ListInvoicesInput{
-    Page:                 models.ToPointer(2),
+    Page:                 models.ToPointer(1),
     PerPage:              models.ToPointer(50),
     Direction:            models.ToPointer(models.Direction_DESC),
     LineItems:            models.ToPointer(false),
@@ -225,7 +225,7 @@ if err != nil {
         "organization": "",
         "email": "meg@example.com"
       },
-      "memo": "Please pay within 15 days.",
+      "memo": "Payment due within 15 days of receipt.",
       "billing_address": {
         "street": "123 I Love Cats Way",
         "line2": "",
@@ -291,7 +291,7 @@ if err != nil {
         "organization": "",
         "email": "food@example.com"
       },
-      "memo": "Please pay within 15 days.",
+      "memo": "Payment due within 15 days of receipt.",
       "billing_address": {
         "street": "",
         "line2": "",
@@ -357,7 +357,7 @@ if err != nil {
         "organization": "123",
         "email": "example@example.com"
       },
-      "memo": "Please pay within 15 days.",
+      "memo": "Payment due within 15 days of receipt.",
       "billing_address": {
         "street": "123 Anywhere Street",
         "line2": "",
@@ -423,7 +423,7 @@ if err != nil {
         "organization": "",
         "email": "example@example.com"
       },
-      "memo": "Please pay within 15 days.",
+      "memo": "Payment due within 15 days of receipt.",
       "billing_address": {
         "street": "123 I Love Cats Way",
         "line2": "",
@@ -549,7 +549,7 @@ if err != nil {
     "organization": null,
     "email": "joe@example.com"
   },
-  "memo": "Please pay within 15 days.",
+  "memo": "Payment due within 15 days of receipt.",
   "billing_address": {
     "street": null,
     "line2": null,
@@ -674,7 +674,7 @@ This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The 
 ctx := context.Background()
 
 collectedInput := advancedbilling.ListInvoiceEventsInput{
-    Page:                    models.ToPointer(2),
+    Page:                    models.ToPointer(1),
     PerPage:                 models.ToPointer(100),
 }
 
@@ -1278,7 +1278,7 @@ This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The 
 ctx := context.Background()
 
 collectedInput := advancedbilling.ListCreditNotesInput{
-    Page:           models.ToPointer(2),
+    Page:           models.ToPointer(1),
     PerPage:        models.ToPointer(50),
     LineItems:      models.ToPointer(false),
     Discounts:      models.ToPointer(false),
@@ -2178,7 +2178,7 @@ ctx := context.Background()
 
 collectedInput := advancedbilling.ListConsolidatedInvoiceSegmentsInput{
     InvoiceUid: "invoice_uid0",
-    Page:       models.ToPointer(2),
+    Page:       models.ToPointer(1),
     PerPage:    models.ToPointer(50),
     Direction:  models.ToPointer(models.Direction_ASC),
 }
@@ -2237,7 +2237,7 @@ if err != nil {
         "organization": "",
         "email": "meg@example.com"
       },
-      "memo": "Please pay within 15 days.",
+      "memo": "Payment due within 15 days of receipt.",
       "billing_address": {
         "street": "123 I Love Cats Way",
         "line2": "",
@@ -2303,7 +2303,7 @@ if err != nil {
         "organization": "",
         "email": "food@example.com"
       },
-      "memo": "Please pay within 15 days.",
+      "memo": "Payment due within 15 days of receipt.",
       "billing_address": {
         "street": "",
         "line2": "",
@@ -2369,7 +2369,7 @@ if err != nil {
         "organization": "123",
         "email": "example@example.com"
       },
-      "memo": "Please pay within 15 days.",
+      "memo": "Payment due within 15 days of receipt.",
       "billing_address": {
         "street": "123 Anywhere Street",
         "line2": "",
@@ -2435,7 +2435,7 @@ if err != nil {
         "organization": "",
         "email": "example@example.com"
       },
-      "memo": "Please pay within 15 days.",
+      "memo": "Payment due within 15 days of receipt.",
       "billing_address": {
         "street": "123 I Love Cats Way",
         "line2": "",
@@ -2560,6 +2560,42 @@ If You want to use existing coupon for discount creation, only `code` and option
 ...
 ```
 
+#### Using Coupon Subcodes
+
+You can also use coupon subcodes to apply existing coupons with specific subcodes:
+
+```json
+...
+ "coupons": [
+      {
+        "subcode": "SUB1",
+        "product_family_id": 1
+      }
+  ]
+...
+```
+
+**Important:** You cannot specify both `code` and `subcode` for the same coupon. Use either:
+
+- `code` to apply a main coupon
+- `subcode` to apply a specific coupon subcode
+
+The API response will include both the main coupon code and the subcode used:
+
+```json
+...
+ "coupons": [
+      {
+        "code": "MAIN123",
+        "subcode": "SUB1",
+        "product_family_id": 1,
+        "percentage": 10,
+        "description": "Special discount"
+      }
+  ]
+...
+```
+
 ### Coupon options
 
 #### Code
@@ -2567,6 +2603,10 @@ If You want to use existing coupon for discount creation, only `code` and option
 Coupon `code` will be displayed on invoice discount section.
 Coupon code can only contain uppercase letters, numbers, and allowed special characters.
 Lowercase letters will be converted to uppercase. It can be used to select an existing coupon from the catalog, or as an ad hoc coupon when passed with `percentage` or `amount`.
+
+#### Subcode
+
+Coupon `subcode` allows you to apply existing coupons using their subcodes. When a subcode is used, the API response will include both the main coupon code and the specific subcode that was applied. Subcodes are case-insensitive and will be converted to uppercase automatically.
 
 #### Percentage
 
@@ -2627,7 +2667,7 @@ By default, invoices will be created with a due date matching the date of invoic
 
 #### Addresses
 
-The seller, shipping and billing addresses can be sent to override the site's defaults. Each address requires to send a `first_name` at a minimum in order to work. Please see below for the details on which parameters can be sent for each address object.
+The seller, shipping and billing addresses can be sent to override the site's defaults. Each address requires to send a `first_name` at a minimum in order to work. See below for the details on which parameters can be sent for each address object.
 
 #### Memo and Payment Instructions
 
@@ -2794,9 +2834,9 @@ if err != nil {
 
 This endpoint allows for invoices to be programmatically delivered via email. This endpoint supports the delivery of both ad-hoc and automatically generated invoices. Additionally, this endpoint supports email delivery to direct recipients, carbon-copy (cc) recipients, and blind carbon-copy (bcc) recipients.
 
-Please note that if no recipient email addresses are specified in the request, then the subscription's default email configuration will be used. For example, if `recipient_emails` is left blank, then the invoice will be delivered to the subscription's customer email address.
+If no recipient email addresses are specified in the request, then the subscription's default email configuration will be used. For example, if `recipient_emails` is left blank, then the invoice will be delivered to the subscription's customer email address.
 
-On success, a 204 no-content response will be returned. Please note that this does not indicate that email(s) have been delivered, but instead indicates that emails have been successfully queued for delivery. If _any_ invalid or malformed email address is found in the request body, the entire request will be rejected and a 422 response will be returned.
+On success, a 204 no-content response will be returned. The response does not indicate that email(s) have been delivered, but instead indicates that emails have been successfully queued for delivery. If _any_ invalid or malformed email address is found in the request body, the entire request will be rejected and a 422 response will be returned.
 
 ```go
 SendInvoice(

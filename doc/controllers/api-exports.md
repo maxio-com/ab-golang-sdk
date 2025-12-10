@@ -55,7 +55,7 @@ ctx := context.Background()
 collectedInput := advancedbilling.ListExportedProformaInvoicesInput{
     BatchId: "batch_id8",
     PerPage: models.ToPointer(100),
-    Page:    models.ToPointer(2),
+    Page:    models.ToPointer(1),
 }
 
 apiResponse, err := aPIExportsController.ListExportedProformaInvoices(ctx, collectedInput)
@@ -109,7 +109,7 @@ ctx := context.Background()
 collectedInput := advancedbilling.ListExportedInvoicesInput{
     BatchId: "batch_id8",
     PerPage: models.ToPointer(100),
-    Page:    models.ToPointer(2),
+    Page:    models.ToPointer(1),
 }
 
 apiResponse, err := aPIExportsController.ListExportedInvoices(ctx, collectedInput)
@@ -163,7 +163,7 @@ ctx := context.Background()
 collectedInput := advancedbilling.ListExportedSubscriptionsInput{
     BatchId: "batch_id8",
     PerPage: models.ToPointer(100),
-    Page:    models.ToPointer(2),
+    Page:    models.ToPointer(1),
 }
 
 apiResponse, err := aPIExportsController.ListExportedSubscriptions(ctx, collectedInput)

@@ -10,7 +10,7 @@ import (
 )
 
 // BillingSchedule represents a BillingSchedule struct.
-// This attribute is particularly useful when you need to align billing events for different components on distinct schedules within a subscription. Please note this only works for site with Multifrequency enabled
+// This attribute is particularly useful when you need to align billing events for different components on distinct schedules within a subscription. This only works for site with Multifrequency enabled.
 type BillingSchedule struct {
     // The initial_billing_at attribute in Maxio allows you to specify a custom starting date for billing cycles associated with components that have their own billing frequency set. Only ISO8601 format is supported.
     InitialBillingAt     *time.Time             `json:"initial_billing_at,omitempty"`

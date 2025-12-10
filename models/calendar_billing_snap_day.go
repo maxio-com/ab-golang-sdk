@@ -11,9 +11,9 @@ import (
 // CalendarBillingSnapDay represents a CalendarBillingSnapDay struct.
 // This is a container for one-of cases.
 type CalendarBillingSnapDay struct {
-    value    any
-    isNumber bool
-    isString bool
+    value     any
+    isNumber  bool
+    isSnapDay bool
 }
 
 // String implements the fmt.Stringer interface for CalendarBillingSnapDay,
@@ -38,7 +38,7 @@ func (c *CalendarBillingSnapDay) toMap() any {
     switch obj := c.value.(type) {
     case *int:
         return *obj
-    case *string:
+    case *SnapDay:
         return *obj
     }
     return nil
@@ -49,7 +49,7 @@ func (c *CalendarBillingSnapDay) toMap() any {
 func (c *CalendarBillingSnapDay) UnmarshalJSON(input []byte) error {
     result, err := UnmarshallOneOf(input,
         NewTypeHolder(new(int), false, &c.isNumber),
-        NewTypeHolder(new(string), false, &c.isString),
+        NewTypeHolder(new(SnapDay), false, &c.isSnapDay),
     )
     
     c.value = result
@@ -65,13 +65,13 @@ func (c *CalendarBillingSnapDay) AsNumber() (
     return c.value.(*int), true
 }
 
-func (c *CalendarBillingSnapDay) AsString() (
-    *string,
+func (c *CalendarBillingSnapDay) AsSnapDay() (
+    *SnapDay,
     bool) {
-    if !c.isString {
+    if !c.isSnapDay {
         return nil, false
     }
-    return c.value.(*string), true
+    return c.value.(*SnapDay), true
 }
 
 // internalCalendarBillingSnapDay represents a calendarBillingSnapDay struct.
@@ -85,7 +85,7 @@ func (c *internalCalendarBillingSnapDay) FromNumber(val int) CalendarBillingSnap
     return CalendarBillingSnapDay{value: &val}
 }
 
-// The internalCalendarBillingSnapDay instance, wrapping the provided string value.
-func (c *internalCalendarBillingSnapDay) FromString(val string) CalendarBillingSnapDay {
+// The internalCalendarBillingSnapDay instance, wrapping the provided SnapDay value.
+func (c *internalCalendarBillingSnapDay) FromSnapDay(val SnapDay) CalendarBillingSnapDay {
     return CalendarBillingSnapDay{value: &val}
 }

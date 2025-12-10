@@ -52,7 +52,7 @@ This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The 
 ctx := context.Background()
 
 collectedInput := advancedbilling.ListWebhooksInput{
-    Page:         models.ToPointer(2),
+    Page:         models.ToPointer(1),
     PerPage:      models.ToPointer(50),
 }
 

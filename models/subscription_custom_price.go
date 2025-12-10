@@ -28,6 +28,8 @@ type SubscriptionCustomPrice struct {
     TrialInterval           *SubscriptionCustomPriceTrialInterval        `json:"trial_interval,omitempty"`
     // (Optional)
     TrialIntervalUnit       *IntervalUnit                                `json:"trial_interval_unit,omitempty"`
+    // Indicates how a trial is handled when the trail period ends and there is no credit card on file. For `no_obligation`, the subscription transitions to a Trial Ended state. Maxio will not send any emails or statements. For `payment_expected`, the subscription transitions to a Past Due state. Maxio will send normal dunning emails and statements according to your other settings.
+    TrialType               Optional[TrialType]                          `json:"trial_type"`
     // (Optional)
     InitialChargeInCents    *SubscriptionCustomPriceInitialChargeInCents `json:"initial_charge_in_cents,omitempty"`
     // (Optional)
@@ -45,8 +47,8 @@ type SubscriptionCustomPrice struct {
 // providing a human-readable string representation useful for logging, debugging or displaying information.
 func (s SubscriptionCustomPrice) String() string {
     return fmt.Sprintf(
-    	"SubscriptionCustomPrice[Name=%v, Handle=%v, PriceInCents=%v, Interval=%v, IntervalUnit=%v, TrialPriceInCents=%v, TrialInterval=%v, TrialIntervalUnit=%v, InitialChargeInCents=%v, InitialChargeAfterTrial=%v, ExpirationInterval=%v, ExpirationIntervalUnit=%v, TaxIncluded=%v, AdditionalProperties=%v]",
-    	s.Name, s.Handle, s.PriceInCents, s.Interval, s.IntervalUnit, s.TrialPriceInCents, s.TrialInterval, s.TrialIntervalUnit, s.InitialChargeInCents, s.InitialChargeAfterTrial, s.ExpirationInterval, s.ExpirationIntervalUnit, s.TaxIncluded, s.AdditionalProperties)
+    	"SubscriptionCustomPrice[Name=%v, Handle=%v, PriceInCents=%v, Interval=%v, IntervalUnit=%v, TrialPriceInCents=%v, TrialInterval=%v, TrialIntervalUnit=%v, TrialType=%v, InitialChargeInCents=%v, InitialChargeAfterTrial=%v, ExpirationInterval=%v, ExpirationIntervalUnit=%v, TaxIncluded=%v, AdditionalProperties=%v]",
+    	s.Name, s.Handle, s.PriceInCents, s.Interval, s.IntervalUnit, s.TrialPriceInCents, s.TrialInterval, s.TrialIntervalUnit, s.TrialType, s.InitialChargeInCents, s.InitialChargeAfterTrial, s.ExpirationInterval, s.ExpirationIntervalUnit, s.TaxIncluded, s.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for SubscriptionCustomPrice.
@@ -55,7 +57,7 @@ func (s SubscriptionCustomPrice) MarshalJSON() (
     []byte,
     error) {
     if err := DetectConflictingProperties(s.AdditionalProperties,
-        "name", "handle", "price_in_cents", "interval", "interval_unit", "trial_price_in_cents", "trial_interval", "trial_interval_unit", "initial_charge_in_cents", "initial_charge_after_trial", "expiration_interval", "expiration_interval_unit", "tax_included"); err != nil {
+        "name", "handle", "price_in_cents", "interval", "interval_unit", "trial_price_in_cents", "trial_interval", "trial_interval_unit", "trial_type", "initial_charge_in_cents", "initial_charge_after_trial", "expiration_interval", "expiration_interval_unit", "tax_included"); err != nil {
         return []byte{}, err
     }
     return json.Marshal(s.toMap())
@@ -86,6 +88,13 @@ func (s SubscriptionCustomPrice) toMap() map[string]any {
     }
     if s.TrialIntervalUnit != nil {
         structMap["trial_interval_unit"] = s.TrialIntervalUnit
+    }
+    if s.TrialType.IsValueSet() {
+        if s.TrialType.Value() != nil {
+            structMap["trial_type"] = s.TrialType.Value()
+        } else {
+            structMap["trial_type"] = nil
+        }
     }
     if s.InitialChargeInCents != nil {
         structMap["initial_charge_in_cents"] = s.InitialChargeInCents.toMap()
@@ -121,7 +130,7 @@ func (s *SubscriptionCustomPrice) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "name", "handle", "price_in_cents", "interval", "interval_unit", "trial_price_in_cents", "trial_interval", "trial_interval_unit", "initial_charge_in_cents", "initial_charge_after_trial", "expiration_interval", "expiration_interval_unit", "tax_included")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "name", "handle", "price_in_cents", "interval", "interval_unit", "trial_price_in_cents", "trial_interval", "trial_interval_unit", "trial_type", "initial_charge_in_cents", "initial_charge_after_trial", "expiration_interval", "expiration_interval_unit", "tax_included")
     if err != nil {
     	return err
     }
@@ -135,6 +144,7 @@ func (s *SubscriptionCustomPrice) UnmarshalJSON(input []byte) error {
     s.TrialPriceInCents = temp.TrialPriceInCents
     s.TrialInterval = temp.TrialInterval
     s.TrialIntervalUnit = temp.TrialIntervalUnit
+    s.TrialType = temp.TrialType
     s.InitialChargeInCents = temp.InitialChargeInCents
     s.InitialChargeAfterTrial = temp.InitialChargeAfterTrial
     s.ExpirationInterval = temp.ExpirationInterval
@@ -153,6 +163,7 @@ type tempSubscriptionCustomPrice  struct {
     TrialPriceInCents       *SubscriptionCustomPriceTrialPriceInCents    `json:"trial_price_in_cents,omitempty"`
     TrialInterval           *SubscriptionCustomPriceTrialInterval        `json:"trial_interval,omitempty"`
     TrialIntervalUnit       *IntervalUnit                                `json:"trial_interval_unit,omitempty"`
+    TrialType               Optional[TrialType]                          `json:"trial_type"`
     InitialChargeInCents    *SubscriptionCustomPriceInitialChargeInCents `json:"initial_charge_in_cents,omitempty"`
     InitialChargeAfterTrial *bool                                        `json:"initial_charge_after_trial,omitempty"`
     ExpirationInterval      *SubscriptionCustomPriceExpirationInterval   `json:"expiration_interval,omitempty"`

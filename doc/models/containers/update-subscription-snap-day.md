@@ -9,6 +9,6 @@
 
 | Type | Factory Method |
 |  --- | --- |
-| [`models.SnapDay`](../../../doc/models/snap-day.md) | models.UpdateSubscriptionSnapDayContainer.FromSnapDay(models.SnapDay snapDay) |
 | `int` | models.UpdateSubscriptionSnapDayContainer.FromNumber(int number) |
+| [`models.SnapDay`](../../../doc/models/snap-day.md) | models.UpdateSubscriptionSnapDayContainer.FromSnapDay(models.SnapDay snapDay) |
 

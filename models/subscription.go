@@ -79,7 +79,7 @@ type Subscription struct {
     // (deprecated) The coupon code of the single coupon currently applied to the subscription. See coupon_codes instead as subscriptions can now have more than one coupon.
     CouponCode                        Optional[string]                  `json:"coupon_code"`                                   // Deprecated
     // The day of the month that the subscription will charge according to calendar billing rules, if used.
-    SnapDay                           Optional[string]                  `json:"snap_day"`
+    SnapDay                           Optional[SubscriptionSnapDay]     `json:"snap_day"`
     // The type of payment collection to be used in the subscription. For legacy Statements Architecture valid options are - `invoice`, `automatic`. For current Relationship Invoicing Architecture valid options are - `remittance`, `automatic`, `prepaid`.
     PaymentCollectionMethod           *CollectionMethod                 `json:"payment_collection_method,omitempty"`
     Customer                          *Customer                         `json:"customer,omitempty"`
@@ -109,7 +109,7 @@ type Subscription struct {
     OfferId                           Optional[int]                     `json:"offer_id"`
     // On Relationship Invoicing, the ID of the individual paying for the subscription. Defaults to the Customer ID unless the 'Customer Hierarchies & WhoPays' feature is enabled.
     PayerId                           Optional[int]                     `json:"payer_id"`
-    // The balance in cents plus the estimated renewal amount in cents. Returned ONLY for readSubscription operation as it's compute intensive operation.
+    // The balance in cents plus the estimated renewal amount in cents. Returned ONLY for the readSubscription operation as it's a compute intensive operation.
     CurrentBillingAmountInCents       *int64                            `json:"current_billing_amount_in_cents,omitempty"`
     // The product price point currently subscribed to.
     ProductPricePointId               *int                              `json:"product_price_point_id,omitempty"`
@@ -344,7 +344,7 @@ func (s Subscription) toMap() map[string]any {
     }
     if s.SnapDay.IsValueSet() {
         if s.SnapDay.Value() != nil {
-            structMap["snap_day"] = s.SnapDay.Value()
+            structMap["snap_day"] = s.SnapDay.Value().toMap()
         } else {
             structMap["snap_day"] = nil
         }
@@ -763,7 +763,7 @@ type tempSubscription  struct {
     SignupRevenue                     *string                           `json:"signup_revenue,omitempty"`
     DelayedCancelAt                   Optional[string]                  `json:"delayed_cancel_at"`
     CouponCode                        Optional[string]                  `json:"coupon_code"`
-    SnapDay                           Optional[string]                  `json:"snap_day"`
+    SnapDay                           Optional[SubscriptionSnapDay]     `json:"snap_day"`
     PaymentCollectionMethod           *CollectionMethod                 `json:"payment_collection_method,omitempty"`
     Customer                          *Customer                         `json:"customer,omitempty"`
     Product                           *Product                          `json:"product,omitempty"`

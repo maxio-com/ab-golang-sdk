@@ -12,8 +12,8 @@ import (
 // This is a container for one-of cases.
 type UpdateSubscriptionSnapDay struct {
     value     any
-    isSnapDay bool
     isNumber  bool
+    isSnapDay bool
 }
 
 // String implements the fmt.Stringer interface for UpdateSubscriptionSnapDay,
@@ -36,9 +36,9 @@ func (u UpdateSubscriptionSnapDay) MarshalJSON() (
 // toMap converts the UpdateSubscriptionSnapDay object to a map representation for JSON marshaling.
 func (u *UpdateSubscriptionSnapDay) toMap() any {
     switch obj := u.value.(type) {
-    case *SnapDay:
-        return *obj
     case *int:
+        return *obj
+    case *SnapDay:
         return *obj
     }
     return nil
@@ -48,21 +48,12 @@ func (u *UpdateSubscriptionSnapDay) toMap() any {
 // It customizes the JSON unmarshaling process for UpdateSubscriptionSnapDay objects.
 func (u *UpdateSubscriptionSnapDay) UnmarshalJSON(input []byte) error {
     result, err := UnmarshallOneOf(input,
-        NewTypeHolder(new(SnapDay), false, &u.isSnapDay),
         NewTypeHolder(new(int), false, &u.isNumber),
+        NewTypeHolder(new(SnapDay), false, &u.isSnapDay),
     )
     
     u.value = result
     return err
-}
-
-func (u *UpdateSubscriptionSnapDay) AsSnapDay() (
-    *SnapDay,
-    bool) {
-    if !u.isSnapDay {
-        return nil, false
-    }
-    return u.value.(*SnapDay), true
 }
 
 func (u *UpdateSubscriptionSnapDay) AsNumber() (
@@ -74,18 +65,27 @@ func (u *UpdateSubscriptionSnapDay) AsNumber() (
     return u.value.(*int), true
 }
 
+func (u *UpdateSubscriptionSnapDay) AsSnapDay() (
+    *SnapDay,
+    bool) {
+    if !u.isSnapDay {
+        return nil, false
+    }
+    return u.value.(*SnapDay), true
+}
+
 // internalUpdateSubscriptionSnapDay represents a updateSubscriptionSnapDay struct.
 // This is a container for one-of cases.
 type internalUpdateSubscriptionSnapDay struct {}
 
 var UpdateSubscriptionSnapDayContainer internalUpdateSubscriptionSnapDay
 
-// The internalUpdateSubscriptionSnapDay instance, wrapping the provided SnapDay value.
-func (u *internalUpdateSubscriptionSnapDay) FromSnapDay(val SnapDay) UpdateSubscriptionSnapDay {
+// The internalUpdateSubscriptionSnapDay instance, wrapping the provided int value.
+func (u *internalUpdateSubscriptionSnapDay) FromNumber(val int) UpdateSubscriptionSnapDay {
     return UpdateSubscriptionSnapDay{value: &val}
 }
 
-// The internalUpdateSubscriptionSnapDay instance, wrapping the provided int value.
-func (u *internalUpdateSubscriptionSnapDay) FromNumber(val int) UpdateSubscriptionSnapDay {
+// The internalUpdateSubscriptionSnapDay instance, wrapping the provided SnapDay value.
+func (u *internalUpdateSubscriptionSnapDay) FromSnapDay(val SnapDay) UpdateSubscriptionSnapDay {
     return UpdateSubscriptionSnapDay{value: &val}
 }

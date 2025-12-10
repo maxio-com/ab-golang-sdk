@@ -19,7 +19,7 @@ type CreateOrUpdateProduct struct {
     Description            string                           `json:"description"`
     // E.g. Internal ID or SKU Number
     AccountingCode         *string                          `json:"accounting_code,omitempty"`
-    // Deprecated value that can be ignored unless you have legacy hosted pages. For Public Signup Page users, please read this attribute from under the signup page.
+    // Deprecated value that can be ignored unless you have legacy hosted pages. For Public Signup Page users, read this attribute from under the signup page.
     RequireCreditCard      *bool                            `json:"require_credit_card,omitempty"`
     // The product price, in integer cents
     PriceInCents           int64                            `json:"price_in_cents"`
@@ -33,13 +33,14 @@ type CreateOrUpdateProduct struct {
     TrialInterval          *int                             `json:"trial_interval,omitempty"`
     // A string representing the trial interval unit for this product, either month or day
     TrialIntervalUnit      Optional[IntervalUnit]           `json:"trial_interval_unit"`
-    TrialType              *string                          `json:"trial_type,omitempty"`
+    // Indicates how a trial is handled when the trail period ends and there is no credit card on file. For `no_obligation`, the subscription transitions to a Trial Ended state. Maxio will not send any emails or statements. For `payment_expected`, the subscription transitions to a Past Due state. Maxio will send normal dunning emails and statements according to your other settings.
+    TrialType              Optional[TrialType]              `json:"trial_type"`
     // The numerical expiration interval. i.e. an expiration_interval of ‘30’ coupled with an expiration_interval_unit of day would mean this product would expire after 30 days.
     ExpirationInterval     *int                             `json:"expiration_interval,omitempty"`
     // A string representing the expiration interval unit for this product, either month, day or never
     ExpirationIntervalUnit Optional[ExpirationIntervalUnit] `json:"expiration_interval_unit"`
     AutoCreateSignupPage   *bool                            `json:"auto_create_signup_page,omitempty"`
-    // A string representing the tax code related to the product type. This is especially important when using the Avalara service to tax based on locale. This attribute has a max length of 10 characters.
+    // A string representing the tax code related to the product type. This is especially important when using AvaTax to tax based on locale. This attribute has a max length of 25 characters.
     TaxCode                *string                          `json:"tax_code,omitempty"`
     AdditionalProperties   map[string]interface{}           `json:"_"`
 }
@@ -95,8 +96,12 @@ func (c CreateOrUpdateProduct) toMap() map[string]any {
             structMap["trial_interval_unit"] = nil
         }
     }
-    if c.TrialType != nil {
-        structMap["trial_type"] = c.TrialType
+    if c.TrialType.IsValueSet() {
+        if c.TrialType.Value() != nil {
+            structMap["trial_type"] = c.TrialType.Value()
+        } else {
+            structMap["trial_type"] = nil
+        }
     }
     if c.ExpirationInterval != nil {
         structMap["expiration_interval"] = c.ExpirationInterval
@@ -167,7 +172,7 @@ type tempCreateOrUpdateProduct  struct {
     TrialPriceInCents      *int64                           `json:"trial_price_in_cents,omitempty"`
     TrialInterval          *int                             `json:"trial_interval,omitempty"`
     TrialIntervalUnit      Optional[IntervalUnit]           `json:"trial_interval_unit"`
-    TrialType              *string                          `json:"trial_type,omitempty"`
+    TrialType              Optional[TrialType]              `json:"trial_type"`
     ExpirationInterval     *int                             `json:"expiration_interval,omitempty"`
     ExpirationIntervalUnit Optional[ExpirationIntervalUnit] `json:"expiration_interval_unit"`
     AutoCreateSignupPage   *bool                            `json:"auto_create_signup_page,omitempty"`

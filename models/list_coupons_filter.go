@@ -25,8 +25,10 @@ type ListCouponsFilter struct {
     Ids                  []int                  `json:"ids,omitempty"`
     // Allows fetching coupons with matching codes based on provided values. Use in query `filter[codes]=free,free_trial`.
     Codes                []string               `json:"codes,omitempty"`
-    // Allows fetching coupons with matching use_site_exchange_rate based on provided value. Use in query `filter[use_site_exchange_rate]=true`.
+    // If true, restricts the list to coupons whose pricing is recalculated from the site’s current exchange rates, so their currency_prices array contains on-the-fly conversions rather than stored price records. If false, restricts the list to coupons that have manually defined amounts for each currency, ensuring the response includes the saved currency_prices entries instead of exchange-rate-derived values. Use in query `filter[use_site_exchange_rate]=true`.
     UseSiteExchangeRate  *bool                  `json:"use_site_exchange_rate,omitempty"`
+    // Controls returning archived coupons.
+    IncludeArchived      *bool                  `json:"include_archived,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
 }
 
@@ -34,8 +36,8 @@ type ListCouponsFilter struct {
 // providing a human-readable string representation useful for logging, debugging or displaying information.
 func (l ListCouponsFilter) String() string {
     return fmt.Sprintf(
-    	"ListCouponsFilter[DateField=%v, StartDate=%v, EndDate=%v, StartDatetime=%v, EndDatetime=%v, Ids=%v, Codes=%v, UseSiteExchangeRate=%v, AdditionalProperties=%v]",
-    	l.DateField, l.StartDate, l.EndDate, l.StartDatetime, l.EndDatetime, l.Ids, l.Codes, l.UseSiteExchangeRate, l.AdditionalProperties)
+    	"ListCouponsFilter[DateField=%v, StartDate=%v, EndDate=%v, StartDatetime=%v, EndDatetime=%v, Ids=%v, Codes=%v, UseSiteExchangeRate=%v, IncludeArchived=%v, AdditionalProperties=%v]",
+    	l.DateField, l.StartDate, l.EndDate, l.StartDatetime, l.EndDatetime, l.Ids, l.Codes, l.UseSiteExchangeRate, l.IncludeArchived, l.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for ListCouponsFilter.
@@ -44,7 +46,7 @@ func (l ListCouponsFilter) MarshalJSON() (
     []byte,
     error) {
     if err := DetectConflictingProperties(l.AdditionalProperties,
-        "date_field", "start_date", "end_date", "start_datetime", "end_datetime", "ids", "codes", "use_site_exchange_rate"); err != nil {
+        "date_field", "start_date", "end_date", "start_datetime", "end_datetime", "ids", "codes", "use_site_exchange_rate", "include_archived"); err != nil {
         return []byte{}, err
     }
     return json.Marshal(l.toMap())
@@ -78,6 +80,9 @@ func (l ListCouponsFilter) toMap() map[string]any {
     if l.UseSiteExchangeRate != nil {
         structMap["use_site_exchange_rate"] = l.UseSiteExchangeRate
     }
+    if l.IncludeArchived != nil {
+        structMap["include_archived"] = l.IncludeArchived
+    }
     return structMap
 }
 
@@ -89,7 +94,7 @@ func (l *ListCouponsFilter) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "date_field", "start_date", "end_date", "start_datetime", "end_datetime", "ids", "codes", "use_site_exchange_rate")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "date_field", "start_date", "end_date", "start_datetime", "end_datetime", "ids", "codes", "use_site_exchange_rate", "include_archived")
     if err != nil {
     	return err
     }
@@ -127,6 +132,7 @@ func (l *ListCouponsFilter) UnmarshalJSON(input []byte) error {
     l.Ids = temp.Ids
     l.Codes = temp.Codes
     l.UseSiteExchangeRate = temp.UseSiteExchangeRate
+    l.IncludeArchived = temp.IncludeArchived
     return nil
 }
 
@@ -140,4 +146,5 @@ type tempListCouponsFilter  struct {
     Ids                 []int           `json:"ids,omitempty"`
     Codes               []string        `json:"codes,omitempty"`
     UseSiteExchangeRate *bool           `json:"use_site_exchange_rate,omitempty"`
+    IncludeArchived     *bool           `json:"include_archived,omitempty"`
 }

@@ -10,6 +10,7 @@
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `Code` | `*string` | Optional | - |
+| `Subcode` | `*string` | Optional | - |
 | `Percentage` | [`*models.CreateInvoiceCouponPercentage`](../../doc/models/containers/create-invoice-coupon-percentage.md) | Optional | This is a container for one-of cases. |
 | `Amount` | [`*models.CreateInvoiceCouponAmount`](../../doc/models/containers/create-invoice-coupon-amount.md) | Optional | This is a container for one-of cases. |
 | `Description` | `*string` | Optional | **Constraints**: *Maximum Length*: `255` |
@@ -22,9 +23,9 @@
 {
   "percentage": 50.0,
   "code": "code4",
+  "subcode": "subcode8",
   "amount": "String9",
-  "description": "description4",
-  "product_family_id": "String3"
+  "description": "description4"
 }
 ```
 

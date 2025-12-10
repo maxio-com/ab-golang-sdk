@@ -9,7 +9,7 @@ import (
 
 // CreatePaymentProfile represents a CreatePaymentProfile struct.
 type CreatePaymentProfile struct {
-    // Token received after sending billing informations using chargify.js.
+    // Token received after sending billing information using chargify.js.
     ChargifyToken         *string                              `json:"chargify_token,omitempty"`
     Id                    *int                                 `json:"id,omitempty"`
     PaymentType           *PaymentType                         `json:"payment_type,omitempty"`
@@ -34,7 +34,7 @@ type CreatePaymentProfile struct {
     BillingCity           *string                              `json:"billing_city,omitempty"`
     // The credit card or bank account billing address state (i.e. MA). This value is merely passed through to the payment gateway. This must conform to the [ISO_3166-1](https://en.wikipedia.org/wiki/ISO_3166-1#Current_codes) in order to be valid for tax locale purposes.
     BillingState          *string                              `json:"billing_state,omitempty"`
-    // The credit card or bank account billing address country, required in [ISO_3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) format (i.e. “US”). This value is merely passed through to the payment gateway. Some gateways require country codes in a specific format. Please check your gateway’s documentation. If creating an ACH subscription, only US is supported at this time.
+    // The credit card or bank account billing address country, required in [ISO_3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) format (i.e. “US”). This value is merely passed through to the payment gateway. Some gateways require country codes in a specific format. Check your gateway’s documentation. If creating an ACH subscription, only US is supported at this time.
     BillingCountry        *string                              `json:"billing_country,omitempty"`
     // The credit card or bank account billing address zip code (i.e. 12345). This value is merely passed through to the payment gateway.
     BillingZip            *string                              `json:"billing_zip,omitempty"`

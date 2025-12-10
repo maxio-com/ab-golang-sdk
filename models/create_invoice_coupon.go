@@ -10,6 +10,7 @@ import (
 // CreateInvoiceCoupon represents a CreateInvoiceCoupon struct.
 type CreateInvoiceCoupon struct {
     Code                 *string                             `json:"code,omitempty"`
+    Subcode              *string                             `json:"subcode,omitempty"`
     Percentage           *CreateInvoiceCouponPercentage      `json:"percentage,omitempty"`
     Amount               *CreateInvoiceCouponAmount          `json:"amount,omitempty"`
     Description          *string                             `json:"description,omitempty"`
@@ -23,8 +24,8 @@ type CreateInvoiceCoupon struct {
 // providing a human-readable string representation useful for logging, debugging or displaying information.
 func (c CreateInvoiceCoupon) String() string {
     return fmt.Sprintf(
-    	"CreateInvoiceCoupon[Code=%v, Percentage=%v, Amount=%v, Description=%v, ProductFamilyId=%v, CompoundingStrategy=%v, AdditionalProperties=%v]",
-    	c.Code, c.Percentage, c.Amount, c.Description, c.ProductFamilyId, c.CompoundingStrategy, c.AdditionalProperties)
+    	"CreateInvoiceCoupon[Code=%v, Subcode=%v, Percentage=%v, Amount=%v, Description=%v, ProductFamilyId=%v, CompoundingStrategy=%v, AdditionalProperties=%v]",
+    	c.Code, c.Subcode, c.Percentage, c.Amount, c.Description, c.ProductFamilyId, c.CompoundingStrategy, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreateInvoiceCoupon.
@@ -33,7 +34,7 @@ func (c CreateInvoiceCoupon) MarshalJSON() (
     []byte,
     error) {
     if err := DetectConflictingProperties(c.AdditionalProperties,
-        "code", "percentage", "amount", "description", "product_family_id", "compounding_strategy"); err != nil {
+        "code", "subcode", "percentage", "amount", "description", "product_family_id", "compounding_strategy"); err != nil {
         return []byte{}, err
     }
     return json.Marshal(c.toMap())
@@ -45,6 +46,9 @@ func (c CreateInvoiceCoupon) toMap() map[string]any {
     MergeAdditionalProperties(structMap, c.AdditionalProperties)
     if c.Code != nil {
         structMap["code"] = c.Code
+    }
+    if c.Subcode != nil {
+        structMap["subcode"] = c.Subcode
     }
     if c.Percentage != nil {
         structMap["percentage"] = c.Percentage.toMap()
@@ -72,13 +76,14 @@ func (c *CreateInvoiceCoupon) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "code", "percentage", "amount", "description", "product_family_id", "compounding_strategy")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "code", "subcode", "percentage", "amount", "description", "product_family_id", "compounding_strategy")
     if err != nil {
     	return err
     }
     c.AdditionalProperties = additionalProperties
     
     c.Code = temp.Code
+    c.Subcode = temp.Subcode
     c.Percentage = temp.Percentage
     c.Amount = temp.Amount
     c.Description = temp.Description
@@ -90,6 +95,7 @@ func (c *CreateInvoiceCoupon) UnmarshalJSON(input []byte) error {
 // tempCreateInvoiceCoupon is a temporary struct used for validating the fields of CreateInvoiceCoupon.
 type tempCreateInvoiceCoupon  struct {
     Code                *string                             `json:"code,omitempty"`
+    Subcode             *string                             `json:"subcode,omitempty"`
     Percentage          *CreateInvoiceCouponPercentage      `json:"percentage,omitempty"`
     Amount              *CreateInvoiceCouponAmount          `json:"amount,omitempty"`
     Description         *string                             `json:"description,omitempty"`

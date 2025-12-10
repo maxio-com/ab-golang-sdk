@@ -108,7 +108,7 @@ ctx := context.Background()
 
 collectedInput := advancedbilling.ListPrepaymentsForSubscriptionGroupInput{
     Uid:     "uid0",
-    Page:    models.ToPointer(2),
+    Page:    models.ToPointer(1),
     PerPage: models.ToPointer(50),
     Filter:  models.ToPointer(models.ListPrepaymentsFilter{
         DateField:            models.ToPointer(models.ListPrepaymentDateField_CREATEDAT),

@@ -187,7 +187,7 @@ if err != nil {
 
 This endpoint will create a proforma invoice and return it as a response. If the information becomes outdated, simply void the old proforma invoice and generate a new one.
 
-If you would like to preview the next billing amounts without generating a full proforma invoice, please use the renewal preview endpoint.
+If you would like to preview the next billing amounts without generating a full proforma invoice, use the renewal preview endpoint.
 
 ## Restrictions
 
@@ -276,7 +276,7 @@ ctx := context.Background()
 
 collectedInput := advancedbilling.ListProformaInvoicesInput{
     SubscriptionId: 222,
-    Page:           models.ToPointer(2),
+    Page:           models.ToPointer(1),
     PerPage:        models.ToPointer(50),
     Direction:      models.ToPointer(models.Direction_DESC),
     LineItems:      models.ToPointer(false),

@@ -111,7 +111,7 @@ ctx := context.Background()
 
 collectedInput := advancedbilling.ListSubscriptionNotesInput{
     SubscriptionId: 222,
-    Page:           models.ToPointer(2),
+    Page:           models.ToPointer(1),
     PerPage:        models.ToPointer(50),
 }
 
