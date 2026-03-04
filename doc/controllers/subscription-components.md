@@ -46,7 +46,7 @@ ReadSubscriptionComponent(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription |
+| `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription. |
 | `componentId` | `int` | Template, Required | The Advanced Billing id of the component. Alternatively, the component's handle prefixed by `handle:` |
 
 ## Response Type
@@ -118,19 +118,7 @@ ListSubscriptionComponents(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription |
-| `dateField` | [`*models.SubscriptionListDateField`](../../doc/models/subscription-list-date-field.md) | Query, Optional | The type of filter you'd like to apply to your search. Use in query `date_field=updated_at`. |
-| `direction` | [`*models.SortingDirection`](../../doc/models/sorting-direction.md) | Query, Optional | Controls the order in which results are returned.<br>Use in query `direction=asc`. |
-| `filter` | [`*models.ListSubscriptionComponentsFilter`](../../doc/models/list-subscription-components-filter.md) | Query, Optional | Filter to use for List Subscription Components operation |
-| `endDate` | `*string` | Query, Optional | The end date (format YYYY-MM-DD) with which to filter the date_field. Returns components with a timestamp up to and including 11:59:59PM in your site’s time zone on the date specified. |
-| `endDatetime` | `*string` | Query, Optional | The end date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns components with a timestamp at or before exact time provided in query. You can specify timezone in query - otherwise your site''s time zone will be used. If provided, this parameter will be used instead of end_date. |
-| `pricePointIds` | [`*models.IncludeNotNull`](../../doc/models/include-not-null.md) | Query, Optional | Allows fetching components allocation only if price point id is present. Use in query `price_point_ids=not_null`. |
-| `productFamilyIds` | `[]int` | Query, Optional | Allows fetching components allocation with matching product family id based on provided ids. Use in query `product_family_ids=1,2,3`. |
-| `sort` | [`*models.ListSubscriptionComponentsSort`](../../doc/models/list-subscription-components-sort.md) | Query, Optional | The attribute by which to sort. Use in query `sort=updated_at`. |
-| `startDate` | `*string` | Query, Optional | The start date (format YYYY-MM-DD) with which to filter the date_field. Returns components with a timestamp at or after midnight (12:00:00 AM) in your site’s time zone on the date specified. |
-| `startDatetime` | `*string` | Query, Optional | The start date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns components with a timestamp at or after exact time provided in query. You can specify timezone in query - otherwise your site''s time zone will be used. If provided, this parameter will be used instead of start_date. |
-| `include` | [`[]models.ListSubscriptionComponentsInclude`](../../doc/models/list-subscription-components-include.md) | Query, Optional | Allows including additional data in the response. Use in query `include=subscription,historic_usages`. |
-| `inUse` | `*bool` | Query, Optional | If in_use is set to true, it returns only components that are currently in use. However, if it's set to false or not provided, it returns all components connected with the subscription. |
+| `input` | [`models.ListSubscriptionComponentsInput`](../../doc/models/list-subscription-components-input.md) | Required | Input structure for the method ListSubscriptionComponents |
 
 ## Response Type
 
@@ -227,7 +215,7 @@ BulkUpdateSubscriptionComponentsPricePoints(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription |
+| `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription. |
 | `body` | [`*models.BulkComponentsPricePointAssignment`](../../doc/models/bulk-components-price-point-assignment.md) | Body, Optional | - |
 
 ## Response Type
@@ -260,7 +248,12 @@ body := models.BulkComponentsPricePointAssignment{
 
 apiResponse, err := subscriptionComponentsController.BulkUpdateSubscriptionComponentsPricePoints(ctx, subscriptionId, &body)
 if err != nil {
-    log.Fatalln(err)
+    switch typedErr := err.(type) {
+        case *errors.ComponentPricePointError:
+            log.Fatalln("ComponentPricePointErrorException: ", typedErr)
+        default:
+            log.Fatalln(err)
+    }
 } else {
     // Printing the result and response
     fmt.Println(apiResponse.Data)
@@ -310,7 +303,7 @@ BulkResetSubscriptionComponentsPricePoints(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription |
+| `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription. |
 
 ## Response Type
 
@@ -436,41 +429,13 @@ if err != nil {
 
 # Allocate Component
 
-This endpoint creates a new allocation, setting the current allocated quantity for the Component and recording a memo.
+Creates an allocation, sets the current allocated quantity for the component, and records a memo. Allocations can only be updated for Quantity, On/Off, and Prepaid Components.
 
-**Notice**: Allocations can only be updated for Quantity, On/Off, and Prepaid Components.
+When creating an allocation via the API, you can pass the `upgrade_charge`, `downgrade_credit`, and `accrue_charge` to be applied.
 
-## Allocations Documentation
+> **Note:** These proration and accural fields are ignored for Prepaid Components since this component type always generate charges immediately without proration.
 
-Full documentation on how to record Allocations in the Advanced Billing UI can be located [here](https://maxio.zendesk.com/hc/en-us/articles/24251883961485-Component-Allocations-Overview). It is focused on how allocations operate within the Advanced Billing UI.It goes into greater detail on how the user interface will react when recording allocations.
-
-This documentation also goes into greater detail on how proration is taken into consideration when applying component allocations.
-
-## Proration Schemes
-
-Changing the allocated quantity of a component mid-period can result in either a Charge or Credit being applied to the subscription. When creating an allocation via the API, you can pass the `upgrade_charge`, `downgrade_credit`, and `accrue_charge` to be applied.
-
-**Notice:** These proration and accural fields will be ignored for Prepaid Components since this component type always generate charges immediately without proration.
-
-For background information on prorated components and upgrade/downgrade schemes, see [Setting Component Allocations.](https://maxio.zendesk.com/hc/en-us/articles/24251906165133-Component-Allocations-Proration).
-See the tables below for valid values.
-
-| upgrade_charge | Definition                                                        |
-|----------------|-------------------------------------------------------------------|
-| `full`         | A charge is added for the full price of the component.            |
-| `prorated`     | A charge is added for the prorated price of the component change. |
-| `none`         | No charge is added.                                               |
-
-| downgrade_credit | Definition                                        |
-|------------------|---------------------------------------------------|
-| `full`           | A full price credit is added for the amount owed. |
-| `prorated`       | A prorated credit is added for the amount owed.   |
-| `none`           | No charge is added.                               |
-
-| accrue_charge | Definition                                                                                                 |
-|---------------|------------------------------------------------------------------------------------------------------------|
-| `true`        | Attempt to charge the customer at next renewal.                                                            |
-| `false`       | Attempt to charge the customer right away. If it fails, the charge will be accrued until the next renewal. |
+For information on prorated components and upgrade/downgrade schemes, see [Setting Component Allocations.](https://maxio.zendesk.com/hc/en-us/articles/24251906165133-Component-Allocations-Proration)
 
 ### Order of Resolution for upgrade_charge and downgrade_credit
 
@@ -484,7 +449,9 @@ See the tables below for valid values.
 1. Allocation API call top level (outside of the `allocations` array)
 2. [Site-level default value](https://maxio.zendesk.com/hc/en-us/articles/24251906165133-Component-Allocations-Proration#proration-schemes)
 
-**NOTE: Proration uses the current price of the component as well as the current tax rates. Changes to either may cause the prorated charge/credit to be wrong.**
+> **Note:** Proration uses the current price of the component as well as the current tax rates. Changes to either may cause the prorated charge/credit to be wrong.
+
+For more informaiton see the [Component Allocations](https://maxio.zendesk.com/hc/en-us/articles/24251883961485-Component-Allocations-Overview) product Documentation.
 
 ```go
 AllocateComponent(
@@ -500,7 +467,7 @@ AllocateComponent(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription |
+| `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription. |
 | `componentId` | `int` | Template, Required | The Advanced Billing id of the component |
 | `body` | [`*models.CreateAllocationRequest`](../../doc/models/create-allocation-request.md) | Body, Optional | - |
 
@@ -519,14 +486,55 @@ componentId := 222
 
 body := models.CreateAllocationRequest{
     Allocation:           models.CreateAllocation{
-        Quantity:                 float64(5),
-        Memo:                     models.ToPointer("Recoding component purchase of Acme Support"),
+        Quantity:                 float64(10),
+        DecimalQuantity:          models.ToPointer("10.0"),
+        PreviousQuantity:         models.ToPointer(float64(5)),
+        DecimalPreviousQuantity:  models.ToPointer("5.0"),
+        Memo:                     models.ToPointer("Increase seats to 10"),
+        ProrationDowngradeScheme: models.ToPointer("prorate"),
+        ProrationUpgradeScheme:   models.ToPointer("full-price-attempt-capture"),
+        DowngradeCredit:          models.NewOptional(models.ToPointer(models.DowngradeCreditCreditType_PRORATED)),
+        UpgradeCharge:            models.NewOptional(models.ToPointer(models.UpgradeChargeCreditType_FULL)),
+        AccrueCharge:             models.ToPointer(false),
+        PricePointId:             models.NewOptional(models.ToPointer(models.CreateAllocationPricePointIdContainer.FromNumber(789))),
+        BillingSchedule:          models.ToPointer(models.BillingSchedule{
+            InitialBillingAt:     models.ToPointer(parseTime(models.DEFAULT_DATE, "2025-02-28", func(err error) { log.Fatalln(err) })),
+        }),
+        CustomPrice:              models.ToPointer(models.ComponentCustomPrice{
+            TaxIncluded:              models.ToPointer(false),
+            PricingScheme:            models.ToPointer(models.PricingScheme_PERUNIT),
+            Interval:                 models.ToPointer(1),
+            IntervalUnit:             models.NewOptional(models.ToPointer(models.IntervalUnit_MONTH)),
+            ListPricePointId:         models.NewOptional(models.ToPointer(4321)),
+            UseDefaultListPrice:      models.ToPointer(false),
+            Prices:                   []models.Price{
+                models.Price{
+                    StartingQuantity:     models.PriceStartingQuantityContainer.FromNumber(1),
+                    EndingQuantity:       models.NewOptional(models.ToPointer(models.PriceEndingQuantityContainer.FromNumber(25))),
+                    UnitPrice:            models.PriceUnitPriceContainer.FromString("49.00"),
+                },
+                models.Price{
+                    StartingQuantity:     models.PriceStartingQuantityContainer.FromNumber(26),
+                    EndingQuantity:       models.NewOptional[models.PriceEndingQuantity](nil),
+                    UnitPrice:            models.PriceUnitPriceContainer.FromString("39.00"),
+                },
+            },
+            RenewPrepaidAllocation:   models.ToPointer(false),
+            RolloverPrepaidRemainder: models.ToPointer(false),
+            ExpirationInterval:       models.NewOptional(models.ToPointer(150)),
+            ExpirationIntervalUnit:   models.NewOptional(models.ToPointer(models.ExpirationIntervalUnit_NEVER)),
+        }),
     },
 }
 
 apiResponse, err := subscriptionComponentsController.AllocateComponent(ctx, subscriptionId, componentId, &body)
 if err != nil {
-    log.Fatalln(err)
+    switch typedErr := err.(type) {
+        case *errors.ErrorListResponse:
+            log.Fatalln("ErrorListResponseException: ", typedErr)
+        default:
+            log.Fatalln(err)
+    }
 } else {
     // Printing the result and response
     fmt.Println(apiResponse.Data)
@@ -577,21 +585,6 @@ This endpoint returns the 50 most recent Allocations, ordered by most recent fir
 
 When a subscription's on/off component has been toggled to on (`1`) or off (`0`), usage will be logged in this response.
 
-## Querying data via Advanced Billing gem
-
-You can also query the current quantity via the [official Advanced Billing Gem.](http://github.com/chargify/chargify_api_ares)
-
-```# First way
-component = Chargify::Subscription::Component.find(1, :params => {:subscription_id => 7})
-puts component.allocated_quantity
-# => 23
-
-# Second way
-component = Chargify::Subscription.find(7).component(1)
-puts component.allocated_quantity
-# => 23
-```
-
 ```go
 ListAllocations(
     ctx context.Context,
@@ -606,7 +599,7 @@ ListAllocations(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription |
+| `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription. |
 | `componentId` | `int` | Template, Required | The Advanced Billing id of the component |
 | `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br><br>**Default**: `1`<br><br>**Constraints**: `>= 1` |
 
@@ -627,7 +620,12 @@ page := 1
 
 apiResponse, err := subscriptionComponentsController.ListAllocations(ctx, subscriptionId, componentId, &page)
 if err != nil {
-    log.Fatalln(err)
+    switch typedErr := err.(type) {
+        case *errors.ErrorListResponse:
+            log.Fatalln("ErrorListResponseException: ", typedErr)
+        default:
+            log.Fatalln(err)
+    }
 } else {
     // Printing the result and response
     fmt.Println(apiResponse.Data)
@@ -690,11 +688,25 @@ if err != nil {
 
 # Allocate Components
 
-Creates multiple allocations, setting the current allocated quantity for each of the components and recording a memo. The charges and/or credits that are created will be rolled up into a single total which is used to determine whether this is an upgrade or a downgrade. Be aware of the Order of Resolutions explained below in determining the proration scheme.
+Creates multiple allocations, sets the current allocated quantity for each of the components, and recording a memo.   A `component_id` is required for each allocation.
 
-A `component_id` is required for each allocation.
+The charges and/or credits that are created will be rolled up into a single total which is used to determine whether this is an upgrade or a downgrade.
 
-This endpoint only responds to JSON. It is not available for XML.
+### Order of Resolution for upgrade_charge and downgrade_credit
+
+1. Per allocation in API call (within a single allocation of the `allocations` array)
+2. [Component-level default value](https://maxio.zendesk.com/hc/en-us/articles/24251883961485-Component-Allocations-Overview)
+3. Allocation API call top level (outside of the `allocations` array)
+4. [Site-level default value](https://maxio.zendesk.com/hc/en-us/articles/24251906165133-Component-Allocations-Proration#proration-schemes)
+
+### Order of Resolution for accrue charge
+
+1. Allocation API call top level (outside of the `allocations` array)
+2. [Site-level default value](https://maxio.zendesk.com/hc/en-us/articles/24251906165133-Component-Allocations-Proration#proration-schemes)
+
+> **Note:** Proration uses the current price of the component as well as the current tax rates. Changes to either may cause the prorated charge/credit to be wrong.
+
+For more informaiton see the [Component Allocations](https://maxio.zendesk.com/hc/en-us/articles/24251883961485-Component-Allocations-Overview) product Documentation.
 
 ```go
 AllocateComponents(
@@ -709,7 +721,7 @@ AllocateComponents(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription |
+| `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription. |
 | `body` | [`*models.AllocateComponents`](../../doc/models/allocate-components.md) | Body, Optional | - |
 
 ## Response Type
@@ -742,7 +754,12 @@ body := models.AllocateComponents{
 
 apiResponse, err := subscriptionComponentsController.AllocateComponents(ctx, subscriptionId, &body)
 if err != nil {
-    log.Fatalln(err)
+    switch typedErr := err.(type) {
+        case *errors.ErrorListResponse:
+            log.Fatalln("ErrorListResponseException: ", typedErr)
+        default:
+            log.Fatalln(err)
+    }
 } else {
     // Printing the result and response
     fmt.Println(apiResponse.Data)
@@ -824,7 +841,7 @@ PreviewAllocations(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription |
+| `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription. |
 | `body` | [`*models.PreviewAllocationsRequest`](../../doc/models/preview-allocations-request.md) | Body, Optional | - |
 
 ## Response Type
@@ -854,7 +871,12 @@ body := models.PreviewAllocationsRequest{
 
 apiResponse, err := subscriptionComponentsController.PreviewAllocations(ctx, subscriptionId, &body)
 if err != nil {
-    log.Fatalln(err)
+    switch typedErr := err.(type) {
+        case *errors.ComponentAllocationError:
+            log.Fatalln("ComponentAllocationErrorException: ", typedErr)
+        default:
+            log.Fatalln(err)
+    }
 } else {
     // Printing the result and response
     fmt.Println(apiResponse.Data)
@@ -1001,7 +1023,7 @@ UpdatePrepaidUsageAllocationExpirationDate(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription |
+| `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription. |
 | `componentId` | `int` | Template, Required | The Advanced Billing id of the component |
 | `allocationId` | `int` | Template, Required | The Advanced Billing id of the allocation |
 | `body` | [`*models.UpdateAllocationExpirationDate`](../../doc/models/update-allocation-expiration-date.md) | Body, Optional | - |
@@ -1029,7 +1051,12 @@ body := models.UpdateAllocationExpirationDate{
 
 resp, err := subscriptionComponentsController.UpdatePrepaidUsageAllocationExpirationDate(ctx, subscriptionId, componentId, allocationId, &body)
 if err != nil {
-    log.Fatalln(err)
+    switch typedErr := err.(type) {
+        case *errors.SubscriptionComponentAllocationError:
+            log.Fatalln("SubscriptionComponentAllocationErrorException: ", typedErr)
+        default:
+            log.Fatalln(err)
+    }
 } else {
     fmt.Println(resp.StatusCode)
 }
@@ -1070,7 +1097,7 @@ DeletePrepaidUsageAllocation(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription |
+| `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription. |
 | `componentId` | `int` | Template, Required | The Advanced Billing id of the component |
 | `allocationId` | `int` | Template, Required | The Advanced Billing id of the allocation |
 | `body` | [`*models.CreditSchemeRequest`](../../doc/models/credit-scheme-request.md) | Body, Optional | - |
@@ -1096,7 +1123,12 @@ body := models.CreditSchemeRequest{
 
 resp, err := subscriptionComponentsController.DeletePrepaidUsageAllocation(ctx, subscriptionId, componentId, allocationId, &body)
 if err != nil {
-    log.Fatalln(err)
+    switch typedErr := err.(type) {
+        case *errors.SubscriptionComponentAllocationError:
+            log.Fatalln("SubscriptionComponentAllocationErrorException: ", typedErr)
+        default:
+            log.Fatalln(err)
+    }
 } else {
     fmt.Println(resp.StatusCode)
 }
@@ -1205,7 +1237,12 @@ body := models.CreateUsageRequest{
 
 apiResponse, err := subscriptionComponentsController.CreateUsage(ctx, subscriptionIdOrReference, componentId, &body)
 if err != nil {
-    log.Fatalln(err)
+    switch typedErr := err.(type) {
+        case *errors.ErrorListResponse:
+            log.Fatalln("ErrorListResponseException: ", typedErr)
+        default:
+            log.Fatalln(err)
+    }
 } else {
     // Printing the result and response
     fmt.Println(apiResponse.Data)
@@ -1267,14 +1304,7 @@ ListUsages(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `subscriptionIdOrReference` | [`models.ListUsagesInputSubscriptionIdOrReference`](../../doc/models/containers/list-usages-input-subscription-id-or-reference.md) | Template, Required | This is a container for one-of cases. |
-| `componentId` | [`models.ListUsagesInputComponentId`](../../doc/models/containers/list-usages-input-component-id.md) | Template, Required | This is a container for one-of cases. |
-| `sinceId` | `*int64` | Query, Optional | Returns usages with an id greater than or equal to the one specified |
-| `maxId` | `*int64` | Query, Optional | Returns usages with an id less than or equal to the one specified |
-| `sinceDate` | `*time.Time` | Query, Optional | Returns usages with a created_at date greater than or equal to midnight (12:00 AM) on the date specified. |
-| `untilDate` | `*time.Time` | Query, Optional | Returns usages with a created_at date less than or equal to midnight (12:00 AM) on the date specified. |
-| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br><br>**Default**: `1`<br><br>**Constraints**: `>= 1` |
-| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`.<br><br>**Default**: `20`<br><br>**Constraints**: `<= 200` |
+| `input` | [`models.ListUsagesInput`](../../doc/models/list-usages-input.md) | Required | Input structure for the method ListUsages |
 
 ## Response Type
 
@@ -1584,20 +1614,7 @@ ListSubscriptionComponentsForSite(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br><br>**Default**: `1`<br><br>**Constraints**: `>= 1` |
-| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`.<br><br>**Default**: `20`<br><br>**Constraints**: `<= 200` |
-| `sort` | [`*models.ListSubscriptionComponentsSort`](../../doc/models/list-subscription-components-sort.md) | Query, Optional | The attribute by which to sort. Use in query: `sort=updated_at`. |
-| `direction` | [`*models.SortingDirection`](../../doc/models/sorting-direction.md) | Query, Optional | Controls the order in which results are returned.<br>Use in query `direction=asc`. |
-| `filter` | [`*models.ListSubscriptionComponentsForSiteFilter`](../../doc/models/list-subscription-components-for-site-filter.md) | Query, Optional | Filter to use for List Subscription Components For Site operation |
-| `dateField` | [`*models.SubscriptionListDateField`](../../doc/models/subscription-list-date-field.md) | Query, Optional | The type of filter you'd like to apply to your search. Use in query: `date_field=updated_at`. |
-| `startDate` | `*string` | Query, Optional | The start date (format YYYY-MM-DD) with which to filter the date_field. Returns components with a timestamp at or after midnight (12:00:00 AM) in your site’s time zone on the date specified. Use in query `start_date=2011-12-15`. |
-| `startDatetime` | `*string` | Query, Optional | The start date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns components with a timestamp at or after exact time provided in query. You can specify timezone in query - otherwise your site''s time zone will be used. If provided, this parameter will be used instead of start_date. Use in query `start_datetime=2022-07-01 09:00:05`. |
-| `endDate` | `*string` | Query, Optional | The end date (format YYYY-MM-DD) with which to filter the date_field. Returns components with a timestamp up to and including 11:59:59PM in your site’s time zone on the date specified. Use in query `end_date=2011-12-16`. |
-| `endDatetime` | `*string` | Query, Optional | The end date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns components with a timestamp at or before exact time provided in query. You can specify timezone in query - otherwise your site''s time zone will be used. If provided, this parameter will be used instead of end_date. Use in query `end_datetime=2022-07-01 09:00:05`. |
-| `subscriptionIds` | `[]int` | Query, Optional | Allows fetching components allocation with matching subscription id based on provided ids. Use in query `subscription_ids=1,2,3`.<br><br>**Constraints**: *Minimum Items*: `1`, *Maximum Items*: `200` |
-| `pricePointIds` | [`*models.IncludeNotNull`](../../doc/models/include-not-null.md) | Query, Optional | Allows fetching components allocation only if price point id is present. Use in query `price_point_ids=not_null`. |
-| `productFamilyIds` | `[]int` | Query, Optional | Allows fetching components allocation with matching product family id based on provided ids. Use in query `product_family_ids=1,2,3`. |
-| `include` | [`*models.ListSubscriptionComponentsInclude`](../../doc/models/list-subscription-components-include.md) | Query, Optional | Allows including additional data in the response. Use in query `include=subscription,historic_usages`. |
+| `input` | [`models.ListSubscriptionComponentsForSiteInput`](../../doc/models/list-subscription-components-for-site-input.md) | Required | Input structure for the method ListSubscriptionComponentsForSite |
 
 ## Response Type
 

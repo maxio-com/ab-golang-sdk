@@ -294,7 +294,7 @@ func (p *PaymentProfilesController) DeleteUnusedPaymentProfile(
 // DeleteSubscriptionsPaymentProfile takes context, subscriptionId, paymentProfileId as parameters and
 // returns an *Response and
 // an error if there was an issue with the request or response.
-// This will delete a payment profile belonging to the customer on the subscription.
+// Deletes a payment profile belonging to the customer on the subscription.
 // + If the customer has multiple subscriptions, the payment profile will be removed from all of them.
 // + If you delete the default payment profile for a subscription, you will need to specify another payment profile to be the default through the api, or either prompt the user to enter a card in the billing portal or on the self-service page, or visit the Payment Details tab on the subscription in the Admin UI and use the “Add New Credit Card” or “Make Active Payment Method” link, (depending on whether there are other cards present).
 func (p *PaymentProfilesController) DeleteSubscriptionsPaymentProfile(
@@ -353,7 +353,7 @@ func (p *PaymentProfilesController) VerifyBankAccount(
 // DeleteSubscriptionGroupPaymentProfile takes context, uid, paymentProfileId as parameters and
 // returns an *Response and
 // an error if there was an issue with the request or response.
-// This will delete a Payment Profile belonging to a Subscription Group.
+// Deletes a Payment Profile belonging to a Subscription Group.
 // **Note**: If the Payment Profile belongs to multiple Subscription Groups and/or Subscriptions, it will be removed from all of them.
 func (p *PaymentProfilesController) DeleteSubscriptionGroupPaymentProfile(
     ctx context.Context,

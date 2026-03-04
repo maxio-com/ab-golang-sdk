@@ -48,7 +48,12 @@ code := "code8"
 
 apiResponse, err := referralCodesController.ValidateReferralCode(ctx, code)
 if err != nil {
-    log.Fatalln(err)
+    switch typedErr := err.(type) {
+        case *errors.SingleStringErrorResponse:
+            log.Fatalln("SingleStringErrorResponseException: ", typedErr)
+        default:
+            log.Fatalln(err)
+    }
 } else {
     // Printing the result and response
     fmt.Println(apiResponse.Data)

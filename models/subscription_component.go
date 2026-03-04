@@ -28,10 +28,8 @@ type SubscriptionComponent struct {
     SubscriptionId            *int                                    `json:"subscription_id,omitempty"`
     Recurring                 *bool                                   `json:"recurring,omitempty"`
     // The type of credit to be created when upgrading/downgrading. Defaults to the component and then site setting if one is not provided.
-    // Available values: `full`, `prorated`, `none`.
     UpgradeCharge             Optional[CreditType]                    `json:"upgrade_charge"`
     // The type of credit to be created when upgrading/downgrading. Defaults to the component and then site setting if one is not provided.
-    // Available values: `full`, `prorated`, `none`.
     DowngradeCredit           Optional[CreditType]                    `json:"downgrade_credit"`
     ArchivedAt                Optional[time.Time]                     `json:"archived_at"`
     PricePointId              Optional[int]                           `json:"price_point_id"`

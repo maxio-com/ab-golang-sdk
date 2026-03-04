@@ -16,6 +16,7 @@
 ```json
 {
   "subscription_group": {
+    "uid": "uid8",
     "customer_id": 220,
     "payment_profile": {
       "id": 44,
@@ -27,8 +28,7 @@
     "subscription_ids": [
       74,
       75
-    ],
-    "created_at": "2016-03-13T12:52:32.123Z"
+    ]
   }
 }
 ```

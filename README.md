@@ -37,10 +37,10 @@ The following section explains how to use the advancedbilling library in a new p
 To use the package in your application, you can install the package from [pkg.go.dev](https://pkg.go.dev/) using the following command:
 
 ```bash
-$ go get github.com/maxio-com/ab-golang-sdk@v0.8.0
+$ go get github.com/maxio-com/ab-golang-sdk@v0.9.0
 ```
 
-You can also view the package at: https://pkg.go.dev/github.com/maxio-com/ab-golang-sdk@v0.8.0
+You can also view the package at: https://pkg.go.dev/github.com/maxio-com/ab-golang-sdk@v0.9.0
 
 ## Initialize the API Client
 
@@ -51,7 +51,7 @@ The following parameters are configurable for the API Client:
 | Parameter | Type | Description |
 |  --- | --- | --- |
 | site | `string` | The subdomain for your Advanced Billing site.<br>*Default*: `"subdomain"` |
-| environment | `Environment` | The API environment. <br> **Default: `Environment.US`** |
+| environment | [`Environment`](README.md#environments) | The API environment. <br> **Default: `Environment.US`** |
 | httpConfiguration | [`HttpConfiguration`](doc/http-configuration.md) | Configurable http client options like timeout and retries. |
 | basicAuthCredentials | [`BasicAuthCredentials`](doc/auth/basic-authentication.md) | The Credentials Setter for Basic Authentication |
 
@@ -124,6 +124,7 @@ This API uses the following authentication schemes.
 * [Subscription Invoice Account](doc/controllers/subscription-invoice-account.md)
 * [Subscription Notes](doc/controllers/subscription-notes.md)
 * [Subscription Products](doc/controllers/subscription-products.md)
+* [Subscription Renewals](doc/controllers/subscription-renewals.md)
 * [Subscription Status](doc/controllers/subscription-status.md)
 * [Coupons](doc/controllers/coupons.md)
 * [Components](doc/controllers/components.md)

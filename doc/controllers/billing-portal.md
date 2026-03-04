@@ -63,7 +63,12 @@ customerId := 150
 
 apiResponse, err := billingPortalController.EnableBillingPortalForCustomer(ctx, customerId, nil)
 if err != nil {
-    log.Fatalln(err)
+    switch typedErr := err.(type) {
+        case *errors.ErrorListResponse:
+            log.Fatalln("ErrorListResponseException: ", typedErr)
+        default:
+            log.Fatalln(err)
+    }
 } else {
     // Printing the result and response
     fmt.Println(apiResponse.Data)
@@ -117,7 +122,14 @@ customerId := 150
 
 apiResponse, err := billingPortalController.ReadBillingPortalLink(ctx, customerId)
 if err != nil {
-    log.Fatalln(err)
+    switch typedErr := err.(type) {
+        case *errors.ErrorListResponse:
+            log.Fatalln("ErrorListResponseException: ", typedErr)
+        case *errors.TooManyManagementLinkRequestsError:
+            log.Fatalln("TooManyManagementLinkRequestsErrorException: ", typedErr)
+        default:
+            log.Fatalln(err)
+    }
 } else {
     // Printing the result and response
     fmt.Println(apiResponse.Data)
@@ -189,7 +201,12 @@ customerId := 150
 
 apiResponse, err := billingPortalController.ResendBillingPortalInvitation(ctx, customerId)
 if err != nil {
-    log.Fatalln(err)
+    switch typedErr := err.(type) {
+        case *errors.ErrorListResponse:
+            log.Fatalln("ErrorListResponseException: ", typedErr)
+        default:
+            log.Fatalln(err)
+    }
 } else {
     // Printing the result and response
     fmt.Println(apiResponse.Data)

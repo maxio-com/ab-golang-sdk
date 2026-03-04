@@ -102,7 +102,7 @@ type ListSubscriptionsInput struct {
 // ListSubscriptions takes context, page, perPage, state, product, productPricePointId, coupon, couponCode, dateField, startDate, endDate, startDatetime, endDatetime, metadata, direction, sort, include as parameters and
 // returns an models.ApiResponse with []models.SubscriptionResponse data and
 // an error if there was an issue with the request or response.
-// This method will return an array of subscriptions from a Site. Pay close attention to query string filters and pagination in order to control responses from the server.
+// returns an array of subscriptions from a Site. Pay close attention to query string filters and pagination in order to control responses from the server.
 // ## Search for a subscription
 // Use the query strings below to search for a subscription using the criteria available. The return value will be an array.
 // ## Self-Service Page token
@@ -231,7 +231,7 @@ func (s *SubscriptionsController) UpdateSubscription(
 // ReadSubscription takes context, subscriptionId, include as parameters and
 // returns an models.ApiResponse with models.SubscriptionResponse data and
 // an error if there was an issue with the request or response.
-// Use this endpoint to find subscription details.
+// Retrieves subscription details.
 // ## Self-Service Page token
 // Self-Service Page token for the subscription is not returned by default. If this information is desired, the include[]=self_service_page_token parameter must be provided with the request.
 func (s *SubscriptionsController) ReadSubscription(

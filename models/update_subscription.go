@@ -34,7 +34,7 @@ type UpdateSubscription struct {
     NetTerms                          *UpdateSubscriptionNetTerms         `json:"net_terms,omitempty"`
     StoredCredentialTransactionId     *int                                `json:"stored_credential_transaction_id,omitempty"`
     Reference                         *string                             `json:"reference,omitempty"`
-    // (Optional) Used in place of `product_price_point_id` to define a custom price point unique to the subscription
+    // (Optional) Used in place of `product_price_point_id` to define a custom price point unique to the subscription. A subscription can have up to 30 custom price points. Exceeding this limit will result in an API error.
     CustomPrice                       *SubscriptionCustomPrice            `json:"custom_price,omitempty"`
     // (Optional) An array of component ids and custom prices to be added to the subscription.
     Components                        []UpdateSubscriptionComponent       `json:"components,omitempty"`

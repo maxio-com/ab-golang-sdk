@@ -197,8 +197,8 @@ func (s *SubscriptionGroupsController) UpdateSubscriptionGroupMembers(
 // DeleteSubscriptionGroup takes context, uid as parameters and
 // returns an models.ApiResponse with models.DeleteSubscriptionGroupResponse data and
 // an error if there was an issue with the request or response.
-// Use this endpoint to delete subscription group.
-// Only groups without members can be deleted
+// Deletes a subscription group.
+// Only groups without members can be deleted.
 func (s *SubscriptionGroupsController) DeleteSubscriptionGroup(
     ctx context.Context,
     uid string) (

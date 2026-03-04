@@ -1290,7 +1290,6 @@ const (
 
 // CreditType is a string enum.
 // The type of credit to be created when upgrading/downgrading. Defaults to the component and then site setting if one is not provided.
-// Available values: `full`, `prorated`, `none`.
 type CreditType string
 
 // MarshalJSON implements the json.Marshaler interface for CreditType.
@@ -1607,6 +1606,56 @@ func (e DiscountType) isValid() bool {
 const (
     DiscountType_AMOUNT  DiscountType = "amount"
     DiscountType_PERCENT DiscountType = "percent"
+)
+
+// DowngradeCreditCreditType is a string enum.
+// The type of credit to be created when upgrading/downgrading. Defaults to the component and then site setting if one is not provided. Values are:
+// `full` -  A full price credit is added for the amount owed. 
+// `prorated` - A prorated credit is added for the amount owed. 
+// `none` - No charge is added.
+type DowngradeCreditCreditType string
+
+// MarshalJSON implements the json.Marshaler interface for DowngradeCreditCreditType.
+// It customizes the JSON marshaling process for DowngradeCreditCreditType objects.
+func (e DowngradeCreditCreditType) MarshalJSON() (
+    []byte,
+    error) {
+    if e.isValid() {
+        return []byte(fmt.Sprintf("\"%v\"", e)), nil
+    }
+    return nil, errors.New("the provided enum value is not allowed for DowngradeCreditCreditType")
+}
+
+// UnmarshalJSON implements the json.Unmarshaler interface for DowngradeCreditCreditType.
+// It customizes the JSON unmarshaling process for DowngradeCreditCreditType objects.
+func (e *DowngradeCreditCreditType) UnmarshalJSON(input []byte) error {
+    var enumValue string
+    err := json.Unmarshal(input, &enumValue)
+    if err != nil {
+        return err
+    }
+    *e = DowngradeCreditCreditType(enumValue)
+    if !e.isValid() {
+        return errors.New("the value " + string(input) + " cannot be unmarshalled to DowngradeCreditCreditType")
+    }
+    return nil
+}
+
+// Checks whether the value is actually a member of DowngradeCreditCreditType.
+func (e DowngradeCreditCreditType) isValid() bool {
+    switch e {
+    case DowngradeCreditCreditType_FULL,
+        DowngradeCreditCreditType_PRORATED,
+        DowngradeCreditCreditType_NONE:
+        return true
+    }
+    return false
+}
+
+const (
+    DowngradeCreditCreditType_FULL     DowngradeCreditCreditType = "full"
+    DowngradeCreditCreditType_PRORATED DowngradeCreditCreditType = "prorated"
+    DowngradeCreditCreditType_NONE     DowngradeCreditCreditType = "none"
 )
 
 // EventKey is a string enum.
@@ -4119,6 +4168,58 @@ const (
     SortingDirection_DESC SortingDirection = "desc"
 )
 
+// Status is a string enum.
+type Status string
+
+// MarshalJSON implements the json.Marshaler interface for Status.
+// It customizes the JSON marshaling process for Status objects.
+func (e Status) MarshalJSON() (
+    []byte,
+    error) {
+    if e.isValid() {
+        return []byte(fmt.Sprintf("\"%v\"", e)), nil
+    }
+    return nil, errors.New("the provided enum value is not allowed for Status")
+}
+
+// UnmarshalJSON implements the json.Unmarshaler interface for Status.
+// It customizes the JSON unmarshaling process for Status objects.
+func (e *Status) UnmarshalJSON(input []byte) error {
+    var enumValue string
+    err := json.Unmarshal(input, &enumValue)
+    if err != nil {
+        return err
+    }
+    *e = Status(enumValue)
+    if !e.isValid() {
+        return errors.New("the value " + string(input) + " cannot be unmarshalled to Status")
+    }
+    return nil
+}
+
+// Checks whether the value is actually a member of Status.
+func (e Status) isValid() bool {
+    switch e {
+    case Status_DRAFT,
+        Status_SCHEDULED,
+        Status_PENDING,
+        Status_CANCELED,
+        Status_ACTIVE,
+        Status_FULFILLED:
+        return true
+    }
+    return false
+}
+
+const (
+    Status_DRAFT     Status = "draft"
+    Status_SCHEDULED Status = "scheduled"
+    Status_PENDING   Status = "pending"
+    Status_CANCELED  Status = "canceled"
+    Status_ACTIVE    Status = "active"
+    Status_FULFILLED Status = "fulfilled"
+)
+
 // SubscriptionDateField is a string enum.
 type SubscriptionDateField string
 
@@ -4522,7 +4623,11 @@ func (e SubscriptionSort) isValid() bool {
         SubscriptionSort_PERIODEND,
         SubscriptionSort_NEXTASSESSMENT,
         SubscriptionSort_UPDATEDAT,
-        SubscriptionSort_CREATEDAT:
+        SubscriptionSort_CREATEDAT,
+        SubscriptionSort_TOTALPAYMENTS,
+        SubscriptionSort_ID,
+        SubscriptionSort_OPENBALANCE,
+        SubscriptionSort_EXPIRESAT:
         return true
     }
     return false
@@ -4535,6 +4640,10 @@ const (
     SubscriptionSort_NEXTASSESSMENT SubscriptionSort = "next_assessment"
     SubscriptionSort_UPDATEDAT      SubscriptionSort = "updated_at"
     SubscriptionSort_CREATEDAT      SubscriptionSort = "created_at"
+    SubscriptionSort_TOTALPAYMENTS  SubscriptionSort = "total_payments"
+    SubscriptionSort_ID             SubscriptionSort = "id"
+    SubscriptionSort_OPENBALANCE    SubscriptionSort = "open_balance"
+    SubscriptionSort_EXPIRESAT      SubscriptionSort = "expires_at"
 )
 
 // SubscriptionState is a string enum.
@@ -4831,6 +4940,56 @@ func (e TrialType) isValid() bool {
 const (
     TrialType_NOOBLIGATION    TrialType = "no_obligation"
     TrialType_PAYMENTEXPECTED TrialType = "payment_expected"
+)
+
+// UpgradeChargeCreditType is a string enum.
+// The type of credit to be created when upgrading/downgrading. Defaults to the component and then site setting if one is not provided. Values are:
+// `full` - A charge is added for the full price of the component. 
+// `prorated` - A charge is added for the prorated price of the component change.
+// `none` - No charge is added.
+type UpgradeChargeCreditType string
+
+// MarshalJSON implements the json.Marshaler interface for UpgradeChargeCreditType.
+// It customizes the JSON marshaling process for UpgradeChargeCreditType objects.
+func (e UpgradeChargeCreditType) MarshalJSON() (
+    []byte,
+    error) {
+    if e.isValid() {
+        return []byte(fmt.Sprintf("\"%v\"", e)), nil
+    }
+    return nil, errors.New("the provided enum value is not allowed for UpgradeChargeCreditType")
+}
+
+// UnmarshalJSON implements the json.Unmarshaler interface for UpgradeChargeCreditType.
+// It customizes the JSON unmarshaling process for UpgradeChargeCreditType objects.
+func (e *UpgradeChargeCreditType) UnmarshalJSON(input []byte) error {
+    var enumValue string
+    err := json.Unmarshal(input, &enumValue)
+    if err != nil {
+        return err
+    }
+    *e = UpgradeChargeCreditType(enumValue)
+    if !e.isValid() {
+        return errors.New("the value " + string(input) + " cannot be unmarshalled to UpgradeChargeCreditType")
+    }
+    return nil
+}
+
+// Checks whether the value is actually a member of UpgradeChargeCreditType.
+func (e UpgradeChargeCreditType) isValid() bool {
+    switch e {
+    case UpgradeChargeCreditType_FULL,
+        UpgradeChargeCreditType_PRORATED,
+        UpgradeChargeCreditType_NONE:
+        return true
+    }
+    return false
+}
+
+const (
+    UpgradeChargeCreditType_FULL     UpgradeChargeCreditType = "full"
+    UpgradeChargeCreditType_PRORATED UpgradeChargeCreditType = "prorated"
+    UpgradeChargeCreditType_NONE     UpgradeChargeCreditType = "none"
 )
 
 // WebhookOrder is a string enum.

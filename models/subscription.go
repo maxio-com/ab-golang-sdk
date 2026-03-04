@@ -99,7 +99,7 @@ type Subscription struct {
     CouponUseCount                    Optional[int]                     `json:"coupon_use_count"`                              // Deprecated
     // (deprecated) How many times the subscription's single coupon may be used. This field has no replacement for multiple coupons.
     CouponUsesAllowed                 Optional[int]                     `json:"coupon_uses_allowed"`                           // Deprecated
-    // If the subscription is canceled, this is their churn code.
+    // The churn reason code associated to a cancelled subscription.
     ReasonCode                        Optional[string]                  `json:"reason_code"`
     // The date the subscription is scheduled to automatically resume from the on_hold state.
     AutomaticallyResumeAt             Optional[time.Time]               `json:"automatically_resume_at"`
@@ -124,7 +124,7 @@ type Subscription struct {
     NetTerms                          Optional[int]                     `json:"net_terms"`
     // For European sites subject to PSD2 and using 3D Secure, this can be used to reference a previous transaction for the customer. This will ensure the card will be charged successfully at renewal.
     StoredCredentialTransactionId     Optional[int]                     `json:"stored_credential_transaction_id"`
-    // The reference value (provided by your app) for the subscription itelf.
+    // The reference value (provided by your app) for the subscription istelf.
     Reference                         Optional[string]                  `json:"reference"`
     // The timestamp of the most recent on hold action.
     OnHoldAt                          Optional[time.Time]               `json:"on_hold_at"`

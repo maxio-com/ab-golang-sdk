@@ -77,7 +77,12 @@ body := models.CreateOfferRequest{
 
 apiResponse, err := offersController.CreateOffer(ctx, &body)
 if err != nil {
-    log.Fatalln(err)
+    switch typedErr := err.(type) {
+        case *errors.ErrorArrayMapResponse:
+            log.Fatalln("ErrorArrayMapResponseException: ", typedErr)
+        default:
+            log.Fatalln(err)
+    }
 } else {
     // Printing the result and response
     fmt.Println(apiResponse.Data)
@@ -150,9 +155,7 @@ ListOffers(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br><br>**Default**: `1`<br><br>**Constraints**: `>= 1` |
-| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`.<br><br>**Default**: `20`<br><br>**Constraints**: `<= 200` |
-| `includeArchived` | `*bool` | Query, Optional | Include archived products. Use in query: `include_archived=true`. |
+| `input` | [`models.ListOffersInput`](../../doc/models/list-offers-input.md) | Required | Input structure for the method ListOffers |
 
 ## Response Type
 
@@ -171,7 +174,12 @@ collectedInput := advancedbilling.ListOffersInput{
 
 apiResponse, err := offersController.ListOffers(ctx, collectedInput)
 if err != nil {
-    log.Fatalln(err)
+    switch typedErr := err.(type) {
+        case *errors.ErrorListResponse:
+            log.Fatalln("ErrorListResponseException: ", typedErr)
+        default:
+            log.Fatalln(err)
+    }
 } else {
     // Printing the result and response
     fmt.Println(apiResponse.Data)
