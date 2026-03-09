@@ -4081,48 +4081,6 @@ const (
     ServiceCreditType_DEBIT  ServiceCreditType = "Debit"
 )
 
-// SnapDay is a string enum.
-type SnapDay string
-
-// MarshalJSON implements the json.Marshaler interface for SnapDay.
-// It customizes the JSON marshaling process for SnapDay objects.
-func (e SnapDay) MarshalJSON() (
-    []byte,
-    error) {
-    if e.isValid() {
-        return []byte(fmt.Sprintf("\"%v\"", e)), nil
-    }
-    return nil, errors.New("the provided enum value is not allowed for SnapDay")
-}
-
-// UnmarshalJSON implements the json.Unmarshaler interface for SnapDay.
-// It customizes the JSON unmarshaling process for SnapDay objects.
-func (e *SnapDay) UnmarshalJSON(input []byte) error {
-    var enumValue string
-    err := json.Unmarshal(input, &enumValue)
-    if err != nil {
-        return err
-    }
-    *e = SnapDay(enumValue)
-    if !e.isValid() {
-        return errors.New("the value " + string(input) + " cannot be unmarshalled to SnapDay")
-    }
-    return nil
-}
-
-// Checks whether the value is actually a member of SnapDay.
-func (e SnapDay) isValid() bool {
-    switch e {
-    case SnapDay_END:
-        return true
-    }
-    return false
-}
-
-const (
-    SnapDay_END SnapDay = "end"
-)
-
 // SortingDirection is a string enum.
 // Used for sorting results.
 type SortingDirection string

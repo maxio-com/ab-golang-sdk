@@ -78,8 +78,8 @@ type Subscription struct {
     DelayedCancelAt                   Optional[time.Time]               `json:"delayed_cancel_at"`
     // (deprecated) The coupon code of the single coupon currently applied to the subscription. See coupon_codes instead as subscriptions can now have more than one coupon.
     CouponCode                        Optional[string]                  `json:"coupon_code"`                                   // Deprecated
-    // The day of the month that the subscription will charge according to calendar billing rules, if used.
-    SnapDay                           Optional[SubscriptionSnapDay]     `json:"snap_day"`
+    // A day of month that subscription will be processed on. Can be 1 up to 28 or 'end'.
+    SnapDay                           Optional[string]                  `json:"snap_day"`
     // The type of payment collection to be used in the subscription. For legacy Statements Architecture valid options are - `invoice`, `automatic`. For current Relationship Invoicing Architecture valid options are - `remittance`, `automatic`, `prepaid`.
     PaymentCollectionMethod           *CollectionMethod                 `json:"payment_collection_method,omitempty"`
     Customer                          *Customer                         `json:"customer,omitempty"`
@@ -344,7 +344,7 @@ func (s Subscription) toMap() map[string]any {
     }
     if s.SnapDay.IsValueSet() {
         if s.SnapDay.Value() != nil {
-            structMap["snap_day"] = s.SnapDay.Value().toMap()
+            structMap["snap_day"] = s.SnapDay.Value()
         } else {
             structMap["snap_day"] = nil
         }
@@ -763,7 +763,7 @@ type tempSubscription  struct {
     SignupRevenue                     *string                           `json:"signup_revenue,omitempty"`
     DelayedCancelAt                   Optional[string]                  `json:"delayed_cancel_at"`
     CouponCode                        Optional[string]                  `json:"coupon_code"`
-    SnapDay                           Optional[SubscriptionSnapDay]     `json:"snap_day"`
+    SnapDay                           Optional[string]                  `json:"snap_day"`
     PaymentCollectionMethod           *CollectionMethod                 `json:"payment_collection_method,omitempty"`
     Customer                          *Customer                         `json:"customer,omitempty"`
     Product                           *Product                          `json:"product,omitempty"`
