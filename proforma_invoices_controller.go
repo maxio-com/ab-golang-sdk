@@ -162,7 +162,7 @@ func (p *ProformaInvoicesController) DeliverProformaInvoice(
     body *models.DeliverProformaInvoiceRequest) (
     models.ApiResponse[models.ProformaInvoice],
     error) {
-    req := p.prepareRequest(ctx, "POST", "/proforma_invoices/%v.json")
+    req := p.prepareRequest(ctx, "POST", "/proforma_invoices/%v/deliver.json")
     req.AppendTemplateParams(proformaInvoiceUid)
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
