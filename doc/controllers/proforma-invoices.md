@@ -13,9 +13,9 @@ proformaInvoicesController := client.ProformaInvoicesController()
 * [Create Consolidated Proforma Invoice](../../doc/controllers/proforma-invoices.md#create-consolidated-proforma-invoice)
 * [List Subscription Group Proforma Invoices](../../doc/controllers/proforma-invoices.md#list-subscription-group-proforma-invoices)
 * [Read Proforma Invoice](../../doc/controllers/proforma-invoices.md#read-proforma-invoice)
-* [Deliver Proforma Invoice](../../doc/controllers/proforma-invoices.md#deliver-proforma-invoice)
 * [Create Proforma Invoice](../../doc/controllers/proforma-invoices.md#create-proforma-invoice)
 * [List Proforma Invoices](../../doc/controllers/proforma-invoices.md#list-proforma-invoices)
+* [Deliver Proforma Invoice](../../doc/controllers/proforma-invoices.md#deliver-proforma-invoice)
 * [Void Proforma Invoice](../../doc/controllers/proforma-invoices.md#void-proforma-invoice)
 * [Preview Proforma Invoice](../../doc/controllers/proforma-invoices.md#preview-proforma-invoice)
 * [Create Signup Proforma Invoice](../../doc/controllers/proforma-invoices.md#create-signup-proforma-invoice)
@@ -183,77 +183,6 @@ if err != nil {
 | 404 | Not Found | `ApiError` |
 
 
-# Deliver Proforma Invoice
-
-Allows for proforma invoices to be programmatically delivered via email. Supports email
-delivery to direct recipients, carbon-copy (cc) recipients, and blind carbon-copy (bcc) recipients.
-
-If `recipient_emails` is omitted, the system will fall back to the primary recipient derived from the invoice or
-subscription. At least one recipient must be present, either via the request body or via this default behavior, so an
-empty body may still succeed when defaults are available.
-
-```go
-DeliverProformaInvoice(
-    ctx context.Context,
-    proformaInvoiceUid string,
-    body *models.DeliverProformaInvoiceRequest) (
-    models.ApiResponse[models.ProformaInvoice],
-    error)
-```
-
-## Parameters
-
-| Parameter | Type | Tags | Description |
-|  --- | --- | --- | --- |
-| `proformaInvoiceUid` | `string` | Template, Required | The uid of the proforma invoice |
-| `body` | [`*models.DeliverProformaInvoiceRequest`](../../doc/models/deliver-proforma-invoice-request.md) | Body, Optional | - |
-
-## Response Type
-
-This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.ProformaInvoice](../../doc/models/proforma-invoice.md).
-
-## Example Usage
-
-```go
-ctx := context.Background()
-
-proformaInvoiceUid := "proforma_invoice_uid4"
-
-body := models.DeliverProformaInvoiceRequest{
-    RecipientEmails:      []string{
-        "user0@example.com",
-    },
-    CcRecipientEmails:    []string{
-        "user1@example.com",
-    },
-    BccRecipientEmails:   []string{
-        "user2@example.com",
-    },
-}
-
-apiResponse, err := proformaInvoicesController.DeliverProformaInvoice(ctx, proformaInvoiceUid, &body)
-if err != nil {
-    switch typedErr := err.(type) {
-        case *errors.ErrorListResponse:
-            log.Fatalln("ErrorListResponseException: ", typedErr)
-        default:
-            log.Fatalln(err)
-    }
-} else {
-    // Printing the result and response
-    fmt.Println(apiResponse.Data)
-    fmt.Println(apiResponse.Response.StatusCode)
-}
-```
-
-## Errors
-
-| HTTP Status Code | Error Description | Exception Class |
-|  --- | --- | --- |
-| 404 | Not Found | `ApiError` |
-| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../../doc/models/error-list-response-exception.md) |
-
-
 # Create Proforma Invoice
 
 This endpoint will create a proforma invoice and return it as a response. If the information becomes outdated, simply void the old proforma invoice and generate a new one.
@@ -360,6 +289,77 @@ if err != nil {
     fmt.Println(apiResponse.Response.StatusCode)
 }
 ```
+
+
+# Deliver Proforma Invoice
+
+Allows for proforma invoices to be programmatically delivered via email. Supports email
+delivery to direct recipients, carbon-copy (cc) recipients, and blind carbon-copy (bcc) recipients.
+
+If `recipient_emails` is omitted, the system will fall back to the primary recipient derived from the invoice or
+subscription. At least one recipient must be present, either via the request body or via this default behavior, so an
+empty body may still succeed when defaults are available.
+
+```go
+DeliverProformaInvoice(
+    ctx context.Context,
+    proformaInvoiceUid string,
+    body *models.DeliverProformaInvoiceRequest) (
+    models.ApiResponse[models.ProformaInvoice],
+    error)
+```
+
+## Parameters
+
+| Parameter | Type | Tags | Description |
+|  --- | --- | --- | --- |
+| `proformaInvoiceUid` | `string` | Template, Required | The uid of the proforma invoice |
+| `body` | [`*models.DeliverProformaInvoiceRequest`](../../doc/models/deliver-proforma-invoice-request.md) | Body, Optional | - |
+
+## Response Type
+
+This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.ProformaInvoice](../../doc/models/proforma-invoice.md).
+
+## Example Usage
+
+```go
+ctx := context.Background()
+
+proformaInvoiceUid := "proforma_invoice_uid4"
+
+body := models.DeliverProformaInvoiceRequest{
+    RecipientEmails:      []string{
+        "user0@example.com",
+    },
+    CcRecipientEmails:    []string{
+        "user1@example.com",
+    },
+    BccRecipientEmails:   []string{
+        "user2@example.com",
+    },
+}
+
+apiResponse, err := proformaInvoicesController.DeliverProformaInvoice(ctx, proformaInvoiceUid, &body)
+if err != nil {
+    switch typedErr := err.(type) {
+        case *errors.ErrorListResponse:
+            log.Fatalln("ErrorListResponseException: ", typedErr)
+        default:
+            log.Fatalln(err)
+    }
+} else {
+    // Printing the result and response
+    fmt.Println(apiResponse.Data)
+    fmt.Println(apiResponse.Response.StatusCode)
+}
+```
+
+## Errors
+
+| HTTP Status Code | Error Description | Exception Class |
+|  --- | --- | --- |
+| 404 | Not Found | `ApiError` |
+| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../../doc/models/error-list-response-exception.md) |
 
 
 # Void Proforma Invoice
