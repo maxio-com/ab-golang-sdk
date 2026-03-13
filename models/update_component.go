@@ -23,7 +23,6 @@ type UpdateComponent struct {
     ItemCategory         Optional[ItemCategory] `json:"item_category"`
     DisplayOnHostedPage  *bool                  `json:"display_on_hosted_page,omitempty"`
     // The type of credit to be created when upgrading/downgrading. Defaults to the component and then site setting if one is not provided.
-    // Available values: `full`, `prorated`, `none`.
     UpgradeCharge        Optional[CreditType]   `json:"upgrade_charge"`
     AdditionalProperties map[string]interface{} `json:"_"`
 }

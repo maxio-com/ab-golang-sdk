@@ -179,7 +179,7 @@ func (p *ProformaInvoicesController) CreateProformaInvoice(
 
 // ListProformaInvoicesInput represents the input of the ListProformaInvoices endpoint.
 type ListProformaInvoicesInput struct {
-    // The Chargify id of the subscription
+    // The Chargify id of the subscription.
     SubscriptionId int                           
     // The beginning date range for the invoice's Due Date, in the YYYY-MM-DD format.
     StartDate      *string                       
@@ -265,6 +265,42 @@ func (p *ProformaInvoicesController) ListProformaInvoices(
     }
     
     result, err = utilities.DecodeResults[models.ListProformaInvoicesResponse](decoder)
+    return models.NewApiResponse(result, resp), err
+}
+
+// DeliverProformaInvoice takes context, proformaInvoiceUid, body as parameters and
+// returns an models.ApiResponse with models.ProformaInvoice data and
+// an error if there was an issue with the request or response.
+// Allows for proforma invoices to be programmatically delivered via email. Supports email
+// delivery to direct recipients, carbon-copy (cc) recipients, and blind carbon-copy (bcc) recipients.
+// If `recipient_emails` is omitted, the system will fall back to the primary recipient derived from the invoice or
+// subscription. At least one recipient must be present, either via the request body or via this default behavior, so an
+// empty body may still succeed when defaults are available.
+func (p *ProformaInvoicesController) DeliverProformaInvoice(
+    ctx context.Context,
+    proformaInvoiceUid string,
+    body *models.DeliverProformaInvoiceRequest) (
+    models.ApiResponse[models.ProformaInvoice],
+    error) {
+    req := p.prepareRequest(ctx, "POST", "/proforma_invoices/%v/deliveries.json")
+    req.AppendTemplateParams(proformaInvoiceUid)
+    req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
+        "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
+    })
+    req.Header("Content-Type", "application/json")
+    if body != nil {
+        req.Json(body)
+    }
+    
+    var result models.ProformaInvoice
+    decoder, resp, err := req.CallAsJson()
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    result, err = utilities.DecodeResults[models.ProformaInvoice](decoder)
     return models.NewApiResponse(result, resp), err
 }
 

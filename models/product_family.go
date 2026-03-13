@@ -18,6 +18,8 @@ type ProductFamily struct {
     Description          Optional[string]       `json:"description"`
     CreatedAt            *time.Time             `json:"created_at,omitempty"`
     UpdatedAt            *time.Time             `json:"updated_at,omitempty"`
+    // Timestamp indicating when this product family was archived. `null` if the product family is not archived.
+    ArchivedAt           Optional[time.Time]    `json:"archived_at"`
     AdditionalProperties map[string]interface{} `json:"_"`
 }
 
@@ -25,8 +27,8 @@ type ProductFamily struct {
 // providing a human-readable string representation useful for logging, debugging or displaying information.
 func (p ProductFamily) String() string {
     return fmt.Sprintf(
-    	"ProductFamily[Id=%v, Name=%v, Handle=%v, AccountingCode=%v, Description=%v, CreatedAt=%v, UpdatedAt=%v, AdditionalProperties=%v]",
-    	p.Id, p.Name, p.Handle, p.AccountingCode, p.Description, p.CreatedAt, p.UpdatedAt, p.AdditionalProperties)
+    	"ProductFamily[Id=%v, Name=%v, Handle=%v, AccountingCode=%v, Description=%v, CreatedAt=%v, UpdatedAt=%v, ArchivedAt=%v, AdditionalProperties=%v]",
+    	p.Id, p.Name, p.Handle, p.AccountingCode, p.Description, p.CreatedAt, p.UpdatedAt, p.ArchivedAt, p.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for ProductFamily.
@@ -35,7 +37,7 @@ func (p ProductFamily) MarshalJSON() (
     []byte,
     error) {
     if err := DetectConflictingProperties(p.AdditionalProperties,
-        "id", "name", "handle", "accounting_code", "description", "created_at", "updated_at"); err != nil {
+        "id", "name", "handle", "accounting_code", "description", "created_at", "updated_at", "archived_at"); err != nil {
         return []byte{}, err
     }
     return json.Marshal(p.toMap())
@@ -74,6 +76,18 @@ func (p ProductFamily) toMap() map[string]any {
     if p.UpdatedAt != nil {
         structMap["updated_at"] = p.UpdatedAt.Format(time.RFC3339)
     }
+    if p.ArchivedAt.IsValueSet() {
+        var ArchivedAtVal *string = nil
+        if p.ArchivedAt.Value() != nil {
+            val := p.ArchivedAt.Value().Format(time.RFC3339)
+            ArchivedAtVal = &val
+        }
+        if p.ArchivedAt.Value() != nil {
+            structMap["archived_at"] = ArchivedAtVal
+        } else {
+            structMap["archived_at"] = nil
+        }
+    }
     return structMap
 }
 
@@ -85,7 +99,7 @@ func (p *ProductFamily) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "id", "name", "handle", "accounting_code", "description", "created_at", "updated_at")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "id", "name", "handle", "accounting_code", "description", "created_at", "updated_at", "archived_at")
     if err != nil {
     	return err
     }
@@ -110,6 +124,14 @@ func (p *ProductFamily) UnmarshalJSON(input []byte) error {
         }
         p.UpdatedAt = &UpdatedAtVal
     }
+    p.ArchivedAt.ShouldSetValue(temp.ArchivedAt.IsValueSet())
+    if temp.ArchivedAt.Value() != nil {
+        ArchivedAtVal, err := time.Parse(time.RFC3339, (*temp.ArchivedAt.Value()))
+        if err != nil {
+            log.Fatalf("Cannot Parse archived_at as % s format.", time.RFC3339)
+        }
+        p.ArchivedAt.SetValue(&ArchivedAtVal)
+    }
     return nil
 }
 
@@ -122,4 +144,5 @@ type tempProductFamily  struct {
     Description    Optional[string] `json:"description"`
     CreatedAt      *string          `json:"created_at,omitempty"`
     UpdatedAt      *string          `json:"updated_at,omitempty"`
+    ArchivedAt     Optional[string] `json:"archived_at"`
 }

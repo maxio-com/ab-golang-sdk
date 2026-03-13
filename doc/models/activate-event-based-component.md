@@ -26,6 +26,7 @@
     "pricing_scheme": "stairstep",
     "interval": 66,
     "interval_unit": "day",
+    "list_price_point_id": 174,
     "prices": [
       {
         "starting_quantity": 242,
@@ -37,8 +38,7 @@
         "ending_quantity": 40,
         "unit_price": 23.26
       }
-    ],
-    "renew_prepaid_allocation": false
+    ]
   }
 }
 ```

@@ -31,8 +31,8 @@
 | `Taxable` | `*bool` | Optional | Boolean flag describing whether a component is taxable or not. |
 | `TaxCode` | `models.Optional[string]` | Optional | A string representing the tax code related to the component type. This is especially important when using AvaTax to tax based on locale. This attribute has a max length of 25 characters. |
 | `Recurring` | `*bool` | Optional | - |
-| `UpgradeCharge` | [`models.Optional[models.CreditType]`](../../doc/models/credit-type.md) | Optional | The type of credit to be created when upgrading/downgrading. Defaults to the component and then site setting if one is not provided.<br>Available values: `full`, `prorated`, `none`. |
-| `DowngradeCredit` | [`models.Optional[models.CreditType]`](../../doc/models/credit-type.md) | Optional | The type of credit to be created when upgrading/downgrading. Defaults to the component and then site setting if one is not provided.<br>Available values: `full`, `prorated`, `none`. |
+| `UpgradeCharge` | [`models.Optional[models.CreditType]`](../../doc/models/credit-type.md) | Optional | The type of credit to be created when upgrading/downgrading. Defaults to the component and then site setting if one is not provided. |
+| `DowngradeCredit` | [`models.Optional[models.CreditType]`](../../doc/models/credit-type.md) | Optional | The type of credit to be created when upgrading/downgrading. Defaults to the component and then site setting if one is not provided. |
 | `CreatedAt` | `*time.Time` | Optional | Timestamp indicating when this component was created |
 | `UpdatedAt` | `*time.Time` | Optional | Timestamp indicating when this component was updated |
 | `ArchivedAt` | `models.Optional[time.Time]` | Optional | Timestamp indicating when this component was archived |

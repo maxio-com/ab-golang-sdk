@@ -7,7 +7,7 @@ The following parameters are configurable for the HttpConfiguration:
 
 | Name | Type | Description | Setter | Getter |
 |  --- | --- | --- | --- | --- |
-| timeout | `float64` | Timeout in milliseconds.<br>*Default*: `120` | `WithTimeout` | `Timeout()` |
+| timeout | `float64` | Timeout in seconds.<br>*Default*: `120` | `WithTimeout` | `Timeout()` |
 | transport | `httpRoundTripper` | Establishes network connection and caches them for reuse.<br>*Default*: `http.DefaultTransport` | `WithTransport` | `Transport()` |
 | retryConfiguration | [`advancedbillingRetryConfiguration`](../doc/retry-configuration.md) | Configurations to retry requests.<br>*Default*: `advancedbilling.DefaultRetryConfiguration()` | `WithRetryConfiguration` | `RetryConfiguration()` |
 

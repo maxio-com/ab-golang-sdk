@@ -137,7 +137,12 @@ body := models.CreatePaymentProfileRequest{
 
 apiResponse, err := paymentProfilesController.CreatePaymentProfile(ctx, &body)
 if err != nil {
-    log.Fatalln(err)
+    switch typedErr := err.(type) {
+        case *errors.ErrorListResponse:
+            log.Fatalln("ErrorListResponseException: ", typedErr)
+        default:
+            log.Fatalln(err)
+    }
 } else {
     // Printing the result and response
     fmt.Println(apiResponse.Data)
@@ -198,9 +203,7 @@ ListPaymentProfiles(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br><br>**Default**: `1`<br><br>**Constraints**: `>= 1` |
-| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`.<br><br>**Default**: `20`<br><br>**Constraints**: `<= 200` |
-| `customerId` | `*int` | Query, Optional | The ID of the customer for which you wish to list payment profiles |
+| `input` | [`models.ListPaymentProfilesInput`](../../doc/models/list-payment-profiles-input.md) | Required | Input structure for the method ListPaymentProfiles |
 
 ## Response Type
 
@@ -482,7 +485,12 @@ body := models.UpdatePaymentProfileRequest{
 
 apiResponse, err := paymentProfilesController.UpdatePaymentProfile(ctx, paymentProfileId, &body)
 if err != nil {
-    log.Fatalln(err)
+    switch typedErr := err.(type) {
+        case *errors.ErrorStringMapResponse:
+            log.Fatalln("ErrorStringMapResponseException: ", typedErr)
+        default:
+            log.Fatalln(err)
+    }
 } else {
     // Printing the result and response
     fmt.Println(apiResponse.Data)
@@ -550,7 +558,12 @@ paymentProfileId := 198
 
 resp, err := paymentProfilesController.DeleteUnusedPaymentProfile(ctx, paymentProfileId)
 if err != nil {
-    log.Fatalln(err)
+    switch typedErr := err.(type) {
+        case *errors.ErrorListResponse:
+            log.Fatalln("ErrorListResponseException: ", typedErr)
+        default:
+            log.Fatalln(err)
+    }
 } else {
     fmt.Println(resp.StatusCode)
 }
@@ -566,7 +579,7 @@ if err != nil {
 
 # Delete Subscriptions Payment Profile
 
-This will delete a payment profile belonging to the customer on the subscription.
+Deletes a payment profile belonging to the customer on the subscription.
 
 + If the customer has multiple subscriptions, the payment profile will be removed from all of them.
 
@@ -585,7 +598,7 @@ DeleteSubscriptionsPaymentProfile(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription |
+| `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription. |
 | `paymentProfileId` | `int` | Template, Required | The Chargify id of the payment profile |
 
 ## Response Type
@@ -650,7 +663,12 @@ body := models.BankAccountVerificationRequest{
 
 apiResponse, err := paymentProfilesController.VerifyBankAccount(ctx, bankAccountId, &body)
 if err != nil {
-    log.Fatalln(err)
+    switch typedErr := err.(type) {
+        case *errors.ErrorListResponse:
+            log.Fatalln("ErrorListResponseException: ", typedErr)
+        default:
+            log.Fatalln(err)
+    }
 } else {
     // Printing the result and response
     fmt.Println(apiResponse.Data)
@@ -696,7 +714,7 @@ if err != nil {
 
 # Delete Subscription Group Payment Profile
 
-This will delete a Payment Profile belonging to a Subscription Group.
+Deletes a Payment Profile belonging to a Subscription Group.
 
 **Note**: If the Payment Profile belongs to multiple Subscription Groups and/or Subscriptions, it will be removed from all of them.
 
@@ -757,7 +775,7 @@ ChangeSubscriptionDefaultPaymentProfile(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription |
+| `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription. |
 | `paymentProfileId` | `int` | Template, Required | The Chargify id of the payment profile |
 
 ## Response Type
@@ -775,7 +793,12 @@ paymentProfileId := 198
 
 apiResponse, err := paymentProfilesController.ChangeSubscriptionDefaultPaymentProfile(ctx, subscriptionId, paymentProfileId)
 if err != nil {
-    log.Fatalln(err)
+    switch typedErr := err.(type) {
+        case *errors.ErrorListResponse:
+            log.Fatalln("ErrorListResponseException: ", typedErr)
+        default:
+            log.Fatalln(err)
+    }
 } else {
     // Printing the result and response
     fmt.Println(apiResponse.Data)
@@ -859,7 +882,12 @@ paymentProfileId := 198
 
 apiResponse, err := paymentProfilesController.ChangeSubscriptionGroupDefaultPaymentProfile(ctx, uid, paymentProfileId)
 if err != nil {
-    log.Fatalln(err)
+    switch typedErr := err.(type) {
+        case *errors.ErrorListResponse:
+            log.Fatalln("ErrorListResponseException: ", typedErr)
+        default:
+            log.Fatalln(err)
+    }
 } else {
     // Printing the result and response
     fmt.Println(apiResponse.Data)
@@ -938,7 +966,12 @@ chargifyToken := "chargify_token8"
 
 apiResponse, err := paymentProfilesController.ReadOneTimeToken(ctx, chargifyToken)
 if err != nil {
-    log.Fatalln(err)
+    switch typedErr := err.(type) {
+        case *errors.ErrorListResponse:
+            log.Fatalln("ErrorListResponseException: ", typedErr)
+        default:
+            log.Fatalln(err)
+    }
 } else {
     // Printing the result and response
     fmt.Println(apiResponse.Data)
@@ -975,7 +1008,7 @@ SendRequestUpdatePaymentEmail(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription |
+| `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription. |
 
 ## Response Type
 
@@ -990,7 +1023,12 @@ subscriptionId := 222
 
 resp, err := paymentProfilesController.SendRequestUpdatePaymentEmail(ctx, subscriptionId)
 if err != nil {
-    log.Fatalln(err)
+    switch typedErr := err.(type) {
+        case *errors.ErrorListResponse:
+            log.Fatalln("ErrorListResponseException: ", typedErr)
+        default:
+            log.Fatalln(err)
+    }
 } else {
     fmt.Println(resp.StatusCode)
 }

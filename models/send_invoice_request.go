@@ -12,6 +12,8 @@ type SendInvoiceRequest struct {
     RecipientEmails      []string               `json:"recipient_emails,omitempty"`
     CcRecipientEmails    []string               `json:"cc_recipient_emails,omitempty"`
     BccRecipientEmails   []string               `json:"bcc_recipient_emails,omitempty"`
+    // Array of URLs to files to attach to the invoice email. Max 10 files, 10MB each.
+    AttachmentUrls       []string               `json:"attachment_urls,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
 }
 
@@ -19,8 +21,8 @@ type SendInvoiceRequest struct {
 // providing a human-readable string representation useful for logging, debugging or displaying information.
 func (s SendInvoiceRequest) String() string {
     return fmt.Sprintf(
-    	"SendInvoiceRequest[RecipientEmails=%v, CcRecipientEmails=%v, BccRecipientEmails=%v, AdditionalProperties=%v]",
-    	s.RecipientEmails, s.CcRecipientEmails, s.BccRecipientEmails, s.AdditionalProperties)
+    	"SendInvoiceRequest[RecipientEmails=%v, CcRecipientEmails=%v, BccRecipientEmails=%v, AttachmentUrls=%v, AdditionalProperties=%v]",
+    	s.RecipientEmails, s.CcRecipientEmails, s.BccRecipientEmails, s.AttachmentUrls, s.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for SendInvoiceRequest.
@@ -29,7 +31,7 @@ func (s SendInvoiceRequest) MarshalJSON() (
     []byte,
     error) {
     if err := DetectConflictingProperties(s.AdditionalProperties,
-        "recipient_emails", "cc_recipient_emails", "bcc_recipient_emails"); err != nil {
+        "recipient_emails", "cc_recipient_emails", "bcc_recipient_emails", "attachment_urls"); err != nil {
         return []byte{}, err
     }
     return json.Marshal(s.toMap())
@@ -48,6 +50,9 @@ func (s SendInvoiceRequest) toMap() map[string]any {
     if s.BccRecipientEmails != nil {
         structMap["bcc_recipient_emails"] = s.BccRecipientEmails
     }
+    if s.AttachmentUrls != nil {
+        structMap["attachment_urls"] = s.AttachmentUrls
+    }
     return structMap
 }
 
@@ -59,7 +64,7 @@ func (s *SendInvoiceRequest) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "recipient_emails", "cc_recipient_emails", "bcc_recipient_emails")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "recipient_emails", "cc_recipient_emails", "bcc_recipient_emails", "attachment_urls")
     if err != nil {
     	return err
     }
@@ -68,6 +73,7 @@ func (s *SendInvoiceRequest) UnmarshalJSON(input []byte) error {
     s.RecipientEmails = temp.RecipientEmails
     s.CcRecipientEmails = temp.CcRecipientEmails
     s.BccRecipientEmails = temp.BccRecipientEmails
+    s.AttachmentUrls = temp.AttachmentUrls
     return nil
 }
 
@@ -76,4 +82,5 @@ type tempSendInvoiceRequest  struct {
     RecipientEmails    []string `json:"recipient_emails,omitempty"`
     CcRecipientEmails  []string `json:"cc_recipient_emails,omitempty"`
     BccRecipientEmails []string `json:"bcc_recipient_emails,omitempty"`
+    AttachmentUrls     []string `json:"attachment_urls,omitempty"`
 }

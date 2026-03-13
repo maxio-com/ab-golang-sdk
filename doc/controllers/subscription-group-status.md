@@ -55,7 +55,12 @@ body := models.CancelGroupedSubscriptionsRequest{
 
 resp, err := subscriptionGroupStatusController.CancelSubscriptionsInGroup(ctx, uid, &body)
 if err != nil {
-    log.Fatalln(err)
+    switch typedErr := err.(type) {
+        case *errors.ErrorListResponse:
+            log.Fatalln("ErrorListResponseException: ", typedErr)
+        default:
+            log.Fatalln(err)
+    }
 } else {
     fmt.Println(resp.StatusCode)
 }
@@ -101,7 +106,12 @@ uid := "uid0"
 
 resp, err := subscriptionGroupStatusController.InitiateDelayedCancellationForGroup(ctx, uid)
 if err != nil {
-    log.Fatalln(err)
+    switch typedErr := err.(type) {
+        case *errors.ErrorListResponse:
+            log.Fatalln("ErrorListResponseException: ", typedErr)
+        default:
+            log.Fatalln(err)
+    }
 } else {
     fmt.Println(resp.StatusCode)
 }
@@ -145,7 +155,12 @@ uid := "uid0"
 
 resp, err := subscriptionGroupStatusController.CancelDelayedCancellationForGroup(ctx, uid)
 if err != nil {
-    log.Fatalln(err)
+    switch typedErr := err.(type) {
+        case *errors.ErrorListResponse:
+            log.Fatalln("ErrorListResponseException: ", typedErr)
+        default:
+            log.Fatalln(err)
+    }
 } else {
     fmt.Println(resp.StatusCode)
 }
@@ -213,7 +228,12 @@ body := models.ReactivateSubscriptionGroupRequest{
 
 apiResponse, err := subscriptionGroupStatusController.ReactivateSubscriptionGroup(ctx, uid, &body)
 if err != nil {
-    log.Fatalln(err)
+    switch typedErr := err.(type) {
+        case *errors.ErrorListResponse:
+            log.Fatalln("ErrorListResponseException: ", typedErr)
+        default:
+            log.Fatalln(err)
+    }
 } else {
     // Printing the result and response
     fmt.Println(apiResponse.Data)

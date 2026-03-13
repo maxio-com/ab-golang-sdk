@@ -14,10 +14,8 @@ type AllocateComponents struct {
     Allocations              []CreateAllocation     `json:"allocations,omitempty"`
     AccrueCharge             *bool                  `json:"accrue_charge,omitempty"`
     // The type of credit to be created when upgrading/downgrading. Defaults to the component and then site setting if one is not provided.
-    // Available values: `full`, `prorated`, `none`.
     UpgradeCharge            Optional[CreditType]   `json:"upgrade_charge"`
     // The type of credit to be created when upgrading/downgrading. Defaults to the component and then site setting if one is not provided.
-    // Available values: `full`, `prorated`, `none`.
     DowngradeCredit          Optional[CreditType]   `json:"downgrade_credit"`
     // (Optional) If not passed, the allocation(s) will use the payment collection method on the subscription
     PaymentCollectionMethod  *CollectionMethod      `json:"payment_collection_method,omitempty"`

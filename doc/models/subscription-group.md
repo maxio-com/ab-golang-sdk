@@ -9,6 +9,7 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
+| `Uid` | `*string` | Optional | - |
 | `CustomerId` | `*int` | Optional | - |
 | `PaymentProfile` | [`*models.SubscriptionGroupPaymentProfile`](../../doc/models/subscription-group-payment-profile.md) | Optional | - |
 | `PaymentCollectionMethod` | [`*models.CollectionMethod`](../../doc/models/collection-method.md) | Optional | The type of payment collection to be used in the subscription. For legacy Statements Architecture valid options are - `invoice`, `automatic`. For current Relationship Invoicing Architecture valid options are - `remittance`, `automatic`, `prepaid`. |
@@ -19,6 +20,7 @@
 
 ```json
 {
+  "uid": "uid4",
   "customer_id": 36,
   "payment_profile": {
     "id": 44,
@@ -31,8 +33,7 @@
     146,
     147,
     148
-  ],
-  "created_at": "2016-03-13T12:52:32.123Z"
+  ]
 }
 ```
 

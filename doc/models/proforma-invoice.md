@@ -45,6 +45,7 @@
 | `Payments` | [`[]models.ProformaInvoicePayment`](../../doc/models/proforma-invoice-payment.md) | Optional | - |
 | `CustomFields` | [`[]models.InvoiceCustomField`](../../doc/models/invoice-custom-field.md) | Optional | - |
 | `PublicUrl` | `models.Optional[string]` | Optional | - |
+| `AvailableActions` | [`*models.AvailableActions`](../../doc/models/available-actions.md) | Optional | - |
 
 ## Example (as JSON)
 

@@ -52,10 +52,8 @@ type Component struct {
     TaxCode                   Optional[string]           `json:"tax_code"`
     Recurring                 *bool                      `json:"recurring,omitempty"`
     // The type of credit to be created when upgrading/downgrading. Defaults to the component and then site setting if one is not provided.
-    // Available values: `full`, `prorated`, `none`.
     UpgradeCharge             Optional[CreditType]       `json:"upgrade_charge"`
     // The type of credit to be created when upgrading/downgrading. Defaults to the component and then site setting if one is not provided.
-    // Available values: `full`, `prorated`, `none`.
     DowngradeCredit           Optional[CreditType]       `json:"downgrade_credit"`
     // Timestamp indicating when this component was created
     CreatedAt                 *time.Time                 `json:"created_at,omitempty"`

@@ -76,7 +76,12 @@ body := models.CreateSegmentRequest{
 
 apiResponse, err := eventsBasedBillingSegmentsController.CreateSegment(ctx, componentId, pricePointId, &body)
 if err != nil {
-    log.Fatalln(err)
+    switch typedErr := err.(type) {
+        case *errors.EventBasedBillingSegmentErrors:
+            log.Fatalln("EventBasedBillingSegmentErrorsException: ", typedErr)
+        default:
+            log.Fatalln(err)
+    }
 } else {
     // Printing the result and response
     fmt.Println(apiResponse.Data)
@@ -112,11 +117,7 @@ ListSegmentsForPricePoint(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `componentId` | `string` | Template, Required | ID or Handle for the Component |
-| `pricePointId` | `string` | Template, Required | ID or Handle for the Price Point belonging to the Component |
-| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br><br>**Default**: `1`<br><br>**Constraints**: `>= 1` |
-| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 30. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`.<br><br>**Default**: `30`<br><br>**Constraints**: `<= 200` |
-| `filter` | [`*models.ListSegmentsFilter`](../../doc/models/list-segments-filter.md) | Query, Optional | Filter to use for List Segments for a Price Point operation |
+| `input` | [`models.ListSegmentsForPricePointInput`](../../doc/models/list-segments-for-price-point-input.md) | Required | Input structure for the method ListSegmentsForPricePoint |
 
 ## Response Type
 
@@ -139,7 +140,12 @@ collectedInput := advancedbilling.ListSegmentsForPricePointInput{
 
 apiResponse, err := eventsBasedBillingSegmentsController.ListSegmentsForPricePoint(ctx, collectedInput)
 if err != nil {
-    log.Fatalln(err)
+    switch typedErr := err.(type) {
+        case *errors.EventBasedBillingListSegmentsErrors:
+            log.Fatalln("EventBasedBillingListSegmentsErrorsException: ", typedErr)
+        default:
+            log.Fatalln(err)
+    }
 } else {
     // Printing the result and response
     fmt.Println(apiResponse.Data)
@@ -198,7 +204,12 @@ id := float64(60)
 
 apiResponse, err := eventsBasedBillingSegmentsController.UpdateSegment(ctx, componentId, pricePointId, id, nil)
 if err != nil {
-    log.Fatalln(err)
+    switch typedErr := err.(type) {
+        case *errors.EventBasedBillingSegmentErrors:
+            log.Fatalln("EventBasedBillingSegmentErrorsException: ", typedErr)
+        default:
+            log.Fatalln(err)
+    }
 } else {
     // Printing the result and response
     fmt.Println(apiResponse.Data)
@@ -310,7 +321,12 @@ pricePointId := "price_point_id8"
 
 apiResponse, err := eventsBasedBillingSegmentsController.BulkCreateSegments(ctx, componentId, pricePointId, nil)
 if err != nil {
-    log.Fatalln(err)
+    switch typedErr := err.(type) {
+        case *errors.EventBasedBillingSegment:
+            log.Fatalln("EventBasedBillingSegmentException: ", typedErr)
+        default:
+            log.Fatalln(err)
+    }
 } else {
     // Printing the result and response
     fmt.Println(apiResponse.Data)
@@ -367,7 +383,12 @@ pricePointId := "price_point_id8"
 
 apiResponse, err := eventsBasedBillingSegmentsController.BulkUpdateSegments(ctx, componentId, pricePointId, nil)
 if err != nil {
-    log.Fatalln(err)
+    switch typedErr := err.(type) {
+        case *errors.EventBasedBillingSegment:
+            log.Fatalln("EventBasedBillingSegmentException: ", typedErr)
+        default:
+            log.Fatalln(err)
+    }
 } else {
     // Printing the result and response
     fmt.Println(apiResponse.Data)

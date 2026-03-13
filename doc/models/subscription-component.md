@@ -22,8 +22,8 @@
 | `ComponentHandle` | `models.Optional[string]` | Optional | - |
 | `SubscriptionId` | `*int` | Optional | - |
 | `Recurring` | `*bool` | Optional | - |
-| `UpgradeCharge` | [`models.Optional[models.CreditType]`](../../doc/models/credit-type.md) | Optional | The type of credit to be created when upgrading/downgrading. Defaults to the component and then site setting if one is not provided.<br>Available values: `full`, `prorated`, `none`. |
-| `DowngradeCredit` | [`models.Optional[models.CreditType]`](../../doc/models/credit-type.md) | Optional | The type of credit to be created when upgrading/downgrading. Defaults to the component and then site setting if one is not provided.<br>Available values: `full`, `prorated`, `none`. |
+| `UpgradeCharge` | [`models.Optional[models.CreditType]`](../../doc/models/credit-type.md) | Optional | The type of credit to be created when upgrading/downgrading. Defaults to the component and then site setting if one is not provided. |
+| `DowngradeCredit` | [`models.Optional[models.CreditType]`](../../doc/models/credit-type.md) | Optional | The type of credit to be created when upgrading/downgrading. Defaults to the component and then site setting if one is not provided. |
 | `ArchivedAt` | `models.Optional[time.Time]` | Optional | - |
 | `PricePointId` | `models.Optional[int]` | Optional | - |
 | `PricePointHandle` | `models.Optional[string]` | Optional | - |

@@ -20,10 +20,8 @@ type OnOffComponent struct {
     // Boolean flag describing whether a component is taxable or not.
     Taxable                   *bool                     `json:"taxable,omitempty"`
     // The type of credit to be created when upgrading/downgrading. Defaults to the component and then site setting if one is not provided.
-    // Available values: `full`, `prorated`, `none`.
     UpgradeCharge             Optional[CreditType]      `json:"upgrade_charge"`
     // The type of credit to be created when upgrading/downgrading. Defaults to the component and then site setting if one is not provided.
-    // Available values: `full`, `prorated`, `none`.
     DowngradeCredit           Optional[CreditType]      `json:"downgrade_credit"`
     PricePoints               []ComponentPricePointItem `json:"price_points,omitempty"`
     // This is the amount that the customer will be charged when they turn the component on for the subscription. The price can contain up to 8 decimal places. i.e. 1.00 or 0.0012 or 0.00000065

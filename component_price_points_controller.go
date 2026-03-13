@@ -168,6 +168,46 @@ func (c *ComponentPricePointsController) BulkCreateComponentPricePoints(
     return models.NewApiResponse(result, resp), err
 }
 
+// CloneComponentPricePoint takes context, componentId, pricePointId, body as parameters and
+// returns an models.ApiResponse with models.ComponentPricePointCurrencyOverageResponse data and
+// an error if there was an issue with the request or response.
+// Clones a component price point. Custom price points (tied to a specific subscription) cannot be cloned. The following attributes are copied from the source price point:
+// - Pricing scheme
+// - All price tiers (with starting/ending quantities and unit prices)
+// - Tax included setting
+// - Currency prices (if definitive pricing is set)
+// - Overage pricing (for prepaid usage components)
+// - Interval settings (if multi-frequency is enabled)
+// - Event-based billing segments (if applicable)
+func (c *ComponentPricePointsController) CloneComponentPricePoint(
+    ctx context.Context,
+    componentId models.CloneComponentPricePointComponentId,
+    pricePointId models.CloneComponentPricePointPricePointId,
+    body *models.CloneComponentPricePointRequest) (
+    models.ApiResponse[models.ComponentPricePointCurrencyOverageResponse],
+    error) {
+    req := c.prepareRequest(ctx, "POST", "/components/%v/price_points/%v/clone.json")
+    req.AppendTemplateParams(componentId, pricePointId)
+    req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
+        "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
+    })
+    req.Header("Content-Type", "application/json")
+    if body != nil {
+        req.Json(body)
+    }
+    
+    var result models.ComponentPricePointCurrencyOverageResponse
+    decoder, resp, err := req.CallAsJson()
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    result, err = utilities.DecodeResults[models.ComponentPricePointCurrencyOverageResponse](decoder)
+    return models.NewApiResponse(result, resp), err
+}
+
 // UpdateComponentPricePoint takes context, componentId, pricePointId, body as parameters and
 // returns an models.ApiResponse with models.ComponentPricePointResponse data and
 // an error if there was an issue with the request or response.
@@ -204,7 +244,7 @@ func (c *ComponentPricePointsController) UpdateComponentPricePoint(
 }
 
 // ReadComponentPricePoint takes context, componentId, pricePointId, currencyPrices as parameters and
-// returns an models.ApiResponse with models.ComponentPricePointResponse data and
+// returns an models.ApiResponse with models.ComponentPricePointCurrencyOverageResponse data and
 // an error if there was an issue with the request or response.
 // Use this endpoint to retrieve details for a specific component price point. You can achieve this by using either the component price point ID or handle.
 func (c *ComponentPricePointsController) ReadComponentPricePoint(
@@ -212,7 +252,7 @@ func (c *ComponentPricePointsController) ReadComponentPricePoint(
     componentId models.ReadComponentPricePointComponentId,
     pricePointId models.ReadComponentPricePointPricePointId,
     currencyPrices *bool) (
-    models.ApiResponse[models.ComponentPricePointResponse],
+    models.ApiResponse[models.ComponentPricePointCurrencyOverageResponse],
     error) {
     req := c.prepareRequest(ctx, "GET", "/components/%v/price_points/%v.json")
     req.AppendTemplateParams(componentId, pricePointId)
@@ -221,13 +261,13 @@ func (c *ComponentPricePointsController) ReadComponentPricePoint(
         req.QueryParam("currency_prices", *currencyPrices)
     }
     
-    var result models.ComponentPricePointResponse
+    var result models.ComponentPricePointCurrencyOverageResponse
     decoder, resp, err := req.CallAsJson()
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
     
-    result, err = utilities.DecodeResults[models.ComponentPricePointResponse](decoder)
+    result, err = utilities.DecodeResults[models.ComponentPricePointCurrencyOverageResponse](decoder)
     return models.NewApiResponse(result, resp), err
 }
 

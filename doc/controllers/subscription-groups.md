@@ -79,7 +79,12 @@ body := models.SubscriptionGroupSignupRequest{
 
 apiResponse, err := subscriptionGroupsController.SignupWithSubscriptionGroup(ctx, &body)
 if err != nil {
-    log.Fatalln(err)
+    switch typedErr := err.(type) {
+        case *errors.SubscriptionGroupSignupErrorResponse:
+            log.Fatalln("SubscriptionGroupSignupErrorResponseException: ", typedErr)
+        default:
+            log.Fatalln(err)
+    }
 } else {
     // Printing the result and response
     fmt.Println(apiResponse.Data)
@@ -134,7 +139,12 @@ body := models.CreateSubscriptionGroupRequest{
 
 apiResponse, err := subscriptionGroupsController.CreateSubscriptionGroup(ctx, &body)
 if err != nil {
-    log.Fatalln(err)
+    switch typedErr := err.(type) {
+        case *errors.SubscriptionGroupCreateErrorResponse:
+            log.Fatalln("SubscriptionGroupCreateErrorResponseException: ", typedErr)
+        default:
+            log.Fatalln(err)
+    }
 } else {
     // Printing the result and response
     fmt.Println(apiResponse.Data)
@@ -147,6 +157,7 @@ if err != nil {
 ```json
 {
   "subscription_group": {
+    "uid": "grp_952mvqcnk53wq",
     "customer_id": 1,
     "payment_profile": {
       "id": 1,
@@ -191,9 +202,7 @@ ListSubscriptionGroups(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br><br>**Default**: `1`<br><br>**Constraints**: `>= 1` |
-| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`.<br><br>**Default**: `20`<br><br>**Constraints**: `<= 200` |
-| `include` | [`[]models.SubscriptionGroupsListInclude`](../../doc/models/subscription-groups-list-include.md) | Query, Optional | A list of additional information to include in the response. The following values are supported:<br><br>- `account_balances`: Account balance information for the subscription groups. Use in query: `include[]=account_balances` |
+| `input` | [`models.ListSubscriptionGroupsInput`](../../doc/models/list-subscription-groups-input.md) | Required | Input structure for the method ListSubscriptionGroups |
 
 ## Response Type
 
@@ -397,7 +406,12 @@ body := models.UpdateSubscriptionGroupRequest{
 
 apiResponse, err := subscriptionGroupsController.UpdateSubscriptionGroupMembers(ctx, uid, &body)
 if err != nil {
-    log.Fatalln(err)
+    switch typedErr := err.(type) {
+        case *errors.SubscriptionGroupUpdateErrorResponse:
+            log.Fatalln("SubscriptionGroupUpdateErrorResponseException: ", typedErr)
+        default:
+            log.Fatalln(err)
+    }
 } else {
     // Printing the result and response
     fmt.Println(apiResponse.Data)
@@ -435,8 +449,8 @@ if err != nil {
 
 # Delete Subscription Group
 
-Use this endpoint to delete subscription group.
-Only groups without members can be deleted
+Deletes a subscription group.
+Only groups without members can be deleted.
 
 ```go
 DeleteSubscriptionGroup(
@@ -608,7 +622,7 @@ AddSubscriptionToGroup(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription |
+| `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription. |
 | `body` | [`*models.AddSubscriptionToAGroup`](../../doc/models/add-subscription-to-a-group.md) | Body, Optional | - |
 
 ## Response Type
@@ -685,7 +699,7 @@ RemoveSubscriptionFromGroup(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription |
+| `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription. |
 
 ## Response Type
 
@@ -700,7 +714,12 @@ subscriptionId := 222
 
 resp, err := subscriptionGroupsController.RemoveSubscriptionFromGroup(ctx, subscriptionId)
 if err != nil {
-    log.Fatalln(err)
+    switch typedErr := err.(type) {
+        case *errors.ErrorListResponse:
+            log.Fatalln("ErrorListResponseException: ", typedErr)
+        default:
+            log.Fatalln(err)
+    }
 } else {
     fmt.Println(resp.StatusCode)
 }

@@ -13,7 +13,7 @@
 | `ProductId` | `*int` | Optional | The Product ID of the product for which you are creating a subscription. The product ID is not currently published, so we recommend using the API Handle instead. |
 | `ProductPricePointHandle` | `*string` | Optional | The user-friendly API handle of a product's particular price point. |
 | `ProductPricePointId` | `*int` | Optional | The ID of the particular price point on the product. |
-| `CustomPrice` | [`*models.SubscriptionCustomPrice`](../../doc/models/subscription-custom-price.md) | Optional | (Optional) Used in place of `product_price_point_id` to define a custom price point unique to the subscription |
+| `CustomPrice` | [`*models.SubscriptionCustomPrice`](../../doc/models/subscription-custom-price.md) | Optional | (Optional) Used in place of `product_price_point_id` to define a custom price point unique to the subscription. A subscription can have up to 30 custom price points. Exceeding this limit will result in an API error. |
 | `CouponCode` | `*string` | Optional | (deprecated) The coupon code of the single coupon currently applied to the subscription. See coupon_codes instead as subscriptions can now have more than one coupon. |
 | `CouponCodes` | `[]string` | Optional | An array for all the coupons attached to the subscription. |
 | `PaymentCollectionMethod` | [`*models.CollectionMethod`](../../doc/models/collection-method.md) | Optional | The type of payment collection to be used in the subscription. For legacy Statements Architecture valid options are - `invoice`, `automatic`. For current Relationship Invoicing Architecture valid options are - `remittance`, `automatic`, `prepaid`. |

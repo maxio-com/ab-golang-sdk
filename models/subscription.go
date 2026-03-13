@@ -78,8 +78,8 @@ type Subscription struct {
     DelayedCancelAt                   Optional[time.Time]               `json:"delayed_cancel_at"`
     // (deprecated) The coupon code of the single coupon currently applied to the subscription. See coupon_codes instead as subscriptions can now have more than one coupon.
     CouponCode                        Optional[string]                  `json:"coupon_code"`                                   // Deprecated
-    // The day of the month that the subscription will charge according to calendar billing rules, if used.
-    SnapDay                           Optional[SubscriptionSnapDay]     `json:"snap_day"`
+    // A day of month that subscription will be processed on. Can be 1 up to 28 or 'end'.
+    SnapDay                           Optional[string]                  `json:"snap_day"`
     // The type of payment collection to be used in the subscription. For legacy Statements Architecture valid options are - `invoice`, `automatic`. For current Relationship Invoicing Architecture valid options are - `remittance`, `automatic`, `prepaid`.
     PaymentCollectionMethod           *CollectionMethod                 `json:"payment_collection_method,omitempty"`
     Customer                          *Customer                         `json:"customer,omitempty"`
@@ -99,7 +99,7 @@ type Subscription struct {
     CouponUseCount                    Optional[int]                     `json:"coupon_use_count"`                              // Deprecated
     // (deprecated) How many times the subscription's single coupon may be used. This field has no replacement for multiple coupons.
     CouponUsesAllowed                 Optional[int]                     `json:"coupon_uses_allowed"`                           // Deprecated
-    // If the subscription is canceled, this is their churn code.
+    // The churn reason code associated to a cancelled subscription.
     ReasonCode                        Optional[string]                  `json:"reason_code"`
     // The date the subscription is scheduled to automatically resume from the on_hold state.
     AutomaticallyResumeAt             Optional[time.Time]               `json:"automatically_resume_at"`
@@ -124,7 +124,7 @@ type Subscription struct {
     NetTerms                          Optional[int]                     `json:"net_terms"`
     // For European sites subject to PSD2 and using 3D Secure, this can be used to reference a previous transaction for the customer. This will ensure the card will be charged successfully at renewal.
     StoredCredentialTransactionId     Optional[int]                     `json:"stored_credential_transaction_id"`
-    // The reference value (provided by your app) for the subscription itelf.
+    // The reference value (provided by your app) for the subscription istelf.
     Reference                         Optional[string]                  `json:"reference"`
     // The timestamp of the most recent on hold action.
     OnHoldAt                          Optional[time.Time]               `json:"on_hold_at"`
@@ -344,7 +344,7 @@ func (s Subscription) toMap() map[string]any {
     }
     if s.SnapDay.IsValueSet() {
         if s.SnapDay.Value() != nil {
-            structMap["snap_day"] = s.SnapDay.Value().toMap()
+            structMap["snap_day"] = s.SnapDay.Value()
         } else {
             structMap["snap_day"] = nil
         }
@@ -763,7 +763,7 @@ type tempSubscription  struct {
     SignupRevenue                     *string                           `json:"signup_revenue,omitempty"`
     DelayedCancelAt                   Optional[string]                  `json:"delayed_cancel_at"`
     CouponCode                        Optional[string]                  `json:"coupon_code"`
-    SnapDay                           Optional[SubscriptionSnapDay]     `json:"snap_day"`
+    SnapDay                           Optional[string]                  `json:"snap_day"`
     PaymentCollectionMethod           *CollectionMethod                 `json:"payment_collection_method,omitempty"`
     Customer                          *Customer                         `json:"customer,omitempty"`
     Product                           *Product                          `json:"product,omitempty"`

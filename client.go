@@ -44,6 +44,7 @@ type ClientInterface interface {
     SubscriptionInvoiceAccountController() *SubscriptionInvoiceAccountController
     SubscriptionNotesController() *SubscriptionNotesController
     SubscriptionProductsController() *SubscriptionProductsController
+    SubscriptionRenewalsController() *SubscriptionRenewalsController
     SubscriptionStatusController() *SubscriptionStatusController
     WebhooksController() *WebhooksController
     UserAgent() *string
@@ -84,6 +85,7 @@ type client struct {
     subscriptionInvoiceAccountController      SubscriptionInvoiceAccountController
     subscriptionNotesController               SubscriptionNotesController
     subscriptionProductsController            SubscriptionProductsController
+    subscriptionRenewalsController            SubscriptionRenewalsController
     subscriptionStatusController              SubscriptionStatusController
     webhooksController                        WebhooksController
 }
@@ -95,7 +97,7 @@ func NewClient(configuration Configuration) ClientInterface {
         configuration: configuration,
     }
     
-    client.userAgent = utilities.UpdateUserAgent("AB SDK Go:0.8.0 on OS {os-info}")
+    client.userAgent = utilities.UpdateUserAgent("AB SDK Go:0.9.0 on OS {os-info}")
     client.callBuilderFactory = callBuilderHandler(
     	func(server string) string {
     		if server == "" {
@@ -142,6 +144,7 @@ func NewClient(configuration Configuration) ClientInterface {
     client.subscriptionInvoiceAccountController = *NewSubscriptionInvoiceAccountController(*baseController)
     client.subscriptionNotesController = *NewSubscriptionNotesController(*baseController)
     client.subscriptionProductsController = *NewSubscriptionProductsController(*baseController)
+    client.subscriptionRenewalsController = *NewSubscriptionRenewalsController(*baseController)
     client.subscriptionStatusController = *NewSubscriptionStatusController(*baseController)
     client.webhooksController = *NewWebhooksController(*baseController)
     return client
@@ -305,6 +308,11 @@ func (c *client) SubscriptionNotesController() *SubscriptionNotesController {
 // SubscriptionProductsController returns the subscriptionProductsController instance of the client.
 func (c *client) SubscriptionProductsController() *SubscriptionProductsController {
     return &c.subscriptionProductsController
+}
+
+// SubscriptionRenewalsController returns the subscriptionRenewalsController instance of the client.
+func (c *client) SubscriptionRenewalsController() *SubscriptionRenewalsController {
+    return &c.subscriptionRenewalsController
 }
 
 // SubscriptionStatusController returns the subscriptionStatusController instance of the client.

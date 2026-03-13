@@ -17,11 +17,11 @@
 {
   "allocation": {
     "quantity": 228.94,
+    "decimal_quantity": "decimal_quantity6",
+    "previous_quantity": 254.04,
+    "decimal_previous_quantity": "decimal_previous_quantity8",
     "component_id": 8,
-    "memo": "memo2",
-    "proration_downgrade_scheme": "proration_downgrade_scheme4",
-    "proration_upgrade_scheme": "proration_upgrade_scheme6",
-    "accrue_charge": false
+    "memo": "memo2"
   }
 }
 ```

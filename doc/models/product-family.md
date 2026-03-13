@@ -16,6 +16,7 @@
 | `Description` | `models.Optional[string]` | Optional | - |
 | `CreatedAt` | `*time.Time` | Optional | - |
 | `UpdatedAt` | `*time.Time` | Optional | - |
+| `ArchivedAt` | `models.Optional[time.Time]` | Optional | Timestamp indicating when this product family was archived. `null` if the product family is not archived. |
 
 ## Example (as JSON)
 

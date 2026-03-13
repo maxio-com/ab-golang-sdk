@@ -17,10 +17,8 @@ type PreviewAllocationsRequest struct {
     // To calculate proration amounts for a future time. Only within a current subscription period. Only ISO8601 format is supported.
     EffectiveProrationDate *time.Time             `json:"effective_proration_date,omitempty"`
     // The type of credit to be created when upgrading/downgrading. Defaults to the component and then site setting if one is not provided.
-    // Available values: `full`, `prorated`, `none`.
     UpgradeCharge          Optional[CreditType]   `json:"upgrade_charge"`
     // The type of credit to be created when upgrading/downgrading. Defaults to the component and then site setting if one is not provided.
-    // Available values: `full`, `prorated`, `none`.
     DowngradeCredit        Optional[CreditType]   `json:"downgrade_credit"`
     AdditionalProperties   map[string]interface{} `json:"_"`
 }

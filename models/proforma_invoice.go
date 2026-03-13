@@ -57,6 +57,7 @@ type ProformaInvoice struct {
     Payments             []ProformaInvoicePayment   `json:"payments,omitempty"`
     CustomFields         []InvoiceCustomField       `json:"custom_fields,omitempty"`
     PublicUrl            Optional[string]           `json:"public_url"`
+    AvailableActions     *AvailableActions          `json:"available_actions,omitempty"`
     AdditionalProperties map[string]interface{}     `json:"_"`
 }
 
@@ -64,8 +65,8 @@ type ProformaInvoice struct {
 // providing a human-readable string representation useful for logging, debugging or displaying information.
 func (p ProformaInvoice) String() string {
     return fmt.Sprintf(
-    	"ProformaInvoice[Uid=%v, SiteId=%v, CustomerId=%v, SubscriptionId=%v, Number=%v, SequenceNumber=%v, CreatedAt=%v, DeliveryDate=%v, Status=%v, CollectionMethod=%v, PaymentInstructions=%v, Currency=%v, ConsolidationLevel=%v, ProductName=%v, ProductFamilyName=%v, Role=%v, Seller=%v, Customer=%v, Memo=%v, BillingAddress=%v, ShippingAddress=%v, SubtotalAmount=%v, DiscountAmount=%v, TaxAmount=%v, TotalAmount=%v, CreditAmount=%v, PaidAmount=%v, RefundAmount=%v, DueAmount=%v, LineItems=%v, Discounts=%v, Taxes=%v, Credits=%v, Payments=%v, CustomFields=%v, PublicUrl=%v, AdditionalProperties=%v]",
-    	p.Uid, p.SiteId, p.CustomerId, p.SubscriptionId, p.Number, p.SequenceNumber, p.CreatedAt, p.DeliveryDate, p.Status, p.CollectionMethod, p.PaymentInstructions, p.Currency, p.ConsolidationLevel, p.ProductName, p.ProductFamilyName, p.Role, p.Seller, p.Customer, p.Memo, p.BillingAddress, p.ShippingAddress, p.SubtotalAmount, p.DiscountAmount, p.TaxAmount, p.TotalAmount, p.CreditAmount, p.PaidAmount, p.RefundAmount, p.DueAmount, p.LineItems, p.Discounts, p.Taxes, p.Credits, p.Payments, p.CustomFields, p.PublicUrl, p.AdditionalProperties)
+    	"ProformaInvoice[Uid=%v, SiteId=%v, CustomerId=%v, SubscriptionId=%v, Number=%v, SequenceNumber=%v, CreatedAt=%v, DeliveryDate=%v, Status=%v, CollectionMethod=%v, PaymentInstructions=%v, Currency=%v, ConsolidationLevel=%v, ProductName=%v, ProductFamilyName=%v, Role=%v, Seller=%v, Customer=%v, Memo=%v, BillingAddress=%v, ShippingAddress=%v, SubtotalAmount=%v, DiscountAmount=%v, TaxAmount=%v, TotalAmount=%v, CreditAmount=%v, PaidAmount=%v, RefundAmount=%v, DueAmount=%v, LineItems=%v, Discounts=%v, Taxes=%v, Credits=%v, Payments=%v, CustomFields=%v, PublicUrl=%v, AvailableActions=%v, AdditionalProperties=%v]",
+    	p.Uid, p.SiteId, p.CustomerId, p.SubscriptionId, p.Number, p.SequenceNumber, p.CreatedAt, p.DeliveryDate, p.Status, p.CollectionMethod, p.PaymentInstructions, p.Currency, p.ConsolidationLevel, p.ProductName, p.ProductFamilyName, p.Role, p.Seller, p.Customer, p.Memo, p.BillingAddress, p.ShippingAddress, p.SubtotalAmount, p.DiscountAmount, p.TaxAmount, p.TotalAmount, p.CreditAmount, p.PaidAmount, p.RefundAmount, p.DueAmount, p.LineItems, p.Discounts, p.Taxes, p.Credits, p.Payments, p.CustomFields, p.PublicUrl, p.AvailableActions, p.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for ProformaInvoice.
@@ -74,7 +75,7 @@ func (p ProformaInvoice) MarshalJSON() (
     []byte,
     error) {
     if err := DetectConflictingProperties(p.AdditionalProperties,
-        "uid", "site_id", "customer_id", "subscription_id", "number", "sequence_number", "created_at", "delivery_date", "status", "collection_method", "payment_instructions", "currency", "consolidation_level", "product_name", "product_family_name", "role", "seller", "customer", "memo", "billing_address", "shipping_address", "subtotal_amount", "discount_amount", "tax_amount", "total_amount", "credit_amount", "paid_amount", "refund_amount", "due_amount", "line_items", "discounts", "taxes", "credits", "payments", "custom_fields", "public_url"); err != nil {
+        "uid", "site_id", "customer_id", "subscription_id", "number", "sequence_number", "created_at", "delivery_date", "status", "collection_method", "payment_instructions", "currency", "consolidation_level", "product_name", "product_family_name", "role", "seller", "customer", "memo", "billing_address", "shipping_address", "subtotal_amount", "discount_amount", "tax_amount", "total_amount", "credit_amount", "paid_amount", "refund_amount", "due_amount", "line_items", "discounts", "taxes", "credits", "payments", "custom_fields", "public_url", "available_actions"); err != nil {
         return []byte{}, err
     }
     return json.Marshal(p.toMap())
@@ -212,6 +213,9 @@ func (p ProformaInvoice) toMap() map[string]any {
             structMap["public_url"] = nil
         }
     }
+    if p.AvailableActions != nil {
+        structMap["available_actions"] = p.AvailableActions.toMap()
+    }
     return structMap
 }
 
@@ -223,7 +227,7 @@ func (p *ProformaInvoice) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "uid", "site_id", "customer_id", "subscription_id", "number", "sequence_number", "created_at", "delivery_date", "status", "collection_method", "payment_instructions", "currency", "consolidation_level", "product_name", "product_family_name", "role", "seller", "customer", "memo", "billing_address", "shipping_address", "subtotal_amount", "discount_amount", "tax_amount", "total_amount", "credit_amount", "paid_amount", "refund_amount", "due_amount", "line_items", "discounts", "taxes", "credits", "payments", "custom_fields", "public_url")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "uid", "site_id", "customer_id", "subscription_id", "number", "sequence_number", "created_at", "delivery_date", "status", "collection_method", "payment_instructions", "currency", "consolidation_level", "product_name", "product_family_name", "role", "seller", "customer", "memo", "billing_address", "shipping_address", "subtotal_amount", "discount_amount", "tax_amount", "total_amount", "credit_amount", "paid_amount", "refund_amount", "due_amount", "line_items", "discounts", "taxes", "credits", "payments", "custom_fields", "public_url", "available_actions")
     if err != nil {
     	return err
     }
@@ -277,6 +281,7 @@ func (p *ProformaInvoice) UnmarshalJSON(input []byte) error {
     p.Payments = temp.Payments
     p.CustomFields = temp.CustomFields
     p.PublicUrl = temp.PublicUrl
+    p.AvailableActions = temp.AvailableActions
     return nil
 }
 
@@ -318,4 +323,5 @@ type tempProformaInvoice  struct {
     Payments            []ProformaInvoicePayment   `json:"payments,omitempty"`
     CustomFields        []InvoiceCustomField       `json:"custom_fields,omitempty"`
     PublicUrl           Optional[string]           `json:"public_url"`
+    AvailableActions    *AvailableActions          `json:"available_actions,omitempty"`
 }

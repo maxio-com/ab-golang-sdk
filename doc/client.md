@@ -6,7 +6,7 @@ The following parameters are configurable for the API Client:
 | Parameter | Type | Description |
 |  --- | --- | --- |
 | site | `string` | The subdomain for your Advanced Billing site.<br>*Default*: `"subdomain"` |
-| environment | `Environment` | The API environment. <br> **Default: `Environment.US`** |
+| environment | [`Environment`](../README.md#environments) | The API environment. <br> **Default: `Environment.US`** |
 | httpConfiguration | [`HttpConfiguration`](../doc/http-configuration.md) | Configurable http client options like timeout and retries. |
 | basicAuthCredentials | [`BasicAuthCredentials`](auth/basic-authentication.md) | The Credentials Setter for Basic Authentication |
 
@@ -78,6 +78,7 @@ The gateway for the SDK. This class acts as a factory for the Controllers and al
 | SubscriptionInvoiceAccountController() | Gets SubscriptionInvoiceAccountController |
 | SubscriptionNotesController() | Gets SubscriptionNotesController |
 | SubscriptionProductsController() | Gets SubscriptionProductsController |
+| SubscriptionRenewalsController() | Gets SubscriptionRenewalsController |
 | SubscriptionStatusController() | Gets SubscriptionStatusController |
 | WebhooksController() | Gets WebhooksController |
 

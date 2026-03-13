@@ -11,6 +11,7 @@ import (
 
 // SubscriptionGroup represents a SubscriptionGroup struct.
 type SubscriptionGroup struct {
+    Uid                     *string                          `json:"uid,omitempty"`
     CustomerId              *int                             `json:"customer_id,omitempty"`
     PaymentProfile          *SubscriptionGroupPaymentProfile `json:"payment_profile,omitempty"`
     // The type of payment collection to be used in the subscription. For legacy Statements Architecture valid options are - `invoice`, `automatic`. For current Relationship Invoicing Architecture valid options are - `remittance`, `automatic`, `prepaid`.
@@ -24,8 +25,8 @@ type SubscriptionGroup struct {
 // providing a human-readable string representation useful for logging, debugging or displaying information.
 func (s SubscriptionGroup) String() string {
     return fmt.Sprintf(
-    	"SubscriptionGroup[CustomerId=%v, PaymentProfile=%v, PaymentCollectionMethod=%v, SubscriptionIds=%v, CreatedAt=%v, AdditionalProperties=%v]",
-    	s.CustomerId, s.PaymentProfile, s.PaymentCollectionMethod, s.SubscriptionIds, s.CreatedAt, s.AdditionalProperties)
+    	"SubscriptionGroup[Uid=%v, CustomerId=%v, PaymentProfile=%v, PaymentCollectionMethod=%v, SubscriptionIds=%v, CreatedAt=%v, AdditionalProperties=%v]",
+    	s.Uid, s.CustomerId, s.PaymentProfile, s.PaymentCollectionMethod, s.SubscriptionIds, s.CreatedAt, s.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for SubscriptionGroup.
@@ -34,7 +35,7 @@ func (s SubscriptionGroup) MarshalJSON() (
     []byte,
     error) {
     if err := DetectConflictingProperties(s.AdditionalProperties,
-        "customer_id", "payment_profile", "payment_collection_method", "subscription_ids", "created_at"); err != nil {
+        "uid", "customer_id", "payment_profile", "payment_collection_method", "subscription_ids", "created_at"); err != nil {
         return []byte{}, err
     }
     return json.Marshal(s.toMap())
@@ -44,6 +45,9 @@ func (s SubscriptionGroup) MarshalJSON() (
 func (s SubscriptionGroup) toMap() map[string]any {
     structMap := make(map[string]any)
     MergeAdditionalProperties(structMap, s.AdditionalProperties)
+    if s.Uid != nil {
+        structMap["uid"] = s.Uid
+    }
     if s.CustomerId != nil {
         structMap["customer_id"] = s.CustomerId
     }
@@ -70,12 +74,13 @@ func (s *SubscriptionGroup) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "customer_id", "payment_profile", "payment_collection_method", "subscription_ids", "created_at")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "uid", "customer_id", "payment_profile", "payment_collection_method", "subscription_ids", "created_at")
     if err != nil {
     	return err
     }
     s.AdditionalProperties = additionalProperties
     
+    s.Uid = temp.Uid
     s.CustomerId = temp.CustomerId
     s.PaymentProfile = temp.PaymentProfile
     s.PaymentCollectionMethod = temp.PaymentCollectionMethod
@@ -92,6 +97,7 @@ func (s *SubscriptionGroup) UnmarshalJSON(input []byte) error {
 
 // tempSubscriptionGroup is a temporary struct used for validating the fields of SubscriptionGroup.
 type tempSubscriptionGroup  struct {
+    Uid                     *string                          `json:"uid,omitempty"`
     CustomerId              *int                             `json:"customer_id,omitempty"`
     PaymentProfile          *SubscriptionGroupPaymentProfile `json:"payment_profile,omitempty"`
     PaymentCollectionMethod *CollectionMethod                `json:"payment_collection_method,omitempty"`

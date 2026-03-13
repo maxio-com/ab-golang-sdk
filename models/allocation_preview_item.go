@@ -19,10 +19,8 @@ type AllocationPreviewItem struct {
     ProrationDowngradeScheme *string                                `json:"proration_downgrade_scheme,omitempty"` // Deprecated
     AccrueCharge             *bool                                  `json:"accrue_charge,omitempty"`
     // The type of credit to be created when upgrading/downgrading. Defaults to the component and then site setting if one is not provided.
-    // Available values: `full`, `prorated`, `none`.
     UpgradeCharge            Optional[CreditType]                   `json:"upgrade_charge"`
     // The type of credit to be created when upgrading/downgrading. Defaults to the component and then site setting if one is not provided.
-    // Available values: `full`, `prorated`, `none`.
     DowngradeCredit          Optional[CreditType]                   `json:"downgrade_credit"`
     PricePointId             *int                                   `json:"price_point_id,omitempty"`
     // The numerical interval. i.e. an interval of ‘30’ coupled with an interval_unit of day would mean this component price point would renew every 30 days. This property is only available for sites with Multifrequency enabled.

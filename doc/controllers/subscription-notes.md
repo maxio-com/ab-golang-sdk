@@ -42,7 +42,7 @@ CreateSubscriptionNote(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription |
+| `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription. |
 | `body` | [`*models.UpdateSubscriptionNoteRequest`](../../doc/models/update-subscription-note-request.md) | Body, Optional | Updatable fields for Subscription Note |
 
 ## Response Type
@@ -65,7 +65,12 @@ body := models.UpdateSubscriptionNoteRequest{
 
 apiResponse, err := subscriptionNotesController.CreateSubscriptionNote(ctx, subscriptionId, &body)
 if err != nil {
-    log.Fatalln(err)
+    switch typedErr := err.(type) {
+        case *errors.ErrorListResponse:
+            log.Fatalln("ErrorListResponseException: ", typedErr)
+        default:
+            log.Fatalln(err)
+    }
 } else {
     // Printing the result and response
     fmt.Println(apiResponse.Data)
@@ -96,9 +101,7 @@ ListSubscriptionNotes(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription |
-| `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br><br>**Default**: `1`<br><br>**Constraints**: `>= 1` |
-| `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`.<br><br>**Default**: `20`<br><br>**Constraints**: `<= 200` |
+| `input` | [`models.ListSubscriptionNotesInput`](../../doc/models/list-subscription-notes-input.md) | Required | Input structure for the method ListSubscriptionNotes |
 
 ## Response Type
 
@@ -117,7 +120,12 @@ collectedInput := advancedbilling.ListSubscriptionNotesInput{
 
 apiResponse, err := subscriptionNotesController.ListSubscriptionNotes(ctx, collectedInput)
 if err != nil {
-    log.Fatalln(err)
+    switch typedErr := err.(type) {
+        case *errors.ErrorListResponse:
+            log.Fatalln("ErrorListResponseException: ", typedErr)
+        default:
+            log.Fatalln(err)
+    }
 } else {
     // Printing the result and response
     fmt.Println(apiResponse.Data)
@@ -176,7 +184,7 @@ ReadSubscriptionNote(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription |
+| `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription. |
 | `noteId` | `int` | Template, Required | The Advanced Billing id of the note |
 
 ## Response Type
@@ -236,7 +244,7 @@ UpdateSubscriptionNote(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription |
+| `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription. |
 | `noteId` | `int` | Template, Required | The Advanced Billing id of the note |
 | `body` | [`*models.UpdateSubscriptionNoteRequest`](../../doc/models/update-subscription-note-request.md) | Body, Optional | Updatable fields for Subscription Note |
 
@@ -262,7 +270,12 @@ body := models.UpdateSubscriptionNoteRequest{
 
 apiResponse, err := subscriptionNotesController.UpdateSubscriptionNote(ctx, subscriptionId, noteId, &body)
 if err != nil {
-    log.Fatalln(err)
+    switch typedErr := err.(type) {
+        case *errors.ErrorListResponse:
+            log.Fatalln("ErrorListResponseException: ", typedErr)
+        default:
+            log.Fatalln(err)
+    }
 } else {
     // Printing the result and response
     fmt.Println(apiResponse.Data)
@@ -279,7 +292,7 @@ if err != nil {
 
 # Delete Subscription Note
 
-Use the following method to delete a note for a Subscription.
+Deletes a note for a Subscription.
 
 ```go
 DeleteSubscriptionNote(
@@ -294,7 +307,7 @@ DeleteSubscriptionNote(
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription |
+| `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription. |
 | `noteId` | `int` | Template, Required | The Advanced Billing id of the note |
 
 ## Response Type

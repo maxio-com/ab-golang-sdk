@@ -47,10 +47,8 @@ type Allocation struct {
     // Otherwise, leave the charges on the subscription to pay for at renewal.
     InitiateDunning          *bool                          `json:"initiate_dunning,omitempty"`
     // The type of credit to be created when upgrading/downgrading. Defaults to the component and then site setting if one is not provided.
-    // Available values: `full`, `prorated`, `none`.
     UpgradeCharge            Optional[CreditType]           `json:"upgrade_charge"`
     // The type of credit to be created when upgrading/downgrading. Defaults to the component and then site setting if one is not provided.
-    // Available values: `full`, `prorated`, `none`.
     DowngradeCredit          Optional[CreditType]           `json:"downgrade_credit"`
     Payment                  Optional[PaymentForAllocation] `json:"payment"`
     ExpiresAt                *time.Time                     `json:"expires_at,omitempty"`

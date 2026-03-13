@@ -19,7 +19,7 @@ type CreateSubscription struct {
     ProductPricePointHandle           *string                       `json:"product_price_point_handle,omitempty"`
     // The ID of the particular price point on the product.
     ProductPricePointId               *int                          `json:"product_price_point_id,omitempty"`
-    // (Optional) Used in place of `product_price_point_id` to define a custom price point unique to the subscription
+    // (Optional) Used in place of `product_price_point_id` to define a custom price point unique to the subscription. A subscription can have up to 30 custom price points. Exceeding this limit will result in an API error.
     CustomPrice                       *SubscriptionCustomPrice      `json:"custom_price,omitempty"`
     // (deprecated) The coupon code of the single coupon currently applied to the subscription. See coupon_codes instead as subscriptions can now have more than one coupon.
     CouponCode                        *string                       `json:"coupon_code,omitempty"`
