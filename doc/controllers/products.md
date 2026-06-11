@@ -22,7 +22,7 @@ productsController := client.ProductsController()
 
 Creates a product in your Advanced Billing site.
 
-See the following product docuemation for more information:
+See the following product documentation for more information:
 
 + [Products Documentation](https://maxio.zendesk.com/hc/en-us/articles/24261090117645-Products-Overview)
 + [Changing a Subscription's Product](https://maxio.zendesk.com/hc/en-us/articles/24252069837581-Product-Changes-and-Migrations)
@@ -36,6 +36,10 @@ CreateProduct(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -44,6 +48,8 @@ CreateProduct(
 | `body` | [`*models.CreateOrUpdateProductRequest`](../../doc/models/create-or-update-product-request.md) | Body, Optional | - |
 
 ## Response Type
+
+**201**: Created
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.ProductResponse](../../doc/models/product-response.md).
 
@@ -152,6 +158,10 @@ ReadProduct(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -159,6 +169,8 @@ ReadProduct(
 | `productId` | `int` | Template, Required | The Advanced Billing id of the product |
 
 ## Response Type
+
+**200**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.ProductResponse](../../doc/models/product-response.md).
 
@@ -244,6 +256,10 @@ UpdateProduct(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -252,6 +268,8 @@ UpdateProduct(
 | `body` | [`*models.CreateOrUpdateProductRequest`](../../doc/models/create-or-update-product-request.md) | Body, Optional | - |
 
 ## Response Type
+
+**200**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.ProductResponse](../../doc/models/product-response.md).
 
@@ -334,7 +352,7 @@ if err != nil {
 
 # Archive Product
 
-Archives the product. All current subscribers will be unffected; their subscription/purchase will continue to be charged monthly.
+Archives the product. All current subscribers will be unaffected; their subscription/purchase will continue to be charged monthly.
 
 This will restrict the option to chose the product for purchase via the Billing Portal, as well as disable Public Signup Pages for the product.
 
@@ -346,6 +364,10 @@ ArchiveProduct(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -353,6 +375,8 @@ ArchiveProduct(
 | `productId` | `int` | Template, Required | The Advanced Billing id of the product |
 
 ## Response Type
+
+**200**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.ProductResponse](../../doc/models/product-response.md).
 
@@ -440,6 +464,10 @@ ReadProductByHandle(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -447,6 +475,8 @@ ReadProductByHandle(
 | `apiHandle` | `string` | Template, Required | The handle of the product |
 
 ## Response Type
+
+**200**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.ProductResponse](../../doc/models/product-response.md).
 
@@ -538,7 +568,7 @@ if err != nil {
 
 # List Products
 
-This method allows to retrieve a list of Products belonging to a Site.
+Lists products belonging to a site.
 
 ```go
 ListProducts(
@@ -548,6 +578,10 @@ ListProducts(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -555,6 +589,8 @@ ListProducts(
 | `input` | [`models.ListProductsInput`](../../doc/models/list-products-input.md) | Required | Input structure for the method ListProducts |
 
 ## Response Type
+
+**200**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [[]models.ProductResponse](../../doc/models/product-response.md).
 

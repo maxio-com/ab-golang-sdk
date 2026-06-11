@@ -25,11 +25,10 @@ func NewSubscriptionStatusController(baseController baseController) *Subscriptio
 // RetrySubscription takes context, subscriptionId as parameters and
 // returns an models.ApiResponse with models.SubscriptionResponse data and
 // an error if there was an issue with the request or response.
-// Advanced Billing offers the ability to retry collecting the balance due on a past due Subscription without waiting for the next scheduled attempt.
-// ## Successful Reactivation
-// The response will be `200 OK` with the updated Subscription.
-// ## Failed Reactivation
-// The response will be `422 "Unprocessable Entity`.
+// Retries collecting the balance due on a past-due subscription without waiting for the next scheduled attempt.
+// ## 3D Secure (3DS) Authentication post-authentication flow
+// When a payment requires 3DS Authentication to adhere to Strong Customer Authentication (SCA), the request enters a post-authentication flow where a 422 Unprocessable Entity status is returned with an action_link that will direct the customer through 3DS Authentication. 
+// See the [3D Secure Post-Authentication Flow](https://docs.maxio.com/hc/en-us/articles/44277749524365-3D-Secure-Post-Authentication-Flow) article in the product documentation to learn how to manage the redirect flow.
 func (s *SubscriptionStatusController) RetrySubscription(
     ctx context.Context,
     subscriptionId int) (
@@ -88,7 +87,7 @@ func (s *SubscriptionStatusController) CancelSubscription(
 // ResumeSubscription takes context, subscriptionId, calendarBillingResumptionCharge as parameters and
 // returns an models.ApiResponse with models.SubscriptionResponse data and
 // an error if there was an issue with the request or response.
-// Resume a paused (on-hold) subscription. If the normal next renewal date has not passed, the subscription will return to active and will renew on that date.  Otherwise, it will behave like a reactivation, setting the billing date to 'now' and charging the subscriber.
+// Resumes a paused (on-hold) subscription. If the normal next renewal date has not passed, the subscription will return to active and will renew on that date.  Otherwise, it will behave like a reactivation, setting the billing date to 'now' and charging the subscriber.
 func (s *SubscriptionStatusController) ResumeSubscription(
     ctx context.Context,
     subscriptionId int,
@@ -118,7 +117,7 @@ func (s *SubscriptionStatusController) ResumeSubscription(
 // PauseSubscription takes context, subscriptionId, body as parameters and
 // returns an models.ApiResponse with models.SubscriptionResponse data and
 // an error if there was an issue with the request or response.
-// This will place the subscription in the on_hold state and it will not renew.
+// Places the subscription on hold, preventing it from renewing.
 // ## Limitations
 // You may not place a subscription on hold if the `next_billing_at` date is within 24 hours.
 func (s *SubscriptionStatusController) PauseSubscription(
@@ -151,10 +150,10 @@ func (s *SubscriptionStatusController) PauseSubscription(
 // UpdateAutomaticSubscriptionResumption takes context, subscriptionId, body as parameters and
 // returns an models.ApiResponse with models.SubscriptionResponse data and
 // an error if there was an issue with the request or response.
-// Once a subscription has been paused / put on hold, you can update the date which was specified to automatically resume the subscription.
+// Updates the date on which a paused subscription will automatically resume.
 // To update a subscription's resume date, use this method to change or update the `automatically_resume_at` date.
 // ### Remove the resume date
-// Alternately, you can change the `automatically_resume_at` to `null` if you would like the subscription to not have a resume date.
+// Alternatively, you can change the `automatically_resume_at` to `null` if you would like the subscription to not have a resume date.
 func (s *SubscriptionStatusController) UpdateAutomaticSubscriptionResumption(
     ctx context.Context,
     subscriptionId int,
@@ -185,7 +184,7 @@ func (s *SubscriptionStatusController) UpdateAutomaticSubscriptionResumption(
 // ReactivateSubscription takes context, subscriptionId, body as parameters and
 // returns an models.ApiResponse with models.SubscriptionResponse data and
 // an error if there was an issue with the request or response.
-// Reactivate a previously canceled subscription. For details on how the reactivation works, and how to reactivate subscriptions through the application, see [reactivation](https://maxio.zendesk.com/hc/en-us/articles/24252109503629-Reactivating-and-Resuming).
+// Reactivates a previously canceled subscription. For details on how the reactivation works, and how to reactivate subscriptions through the application, see [reactivation](https://maxio.zendesk.com/hc/en-us/articles/24252109503629-Reactivating-and-Resuming).
 // **Note: The term "resume" is used also during another process in Advanced Billing. This occurs when an on-hold subscription is "resumed". This returns the subscription to an active state.**
 // + The response returns the subscription object in the `active` or `trialing` state.
 // + The `canceled_at` and `cancellation_message` fields do not have values.
@@ -197,7 +196,7 @@ func (s *SubscriptionStatusController) UpdateAutomaticSubscriptionResumption(
 // Consider a subscription which was created on June 1st, and would renew on July 1st. The subscription is then canceled on June 15.
 // If a reactivation with `resume: true` were attempted _before_ what would have been the next billing date of July 1st, then Advanced Billing would resume the subscription.
 // If a reactivation with `resume: true` were attempted _after_ what would have been the next billing date of July 1st, then Advanced Billing would not resume the subscription, and instead it would be reactivated with a new billing period.
-// If a reactivation with `resume: false`, or where 'resume" is omited were attempted, then Advanced Billing would reactivate the subscription with a new billing period regardless of whether or not resuming the previous billing period were possible.
+// If a reactivation with `resume: false`, or where 'resume' is omitted were attempted, then Advanced Billing would reactivate the subscription with a new billing period regardless of whether or not resuming the previous billing period was possible.
 // | Canceled | Reactivation | Resumable? |
 // |---|---|---|
 // | Jun 15 | June 28 | Yes |
@@ -283,6 +282,9 @@ func (s *SubscriptionStatusController) UpdateAutomaticSubscriptionResumption(
 // + The subscription will transition to active
 // + The next billing date should not have changed
 // + Any product-related charges should have been collected
+// ## 3D Secure (3DS) Authentication post-authentication flow
+// When a payment requires 3DS Authentication to adhere to Strong Customer Authentication (SCA), the request enters a post-authentication flow where a 422 Unprocessable Entity status is returned with an action_link that will direct the customer through 3DS Authentication. 
+// See the [3D Secure Post-Authentication Flow](https://docs.maxio.com/hc/en-us/articles/44277749524365-3D-Secure-Post-Authentication-Flow) article in the product documentation to learn how to manage the redirect flow.
 func (s *SubscriptionStatusController) ReactivateSubscription(
     ctx context.Context,
     subscriptionId int,
@@ -345,7 +347,7 @@ func (s *SubscriptionStatusController) InitiateDelayedCancellation(
 // CancelDelayedCancellation takes context, subscriptionId as parameters and
 // returns an models.ApiResponse with models.DelayedCancellationResponse data and
 // an error if there was an issue with the request or response.
-// Removing the delayed cancellation on a subscription will ensure that it doesn't get canceled at the end of the period that it is in. The request will reset the `cancel_at_end_of_period` flag to `false`.
+// Removes the delayed cancellation from a subscription, ensuring it is not canceled at the end of the current period. The request will reset the `cancel_at_end_of_period` flag to `false`.
 // This endpoint is idempotent. If the subscription was not set to cancel in the future, removing the delayed cancellation has no effect and the call will be successful.
 func (s *SubscriptionStatusController) CancelDelayedCancellation(
     ctx context.Context,
@@ -372,7 +374,7 @@ func (s *SubscriptionStatusController) CancelDelayedCancellation(
 // CancelDunning takes context, subscriptionId as parameters and
 // returns an models.ApiResponse with models.SubscriptionResponse data and
 // an error if there was an issue with the request or response.
-// If a subscription is currently in dunning, the subscription will be set to active and the active Dunner will be resolved.
+// Cancels the active dunning process for a subscription and sets it to active.
 func (s *SubscriptionStatusController) CancelDunning(
     ctx context.Context,
     subscriptionId int) (
@@ -398,7 +400,7 @@ func (s *SubscriptionStatusController) CancelDunning(
 // PreviewRenewal takes context, subscriptionId, body as parameters and
 // returns an models.ApiResponse with models.RenewalPreviewResponse data and
 // an error if there was an issue with the request or response.
-// The Chargify API allows you to preview a renewal by posting to the renewals endpoint. Renewal Preview is an object representing a subscription’s next assessment. You can retrieve it to see a snapshot of how much your customer will be charged on their next renewal.
+// Previews a subscription’s next renewal assessment. Renewal Preview is an object representing a subscription’s next assessment. You can retrieve it to see a snapshot of how much your customer will be charged on their next renewal.
 // The "Next Billing" amount and "Next Billing" date are already represented in the UI on each Subscriber's Summary. For more information, see our documentation [here](https://maxio.zendesk.com/hc/en-us/articles/24252493695757-Subscriber-Interface-Overview).
 // ## Optional Component Fields
 // This endpoint is particularly useful due to the fact that it will return the computed billing amount for the base product and the components which are in use by a subscriber.

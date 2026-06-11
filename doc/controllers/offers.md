@@ -19,7 +19,7 @@ offersController := client.OffersController()
 
 # Create Offer
 
-Create an offer within your Advanced Billing site by sending a POST request.
+Creates an offer within your Advanced Billing site.
 
 ## Documentation
 
@@ -41,6 +41,10 @@ CreateOffer(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -48,6 +52,8 @@ CreateOffer(
 | `body` | [`*models.CreateOfferRequest`](../../doc/models/create-offer-request.md) | Body, Optional | - |
 
 ## Response Type
+
+**201**: Created
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.OfferResponse](../../doc/models/offer-response.md).
 
@@ -141,7 +147,7 @@ if err != nil {
 
 # List Offers
 
-This endpoint will list offers for a site.
+Lists offers for a site.
 
 ```go
 ListOffers(
@@ -151,6 +157,10 @@ ListOffers(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -158,6 +168,8 @@ ListOffers(
 | `input` | [`models.ListOffersInput`](../../doc/models/list-offers-input.md) | Required | Input structure for the method ListOffers |
 
 ## Response Type
+
+**200**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.ListOffersResponse](../../doc/models/list-offers-response.md).
 
@@ -251,7 +263,7 @@ if err != nil {
 
 # Read Offer
 
-This method allows you to list a specific offer's attributes. This is different than list all offers for a site, as it requires an `offer_id`.
+Returns a specific offer's attributes. This is different from listing all offers for a site, as it requires an `offer_id`.
 
 ```go
 ReadOffer(
@@ -261,6 +273,10 @@ ReadOffer(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -268,6 +284,8 @@ ReadOffer(
 | `offerId` | `int` | Template, Required | The Chargify id of the offer |
 
 ## Response Type
+
+**200**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.OfferResponse](../../doc/models/offer-response.md).
 
@@ -291,7 +309,7 @@ if err != nil {
 
 # Archive Offer
 
-Archive an existing offer. Please provide an `offer_id` in order to archive the correct item.
+Archives an existing offer. Please provide an `offer_id` in order to archive the correct item.
 
 ```go
 ArchiveOffer(
@@ -301,6 +319,10 @@ ArchiveOffer(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -308,6 +330,8 @@ ArchiveOffer(
 | `offerId` | `int` | Template, Required | The Chargify id of the offer |
 
 ## Response Type
+
+**200**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance.
 
@@ -329,7 +353,7 @@ if err != nil {
 
 # Unarchive Offer
 
-Unarchive a previously archived offer. Please provide an `offer_id` in order to un-archive the correct item.
+Unarchives a previously archived offer. Please provide an `offer_id` in order to unarchive the correct item.
 
 ```go
 UnarchiveOffer(
@@ -339,6 +363,10 @@ UnarchiveOffer(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -346,6 +374,8 @@ UnarchiveOffer(
 | `offerId` | `int` | Template, Required | The Chargify id of the offer |
 
 ## Response Type
+
+**200**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance.
 

@@ -20,7 +20,7 @@ Used to Create or Update Endpoint
   "endpoint": {
     "url": "url2",
     "webhook_subscriptions": [
-      "dunning_step_reached"
+      "subscription_prepayment_account_balance_changed"
     ]
   }
 }

@@ -1,5 +1,5 @@
 
-# List Mrr Per Subscription Input
+# List Mrr per Subscription Input
 
 Input structure for the method ListMrrPerSubscription
 

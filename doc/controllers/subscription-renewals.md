@@ -36,6 +36,10 @@ CreateScheduledRenewalConfiguration(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -44,6 +48,8 @@ CreateScheduledRenewalConfiguration(
 | `body` | [`*models.ScheduledRenewalConfigurationRequest`](../../doc/models/scheduled-renewal-configuration-request.md) | Body, Optional | - |
 
 ## Response Type
+
+**201**: Created
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.ScheduledRenewalConfigurationResponse](../../doc/models/scheduled-renewal-configuration-response.md).
 
@@ -141,6 +147,10 @@ ListScheduledRenewalConfigurations(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -149,6 +159,8 @@ ListScheduledRenewalConfigurations(
 | `status` | [`*models.Status`](../../doc/models/status.md) | Query, Optional | (Optional) Status filter for scheduled renewal configurations. |
 
 ## Response Type
+
+**200**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.ScheduledRenewalConfigurationsResponse](../../doc/models/scheduled-renewal-configurations-response.md).
 
@@ -228,6 +240,10 @@ ReadScheduledRenewalConfiguration(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -236,6 +252,8 @@ ReadScheduledRenewalConfiguration(
 | `id` | `int` | Template, Required | The renewal id. |
 
 ## Response Type
+
+**200**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.ScheduledRenewalConfigurationResponse](../../doc/models/scheduled-renewal-configuration-response.md).
 
@@ -316,6 +334,10 @@ UpdateScheduledRenewalConfiguration(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -325,6 +347,8 @@ UpdateScheduledRenewalConfiguration(
 | `body` | [`*models.ScheduledRenewalConfigurationRequest`](../../doc/models/scheduled-renewal-configuration-request.md) | Body, Optional | - |
 
 ## Response Type
+
+**200**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.ScheduledRenewalConfigurationResponse](../../doc/models/scheduled-renewal-configuration-response.md).
 
@@ -424,6 +448,10 @@ ScheduleScheduledRenewalLockIn(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -433,6 +461,8 @@ ScheduleScheduledRenewalLockIn(
 | `body` | [`*models.ScheduledRenewalLockInRequest`](../../doc/models/scheduled-renewal-lock-in-request.md) | Body, Optional | - |
 
 ## Response Type
+
+**200**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.ScheduledRenewalConfigurationResponse](../../doc/models/scheduled-renewal-configuration-response.md).
 
@@ -527,6 +557,10 @@ LockInScheduledRenewalImmediately(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -535,6 +569,8 @@ LockInScheduledRenewalImmediately(
 | `id` | `int` | Template, Required | The renewal id. |
 
 ## Response Type
+
+**200**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.ScheduledRenewalConfigurationResponse](../../doc/models/scheduled-renewal-configuration-response.md).
 
@@ -624,6 +660,10 @@ UnpublishScheduledRenewalConfiguration(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -632,6 +672,8 @@ UnpublishScheduledRenewalConfiguration(
 | `id` | `int` | Template, Required | The renewal id. |
 
 ## Response Type
+
+**200**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.ScheduledRenewalConfigurationResponse](../../doc/models/scheduled-renewal-configuration-response.md).
 
@@ -713,6 +755,10 @@ CancelScheduledRenewalConfiguration(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -721,6 +767,8 @@ CancelScheduledRenewalConfiguration(
 | `id` | `int` | Template, Required | The renewal id. |
 
 ## Response Type
+
+**200**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.ScheduledRenewalConfigurationResponse](../../doc/models/scheduled-renewal-configuration-response.md).
 
@@ -803,6 +851,10 @@ CreateScheduledRenewalConfigurationItem(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -812,6 +864,8 @@ CreateScheduledRenewalConfigurationItem(
 | `body` | [`*models.ScheduledRenewalConfigurationItemRequest`](../../doc/models/scheduled-renewal-configuration-item-request.md) | Body, Optional | - |
 
 ## Response Type
+
+**201**: Created
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.ScheduledRenewalConfigurationItemResponse](../../doc/models/scheduled-renewal-configuration-item-response.md).
 
@@ -899,6 +953,10 @@ UpdateScheduledRenewalConfigurationItem(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -909,6 +967,8 @@ UpdateScheduledRenewalConfigurationItem(
 | `body` | [`*models.ScheduledRenewalUpdateRequest`](../../doc/models/scheduled-renewal-update-request.md) | Body, Optional | - |
 
 ## Response Type
+
+**200**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.ScheduledRenewalConfigurationItemResponse](../../doc/models/scheduled-renewal-configuration-item-response.md).
 
@@ -997,6 +1057,10 @@ DeleteScheduledRenewalConfigurationItem(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -1006,6 +1070,8 @@ DeleteScheduledRenewalConfigurationItem(
 | `id` | `int` | Template, Required | The scheduled renewal configuration item id. |
 
 ## Response Type
+
+**204**: No Content
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance.
 

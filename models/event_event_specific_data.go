@@ -30,6 +30,8 @@ type EventEventSpecificData struct {
     isPaymentCollectionMethodChanged    bool
     isItemPricePointChanged             bool
     isCustomFieldValueChange            bool
+    isChjsTokenizationSuccess           bool
+    isChjsTokenizationFailure           bool
 }
 
 // String implements the fmt.Stringer interface for EventEventSpecificData,
@@ -88,6 +90,10 @@ func (e *EventEventSpecificData) toMap() any {
         return obj.toMap()
     case *CustomFieldValueChange:
         return obj.toMap()
+    case *ChjsTokenizationSuccess:
+        return obj.toMap()
+    case *ChjsTokenizationFailure:
+        return obj.toMap()
     }
     return nil
 }
@@ -114,6 +120,8 @@ func (e *EventEventSpecificData) UnmarshalJSON(input []byte) error {
         NewTypeHolder(&PaymentCollectionMethodChanged{}, false, &e.isPaymentCollectionMethodChanged),
         NewTypeHolder(&ItemPricePointChanged{}, false, &e.isItemPricePointChanged),
         NewTypeHolder(&CustomFieldValueChange{}, false, &e.isCustomFieldValueChange),
+        NewTypeHolder(&ChjsTokenizationSuccess{}, false, &e.isChjsTokenizationSuccess),
+        NewTypeHolder(&ChjsTokenizationFailure{}, false, &e.isChjsTokenizationFailure),
     )
     
     e.value = result
@@ -282,6 +290,24 @@ func (e *EventEventSpecificData) AsCustomFieldValueChange() (
     return e.value.(*CustomFieldValueChange), true
 }
 
+func (e *EventEventSpecificData) AsChjsTokenizationSuccess() (
+    *ChjsTokenizationSuccess,
+    bool) {
+    if !e.isChjsTokenizationSuccess {
+        return nil, false
+    }
+    return e.value.(*ChjsTokenizationSuccess), true
+}
+
+func (e *EventEventSpecificData) AsChjsTokenizationFailure() (
+    *ChjsTokenizationFailure,
+    bool) {
+    if !e.isChjsTokenizationFailure {
+        return nil, false
+    }
+    return e.value.(*ChjsTokenizationFailure), true
+}
+
 // internalEventEventSpecificData represents a eventEventSpecificData struct.
 // This is a container for one-of cases.
 type internalEventEventSpecificData struct {}
@@ -375,5 +401,15 @@ func (e *internalEventEventSpecificData) FromItemPricePointChanged(val ItemPrice
 
 // The internalEventEventSpecificData instance, wrapping the provided CustomFieldValueChange value.
 func (e *internalEventEventSpecificData) FromCustomFieldValueChange(val CustomFieldValueChange) EventEventSpecificData {
+    return EventEventSpecificData{value: &val}
+}
+
+// The internalEventEventSpecificData instance, wrapping the provided ChjsTokenizationSuccess value.
+func (e *internalEventEventSpecificData) FromChjsTokenizationSuccess(val ChjsTokenizationSuccess) EventEventSpecificData {
+    return EventEventSpecificData{value: &val}
+}
+
+// The internalEventEventSpecificData instance, wrapping the provided ChjsTokenizationFailure value.
+func (e *internalEventEventSpecificData) FromChjsTokenizationFailure(val ChjsTokenizationFailure) EventEventSpecificData {
     return EventEventSpecificData{value: &val}
 }

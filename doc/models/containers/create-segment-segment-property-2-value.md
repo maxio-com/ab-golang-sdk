@@ -14,3 +14,43 @@
 | `int` | models.CreateSegmentSegmentProperty2ValueContainer.FromNumber(int number) |
 | `bool` | models.CreateSegmentSegmentProperty2ValueContainer.FromBoolean(bool boolean) |
 
+## string
+
+### Initialization Code
+
+#### Example
+
+```go
+value := models.CreateSegmentSegmentProperty2ValueContainer.FromString("String0")
+```
+
+## float64
+
+### Initialization Code
+
+#### Example
+
+```go
+value := models.CreateSegmentSegmentProperty2ValueContainer.FromPrecision(float64(0))
+```
+
+## int
+
+### Initialization Code
+
+#### Example
+
+```go
+value := models.CreateSegmentSegmentProperty2ValueContainer.FromNumber(0)
+```
+
+## bool
+
+### Initialization Code
+
+#### Example
+
+```go
+value := models.CreateSegmentSegmentProperty2ValueContainer.FromBoolean(false)
+```
+

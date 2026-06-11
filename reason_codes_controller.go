@@ -25,14 +25,15 @@ func NewReasonCodesController(baseController baseController) *ReasonCodesControl
 // CreateReasonCode takes context, body as parameters and
 // returns an models.ApiResponse with models.ReasonCodeResponse data and
 // an error if there was an issue with the request or response.
+// Creates a reason code for a given site.
 // # Reason Codes Intro
-// ReasonCodes are a way to gain a high level view of why your customers are cancelling the subscription to your product or service.
+// Reason Codes are a way to gain a high-level view of why your customers are cancelling the subscription to your product or service.
 // Add a set of churn reason codes to be displayed in-app and/or the Maxio Billing Portal. As your subscribers decide to cancel their subscription, learn why they decided to cancel.
 // ## Reason Code Documentation
 // Full documentation on how Reason Codes operate within Advanced Billing can be located under the following links.
 // [Churn Reason Codes](https://maxio.zendesk.com/hc/en-us/articles/24286647554701-Churn-Reason-Codes)
 // ## Create Reason Code
-// This method gives a merchant the option to create a reason codes for a given Site.
+// This method gives a merchant the option to create reason codes for a given site.
 func (r *ReasonCodesController) CreateReasonCode(
     ctx context.Context,
     body *models.CreateReasonCodeRequest) (
@@ -71,7 +72,7 @@ type ListReasonCodesInput struct {
 // ListReasonCodes takes context, page, perPage as parameters and
 // returns an models.ApiResponse with []models.ReasonCodeResponse data and
 // an error if there was an issue with the request or response.
-// This method gives a merchant the option to retrieve a list of all of the current churn codes for a given site.
+// Lists all current churn codes for a given site.
 func (r *ReasonCodesController) ListReasonCodes(
     ctx context.Context,
     input ListReasonCodesInput) (
@@ -102,7 +103,7 @@ func (r *ReasonCodesController) ListReasonCodes(
 // ReadReasonCode takes context, reasonCodeId as parameters and
 // returns an models.ApiResponse with models.ReasonCodeResponse data and
 // an error if there was an issue with the request or response.
-// This method gives a merchant the option to retrieve a list of a particular code for a given Site by providing the unique numerical ID of the code.
+// Returns a particular churn reason code for a given site by its unique ID.
 func (r *ReasonCodesController) ReadReasonCode(
     ctx context.Context,
     reasonCodeId int) (
@@ -128,7 +129,7 @@ func (r *ReasonCodesController) ReadReasonCode(
 // UpdateReasonCode takes context, reasonCodeId, body as parameters and
 // returns an models.ApiResponse with models.ReasonCodeResponse data and
 // an error if there was an issue with the request or response.
-// This method gives a merchant the option to update an existing reason code for a given site.
+// Updates an existing reason code for a given site.
 func (r *ReasonCodesController) UpdateReasonCode(
     ctx context.Context,
     reasonCodeId int,
@@ -160,7 +161,7 @@ func (r *ReasonCodesController) UpdateReasonCode(
 // DeleteReasonCode takes context, reasonCodeId as parameters and
 // returns an models.ApiResponse with models.OkResponse data and
 // an error if there was an issue with the request or response.
-// This method gives a merchant the option to delete one reason code from the Churn Reason Codes. This code will be immediately removed. This action is not reversible.
+// Deletes a reason code from the Churn Reason Codes. This code will be immediately removed. This action is not reversible.
 func (r *ReasonCodesController) DeleteReasonCode(
     ctx context.Context,
     reasonCodeId int) (

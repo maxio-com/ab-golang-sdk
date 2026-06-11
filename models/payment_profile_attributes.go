@@ -10,7 +10,7 @@ import (
 // PaymentProfileAttributes represents a PaymentProfileAttributes struct.
 // alias to credit_card_attributes
 type PaymentProfileAttributes struct {
-    // (Optional) Token received after sending billing information using chargify.js. This token must be passed as a sole attribute of `payment_profile_attributes` (i.e. tok_9g6hw85pnpt6knmskpwp4ttt)
+    // (Optional) Token received after sending billing information using Maxio.js (formerly Chargify.js). This token must be passed as a sole attribute of `payment_profile_attributes` (i.e. tok_9g6hw85pnpt6knmskpwp4ttt)
     ChargifyToken        *string                                  `json:"chargify_token,omitempty"`
     Id                   *int                                     `json:"id,omitempty"`
     PaymentType          *PaymentType                             `json:"payment_type,omitempty"`

@@ -25,7 +25,7 @@ func NewAdvanceInvoiceController(baseController baseController) *AdvanceInvoiceC
 // IssueAdvanceInvoice takes context, subscriptionId, body as parameters and
 // returns an models.ApiResponse with models.Invoice data and
 // an error if there was an issue with the request or response.
-// Generate an invoice in advance for a subscription's next renewal date. [See our docs](https://maxio.zendesk.com/hc/en-us/articles/24252026404749-Issue-Invoice-In-Advance) for more information on advance invoices, including eligibility on generating one; for the most part, they function like any other invoice, except they are issued early and have special behavior upon being voided.
+// Generate an invoice in advance for a subscription's next renewal date. [See our docs](https://maxio.zendesk.com/hc/en-us/articles/24252026404749-Issue-Invoice-In-Advance) for more information on advance invoices, including eligibility for generating one; for the most part, they function like any other invoice, except they are issued early and have special behavior upon being voided.
 // A subscription may only have one advance invoice per billing period. Attempting to issue an advance invoice when one already exists will return an error.
 // That said, regeneration of the invoice may be forced with the params `force: true`, which will void an advance invoice if one exists and generate a new one. If no advance invoice exists, a new one will be generated.
 // We recommend using either the create or preview endpoints for proforma invoices to preview this advance invoice before using this endpoint to generate it.
@@ -64,7 +64,7 @@ func (a *AdvanceInvoiceController) IssueAdvanceInvoice(
 // ReadAdvanceInvoice takes context, subscriptionId as parameters and
 // returns an models.ApiResponse with models.Invoice data and
 // an error if there was an issue with the request or response.
-// Once an advance invoice has been generated for a subscription's upcoming renewal, it can be viewed through this endpoint. There can only be one advance invoice per subscription per billing cycle.
+// Returns the advance invoice generated for a subscription's upcoming renewal. There can only be one advance invoice per subscription per billing cycle.
 func (a *AdvanceInvoiceController) ReadAdvanceInvoice(
     ctx context.Context,
     subscriptionId int) (

@@ -1,7 +1,7 @@
 
 # Billing Schedule
 
-This attribute is particularly useful when you need to align billing events for different components on distinct schedules within a subscription. This only works for site with Multifrequency enabled.
+Billing schedule settings for component allocations or usages on multi-frequency subscriptions. Use this to start a component's billing period on a custom date instead of aligning with the product charge schedule.
 
 ## Structure
 
@@ -11,13 +11,13 @@ This attribute is particularly useful when you need to align billing events for 
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `InitialBillingAt` | `*time.Time` | Optional | The initial_billing_at attribute in Maxio allows you to specify a custom starting date for billing cycles associated with components that have their own billing frequency set. Only ISO8601 format is supported. |
+| `InitialBillingAt` | `models.Optional[time.Time]` | Optional | Custom start date (ISO 8601 date, YYYY-MM-DD) for the component's first billing period. If omitted or null, billing aligns with the product schedule. If provided, date must be on or after the minimum allowed date for the subscription or component. |
 
 ## Example (as JSON)
 
 ```json
 {
-  "initial_billing_at": "2024-01-01"
+  "initial_billing_at": "2026-01-01"
 }
 ```
 

@@ -111,7 +111,7 @@ func (p *ProductFamiliesController) ListProductsForProductFamily(
 // CreateProductFamily takes context, body as parameters and
 // returns an models.ApiResponse with models.ProductFamilyResponse data and
 // an error if there was an issue with the request or response.
-// Creates a Product Family within your Advanced Billing site. Create a Product Family to act as a container for your products, components and coupons.
+// Creates a Product Family within your Advanced Billing site. Create a Product Family to act as a container for your products, components, and coupons.
 // Full documentation on how Product Families operate within the Advanced Billing UI can be located [here](https://maxio.zendesk.com/hc/en-us/articles/24261098936205-Product-Families).
 func (p *ProductFamiliesController) CreateProductFamily(
     ctx context.Context,
@@ -156,7 +156,7 @@ type ListProductFamiliesInput struct {
 // ListProductFamilies takes context, dateField, startDate, endDate, startDatetime, endDatetime as parameters and
 // returns an models.ApiResponse with []models.ProductFamilyResponse data and
 // an error if there was an issue with the request or response.
-// Retrieve a list of Product Families for a site.
+// Returns a list of Product Families for a site.
 func (p *ProductFamiliesController) ListProductFamilies(
     ctx context.Context,
     input ListProductFamiliesInput) (

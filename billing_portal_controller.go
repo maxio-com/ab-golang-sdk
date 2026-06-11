@@ -25,9 +25,10 @@ func NewBillingPortalController(baseController baseController) *BillingPortalCon
 // EnableBillingPortalForCustomer takes context, customerId, autoInvite as parameters and
 // returns an models.ApiResponse with models.CustomerResponse data and
 // an error if there was an issue with the request or response.
+// Enables Billing Portal access for a customer, with an option to send an invitation email at the same time.
 // ## Billing Portal Documentation
 // Full documentation on how the Billing Portal operates within the Advanced Billing UI can be located [here](https://maxio.zendesk.com/hc/en-us/articles/24252412965133-Billing-Portal-Overview).
-// This documentation is focused on how the to configure the Billing Portal Settings, as well as Subscriber Interaction and Merchant Management of the Billing Portal.
+// This documentation is focused on how to configure the Billing Portal Settings, as well as Subscriber Interaction and Merchant Management of the Billing Portal.
 // You can use this endpoint to enable Billing Portal access for a Customer, with the option of sending the Customer an Invitation email at the same time.
 // ## Billing Portal Security
 // If your customer has been invited to the Billing Portal, then they will receive a link to manage their subscription (the “Management URL”) automatically at the bottom of their statements, invoices, and receipts. **This link changes periodically for security and is only valid for 65 days.**
@@ -62,7 +63,7 @@ func (b *BillingPortalController) EnableBillingPortalForCustomer(
 // ReadBillingPortalLink takes context, customerId as parameters and
 // returns an models.ApiResponse with models.PortalManagementLink data and
 // an error if there was an issue with the request or response.
-// This method will provide to the API user the exact URL required for a subscriber to access the Billing Portal.
+// Returns the exact URL required for a subscriber to access the Billing Portal.
 // ## Rules for Management Link API
 // + When retrieving a management URL, multiple requests for the same customer in a short period will return the **same** URL
 // + We will not generate a new URL for 15 days
@@ -95,11 +96,10 @@ func (b *BillingPortalController) ReadBillingPortalLink(
 // ResendBillingPortalInvitation takes context, customerId as parameters and
 // returns an models.ApiResponse with models.ResentInvitation data and
 // an error if there was an issue with the request or response.
-// You can resend a customer's Billing Portal invitation.
-// If you attempt to resend an invitation 5 times within 30 minutes, you will receive a `422` response with `error` message in the body.
+// Resends a customer's Billing Portal invitation.
+// If you attempt to resend an invitation 5 times within 30 minutes, you will receive a `422` response with an `error` message in the body.
 // If you attempt to resend an invitation when the Billing Portal is already disabled for a Customer, you will receive a `422` error response.
-// If you attempt to resend an invitation when the Billing Portal is already disabled for a Customer, you will receive a `422` error response.
-// If you attempt to resend an invitation when the Customer does not exist a Customer, you will receive a `404` error response.
+// If you attempt to resend an invitation when the Customer does not exist, you will receive a `404` error response.
 // ## Limitations
 // This endpoint will only return a JSON response.
 func (b *BillingPortalController) ResendBillingPortalInvitation(
@@ -132,7 +132,7 @@ func (b *BillingPortalController) ResendBillingPortalInvitation(
 // RevokeBillingPortalAccess takes context, customerId as parameters and
 // returns an models.ApiResponse with models.RevokedInvitation data and
 // an error if there was an issue with the request or response.
-// You can revoke a customer's Billing Portal invitation.
+// Revokes a customer's Billing Portal invitation.
 // If you attempt to revoke an invitation when the Billing Portal is already disabled for a Customer, you will receive a 422 error response.
 // ## Limitations
 // This endpoint will only return a JSON response.

@@ -12,7 +12,7 @@ componentsController := client.ComponentsController()
 
 * [Create Metered Component](../../doc/controllers/components.md#create-metered-component)
 * [Create Quantity Based Component](../../doc/controllers/components.md#create-quantity-based-component)
-* [Create on Off Component](../../doc/controllers/components.md#create-on-off-component)
+* [Create On Off Component](../../doc/controllers/components.md#create-on-off-component)
 * [Create Prepaid Usage Component](../../doc/controllers/components.md#create-prepaid-usage-component)
 * [Create Event Based Component](../../doc/controllers/components.md#create-event-based-component)
 * [Find Component](../../doc/controllers/components.md#find-component)
@@ -26,9 +26,9 @@ componentsController := client.ComponentsController()
 
 # Create Metered Component
 
-This request will create a component definition of kind **metered_component** under the specified product family. Metered component can then be added and “allocated” for a subscription.
+Creates a metered component definition under the specified product family. A metered component can then be added and “allocated” for a subscription.
 
-Metered components are used to bill for any type of unit that resets to 0 at the end of the billing period (think daily Google Adwords clicks or monthly cell phone minutes). This is most commonly associated with usage-based billing and many other pricing schemes.
+Metered components are used to bill for any type of unit that resets to 0 at the end of the billing period (think daily Google Ads clicks or monthly cell phone minutes). This is most commonly associated with usage-based billing and many other pricing schemes.
 
 Note that this is different from recurring quantity-based components, which DO NOT reset to zero at the start of every billing period. If you want to bill for a quantity of something that does not change unless you change it, then you want quantity components, instead.
 
@@ -43,6 +43,10 @@ CreateMeteredComponent(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -51,6 +55,8 @@ CreateMeteredComponent(
 | `body` | [`*models.CreateMeteredComponent`](../../doc/models/create-metered-component.md) | Body, Optional | - |
 
 ## Response Type
+
+**201**: Created
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.ComponentResponse](../../doc/models/component-response.md).
 
@@ -151,9 +157,9 @@ if err != nil {
 
 # Create Quantity Based Component
 
-This request will create a component definition of kind **quantity_based_component** under the specified product family. Quantity Based component can then be added and “allocated” for a subscription.
+Creates a Quantity Based component definition under the specified product family. A Quantity Based component can then be added and “allocated” for a subscription.
 
-When defining Quantity Based component, You can choose one of 2 types:
+When defining a Quantity Based component, you can choose one of 2 types:
 
 #### Recurring
 
@@ -176,6 +182,10 @@ CreateQuantityBasedComponent(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -184,6 +194,8 @@ CreateQuantityBasedComponent(
 | `body` | [`*models.CreateQuantityBasedComponent`](../../doc/models/create-quantity-based-component.md) | Body, Optional | - |
 
 ## Response Type
+
+**201**: Created
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.ComponentResponse](../../doc/models/component-response.md).
 
@@ -283,9 +295,9 @@ if err != nil {
 | 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../../doc/models/error-list-response-exception.md) |
 
 
-# Create on Off Component
+# Create On Off Component
 
-This request will create a component definition of kind **on_off_component** under the specified product family. On/Off component can then be added and “allocated” for a subscription.
+Creates an On/Off component definition under the specified product family. An On/Off component can then be added and “allocated” for a subscription.
 
 On/off components are used for any flat fee, recurring add on (think $99/month for tech support or a flat add on shipping fee).
 
@@ -300,6 +312,10 @@ CreateOnOffComponent(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -308,6 +324,8 @@ CreateOnOffComponent(
 | `body` | [`*models.CreateOnOffComponent`](../../doc/models/create-on-off-component.md) | Body, Optional | - |
 
 ## Response Type
+
+**201**: Created
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.ComponentResponse](../../doc/models/component-response.md).
 
@@ -394,7 +412,7 @@ if err != nil {
 
 # Create Prepaid Usage Component
 
-This request will create a component definition of kind **prepaid_usage_component** under the specified product family. Prepaid component can then be added and “allocated” for a subscription.
+Creates a prepaid usage component definition under the specified product family. A prepaid component can then be added and “allocated” for a subscription.
 
 Prepaid components allow customers to pre-purchase units that can be used up over time on their subscription. In a sense, they are the mirror image of metered components; while metered components charge at the end of the period for the amount of units used, prepaid components are charged for at the time of purchase, and we subsequently keep track of the usage against the amount purchased.
 
@@ -409,6 +427,10 @@ CreatePrepaidUsageComponent(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -417,6 +439,8 @@ CreatePrepaidUsageComponent(
 | `body` | [`*models.CreatePrepaidComponent`](../../doc/models/create-prepaid-component.md) | Body, Optional | - |
 
 ## Response Type
+
+**201**: Created
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.ComponentResponse](../../doc/models/component-response.md).
 
@@ -541,7 +565,7 @@ if err != nil {
 
 # Create Event Based Component
 
-This request will create a component definition of kind **event_based_component** under the specified product family. Event-based component can then be added and “allocated” for a subscription.
+Creates an event-based component definition under the specified product family. An event-based component can then be added and “allocated” for a subscription.
 
 Event-based components are similar to other component types, in that you define the component parameters (such as name and taxability) and the pricing. A key difference for the event-based component is that it must be attached to a metric. This is because the metric provides the component with the actual quantity used in computing what and how much will be billed each period for each subscription.
 
@@ -558,6 +582,10 @@ CreateEventBasedComponent(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -566,6 +594,8 @@ CreateEventBasedComponent(
 | `body` | [`*models.CreateEBBComponent`](../../doc/models/create-ebb-component.md) | Body, Optional | - |
 
 ## Response Type
+
+**201**: Created
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.ComponentResponse](../../doc/models/component-response.md).
 
@@ -658,7 +688,7 @@ if err != nil {
 
 # Find Component
 
-This request will return information regarding a component having the handle you provide. You can identify your components with a handle so you don't have to save or reference the IDs we generate.
+Returns information for a component matching the provided handle. You can identify your components with a handle so you don't have to save or reference the IDs we generate.
 
 ```go
 FindComponent(
@@ -668,6 +698,10 @@ FindComponent(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -675,6 +709,8 @@ FindComponent(
 | `handle` | `string` | Query, Required | The handle of the component to find |
 
 ## Response Type
+
+**200**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.ComponentResponse](../../doc/models/component-response.md).
 
@@ -741,6 +777,10 @@ ReadComponent(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -749,6 +789,8 @@ ReadComponent(
 | `componentId` | `string` | Template, Required | Either the Advanced Billing id of the component or the handle for the component prefixed with `handle:`<br><br>**Constraints**: *Pattern*: `/\A(?:\d+\|handle:(?:uuid:\|[a-z])(?:\w\|-)+)\z/` |
 
 ## Response Type
+
+**200**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.ComponentResponse](../../doc/models/component-response.md).
 
@@ -805,7 +847,7 @@ if err != nil {
 
 # Update Product Family Component
 
-This request will update a component from a specific product family.
+Updates a component from a specific product family.
 
 You may read the component by either the component's id or handle. When using the handle, it must be prefixed with `handle:`.
 
@@ -819,6 +861,10 @@ UpdateProductFamilyComponent(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -828,6 +874,8 @@ UpdateProductFamilyComponent(
 | `body` | [`*models.UpdateComponentRequest`](../../doc/models/update-component-request.md) | Body, Optional | - |
 
 ## Response Type
+
+**200**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.ComponentResponse](../../doc/models/component-response.md).
 
@@ -900,7 +948,7 @@ if err != nil {
 
 # Archive Component
 
-Sending a DELETE request to this endpoint will archive the component. All current subscribers will be unffected; their subscription/purchase will continue to be charged as usual.
+Archives the component; all current subscribers will continue to be charged as usual.
 
 ```go
 ArchiveComponent(
@@ -911,6 +959,10 @@ ArchiveComponent(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -919,6 +971,8 @@ ArchiveComponent(
 | `componentId` | `string` | Template, Required | Either the Advanced Billing id of the component or the handle for the component prefixed with `handle:`<br><br>**Constraints**: *Pattern*: `/\A(?:\d+\|handle:(?:uuid:\|[a-z])(?:\w\|-)+)\z/` |
 
 ## Response Type
+
+**200**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.Component](../../doc/models/component.md).
 
@@ -981,7 +1035,7 @@ if err != nil {
 
 # List Components
 
-This request will return a list of components for a site.
+Lists components for a site.
 
 ```go
 ListComponents(
@@ -991,6 +1045,10 @@ ListComponents(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -998,6 +1056,8 @@ ListComponents(
 | `input` | [`models.ListComponentsInput`](../../doc/models/list-components-input.md) | Required | Input structure for the method ListComponents |
 
 ## Response Type
+
+**200**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [[]models.ComponentResponse](../../doc/models/component-response.md).
 
@@ -1131,7 +1191,7 @@ if err != nil {
 
 # Update Component
 
-This request will update a component.
+Updates a component.
 
 You may read the component by either the component's id or handle. When using the handle, it must be prefixed with `handle:`.
 
@@ -1144,6 +1204,10 @@ UpdateComponent(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -1152,6 +1216,8 @@ UpdateComponent(
 | `body` | [`*models.UpdateComponentRequest`](../../doc/models/update-component-request.md) | Body, Optional | - |
 
 ## Response Type
+
+**200**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.ComponentResponse](../../doc/models/component-response.md).
 
@@ -1222,7 +1288,7 @@ if err != nil {
 
 # List Components for Product Family
 
-This request will return a list of components for a particular product family.
+Lists components for a particular product family.
 
 ```go
 ListComponentsForProductFamily(
@@ -1232,6 +1298,10 @@ ListComponentsForProductFamily(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -1239,6 +1309,8 @@ ListComponentsForProductFamily(
 | `input` | [`models.ListComponentsForProductFamilyInput`](../../doc/models/list-components-for-product-family-input.md) | Required | Input structure for the method ListComponentsForProductFamily |
 
 ## Response Type
+
+**200**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [[]models.ComponentResponse](../../doc/models/component-response.md).
 

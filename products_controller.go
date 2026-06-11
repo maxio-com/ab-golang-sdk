@@ -27,7 +27,7 @@ func NewProductsController(baseController baseController) *ProductsController {
 // returns an models.ApiResponse with models.ProductResponse data and
 // an error if there was an issue with the request or response.
 // Creates a product in your Advanced Billing site.
-// See the following product docuemation for more information:
+// See the following product documentation for more information:
 // + [Products Documentation](https://maxio.zendesk.com/hc/en-us/articles/24261090117645-Products-Overview)
 // + [Changing a Subscription's Product](https://maxio.zendesk.com/hc/en-us/articles/24252069837581-Product-Changes-and-Migrations)
 func (p *ProductsController) CreateProduct(
@@ -118,7 +118,7 @@ func (p *ProductsController) UpdateProduct(
 // ArchiveProduct takes context, productId as parameters and
 // returns an models.ApiResponse with models.ProductResponse data and
 // an error if there was an issue with the request or response.
-// Archives the product. All current subscribers will be unffected; their subscription/purchase will continue to be charged monthly.
+// Archives the product. All current subscribers will be unaffected; their subscription/purchase will continue to be charged monthly.
 // This will restrict the option to chose the product for purchase via the Billing Portal, as well as disable Public Signup Pages for the product.
 func (p *ProductsController) ArchiveProduct(
     ctx context.Context,
@@ -195,7 +195,7 @@ type ListProductsInput struct {
 // ListProducts takes context, dateField, filter, endDate, endDatetime, startDate, startDatetime, page, perPage, includeArchived, include as parameters and
 // returns an models.ApiResponse with []models.ProductResponse data and
 // an error if there was an issue with the request or response.
-// This method allows to retrieve a list of Products belonging to a Site.
+// Lists products belonging to a site.
 func (p *ProductsController) ListProducts(
     ctx context.Context,
     input ListProductsInput) (

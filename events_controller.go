@@ -52,9 +52,10 @@ type ListEventsInput struct {
 // ListEvents takes context, page, perPage, sinceId, maxId, direction, filter, dateField, startDate, endDate, startDatetime, endDatetime as parameters and
 // returns an models.ApiResponse with []models.EventResponse data and
 // an error if there was an issue with the request or response.
+// Lists events for a site.
 // ## Events Intro
 // Advanced Billing Events include various activity that happens around a Site. This information is **especially** useful to track down issues that arise when subscriptions are not created due to errors.
-// Within the Advanced Billing UI, "Events" are referred to as "Site Activity".  Full documentation on how to record view Events / Site Activty in the Advanced Billing UI can be located [here](https://maxio.zendesk.com/hc/en-us/articles/24250671733517-Site-Activity).
+// Within the Advanced Billing UI, "Events" are referred to as "Site Activity".  Full documentation on how to view Events / Site Activity in the Advanced Billing UI can be located [here](https://maxio.zendesk.com/hc/en-us/articles/24250671733517-Site-Activity).
 // ## List Events for a Site
 // This method will retrieve a list of events for a site. Use query string filters to narrow down results. You may use the `key` filter as part of your query string to narrow down results.
 // ### Legacy Filters
@@ -179,7 +180,7 @@ type ListSubscriptionEventsInput struct {
 // ListSubscriptionEvents takes context, subscriptionId, page, perPage, sinceId, maxId, direction, filter as parameters and
 // returns an models.ApiResponse with []models.EventResponse data and
 // an error if there was an issue with the request or response.
-// The following request will return a list of events for a subscription.
+// Lists events for a subscription.
 // ## Event Key
 // The event type is identified by the key property. You can check supported keys [here]($m/Event%20Key).
 // ## Event Specific Data
@@ -245,7 +246,7 @@ type ReadEventsCountInput struct {
 // ReadEventsCount takes context, page, perPage, sinceId, maxId, direction, filter as parameters and
 // returns an models.ApiResponse with models.CountResponse data and
 // an error if there was an issue with the request or response.
-// Get a count of all the events for a given site by using this method.
+// Returns the total count of events for a given site.
 func (e *EventsController) ReadEventsCount(
     ctx context.Context,
     input ReadEventsCountInput) (

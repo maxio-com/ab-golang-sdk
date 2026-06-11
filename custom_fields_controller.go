@@ -127,7 +127,7 @@ func (c *CustomFieldsController) ListMetafields(
 // - Add metadata values to the existing metadata for a dropdown or radio metafield. 
 // >Note: Updates to metadata overwrite. To add one or more values, you must specify all metadata values including the new value you want to add.
 // - Add new metadata to a dropdown or radio for a metafield that was created without metadata.
-// - Remove  metadata for a dropdown or radio for a metafield.  
+// - Remove metadata for a dropdown or radio for a metafield.
 // >Note: Updates to metadata overwrite existing values. To remove one or more values, specify all metadata values except those you want to remove.
 // - Add or update scope settings for a metafield.
 // >Note: Scope changes overwrite existing settings. You must specify the complete scope, including the changes you want to make.
@@ -267,7 +267,7 @@ func (c *CustomFieldsController) ListMetadata(
 // an error if there was an issue with the request or response.
 // Updates metadata and metafields on the Site and the customer or subscription specified, and updates the metadata value on a subscription or customer.
 // If you update metadata on a subscription or customer with a metafield that does not already exist, the metafield is created with the metadata you specify and it is always added as a text field to the Site and to the subscription or customer you specify. You can update the input_type for the metafield with the Update Metafield endpoint. 
-// Each site is limited to 100 unique metafields per resource. This means you can have 100 metafields for Subscription and another 100 for Customer.
+// Each site is limited to 100 unique metafields per resource. This means you can have 100 metafields for the Subscription resource and another 100 for the Customer resource.
 func (c *CustomFieldsController) UpdateMetadata(
     ctx context.Context,
     resourceType models.ResourceType,
@@ -360,7 +360,7 @@ type ListMetadataForResourceTypeInput struct {
 // ListMetadataForResourceType takes context, resourceType, page, perPage, dateField, startDate, endDate, startDatetime, endDatetime, withDeleted, resourceIds, direction as parameters and
 // returns an models.ApiResponse with models.PaginatedMetadata data and
 // an error if there was an issue with the request or response.
-// Lists  metadata for a specified array of subscriptions or customers.
+// Lists metadata for a specified array of subscriptions or customers.
 func (c *CustomFieldsController) ListMetadataForResourceType(
     ctx context.Context,
     input ListMetadataForResourceTypeInput) (

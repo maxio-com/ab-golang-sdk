@@ -12,3 +12,23 @@
 | `int` | models.ListUsagesInputSubscriptionIdOrReferenceContainer.FromNumber(int number) |
 | `string` | models.ListUsagesInputSubscriptionIdOrReferenceContainer.FromString(string mString) |
 
+## int
+
+### Initialization Code
+
+#### Example
+
+```go
+value := models.ListUsagesInputSubscriptionIdOrReferenceContainer.FromNumber(0)
+```
+
+## string
+
+### Initialization Code
+
+#### Example
+
+```go
+value := models.ListUsagesInputSubscriptionIdOrReferenceContainer.FromString("String0")
+```
+

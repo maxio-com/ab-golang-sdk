@@ -141,7 +141,7 @@ func (p *ProductPricePointsController) UpdateProductPricePoint(
 // ReadProductPricePoint takes context, productId, pricePointId, currencyPrices as parameters and
 // returns an models.ApiResponse with models.ProductPricePointResponse data and
 // an error if there was an issue with the request or response.
-// Use this endpoint to retrieve details for a specific product price point. You can achieve this by using either the product price point ID or handle.
+// Returns details for a specific product price point. You can achieve this by using either the product price point ID or handle.
 func (p *ProductPricePointsController) ReadProductPricePoint(
     ctx context.Context,
     productId models.ReadProductPricePointProductId,
@@ -196,7 +196,7 @@ func (p *ProductPricePointsController) ArchiveProductPricePoint(
 // UnarchiveProductPricePoint takes context, productId, pricePointId as parameters and
 // returns an models.ApiResponse with models.ProductPricePointResponse data and
 // an error if there was an issue with the request or response.
-// Use this endpoint to unarchive an archived product price point.
+// Unarchives an archived product price point.
 func (p *ProductPricePointsController) UnarchiveProductPricePoint(
     ctx context.Context,
     productId int,
@@ -375,7 +375,7 @@ type ListAllProductPricePointsInput struct {
 // ListAllProductPricePoints takes context, direction, filter, include, page, perPage as parameters and
 // returns an models.ApiResponse with models.ListProductPricePointsResponse data and
 // an error if there was an issue with the request or response.
-// This method allows retrieval of a list of Products Price Points belonging to a Site.
+// Lists Product Price Points belonging to a site.
 func (p *ProductPricePointsController) ListAllProductPricePoints(
     ctx context.Context,
     input ListAllProductPricePointsInput) (

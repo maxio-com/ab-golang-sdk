@@ -28,6 +28,10 @@ ListProductsForProductFamily(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -35,6 +39,8 @@ ListProductsForProductFamily(
 | `input` | [`models.ListProductsForProductFamilyInput`](../../doc/models/list-products-for-product-family-input.md) | Required | Input structure for the method ListProductsForProductFamily |
 
 ## Response Type
+
+**200**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [[]models.ProductResponse](../../doc/models/product-response.md).
 
@@ -176,7 +182,7 @@ if err != nil {
 
 # Create Product Family
 
-Creates a Product Family within your Advanced Billing site. Create a Product Family to act as a container for your products, components and coupons.
+Creates a Product Family within your Advanced Billing site. Create a Product Family to act as a container for your products, components, and coupons.
 
 Full documentation on how Product Families operate within the Advanced Billing UI can be located [here](https://maxio.zendesk.com/hc/en-us/articles/24261098936205-Product-Families).
 
@@ -188,6 +194,10 @@ CreateProductFamily(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -195,6 +205,8 @@ CreateProductFamily(
 | `body` | [`*models.CreateProductFamilyRequest`](../../doc/models/create-product-family-request.md) | Body, Optional | - |
 
 ## Response Type
+
+**201**: Created
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.ProductFamilyResponse](../../doc/models/product-family-response.md).
 
@@ -248,7 +260,7 @@ if err != nil {
 
 # List Product Families
 
-Retrieve a list of Product Families for a site.
+Returns a list of Product Families for a site.
 
 ```go
 ListProductFamilies(
@@ -258,6 +270,10 @@ ListProductFamilies(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -265,6 +281,8 @@ ListProductFamilies(
 | `input` | [`models.ListProductFamiliesInput`](../../doc/models/list-product-families-input.md) | Required | Input structure for the method ListProductFamilies |
 
 ## Response Type
+
+**200**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [[]models.ProductFamilyResponse](../../doc/models/product-family-response.md).
 
@@ -333,6 +351,10 @@ ReadProductFamily(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -340,6 +362,8 @@ ReadProductFamily(
 | `id` | `int` | Template, Required | The Advanced Billing id of the product family |
 
 ## Response Type
+
+**200**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.ProductFamilyResponse](../../doc/models/product-family-response.md).
 

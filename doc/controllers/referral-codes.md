@@ -11,7 +11,7 @@ referralCodesController := client.ReferralCodesController()
 
 # Validate Referral Code
 
-Use this method to determine if the referral code is valid and applicable within your Site. This method is useful for validating referral codes that are entered by a customer.
+Validates whether a referral code is valid and applicable within your site. This method is useful for validating referral codes that are entered by a customer.
 
 ## Referrals Documentation
 
@@ -29,6 +29,10 @@ ValidateReferralCode(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -36,6 +40,8 @@ ValidateReferralCode(
 | `code` | `string` | Query, Required | The referral code you are trying to validate |
 
 ## Response Type
+
+**200**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.ReferralValidationResponse](../../doc/models/referral-validation-response.md).
 

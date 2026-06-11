@@ -28,7 +28,7 @@
 | `BillingAddress2` | `models.Optional[string]` | Optional | The current billing street address, second line, for the card. |
 | `PaymentType` | [`models.PaymentType`](../../doc/models/payment-type.md) | Required | **Default**: `"credit_card"` |
 | `Disabled` | `*bool` | Optional | - |
-| `ChargifyToken` | `*string` | Optional | Token received after sending billing information using chargify.js. This token will only be received if passed as a sole attribute of credit_card_attributes (i.e. tok_9g6hw85pnpt6knmskpwp4ttt) |
+| `ChargifyToken` | `*string` | Optional | Token received after sending billing information using Maxio.js (formerly Chargify.js). This token will only be received if passed as a sole attribute of credit_card_attributes (i.e. tok_9g6hw85pnpt6knmskpwp4ttt) |
 | `SiteGatewaySettingId` | `models.Optional[int]` | Optional | - |
 | `GatewayHandle` | `models.Optional[string]` | Optional | An identifier of connected gateway. |
 | `CreatedAt` | `*time.Time` | Optional | A timestamp indicating when this payment profile was created |

@@ -9,7 +9,7 @@ import (
 
 // CreatePaymentProfile represents a CreatePaymentProfile struct.
 type CreatePaymentProfile struct {
-    // Token received after sending billing information using chargify.js.
+    // Token received after sending billing information using Maxio.js (formerly Chargify.js).
     ChargifyToken         *string                              `json:"chargify_token,omitempty"`
     Id                    *int                                 `json:"id,omitempty"`
     PaymentType           *PaymentType                         `json:"payment_type,omitempty"`
@@ -46,9 +46,9 @@ type CreatePaymentProfile struct {
     CustomerVaultToken    *string                              `json:"customer_vault_token,omitempty"`
     // (Required when creating a new payment profile) The Chargify customer id.
     CustomerId            *int                                 `json:"customer_id,omitempty"`
-    // used by merchants that implemented BraintreeBlue javaScript libraries on their own. We recommend using Chargify.js instead.
+    // used by merchants that implemented BraintreeBlue javaScript libraries on their own. We recommend using Maxio.js (formerly Chargify.js) instead.
     PaypalEmail           *string                              `json:"paypal_email,omitempty"`             // Deprecated
-    // used by merchants that implemented BraintreeBlue javaScript libraries on their own. We recommend using Chargify.js instead.
+    // used by merchants that implemented BraintreeBlue javaScript libraries on their own. We recommend using Maxio.js (formerly Chargify.js) instead.
     PaymentMethodNonce    *string                              `json:"payment_method_nonce,omitempty"`     // Deprecated
     // This attribute is only available if MultiGateway feature is enabled for your Site. This feature is in the Private Beta currently. gateway_handle is used to directly select a gateway where a payment profile will be stored in. Every connected gateway must have a unique gateway handle specified. Read [Multigateway description](https://chargify.zendesk.com/hc/en-us/articles/4407761759643#connecting-with-multiple-gateways) to learn more about new concepts that MultiGateway introduces and the default behavior when this attribute is not passed.
     GatewayHandle         *string                              `json:"gateway_handle,omitempty"`

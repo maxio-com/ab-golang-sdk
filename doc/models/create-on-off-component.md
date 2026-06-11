@@ -1,5 +1,5 @@
 
-# Create on Off Component
+# Create On Off Component
 
 ## Structure
 

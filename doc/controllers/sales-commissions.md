@@ -17,7 +17,7 @@ salesCommissionsController := client.SalesCommissionsController()
 
 # List Sales Commission Settings
 
-Endpoint returns subscriptions with associated sales reps
+Lists subscriptions with associated sales reps.
 
 ## Modified Authentication Process
 
@@ -35,6 +35,10 @@ ListSalesCommissionSettings(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -42,6 +46,8 @@ ListSalesCommissionSettings(
 | `input` | [`models.ListSalesCommissionSettingsInput`](../../doc/models/list-sales-commission-settings-input.md) | Required | Input structure for the method ListSalesCommissionSettings |
 
 ## Response Type
+
+**200**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [[]models.SaleRepSettings](../../doc/models/sale-rep-settings.md).
 
@@ -104,7 +110,7 @@ if err != nil {
 
 # List Sales Reps
 
-Endpoint returns sales rep list with details
+Returns a sales rep list with details.
 
 ## Modified Authentication Process
 
@@ -122,6 +128,10 @@ ListSalesReps(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -129,6 +139,8 @@ ListSalesReps(
 | `input` | [`models.ListSalesRepsInput`](../../doc/models/list-sales-reps-input.md) | Required | Input structure for the method ListSalesReps |
 
 ## Response Type
+
+**200**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [[]models.ListSaleRepItem](../../doc/models/list-sale-rep-item.md).
 
@@ -240,7 +252,7 @@ if err != nil {
 
 # Read Sales Rep
 
-Endpoint returns sales rep and attached subscriptions details.
+Returns a sales rep and attached subscription details.
 
 ## Modified Authentication Process
 
@@ -263,6 +275,10 @@ ReadSalesRep(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -275,6 +291,8 @@ ReadSalesRep(
 | `perPage` | `*int` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 100.<br><br>**Default**: `100` |
 
 ## Response Type
+
+**200**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.SaleRep](../../doc/models/sale-rep.md).
 

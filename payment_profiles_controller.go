@@ -30,60 +30,26 @@ func NewPaymentProfilesController(baseController baseController) *PaymentProfile
 // When you create a new payment profile for a customer via the API, it does not automatically make the profile current for any of the customer’s subscriptions. To use the payment profile as the default, you must set it explicitly for the subscription or subscription group.
 // Select an option from the **Request Examples** drop-down on the right side of the portal to see examples of common scenarios for creating payment profiles. 
 // Do not use real card information for testing. See the Sites articles that cover [testing your site setup](https://docs.maxio.com/hc/en-us/articles/24250712113165-Testing-Overview#testing-overview-0-0) for more details on testing in your sandbox.
-// Note that collecting and sending raw card details in production requires [PCI compliance](https://docs.maxio.com/hc/en-us/articles/24183956938381-PCI-Compliance#pci-compliance-0-0) on your end. If your business is not PCI compliant, use [Chargify.js](https://docs.maxio.com/hc/en-us/articles/38163190843789-Chargify-js-Overview#chargify-js-overview-0-0) to collect credit card or bank account information.
+// Note that collecting and sending raw card details in production requires [PCI compliance](https://docs.maxio.com/hc/en-us/articles/24183956938381-PCI-Compliance#pci-compliance-0-0) on your end. If your business is not PCI compliant, use [Maxio.js (formerly Chargify.js)](https://docs.maxio.com/hc/en-us/articles/38163190843789-Chargify-js-Overview#chargify-js-overview-0-0) to collect credit card or bank account information.
 // See the following articles to learn more about subscriptions and payments:
 // + [Subscriber Payment Details](https://maxio.zendesk.com/hc/en-us/articles/24251599929613-Subscription-Summary-Payment-Details-Tab)
 // + [Self Service Pages](https://maxio.zendesk.com/hc/en-us/articles/24261425318541-Self-Service-Pages) (Allows credit card updates by Subscriber)
 // + [Public Signup Pages payment settings](https://maxio.zendesk.com/hc/en-us/articles/24261368332557-Individual-Page-Settings)
 // + [Taxes](https://developers.chargify.com/docs/developer-docs/d2e9e34db740e-signups#taxes)
-// + [Chargify.js](https://docs.maxio.com/hc/en-us/articles/38163190843789-Chargify-js-Overview)
-// + [Chargify.js with GoCardless - minimal example](https://docs.maxio.com/hc/en-us/articles/38206331271693-Examples#h_01K0PJ15QQZKCER8CFK40MR6XJ)
-// + [Chargify.js with GoCardless - full example](https://docs.maxio.com/hc/en-us/articles/38206331271693-Examples#h_01K0PJ15QR09JVHWW0MCA7HVJV)
-// + [Chargify.js with Stripe Direct Debit - minimal example](https://docs.maxio.com/hc/en-us/articles/38206331271693-Examples#h_01K0PJ15QQFKKN8Z7B7DZ9AJS5)
-// + [Chargify.js with Stripe Direct Debit - full example](https://docs.maxio.com/hc/en-us/articles/38206331271693-Examples#h_01K0PJ15QRECQQ4ECS3ZA55GY7)
-// + [Chargify.js with Stripe BECS Direct Debit - minimal example](https://developers.chargify.com/docs/developer-docs/ZG9jOjE0NjAzNDIy-examples#minimal-example-with-sepa-or-becs-direct-debit-stripe-gateway)
-// + [Chargify.js with Stripe BECS Direct Debit - full example](https://developers.chargify.com/docs/developer-docs/ZG9jOjE0NjAzNDIy-examples#full-example-with-sepa-direct-debit-stripe-gateway)
+// + [Maxio.js (formerly Chargify.js)](https://docs.maxio.com/hc/en-us/articles/38163190843789-Chargify-js-Overview)
+// + [Maxio.js with GoCardless - minimal example](https://docs.maxio.com/hc/en-us/articles/38206331271693-Examples#h_01K0PJ15QQZKCER8CFK40MR6XJ)
+// + [Maxio.js with GoCardless - full example](https://docs.maxio.com/hc/en-us/articles/38206331271693-Examples#h_01K0PJ15QR09JVHWW0MCA7HVJV)
+// + [Maxio.js with Stripe Direct Debit - minimal example](https://docs.maxio.com/hc/en-us/articles/38206331271693-Examples#h_01K0PJ15QQFKKN8Z7B7DZ9AJS5)
+// + [Maxio.js with Stripe Direct Debit - full example](https://docs.maxio.com/hc/en-us/articles/38206331271693-Examples#h_01K0PJ15QRECQQ4ECS3ZA55GY7)
+// + [Maxio.js with Stripe BECS Direct Debit - minimal example](https://developers.chargify.com/docs/developer-docs/ZG9jOjE0NjAzNDIy-examples#minimal-example-with-sepa-or-becs-direct-debit-stripe-gateway)
+// + [Maxio.js with Stripe BECS Direct Debit - full example](https://developers.chargify.com/docs/developer-docs/ZG9jOjE0NjAzNDIy-examples#full-example-with-sepa-direct-debit-stripe-gateway)
 // + [Full documentation on GoCardless](https://maxio.zendesk.com/hc/en-us/articles/24176159136909-GoCardless)
 // + [Full documentation on Stripe SEPA Direct Debit](https://maxio.zendesk.com/hc/en-us/articles/24176170430093-Stripe-SEPA-and-BECS-Direct-Debit)
 // + [Full documentation on Stripe BECS Direct Debit](https://maxio.zendesk.com/hc/en-us/articles/24176170430093-Stripe-SEPA-and-BECS-Direct-Debit)
 // + [Full documentation on Stripe BACS Direct Debit](https://maxio.zendesk.com/hc/en-us/articles/24176170430093-Stripe-SEPA-and-BECS-Direct-Debit)
-// ## 3D Secure Authentication during payment profile creation.
-// When a payment requires 3D Secure Authentication to adhear to Strong Customer Authentication (SCA) during payment profile creation, the request enters a [post-authentication flow](https://maxio.zendesk.com/hc/en-us/articles/24176278996493-Testing-Implementing-3D-Secure#psd2-flows-pre-authentication-and-post-authentication). In this case, a 422 Unprocessable Entity status is returned with the following response:
-// ```json
-// {
-// "jsonapi": {
-// "version": "1.0"
-// },
-// "errors": [
-// {
-// "title": "This card requires 3DSecure verification.",
-// "detail": "This card requires 3D secure authentication. Redirect the customer to the URL from the action_link attribute to authenticate. Attach callback_url param to this URL if you want to be notified about the result of 3D Secure authentication. Attach redirect_url param to this URL if you want to redirect a customer back to your page after 3D Secure authentication. Example: https://checkout-test.chargifypay.test/3d-secure/checkout/pay_uerzhsxd5uhkbodx5jhvkg6yeu?one_time_token_id=93&callback_url=http://localhost:4000&redirect_url=https://yourpage.com will do a POST request to https://localhost:4000 after credit card is authenticated and will redirect a customer to https://yourpage.com after 3DS authentication.",
-// "links": {
-// "action_link": "https://checkout-test.chargifypay.test/3d-secure/checkout/pay_uerzhsxd5uhkbodx5jhvkg6yeu?one_time_token_id=93"
-// }
-// }
-// ]
-// }
-// ```
-// To let the customer go through 3D Secure Authentication, they need to be redirected to the URL specified in `action_link`.
-// Optionally, you can specify the `callback_url` parameter in the `action_link` URL to receive notification about the result of 3D Secure Authentication.
-// The `callback_url` will return the following information:
-// - whether the authentication was successful (`success`)
-// - the payment profile ID (`payment_profile_id`)
-// You can also specify a `redirect_url` parameter in the `action_link` URL to redirect the customer back to your site.
-// You cannot use action_link in an iframe inside a custom application. You must redirect the customer directly to the `action_link` and use the `redirect_url` or `callback_url` to be notified of the result.
-// The final URL that you send a customer to complete 3D Secure may resemble the following, where the first half is the `action_link` and the second half contains a `redirect_url` and `callback_url`:
-// `https://checkout-test.chargifypay.test/3d-secure/checkout/pay_uerzhsxd5uhkbodx5jhvkg6yeu?one_time_token_id=93&callback_url=http://localhost:4000&redirect_url=https://yourpage.com`
-// ### Example Redirect Flow
-// Here's an example flow to redirect customers to different pages depending on whether SCA was performed successfully:
-// 1. Create a payment profile via the API; it requires 3DS.
-// 2. You receive an `action_link` in the response.
-// 3. Use this `action_link` to, for example, connect with your internal resources or generate a `session_id`.
-// 4. Include one of those attributes inside the `callback_url` and `redirect_url` to be aware which “session” this applies to.
-// 5. Redirect the customer to the `action_link` with `callback_url` and `redirect_url` applied
-// 6. After the customer completes 3DS authentication, we notify you of the result via the applied `callback_url`.
-// 7. After that, we redirect the customer to the `redirect_url`; at this point the result of authentication is known.
-// 8. Optionally, you can use the applied "msg" param in the `redirect_url` to determine if the redirect was successful.
+// ## 3D Secure (3DS) Authentication post-authentication flow
+// When a payment requires 3DS Authentication to adhere to Strong Customer Authentication (SCA), the request enters a post-authentication flow where a 422 Unprocessable Entity status is returned with an action_link that will direct the customer through 3DS Authentication. 
+// See the [3D Secure Post-Authentication Flow](https://docs.maxio.com/hc/en-us/articles/44277749524365-3D-Secure-Post-Authentication-Flow) article in the product documentation to learn how to manage the redirect flow.
 func (p *PaymentProfilesController) CreatePaymentProfile(
     ctx context.Context,
     body *models.CreatePaymentProfileRequest) (
@@ -125,7 +91,7 @@ type ListPaymentProfilesInput struct {
 // ListPaymentProfiles takes context, page, perPage, customerId as parameters and
 // returns an models.ApiResponse with []models.PaymentProfileResponse data and
 // an error if there was an issue with the request or response.
-// This method will return all of the active `payment_profiles` for a Site, or for one Customer within a site.  If no payment profiles are found, this endpoint will return an empty array, not a 404.
+// Returns all active payment profiles for a site, or for one customer within a site. If no payment profiles are found, this endpoint will return an empty array, not a 404.
 func (p *PaymentProfilesController) ListPaymentProfiles(
     ctx context.Context,
     input ListPaymentProfilesInput) (
@@ -156,7 +122,7 @@ func (p *PaymentProfilesController) ListPaymentProfiles(
 // ReadPaymentProfile takes context, paymentProfileId as parameters and
 // returns an models.ApiResponse with models.PaymentProfileResponse data and
 // an error if there was an issue with the request or response.
-// Using the GET method you can retrieve a Payment Profile identified by its unique ID.
+// Returns a payment profile identified by its unique ID.
 // Note that a different JSON object will be returned if the card method on file is a bank account.
 // ### Response for Bank Account
 // Example response for Bank Account:
@@ -214,6 +180,7 @@ func (p *PaymentProfilesController) ReadPaymentProfile(
 // UpdatePaymentProfile takes context, paymentProfileId, body as parameters and
 // returns an models.ApiResponse with models.PaymentProfileResponse data and
 // an error if there was an issue with the request or response.
+// Updates a payment profile.
 // ## Partial Card Updates
 // In the event that you are using the Authorize.net, Stripe, Cybersource, Forte or Braintree Blue payment gateways, you can update just the billing and contact information for a payment method. Note the lack of credit-card related data contained in the JSON payload.
 // In this case, the following JSON is acceptable:
@@ -321,7 +288,7 @@ func (p *PaymentProfilesController) DeleteSubscriptionsPaymentProfile(
 // VerifyBankAccount takes context, bankAccountId, body as parameters and
 // returns an models.ApiResponse with models.BankAccountResponse data and
 // an error if there was an issue with the request or response.
-// Submit the two small deposit amounts the customer received in their bank account in order to verify the bank account. (Stripe only)
+// Verifies a bank account. Submit the two small deposit amounts the customer received in their bank account to verify the bank account. (Stripe only)
 func (p *PaymentProfilesController) VerifyBankAccount(
     ctx context.Context,
     bankAccountId int,
@@ -379,7 +346,7 @@ func (p *PaymentProfilesController) DeleteSubscriptionGroupPaymentProfile(
 // ChangeSubscriptionDefaultPaymentProfile takes context, subscriptionId, paymentProfileId as parameters and
 // returns an models.ApiResponse with models.PaymentProfileResponse data and
 // an error if there was an issue with the request or response.
-// This will change the default payment profile on the subscription to the existing payment profile with the id specified.
+// Changes the default payment profile on the subscription to the existing payment profile with the specified ID.
 // You must elect to change the existing payment profile to a new payment profile ID in order to receive a satisfactory response from this endpoint.
 func (p *PaymentProfilesController) ChangeSubscriptionDefaultPaymentProfile(
     ctx context.Context,

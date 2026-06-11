@@ -26,7 +26,7 @@ func NewInsightsController(baseController baseController) *InsightsController {
 // ReadSiteStats takes context as parameters and
 // returns an models.ApiResponse with models.SiteSummary data and
 // an error if there was an issue with the request or response.
-// The Stats API is a very basic view of some Site-level stats. This API call only answers with JSON responses. An XML version is not provided.
+// Returns basic site-level stats. This API call only answers with JSON responses. An XML version is not provided.
 // ## Stats Documentation
 // There currently is not a complimentary matching set of documentation that compliments this endpoint. However, each Site's dashboard will reflect the summary of information provided in the Stats response.
 // ```
@@ -52,7 +52,7 @@ func (i *InsightsController) ReadSiteStats(ctx context.Context) (
 // returns an models.ApiResponse with models.MRRResponse data and
 // an error if there was an issue with the request or response.
 // Deprecated: readMrr is deprecated
-// This endpoint returns your site's current MRR, including plan and usage breakouts.
+// Returns your site's current MRR, including plan and usage breakouts.
 func (i *InsightsController) ReadMrr(
     ctx context.Context,
     atTime *time.Time,
@@ -97,7 +97,7 @@ type ListMrrMovementsInput struct {
 // returns an models.ApiResponse with models.ListMRRResponse data and
 // an error if there was an issue with the request or response.
 // Deprecated: listMrrMovements is deprecated
-// This endpoint returns your site's MRR movements.
+// Lists your site's MRR movements.
 // ## Understanding MRR movements
 // This endpoint will aid in accessing your site's [MRR Report](https://maxio.zendesk.com/hc/en-us/articles/24285894587021-MRR-Analytics) data.
 // Whenever a subscription event occurs that causes your site's MRR to change (such as a signup or upgrade), we record an MRR movement. These records are accessible via the MRR Movements endpoint.

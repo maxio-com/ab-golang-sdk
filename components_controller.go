@@ -25,8 +25,8 @@ func NewComponentsController(baseController baseController) *ComponentsControlle
 // CreateMeteredComponent takes context, productFamilyId, body as parameters and
 // returns an models.ApiResponse with models.ComponentResponse data and
 // an error if there was an issue with the request or response.
-// This request will create a component definition of kind **metered_component** under the specified product family. Metered component can then be added and “allocated” for a subscription.
-// Metered components are used to bill for any type of unit that resets to 0 at the end of the billing period (think daily Google Adwords clicks or monthly cell phone minutes). This is most commonly associated with usage-based billing and many other pricing schemes.
+// Creates a metered component definition under the specified product family. A metered component can then be added and “allocated” for a subscription.
+// Metered components are used to bill for any type of unit that resets to 0 at the end of the billing period (think daily Google Ads clicks or monthly cell phone minutes). This is most commonly associated with usage-based billing and many other pricing schemes.
 // Note that this is different from recurring quantity-based components, which DO NOT reset to zero at the start of every billing period. If you want to bill for a quantity of something that does not change unless you change it, then you want quantity components, instead.
 // For more information on components, see our documentation [here](https://maxio.zendesk.com/hc/en-us/articles/24261141522189-Components-Overview).
 func (c *ComponentsController) CreateMeteredComponent(
@@ -64,8 +64,8 @@ func (c *ComponentsController) CreateMeteredComponent(
 // CreateQuantityBasedComponent takes context, productFamilyId, body as parameters and
 // returns an models.ApiResponse with models.ComponentResponse data and
 // an error if there was an issue with the request or response.
-// This request will create a component definition of kind **quantity_based_component** under the specified product family. Quantity Based component can then be added and “allocated” for a subscription.
-// When defining Quantity Based component, You can choose one of 2 types:
+// Creates a Quantity Based component definition under the specified product family. A Quantity Based component can then be added and “allocated” for a subscription.
+// When defining a Quantity Based component, you can choose one of 2 types:
 // #### Recurring
 // Recurring quantity-based components are used to bill for the number of some unit (think monthly software user licenses or the number of pairs of socks in a box-a-month club). This is most commonly associated with billing for user licenses, number of users, number of employees, etc.
 // #### One-time
@@ -107,7 +107,7 @@ func (c *ComponentsController) CreateQuantityBasedComponent(
 // CreateOnOffComponent takes context, productFamilyId, body as parameters and
 // returns an models.ApiResponse with models.ComponentResponse data and
 // an error if there was an issue with the request or response.
-// This request will create a component definition of kind **on_off_component** under the specified product family. On/Off component can then be added and “allocated” for a subscription.
+// Creates an On/Off component definition under the specified product family. An On/Off component can then be added and “allocated” for a subscription.
 // On/off components are used for any flat fee, recurring add on (think $99/month for tech support or a flat add on shipping fee).
 // For more information on components, see our documentation [here](https://maxio.zendesk.com/hc/en-us/articles/24261141522189-Components-Overview).
 func (c *ComponentsController) CreateOnOffComponent(
@@ -145,7 +145,7 @@ func (c *ComponentsController) CreateOnOffComponent(
 // CreatePrepaidUsageComponent takes context, productFamilyId, body as parameters and
 // returns an models.ApiResponse with models.ComponentResponse data and
 // an error if there was an issue with the request or response.
-// This request will create a component definition of kind **prepaid_usage_component** under the specified product family. Prepaid component can then be added and “allocated” for a subscription.
+// Creates a prepaid usage component definition under the specified product family. A prepaid component can then be added and “allocated” for a subscription.
 // Prepaid components allow customers to pre-purchase units that can be used up over time on their subscription. In a sense, they are the mirror image of metered components; while metered components charge at the end of the period for the amount of units used, prepaid components are charged for at the time of purchase, and we subsequently keep track of the usage against the amount purchased.
 // For more information on components, see our documentation [here](https://maxio.zendesk.com/hc/en-us/articles/24261141522189-Components-Overview).
 func (c *ComponentsController) CreatePrepaidUsageComponent(
@@ -183,7 +183,7 @@ func (c *ComponentsController) CreatePrepaidUsageComponent(
 // CreateEventBasedComponent takes context, productFamilyId, body as parameters and
 // returns an models.ApiResponse with models.ComponentResponse data and
 // an error if there was an issue with the request or response.
-// This request will create a component definition of kind **event_based_component** under the specified product family. Event-based component can then be added and “allocated” for a subscription.
+// Creates an event-based component definition under the specified product family. An event-based component can then be added and “allocated” for a subscription.
 // Event-based components are similar to other component types, in that you define the component parameters (such as name and taxability) and the pricing. A key difference for the event-based component is that it must be attached to a metric. This is because the metric provides the component with the actual quantity used in computing what and how much will be billed each period for each subscription.
 // So, instead of reporting usage directly for each component (as you would with metered components), the usage is derived from analysis of your events.
 // For more information on components, see our documentation [here](https://maxio.zendesk.com/hc/en-us/articles/24261141522189-Components-Overview).
@@ -222,7 +222,7 @@ func (c *ComponentsController) CreateEventBasedComponent(
 // FindComponent takes context, handle as parameters and
 // returns an models.ApiResponse with models.ComponentResponse data and
 // an error if there was an issue with the request or response.
-// This request will return information regarding a component having the handle you provide. You can identify your components with a handle so you don't have to save or reference the IDs we generate.
+// Returns information for a component matching the provided handle. You can identify your components with a handle so you don't have to save or reference the IDs we generate.
 func (c *ComponentsController) FindComponent(
     ctx context.Context,
     handle string) (
@@ -270,7 +270,7 @@ func (c *ComponentsController) ReadComponent(
 // UpdateProductFamilyComponent takes context, productFamilyId, componentId, body as parameters and
 // returns an models.ApiResponse with models.ComponentResponse data and
 // an error if there was an issue with the request or response.
-// This request will update a component from a specific product family.
+// Updates a component from a specific product family.
 // You may read the component by either the component's id or handle. When using the handle, it must be prefixed with `handle:`.
 func (c *ComponentsController) UpdateProductFamilyComponent(
     ctx context.Context,
@@ -303,7 +303,7 @@ func (c *ComponentsController) UpdateProductFamilyComponent(
 // ArchiveComponent takes context, productFamilyId, componentId as parameters and
 // returns an models.ApiResponse with models.Component data and
 // an error if there was an issue with the request or response.
-// Sending a DELETE request to this endpoint will archive the component. All current subscribers will be unffected; their subscription/purchase will continue to be charged as usual.
+// Archives the component; all current subscribers will continue to be charged as usual.
 func (c *ComponentsController) ArchiveComponent(
     ctx context.Context,
     productFamilyId int,
@@ -354,7 +354,7 @@ type ListComponentsInput struct {
 // ListComponents takes context, dateField, startDate, endDate, startDatetime, endDatetime, includeArchived, page, perPage, filter as parameters and
 // returns an models.ApiResponse with []models.ComponentResponse data and
 // an error if there was an issue with the request or response.
-// This request will return a list of components for a site.
+// Lists components for a site.
 func (c *ComponentsController) ListComponents(
     ctx context.Context,
     input ListComponentsInput) (
@@ -403,7 +403,7 @@ func (c *ComponentsController) ListComponents(
 // UpdateComponent takes context, componentId, body as parameters and
 // returns an models.ApiResponse with models.ComponentResponse data and
 // an error if there was an issue with the request or response.
-// This request will update a component.
+// Updates a component.
 // You may read the component by either the component's id or handle. When using the handle, it must be prefixed with `handle:`.
 func (c *ComponentsController) UpdateComponent(
     ctx context.Context,
@@ -461,7 +461,7 @@ type ListComponentsForProductFamilyInput struct {
 // ListComponentsForProductFamily takes context, productFamilyId, includeArchived, page, perPage, filter, dateField, endDate, endDatetime, startDate, startDatetime as parameters and
 // returns an models.ApiResponse with []models.ComponentResponse data and
 // an error if there was an issue with the request or response.
-// This request will return a list of components for a particular product family.
+// Lists components for a particular product family.
 func (c *ComponentsController) ListComponentsForProductFamily(
     ctx context.Context,
     input ListComponentsForProductFamilyInput) (

@@ -36,6 +36,10 @@ CreateProductPricePoint(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -44,6 +48,8 @@ CreateProductPricePoint(
 | `body` | [`*models.CreateProductPricePointRequest`](../../doc/models/create-product-price-point-request.md) | Body, Optional | - |
 
 ## Response Type
+
+**201**: Created
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.ProductPricePointResponse](../../doc/models/product-price-point-response.md).
 
@@ -133,6 +139,10 @@ ListProductPricePoints(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -140,6 +150,8 @@ ListProductPricePoints(
 | `input` | [`models.ListProductPricePointsInput`](../../doc/models/list-product-price-points-input.md) | Required | Input structure for the method ListProductPricePoints |
 
 ## Response Type
+
+**200**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.ListProductPricePointsResponse](../../doc/models/list-product-price-points-response.md).
 
@@ -211,6 +223,10 @@ UpdateProductPricePoint(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -220,6 +236,8 @@ UpdateProductPricePoint(
 | `body` | [`*models.UpdateProductPricePointRequest`](../../doc/models/update-product-price-point-request.md) | Body, Optional | - |
 
 ## Response Type
+
+**200**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.ProductPricePointResponse](../../doc/models/product-price-point-response.md).
 
@@ -279,7 +297,7 @@ if err != nil {
 
 # Read Product Price Point
 
-Use this endpoint to retrieve details for a specific product price point. You can achieve this by using either the product price point ID or handle.
+Returns details for a specific product price point. You can achieve this by using either the product price point ID or handle.
 
 ```go
 ReadProductPricePoint(
@@ -291,6 +309,10 @@ ReadProductPricePoint(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -300,6 +322,8 @@ ReadProductPricePoint(
 | `currencyPrices` | `*bool` | Query, Optional | When fetching a product's price points, if you have defined multiple currencies at the site level, you can optionally pass the ?currency_prices=true query param to include an array of currency price data in the response. If the product price point is set to use_site_exchange_rate: true, it will return pricing based on the current exchange rate. If the flag is set to false, it will return all of the defined prices for each currency. |
 
 ## Response Type
+
+**200**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.ProductPricePointResponse](../../doc/models/product-price-point-response.md).
 
@@ -363,6 +387,10 @@ ArchiveProductPricePoint(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -371,6 +399,8 @@ ArchiveProductPricePoint(
 | `pricePointId` | [`models.ArchiveProductPricePointPricePointId`](../../doc/models/containers/archive-product-price-point-price-point-id.md) | Template, Required | This is a container for one-of cases. |
 
 ## Response Type
+
+**200**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.ProductPricePointResponse](../../doc/models/product-price-point-response.md).
 
@@ -434,7 +464,7 @@ if err != nil {
 
 # Unarchive Product Price Point
 
-Use this endpoint to unarchive an archived product price point.
+Unarchives an archived product price point.
 
 ```go
 UnarchiveProductPricePoint(
@@ -445,6 +475,10 @@ UnarchiveProductPricePoint(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -453,6 +487,8 @@ UnarchiveProductPricePoint(
 | `pricePointId` | `int` | Template, Required | The Advanced Billing id of the product price point |
 
 ## Response Type
+
+**200**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.ProductPricePointResponse](../../doc/models/product-price-point-response.md).
 
@@ -518,6 +554,10 @@ PromoteProductPricePointToDefault(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -526,6 +566,8 @@ PromoteProductPricePointToDefault(
 | `pricePointId` | `int` | Template, Required | The Advanced Billing id of the product price point |
 
 ## Response Type
+
+**200**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.ProductResponse](../../doc/models/product-response.md).
 
@@ -615,6 +657,10 @@ BulkCreateProductPricePoints(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -623,6 +669,8 @@ BulkCreateProductPricePoints(
 | `body` | [`*models.BulkCreateProductPricePointsRequest`](../../doc/models/bulk-create-product-price-points-request.md) | Body, Optional | - |
 
 ## Response Type
+
+**201**: Created
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.BulkCreateProductPricePointsResponse](../../doc/models/bulk-create-product-price-points-response.md).
 
@@ -731,6 +779,10 @@ CreateProductCurrencyPrices(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -739,6 +791,8 @@ CreateProductCurrencyPrices(
 | `body` | [`*models.CreateProductCurrencyPricesRequest`](../../doc/models/create-product-currency-prices-request.md) | Body, Optional | - |
 
 ## Response Type
+
+**200**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.CurrencyPricesResponse](../../doc/models/currency-prices-response.md).
 
@@ -825,6 +879,10 @@ UpdateProductCurrencyPrices(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -833,6 +891,8 @@ UpdateProductCurrencyPrices(
 | `body` | [`*models.UpdateCurrencyPricesRequest`](../../doc/models/update-currency-prices-request.md) | Body, Optional | - |
 
 ## Response Type
+
+**200**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.CurrencyPricesResponse](../../doc/models/currency-prices-response.md).
 
@@ -897,7 +957,7 @@ if err != nil {
 
 # List All Product Price Points
 
-This method allows retrieval of a list of Products Price Points belonging to a Site.
+Lists Product Price Points belonging to a site.
 
 ```go
 ListAllProductPricePoints(
@@ -907,6 +967,10 @@ ListAllProductPricePoints(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -914,6 +978,8 @@ ListAllProductPricePoints(
 | `input` | [`models.ListAllProductPricePointsInput`](../../doc/models/list-all-product-price-points-input.md) | Required | Input structure for the method ListAllProductPricePoints |
 
 ## Response Type
+
+**200**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.ListProductPricePointsResponse](../../doc/models/list-product-price-points-response.md).
 

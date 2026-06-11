@@ -20,7 +20,7 @@ webhooksController := client.WebhooksController()
 
 # List Webhooks
 
-Allows you to view a list of webhooks.  You can pass query parameters if you want to filter webhooks. See the [Webhooks](http://localhost:8080/go) documentation for more information.
+Retrieves a list of webhooks.  You can pass query parameters if you want to filter webhooks. See the [Webhooks](http://localhost:8080/go) documentation for more information.
 
 ```go
 ListWebhooks(
@@ -30,6 +30,10 @@ ListWebhooks(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -37,6 +41,8 @@ ListWebhooks(
 | `input` | [`models.ListWebhooksInput`](../../doc/models/list-webhooks-input.md) | Required | Input structure for the method ListWebhooks |
 
 ## Response Type
+
+**201**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [[]models.WebhookResponse](../../doc/models/webhook-response.md).
 
@@ -102,7 +108,7 @@ if err != nil {
 
 # Enable Webhooks
 
-Allows you to enable webhooks for your site
+Enables webhooks for your site.
 
 ```go
 EnableWebhooks(
@@ -112,6 +118,10 @@ EnableWebhooks(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -119,6 +129,8 @@ EnableWebhooks(
 | `body` | [`*models.EnableWebhooksRequest`](../../doc/models/enable-webhooks-request.md) | Body, Optional | - |
 
 ## Response Type
+
+**200**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.EnableWebhooksResponse](../../doc/models/enable-webhooks-response.md).
 
@@ -162,6 +174,10 @@ ReplayWebhooks(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -169,6 +185,8 @@ ReplayWebhooks(
 | `body` | [`*models.ReplayWebhooksRequest`](../../doc/models/replay-webhooks-request.md) | Body, Optional | - |
 
 ## Response Type
+
+**200**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.ReplayWebhooksResponse](../../doc/models/replay-webhooks-response.md).
 
@@ -205,7 +223,7 @@ if err != nil {
 
 # Create Endpoint
 
-Creates an endpoint and assigns a list of webhooks subscriptions (events) to it.
+Creates an endpoint and assigns a list of webhook subscriptions (events) to it.
 See the [Webhooks Reference](http://localhost:8080/go) page for available events.
 
 ```go
@@ -216,6 +234,10 @@ CreateEndpoint(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -223,6 +245,8 @@ CreateEndpoint(
 | `body` | [`*models.CreateOrUpdateEndpointRequest`](../../doc/models/create-or-update-endpoint-request.md) | Body, Optional | Used to Create or Update Endpoint |
 
 ## Response Type
+
+**200**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.EndpointResponse](../../doc/models/endpoint-response.md).
 
@@ -237,6 +261,7 @@ body := models.CreateOrUpdateEndpointRequest{
         WebhookSubscriptions: []models.WebhookSubscription{
             models.WebhookSubscription_PAYMENTSUCCESS,
             models.WebhookSubscription_PAYMENTFAILURE,
+            models.WebhookSubscription_INVOICEPENDING,
         },
     },
 }
@@ -267,7 +292,8 @@ if err != nil {
     "status": "enabled",
     "webhook_subscriptions": [
       "payment_success",
-      "payment_failure"
+      "payment_failure",
+      "invoice_pending"
     ]
   }
 }
@@ -291,7 +317,13 @@ ListEndpoints(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Response Type
+
+**200**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [[]models.Endpoint](../../doc/models/endpoint.md).
 
@@ -321,7 +353,8 @@ if err != nil {
     "status": "enabled",
     "webhook_subscriptions": [
       "payment_success",
-      "payment_failure"
+      "payment_failure",
+      "invoice_pending"
     ]
   },
   {
@@ -345,7 +378,7 @@ Updates an Endpoint. You can change the `url` of your endpoint or the list of `w
 
 Always send a complete list of events to which you want to subscribe. Sending a PUT request for an existing endpoint with an empty list of `webhook_subscriptions` will unsubscribe all events.
 
-If you want unsubscribe from a specific event, send a list of `webhook_subscriptions` without the specific event key.
+If you want to unsubscribe from a specific event, send a list of `webhook_subscriptions` without the specific event key.
 
 ```go
 UpdateEndpoint(
@@ -356,6 +389,10 @@ UpdateEndpoint(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -364,6 +401,8 @@ UpdateEndpoint(
 | `body` | [`*models.CreateOrUpdateEndpointRequest`](../../doc/models/create-or-update-endpoint-request.md) | Body, Optional | Used to Create or Update Endpoint |
 
 ## Response Type
+
+**200**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.EndpointResponse](../../doc/models/endpoint-response.md).
 
@@ -381,6 +420,7 @@ body := models.CreateOrUpdateEndpointRequest{
             models.WebhookSubscription_PAYMENTFAILURE,
             models.WebhookSubscription_PAYMENTSUCCESS,
             models.WebhookSubscription_REFUNDFAILURE,
+            models.WebhookSubscription_INVOICEPENDING,
         },
     },
 }

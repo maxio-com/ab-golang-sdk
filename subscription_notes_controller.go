@@ -26,7 +26,7 @@ func NewSubscriptionNotesController(baseController baseController) *Subscription
 // CreateSubscriptionNote takes context, subscriptionId, body as parameters and
 // returns an models.ApiResponse with models.SubscriptionNoteResponse data and
 // an error if there was an issue with the request or response.
-// Use the following method to create a note for a subscription.
+// Creates a note for a subscription.
 // ## How to Use Subscription Notes
 // Notes allow you to record information about a particular Subscription in a free text format.
 // If you have structured data such as birth date, color, etc., consider using Metadata instead.
@@ -73,7 +73,7 @@ type ListSubscriptionNotesInput struct {
 // ListSubscriptionNotes takes context, subscriptionId, page, perPage as parameters and
 // returns an models.ApiResponse with []models.SubscriptionNoteResponse data and
 // an error if there was an issue with the request or response.
-// Use this method to retrieve a list of Notes associated with a Subscription. The response will be an array of Notes.
+// Retrieves a list of notes associated with a subscription. The response will be an array of Notes.
 func (s *SubscriptionNotesController) ListSubscriptionNotes(
     ctx context.Context,
     input ListSubscriptionNotesInput) (
@@ -105,7 +105,7 @@ func (s *SubscriptionNotesController) ListSubscriptionNotes(
 // ReadSubscriptionNote takes context, subscriptionId, noteId as parameters and
 // returns an models.ApiResponse with models.SubscriptionNoteResponse data and
 // an error if there was an issue with the request or response.
-// Once you have obtained the ID of the note you wish to read, use this method to show a particular note attached to a subscription.
+// Retrieves a specific note attached to a subscription.
 func (s *SubscriptionNotesController) ReadSubscriptionNote(
     ctx context.Context,
     subscriptionId int,
@@ -129,7 +129,7 @@ func (s *SubscriptionNotesController) ReadSubscriptionNote(
 // UpdateSubscriptionNote takes context, subscriptionId, noteId, body as parameters and
 // returns an models.ApiResponse with models.SubscriptionNoteResponse data and
 // an error if there was an issue with the request or response.
-// Use the following method to update a note for a Subscription.
+// Updates a note for a subscription.
 func (s *SubscriptionNotesController) UpdateSubscriptionNote(
     ctx context.Context,
     subscriptionId int,

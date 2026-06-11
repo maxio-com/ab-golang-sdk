@@ -17,7 +17,7 @@
 {
   "event": {
     "id": 242,
-    "key": "subscription_state_change",
+    "key": "maxio_payments_direct_debit_payment_rejected",
     "message": "message0",
     "subscription_id": 96,
     "customer_id": 24,

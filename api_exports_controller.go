@@ -38,7 +38,7 @@ type ListExportedProformaInvoicesInput struct {
 // ListExportedProformaInvoices takes context, batchId, perPage, page as parameters and
 // returns an models.ApiResponse with []models.ProformaInvoice data and
 // an error if there was an issue with the request or response.
-// This API returns an array of exported proforma invoices for a provided `batch_id`. Pay close attention to pagination in order to control responses from the server.
+// Lists exported proforma invoices for a provided `batch_id`. Use pagination to control responses returned from the server.
 // Example: `GET https://{subdomain}.chargify.com/api_exports/proforma_invoices/123/rows?per_page=10000&page=1`.
 func (a *APIExportsController) ListExportedProformaInvoices(
     ctx context.Context,
@@ -88,7 +88,7 @@ type ListExportedInvoicesInput struct {
 // ListExportedInvoices takes context, batchId, perPage, page as parameters and
 // returns an models.ApiResponse with []models.Invoice data and
 // an error if there was an issue with the request or response.
-// This API returns an array of exported invoices for a provided `batch_id`. Pay close attention to pagination in order to control responses from the server.
+// Lists exported invoices for a provided `batch_id`. Use pagination to control responses returned from the server.
 // Example: `GET https://{subdomain}.chargify.com/api_exports/invoices/123/rows?per_page=10000&page=1`.
 func (a *APIExportsController) ListExportedInvoices(
     ctx context.Context,
@@ -134,7 +134,7 @@ type ListExportedSubscriptionsInput struct {
 // ListExportedSubscriptions takes context, batchId, perPage, page as parameters and
 // returns an models.ApiResponse with []models.Subscription data and
 // an error if there was an issue with the request or response.
-// This API returns an array of exported subscriptions for a provided `batch_id`. Pay close attention to pagination in order to control responses from the server.
+// Lists exported subscriptions for a provided `batch_id`. Use pagination to control responses returned from the server.
 // Example: `GET https://{subdomain}.chargify.com/api_exports/subscriptions/123/rows?per_page=200&page=1`.
 func (a *APIExportsController) ListExportedSubscriptions(
     ctx context.Context,
@@ -167,7 +167,7 @@ func (a *APIExportsController) ListExportedSubscriptions(
 // ExportProformaInvoices takes context as parameters and
 // returns an models.ApiResponse with models.BatchJobResponse data and
 // an error if there was an issue with the request or response.
-// This API creates a proforma invoices export and returns a batchjob object.
+// Creates a proforma invoices export and returns a batch job object.
 // It is only available for Relationship Invoicing architecture.
 func (a *APIExportsController) ExportProformaInvoices(ctx context.Context) (
     models.ApiResponse[models.BatchJobResponse],
@@ -192,7 +192,7 @@ func (a *APIExportsController) ExportProformaInvoices(ctx context.Context) (
 // ExportInvoices takes context as parameters and
 // returns an models.ApiResponse with models.BatchJobResponse data and
 // an error if there was an issue with the request or response.
-// This API creates an invoices export and returns a batchjob object.
+// Creates an invoices export and returns a batch job object.
 func (a *APIExportsController) ExportInvoices(ctx context.Context) (
     models.ApiResponse[models.BatchJobResponse],
     error) {
@@ -216,7 +216,7 @@ func (a *APIExportsController) ExportInvoices(ctx context.Context) (
 // ExportSubscriptions takes context as parameters and
 // returns an models.ApiResponse with models.BatchJobResponse data and
 // an error if there was an issue with the request or response.
-// This API creates a subscriptions export and returns a batchjob object.
+// Creates a subscriptions export and returns a batch job object.
 func (a *APIExportsController) ExportSubscriptions(ctx context.Context) (
     models.ApiResponse[models.BatchJobResponse],
     error) {
@@ -239,7 +239,7 @@ func (a *APIExportsController) ExportSubscriptions(ctx context.Context) (
 // ReadProformaInvoicesExport takes context, batchId as parameters and
 // returns an models.ApiResponse with models.BatchJobResponse data and
 // an error if there was an issue with the request or response.
-// This API returns a batchjob object for proforma invoices export.
+// Returns a batch job object for a proforma invoices export.
 func (a *APIExportsController) ReadProformaInvoicesExport(
     ctx context.Context,
     batchId string) (
@@ -265,7 +265,7 @@ func (a *APIExportsController) ReadProformaInvoicesExport(
 // ReadInvoicesExport takes context, batchId as parameters and
 // returns an models.ApiResponse with models.BatchJobResponse data and
 // an error if there was an issue with the request or response.
-// This API returns a batchjob object for invoices export.
+// Returns a batch job object for an invoices export.
 func (a *APIExportsController) ReadInvoicesExport(
     ctx context.Context,
     batchId string) (
@@ -291,7 +291,7 @@ func (a *APIExportsController) ReadInvoicesExport(
 // ReadSubscriptionsExport takes context, batchId as parameters and
 // returns an models.ApiResponse with models.BatchJobResponse data and
 // an error if there was an issue with the request or response.
-// This API returns a batchjob object for subscriptions export.
+// Returns a batch job object for a subscriptions export.
 func (a *APIExportsController) ReadSubscriptionsExport(
     ctx context.Context,
     batchId string) (

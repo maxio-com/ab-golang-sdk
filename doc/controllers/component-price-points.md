@@ -41,6 +41,10 @@ PromoteComponentPricePointToDefault(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -49,6 +53,8 @@ PromoteComponentPricePointToDefault(
 | `pricePointId` | `int` | Template, Required | The Advanced Billing id of the price point |
 
 ## Response Type
+
+**200**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.ComponentResponse](../../doc/models/component-response.md).
 
@@ -118,6 +124,10 @@ CreateComponentPricePoint(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -126,6 +136,8 @@ CreateComponentPricePoint(
 | `body` | [`*models.CreateComponentPricePointRequest`](../../doc/models/create-component-price-point-request.md) | Body, Optional | - |
 
 ## Response Type
+
+**200**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.ComponentPricePointResponse](../../doc/models/component-price-point-response.md).
 
@@ -181,7 +193,7 @@ if err != nil {
 
 # List Component Price Points
 
-Use this endpoint to read current price points that are associated with a component.
+Lists the price points associated with a component.
 
 You may specify the component by using either the numeric id or the `handle:gold` syntax.
 
@@ -197,6 +209,10 @@ ListComponentPricePoints(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -204,6 +220,8 @@ ListComponentPricePoints(
 | `input` | [`models.ListComponentPricePointsInput`](../../doc/models/list-component-price-points-input.md) | Required | Input structure for the method ListComponentPricePoints |
 
 ## Response Type
+
+**201**: Created
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.ComponentPricePointsResponse](../../doc/models/component-price-points-response.md).
 
@@ -281,7 +299,7 @@ if err != nil {
 
 # Bulk Create Component Price Points
 
-Use this endpoint to create multiple component price points in one request.
+Creates multiple component price points in one request.
 
 ```go
 BulkCreateComponentPricePoints(
@@ -292,6 +310,10 @@ BulkCreateComponentPricePoints(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -300,6 +322,8 @@ BulkCreateComponentPricePoints(
 | `body` | [`*models.CreateComponentPricePointsRequest`](../../doc/models/create-component-price-points-request.md) | Body, Optional | - |
 
 ## Response Type
+
+**200**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.ComponentPricePointsResponse](../../doc/models/component-price-points-response.md).
 
@@ -441,6 +465,10 @@ CloneComponentPricePoint(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -450,6 +478,8 @@ CloneComponentPricePoint(
 | `body` | [`*models.CloneComponentPricePointRequest`](../../doc/models/clone-component-price-point-request.md) | Body, Optional | - |
 
 ## Response Type
+
+**201**: Created
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.ComponentPricePointCurrencyOverageResponse](../../doc/models/component-price-point-currency-overage-response.md).
 
@@ -565,7 +595,7 @@ if err != nil {
 
 # Update Component Price Point
 
-When updating a price point, prices can be updated as well by creating new prices or editing / removing existing ones.
+Updates a component price point and its associated prices.
 
 Passing in a price bracket without an `id` will attempt to create a new price.
 
@@ -583,6 +613,10 @@ UpdateComponentPricePoint(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -592,6 +626,8 @@ UpdateComponentPricePoint(
 | `body` | [`*models.UpdateComponentPricePointRequest`](../../doc/models/update-component-price-point-request.md) | Body, Optional | - |
 
 ## Response Type
+
+**200**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.ComponentPricePointResponse](../../doc/models/component-price-point-response.md).
 
@@ -649,7 +685,7 @@ if err != nil {
 
 # Read Component Price Point
 
-Use this endpoint to retrieve details for a specific component price point. You can achieve this by using either the component price point ID or handle.
+Returns details for a specific component price point. You can achieve this by using either the component price point ID or handle.
 
 ```go
 ReadComponentPricePoint(
@@ -661,6 +697,10 @@ ReadComponentPricePoint(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -670,6 +710,8 @@ ReadComponentPricePoint(
 | `currencyPrices` | `*bool` | Query, Optional | Include an array of currency price data |
 
 ## Response Type
+
+**200**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.ComponentPricePointCurrencyOverageResponse](../../doc/models/component-price-point-currency-overage-response.md).
 
@@ -695,7 +737,7 @@ if err != nil {
 
 # Archive Component Price Point
 
-A price point can be archived at any time. Subscriptions using a price point that has been archived will continue using it until they're moved to another price point.
+Archives a component price point. Subscriptions using a price point that has been archived will continue using it until they're moved to another price point.
 
 ```go
 ArchiveComponentPricePoint(
@@ -706,6 +748,10 @@ ArchiveComponentPricePoint(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -714,6 +760,8 @@ ArchiveComponentPricePoint(
 | `pricePointId` | [`models.ArchiveComponentPricePointPricePointId`](../../doc/models/containers/archive-component-price-point-price-point-id.md) | Template, Required | This is a container for one-of cases. |
 
 ## Response Type
+
+**200**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.ComponentPricePointResponse](../../doc/models/component-price-point-response.md).
 
@@ -784,7 +832,7 @@ if err != nil {
 
 # Unarchive Component Price Point
 
-Use this endpoint to unarchive a component price point.
+Unarchives a component price point.
 
 ```go
 UnarchiveComponentPricePoint(
@@ -795,6 +843,10 @@ UnarchiveComponentPricePoint(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -803,6 +855,8 @@ UnarchiveComponentPricePoint(
 | `pricePointId` | `int` | Template, Required | The Advanced Billing id of the price point |
 
 ## Response Type
+
+**200**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.ComponentPricePointResponse](../../doc/models/component-price-point-response.md).
 
@@ -862,7 +916,7 @@ if err != nil {
 
 # Create Currency Prices
 
-This endpoint allows you to create currency prices for a given currency that has been defined on the site level in your settings.
+Creates currency prices for a given currency defined at the site level.
 
 When creating currency prices, they need to mirror the structure of your primary pricing. For each price level defined on the component price point, there should be a matching price level created in the given currency.
 
@@ -877,6 +931,10 @@ CreateCurrencyPrices(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -885,6 +943,8 @@ CreateCurrencyPrices(
 | `body` | [`*models.CreateCurrencyPricesRequest`](../../doc/models/create-currency-prices-request.md) | Body, Optional | - |
 
 ## Response Type
+
+**200**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.ComponentCurrencyPricesResponse](../../doc/models/component-currency-prices-response.md).
 
@@ -951,7 +1011,7 @@ if err != nil {
 
 # Update Currency Prices
 
-This endpoint allows you to update currency prices for a given currency that has been defined on the site level in your settings.
+Updates currency prices for a given currency defined at the site level.
 
 Note: Currency Prices are not able to be updated for custom price points.
 
@@ -964,6 +1024,10 @@ UpdateCurrencyPrices(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -972,6 +1036,8 @@ UpdateCurrencyPrices(
 | `body` | [`*models.UpdateCurrencyPricesRequest`](../../doc/models/update-currency-prices-request.md) | Body, Optional | - |
 
 ## Response Type
+
+**200**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.ComponentCurrencyPricesResponse](../../doc/models/component-currency-prices-response.md).
 
@@ -1036,7 +1102,7 @@ if err != nil {
 
 # List All Component Price Points
 
-This method allows to retrieve a list of Components Price Points belonging to a Site.
+Lists all component price points belonging to a site.
 
 ```go
 ListAllComponentPricePoints(
@@ -1046,6 +1112,10 @@ ListAllComponentPricePoints(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -1053,6 +1123,8 @@ ListAllComponentPricePoints(
 | `input` | [`models.ListAllComponentPricePointsInput`](../../doc/models/list-all-component-price-points-input.md) | Required | Input structure for the method ListAllComponentPricePoints |
 
 ## Response Type
+
+**200**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.ListComponentsPricePointsResponse](../../doc/models/list-components-price-points-response.md).
 
