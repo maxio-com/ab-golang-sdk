@@ -10,10 +10,10 @@ import (
 )
 
 // BillingSchedule represents a BillingSchedule struct.
-// This attribute is particularly useful when you need to align billing events for different components on distinct schedules within a subscription. This only works for site with Multifrequency enabled.
+// Billing schedule settings for component allocations or usages on multi-frequency subscriptions. Use this to start a component's billing period on a custom date instead of aligning with the product charge schedule.
 type BillingSchedule struct {
-    // The initial_billing_at attribute in Maxio allows you to specify a custom starting date for billing cycles associated with components that have their own billing frequency set. Only ISO8601 format is supported.
-    InitialBillingAt     *time.Time             `json:"initial_billing_at,omitempty"`
+    // Custom start date (ISO 8601 date, YYYY-MM-DD) for the component's first billing period. If omitted or null, billing aligns with the product schedule. If provided, date must be on or after the minimum allowed date for the subscription or component.
+    InitialBillingAt     Optional[time.Time]    `json:"initial_billing_at"`
     AdditionalProperties map[string]interface{} `json:"_"`
 }
 
@@ -41,8 +41,17 @@ func (b BillingSchedule) MarshalJSON() (
 func (b BillingSchedule) toMap() map[string]any {
     structMap := make(map[string]any)
     MergeAdditionalProperties(structMap, b.AdditionalProperties)
-    if b.InitialBillingAt != nil {
-        structMap["initial_billing_at"] = b.InitialBillingAt.Format(DEFAULT_DATE)
+    if b.InitialBillingAt.IsValueSet() {
+        var InitialBillingAtVal *string = nil
+        if b.InitialBillingAt.Value() != nil {
+            val := b.InitialBillingAt.Value().Format(DEFAULT_DATE)
+            InitialBillingAtVal = &val
+        }
+        if b.InitialBillingAt.Value() != nil {
+            structMap["initial_billing_at"] = InitialBillingAtVal
+        } else {
+            structMap["initial_billing_at"] = nil
+        }
     }
     return structMap
 }
@@ -61,17 +70,18 @@ func (b *BillingSchedule) UnmarshalJSON(input []byte) error {
     }
     b.AdditionalProperties = additionalProperties
     
-    if temp.InitialBillingAt != nil {
-        InitialBillingAtVal, err := time.Parse(DEFAULT_DATE, *temp.InitialBillingAt)
+    b.InitialBillingAt.ShouldSetValue(temp.InitialBillingAt.IsValueSet())
+    if temp.InitialBillingAt.Value() != nil {
+        InitialBillingAtVal, err := time.Parse(DEFAULT_DATE, (*temp.InitialBillingAt.Value()))
         if err != nil {
             log.Fatalf("Cannot Parse initial_billing_at as % s format.", DEFAULT_DATE)
         }
-        b.InitialBillingAt = &InitialBillingAtVal
+        b.InitialBillingAt.SetValue(&InitialBillingAtVal)
     }
     return nil
 }
 
 // tempBillingSchedule is a temporary struct used for validating the fields of BillingSchedule.
 type tempBillingSchedule  struct {
-    InitialBillingAt *string `json:"initial_billing_at,omitempty"`
+    InitialBillingAt Optional[string] `json:"initial_billing_at"`
 }

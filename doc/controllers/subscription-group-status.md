@@ -31,6 +31,10 @@ CancelSubscriptionsInGroup(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -39,6 +43,8 @@ CancelSubscriptionsInGroup(
 | `body` | [`*models.CancelGroupedSubscriptionsRequest`](../../doc/models/cancel-grouped-subscriptions-request.md) | Body, Optional | - |
 
 ## Response Type
+
+**200**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance.
 
@@ -75,7 +81,7 @@ if err != nil {
 
 # Initiate Delayed Cancellation for Group
 
-This endpoint will schedule all subscriptions within the specified group to be canceled at the end of their billing period. The group is identified by its uid passed in the URL.
+Schedules all subscriptions within the specified group to be canceled at the end of their billing period. The group is identified by its uid passed in the URL.
 
 All subscriptions in the group must be on automatic billing in order to successfully cancel them, and the group must not be in a "past_due" state.
 
@@ -87,6 +93,10 @@ InitiateDelayedCancellationForGroup(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -94,6 +104,8 @@ InitiateDelayedCancellationForGroup(
 | `uid` | `string` | Template, Required | The uid of the subscription group |
 
 ## Response Type
+
+**200**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance.
 
@@ -126,6 +138,8 @@ if err != nil {
 
 # Cancel Delayed Cancellation for Group
 
+Removes the delayed cancellation on a subscription group.
+
 Removing the delayed cancellation on a subscription group will ensure that the subscriptions do not get canceled at the end of the period. The request will reset the `cancel_at_end_of_period` flag to false on each member in the group.
 
 ```go
@@ -136,6 +150,10 @@ CancelDelayedCancellationForGroup(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -143,6 +161,8 @@ CancelDelayedCancellationForGroup(
 | `uid` | `string` | Template, Required | The uid of the subscription group |
 
 ## Response Type
+
+**200**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance.
 
@@ -175,15 +195,15 @@ if err != nil {
 
 # Reactivate Subscription Group
 
-This endpoint will attempt to reactivate or resume a cancelled subscription group. Upon reactivation, any canceled invoices created after the beginning of the primary subscription's billing period will be reopened and payment will be attempted on them. If the subscription group is being reactivated (as opposed to resumed), new charges will also be assessed for the new billing period.
+Reactivates or resumes a cancelled subscription group. Upon reactivation, any canceled invoices created after the beginning of the primary subscription's billing period will be reopened and payment will be attempted on them. If the subscription group is being reactivated (as opposed to resumed), new charges will also be assessed for the new billing period.
 
 Whether a subscription group is reactivated (a new billing period is created) or resumed (the current billing period is respected) will depend on the parameters that are sent with the request as well as the date of the request relative to the primary subscription's period.
 
 ## Reactivating within the current period
 
-If a subscription group is cancelled and reactivated within the primary subscription's current period, we can choose to either start a new billing period or maintain the existing one. If we want to maintain the existing billing period the `resume=true` option must be passed in request parameters.
+If a subscription group is cancelled and reactivated within the primary subscription's current period, we can choose to either start a new billing period or maintain the existing one. If we want to maintain the existing billing period, the `resume=true` option must be passed in request parameters.
 
-An exception to the above are subscriptions that are on calendar billing. These subscriptions cannot be reactivated within the current period. If the `resume=true` option is not passed the request will return an error.
+An exception to the above are subscriptions that are on calendar billing. These subscriptions cannot be reactivated within the current period. If the `resume=true` option is not passed, the request will return an error.
 
 The `resume_members` option is ignored in this case. All eligible group members will be automatically resumed.
 
@@ -195,6 +215,12 @@ Member subscriptions can have billing periods that are longer than the primary (
 
 For calendar billing subscriptions, the new billing period created will be a partial one, spanning from the date of reactivation to the next corresponding calendar renewal date.
 
+## 3D Secure (3DS) Authentication post-authentication flow
+
+When a payment requires 3DS Authentication to adhere to Strong Customer Authentication (SCA), the request enters a post-authentication flow where a 422 Unprocessable Entity status is returned with an action_link that will direct the customer through 3DS Authentication.
+
+See the [3D Secure Post-Authentication Flow](https://docs.maxio.com/hc/en-us/articles/44277749524365-3D-Secure-Post-Authentication-Flow) article in the product documentation to learn how to manage the redirect flow.
+
 ```go
 ReactivateSubscriptionGroup(
     ctx context.Context,
@@ -204,6 +230,10 @@ ReactivateSubscriptionGroup(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -212,6 +242,8 @@ ReactivateSubscriptionGroup(
 | `body` | [`*models.ReactivateSubscriptionGroupRequest`](../../doc/models/reactivate-subscription-group-request.md) | Body, Optional | - |
 
 ## Response Type
+
+**200**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.ReactivateSubscriptionGroupResponse](../../doc/models/reactivate-subscription-group-response.md).
 

@@ -1723,6 +1723,7 @@ func (e EventKey) isValid() bool {
         EventKey_TRIALENDNOTICE,
         EventKey_DUNNINGSTEPREACHED,
         EventKey_INVOICEISSUED,
+        EventKey_INVOICEPENDING,
         EventKey_PREPAIDSUBSCRIPTIONBALANCECHANGED,
         EventKey_SUBSCRIPTIONGROUPSIGNUPSUCCESS,
         EventKey_SUBSCRIPTIONGROUPSIGNUPFAILURE,
@@ -1766,6 +1767,8 @@ func (e EventKey) isValid() bool {
         EventKey_CHARGEBACKWON,
         EventKey_PAYMENTCOLLECTIONMETHODCHANGED,
         EventKey_COMPONENTBILLINGDATECHANGED,
+        EventKey_CHJSTOKENIZATIONFAILURE,
+        EventKey_CHJSTOKENIZATIONSUCCESS,
         EventKey_SUBSCRIPTIONTERMRENEWALSCHEDULED,
         EventKey_SUBSCRIPTIONTERMRENEWALPENDING,
         EventKey_SUBSCRIPTIONTERMRENEWALACTIVATED,
@@ -1809,6 +1812,7 @@ const (
     EventKey_TRIALENDNOTICE                                 EventKey = "trial_end_notice"
     EventKey_DUNNINGSTEPREACHED                             EventKey = "dunning_step_reached"
     EventKey_INVOICEISSUED                                  EventKey = "invoice_issued"
+    EventKey_INVOICEPENDING                                 EventKey = "invoice_pending"
     EventKey_PREPAIDSUBSCRIPTIONBALANCECHANGED              EventKey = "prepaid_subscription_balance_changed"
     EventKey_SUBSCRIPTIONGROUPSIGNUPSUCCESS                 EventKey = "subscription_group_signup_success"
     EventKey_SUBSCRIPTIONGROUPSIGNUPFAILURE                 EventKey = "subscription_group_signup_failure"
@@ -1852,6 +1856,8 @@ const (
     EventKey_CHARGEBACKWON                                  EventKey = "chargeback_won"
     EventKey_PAYMENTCOLLECTIONMETHODCHANGED                 EventKey = "payment_collection_method_changed"
     EventKey_COMPONENTBILLINGDATECHANGED                    EventKey = "component_billing_date_changed"
+    EventKey_CHJSTOKENIZATIONFAILURE                        EventKey = "chjs_tokenization_failure"
+    EventKey_CHJSTOKENIZATIONSUCCESS                        EventKey = "chjs_tokenization_success"
     EventKey_SUBSCRIPTIONTERMRENEWALSCHEDULED               EventKey = "subscription_term_renewal_scheduled"
     EventKey_SUBSCRIPTIONTERMRENEWALPENDING                 EventKey = "subscription_term_renewal_pending"
     EventKey_SUBSCRIPTIONTERMRENEWALACTIVATED               EventKey = "subscription_term_renewal_activated"
@@ -5076,12 +5082,15 @@ func (e WebhookSubscription) isValid() bool {
     switch e {
     case WebhookSubscription_BILLINGDATECHANGE,
         WebhookSubscription_COMPONENTALLOCATIONCHANGE,
+        WebhookSubscription_CHJSTOKENIZATIONFAILURE,
+        WebhookSubscription_CHJSTOKENIZATIONSUCCESS,
         WebhookSubscription_CUSTOMERCREATE,
         WebhookSubscription_CUSTOMERUPDATE,
         WebhookSubscription_DUNNINGSTEPREACHED,
         WebhookSubscription_EXPIRINGCARD,
         WebhookSubscription_EXPIRATIONDATECHANGE,
         WebhookSubscription_INVOICEISSUED,
+        WebhookSubscription_INVOICEPENDING,
         WebhookSubscription_METEREDUSAGE,
         WebhookSubscription_PAYMENTFAILURE,
         WebhookSubscription_PAYMENTSUCCESS,
@@ -5117,12 +5126,15 @@ func (e WebhookSubscription) isValid() bool {
 const (
     WebhookSubscription_BILLINGDATECHANGE                              WebhookSubscription = "billing_date_change"
     WebhookSubscription_COMPONENTALLOCATIONCHANGE                      WebhookSubscription = "component_allocation_change"
+    WebhookSubscription_CHJSTOKENIZATIONFAILURE                        WebhookSubscription = "chjs_tokenization_failure"
+    WebhookSubscription_CHJSTOKENIZATIONSUCCESS                        WebhookSubscription = "chjs_tokenization_success"
     WebhookSubscription_CUSTOMERCREATE                                 WebhookSubscription = "customer_create"
     WebhookSubscription_CUSTOMERUPDATE                                 WebhookSubscription = "customer_update"
     WebhookSubscription_DUNNINGSTEPREACHED                             WebhookSubscription = "dunning_step_reached"
     WebhookSubscription_EXPIRINGCARD                                   WebhookSubscription = "expiring_card"
     WebhookSubscription_EXPIRATIONDATECHANGE                           WebhookSubscription = "expiration_date_change"
     WebhookSubscription_INVOICEISSUED                                  WebhookSubscription = "invoice_issued"
+    WebhookSubscription_INVOICEPENDING                                 WebhookSubscription = "invoice_pending"
     WebhookSubscription_METEREDUSAGE                                   WebhookSubscription = "metered_usage"
     WebhookSubscription_PAYMENTFAILURE                                 WebhookSubscription = "payment_failure"
     WebhookSubscription_PAYMENTSUCCESS                                 WebhookSubscription = "payment_success"

@@ -38,6 +38,8 @@ type Event struct {
     // * `subscription_service_credit_account_balance_changed` - CreditAccountBalanceChanged
     // * `item_price_point_changed` - ItemPricePointChanged
     // * `custom_field_value_change` - CustomFieldValueChange
+    // * `chjs_tokenization_success` - ChjsTokenizationSuccess
+    // * `chjs_tokenization_failure` - ChjsTokenizationFailure
     // * The rest, that is `delayed_signup_creation_failure`, `billing_date_change`, `expiration_date_change`, `expiring_card`,
     // `customer_update`, `customer_create`, `customer_delete`, `upgrade_downgrade_success`, `upgrade_downgrade_failure`,
     // `statement_closed`, `statement_settled`, `subscription_card_update`, `subscription_group_card_update`,

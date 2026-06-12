@@ -12,3 +12,23 @@
 | `int` | models.UpdateProductPricePointProductIdContainer.FromNumber(int number) |
 | `string` | models.UpdateProductPricePointProductIdContainer.FromString(string mString) |
 
+## int
+
+### Initialization Code
+
+#### Example
+
+```go
+value := models.UpdateProductPricePointProductIdContainer.FromNumber(0)
+```
+
+## string
+
+### Initialization Code
+
+#### Example
+
+```go
+value := models.UpdateProductPricePointProductIdContainer.FromString("String0")
+```
+

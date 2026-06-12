@@ -45,7 +45,7 @@ type ListWebhooksInput struct {
 // ListWebhooks takes context, status, sinceDate, untilDate, page, perPage, order, subscription as parameters and
 // returns an models.ApiResponse with []models.WebhookResponse data and
 // an error if there was an issue with the request or response.
-// Allows you to view a list of webhooks.  You can pass query parameters if you want to filter webhooks. See the [Webhooks](page:introduction/webhooks/webhooks) documentation for more information.
+// Retrieves a list of webhooks.  You can pass query parameters if you want to filter webhooks. See the [Webhooks](page:introduction/webhooks/webhooks) documentation for more information.
 func (w *WebhooksController) ListWebhooks(
     ctx context.Context,
     input ListWebhooksInput) (
@@ -88,7 +88,7 @@ func (w *WebhooksController) ListWebhooks(
 // EnableWebhooks takes context, body as parameters and
 // returns an models.ApiResponse with models.EnableWebhooksResponse data and
 // an error if there was an issue with the request or response.
-// Allows you to enable webhooks for your site
+// Enables webhooks for your site.
 func (w *WebhooksController) EnableWebhooks(
     ctx context.Context,
     body *models.EnableWebhooksRequest) (
@@ -140,7 +140,7 @@ func (w *WebhooksController) ReplayWebhooks(
 // CreateEndpoint takes context, body as parameters and
 // returns an models.ApiResponse with models.EndpointResponse data and
 // an error if there was an issue with the request or response.
-// Creates an endpoint and assigns a list of webhooks subscriptions (events) to it.
+// Creates an endpoint and assigns a list of webhook subscriptions (events) to it.
 // See the [Webhooks Reference](page:introduction/webhooks/webhooks-reference#events) page for available events.
 func (w *WebhooksController) CreateEndpoint(
     ctx context.Context,
@@ -192,7 +192,7 @@ func (w *WebhooksController) ListEndpoints(ctx context.Context) (
 // an error if there was an issue with the request or response.
 // Updates an Endpoint. You can change the `url` of your endpoint or the list of `webhook_subscriptions` to which you are subscribed. See the [Webhooks Reference](page:introduction/webhooks/webhooks-reference#events) page for available events.
 // Always send a complete list of events to which you want to subscribe. Sending a PUT request for an existing endpoint with an empty list of `webhook_subscriptions` will unsubscribe all events.
-// If you want unsubscribe from a specific event, send a list of `webhook_subscriptions` without the specific event key.
+// If you want to unsubscribe from a specific event, send a list of `webhook_subscriptions` without the specific event key.
 func (w *WebhooksController) UpdateEndpoint(
     ctx context.Context,
     endpointId int,

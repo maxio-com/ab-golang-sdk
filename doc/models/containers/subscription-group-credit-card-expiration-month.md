@@ -12,3 +12,23 @@
 | `string` | models.SubscriptionGroupCreditCardExpirationMonthContainer.FromString(string mString) |
 | `int` | models.SubscriptionGroupCreditCardExpirationMonthContainer.FromNumber(int number) |
 
+## string
+
+### Initialization Code
+
+#### Example
+
+```go
+value := models.SubscriptionGroupCreditCardExpirationMonthContainer.FromString("String0")
+```
+
+## int
+
+### Initialization Code
+
+#### Example
+
+```go
+value := models.SubscriptionGroupCreditCardExpirationMonthContainer.FromNumber(0)
+```
+

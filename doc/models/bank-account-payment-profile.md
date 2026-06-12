@@ -14,7 +14,7 @@
 | `LastName` | `*string` | Optional | The last name of the bank account holder |
 | `CustomerId` | `*int` | Optional | The Chargify-assigned id for the customer record to which the bank account belongs |
 | `CurrentVault` | [`*models.BankAccountVault`](../../doc/models/bank-account-vault.md) | Optional | The vault that stores the payment profile with the provided vault_token. Use `bogus` for testing. |
-| `VaultToken` | `*string` | Optional | The “token” provided by your vault storage for an already stored payment profile |
+| `VaultToken` | `*string` | Optional | The "token" provided by your vault storage for an already stored payment profile |
 | `BillingAddress` | `models.Optional[string]` | Optional | The current billing street address for the bank account |
 | `BillingCity` | `models.Optional[string]` | Optional | The current billing address city for the bank account |
 | `BillingState` | `models.Optional[string]` | Optional | The current billing address state for the bank account |
@@ -23,8 +23,8 @@
 | `CustomerVaultToken` | `models.Optional[string]` | Optional | (only for Authorize.Net CIM storage): the customerProfileId for the owner of the customerPaymentProfileId provided as the vault_token. |
 | `BillingAddress2` | `models.Optional[string]` | Optional | The current billing street address, second line, for the bank account |
 | `BankName` | `*string` | Optional | The bank where the account resides |
-| `MaskedBankRoutingNumber` | `*string` | Optional | A string representation of the stored bank routing number with all but the last 4 digits marked with X’s (i.e. ‘XXXXXXX1111’). payment_type will be bank_account |
-| `MaskedBankAccountNumber` | `string` | Required | A string representation of the stored bank account number with all but the last 4 digits marked with X’s (i.e. ‘XXXXXXX1111’) |
+| `MaskedBankRoutingNumber` | `models.Optional[string]` | Optional | A string representation of the stored bank routing number with all but the last 4 digits marked with X's (i.e. 'XXXXXXX1111'). payment_type will be bank_account |
+| `MaskedBankAccountNumber` | `models.Optional[string]` | Optional | A string representation of the stored bank account number with all but the last 4 digits marked with X's (i.e. 'XXXXXXX1111') |
 | `BankAccountType` | [`*models.BankAccountType`](../../doc/models/bank-account-type.md) | Optional | Defaults to checking |
 | `BankAccountHolderType` | [`*models.BankAccountHolderType`](../../doc/models/bank-account-holder-type.md) | Optional | Defaults to personal |
 | `PaymentType` | [`models.PaymentType`](../../doc/models/payment-type.md) | Required | **Default**: `"bank_account"` |
@@ -38,7 +38,6 @@
 
 ```json
 {
-  "masked_bank_account_number": "masked_bank_account_number8",
   "payment_type": "bank_account",
   "verified": false,
   "id": 188,

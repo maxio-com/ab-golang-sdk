@@ -17,15 +17,15 @@ sitesController := client.SitesController()
 
 # Read Site
 
-This endpoint allows you to fetch some site data.
+Retrieves site data.
 
 Full documentation on Sites in the Advanced Billing UI can be located [here](https://maxio.zendesk.com/hc/en-us/sections/24250550707085-Sites).
 
-Specifically, the [Clearing Site Data](https://maxio.zendesk.com/hc/en-us/articles/24250617028365-Clearing-Site-Data) section is extremely relevant to this endpoint documentation.
+Specifically, the [Clearing Site Data](https://maxio.zendesk.com/hc/en-us/articles/24250617028365-Clearing-Site-Data) section is relevant to this endpoint documentation.
 
 #### Relationship invoicing enabled
 
-If site has RI enabled then you will see more settings like:
+If the site has RI enabled then you will see more settings like:
 
     "customer_hierarchy_enabled": true,
     "whopays_enabled": true,
@@ -41,7 +41,13 @@ ReadSite(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Response Type
+
+**200**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.SiteResponse](../../doc/models/site-response.md).
 
@@ -114,7 +120,7 @@ if err != nil {
 
 # Clear Site
 
-This call is asynchronous and there may be a delay before the site data is fully deleted. If you are clearing site data for an automated test, you will need to build in a delay and/or check that there are no products, etc., in the site before proceeding.
+Clears all data from a test site asynchronously. This call is asynchronous and there may be a delay before the site data is fully deleted. If you are clearing site data for an automated test, you will need to build in a delay and/or check that there are no products, etc., in the site before proceeding.
 
 **This functionality will only work on sites in TEST mode. Attempts to perform this on sites in “live” mode will result in a response of 403 FORBIDDEN.**
 
@@ -126,6 +132,10 @@ ClearSite(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -133,6 +143,8 @@ ClearSite(
 | `cleanupScope` | [`*models.CleanupScope`](../../doc/models/cleanup-scope.md) | Query, Optional | `all`: Will clear all products, customers, and related subscriptions from the site.<br>`customers`: Will clear only customers and related subscriptions (leaving the products untouched) for the site.<br>Revenue will also be reset to 0.<br>Use in query `cleanup_scope=all`.<br><br>**Default**: `"all"` |
 
 ## Response Type
+
+**200**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance.
 
@@ -154,7 +166,7 @@ if err != nil {
 
 # List Chargify Js Public Keys
 
-This endpoint returns public keys used for Chargify.js.
+Returns public keys used for Maxio.js (formerly Chargify.js).
 
 ```go
 ListChargifyJsPublicKeys(
@@ -164,6 +176,10 @@ ListChargifyJsPublicKeys(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -171,6 +187,8 @@ ListChargifyJsPublicKeys(
 | `input` | [`models.ListChargifyJsPublicKeysInput`](../../doc/models/list-chargify-js-public-keys-input.md) | Required | Input structure for the method ListChargifyJsPublicKeys |
 
 ## Response Type
+
+**200**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.ListPublicKeysResponse](../../doc/models/list-public-keys-response.md).
 

@@ -26,7 +26,7 @@ func NewOffersController(baseController baseController) *OffersController {
 // CreateOffer takes context, body as parameters and
 // returns an models.ApiResponse with models.OfferResponse data and
 // an error if there was an issue with the request or response.
-// Create an offer within your Advanced Billing site by sending a POST request.
+// Creates an offer within your Advanced Billing site.
 // ## Documentation
 // Offers allow you to package complicated combinations of products, components and coupons into a convenient package which can then be subscribed to just like products.
 // Once an offer is defined it can be used as an alternative to the product when creating subscriptions.
@@ -73,7 +73,7 @@ type ListOffersInput struct {
 // ListOffers takes context, page, perPage, includeArchived as parameters and
 // returns an models.ApiResponse with models.ListOffersResponse data and
 // an error if there was an issue with the request or response.
-// This endpoint will list offers for a site.
+// Lists offers for a site.
 func (o *OffersController) ListOffers(
     ctx context.Context,
     input ListOffersInput) (
@@ -107,7 +107,7 @@ func (o *OffersController) ListOffers(
 // ReadOffer takes context, offerId as parameters and
 // returns an models.ApiResponse with models.OfferResponse data and
 // an error if there was an issue with the request or response.
-// This method allows you to list a specific offer's attributes. This is different than list all offers for a site, as it requires an `offer_id`.
+// Returns a specific offer's attributes. This is different from listing all offers for a site, as it requires an `offer_id`.
 func (o *OffersController) ReadOffer(
     ctx context.Context,
     offerId int) (
@@ -130,7 +130,7 @@ func (o *OffersController) ReadOffer(
 // ArchiveOffer takes context, offerId as parameters and
 // returns an *Response and
 // an error if there was an issue with the request or response.
-// Archive an existing offer. Please provide an `offer_id` in order to archive the correct item.
+// Archives an existing offer. Please provide an `offer_id` in order to archive the correct item.
 func (o *OffersController) ArchiveOffer(
     ctx context.Context,
     offerId int) (
@@ -150,7 +150,7 @@ func (o *OffersController) ArchiveOffer(
 // UnarchiveOffer takes context, offerId as parameters and
 // returns an *Response and
 // an error if there was an issue with the request or response.
-// Unarchive a previously archived offer. Please provide an `offer_id` in order to un-archive the correct item.
+// Unarchives a previously archived offer. Please provide an `offer_id` in order to unarchive the correct item.
 func (o *OffersController) UnarchiveOffer(
     ctx context.Context,
     offerId int) (

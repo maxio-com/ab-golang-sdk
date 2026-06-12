@@ -12,3 +12,23 @@
 | `string` | models.SubscriptionGroupSignupComponentComponentIdContainer.FromString(string mString) |
 | `int` | models.SubscriptionGroupSignupComponentComponentIdContainer.FromNumber(int number) |
 
+## string
+
+### Initialization Code
+
+#### Example
+
+```go
+value := models.SubscriptionGroupSignupComponentComponentIdContainer.FromString("String0")
+```
+
+## int
+
+### Initialization Code
+
+#### Example
+
+```go
+value := models.SubscriptionGroupSignupComponentComponentIdContainer.FromNumber(0)
+```
+

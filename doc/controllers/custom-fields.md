@@ -47,6 +47,10 @@ CreateMetafields(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -55,6 +59,8 @@ CreateMetafields(
 | `body` | [`*models.CreateMetafieldsRequest`](../../doc/models/create-metafields-request.md) | Body, Optional | - |
 
 ## Response Type
+
+**200**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [[]models.Metafield](../../doc/models/metafield.md).
 
@@ -147,6 +153,10 @@ ListMetafields(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -154,6 +164,8 @@ ListMetafields(
 | `input` | [`models.ListMetafieldsInput`](../../doc/models/list-metafields-input.md) | Required | Input structure for the method ListMetafields |
 
 ## Response Type
+
+**200**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.ListMetafieldsResponse](../../doc/models/list-metafields-response.md).
 
@@ -229,7 +241,7 @@ With this endpoint, you can:
 
 - Add new metadata to a dropdown or radio for a metafield that was created without metadata.
 
-- Remove  metadata for a dropdown or radio for a metafield.
+- Remove metadata for a dropdown or radio for a metafield.
   
   > Note: Updates to metadata overwrite existing values. To remove one or more values, specify all metadata values except those you want to remove.
 
@@ -246,6 +258,10 @@ UpdateMetafield(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -254,6 +270,8 @@ UpdateMetafield(
 | `body` | [`*models.UpdateMetafieldsRequest`](../../doc/models/update-metafields-request.md) | Body, Optional | - |
 
 ## Response Type
+
+**200**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [[]models.Metafield](../../doc/models/metafield.md).
 
@@ -299,6 +317,10 @@ DeleteMetafield(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -307,6 +329,8 @@ DeleteMetafield(
 | `name` | `*string` | Query, Optional | The name of the metafield to be deleted |
 
 ## Response Type
+
+**200**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance.
 
@@ -350,6 +374,10 @@ CreateMetadata(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -359,6 +387,8 @@ CreateMetadata(
 | `body` | [`*models.CreateMetadataRequest`](../../doc/models/create-metadata-request.md) | Body, Optional | - |
 
 ## Response Type
+
+**200**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [[]models.Metadata](../../doc/models/metadata.md).
 
@@ -418,6 +448,10 @@ ListMetadata(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -425,6 +459,8 @@ ListMetadata(
 | `input` | [`models.ListMetadataInput`](../../doc/models/list-metadata-input.md) | Required | Input structure for the method ListMetadata |
 
 ## Response Type
+
+**200**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.PaginatedMetadata](../../doc/models/paginated-metadata.md).
 
@@ -478,7 +514,7 @@ Updates metadata and metafields on the Site and the customer or subscription spe
 
 If you update metadata on a subscription or customer with a metafield that does not already exist, the metafield is created with the metadata you specify and it is always added as a text field to the Site and to the subscription or customer you specify. You can update the input_type for the metafield with the Update Metafield endpoint.
 
-Each site is limited to 100 unique metafields per resource. This means you can have 100 metafields for Subscription and another 100 for Customer.
+Each site is limited to 100 unique metafields per resource. This means you can have 100 metafields for the Subscription resource and another 100 for the Customer resource.
 
 ```go
 UpdateMetadata(
@@ -490,6 +526,10 @@ UpdateMetadata(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -499,6 +539,8 @@ UpdateMetadata(
 | `body` | [`*models.UpdateMetadataRequest`](../../doc/models/update-metadata-request.md) | Body, Optional | - |
 
 ## Response Type
+
+**200**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [[]models.Metadata](../../doc/models/metadata.md).
 
@@ -548,6 +590,10 @@ DeleteMetadata(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -558,6 +604,8 @@ DeleteMetadata(
 | `names` | `[]string` | Query, Optional | Names of fields to be removed. Use in query: `names[]=field1&names[]=my-field&names[]=another-field`. |
 
 ## Response Type
+
+**200**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance.
 
@@ -587,7 +635,7 @@ if err != nil {
 
 # List Metadata for Resource Type
 
-Lists  metadata for a specified array of subscriptions or customers.
+Lists metadata for a specified array of subscriptions or customers.
 
 ```go
 ListMetadataForResourceType(
@@ -597,6 +645,10 @@ ListMetadataForResourceType(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -604,6 +656,8 @@ ListMetadataForResourceType(
 | `input` | [`models.ListMetadataForResourceTypeInput`](../../doc/models/list-metadata-for-resource-type-input.md) | Required | Input structure for the method ListMetadataForResourceType |
 
 ## Response Type
+
+**200**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.PaginatedMetadata](../../doc/models/paginated-metadata.md).
 

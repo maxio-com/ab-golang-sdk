@@ -27,7 +27,7 @@ func NewSubscriptionComponentsController(baseController baseController) *Subscri
 // ReadSubscriptionComponent takes context, subscriptionId, componentId as parameters and
 // returns an models.ApiResponse with models.SubscriptionComponentResponse data and
 // an error if there was an issue with the request or response.
-// This request will list information regarding a specific component owned by a subscription.
+// Returns information for a specific component on a subscription.
 func (s *SubscriptionComponentsController) ReadSubscriptionComponent(
     ctx context.Context,
     subscriptionId int,
@@ -85,7 +85,7 @@ type ListSubscriptionComponentsInput struct {
 // ListSubscriptionComponents takes context, subscriptionId, dateField, direction, filter, endDate, endDatetime, pricePointIds, productFamilyIds, sort, startDate, startDatetime, include, inUse as parameters and
 // returns an models.ApiResponse with []models.SubscriptionComponentResponse data and
 // an error if there was an issue with the request or response.
-// This request will list a subscription's applied components.
+// Lists a subscription's applied components.
 // ## Archived Components
 // When requesting to list components for a given subscription, if the subscription contains **archived** components they will be listed in the server response.
 func (s *SubscriptionComponentsController) ListSubscriptionComponents(
@@ -207,7 +207,7 @@ func (s *SubscriptionComponentsController) BulkResetSubscriptionComponentsPriceP
 // an error if there was an issue with the request or response.
 // Creates an allocation, sets the current allocated quantity for the component, and records a memo. Allocations can only be updated for Quantity, On/Off, and Prepaid Components.
 // When creating an allocation via the API, you can pass the `upgrade_charge`, `downgrade_credit`, and `accrue_charge` to be applied.
-// > **Note:** These proration and accural fields are ignored for Prepaid Components since this component type always generate charges immediately without proration.
+// > **Note:** These proration and accrual fields are ignored for Prepaid Components since this component type always generates charges immediately without proration.
 // For information on prorated components and upgrade/downgrade schemes, see [Setting Component Allocations.](https://maxio.zendesk.com/hc/en-us/articles/24251906165133-Component-Allocations-Proration)
 // ### Order of Resolution for upgrade_charge and downgrade_credit
 // 1. Per allocation in API call (within a single allocation of the `allocations` array)
@@ -218,7 +218,7 @@ func (s *SubscriptionComponentsController) BulkResetSubscriptionComponentsPriceP
 // 1. Allocation API call top level (outside of the `allocations` array)
 // 2. [Site-level default value](https://maxio.zendesk.com/hc/en-us/articles/24251906165133-Component-Allocations-Proration#proration-schemes)
 // > **Note:** Proration uses the current price of the component as well as the current tax rates. Changes to either may cause the prorated charge/credit to be wrong.
-// For more informaiton see the [Component Allocations](https://maxio.zendesk.com/hc/en-us/articles/24251883961485-Component-Allocations-Overview) product Documentation.
+// For more information, see the [Component Allocations](https://maxio.zendesk.com/hc/en-us/articles/24251883961485-Component-Allocations-Overview) product Documentation.
 func (s *SubscriptionComponentsController) AllocateComponent(
     ctx context.Context,
     subscriptionId int,
@@ -254,7 +254,7 @@ func (s *SubscriptionComponentsController) AllocateComponent(
 // ListAllocations takes context, subscriptionId, componentId, page as parameters and
 // returns an models.ApiResponse with []models.AllocationResponse data and
 // an error if there was an issue with the request or response.
-// This endpoint returns the 50 most recent Allocations, ordered by most recent first.
+// Returns the 50 most recent Allocations, ordered by most recent first.
 // ## On/Off Components
 // When a subscription's on/off component has been toggled to on (`1`) or off (`0`), usage will be logged in this response.
 func (s *SubscriptionComponentsController) ListAllocations(
@@ -292,7 +292,7 @@ func (s *SubscriptionComponentsController) ListAllocations(
 // AllocateComponents takes context, subscriptionId, body as parameters and
 // returns an models.ApiResponse with []models.AllocationResponse data and
 // an error if there was an issue with the request or response.
-// Creates multiple allocations, sets the current allocated quantity for each of the components, and recording a memo.   A `component_id` is required for each allocation.
+// Creates multiple allocations, sets the current allocated quantity for each of the components, and records a memo.   A `component_id` is required for each allocation.
 // The charges and/or credits that are created will be rolled up into a single total which is used to determine whether this is an upgrade or a downgrade.
 // ### Order of Resolution for upgrade_charge and downgrade_credit
 // 1. Per allocation in API call (within a single allocation of the `allocations` array)
@@ -303,7 +303,7 @@ func (s *SubscriptionComponentsController) ListAllocations(
 // 1. Allocation API call top level (outside of the `allocations` array)
 // 2. [Site-level default value](https://maxio.zendesk.com/hc/en-us/articles/24251906165133-Component-Allocations-Proration#proration-schemes)
 // > **Note:** Proration uses the current price of the component as well as the current tax rates. Changes to either may cause the prorated charge/credit to be wrong.
-// For more informaiton see the [Component Allocations](https://maxio.zendesk.com/hc/en-us/articles/24251883961485-Component-Allocations-Overview) product Documentation.
+// For more information, see the [Component Allocations](https://maxio.zendesk.com/hc/en-us/articles/24251883961485-Component-Allocations-Overview) product documentation.
 func (s *SubscriptionComponentsController) AllocateComponents(
     ctx context.Context,
     subscriptionId int,
@@ -335,7 +335,7 @@ func (s *SubscriptionComponentsController) AllocateComponents(
 // PreviewAllocations takes context, subscriptionId, body as parameters and
 // returns an models.ApiResponse with models.AllocationPreviewResponse data and
 // an error if there was an issue with the request or response.
-// Advanced Billing offers the ability to preview a potential subscription's **quantity-based** or **on/off** component allocation in the middle of the current billing period.  This is useful if you want users to be able to see the effect of a component operation before actually doing it.
+// Previews a potential subscription's **quantity-based** or **on/off** component allocation in the middle of the current billing period.  This is useful if you want users to be able to see the effect of a component operation before actually doing it.
 // ## Fine-grained Component Control: Use with multiple `upgrade_charge`s or `downgrade_credits`
 // When the allocation uses multiple different types of `upgrade_charge`s or `downgrade_credit`s, the Allocation is viewed as an Allocation which uses "Fine-Grained Component Control". As a result, the response will not include `direction` and `proration` within the `allocation_preview`, but at the `line_items` and `allocations` level respectfully.
 // See example below for Fine-Grained Component Control response.
@@ -373,7 +373,7 @@ func (s *SubscriptionComponentsController) PreviewAllocations(
 // UpdatePrepaidUsageAllocationExpirationDate takes context, subscriptionId, componentId, allocationId, body as parameters and
 // returns an *Response and
 // an error if there was an issue with the request or response.
-// When the expiration interval options are selected on a prepaid usage component price point, all allocations will be created with an expiration date. This expiration date can be changed after the fact to allow for extending or shortening the allocation's active window.
+// Updates the expiration date for a prepaid usage allocation. This expiration date can be changed after the fact to allow for extending or shortening the allocation's active window.
 // In order to change a prepaid usage allocation's expiration date, a PUT call must be made to the allocation's endpoint with a new expiration date.
 // ## Limitations
 // A few limitations exist when changing an allocation's expiration date:
@@ -414,7 +414,8 @@ func (s *SubscriptionComponentsController) UpdatePrepaidUsageAllocationExpiratio
 // DeletePrepaidUsageAllocation takes context, subscriptionId, componentId, allocationId, body as parameters and
 // returns an *Response and
 // an error if there was an issue with the request or response.
-// Prepaid Usage components are unique in that their allocations are always additive. In order to reduce a subscription's allocated quantity for a prepaid usage component each allocation must be destroyed individually via this endpoint.
+// Deletes a prepaid usage allocation.
+// Prepaid Usage components are unique in that their allocations are always additive. In order to reduce a subscription's allocated quantity for a prepaid usage component, each allocation must be destroyed individually via this endpoint.
 // ## Credit Scheme
 // By default, destroying an allocation will generate a service credit on the subscription. This behavior can be modified with the optional `credit_scheme` parameter on this endpoint. The accepted values are:
 // 1. `none`: The allocation will be destroyed and the balances will be updated but no service credit or refund will be created.
@@ -457,9 +458,9 @@ func (s *SubscriptionComponentsController) DeletePrepaidUsageAllocation(
 // Records an instance of metered or prepaid usage for a subscription.
 // You can report metered or prepaid usage to Advanced Billing as often as you wish. You can report usage as it happens or periodically, such as each night or once per billing period. 
 // Full documentation on how to create Components in the Advanced Billing UI can be located [here](https://maxio.zendesk.com/hc/en-us/articles/24261149711501-Create-Edit-and-Archive-Components). Additionally, for information on how to record component usage against a subscription, see the following resources:
-// It is not possible to record metered usage for more than one component at a time Usage should be reported as one API call per component on a single subscription. For example, to record that a subscriber has sent both an SMS Message and an Email, send an API call for each.        
-// See the following product documention articles for more information:
-// - [Create and Manage Components](https://maxio.zendesk.com/hc/en-us/articles/24261149711501-Create-Edit-and-Archive-Components). A
+// It is not possible to record metered usage for more than one component at a time. Usage should be reported as one API call per component on a single subscription. For example, to record that a subscriber has sent both an SMS Message and an Email, send an API call for each.        
+// See the following product documentation articles for more information:
+// - [Create and Manage Components](https://maxio.zendesk.com/hc/en-us/articles/24261149711501-Create-Edit-and-Archive-Components)
 // - [Recording Metered Component Usage](https://maxio.zendesk.com/hc/en-us/articles/24251890500109-Reporting-Component-Allocations#reporting-metered-component-usage)
 // - [Reporting Prepaid Component Status](https://maxio.zendesk.com/hc/en-us/articles/24251890500109-Reporting-Component-Allocations#reporting-prepaid-component-status)
 // The `quantity` from usage for each component is accumulated to the `unit_balance` on the [Component Line Item]($e/Subscription%20Components/readSubscriptionComponent) for the subscription.
@@ -545,7 +546,7 @@ type ListUsagesInput struct {
 // ListUsages takes context, subscriptionIdOrReference, componentId, sinceId, maxId, sinceDate, untilDate, page, perPage as parameters and
 // returns an models.ApiResponse with []models.UsageResponse data and
 // an error if there was an issue with the request or response.
-// This request will return a list of the usages associated with a subscription for a particular metered component. This will display the previously recorded components for a subscription.
+// Returns a list of usages associated with a subscription for a particular metered component. This will display the previously recorded components for a subscription.
 // This endpoint is not compatible with quantity-based components.
 // ## Since Date and Until Date Usage
 // Note: The `since_date` and `until_date` attributes each default to midnight on the date specified. For example, in order to list usages for January 20th, you would need to append the following to the URL.
@@ -598,6 +599,7 @@ func (s *SubscriptionComponentsController) ListUsages(
 // ActivateEventBasedComponent takes context, subscriptionId, componentId, body as parameters and
 // returns an *Response and
 // an error if there was an issue with the request or response.
+// Activates an event-based component for a single subscription.
 // In order to bill your subscribers on your Events data under the Events-Based Billing feature, the components must be activated for the subscriber.
 // Learn more about the role of activation in the [Events-Based Billing docs](https://maxio.zendesk.com/hc/en-us/articles/24260323329805-Events-Based-Billing-Overview).
 // Use this endpoint to activate an event-based component for a single subscription. Activating an event-based component causes Advanced Billing to bill for events when the subscription is renewed.
@@ -631,7 +633,7 @@ func (s *SubscriptionComponentsController) ActivateEventBasedComponent(
 // DeactivateEventBasedComponent takes context, subscriptionId, componentId as parameters and
 // returns an *Response and
 // an error if there was an issue with the request or response.
-// Use this endpoint to deactivate an event-based component for a single subscription. Deactivating the event-based component causes Advanced Billing to ignore related events at subscription renewal.
+// Deactivates an event-based component for a single subscription. Deactivating the event-based component causes Advanced Billing to ignore related events at subscription renewal.
 func (s *SubscriptionComponentsController) DeactivateEventBasedComponent(
     ctx context.Context,
     subscriptionId int,
@@ -656,6 +658,7 @@ func (s *SubscriptionComponentsController) DeactivateEventBasedComponent(
 // RecordEvent takes context, apiHandle, storeUid, body as parameters and
 // returns an *Response and
 // an error if there was an issue with the request or response.
+// Records a single event for Events-Based Billing.
 // ## Documentation
 // Events-Based Billing is an evolved form of metered billing that is based on data-rich events streamed in real-time from your system to Advanced Billing.
 // These events can then be transformed, enriched, or analyzed to form the computed totals of usage charges billed to your customers.
@@ -696,7 +699,7 @@ func (s *SubscriptionComponentsController) RecordEvent(
 // BulkRecordEvents takes context, apiHandle, storeUid, body as parameters and
 // returns an *Response and
 // an error if there was an issue with the request or response.
-// Use this endpoint to record a collection of events.
+// Records a collection of events.
 // *Note: this endpoint differs from the standard Chargify API endpoints in that the subdomain will be `events` and your site subdomain will be included in the URL path.*
 // A maximum of 1000 events can be published in a single request. A 422 will be returned if this limit is exceeded.
 func (s *SubscriptionComponentsController) BulkRecordEvents(
@@ -763,7 +766,7 @@ type ListSubscriptionComponentsForSiteInput struct {
 // ListSubscriptionComponentsForSite takes context, page, perPage, sort, direction, filter, dateField, startDate, startDatetime, endDate, endDatetime, subscriptionIds, pricePointIds, productFamilyIds, include as parameters and
 // returns an models.ApiResponse with models.ListSubscriptionComponentsResponse data and
 // an error if there was an issue with the request or response.
-// This request will list components applied to each subscription.
+// Lists components applied to each subscription.
 func (s *SubscriptionComponentsController) ListSubscriptionComponentsForSite(
     ctx context.Context,
     input ListSubscriptionComponentsForSiteInput) (

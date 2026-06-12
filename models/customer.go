@@ -70,6 +70,8 @@ type Customer struct {
     TaxExemptReason             Optional[string]       `json:"tax_exempt_reason"`
     // The default auto-renewal profile ID for the customer
     DefaultAutoRenewalProfileId Optional[int]          `json:"default_auto_renewal_profile_id"`
+    // The Maxio-generated unique identifier for the customer.
+    Maxioid                     Optional[string]       `json:"maxioid"`
     AdditionalProperties        map[string]interface{} `json:"_"`
 }
 
@@ -77,8 +79,8 @@ type Customer struct {
 // providing a human-readable string representation useful for logging, debugging or displaying information.
 func (c Customer) String() string {
     return fmt.Sprintf(
-    	"Customer[FirstName=%v, LastName=%v, Email=%v, CcEmails=%v, Organization=%v, Reference=%v, Id=%v, CreatedAt=%v, UpdatedAt=%v, Address=%v, Address2=%v, City=%v, State=%v, StateName=%v, Zip=%v, Country=%v, CountryName=%v, Phone=%v, Verified=%v, PortalCustomerCreatedAt=%v, PortalInviteLastSentAt=%v, PortalInviteLastAcceptedAt=%v, TaxExempt=%v, VatNumber=%v, ParentId=%v, Locale=%v, DefaultSubscriptionGroupUid=%v, SalesforceId=%v, TaxExemptReason=%v, DefaultAutoRenewalProfileId=%v, AdditionalProperties=%v]",
-    	c.FirstName, c.LastName, c.Email, c.CcEmails, c.Organization, c.Reference, c.Id, c.CreatedAt, c.UpdatedAt, c.Address, c.Address2, c.City, c.State, c.StateName, c.Zip, c.Country, c.CountryName, c.Phone, c.Verified, c.PortalCustomerCreatedAt, c.PortalInviteLastSentAt, c.PortalInviteLastAcceptedAt, c.TaxExempt, c.VatNumber, c.ParentId, c.Locale, c.DefaultSubscriptionGroupUid, c.SalesforceId, c.TaxExemptReason, c.DefaultAutoRenewalProfileId, c.AdditionalProperties)
+    	"Customer[FirstName=%v, LastName=%v, Email=%v, CcEmails=%v, Organization=%v, Reference=%v, Id=%v, CreatedAt=%v, UpdatedAt=%v, Address=%v, Address2=%v, City=%v, State=%v, StateName=%v, Zip=%v, Country=%v, CountryName=%v, Phone=%v, Verified=%v, PortalCustomerCreatedAt=%v, PortalInviteLastSentAt=%v, PortalInviteLastAcceptedAt=%v, TaxExempt=%v, VatNumber=%v, ParentId=%v, Locale=%v, DefaultSubscriptionGroupUid=%v, SalesforceId=%v, TaxExemptReason=%v, DefaultAutoRenewalProfileId=%v, Maxioid=%v, AdditionalProperties=%v]",
+    	c.FirstName, c.LastName, c.Email, c.CcEmails, c.Organization, c.Reference, c.Id, c.CreatedAt, c.UpdatedAt, c.Address, c.Address2, c.City, c.State, c.StateName, c.Zip, c.Country, c.CountryName, c.Phone, c.Verified, c.PortalCustomerCreatedAt, c.PortalInviteLastSentAt, c.PortalInviteLastAcceptedAt, c.TaxExempt, c.VatNumber, c.ParentId, c.Locale, c.DefaultSubscriptionGroupUid, c.SalesforceId, c.TaxExemptReason, c.DefaultAutoRenewalProfileId, c.Maxioid, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for Customer.
@@ -87,7 +89,7 @@ func (c Customer) MarshalJSON() (
     []byte,
     error) {
     if err := DetectConflictingProperties(c.AdditionalProperties,
-        "first_name", "last_name", "email", "cc_emails", "organization", "reference", "id", "created_at", "updated_at", "address", "address_2", "city", "state", "state_name", "zip", "country", "country_name", "phone", "verified", "portal_customer_created_at", "portal_invite_last_sent_at", "portal_invite_last_accepted_at", "tax_exempt", "vat_number", "parent_id", "locale", "default_subscription_group_uid", "salesforce_id", "tax_exempt_reason", "default_auto_renewal_profile_id"); err != nil {
+        "first_name", "last_name", "email", "cc_emails", "organization", "reference", "id", "created_at", "updated_at", "address", "address_2", "city", "state", "state_name", "zip", "country", "country_name", "phone", "verified", "portal_customer_created_at", "portal_invite_last_sent_at", "portal_invite_last_accepted_at", "tax_exempt", "vat_number", "parent_id", "locale", "default_subscription_group_uid", "salesforce_id", "tax_exempt_reason", "default_auto_renewal_profile_id", "maxioid"); err != nil {
         return []byte{}, err
     }
     return json.Marshal(c.toMap())
@@ -294,6 +296,13 @@ func (c Customer) toMap() map[string]any {
             structMap["default_auto_renewal_profile_id"] = nil
         }
     }
+    if c.Maxioid.IsValueSet() {
+        if c.Maxioid.Value() != nil {
+            structMap["maxioid"] = c.Maxioid.Value()
+        } else {
+            structMap["maxioid"] = nil
+        }
+    }
     return structMap
 }
 
@@ -305,7 +314,7 @@ func (c *Customer) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "first_name", "last_name", "email", "cc_emails", "organization", "reference", "id", "created_at", "updated_at", "address", "address_2", "city", "state", "state_name", "zip", "country", "country_name", "phone", "verified", "portal_customer_created_at", "portal_invite_last_sent_at", "portal_invite_last_accepted_at", "tax_exempt", "vat_number", "parent_id", "locale", "default_subscription_group_uid", "salesforce_id", "tax_exempt_reason", "default_auto_renewal_profile_id")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "first_name", "last_name", "email", "cc_emails", "organization", "reference", "id", "created_at", "updated_at", "address", "address_2", "city", "state", "state_name", "zip", "country", "country_name", "phone", "verified", "portal_customer_created_at", "portal_invite_last_sent_at", "portal_invite_last_accepted_at", "tax_exempt", "vat_number", "parent_id", "locale", "default_subscription_group_uid", "salesforce_id", "tax_exempt_reason", "default_auto_renewal_profile_id", "maxioid")
     if err != nil {
     	return err
     }
@@ -374,6 +383,7 @@ func (c *Customer) UnmarshalJSON(input []byte) error {
     c.SalesforceId = temp.SalesforceId
     c.TaxExemptReason = temp.TaxExemptReason
     c.DefaultAutoRenewalProfileId = temp.DefaultAutoRenewalProfileId
+    c.Maxioid = temp.Maxioid
     return nil
 }
 
@@ -409,4 +419,5 @@ type tempCustomer  struct {
     SalesforceId                Optional[string] `json:"salesforce_id"`
     TaxExemptReason             Optional[string] `json:"tax_exempt_reason"`
     DefaultAutoRenewalProfileId Optional[int]    `json:"default_auto_renewal_profile_id"`
+    Maxioid                     Optional[string] `json:"maxioid"`
 }

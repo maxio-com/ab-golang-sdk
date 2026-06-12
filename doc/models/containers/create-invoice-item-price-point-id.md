@@ -12,3 +12,23 @@
 | `string` | models.CreateInvoiceItemPricePointIdContainer.FromString(string mString) |
 | `int` | models.CreateInvoiceItemPricePointIdContainer.FromNumber(int number) |
 
+## string
+
+### Initialization Code
+
+#### Example
+
+```go
+value := models.CreateInvoiceItemPricePointIdContainer.FromString("String0")
+```
+
+## int
+
+### Initialization Code
+
+#### Example
+
+```go
+value := models.CreateInvoiceItemPricePointIdContainer.FromNumber(0)
+```
+

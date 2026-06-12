@@ -26,7 +26,7 @@ func NewCustomersController(baseController baseController) *CustomersController 
 // CreateCustomer takes context, body as parameters and
 // returns an models.ApiResponse with models.CustomerResponse data and
 // an error if there was an issue with the request or response.
-// You may create a new Customer at any time, or you may create a Customer at the same time you create a Subscription. The only validation restriction is that you may only create one customer for a given reference value.
+// Creates a new customer; can also be created alongside a new subscription. The only validation restriction is that you may only create one customer for a given reference value.
 // If provided, the `reference` value must be unique. It represents a unique identifier for the customer from your own app, i.e. the customer’s ID. This allows you to retrieve a given customer via a piece of shared information. Alternatively, you may choose to leave `reference` blank, and store Advanced Billing’s unique ID for the customer, which is in the `id` attribute.
 // Full documentation on how to locate, create and edit Customers in the Advanced Billing UI can be located [here](https://maxio.zendesk.com/hc/en-us/articles/24252190590093-Customer-Details).
 // ## Required Country Format
@@ -92,7 +92,7 @@ type ListCustomersInput struct {
 // ListCustomers takes context, direction, page, perPage, dateField, startDate, endDate, startDatetime, endDatetime, q as parameters and
 // returns an models.ApiResponse with []models.CustomerResponse data and
 // an error if there was an issue with the request or response.
-// This request will by default list all customers associated with your Site.
+// Lists all customers associated with your site, or filters results using the search parameter.
 // ## Find Customer
 // Use the search feature with the `q` query parameter to retrieve an array of customers that matches the search query.
 // Common use cases are:
@@ -173,7 +173,7 @@ func (c *CustomersController) ReadCustomer(
 // UpdateCustomer takes context, id, body as parameters and
 // returns an models.ApiResponse with models.CustomerResponse data and
 // an error if there was an issue with the request or response.
-// This method allows to update the Customer.
+// Updates the customer.
 func (c *CustomersController) UpdateCustomer(
     ctx context.Context,
     id int,
@@ -205,7 +205,7 @@ func (c *CustomersController) UpdateCustomer(
 // DeleteCustomer takes context, id as parameters and
 // returns an *Response and
 // an error if there was an issue with the request or response.
-// This method allows you to delete the Customer.
+// Deletes the customer.
 func (c *CustomersController) DeleteCustomer(
     ctx context.Context,
     id int) (
@@ -225,7 +225,7 @@ func (c *CustomersController) DeleteCustomer(
 // ReadCustomerByReference takes context, reference as parameters and
 // returns an models.ApiResponse with models.CustomerResponse data and
 // an error if there was an issue with the request or response.
-// Use this method to return the customer object if you have the unique **Reference ID (Your App)** value handy. It will return a single match.
+// Returns a customer by their unique reference ID. It will return a single match.
 func (c *CustomersController) ReadCustomerByReference(
     ctx context.Context,
     reference string) (
@@ -248,7 +248,7 @@ func (c *CustomersController) ReadCustomerByReference(
 // ListCustomerSubscriptions takes context, customerId as parameters and
 // returns an models.ApiResponse with []models.SubscriptionResponse data and
 // an error if there was an issue with the request or response.
-// This method lists all subscriptions that belong to a customer.
+// Lists all subscriptions that belong to a customer.
 func (c *CustomersController) ListCustomerSubscriptions(
     ctx context.Context,
     customerId int) (

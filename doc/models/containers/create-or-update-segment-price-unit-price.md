@@ -12,3 +12,23 @@
 | `string` | models.CreateOrUpdateSegmentPriceUnitPriceContainer.FromString(string mString) |
 | `float64` | models.CreateOrUpdateSegmentPriceUnitPriceContainer.FromPrecision(float64 precision) |
 
+## string
+
+### Initialization Code
+
+#### Example
+
+```go
+value := models.CreateOrUpdateSegmentPriceUnitPriceContainer.FromString("String0")
+```
+
+## float64
+
+### Initialization Code
+
+#### Example
+
+```go
+value := models.CreateOrUpdateSegmentPriceUnitPriceContainer.FromPrecision(float64(0))
+```
+

@@ -12,3 +12,23 @@
 | `float64` | models.UpdatePriceUnitPriceContainer.FromPrecision(float64 precision) |
 | `string` | models.UpdatePriceUnitPriceContainer.FromString(string mString) |
 
+## float64
+
+### Initialization Code
+
+#### Example
+
+```go
+value := models.UpdatePriceUnitPriceContainer.FromPrecision(float64(0))
+```
+
+## string
+
+### Initialization Code
+
+#### Example
+
+```go
+value := models.UpdatePriceUnitPriceContainer.FromString("String0")
+```
+

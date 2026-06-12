@@ -31,7 +31,7 @@ subscriptionComponentsController := client.SubscriptionComponentsController()
 
 # Read Subscription Component
 
-This request will list information regarding a specific component owned by a subscription.
+Returns information for a specific component on a subscription.
 
 ```go
 ReadSubscriptionComponent(
@@ -42,6 +42,10 @@ ReadSubscriptionComponent(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -50,6 +54,8 @@ ReadSubscriptionComponent(
 | `componentId` | `int` | Template, Required | The Advanced Billing id of the component. Alternatively, the component's handle prefixed by `handle:` |
 
 ## Response Type
+
+**200**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.SubscriptionComponentResponse](../../doc/models/subscription-component-response.md).
 
@@ -100,7 +106,7 @@ if err != nil {
 
 # List Subscription Components
 
-This request will list a subscription's applied components.
+Lists a subscription's applied components.
 
 ## Archived Components
 
@@ -114,6 +120,10 @@ ListSubscriptionComponents(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -121,6 +131,8 @@ ListSubscriptionComponents(
 | `input` | [`models.ListSubscriptionComponentsInput`](../../doc/models/list-subscription-components-input.md) | Required | Input structure for the method ListSubscriptionComponents |
 
 ## Response Type
+
+**200**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [[]models.SubscriptionComponentResponse](../../doc/models/subscription-component-response.md).
 
@@ -211,6 +223,10 @@ BulkUpdateSubscriptionComponentsPricePoints(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -219,6 +235,8 @@ BulkUpdateSubscriptionComponentsPricePoints(
 | `body` | [`*models.BulkComponentsPricePointAssignment`](../../doc/models/bulk-components-price-point-assignment.md) | Body, Optional | - |
 
 ## Response Type
+
+**200**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.BulkComponentsPricePointAssignment](../../doc/models/bulk-components-price-point-assignment.md).
 
@@ -299,6 +317,10 @@ BulkResetSubscriptionComponentsPricePoints(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -306,6 +328,8 @@ BulkResetSubscriptionComponentsPricePoints(
 | `subscriptionId` | `int` | Template, Required | The Chargify id of the subscription. |
 
 ## Response Type
+
+**201**: Created
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.SubscriptionResponse](../../doc/models/subscription-response.md).
 
@@ -433,7 +457,7 @@ Creates an allocation, sets the current allocated quantity for the component, an
 
 When creating an allocation via the API, you can pass the `upgrade_charge`, `downgrade_credit`, and `accrue_charge` to be applied.
 
-> **Note:** These proration and accural fields are ignored for Prepaid Components since this component type always generate charges immediately without proration.
+> **Note:** These proration and accrual fields are ignored for Prepaid Components since this component type always generates charges immediately without proration.
 
 For information on prorated components and upgrade/downgrade schemes, see [Setting Component Allocations.](https://maxio.zendesk.com/hc/en-us/articles/24251906165133-Component-Allocations-Proration)
 
@@ -451,7 +475,7 @@ For information on prorated components and upgrade/downgrade schemes, see [Setti
 
 > **Note:** Proration uses the current price of the component as well as the current tax rates. Changes to either may cause the prorated charge/credit to be wrong.
 
-For more informaiton see the [Component Allocations](https://maxio.zendesk.com/hc/en-us/articles/24251883961485-Component-Allocations-Overview) product Documentation.
+For more information, see the [Component Allocations](https://maxio.zendesk.com/hc/en-us/articles/24251883961485-Component-Allocations-Overview) product Documentation.
 
 ```go
 AllocateComponent(
@@ -463,6 +487,10 @@ AllocateComponent(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -472,6 +500,8 @@ AllocateComponent(
 | `body` | [`*models.CreateAllocationRequest`](../../doc/models/create-allocation-request.md) | Body, Optional | - |
 
 ## Response Type
+
+**200**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.AllocationResponse](../../doc/models/allocation-response.md).
 
@@ -498,7 +528,7 @@ body := models.CreateAllocationRequest{
         AccrueCharge:             models.ToPointer(false),
         PricePointId:             models.NewOptional(models.ToPointer(models.CreateAllocationPricePointIdContainer.FromNumber(789))),
         BillingSchedule:          models.ToPointer(models.BillingSchedule{
-            InitialBillingAt:     models.ToPointer(parseTime(models.DEFAULT_DATE, "2025-02-28", func(err error) { log.Fatalln(err) })),
+            InitialBillingAt:     models.NewOptional(models.ToPointer(parseTime(models.DEFAULT_DATE, "2025-02-28", func(err error) { log.Fatalln(err) }))),
         }),
         CustomPrice:              models.ToPointer(models.ComponentCustomPrice{
             TaxIncluded:              models.ToPointer(false),
@@ -579,7 +609,7 @@ if err != nil {
 
 # List Allocations
 
-This endpoint returns the 50 most recent Allocations, ordered by most recent first.
+Returns the 50 most recent Allocations, ordered by most recent first.
 
 ## On/Off Components
 
@@ -595,6 +625,10 @@ ListAllocations(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -604,6 +638,8 @@ ListAllocations(
 | `page` | `*int` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br><br>**Default**: `1`<br><br>**Constraints**: `>= 1` |
 
 ## Response Type
+
+**200**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [[]models.AllocationResponse](../../doc/models/allocation-response.md).
 
@@ -688,7 +724,7 @@ if err != nil {
 
 # Allocate Components
 
-Creates multiple allocations, sets the current allocated quantity for each of the components, and recording a memo.   A `component_id` is required for each allocation.
+Creates multiple allocations, sets the current allocated quantity for each of the components, and records a memo.   A `component_id` is required for each allocation.
 
 The charges and/or credits that are created will be rolled up into a single total which is used to determine whether this is an upgrade or a downgrade.
 
@@ -706,7 +742,7 @@ The charges and/or credits that are created will be rolled up into a single tota
 
 > **Note:** Proration uses the current price of the component as well as the current tax rates. Changes to either may cause the prorated charge/credit to be wrong.
 
-For more informaiton see the [Component Allocations](https://maxio.zendesk.com/hc/en-us/articles/24251883961485-Component-Allocations-Overview) product Documentation.
+For more information, see the [Component Allocations](https://maxio.zendesk.com/hc/en-us/articles/24251883961485-Component-Allocations-Overview) product documentation.
 
 ```go
 AllocateComponents(
@@ -717,6 +753,10 @@ AllocateComponents(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -725,6 +765,8 @@ AllocateComponents(
 | `body` | [`*models.AllocateComponents`](../../doc/models/allocate-components.md) | Body, Optional | - |
 
 ## Response Type
+
+**200**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [[]models.AllocationResponse](../../doc/models/allocation-response.md).
 
@@ -820,7 +862,7 @@ if err != nil {
 
 # Preview Allocations
 
-Advanced Billing offers the ability to preview a potential subscription's **quantity-based** or **on/off** component allocation in the middle of the current billing period.  This is useful if you want users to be able to see the effect of a component operation before actually doing it.
+Previews a potential subscription's **quantity-based** or **on/off** component allocation in the middle of the current billing period.  This is useful if you want users to be able to see the effect of a component operation before actually doing it.
 
 ## Fine-grained Component Control: Use with multiple `upgrade_charge`s or `downgrade_credits`
 
@@ -837,6 +879,10 @@ PreviewAllocations(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -845,6 +891,8 @@ PreviewAllocations(
 | `body` | [`*models.PreviewAllocationsRequest`](../../doc/models/preview-allocations-request.md) | Body, Optional | - |
 
 ## Response Type
+
+**200**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.AllocationPreviewResponse](../../doc/models/allocation-preview-response.md).
 
@@ -996,7 +1044,7 @@ if err != nil {
 
 # Update Prepaid Usage Allocation Expiration Date
 
-When the expiration interval options are selected on a prepaid usage component price point, all allocations will be created with an expiration date. This expiration date can be changed after the fact to allow for extending or shortening the allocation's active window.
+Updates the expiration date for a prepaid usage allocation. This expiration date can be changed after the fact to allow for extending or shortening the allocation's active window.
 
 In order to change a prepaid usage allocation's expiration date, a PUT call must be made to the allocation's endpoint with a new expiration date.
 
@@ -1019,6 +1067,10 @@ UpdatePrepaidUsageAllocationExpirationDate(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -1029,6 +1081,8 @@ UpdatePrepaidUsageAllocationExpirationDate(
 | `body` | [`*models.UpdateAllocationExpirationDate`](../../doc/models/update-allocation-expiration-date.md) | Body, Optional | - |
 
 ## Response Type
+
+**204**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance.
 
@@ -1072,7 +1126,9 @@ if err != nil {
 
 # Delete Prepaid Usage Allocation
 
-Prepaid Usage components are unique in that their allocations are always additive. In order to reduce a subscription's allocated quantity for a prepaid usage component each allocation must be destroyed individually via this endpoint.
+Deletes a prepaid usage allocation.
+
+Prepaid Usage components are unique in that their allocations are always additive. In order to reduce a subscription's allocated quantity for a prepaid usage component, each allocation must be destroyed individually via this endpoint.
 
 ## Credit Scheme
 
@@ -1093,6 +1149,10 @@ DeletePrepaidUsageAllocation(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -1103,6 +1163,8 @@ DeletePrepaidUsageAllocation(
 | `body` | [`*models.CreditSchemeRequest`](../../doc/models/credit-scheme-request.md) | Body, Optional | - |
 
 ## Response Type
+
+**200**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance.
 
@@ -1150,11 +1212,11 @@ You can report metered or prepaid usage to Advanced Billing as often as you wish
 
 Full documentation on how to create Components in the Advanced Billing UI can be located [here](https://maxio.zendesk.com/hc/en-us/articles/24261149711501-Create-Edit-and-Archive-Components). Additionally, for information on how to record component usage against a subscription, see the following resources:
 
-It is not possible to record metered usage for more than one component at a time Usage should be reported as one API call per component on a single subscription. For example, to record that a subscriber has sent both an SMS Message and an Email, send an API call for each.
+It is not possible to record metered usage for more than one component at a time. Usage should be reported as one API call per component on a single subscription. For example, to record that a subscriber has sent both an SMS Message and an Email, send an API call for each.
 
-See the following product documention articles for more information:
+See the following product documentation articles for more information:
 
-- [Create and Manage Components](https://maxio.zendesk.com/hc/en-us/articles/24261149711501-Create-Edit-and-Archive-Components). A
+- [Create and Manage Components](https://maxio.zendesk.com/hc/en-us/articles/24261149711501-Create-Edit-and-Archive-Components)
 - [Recording Metered Component Usage](https://maxio.zendesk.com/hc/en-us/articles/24251890500109-Reporting-Component-Allocations#reporting-metered-component-usage)
 - [Reporting Prepaid Component Status](https://maxio.zendesk.com/hc/en-us/articles/24251890500109-Reporting-Component-Allocations#reporting-prepaid-component-status)
 
@@ -1206,6 +1268,10 @@ CreateUsage(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -1215,6 +1281,8 @@ CreateUsage(
 | `body` | [`*models.CreateUsageRequest`](../../doc/models/create-usage-request.md) | Body, Optional | - |
 
 ## Response Type
+
+**200**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.UsageResponse](../../doc/models/usage-response.md).
 
@@ -1276,7 +1344,7 @@ if err != nil {
 
 # List Usages
 
-This request will return a list of the usages associated with a subscription for a particular metered component. This will display the previously recorded components for a subscription.
+Returns a list of usages associated with a subscription for a particular metered component. This will display the previously recorded components for a subscription.
 
 This endpoint is not compatible with quantity-based components.
 
@@ -1300,6 +1368,10 @@ ListUsages(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -1307,6 +1379,8 @@ ListUsages(
 | `input` | [`models.ListUsagesInput`](../../doc/models/list-usages-input.md) | Required | Input structure for the method ListUsages |
 
 ## Response Type
+
+**200**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [[]models.UsageResponse](../../doc/models/usage-response.md).
 
@@ -1366,6 +1440,8 @@ if err != nil {
 
 # Activate Event Based Component
 
+Activates an event-based component for a single subscription.
+
 In order to bill your subscribers on your Events data under the Events-Based Billing feature, the components must be activated for the subscriber.
 
 Learn more about the role of activation in the [Events-Based Billing docs](https://maxio.zendesk.com/hc/en-us/articles/24260323329805-Events-Based-Billing-Overview).
@@ -1384,6 +1460,10 @@ ActivateEventBasedComponent(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -1393,6 +1473,8 @@ ActivateEventBasedComponent(
 | `body` | [`*models.ActivateEventBasedComponent`](../../doc/models/activate-event-based-component.md) | Body, Optional | - |
 
 ## Response Type
+
+**200**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance.
 
@@ -1408,7 +1490,7 @@ componentId := 222
 body := models.ActivateEventBasedComponent{
     PricePointId:         models.ToPointer(1),
     BillingSchedule:      models.ToPointer(models.BillingSchedule{
-        InitialBillingAt:     models.ToPointer(parseTime(models.DEFAULT_DATE, "2022-01-01", func(err error) { log.Fatalln(err) })),
+        InitialBillingAt:     models.NewOptional(models.ToPointer(parseTime(models.DEFAULT_DATE, "2022-01-01", func(err error) { log.Fatalln(err) }))),
     }),
     CustomPrice:          models.ToPointer(models.ComponentCustomPrice{
         TaxIncluded:              models.ToPointer(false),
@@ -1436,7 +1518,7 @@ if err != nil {
 
 # Deactivate Event Based Component
 
-Use this endpoint to deactivate an event-based component for a single subscription. Deactivating the event-based component causes Advanced Billing to ignore related events at subscription renewal.
+Deactivates an event-based component for a single subscription. Deactivating the event-based component causes Advanced Billing to ignore related events at subscription renewal.
 
 ```go
 DeactivateEventBasedComponent(
@@ -1447,6 +1529,10 @@ DeactivateEventBasedComponent(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -1455,6 +1541,8 @@ DeactivateEventBasedComponent(
 | `componentId` | `int` | Template, Required | The Advanced Billing id of the component |
 
 ## Response Type
+
+**200**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance.
 
@@ -1477,6 +1565,8 @@ if err != nil {
 
 
 # Record Event
+
+Records a single event for Events-Based Billing.
 
 ## Documentation
 
@@ -1508,6 +1598,10 @@ RecordEvent(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -1517,6 +1611,8 @@ RecordEvent(
 | `body` | [`*models.EBBEvent`](../../doc/models/ebb-event.md) | Body, Optional | - |
 
 ## Response Type
+
+**201**: Created
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance.
 
@@ -1545,7 +1641,7 @@ if err != nil {
 
 # Bulk Record Events
 
-Use this endpoint to record a collection of events.
+Records a collection of events.
 
 *Note: this endpoint differs from the standard Chargify API endpoints in that the subdomain will be `events` and your site subdomain will be included in the URL path.*
 
@@ -1561,6 +1657,10 @@ BulkRecordEvents(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -1570,6 +1670,8 @@ BulkRecordEvents(
 | `body` | [`[]models.EBBEvent`](../../doc/models/ebb-event.md) | Body, Optional | - |
 
 ## Response Type
+
+**201**: Created
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance.
 
@@ -1600,7 +1702,7 @@ if err != nil {
 
 # List Subscription Components for Site
 
-This request will list components applied to each subscription.
+Lists components applied to each subscription.
 
 ```go
 ListSubscriptionComponentsForSite(
@@ -1610,6 +1712,10 @@ ListSubscriptionComponentsForSite(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -1617,6 +1723,8 @@ ListSubscriptionComponentsForSite(
 | `input` | [`models.ListSubscriptionComponentsForSiteInput`](../../doc/models/list-subscription-components-for-site-input.md) | Required | Input structure for the method ListSubscriptionComponentsForSite |
 
 ## Response Type
+
+**200**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.ListSubscriptionComponentsResponse](../../doc/models/list-subscription-components-response.md).
 

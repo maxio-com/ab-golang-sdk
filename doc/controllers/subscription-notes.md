@@ -19,7 +19,7 @@ subscriptionNotesController := client.SubscriptionNotesController()
 
 # Create Subscription Note
 
-Use the following method to create a note for a subscription.
+Creates a note for a subscription.
 
 ## How to Use Subscription Notes
 
@@ -38,6 +38,10 @@ CreateSubscriptionNote(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -46,6 +50,8 @@ CreateSubscriptionNote(
 | `body` | [`*models.UpdateSubscriptionNoteRequest`](../../doc/models/update-subscription-note-request.md) | Body, Optional | Updatable fields for Subscription Note |
 
 ## Response Type
+
+**200**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.SubscriptionNoteResponse](../../doc/models/subscription-note-response.md).
 
@@ -87,7 +93,7 @@ if err != nil {
 
 # List Subscription Notes
 
-Use this method to retrieve a list of Notes associated with a Subscription. The response will be an array of Notes.
+Retrieves a list of notes associated with a subscription. The response will be an array of Notes.
 
 ```go
 ListSubscriptionNotes(
@@ -97,6 +103,10 @@ ListSubscriptionNotes(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -104,6 +114,8 @@ ListSubscriptionNotes(
 | `input` | [`models.ListSubscriptionNotesInput`](../../doc/models/list-subscription-notes-input.md) | Required | Input structure for the method ListSubscriptionNotes |
 
 ## Response Type
+
+**200**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [[]models.SubscriptionNoteResponse](../../doc/models/subscription-note-response.md).
 
@@ -169,7 +181,7 @@ if err != nil {
 
 # Read Subscription Note
 
-Once you have obtained the ID of the note you wish to read, use this method to show a particular note attached to a subscription.
+Retrieves a specific note attached to a subscription.
 
 ```go
 ReadSubscriptionNote(
@@ -180,6 +192,10 @@ ReadSubscriptionNote(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -188,6 +204,8 @@ ReadSubscriptionNote(
 | `noteId` | `int` | Template, Required | The Advanced Billing id of the note |
 
 ## Response Type
+
+**200**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.SubscriptionNoteResponse](../../doc/models/subscription-note-response.md).
 
@@ -228,7 +246,7 @@ if err != nil {
 
 # Update Subscription Note
 
-Use the following method to update a note for a Subscription.
+Updates a note for a subscription.
 
 ```go
 UpdateSubscriptionNote(
@@ -240,6 +258,10 @@ UpdateSubscriptionNote(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -249,6 +271,8 @@ UpdateSubscriptionNote(
 | `body` | [`*models.UpdateSubscriptionNoteRequest`](../../doc/models/update-subscription-note-request.md) | Body, Optional | Updatable fields for Subscription Note |
 
 ## Response Type
+
+**200**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.SubscriptionNoteResponse](../../doc/models/subscription-note-response.md).
 
@@ -303,6 +327,10 @@ DeleteSubscriptionNote(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -311,6 +339,8 @@ DeleteSubscriptionNote(
 | `noteId` | `int` | Template, Required | The Advanced Billing id of the note |
 
 ## Response Type
+
+**200**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance.
 

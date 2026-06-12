@@ -23,7 +23,7 @@ type BankAccountPaymentProfile struct {
     CustomerId              *int                   `json:"customer_id,omitempty"`
     // The vault that stores the payment profile with the provided vault_token. Use `bogus` for testing.
     CurrentVault            *BankAccountVault      `json:"current_vault,omitempty"`
-    // The “token” provided by your vault storage for an already stored payment profile
+    // The "token" provided by your vault storage for an already stored payment profile
     VaultToken              *string                `json:"vault_token,omitempty"`
     // The current billing street address for the bank account
     BillingAddress          Optional[string]       `json:"billing_address"`
@@ -41,10 +41,10 @@ type BankAccountPaymentProfile struct {
     BillingAddress2         Optional[string]       `json:"billing_address_2"`
     // The bank where the account resides
     BankName                *string                `json:"bank_name,omitempty"`
-    // A string representation of the stored bank routing number with all but the last 4 digits marked with X’s (i.e. ‘XXXXXXX1111’). payment_type will be bank_account
-    MaskedBankRoutingNumber *string                `json:"masked_bank_routing_number,omitempty"`
-    // A string representation of the stored bank account number with all but the last 4 digits marked with X’s (i.e. ‘XXXXXXX1111’)
-    MaskedBankAccountNumber string                 `json:"masked_bank_account_number"`
+    // A string representation of the stored bank routing number with all but the last 4 digits marked with X's (i.e. 'XXXXXXX1111'). payment_type will be bank_account
+    MaskedBankRoutingNumber Optional[string]       `json:"masked_bank_routing_number"`
+    // A string representation of the stored bank account number with all but the last 4 digits marked with X's (i.e. 'XXXXXXX1111')
+    MaskedBankAccountNumber Optional[string]       `json:"masked_bank_account_number"`
     // Defaults to checking
     BankAccountType         *BankAccountType       `json:"bank_account_type,omitempty"`
     // Defaults to personal
@@ -155,10 +155,20 @@ func (b BankAccountPaymentProfile) toMap() map[string]any {
     if b.BankName != nil {
         structMap["bank_name"] = b.BankName
     }
-    if b.MaskedBankRoutingNumber != nil {
-        structMap["masked_bank_routing_number"] = b.MaskedBankRoutingNumber
+    if b.MaskedBankRoutingNumber.IsValueSet() {
+        if b.MaskedBankRoutingNumber.Value() != nil {
+            structMap["masked_bank_routing_number"] = b.MaskedBankRoutingNumber.Value()
+        } else {
+            structMap["masked_bank_routing_number"] = nil
+        }
     }
-    structMap["masked_bank_account_number"] = b.MaskedBankAccountNumber
+    if b.MaskedBankAccountNumber.IsValueSet() {
+        if b.MaskedBankAccountNumber.Value() != nil {
+            structMap["masked_bank_account_number"] = b.MaskedBankAccountNumber.Value()
+        } else {
+            structMap["masked_bank_account_number"] = nil
+        }
+    }
     if b.BankAccountType != nil {
         structMap["bank_account_type"] = b.BankAccountType
     }
@@ -225,7 +235,7 @@ func (b *BankAccountPaymentProfile) UnmarshalJSON(input []byte) error {
     b.BillingAddress2 = temp.BillingAddress2
     b.BankName = temp.BankName
     b.MaskedBankRoutingNumber = temp.MaskedBankRoutingNumber
-    b.MaskedBankAccountNumber = *temp.MaskedBankAccountNumber
+    b.MaskedBankAccountNumber = temp.MaskedBankAccountNumber
     b.BankAccountType = temp.BankAccountType
     b.BankAccountHolderType = temp.BankAccountHolderType
     b.PaymentType = *temp.PaymentType
@@ -265,8 +275,8 @@ type tempBankAccountPaymentProfile  struct {
     CustomerVaultToken      Optional[string]       `json:"customer_vault_token"`
     BillingAddress2         Optional[string]       `json:"billing_address_2"`
     BankName                *string                `json:"bank_name,omitempty"`
-    MaskedBankRoutingNumber *string                `json:"masked_bank_routing_number,omitempty"`
-    MaskedBankAccountNumber *string                `json:"masked_bank_account_number"`
+    MaskedBankRoutingNumber Optional[string]       `json:"masked_bank_routing_number"`
+    MaskedBankAccountNumber Optional[string]       `json:"masked_bank_account_number"`
     BankAccountType         *BankAccountType       `json:"bank_account_type,omitempty"`
     BankAccountHolderType   *BankAccountHolderType `json:"bank_account_holder_type,omitempty"`
     PaymentType             *PaymentType           `json:"payment_type"`
@@ -279,9 +289,6 @@ type tempBankAccountPaymentProfile  struct {
 
 func (b *tempBankAccountPaymentProfile) validate() error {
     var errs []string
-    if b.MaskedBankAccountNumber == nil {
-        errs = append(errs, "required field `masked_bank_account_number` is missing for type `Bank Account Payment Profile`")
-    }
     if b.PaymentType == nil {
         errs = append(errs, "required field `payment_type` is missing for type `Bank Account Payment Profile`")
     }

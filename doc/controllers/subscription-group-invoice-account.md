@@ -18,7 +18,7 @@ subscriptionGroupInvoiceAccountController := client.SubscriptionGroupInvoiceAcco
 
 # Create Subscription Group Prepayment
 
-A prepayment can be added for a subscription group identified by the group's `uid`. This endpoint requires a `amount`, `details`, `method`, and `memo`. On success, the prepayment will be added to the group's prepayment balance.
+Adds a prepayment for a subscription group. This endpoint requires an `amount`, `details`, `method`, and `memo`. On success, the prepayment will be added to the group's prepayment balance.
 
 ```go
 CreateSubscriptionGroupPrepayment(
@@ -29,6 +29,10 @@ CreateSubscriptionGroupPrepayment(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -37,6 +41,8 @@ CreateSubscriptionGroupPrepayment(
 | `body` | [`*models.SubscriptionGroupPrepaymentRequest`](../../doc/models/subscription-group-prepayment-request.md) | Body, Optional | - |
 
 ## Response Type
+
+**200**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.SubscriptionGroupPrepaymentResponse](../../doc/models/subscription-group-prepayment-response.md).
 
@@ -83,7 +89,7 @@ if err != nil {
 
 # List Prepayments for Subscription Group
 
-This request will list a subscription group's prepayments.
+Lists a subscription group's prepayments.
 
 ```go
 ListPrepaymentsForSubscriptionGroup(
@@ -93,6 +99,10 @@ ListPrepaymentsForSubscriptionGroup(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -100,6 +110,8 @@ ListPrepaymentsForSubscriptionGroup(
 | `input` | [`models.ListPrepaymentsForSubscriptionGroupInput`](../../doc/models/list-prepayments-for-subscription-group-input.md) | Required | Input structure for the method ListPrepaymentsForSubscriptionGroup |
 
 ## Response Type
+
+**200**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.ListSubscriptionGroupPrepaymentResponse](../../doc/models/list-subscription-group-prepayment-response.md).
 
@@ -160,7 +172,7 @@ if err != nil {
 
 # Issue Subscription Group Service Credit
 
-Credit can be issued for a subscription group identified by the group's `uid`. Credit will be added to the group in the amount specified in the request body. The credit will be applied to group member invoices as they are generated.
+Issues service credit for a subscription group. Credit will be added to the group in the amount specified in the request body. The credit will be applied to group member invoices as they are generated.
 
 ```go
 IssueSubscriptionGroupServiceCredit(
@@ -171,6 +183,10 @@ IssueSubscriptionGroupServiceCredit(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -179,6 +195,8 @@ IssueSubscriptionGroupServiceCredit(
 | `body` | [`*models.IssueServiceCreditRequest`](../../doc/models/issue-service-credit-request.md) | Body, Optional | - |
 
 ## Response Type
+
+**200**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.ServiceCreditResponse](../../doc/models/service-credit-response.md).
 
@@ -234,7 +252,7 @@ if err != nil {
 
 # Deduct Subscription Group Service Credit
 
-Credit can be deducted for a subscription group identified by the group's `uid`. Credit will be deducted from the group in the amount specified in the request body.
+Deducts service credit for a subscription group. Credit will be deducted from the group in the amount specified in the request body.
 
 ```go
 DeductSubscriptionGroupServiceCredit(
@@ -245,6 +263,10 @@ DeductSubscriptionGroupServiceCredit(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -253,6 +275,8 @@ DeductSubscriptionGroupServiceCredit(
 | `body` | [`*models.DeductServiceCreditRequest`](../../doc/models/deduct-service-credit-request.md) | Body, Optional | - |
 
 ## Response Type
+
+**201**: Created
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.ServiceCredit](../../doc/models/service-credit.md).
 

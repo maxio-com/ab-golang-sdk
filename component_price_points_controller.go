@@ -102,7 +102,7 @@ type ListComponentPricePointsInput struct {
 // ListComponentPricePoints takes context, componentId, currencyPrices, page, perPage, filterType as parameters and
 // returns an models.ApiResponse with models.ComponentPricePointsResponse data and
 // an error if there was an issue with the request or response.
-// Use this endpoint to read current price points that are associated with a component.
+// Lists the price points associated with a component.
 // You may specify the component by using either the numeric id or the `handle:gold` syntax.
 // When fetching a component's price points, if you have defined multiple currencies at the site level, you can optionally pass the `?currency_prices=true` query param to include an array of currency price data in the response.
 // If the price point is set to `use_site_exchange_rate: true`, it will return pricing based on the current exchange rate. If the flag is set to false, it will return all of the defined prices for each currency.
@@ -140,7 +140,7 @@ func (c *ComponentPricePointsController) ListComponentPricePoints(
 // BulkCreateComponentPricePoints takes context, componentId, body as parameters and
 // returns an models.ApiResponse with models.ComponentPricePointsResponse data and
 // an error if there was an issue with the request or response.
-// Use this endpoint to create multiple component price points in one request.
+// Creates multiple component price points in one request.
 func (c *ComponentPricePointsController) BulkCreateComponentPricePoints(
     ctx context.Context,
     componentId string,
@@ -211,7 +211,7 @@ func (c *ComponentPricePointsController) CloneComponentPricePoint(
 // UpdateComponentPricePoint takes context, componentId, pricePointId, body as parameters and
 // returns an models.ApiResponse with models.ComponentPricePointResponse data and
 // an error if there was an issue with the request or response.
-// When updating a price point, prices can be updated as well by creating new prices or editing / removing existing ones.
+// Updates a component price point and its associated prices.
 // Passing in a price bracket without an `id` will attempt to create a new price.
 // Including an `id` will update the corresponding price, and including the `_destroy` flag set to true along with the `id` will remove that price.
 // Note: Custom price points cannot be updated directly. They must be edited through the Subscription.
@@ -246,7 +246,7 @@ func (c *ComponentPricePointsController) UpdateComponentPricePoint(
 // ReadComponentPricePoint takes context, componentId, pricePointId, currencyPrices as parameters and
 // returns an models.ApiResponse with models.ComponentPricePointCurrencyOverageResponse data and
 // an error if there was an issue with the request or response.
-// Use this endpoint to retrieve details for a specific component price point. You can achieve this by using either the component price point ID or handle.
+// Returns details for a specific component price point. You can achieve this by using either the component price point ID or handle.
 func (c *ComponentPricePointsController) ReadComponentPricePoint(
     ctx context.Context,
     componentId models.ReadComponentPricePointComponentId,
@@ -274,7 +274,7 @@ func (c *ComponentPricePointsController) ReadComponentPricePoint(
 // ArchiveComponentPricePoint takes context, componentId, pricePointId as parameters and
 // returns an models.ApiResponse with models.ComponentPricePointResponse data and
 // an error if there was an issue with the request or response.
-// A price point can be archived at any time. Subscriptions using a price point that has been archived will continue using it until they're moved to another price point.
+// Archives a component price point. Subscriptions using a price point that has been archived will continue using it until they're moved to another price point.
 func (c *ComponentPricePointsController) ArchiveComponentPricePoint(
     ctx context.Context,
     componentId models.ArchiveComponentPricePointComponentId,
@@ -301,7 +301,7 @@ func (c *ComponentPricePointsController) ArchiveComponentPricePoint(
 // UnarchiveComponentPricePoint takes context, componentId, pricePointId as parameters and
 // returns an models.ApiResponse with models.ComponentPricePointResponse data and
 // an error if there was an issue with the request or response.
-// Use this endpoint to unarchive a component price point.
+// Unarchives a component price point.
 func (c *ComponentPricePointsController) UnarchiveComponentPricePoint(
     ctx context.Context,
     componentId int,
@@ -329,7 +329,7 @@ func (c *ComponentPricePointsController) UnarchiveComponentPricePoint(
 // CreateCurrencyPrices takes context, pricePointId, body as parameters and
 // returns an models.ApiResponse with models.ComponentCurrencyPricesResponse data and
 // an error if there was an issue with the request or response.
-// This endpoint allows you to create currency prices for a given currency that has been defined on the site level in your settings.
+// Creates currency prices for a given currency defined at the site level.
 // When creating currency prices, they need to mirror the structure of your primary pricing. For each price level defined on the component price point, there should be a matching price level created in the given currency.
 // Note: Currency Prices are not able to be created for custom price points.
 func (c *ComponentPricePointsController) CreateCurrencyPrices(
@@ -362,7 +362,7 @@ func (c *ComponentPricePointsController) CreateCurrencyPrices(
 // UpdateCurrencyPrices takes context, pricePointId, body as parameters and
 // returns an models.ApiResponse with models.ComponentCurrencyPricesResponse data and
 // an error if there was an issue with the request or response.
-// This endpoint allows you to update currency prices for a given currency that has been defined on the site level in your settings.
+// Updates currency prices for a given currency defined at the site level.
 // Note: Currency Prices are not able to be updated for custom price points.
 func (c *ComponentPricePointsController) UpdateCurrencyPrices(
     ctx context.Context,
@@ -411,7 +411,7 @@ type ListAllComponentPricePointsInput struct {
 // ListAllComponentPricePoints takes context, include, page, perPage, direction, filter as parameters and
 // returns an models.ApiResponse with models.ListComponentsPricePointsResponse data and
 // an error if there was an issue with the request or response.
-// This method allows to retrieve a list of Components Price Points belonging to a Site.
+// Lists all component price points belonging to a site.
 func (c *ComponentPricePointsController) ListAllComponentPricePoints(
     ctx context.Context,
     input ListAllComponentPricePointsInput) (

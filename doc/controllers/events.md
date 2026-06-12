@@ -17,11 +17,13 @@ eventsController := client.EventsController()
 
 # List Events
 
+Lists events for a site.
+
 ## Events Intro
 
 Advanced Billing Events include various activity that happens around a Site. This information is **especially** useful to track down issues that arise when subscriptions are not created due to errors.
 
-Within the Advanced Billing UI, "Events" are referred to as "Site Activity".  Full documentation on how to record view Events / Site Activty in the Advanced Billing UI can be located [here](https://maxio.zendesk.com/hc/en-us/articles/24250671733517-Site-Activity).
+Within the Advanced Billing UI, "Events" are referred to as "Site Activity".  Full documentation on how to view Events / Site Activity in the Advanced Billing UI can be located [here](https://maxio.zendesk.com/hc/en-us/articles/24250671733517-Site-Activity).
 
 ## List Events for a Site
 
@@ -94,6 +96,10 @@ ListEvents(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -101,6 +107,8 @@ ListEvents(
 | `input` | [`models.ListEventsInput`](../../doc/models/list-events-input.md) | Required | Input structure for the method ListEvents |
 
 ## Response Type
+
+**200**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [[]models.EventResponse](../../doc/models/event-response.md).
 
@@ -195,7 +203,7 @@ if err != nil {
 
 # List Subscription Events
 
-The following request will return a list of events for a subscription.
+Lists events for a subscription.
 
 ## Event Key
 
@@ -215,6 +223,10 @@ ListSubscriptionEvents(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -222,6 +234,8 @@ ListSubscriptionEvents(
 | `input` | [`models.ListSubscriptionEventsInput`](../../doc/models/list-subscription-events-input.md) | Required | Input structure for the method ListSubscriptionEvents |
 
 ## Response Type
+
+**200**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [[]models.EventResponse](../../doc/models/event-response.md).
 
@@ -297,7 +311,7 @@ if err != nil {
 
 # Read Events Count
 
-Get a count of all the events for a given site by using this method.
+Returns the total count of events for a given site.
 
 ```go
 ReadEventsCount(
@@ -307,6 +321,10 @@ ReadEventsCount(
     error)
 ```
 
+## Authentication
+
+This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
+
 ## Parameters
 
 | Parameter | Type | Tags | Description |
@@ -314,6 +332,8 @@ ReadEventsCount(
 | `input` | [`models.ReadEventsCountInput`](../../doc/models/read-events-count-input.md) | Required | Input structure for the method ReadEventsCount |
 
 ## Response Type
+
+**200**: OK
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.CountResponse](../../doc/models/count-response.md).
 

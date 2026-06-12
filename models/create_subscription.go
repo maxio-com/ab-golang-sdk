@@ -102,7 +102,7 @@ type CreateSubscription struct {
     DunningCommunicationDelayEnabled  *bool                         `json:"dunning_communication_delay_enabled,omitempty"`
     // Time zone for the Dunning Communication Delay feature.
     DunningCommunicationDelayTimeZone Optional[string]              `json:"dunning_communication_delay_time_zone"`
-    // Valid only for the Subscription Preview endpoint. When set to `true` it skips calculating taxes for the current and next billing manifests.
+    // Valid only for the Subscription Preview endpoint. When set to `true` it skips calculating taxes for the current and next billing manifests. Defaults to `false` when not provided.
     SkipBillingManifestTaxes          *bool                         `json:"skip_billing_manifest_taxes,omitempty"`
     AdditionalProperties              map[string]interface{}        `json:"_"`
 }

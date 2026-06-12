@@ -25,7 +25,7 @@ func NewSubscriptionGroupInvoiceAccountController(baseController baseController)
 // CreateSubscriptionGroupPrepayment takes context, uid, body as parameters and
 // returns an models.ApiResponse with models.SubscriptionGroupPrepaymentResponse data and
 // an error if there was an issue with the request or response.
-// A prepayment can be added for a subscription group identified by the group's `uid`. This endpoint requires a `amount`, `details`, `method`, and `memo`. On success, the prepayment will be added to the group's prepayment balance.
+// Adds a prepayment for a subscription group. This endpoint requires an `amount`, `details`, `method`, and `memo`. On success, the prepayment will be added to the group's prepayment balance.
 func (s *SubscriptionGroupInvoiceAccountController) CreateSubscriptionGroupPrepayment(
     ctx context.Context,
     uid string,
@@ -70,7 +70,7 @@ type ListPrepaymentsForSubscriptionGroupInput struct {
 // ListPrepaymentsForSubscriptionGroup takes context, uid, page, perPage, filter as parameters and
 // returns an models.ApiResponse with models.ListSubscriptionGroupPrepaymentResponse data and
 // an error if there was an issue with the request or response.
-// This request will list a subscription group's prepayments.
+// Lists a subscription group's prepayments.
 func (s *SubscriptionGroupInvoiceAccountController) ListPrepaymentsForSubscriptionGroup(
     ctx context.Context,
     input ListPrepaymentsForSubscriptionGroupInput) (
@@ -105,7 +105,7 @@ func (s *SubscriptionGroupInvoiceAccountController) ListPrepaymentsForSubscripti
 // IssueSubscriptionGroupServiceCredit takes context, uid, body as parameters and
 // returns an models.ApiResponse with models.ServiceCreditResponse data and
 // an error if there was an issue with the request or response.
-// Credit can be issued for a subscription group identified by the group's `uid`. Credit will be added to the group in the amount specified in the request body. The credit will be applied to group member invoices as they are generated.
+// Issues service credit for a subscription group. Credit will be added to the group in the amount specified in the request body. The credit will be applied to group member invoices as they are generated.
 func (s *SubscriptionGroupInvoiceAccountController) IssueSubscriptionGroupServiceCredit(
     ctx context.Context,
     uid string,
@@ -140,7 +140,7 @@ func (s *SubscriptionGroupInvoiceAccountController) IssueSubscriptionGroupServic
 // DeductSubscriptionGroupServiceCredit takes context, uid, body as parameters and
 // returns an models.ApiResponse with models.ServiceCredit data and
 // an error if there was an issue with the request or response.
-// Credit can be deducted for a subscription group identified by the group's `uid`. Credit will be deducted from the group in the amount specified in the request body.
+// Deducts service credit for a subscription group. Credit will be deducted from the group in the amount specified in the request body.
 func (s *SubscriptionGroupInvoiceAccountController) DeductSubscriptionGroupServiceCredit(
     ctx context.Context,
     uid string,

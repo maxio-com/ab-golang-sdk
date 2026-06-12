@@ -11,7 +11,7 @@ alias to credit_card_attributes
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `ChargifyToken` | `*string` | Optional | (Optional) Token received after sending billing information using chargify.js. This token must be passed as a sole attribute of `payment_profile_attributes` (i.e. tok_9g6hw85pnpt6knmskpwp4ttt) |
+| `ChargifyToken` | `*string` | Optional | (Optional) Token received after sending billing information using Maxio.js (formerly Chargify.js). This token must be passed as a sole attribute of `payment_profile_attributes` (i.e. tok_9g6hw85pnpt6knmskpwp4ttt) |
 | `Id` | `*int` | Optional | - |
 | `PaymentType` | [`*models.PaymentType`](../../doc/models/payment-type.md) | Optional | - |
 | `FirstName` | `*string` | Optional | (Optional) First name on card or bank account. If omitted, the first_name from customer attributes will be used. |

@@ -49,7 +49,7 @@ type CreditCardPaymentProfile struct {
     BillingAddress2      Optional[string]       `json:"billing_address_2"`
     PaymentType          PaymentType            `json:"payment_type"`
     Disabled             *bool                  `json:"disabled,omitempty"`
-    // Token received after sending billing information using chargify.js. This token will only be received if passed as a sole attribute of credit_card_attributes (i.e. tok_9g6hw85pnpt6knmskpwp4ttt)
+    // Token received after sending billing information using Maxio.js (formerly Chargify.js). This token will only be received if passed as a sole attribute of credit_card_attributes (i.e. tok_9g6hw85pnpt6knmskpwp4ttt)
     ChargifyToken        *string                `json:"chargify_token,omitempty"`
     SiteGatewaySettingId Optional[int]          `json:"site_gateway_setting_id"`
     // An identifier of connected gateway.

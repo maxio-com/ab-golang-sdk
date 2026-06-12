@@ -9,7 +9,7 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `ChargifyToken` | `*string` | Optional | Token received after sending billing information using chargify.js. |
+| `ChargifyToken` | `*string` | Optional | Token received after sending billing information using Maxio.js (formerly Chargify.js). |
 | `Id` | `*int` | Optional | - |
 | `PaymentType` | [`*models.PaymentType`](../../doc/models/payment-type.md) | Optional | - |
 | `FirstName` | `*string` | Optional | First name on card or bank account. If omitted, the first_name from customer attributes will be used. |
@@ -29,8 +29,8 @@
 | `VaultToken` | `*string` | Optional | The “token” provided by your vault storage for an already stored payment profile |
 | `CustomerVaultToken` | `*string` | Optional | (only for Authorize.Net CIM storage or Square) The customerProfileId for the owner of the customerPaymentProfileId provided as the vault_token |
 | `CustomerId` | `*int` | Optional | (Required when creating a new payment profile) The Chargify customer id. |
-| `PaypalEmail` | `*string` | Optional | used by merchants that implemented BraintreeBlue javaScript libraries on their own. We recommend using Chargify.js instead. |
-| `PaymentMethodNonce` | `*string` | Optional | used by merchants that implemented BraintreeBlue javaScript libraries on their own. We recommend using Chargify.js instead. |
+| `PaypalEmail` | `*string` | Optional | used by merchants that implemented BraintreeBlue javaScript libraries on their own. We recommend using Maxio.js (formerly Chargify.js) instead. |
+| `PaymentMethodNonce` | `*string` | Optional | used by merchants that implemented BraintreeBlue javaScript libraries on their own. We recommend using Maxio.js (formerly Chargify.js) instead. |
 | `GatewayHandle` | `*string` | Optional | This attribute is only available if MultiGateway feature is enabled for your Site. This feature is in the Private Beta currently. gateway_handle is used to directly select a gateway where a payment profile will be stored in. Every connected gateway must have a unique gateway handle specified. Read [Multigateway description](https://chargify.zendesk.com/hc/en-us/articles/4407761759643#connecting-with-multiple-gateways) to learn more about new concepts that MultiGateway introduces and the default behavior when this attribute is not passed. |
 | `Cvv` | `*string` | Optional | The 3- or 4-digit Card Verification Value. This value is merely passed through to the payment gateway. |
 | `BankName` | `*string` | Optional | (Required when creating with ACH or GoCardless, optional with Stripe Direct Debit). The name of the bank where the customerʼs account resides |

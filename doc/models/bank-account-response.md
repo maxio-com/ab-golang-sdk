@@ -16,7 +16,6 @@
 ```json
 {
   "payment_profile": {
-    "masked_bank_account_number": "masked_bank_account_number6",
     "payment_type": "bank_account",
     "verified": false,
     "id": 44,
