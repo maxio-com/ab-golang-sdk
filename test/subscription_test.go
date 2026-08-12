@@ -77,9 +77,11 @@ func (s *SubscriptionSuite) TestSubscriptionCreate() {
 				s.Equal(http.StatusOK, listResp.Response.StatusCode)
 
 				prices := *component.Prices.Value()
+				unitBalance, isNumber := listResp.Data[0].Component.UnitBalance.AsNumber()
+				s.True(isNumber)
 				s.Equal(
 					*prices[0].StartingQuantity,
-					*listResp.Data[0].Component.UnitBalance,
+					*unitBalance,
 				)
 
 				readSubResp, err := s.client.SubscriptionsController().ReadSubscription(
