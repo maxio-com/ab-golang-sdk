@@ -12,7 +12,7 @@ type CreateMetafield struct {
     Name                 *string                `json:"name,omitempty"`
     // Warning: When updating a metafield's scope attribute, all scope attributes must be passed. Partially complete scope attributes will override the existing settings.
     Scope                *MetafieldScope        `json:"scope,omitempty"`
-    // Indicates the type of metafield. A text metafield allows any string value. Dropdown and radio metafields have a set of values that can be selected.  Defaults to 'text'.
+    // Indicates the type of metafield. A text metafield allows any string value. Dropdown and radio metafields have a set of values that can be selected. Defaults to 'text'.
     InputType            *MetafieldInput        `json:"input_type,omitempty"`
     // Only applicable when input_type is radio or dropdown. Empty strings will not be submitted.
     Enum                 []string               `json:"enum,omitempty"`

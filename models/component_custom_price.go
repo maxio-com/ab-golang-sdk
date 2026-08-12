@@ -14,13 +14,13 @@ import (
 type ComponentCustomPrice struct {
     // Whether or not the price point includes tax
     TaxIncluded              *bool                            `json:"tax_included,omitempty"`
-    // Omit for On/Off components
+    // Omit for On/Off components.
     PricingScheme            *PricingScheme                   `json:"pricing_scheme,omitempty"`
-    // The numerical interval. i.e. an interval of ‘30’ coupled with an interval_unit of day would mean this component price point would renew every 30 days. This property is only available for sites with Multifrequency enabled.
+    // The numerical interval. e.g., an interval of ‘30’ coupled with an interval_unit of day would mean this component price point would renew every 30 days. This property is only available for sites with Multifrequency enabled.
     Interval                 *int                             `json:"interval,omitempty"`
     // A string representing the interval unit for this component price point, either month or day. This property is only available for sites with Multifrequency enabled.
     IntervalUnit             Optional[IntervalUnit]           `json:"interval_unit"`
-    // Optional id of the price point to use for list price calculations when
+    // (Optional) Id of the price point to use for list price calculations when
     // overriding the customer price.
     ListPricePointId         Optional[int]                    `json:"list_price_point_id"`
     // When true, list price calculations will continue to use the default price point even when a `custom_price` is supplied.

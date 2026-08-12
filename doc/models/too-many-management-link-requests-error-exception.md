@@ -11,14 +11,16 @@
 |  --- | --- | --- | --- |
 | `Errors` | [`models.TooManyManagementLinkRequests`](../../doc/models/too-many-management-link-requests.md) | Required | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "errors": {
-    "error": "error4",
-    "new_link_available_at": "2016-03-13T12:52:32.123Z"
-  }
+```go
+if err != nil {
+    switch typedErr := err.(type) {
+    case *errors.TooManyManagementLinkRequestsErrorException:
+        log.Fatalln(typedErr)
+    default:
+        log.Fatalln(err)
+    }
 }
 ```
 

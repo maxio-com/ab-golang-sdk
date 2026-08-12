@@ -13,13 +13,22 @@
 | `GatewayTransactionId` | `int` | Required | - |
 | `ProductId` | `int` | Required | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "refund_id": 12,
-  "gateway_transaction_id": 182,
-  "product_id": 168
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    refundSuccess := models.RefundSuccess{
+        RefundId:             34,
+        GatewayTransactionId: 160,
+        ProductId:            190,
+    }
+
 }
 ```
 

@@ -11,11 +11,20 @@
 |  --- | --- | --- | --- |
 | `Customer` | `*string` | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "customer": "customer8"
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    customerError := models.CustomerError{
+        Customer:             models.ToPointer("customer8"),
+    }
+
 }
 ```
 

@@ -14,14 +14,23 @@
 | `Kind` | `*string` | Optional | - |
 | `On` | `*string` | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "component_id": 188,
-  "message": "message0",
-  "kind": "kind8",
-  "on": "on0"
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    componentAllocationErrorItem := models.ComponentAllocationErrorItem{
+        ComponentId:          models.ToPointer(122),
+        Message:              models.ToPointer("message8"),
+        Kind:                 models.ToPointer("kind6"),
+        On:                   models.ToPointer("on8"),
+    }
+
 }
 ```
 

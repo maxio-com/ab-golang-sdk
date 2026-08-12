@@ -20,3 +20,18 @@
 | `OPENBALANCE` |
 | `EXPIRESAT` |
 
+## Example
+
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    subscriptionSort := models.SubscriptionSort_TOTALPAYMENTS
+
+}
+```
+

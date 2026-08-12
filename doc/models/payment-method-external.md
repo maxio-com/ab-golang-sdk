@@ -14,14 +14,23 @@
 | `Memo` | `*string` | Required | - |
 | `Type` | [`models.InvoiceEventPaymentMethod`](../../doc/models/invoice-event-payment-method.md) | Required | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "details": "details4",
-  "kind": "kind2",
-  "memo": "memo8",
-  "type": "external"
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    paymentMethodExternal := models.PaymentMethodExternal{
+        Details:              models.ToPointer("details0"),
+        Kind:                 "kind8",
+        Memo:                 models.ToPointer("memo4"),
+        Type:                 models.InvoiceEventPaymentMethod_EXTERNAL,
+    }
+
 }
 ```
 

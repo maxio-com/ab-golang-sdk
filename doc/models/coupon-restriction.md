@@ -15,15 +15,24 @@
 | `Name` | `*string` | Optional | - |
 | `Handle` | `models.Optional[string]` | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "id": 180,
-  "item_type": "Component",
-  "item_id": 184,
-  "name": "name4",
-  "handle": "handle0"
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    couponRestriction := models.CouponRestriction{
+        Id:                   models.ToPointer(66),
+        ItemType:             models.ToPointer(models.RestrictionType_COMPONENT),
+        ItemId:               models.ToPointer(214),
+        Name:                 models.ToPointer("name0"),
+        Handle:               models.NewOptional(models.ToPointer("handle6")),
+    }
+
 }
 ```
 

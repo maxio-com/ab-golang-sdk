@@ -21,15 +21,24 @@
 | `DecimalQuantity` | `*string` | Optional | - |
 | `CreatedAt` | `*time.Time` | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "id": 146,
-  "subscription_id": 0,
-  "subscription_renewal_configuration_id": 156,
-  "item_id": 38,
-  "item_type": "item_type4"
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    scheduledRenewalConfigurationItem := models.ScheduledRenewalConfigurationItem{
+        Id:                                 models.ToPointer(54),
+        SubscriptionId:                     models.ToPointer(164),
+        SubscriptionRenewalConfigurationId: models.ToPointer(64),
+        ItemId:                             models.ToPointer(202),
+        ItemType:                           models.ToPointer("item_type0"),
+    }
+
 }
 ```
 

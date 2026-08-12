@@ -13,13 +13,22 @@
 | `Price` | `*float64` | Optional | Price for the price level in this currency |
 | `PriceId` | `*int` | Optional | ID of the price that this corresponds with |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "currency": "currency2",
-  "price": 10.4,
-  "price_id": 54
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    createCurrencyPrice := models.CreateCurrencyPrice{
+        Currency:             models.ToPointer("currency2"),
+        Price:                models.ToPointer(float64(54.8)),
+        PriceId:              models.ToPointer(142),
+    }
+
 }
 ```
 

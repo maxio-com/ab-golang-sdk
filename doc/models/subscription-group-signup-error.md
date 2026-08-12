@@ -16,67 +16,95 @@
 | `PaymentProfileId` | `*string` | Optional | - |
 | `PayerId` | `*string` | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "subscriptions": {
-    "key0": {
-      "product": [
-        "product9"
-      ],
-      "product_price_point_id": [
-        "product_price_point_id7"
-      ],
-      "payment_profile": [
-        "payment_profile2"
-      ],
-      "payment_profile.chargify_token": [
-        "payment_profile.chargify_token6"
-      ],
-      "base": [
-        "base5",
-        "base6"
-      ]
-    },
-    "key1": {
-      "product": [
-        "product9"
-      ],
-      "product_price_point_id": [
-        "product_price_point_id7"
-      ],
-      "payment_profile": [
-        "payment_profile2"
-      ],
-      "payment_profile.chargify_token": [
-        "payment_profile.chargify_token6"
-      ],
-      "base": [
-        "base5",
-        "base6"
-      ]
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    subscriptionGroupSignupError := models.SubscriptionGroupSignupError{
+        Subscriptions:        map[string]models.SubscriptionGroupSubscriptionError{
+            "key0": models.SubscriptionGroupSubscriptionError{
+                Product:                       []string{
+                    "product9",
+                },
+                ProductPricePointId:           []string{
+                    "product_price_point_id7",
+                },
+                PaymentProfile:                []string{
+                    "payment_profile2",
+                },
+                PaymentProfileChargifyToken:   []string{
+                    "payment_profile.chargify_token6",
+                },
+                Base:                          []string{
+                    "base5",
+                    "base6",
+                },
+            },
+            "key1": models.SubscriptionGroupSubscriptionError{
+                Product:                       []string{
+                    "product9",
+                },
+                ProductPricePointId:           []string{
+                    "product_price_point_id7",
+                },
+                PaymentProfile:                []string{
+                    "payment_profile2",
+                },
+                PaymentProfileChargifyToken:   []string{
+                    "payment_profile.chargify_token6",
+                },
+                Base:                          []string{
+                    "base5",
+                    "base6",
+                },
+            },
+            "key2": models.SubscriptionGroupSubscriptionError{
+                Product:                       []string{
+                    "product9",
+                },
+                ProductPricePointId:           []string{
+                    "product_price_point_id7",
+                },
+                PaymentProfile:                []string{
+                    "payment_profile2",
+                },
+                PaymentProfileChargifyToken:   []string{
+                    "payment_profile.chargify_token6",
+                },
+                Base:                          []string{
+                    "base5",
+                    "base6",
+                },
+            },
+        },
+        PayerReference:       models.ToPointer("payer_reference8"),
+        Payer:                models.ToPointer(models.PayerError{
+            LastName:             []string{
+                "last_name5",
+                "last_name6",
+            },
+            FirstName:            []string{
+                "first_name8",
+            },
+            Email:                []string{
+                "email0",
+                "email9",
+            },
+        }),
+        SubscriptionGroup:    []string{
+            "subscription_group3",
+            "subscription_group4",
+            "subscription_group5",
+        },
+        PaymentProfileId:     models.ToPointer("payment_profile_id4"),
     }
-  },
-  "payer_reference": "payer_reference0",
-  "payer": {
-    "last_name": [
-      "last_name5",
-      "last_name6"
-    ],
-    "first_name": [
-      "first_name8"
-    ],
-    "email": [
-      "email0",
-      "email9"
-    ]
-  },
-  "subscription_group": [
-    "subscription_group1",
-    "subscription_group2"
-  ],
-  "payment_profile_id": "payment_profile_id2"
+
 }
 ```
 

@@ -19,25 +19,34 @@
 | `TrialPriceInCents` | [`*models.SubscriptionCustomPriceTrialPriceInCents`](../../doc/models/containers/subscription-custom-price-trial-price-in-cents.md) | Optional | This is a container for one-of cases. |
 | `TrialInterval` | [`*models.SubscriptionCustomPriceTrialInterval`](../../doc/models/containers/subscription-custom-price-trial-interval.md) | Optional | This is a container for one-of cases. |
 | `TrialIntervalUnit` | [`*models.IntervalUnit`](../../doc/models/interval-unit.md) | Optional | (Optional) |
-| `TrialType` | [`models.Optional[models.TrialType]`](../../doc/models/trial-type.md) | Optional | Indicates how a trial is handled when the trail period ends and there is no credit card on file. For `no_obligation`, the subscription transitions to a Trial Ended state. Maxio will not send any emails or statements. For `payment_expected`, the subscription transitions to a Past Due state. Maxio will send normal dunning emails and statements according to your other settings. |
+| `TrialType` | [`models.Optional[models.TrialType]`](../../doc/models/trial-type.md) | Optional | Indicates how a trial is handled when the trial period ends and there is no credit card on file. For `no_obligation`, the subscription transitions to a Trial Ended state. Maxio will not send any emails or statements. For `payment_expected`, the subscription transitions to a Past Due state. Maxio will send normal dunning emails and statements according to your other settings. |
 | `InitialChargeInCents` | [`*models.SubscriptionCustomPriceInitialChargeInCents`](../../doc/models/containers/subscription-custom-price-initial-charge-in-cents.md) | Optional | This is a container for one-of cases. |
 | `InitialChargeAfterTrial` | `*bool` | Optional | (Optional) |
 | `ExpirationInterval` | [`*models.SubscriptionCustomPriceExpirationInterval`](../../doc/models/containers/subscription-custom-price-expiration-interval.md) | Optional | This is a container for one-of cases. |
 | `ExpirationIntervalUnit` | [`models.Optional[models.ExpirationIntervalUnit]`](../../doc/models/expiration-interval-unit.md) | Optional | (Optional) |
 | `TaxIncluded` | `*bool` | Optional | (Optional) |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "name": "name4",
-  "handle": "handle0",
-  "price_in_cents": "String3",
-  "interval": "String3",
-  "interval_unit": "day",
-  "trial_price_in_cents": "String3",
-  "trial_interval": "String5",
-  "trial_interval_unit": "day"
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    subscriptionCustomPrice := models.SubscriptionCustomPrice{
+        Name:                    models.ToPointer("name2"),
+        Handle:                  models.ToPointer("handle8"),
+        PriceInCents:            models.SubscriptionCustomPricePriceInCentsContainer.FromString("String5"),
+        Interval:                models.SubscriptionCustomPriceIntervalContainer.FromString("String1"),
+        IntervalUnit:            models.ToPointer(models.IntervalUnit_DAY),
+        TrialPriceInCents:       models.ToPointer(models.SubscriptionCustomPriceTrialPriceInCentsContainer.FromString("String5")),
+        TrialInterval:           models.ToPointer(models.SubscriptionCustomPriceTrialIntervalContainer.FromString("String9")),
+        TrialIntervalUnit:       models.ToPointer(models.IntervalUnit_DAY),
+    }
+
 }
 ```
 

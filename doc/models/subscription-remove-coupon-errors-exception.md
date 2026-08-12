@@ -11,13 +11,16 @@
 |  --- | --- | --- | --- |
 | `Subscription` | `[]string` | Required | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "subscription": [
-    "subscription0"
-  ]
+```go
+if err != nil {
+    switch typedErr := err.(type) {
+    case *errors.SubscriptionRemoveCouponErrorsException:
+        log.Fatalln(typedErr)
+    default:
+        log.Fatalln(err)
+    }
 }
 ```
 

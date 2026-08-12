@@ -10,7 +10,7 @@ import (
 )
 
 // CreateOrUpdateEndpoint represents a CreateOrUpdateEndpoint struct.
-// Used to Create or Update Endpoint
+// Used to Create or Update Endpoint.
 type CreateOrUpdateEndpoint struct {
     Url                  string                 `json:"url"`
     WebhookSubscriptions []WebhookSubscription  `json:"webhook_subscriptions"`

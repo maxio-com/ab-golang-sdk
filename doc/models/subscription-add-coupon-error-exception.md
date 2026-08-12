@@ -14,25 +14,16 @@
 | `CouponCodes` | `[]string` | Optional | - |
 | `Subscription` | `[]string` | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "codes": [
-    "codes6",
-    "codes7",
-    "codes8"
-  ],
-  "coupon_code": [
-    "coupon_code8",
-    "coupon_code7"
-  ],
-  "coupon_codes": [
-    "coupon_codes2"
-  ],
-  "subscription": [
-    "subscription8"
-  ]
+```go
+if err != nil {
+    switch typedErr := err.(type) {
+    case *errors.SubscriptionAddCouponErrorException:
+        log.Fatalln(typedErr)
+    default:
+        log.Fatalln(err)
+    }
 }
 ```
 

@@ -19,7 +19,16 @@ One of the following: Business Software, Consumer Software, Digital Services, Ph
 
 ## Example
 
-```
-Business Software
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    itemCategory := models.ItemCategory_OTHER
+
+}
 ```
 

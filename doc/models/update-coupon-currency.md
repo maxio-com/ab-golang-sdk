@@ -12,12 +12,21 @@
 | `Currency` | `string` | Required | ISO code for the site defined currency. |
 | `Price` | `int` | Required | Price for the given currency. |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "currency": "currency4",
-  "price": 146
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    updateCouponCurrency := models.UpdateCouponCurrency{
+        Currency:             "currency4",
+        Price:                100,
+    }
+
 }
 ```
 

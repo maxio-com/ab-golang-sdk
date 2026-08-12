@@ -8,7 +8,7 @@ import (
 )
 
 // CalendarBilling represents a CalendarBilling struct.
-// (Optional). Cannot be used when also specifying next_billing_at
+// (Optional). Cannot be used when also specifying next_billing_at.
 type CalendarBilling struct {
     // A day of month that subscription will be processed on. Can be 1 up to 28 or 'end'.
     SnapDay                    *CalendarBillingSnapDay `json:"snap_day,omitempty"`

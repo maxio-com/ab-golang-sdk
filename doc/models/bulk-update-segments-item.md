@@ -13,19 +13,28 @@
 | `PricingScheme` | [`models.PricingScheme`](../../doc/models/pricing-scheme.md) | Required | The identifier for the pricing scheme. See [Product Components](https://help.chargify.com/products/product-components.html) for an overview of pricing schemes. |
 | `Prices` | [`[]models.CreateOrUpdateSegmentPrice`](../../doc/models/create-or-update-segment-price.md) | Required | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "id": 180,
-  "pricing_scheme": "per_unit",
-  "prices": [
-    {
-      "starting_quantity": 64,
-      "ending_quantity": 38,
-      "unit_price": "String3"
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    bulkUpdateSegmentsItem := models.BulkUpdateSegmentsItem{
+        Id:                   220,
+        PricingScheme:        models.PricingScheme_PERUNIT,
+        Prices:               []models.CreateOrUpdateSegmentPrice{
+            models.CreateOrUpdateSegmentPrice{
+                StartingQuantity:     models.ToPointer(64),
+                EndingQuantity:       models.ToPointer(38),
+                UnitPrice:            models.CreateOrUpdateSegmentPriceUnitPriceContainer.FromString("String3"),
+            },
+        },
     }
-  ]
+
 }
 ```
 

@@ -19,15 +19,24 @@
 | `PrevQuantity` | `*int` | Optional | - |
 | `Recurring` | `*bool` | Optional | When `true`, the line item's MRR value will contribute to the `plan` breakout. When `false`, the line item contributes to the `usage` breakout. |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "product_id": 156,
-  "component_id": 68,
-  "price_point_id": 164,
-  "name": "name6",
-  "mrr": 154
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    movementLineItem := models.MovementLineItem{
+        ProductId:            models.ToPointer(146),
+        ComponentId:          models.ToPointer(58),
+        PricePointId:         models.ToPointer(82),
+        Name:                 models.ToPointer("name8"),
+        Mrr:                  models.ToPointer(92),
+    }
+
 }
 ```
 

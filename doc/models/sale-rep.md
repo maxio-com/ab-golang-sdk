@@ -15,30 +15,46 @@
 | `TestMode` | `*bool` | Optional | - |
 | `Subscriptions` | [`[]models.SaleRepSubscription`](../../doc/models/sale-rep-subscription.md) | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "id": 18,
-  "full_name": "full_name0",
-  "subscriptions_count": 162,
-  "test_mode": false,
-  "subscriptions": [
-    {
-      "id": 202,
-      "site_name": "site_name8",
-      "subscription_url": "subscription_url2",
-      "customer_name": "customer_name8",
-      "created_at": "created_at4"
-    },
-    {
-      "id": 202,
-      "site_name": "site_name8",
-      "subscription_url": "subscription_url2",
-      "customer_name": "customer_name8",
-      "created_at": "created_at4"
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    saleRep := models.SaleRep{
+        Id:                   models.ToPointer(78),
+        FullName:             models.ToPointer("full_name0"),
+        SubscriptionsCount:   models.ToPointer(102),
+        TestMode:             models.ToPointer(false),
+        Subscriptions:        []models.SaleRepSubscription{
+            models.SaleRepSubscription{
+                Id:                   models.ToPointer(202),
+                SiteName:             models.ToPointer("site_name8"),
+                SubscriptionUrl:      models.ToPointer("subscription_url2"),
+                CustomerName:         models.ToPointer("customer_name8"),
+                CreatedAt:            models.ToPointer("created_at4"),
+            },
+            models.SaleRepSubscription{
+                Id:                   models.ToPointer(202),
+                SiteName:             models.ToPointer("site_name8"),
+                SubscriptionUrl:      models.ToPointer("subscription_url2"),
+                CustomerName:         models.ToPointer("customer_name8"),
+                CreatedAt:            models.ToPointer("created_at4"),
+            },
+            models.SaleRepSubscription{
+                Id:                   models.ToPointer(202),
+                SiteName:             models.ToPointer("site_name8"),
+                SubscriptionUrl:      models.ToPointer("subscription_url2"),
+                CustomerName:         models.ToPointer("customer_name8"),
+                CreatedAt:            models.ToPointer("created_at4"),
+            },
+        },
     }
-  ]
+
 }
 ```
 

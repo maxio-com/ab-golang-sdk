@@ -11,17 +11,26 @@
 |  --- | --- | --- | --- |
 | `PrepaidConfiguration` | [`models.PrepaidConfiguration`](../../doc/models/prepaid-configuration.md) | Required | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "prepaid_configuration": {
-    "id": 142,
-    "initial_funding_amount_in_cents": 74,
-    "replenish_to_amount_in_cents": 76,
-    "auto_replenish": false,
-    "replenish_threshold_amount_in_cents": 20
-  }
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    prepaidConfigurationResponse := models.PrepaidConfigurationResponse{
+        PrepaidConfiguration: models.PrepaidConfiguration{
+            Id:                              models.ToPointer(142),
+            InitialFundingAmountInCents:     models.ToPointer(int64(74)),
+            ReplenishToAmountInCents:        models.ToPointer(int64(76)),
+            AutoReplenish:                   models.ToPointer(false),
+            ReplenishThresholdAmountInCents: models.ToPointer(int64(20)),
+        },
+    }
+
 }
 ```
 

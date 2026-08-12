@@ -11,13 +11,24 @@
 |  --- | --- | --- | --- |
 | `Ids` | `[]int64` | Required | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "ids": [
-    15
-  ]
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    replayWebhooksRequest := models.ReplayWebhooksRequest{
+        Ids:                  []int64{
+            int64(209),
+            int64(210),
+            int64(211),
+        },
+    }
+
 }
 ```
 

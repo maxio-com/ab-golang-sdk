@@ -11,8 +11,8 @@ import (
 
 // ListSubscriptionGroupPrepayment represents a ListSubscriptionGroupPrepayment struct.
 type ListSubscriptionGroupPrepayment struct {
-    Prepayment           ListSubcriptionGroupPrepaymentItem `json:"prepayment"`
-    AdditionalProperties map[string]interface{}             `json:"_"`
+    Prepayment           ListSubscriptionGroupPrepaymentItem `json:"prepayment"`
+    AdditionalProperties map[string]interface{}              `json:"_"`
 }
 
 // String implements the fmt.Stringer interface for ListSubscriptionGroupPrepayment,
@@ -67,7 +67,7 @@ func (l *ListSubscriptionGroupPrepayment) UnmarshalJSON(input []byte) error {
 
 // tempListSubscriptionGroupPrepayment is a temporary struct used for validating the fields of ListSubscriptionGroupPrepayment.
 type tempListSubscriptionGroupPrepayment  struct {
-    Prepayment *ListSubcriptionGroupPrepaymentItem `json:"prepayment"`
+    Prepayment *ListSubscriptionGroupPrepaymentItem `json:"prepayment"`
 }
 
 func (l *tempListSubscriptionGroupPrepayment) validate() error {

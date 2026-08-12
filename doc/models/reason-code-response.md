@@ -11,17 +11,26 @@
 |  --- | --- | --- | --- |
 | `ReasonCode` | [`models.ReasonCode`](../../doc/models/reason-code.md) | Required | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "reason_code": {
-    "id": 240,
-    "site_id": 166,
-    "code": "code4",
-    "description": "description6",
-    "position": 14
-  }
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    reasonCodeResponse := models.ReasonCodeResponse{
+        ReasonCode:           models.ReasonCode{
+            Id:                   models.ToPointer(240),
+            SiteId:               models.ToPointer(166),
+            Code:                 models.ToPointer("code4"),
+            Description:          models.ToPointer("description6"),
+            Position:             models.ToPointer(14),
+        },
+    }
+
 }
 ```
 

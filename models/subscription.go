@@ -38,19 +38,19 @@ type Subscription struct {
     BalanceInCents                    *int64                            `json:"balance_in_cents,omitempty"`
     // Gives the total revenue from the subscription in the number of cents.
     TotalRevenueInCents               *int64                            `json:"total_revenue_in_cents,omitempty"`
-    // (Added Nov 5 2013) The recurring amount of the product (and version),currently subscribed. NOTE: this may differ from the current price of,the product, if you’ve changed the price of the product but haven’t,moved this subscription to a newer version.
+    // (Added Nov 5 2013) The recurring amount of the product (and version), currently subscribed. NOTE: this may differ from the current price of the product, if you’ve changed the price of the product but haven’t moved this subscription to a newer version.
     ProductPriceInCents               *int64                            `json:"product_price_in_cents,omitempty"`
     // The version of the product for the subscription. Note that this is a deprecated field kept for backwards-compatibility.
     ProductVersionNumber              *int                              `json:"product_version_number,omitempty"`
-    // Timestamp relating to the end of the current (recurring) period (i.e.,when the next regularly scheduled attempted charge will occur)
+    // Timestamp relating to the end of the current (recurring) period (i.e., when the next regularly scheduled attempted charge will occur)
     CurrentPeriodEndsAt               Optional[time.Time]               `json:"current_period_ends_at"`
-    // Timestamp that indicates when capture of payment will be tried or,retried. This value will usually track the current_period_ends_at, but,will diverge if a renewal payment fails and must be retried. In that,case, the current_period_ends_at will advance to the end of the next,period (time doesn’t stop because a payment was missed) but the,next_assessment_at will be scheduled for the auto-retry time (i.e. 24,hours in the future, in some cases)
+    // Timestamp that indicates when capture of payment will be tried or retried. This value will usually track the current_period_ends_at, but will diverge if a renewal payment fails and must be retried. In that case, the current_period_ends_at will advance to the end of the next period (time doesn’t stop because a payment was missed) but the next_assessment_at will be scheduled for the auto-retry time (e.g., 24 hours in the future, in some cases).
     NextAssessmentAt                  Optional[time.Time]               `json:"next_assessment_at"`
     // Timestamp for when the trial period (if any) began
     TrialStartedAt                    Optional[time.Time]               `json:"trial_started_at"`
     // Timestamp for when the trial period (if any) ended
     TrialEndedAt                      Optional[time.Time]               `json:"trial_ended_at"`
-    // Timestamp for when the subscription began (i.e. when it came out of trial, or when it began in the case of no trial)
+    // Timestamp for when the subscription began (i.e., when it came out of trial, or when it began in the case of no trial)
     ActivatedAt                       Optional[time.Time]               `json:"activated_at"`
     // Timestamp giving the expiration date of this subscription (if any)
     ExpiresAt                         Optional[time.Time]               `json:"expires_at"`
@@ -68,11 +68,11 @@ type Subscription struct {
     CanceledAt                        Optional[time.Time]               `json:"canceled_at"`
     // Timestamp relating to the start of the current (recurring) period
     CurrentPeriodStartedAt            Optional[time.Time]               `json:"current_period_started_at"`
-    // Only valid for webhook payloads The previous state for webhooks that have indicated a change in state. For normal API calls, this will always be the same as the state (current state)
+    // Only valid for webhook payloads The previous state for webhooks that have indicated a change in state. For normal API calls, this will always be the same as the state (current state).
     PreviousState                     *SubscriptionState                `json:"previous_state,omitempty"`
     // The ID of the transaction that generated the revenue
     SignupPaymentId                   *int                              `json:"signup_payment_id,omitempty"`
-    // The revenue, formatted as a string of decimal separated dollars and,cents, from the subscription signup ($50.00 would be formatted as,50.00)
+    // The revenue, formatted as a string of decimal separated dollars and cents, from the subscription signup ($50.00 would be formatted as 50.00)
     SignupRevenue                     *string                           `json:"signup_revenue,omitempty"`
     // Timestamp for when the subscription is currently set to cancel.
     DelayedCancelAt                   Optional[time.Time]               `json:"delayed_cancel_at"`
@@ -99,7 +99,7 @@ type Subscription struct {
     CouponUseCount                    Optional[int]                     `json:"coupon_use_count"`                              // Deprecated
     // (deprecated) How many times the subscription's single coupon may be used. This field has no replacement for multiple coupons.
     CouponUsesAllowed                 Optional[int]                     `json:"coupon_uses_allowed"`                           // Deprecated
-    // The churn reason code associated to a cancelled subscription.
+    // The churn reason code associated to a canceled subscription.
     ReasonCode                        Optional[string]                  `json:"reason_code"`
     // The date the subscription is scheduled to automatically resume from the on_hold state.
     AutomaticallyResumeAt             Optional[time.Time]               `json:"automatically_resume_at"`
@@ -124,13 +124,13 @@ type Subscription struct {
     NetTerms                          Optional[int]                     `json:"net_terms"`
     // For European sites subject to PSD2 and using 3D Secure, this can be used to reference a previous transaction for the customer. This will ensure the card will be charged successfully at renewal.
     StoredCredentialTransactionId     Optional[int]                     `json:"stored_credential_transaction_id"`
-    // The reference value (provided by your app) for the subscription istelf.
+    // The reference value (provided by your app) for the subscription itself.
     Reference                         Optional[string]                  `json:"reference"`
     // The timestamp of the most recent on hold action.
     OnHoldAt                          Optional[time.Time]               `json:"on_hold_at"`
-    // Boolean representing whether the subscription is prepaid and currently in dunning. Only returned for Relationship Invoicing sites with the feature enabled
+    // Boolean representing whether the subscription is prepaid and currently in dunning. Only returned for Relationship Invoicing sites with the feature enabled.
     PrepaidDunning                    *bool                             `json:"prepaid_dunning,omitempty"`
-    // Additional coupon data. To use this data you also have to include the following param in the request`include[]=coupons`.
+    // Additional coupon data. To use this data you also have to include the following param in the request: `include[]=coupons`.
     // Only in Read Subscription Endpoint.
     Coupons                           []SubscriptionIncludedCoupon      `json:"coupons,omitempty"`
     // Enable Communication Delay feature, making sure no communication (email or SMS) is sent to the Customer between 9PM and 8AM in time zone set by the `dunning_communication_delay_time_zone` attribute.

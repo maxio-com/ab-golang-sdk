@@ -11,18 +11,16 @@
 |  --- | --- | --- | --- |
 | `Errors` | [`*models.ProformaError`](../../doc/models/proforma-error.md) | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "errors": {
-    "subscription": {
-      "base": [
-        "base3",
-        "base4"
-      ]
+```go
+if err != nil {
+    switch typedErr := err.(type) {
+    case *errors.ProformaBadRequestErrorResponseException:
+        log.Fatalln(typedErr)
+    default:
+        log.Fatalln(err)
     }
-  }
 }
 ```
 

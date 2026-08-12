@@ -11,17 +11,26 @@
 |  --- | --- | --- | --- |
 | `ScheduledRenewalConfigurationItem` | [`*models.ScheduledRenewalConfigurationItem`](../../doc/models/scheduled-renewal-configuration-item.md) | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "scheduled_renewal_configuration_item": {
-    "id": 98,
-    "subscription_id": 208,
-    "subscription_renewal_configuration_id": 108,
-    "item_id": 246,
-    "item_type": "item_type2"
-  }
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    scheduledRenewalConfigurationItemResponse := models.ScheduledRenewalConfigurationItemResponse{
+        ScheduledRenewalConfigurationItem: models.ToPointer(models.ScheduledRenewalConfigurationItem{
+            Id:                                 models.ToPointer(98),
+            SubscriptionId:                     models.ToPointer(208),
+            SubscriptionRenewalConfigurationId: models.ToPointer(108),
+            ItemId:                             models.ToPointer(246),
+            ItemType:                           models.ToPointer("item_type2"),
+        }),
+    }
+
 }
 ```
 

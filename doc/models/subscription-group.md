@@ -16,24 +16,33 @@
 | `SubscriptionIds` | `[]int` | Optional | - |
 | `CreatedAt` | `*time.Time` | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "uid": "uid4",
-  "customer_id": 36,
-  "payment_profile": {
-    "id": 44,
-    "first_name": "first_name4",
-    "last_name": "last_name2",
-    "masked_card_number": "masked_card_number2"
-  },
-  "payment_collection_method": "prepaid",
-  "subscription_ids": [
-    146,
-    147,
-    148
-  ]
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    subscriptionGroup := models.SubscriptionGroup{
+        Uid:                     models.ToPointer("uid8"),
+        CustomerId:              models.ToPointer(78),
+        PaymentProfile:          models.ToPointer(models.SubscriptionGroupPaymentProfile{
+            Id:                   models.ToPointer(44),
+            FirstName:            models.ToPointer("first_name4"),
+            LastName:             models.ToPointer("last_name2"),
+            MaskedCardNumber:     models.ToPointer("masked_card_number2"),
+        }),
+        PaymentCollectionMethod: models.ToPointer(models.CollectionMethod_AUTOMATIC),
+        SubscriptionIds:         []int{
+            188,
+            189,
+            190,
+        },
+    }
+
 }
 ```
 

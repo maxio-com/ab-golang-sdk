@@ -19,13 +19,13 @@ type CreatePrepaidUsageComponentPricePoint struct {
     OveragePricing           OveragePricing                   `json:"overage_pricing"`
     // Whether to use the site level exchange rate or define your own prices for each currency if you have multiple currencies defined on the site.
     UseSiteExchangeRate      *bool                            `json:"use_site_exchange_rate,omitempty"`
-    // (only for prepaid usage components) Boolean which controls whether or not remaining units should be rolled over to the next period
+    // (only for prepaid usage components) Boolean which controls whether or not remaining units should be rolled over to the next period.
     RolloverPrepaidRemainder *bool                            `json:"rollover_prepaid_remainder,omitempty"`
-    // (only for prepaid usage components) Boolean which controls whether or not the allocated quantity should be renewed at the beginning of each period
+    // (only for prepaid usage components) Boolean which controls whether or not the allocated quantity should be renewed at the beginning of each period.
     RenewPrepaidAllocation   *bool                            `json:"renew_prepaid_allocation,omitempty"`
-    // (only for prepaid usage components where rollover_prepaid_remainder is true) The number of `expiration_interval_unit`s after which rollover amounts should expire
+    // (only for prepaid usage components where rollover_prepaid_remainder is true) The number of `expiration_interval_unit`s after which rollover amounts should expire.
     ExpirationInterval       *float64                         `json:"expiration_interval,omitempty"`
-    // (only for prepaid usage components where rollover_prepaid_remainder is true) A string representing the expiration interval unit for this component, either month or day
+    // (only for prepaid usage components where rollover_prepaid_remainder is true) A string representing the expiration interval unit for this component, either month or day.
     ExpirationIntervalUnit   Optional[ExpirationIntervalUnit] `json:"expiration_interval_unit"`
     AdditionalProperties     map[string]interface{}           `json:"_"`
 }

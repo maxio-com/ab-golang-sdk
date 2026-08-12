@@ -11,16 +11,16 @@
 |  --- | --- | --- | --- |
 | `Errors` | [`*models.SubscriptionGroupUpdateError`](../../doc/models/subscription-group-update-error.md) | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "errors": {
-    "members": [
-      "members2",
-      "members1"
-    ]
-  }
+```go
+if err != nil {
+    switch typedErr := err.(type) {
+    case *errors.SubscriptionGroupUpdateErrorResponseException:
+        log.Fatalln(typedErr)
+    default:
+        log.Fatalln(err)
+    }
 }
 ```
 

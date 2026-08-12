@@ -11,18 +11,27 @@
 |  --- | --- | --- | --- |
 | `Component` | [`models.Component`](../../doc/models/component.md) | Required | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "component": {
-    "item_category": "Business Software",
-    "id": 80,
-    "name": "name8",
-    "handle": "handle4",
-    "pricing_scheme": "per_unit",
-    "unit_name": "unit_name0"
-  }
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    componentResponse := models.ComponentResponse{
+        Component:            models.Component{
+            Id:                        models.ToPointer(80),
+            Name:                      models.ToPointer("name8"),
+            Handle:                    models.NewOptional(models.ToPointer("handle4")),
+            PricingScheme:             models.NewOptional(models.ToPointer(models.PricingScheme_PERUNIT)),
+            UnitName:                  models.ToPointer("unit_name0"),
+            ItemCategory:              models.NewOptional(models.ToPointer(models.ItemCategory_ENUMBUSINESSSOFTWARE)),
+        },
+    }
+
 }
 ```
 

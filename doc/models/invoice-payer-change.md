@@ -14,14 +14,23 @@
 | `Organization` | `*string` | Optional | - |
 | `Email` | `*string` | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "first_name": "first_name2",
-  "last_name": "last_name0",
-  "organization": "organization4",
-  "email": "email4"
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    invoicePayerChange := models.InvoicePayerChange{
+        FirstName:            models.ToPointer("first_name4"),
+        LastName:             models.ToPointer("last_name2"),
+        Organization:         models.ToPointer("organization2"),
+        Email:                models.ToPointer("email2"),
+    }
+
 }
 ```
 

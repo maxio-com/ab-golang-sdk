@@ -11,14 +11,23 @@
 |  --- | --- | --- | --- |
 | `Deduction` | [`models.DeductServiceCredit`](../../doc/models/deduct-service-credit.md) | Required | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "deduction": {
-    "amount": "String9",
-    "memo": "memo0"
-  }
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    deductServiceCreditRequest := models.DeductServiceCreditRequest{
+        Deduction:            models.DeductServiceCredit{
+            Amount:               models.DeductServiceCreditAmountContainer.FromString("String9"),
+            Memo:                 models.ToPointer("memo0"),
+        },
+    }
+
 }
 ```
 

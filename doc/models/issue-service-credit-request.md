@@ -11,14 +11,23 @@
 |  --- | --- | --- | --- |
 | `ServiceCredit` | [`models.IssueServiceCredit`](../../doc/models/issue-service-credit.md) | Required | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "service_credit": {
-    "amount": 31.42,
-    "memo": "memo0"
-  }
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    issueServiceCreditRequest := models.IssueServiceCreditRequest{
+        ServiceCredit:        models.IssueServiceCredit{
+            Amount:               models.IssueServiceCreditAmountContainer.FromPrecision(float64(31.42)),
+            Memo:                 models.ToPointer("memo0"),
+        },
+    }
+
 }
 ```
 

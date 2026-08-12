@@ -11,16 +11,25 @@
 |  --- | --- | --- | --- |
 | `Migration` | [`models.SubscriptionMigrationPreview`](../../doc/models/subscription-migration-preview.md) | Required | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "migration": {
-    "prorated_adjustment_in_cents": 196,
-    "charge_in_cents": 78,
-    "payment_due_in_cents": 250,
-    "credit_applied_in_cents": 210
-  }
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    subscriptionMigrationPreviewResponse := models.SubscriptionMigrationPreviewResponse{
+        Migration:            models.SubscriptionMigrationPreview{
+            ProratedAdjustmentInCents: models.ToPointer(int64(196)),
+            ChargeInCents:             models.ToPointer(int64(78)),
+            PaymentDueInCents:         models.ToPointer(int64(250)),
+            CreditAppliedInCents:      models.ToPointer(int64(210)),
+        },
+    }
+
 }
 ```
 

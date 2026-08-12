@@ -10,9 +10,9 @@ import (
 )
 
 // CreateOrUpdateEndpointRequest represents a CreateOrUpdateEndpointRequest struct.
-// Used to Create or Update Endpoint
+// Used to Create or Update Endpoint.
 type CreateOrUpdateEndpointRequest struct {
-    // Used to Create or Update Endpoint
+    // Used to Create or Update Endpoint.
     Endpoint             CreateOrUpdateEndpoint `json:"endpoint"`
     AdditionalProperties map[string]interface{} `json:"_"`
 }

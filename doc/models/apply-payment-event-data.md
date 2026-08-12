@@ -23,23 +23,41 @@ Example schema for an `apply_payment` event
 | `Prepayment` | `*bool` | Optional | - |
 | `External` | `*bool` | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "consolidation_level": "child",
-  "memo": "memo8",
-  "original_amount": "original_amount8",
-  "applied_amount": "applied_amount4",
-  "transaction_time": "2016-03-13T12:52:32.123Z",
-  "payment_method": {
-    "type": "apple_pay"
-  },
-  "transaction_id": 196,
-  "parent_invoice_number": 174,
-  "remaining_prepayment_amount": "remaining_prepayment_amount6",
-  "prepayment": false,
-  "external": false
+```go
+package main
+
+import (
+    "log"
+    "time"
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    parseTime := func(layout, value string, errCallback func(error)) time.Time {
+        dateTime, err := time.Parse(layout, value)
+        if err != nil {
+            errCallback(err) 
+       }
+        return dateTime
+    }
+    applyPaymentEventData := models.ApplyPaymentEventData{
+        ConsolidationLevel:        models.InvoiceConsolidationLevel_CHILD,
+        Memo:                      "memo0",
+        OriginalAmount:            "original_amount0",
+        AppliedAmount:             "applied_amount2",
+        TransactionTime:           parseTime(time.RFC3339, "2016-03-13T12:52:32.123Z", func(err error) { log.Fatalln(err) }),
+        PaymentMethod:             models.InvoiceEventPaymentContainer.FromPaymentMethodApplePay(models.PaymentMethodApplePay{
+            Type:                 models.InvoiceEventPaymentMethod_APPLEPAY,
+        }),
+        TransactionId:             models.ToPointer(142),
+        ParentInvoiceNumber:       models.NewOptional(models.ToPointer(228)),
+        RemainingPrepaymentAmount: models.NewOptional(models.ToPointer("remaining_prepayment_amount4")),
+        Prepayment:                models.ToPointer(false),
+        External:                  models.ToPointer(false),
+    }
+
 }
 ```
 

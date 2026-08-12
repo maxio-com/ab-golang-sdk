@@ -28,11 +28,15 @@ type CreateCustomer struct {
     Locale               *string                `json:"locale,omitempty"`
     VatNumber            *string                `json:"vat_number,omitempty"`
     TaxExempt            *bool                  `json:"tax_exempt,omitempty"`
+    // Whether surcharging is enabled for the customer. Defaults to `true` when omitted. Only applied on sites where surcharging control is enabled.
+    Surcharging          *bool                  `json:"surcharging,omitempty"`
     TaxExemptReason      *string                `json:"tax_exempt_reason,omitempty"`
     // The parent ID in Chargify if applicable. Parent is another Customer object.
     ParentId             Optional[int]          `json:"parent_id"`
     // The Salesforce ID of the customer
     SalesforceId         Optional[string]       `json:"salesforce_id"`
+    // The ID of the Branding Theme assigned to this customer as the customer's default Branding Theme. This customer-level Branding Theme is used when a subscription does not have its own subscription-level Branding Theme. Available only when Branding Themes are enabled for the site.
+    BrandingThemeId      Optional[int]          `json:"branding_theme_id"`
     AdditionalProperties map[string]interface{} `json:"_"`
 }
 
@@ -40,8 +44,8 @@ type CreateCustomer struct {
 // providing a human-readable string representation useful for logging, debugging or displaying information.
 func (c CreateCustomer) String() string {
     return fmt.Sprintf(
-    	"CreateCustomer[FirstName=%v, LastName=%v, Email=%v, CcEmails=%v, Organization=%v, Reference=%v, Address=%v, Address2=%v, City=%v, State=%v, Zip=%v, Country=%v, Phone=%v, Locale=%v, VatNumber=%v, TaxExempt=%v, TaxExemptReason=%v, ParentId=%v, SalesforceId=%v, AdditionalProperties=%v]",
-    	c.FirstName, c.LastName, c.Email, c.CcEmails, c.Organization, c.Reference, c.Address, c.Address2, c.City, c.State, c.Zip, c.Country, c.Phone, c.Locale, c.VatNumber, c.TaxExempt, c.TaxExemptReason, c.ParentId, c.SalesforceId, c.AdditionalProperties)
+    	"CreateCustomer[FirstName=%v, LastName=%v, Email=%v, CcEmails=%v, Organization=%v, Reference=%v, Address=%v, Address2=%v, City=%v, State=%v, Zip=%v, Country=%v, Phone=%v, Locale=%v, VatNumber=%v, TaxExempt=%v, Surcharging=%v, TaxExemptReason=%v, ParentId=%v, SalesforceId=%v, BrandingThemeId=%v, AdditionalProperties=%v]",
+    	c.FirstName, c.LastName, c.Email, c.CcEmails, c.Organization, c.Reference, c.Address, c.Address2, c.City, c.State, c.Zip, c.Country, c.Phone, c.Locale, c.VatNumber, c.TaxExempt, c.Surcharging, c.TaxExemptReason, c.ParentId, c.SalesforceId, c.BrandingThemeId, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreateCustomer.
@@ -50,7 +54,7 @@ func (c CreateCustomer) MarshalJSON() (
     []byte,
     error) {
     if err := DetectConflictingProperties(c.AdditionalProperties,
-        "first_name", "last_name", "email", "cc_emails", "organization", "reference", "address", "address_2", "city", "state", "zip", "country", "phone", "locale", "vat_number", "tax_exempt", "tax_exempt_reason", "parent_id", "salesforce_id"); err != nil {
+        "first_name", "last_name", "email", "cc_emails", "organization", "reference", "address", "address_2", "city", "state", "zip", "country", "phone", "locale", "vat_number", "tax_exempt", "surcharging", "tax_exempt_reason", "parent_id", "salesforce_id", "branding_theme_id"); err != nil {
         return []byte{}, err
     }
     return json.Marshal(c.toMap())
@@ -102,6 +106,9 @@ func (c CreateCustomer) toMap() map[string]any {
     if c.TaxExempt != nil {
         structMap["tax_exempt"] = c.TaxExempt
     }
+    if c.Surcharging != nil {
+        structMap["surcharging"] = c.Surcharging
+    }
     if c.TaxExemptReason != nil {
         structMap["tax_exempt_reason"] = c.TaxExemptReason
     }
@@ -119,6 +126,13 @@ func (c CreateCustomer) toMap() map[string]any {
             structMap["salesforce_id"] = nil
         }
     }
+    if c.BrandingThemeId.IsValueSet() {
+        if c.BrandingThemeId.Value() != nil {
+            structMap["branding_theme_id"] = c.BrandingThemeId.Value()
+        } else {
+            structMap["branding_theme_id"] = nil
+        }
+    }
     return structMap
 }
 
@@ -134,7 +148,7 @@ func (c *CreateCustomer) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "first_name", "last_name", "email", "cc_emails", "organization", "reference", "address", "address_2", "city", "state", "zip", "country", "phone", "locale", "vat_number", "tax_exempt", "tax_exempt_reason", "parent_id", "salesforce_id")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "first_name", "last_name", "email", "cc_emails", "organization", "reference", "address", "address_2", "city", "state", "zip", "country", "phone", "locale", "vat_number", "tax_exempt", "surcharging", "tax_exempt_reason", "parent_id", "salesforce_id", "branding_theme_id")
     if err != nil {
     	return err
     }
@@ -156,9 +170,11 @@ func (c *CreateCustomer) UnmarshalJSON(input []byte) error {
     c.Locale = temp.Locale
     c.VatNumber = temp.VatNumber
     c.TaxExempt = temp.TaxExempt
+    c.Surcharging = temp.Surcharging
     c.TaxExemptReason = temp.TaxExemptReason
     c.ParentId = temp.ParentId
     c.SalesforceId = temp.SalesforceId
+    c.BrandingThemeId = temp.BrandingThemeId
     return nil
 }
 
@@ -180,9 +196,11 @@ type tempCreateCustomer  struct {
     Locale          *string          `json:"locale,omitempty"`
     VatNumber       *string          `json:"vat_number,omitempty"`
     TaxExempt       *bool            `json:"tax_exempt,omitempty"`
+    Surcharging     *bool            `json:"surcharging,omitempty"`
     TaxExemptReason *string          `json:"tax_exempt_reason,omitempty"`
     ParentId        Optional[int]    `json:"parent_id"`
     SalesforceId    Optional[string] `json:"salesforce_id"`
+    BrandingThemeId Optional[int]    `json:"branding_theme_id"`
 }
 
 func (c *tempCreateCustomer) validate() error {

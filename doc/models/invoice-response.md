@@ -11,21 +11,39 @@
 |  --- | --- | --- | --- |
 | `Invoice` | [`models.Invoice`](../../doc/models/invoice.md) | Required | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "invoice": {
-    "issue_date": "2024-01-01",
-    "due_date": "2024-01-01",
-    "paid_date": "2024-01-01",
-    "public_url_expires_on": "2024-01-21",
-    "id": 166,
-    "uid": "uid6",
-    "site_id": 92,
-    "customer_id": 204,
-    "subscription_id": 20
-  }
+```go
+package main
+
+import (
+    "log"
+    "time"
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    parseTime := func(layout, value string, errCallback func(error)) time.Time {
+        dateTime, err := time.Parse(layout, value)
+        if err != nil {
+            errCallback(err) 
+       }
+        return dateTime
+    }
+    invoiceResponse := models.InvoiceResponse{
+        Invoice:              models.Invoice{
+            Id:                         models.ToPointer(int64(166)),
+            Uid:                        models.ToPointer("uid6"),
+            SiteId:                     models.ToPointer(92),
+            CustomerId:                 models.ToPointer(204),
+            SubscriptionId:             models.ToPointer(20),
+            IssueDate:                  models.ToPointer(parseTime(models.DEFAULT_DATE, "2024-01-01", func(err error) { log.Fatalln(err) })),
+            DueDate:                    models.ToPointer(parseTime(models.DEFAULT_DATE, "2024-01-01", func(err error) { log.Fatalln(err) })),
+            PaidDate:                   models.NewOptional(models.ToPointer(parseTime(models.DEFAULT_DATE, "2024-01-01", func(err error) { log.Fatalln(err) }))),
+            PublicUrlExpiresOn:         models.ToPointer(parseTime(models.DEFAULT_DATE, "2024-01-21", func(err error) { log.Fatalln(err) })),
+        },
+    }
+
 }
 ```
 

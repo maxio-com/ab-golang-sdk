@@ -17,15 +17,24 @@ Example schema for an `failed_payment` event
 | `PaymentMethod` | [`models.InvoicePaymentMethodType`](../../doc/models/invoice-payment-method-type.md) | Required | - |
 | `TransactionId` | `int` | Required | The transaction ID of the failed payment. |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "amount_in_cents": 128,
-  "applied_amount": 154,
-  "memo": "memo2",
-  "payment_method": "credit_card",
-  "transaction_id": 170
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    failedPaymentEventData := models.FailedPaymentEventData{
+        AmountInCents:        34,
+        AppliedAmount:        196,
+        Memo:                 models.NewOptional(models.ToPointer("memo0")),
+        PaymentMethod:        models.InvoicePaymentMethodType_ACH,
+        TransactionId:        76,
+    }
+
 }
 ```
 

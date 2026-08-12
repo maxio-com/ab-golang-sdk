@@ -19,14 +19,14 @@ type DebitNote struct {
     CustomerId             *int                   `json:"customer_id,omitempty"`
     // ID of the subscription that generated the debit note.
     SubscriptionId         *int                   `json:"subscription_id,omitempty"`
-    // A unique, identifier that appears on the debit note and in places it is referenced.
+    // A unique identifier that appears on the debit note and in places it is referenced.
     Number                 *int                   `json:"number,omitempty"`
     // A monotonically increasing number assigned to debit notes as they are created.
     SequenceNumber         *int                   `json:"sequence_number,omitempty"`
     // Unique identifier for the connected credit note. It is generated automatically by Chargify and has the prefix "cn_" followed by alphanumeric characters.
     // While the UID is long and not appropriate to show to customers, the number is usually shorter and consumable by the customer and the merchant alike.
     OriginCreditNoteUid    *string                `json:"origin_credit_note_uid,omitempty"`
-    // A unique, identifying string of the connected credit note.
+    // A unique identifying string of the connected credit note.
     OriginCreditNoteNumber *string                `json:"origin_credit_note_number,omitempty"`
     // Date the document was issued to the customer. This is the date that the document was made available for payment.
     // The format is "YYYY-MM-DD".
@@ -46,7 +46,7 @@ type DebitNote struct {
     Currency               *string                `json:"currency,omitempty"`
     // Information about the seller (merchant) listed on the masthead of the debit note.
     Seller                 *InvoiceSeller         `json:"seller,omitempty"`
-    // Information about the customer who is owner or recipient the debited subscription.
+    // Information about the customer who is the owner or recipient of the debited subscription.
     Customer               *InvoiceCustomer       `json:"customer,omitempty"`
     // The billing address of the debited subscription.
     BillingAddress         *InvoiceAddress        `json:"billing_address,omitempty"`

@@ -15,34 +15,76 @@ Used in place of `price_point_id` to define a custom price point unique to the s
 | `Prices` | [`[]models.Price`](../../doc/models/price.md) | Optional | - |
 | `OveragePricing` | [`[]models.ComponentCustomPrice`](../../doc/models/component-custom-price.md) | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "pricing_scheme": "per_unit",
-  "prices": [
-    {
-      "starting_quantity": 242,
-      "ending_quantity": 40,
-      "unit_price": 23.26
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    subscriptionGroupComponentCustomPrice := models.SubscriptionGroupComponentCustomPrice{
+        PricingScheme:        models.ToPointer(models.PricingScheme_STAIRSTEP),
+        Prices:               []models.Price{
+            models.Price{
+                StartingQuantity:     models.PriceStartingQuantityContainer.FromNumber(242),
+                EndingQuantity:       models.NewOptional(models.ToPointer(models.PriceEndingQuantityContainer.FromNumber(40))),
+                UnitPrice:            models.PriceUnitPriceContainer.FromPrecision(float64(23.26)),
+            },
+            models.Price{
+                StartingQuantity:     models.PriceStartingQuantityContainer.FromNumber(242),
+                EndingQuantity:       models.NewOptional(models.ToPointer(models.PriceEndingQuantityContainer.FromNumber(40))),
+                UnitPrice:            models.PriceUnitPriceContainer.FromPrecision(float64(23.26)),
+            },
+        },
+        OveragePricing:       []models.ComponentCustomPrice{
+            models.ComponentCustomPrice{
+                TaxIncluded:              models.ToPointer(false),
+                PricingScheme:            models.ToPointer(models.PricingScheme_STAIRSTEP),
+                Interval:                 models.ToPointer(230),
+                IntervalUnit:             models.NewOptional(models.ToPointer(models.IntervalUnit_DAY)),
+                ListPricePointId:         models.NewOptional(models.ToPointer(10)),
+                Prices:                   []models.Price{
+                    models.Price{
+                        StartingQuantity:     models.PriceStartingQuantityContainer.FromNumber(242),
+                        EndingQuantity:       models.NewOptional(models.ToPointer(models.PriceEndingQuantityContainer.FromNumber(40))),
+                        UnitPrice:            models.PriceUnitPriceContainer.FromPrecision(float64(23.26)),
+                    },
+                },
+            },
+            models.ComponentCustomPrice{
+                TaxIncluded:              models.ToPointer(false),
+                PricingScheme:            models.ToPointer(models.PricingScheme_STAIRSTEP),
+                Interval:                 models.ToPointer(230),
+                IntervalUnit:             models.NewOptional(models.ToPointer(models.IntervalUnit_DAY)),
+                ListPricePointId:         models.NewOptional(models.ToPointer(10)),
+                Prices:                   []models.Price{
+                    models.Price{
+                        StartingQuantity:     models.PriceStartingQuantityContainer.FromNumber(242),
+                        EndingQuantity:       models.NewOptional(models.ToPointer(models.PriceEndingQuantityContainer.FromNumber(40))),
+                        UnitPrice:            models.PriceUnitPriceContainer.FromPrecision(float64(23.26)),
+                    },
+                },
+            },
+            models.ComponentCustomPrice{
+                TaxIncluded:              models.ToPointer(false),
+                PricingScheme:            models.ToPointer(models.PricingScheme_STAIRSTEP),
+                Interval:                 models.ToPointer(230),
+                IntervalUnit:             models.NewOptional(models.ToPointer(models.IntervalUnit_DAY)),
+                ListPricePointId:         models.NewOptional(models.ToPointer(10)),
+                Prices:                   []models.Price{
+                    models.Price{
+                        StartingQuantity:     models.PriceStartingQuantityContainer.FromNumber(242),
+                        EndingQuantity:       models.NewOptional(models.ToPointer(models.PriceEndingQuantityContainer.FromNumber(40))),
+                        UnitPrice:            models.PriceUnitPriceContainer.FromPrecision(float64(23.26)),
+                    },
+                },
+            },
+        },
     }
-  ],
-  "overage_pricing": [
-    {
-      "tax_included": false,
-      "pricing_scheme": "stairstep",
-      "interval": 230,
-      "interval_unit": "day",
-      "list_price_point_id": 10,
-      "prices": [
-        {
-          "starting_quantity": 242,
-          "ending_quantity": 40,
-          "unit_price": 23.26
-        }
-      ]
-    }
-  ]
+
 }
 ```
 

@@ -11,26 +11,42 @@
 |  --- | --- | --- | --- |
 | `Invoices` | [`[]models.Invoice`](../../doc/models/invoice.md) | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "invoices": [
-    {
-      "id": 196,
-      "uid": "uid6",
-      "site_id": 122,
-      "customer_id": 234,
-      "subscription_id": 50
-    },
-    {
-      "id": 196,
-      "uid": "uid6",
-      "site_id": 122,
-      "customer_id": 234,
-      "subscription_id": 50
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    consolidatedInvoice := models.ConsolidatedInvoice{
+        Invoices:             []models.Invoice{
+            models.Invoice{
+                Id:                         models.ToPointer(int64(196)),
+                Uid:                        models.ToPointer("uid6"),
+                SiteId:                     models.ToPointer(122),
+                CustomerId:                 models.ToPointer(234),
+                SubscriptionId:             models.ToPointer(50),
+            },
+            models.Invoice{
+                Id:                         models.ToPointer(int64(196)),
+                Uid:                        models.ToPointer("uid6"),
+                SiteId:                     models.ToPointer(122),
+                CustomerId:                 models.ToPointer(234),
+                SubscriptionId:             models.ToPointer(50),
+            },
+            models.Invoice{
+                Id:                         models.ToPointer(int64(196)),
+                Uid:                        models.ToPointer("uid6"),
+                SiteId:                     models.ToPointer(122),
+                CustomerId:                 models.ToPointer(234),
+                SubscriptionId:             models.ToPointer(50),
+            },
+        },
     }
-  ]
+
 }
 ```
 

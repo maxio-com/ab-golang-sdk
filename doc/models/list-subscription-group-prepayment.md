@@ -9,19 +9,28 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `Prepayment` | [`models.ListSubcriptionGroupPrepaymentItem`](../../doc/models/list-subcription-group-prepayment-item.md) | Required | - |
+| `Prepayment` | [`models.ListSubscriptionGroupPrepaymentItem`](../../doc/models/list-subscription-group-prepayment-item.md) | Required | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "prepayment": {
-    "id": 38,
-    "subscription_group_uid": "subscription_group_uid2",
-    "amount_in_cents": 124,
-    "remaining_amount_in_cents": 182,
-    "details": "details8"
-  }
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    listSubscriptionGroupPrepayment := models.ListSubscriptionGroupPrepayment{
+        Prepayment:           models.ListSubscriptionGroupPrepaymentItem{
+            Id:                     models.ToPointer(38),
+            SubscriptionGroupUid:   models.ToPointer("subscription_group_uid2"),
+            AmountInCents:          models.ToPointer(int64(124)),
+            RemainingAmountInCents: models.ToPointer(int64(182)),
+            Details:                models.ToPointer("details8"),
+        },
+    }
+
 }
 ```
 

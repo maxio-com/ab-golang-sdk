@@ -11,20 +11,29 @@
 |  --- | --- | --- | --- |
 | `Customer` | [`models.CreateCustomer`](../../doc/models/create-customer.md) | Required | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "customer": {
-    "first_name": "first_name0",
-    "last_name": "last_name8",
-    "email": "email6",
-    "cc_emails": "cc_emails0",
-    "organization": "organization6",
-    "reference": "reference4",
-    "address": "address6",
-    "address_2": "address_24"
-  }
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    createCustomerRequest := models.CreateCustomerRequest{
+        Customer:             models.CreateCustomer{
+            FirstName:            "first_name0",
+            LastName:             "last_name8",
+            Email:                "email6",
+            CcEmails:             models.ToPointer("cc_emails0"),
+            Organization:         models.ToPointer("organization6"),
+            Reference:            models.ToPointer("reference4"),
+            Address:              models.ToPointer("address6"),
+            Address2:             models.ToPointer("address_24"),
+        },
+    }
+
 }
 ```
 

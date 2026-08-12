@@ -13,13 +13,13 @@ import (
 type CouponPayload struct {
     // Required when creating a new coupon. This name is not displayed to customers and is limited to 255 characters.
     Name                          *string                  `json:"name,omitempty"`
-    // Required when creating a new coupon. The code is limited to 255 characters. May contain uppercase alphanumeric characters and these special characters (which allow for email addresses to be used): “%”, “@”, “+”, “-”, “_”, and “.”
+    // Required when creating a new coupon. The code is limited to 255 characters. May contain uppercase alphanumeric characters and these special characters (which allow for email addresses to be used): “%”, “@”, “+”, “-”, “_”, and “.”.
     Code                          *string                  `json:"code,omitempty"`
     // Required when creating a new coupon. A description of the coupon that can be displayed to customers in transactions and on statements. The description is limited to 255 characters.
     Description                   *string                  `json:"description,omitempty"`
-    // Required when creating a new percentage coupon. Can't be used together with amount_in_cents. Percentage discount
+    // Required when creating a new percentage coupon. Can't be used together with amount_in_cents. Percentage discount.
     Percentage                    *CouponPayloadPercentage `json:"percentage,omitempty"`
-    // Required when creating a new flat amount coupon. Can't be used together with percentage. Flat USD discount
+    // Required when creating a new flat amount coupon. Can't be used together with percentage. Flat USD discount.
     AmountInCents                 *int64                   `json:"amount_in_cents,omitempty"`
     // If set to true, discount is not limited (credits will carry forward to next billing). Can't be used together with restrictions.
     AllowNegativeBalance          *bool                    `json:"allow_negative_balance,omitempty"`

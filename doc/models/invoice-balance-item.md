@@ -13,13 +13,22 @@
 | `Number` | `*string` | Optional | - |
 | `OutstandingAmount` | `*string` | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "uid": "uid8",
-  "number": "number6",
-  "outstanding_amount": "outstanding_amount6"
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    invoiceBalanceItem := models.InvoiceBalanceItem{
+        Uid:                  models.ToPointer("uid8"),
+        Number:               models.ToPointer("number6"),
+        OutstandingAmount:    models.ToPointer("outstanding_amount6"),
+    }
+
 }
 ```
 

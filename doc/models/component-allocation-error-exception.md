@@ -11,30 +11,16 @@
 |  --- | --- | --- | --- |
 | `Errors` | [`[]models.ComponentAllocationErrorItem`](../../doc/models/component-allocation-error-item.md) | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "errors": [
-    {
-      "component_id": 236,
-      "message": "message0",
-      "kind": "kind8",
-      "on": "on0"
-    },
-    {
-      "component_id": 236,
-      "message": "message0",
-      "kind": "kind8",
-      "on": "on0"
-    },
-    {
-      "component_id": 236,
-      "message": "message0",
-      "kind": "kind8",
-      "on": "on0"
+```go
+if err != nil {
+    switch typedErr := err.(type) {
+    case *errors.ComponentAllocationErrorException:
+        log.Fatalln(typedErr)
+    default:
+        log.Fatalln(err)
     }
-  ]
 }
 ```
 

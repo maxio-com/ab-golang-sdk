@@ -14,6 +14,8 @@ type CreateProductFamily struct {
     Name                 string                 `json:"name"`
     Handle               Optional[string]       `json:"handle"`
     Description          Optional[string]       `json:"description"`
+    // Whether surcharging applies to this product family. Defaults to `true` when omitted. Only applied on sites where surcharging is enabled.
+    Surcharging          *bool                  `json:"surcharging,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
 }
 
@@ -21,8 +23,8 @@ type CreateProductFamily struct {
 // providing a human-readable string representation useful for logging, debugging or displaying information.
 func (c CreateProductFamily) String() string {
     return fmt.Sprintf(
-    	"CreateProductFamily[Name=%v, Handle=%v, Description=%v, AdditionalProperties=%v]",
-    	c.Name, c.Handle, c.Description, c.AdditionalProperties)
+    	"CreateProductFamily[Name=%v, Handle=%v, Description=%v, Surcharging=%v, AdditionalProperties=%v]",
+    	c.Name, c.Handle, c.Description, c.Surcharging, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreateProductFamily.
@@ -31,7 +33,7 @@ func (c CreateProductFamily) MarshalJSON() (
     []byte,
     error) {
     if err := DetectConflictingProperties(c.AdditionalProperties,
-        "name", "handle", "description"); err != nil {
+        "name", "handle", "description", "surcharging"); err != nil {
         return []byte{}, err
     }
     return json.Marshal(c.toMap())
@@ -56,6 +58,9 @@ func (c CreateProductFamily) toMap() map[string]any {
             structMap["description"] = nil
         }
     }
+    if c.Surcharging != nil {
+        structMap["surcharging"] = c.Surcharging
+    }
     return structMap
 }
 
@@ -71,7 +76,7 @@ func (c *CreateProductFamily) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "name", "handle", "description")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "name", "handle", "description", "surcharging")
     if err != nil {
     	return err
     }
@@ -80,6 +85,7 @@ func (c *CreateProductFamily) UnmarshalJSON(input []byte) error {
     c.Name = *temp.Name
     c.Handle = temp.Handle
     c.Description = temp.Description
+    c.Surcharging = temp.Surcharging
     return nil
 }
 
@@ -88,6 +94,7 @@ type tempCreateProductFamily  struct {
     Name        *string          `json:"name"`
     Handle      Optional[string] `json:"handle"`
     Description Optional[string] `json:"description"`
+    Surcharging *bool            `json:"surcharging,omitempty"`
 }
 
 func (c *tempCreateProductFamily) validate() error {

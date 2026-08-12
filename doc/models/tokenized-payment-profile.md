@@ -14,14 +14,23 @@
 | `GatewayHandle` | `models.Optional[string]` | Optional | - |
 | `CustomerVaultToken` | `models.Optional[string]` | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "id": 72,
-  "vault_token": "vault_token2",
-  "gateway_handle": "gateway_handle8",
-  "customer_vault_token": "customer_vault_token8"
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    tokenizedPaymentProfile := models.TokenizedPaymentProfile{
+        Id:                   116,
+        VaultToken:           models.ToPointer("vault_token0"),
+        GatewayHandle:        models.NewOptional(models.ToPointer("gateway_handle0")),
+        CustomerVaultToken:   models.NewOptional(models.ToPointer("customer_vault_token6")),
+    }
+
 }
 ```
 

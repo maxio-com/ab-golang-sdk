@@ -12,12 +12,21 @@
 | `Deposit1InCents` | `*int64` | Optional | - |
 | `Deposit2InCents` | `*int64` | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "deposit_1_in_cents": 142,
-  "deposit_2_in_cents": 132
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    bankAccountVerification := models.BankAccountVerification{
+        Deposit1InCents:      models.ToPointer(int64(248)),
+        Deposit2InCents:      models.ToPointer(int64(10)),
+    }
+
 }
 ```
 

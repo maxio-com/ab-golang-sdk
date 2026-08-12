@@ -10,9 +10,9 @@ import (
 // CouponRequest represents a CouponRequest struct.
 type CouponRequest struct {
     Coupon               *CouponPayload         `json:"coupon,omitempty"`
-    // An object where the keys are product IDs or handles (prefixed with 'handle:'), and the values are booleans indicating if the coupon should be applicable to the product
+    // An object where the keys are product IDs or handles (prefixed with 'handle:'), and the values are booleans indicating if the coupon should be applicable to the product.
     RestrictedProducts   map[string]bool        `json:"restricted_products,omitempty"`
-    // An object where the keys are component IDs or handles (prefixed with 'handle:'), and the values are booleans indicating if the coupon should be applicable to the component
+    // An object where the keys are component IDs or handles (prefixed with 'handle:'), and the values are booleans indicating if the coupon should be applicable to the component.
     RestrictedComponents map[string]bool        `json:"restricted_components,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
 }

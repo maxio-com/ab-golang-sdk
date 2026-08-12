@@ -11,11 +11,20 @@
 |  --- | --- | --- | --- |
 | `Status` | `*string` | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "status": "status4"
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    replayWebhooksResponse := models.ReplayWebhooksResponse{
+        Status:               models.ToPointer("status6"),
+    }
+
 }
 ```
 

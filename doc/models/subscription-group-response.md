@@ -11,25 +11,34 @@
 |  --- | --- | --- | --- |
 | `SubscriptionGroup` | [`models.SubscriptionGroup`](../../doc/models/subscription-group.md) | Required | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "subscription_group": {
-    "uid": "uid8",
-    "customer_id": 220,
-    "payment_profile": {
-      "id": 44,
-      "first_name": "first_name4",
-      "last_name": "last_name2",
-      "masked_card_number": "masked_card_number2"
-    },
-    "payment_collection_method": "prepaid",
-    "subscription_ids": [
-      74,
-      75
-    ]
-  }
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    subscriptionGroupResponse := models.SubscriptionGroupResponse{
+        SubscriptionGroup:    models.SubscriptionGroup{
+            Uid:                     models.ToPointer("uid8"),
+            CustomerId:              models.ToPointer(220),
+            PaymentProfile:          models.ToPointer(models.SubscriptionGroupPaymentProfile{
+                Id:                   models.ToPointer(44),
+                FirstName:            models.ToPointer("first_name4"),
+                LastName:             models.ToPointer("last_name2"),
+                MaskedCardNumber:     models.ToPointer("masked_card_number2"),
+            }),
+            PaymentCollectionMethod: models.ToPointer(models.CollectionMethod_PREPAID),
+            SubscriptionIds:         []int{
+                74,
+                75,
+            },
+        },
+    }
+
 }
 ```
 

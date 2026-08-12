@@ -20,7 +20,7 @@ Input structure for the method ListProductsForProductFamily
 | `EndDate` | `*time.Time` | Optional | The end date (format YYYY-MM-DD) with which to filter the date_field. Returns products with a timestamp up to and including 11:59:59PM in your site’s time zone on the date specified. |
 | `StartDatetime` | `*time.Time` | Optional | The start date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns products with a timestamp at or after exact time provided in query. You can specify timezone in query - otherwise your site's time zone will be used. If provided, this parameter will be used instead of start_date. |
 | `EndDatetime` | `*time.Time` | Optional | The end date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns products with a timestamp at or before exact time provided in query. You can specify timezone in query - otherwise your site's time zone will be used. If provided, this parameter will be used instead of end_date. |
-| `IncludeArchived` | `*bool` | Optional | Include archived products |
+| `IncludeArchived` | `*bool` | Optional | Include archived products. |
 | `Include` | [`*models.ListProductsInclude`](../../doc/models/list-products-include.md) | Optional | Allows including additional data in the response. Use in query `include=prepaid_product_price_point`. |
 
 ## Example

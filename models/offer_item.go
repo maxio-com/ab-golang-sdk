@@ -17,7 +17,7 @@ type OfferItem struct {
     ComponentName        *string                `json:"component_name,omitempty"`
     PricePointName       *string                `json:"price_point_name,omitempty"`
     CurrencyPrices       []CurrencyPrice        `json:"currency_prices,omitempty"`
-    // The numerical interval. i.e. an interval of '30' coupled with an interval_unit of day would mean this component price point would renew every 30 days. This property is only available for sites with Multifrequency enabled.
+    // The numerical interval. e.g., an interval of '30' coupled with an interval_unit of day would mean this component price point would renew every 30 days. This property is only available for sites with Multifrequency enabled.
     Interval             *int                   `json:"interval,omitempty"`
     // A string representing the interval unit for this component price point, either month or day. This property is only available for sites with Multifrequency enabled.
     IntervalUnit         Optional[IntervalUnit] `json:"interval_unit"`

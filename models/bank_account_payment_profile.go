@@ -13,13 +13,13 @@ import (
 
 // BankAccountPaymentProfile represents a BankAccountPaymentProfile struct.
 type BankAccountPaymentProfile struct {
-    // The Chargify-assigned ID of the stored bank account. This value can be used as an input to payment_profile_id when creating a subscription, in order to re-use a stored payment profile for the same customer
+    // The Chargify-assigned ID of the stored bank account. This value can be used as an input to payment_profile_id when creating a subscription, in order to re-use a stored payment profile for the same customer.
     Id                      *int                   `json:"id,omitempty"`
     // The first name of the bank account holder
     FirstName               *string                `json:"first_name,omitempty"`
     // The last name of the bank account holder
     LastName                *string                `json:"last_name,omitempty"`
-    // The Chargify-assigned id for the customer record to which the bank account belongs
+    // The Chargify-assigned ID for the customer record to which the bank account belongs
     CustomerId              *int                   `json:"customer_id,omitempty"`
     // The vault that stores the payment profile with the provided vault_token. Use `bogus` for testing.
     CurrentVault            *BankAccountVault      `json:"current_vault,omitempty"`
@@ -41,16 +41,16 @@ type BankAccountPaymentProfile struct {
     BillingAddress2         Optional[string]       `json:"billing_address_2"`
     // The bank where the account resides
     BankName                *string                `json:"bank_name,omitempty"`
-    // A string representation of the stored bank routing number with all but the last 4 digits marked with X's (i.e. 'XXXXXXX1111'). payment_type will be bank_account
+    // A string representation of the stored bank routing number with all but the last 4 digits marked with X's (i.e. 'XXXXXXX1111'). payment_type will be bank_account.
     MaskedBankRoutingNumber Optional[string]       `json:"masked_bank_routing_number"`
-    // A string representation of the stored bank account number with all but the last 4 digits marked with X's (i.e. 'XXXXXXX1111')
+    // A string representation of the stored bank account number with all but the last 4 digits marked with X's (i.e. 'XXXXXXX1111').
     MaskedBankAccountNumber Optional[string]       `json:"masked_bank_account_number"`
     // Defaults to checking
     BankAccountType         *BankAccountType       `json:"bank_account_type,omitempty"`
     // Defaults to personal
     BankAccountHolderType   *BankAccountHolderType `json:"bank_account_holder_type,omitempty"`
     PaymentType             PaymentType            `json:"payment_type"`
-    // denotes whether a bank account has been verified by providing the amounts of two small deposits made into the account
+    // Denotes whether a bank account has been verified by providing the amounts of two small deposits made into the account.
     Verified                *bool                  `json:"verified,omitempty"`
     SiteGatewaySettingId    Optional[int]          `json:"site_gateway_setting_id"`
     GatewayHandle           Optional[string]       `json:"gateway_handle"`

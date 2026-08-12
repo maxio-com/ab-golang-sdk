@@ -11,14 +11,23 @@
 |  --- | --- | --- | --- |
 | `Attribute` | `[]string` | Required | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "attribute": [
-    "attribute6",
-    "attribute7"
-  ]
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    attributeError := models.AttributeError{
+        Attribute:            []string{
+            "attribute8",
+            "attribute7",
+        },
+    }
+
 }
 ```
 

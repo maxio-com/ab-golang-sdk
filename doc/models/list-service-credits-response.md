@@ -11,26 +11,42 @@
 |  --- | --- | --- | --- |
 | `ServiceCredits` | [`[]models.ServiceCredit1`](../../doc/models/service-credit-1.md) | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "service_credits": [
-    {
-      "id": 224,
-      "amount_in_cents": 54,
-      "ending_balance_in_cents": 94,
-      "entry_type": "Credit",
-      "memo": "memo2"
-    },
-    {
-      "id": 224,
-      "amount_in_cents": 54,
-      "ending_balance_in_cents": 94,
-      "entry_type": "Credit",
-      "memo": "memo2"
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    listServiceCreditsResponse := models.ListServiceCreditsResponse{
+        ServiceCredits:       []models.ServiceCredit1{
+            models.ServiceCredit1{
+                Id:                      models.ToPointer(224),
+                AmountInCents:           models.ToPointer(int64(54)),
+                EndingBalanceInCents:    models.ToPointer(int64(94)),
+                EntryType:               models.ToPointer(models.ServiceCreditType_CREDIT),
+                Memo:                    models.ToPointer("memo2"),
+            },
+            models.ServiceCredit1{
+                Id:                      models.ToPointer(224),
+                AmountInCents:           models.ToPointer(int64(54)),
+                EndingBalanceInCents:    models.ToPointer(int64(94)),
+                EntryType:               models.ToPointer(models.ServiceCreditType_CREDIT),
+                Memo:                    models.ToPointer("memo2"),
+            },
+            models.ServiceCredit1{
+                Id:                      models.ToPointer(224),
+                AmountInCents:           models.ToPointer(int64(54)),
+                EndingBalanceInCents:    models.ToPointer(int64(94)),
+                EntryType:               models.ToPointer(models.ServiceCreditType_CREDIT),
+                Memo:                    models.ToPointer("memo2"),
+            },
+        },
     }
-  ]
+
 }
 ```
 

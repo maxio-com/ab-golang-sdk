@@ -11,17 +11,26 @@
 |  --- | --- | --- | --- |
 | `Customer` | [`models.UpdateCustomer`](../../doc/models/update-customer.md) | Required | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "customer": {
-    "first_name": "first_name0",
-    "last_name": "last_name8",
-    "email": "email6",
-    "cc_emails": "cc_emails0",
-    "organization": "organization6"
-  }
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    updateCustomerRequest := models.UpdateCustomerRequest{
+        Customer:             models.UpdateCustomer{
+            FirstName:            models.ToPointer("first_name0"),
+            LastName:             models.ToPointer("last_name8"),
+            Email:                models.ToPointer("email6"),
+            CcEmails:             models.ToPointer("cc_emails0"),
+            Organization:         models.ToPointer("organization6"),
+        },
+    }
+
 }
 ```
 

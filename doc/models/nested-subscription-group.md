@@ -14,14 +14,23 @@
 | `PrimarySubscriptionId` | `*int` | Optional | The subscription ID of the primary within the group. Applicable to scheme 1. |
 | `Primary` | `*bool` | Optional | A boolean indicating whether the subscription is the primary in the group. Applicable to scheme 1. |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "uid": "uid2",
-  "scheme": 62,
-  "primary_subscription_id": 10,
-  "primary": false
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    nestedSubscriptionGroup := models.NestedSubscriptionGroup{
+        Uid:                   models.ToPointer("uid6"),
+        Scheme:                models.ToPointer(106),
+        PrimarySubscriptionId: models.ToPointer(54),
+        Primary:               models.ToPointer(false),
+    }
+
 }
 ```
 

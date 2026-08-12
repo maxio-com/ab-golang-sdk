@@ -51,7 +51,7 @@ value := models.PaymentProfileContainer.FromCreditCardPaymentProfile(models.Cred
     FirstName:            models.ToPointer("Test"),
     LastName:             models.ToPointer("Subscription"),
     MaskedCardNumber:     models.ToPointer("XXXX-XXXX-XXXX-1"),
-    CardType:             models.ToPointer(models.CardType_BOGUS),
+    CardType:             models.NewOptional(models.ToPointer(models.CardType_BOGUS)),
     ExpirationMonth:      models.ToPointer(1),
     ExpirationYear:       models.ToPointer(2022),
     CustomerId:           models.ToPointer(14543792),

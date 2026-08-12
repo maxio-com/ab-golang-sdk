@@ -11,17 +11,26 @@
 |  --- | --- | --- | --- |
 | `Segment` | [`*models.Segment`](../../doc/models/segment.md) | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "segment": {
-    "id": 118,
-    "component_id": 228,
-    "price_point_id": 4,
-    "event_based_billing_metric_id": 56,
-    "pricing_scheme": "stairstep"
-  }
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    segmentResponse := models.SegmentResponse{
+        Segment:              models.ToPointer(models.Segment{
+            Id:                        models.ToPointer(118),
+            ComponentId:               models.ToPointer(228),
+            PricePointId:              models.ToPointer(4),
+            EventBasedBillingMetricId: models.ToPointer(56),
+            PricingScheme:             models.ToPointer(models.PricingScheme_STAIRSTEP),
+        }),
+    }
+
 }
 ```
 

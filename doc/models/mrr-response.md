@@ -11,22 +11,31 @@
 |  --- | --- | --- | --- |
 | `Mrr` | [`models.MRR`](../../doc/models/mrr.md) | Required | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "mrr": {
-    "amount_in_cents": 198,
-    "amount_formatted": "amount_formatted6",
-    "currency": "currency4",
-    "currency_symbol": "currency_symbol2",
-    "breakouts": {
-      "plan_amount_in_cents": 254,
-      "plan_amount_formatted": "plan_amount_formatted0",
-      "usage_amount_in_cents": 106,
-      "usage_amount_formatted": "usage_amount_formatted8"
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    mrrResponse := models.MRRResponse{
+        Mrr:                  models.MRR{
+            AmountInCents:        models.ToPointer(int64(198)),
+            AmountFormatted:      models.ToPointer("amount_formatted6"),
+            Currency:             models.ToPointer("currency4"),
+            CurrencySymbol:       models.ToPointer("currency_symbol2"),
+            Breakouts:            models.ToPointer(models.Breakouts{
+                PlanAmountInCents:    models.ToPointer(int64(254)),
+                PlanAmountFormatted:  models.ToPointer("plan_amount_formatted0"),
+                UsageAmountInCents:   models.ToPointer(int64(106)),
+                UsageAmountFormatted: models.ToPointer("usage_amount_formatted8"),
+            }),
+        },
     }
-  }
+
 }
 ```
 

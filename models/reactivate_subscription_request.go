@@ -9,7 +9,7 @@ import (
 
 // ReactivateSubscriptionRequest represents a ReactivateSubscriptionRequest struct.
 type ReactivateSubscriptionRequest struct {
-    // These values are only applicable to subscriptions using calendar billing
+    // These values are only applicable to subscriptions using calendar billing.
     CalendarBilling          *ReactivationBilling                 `json:"calendar_billing,omitempty"`
     // If `true` is sent, the reactivated Subscription will include a trial if one is available. If `false` is sent, the trial period will be ignored.
     IncludeTrial             *bool                                `json:"include_trial,omitempty"`

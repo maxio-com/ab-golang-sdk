@@ -11,21 +11,30 @@
 |  --- | --- | --- | --- |
 | `Group` | [`*models.GroupSettings`](../../doc/models/group-settings.md) | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "group": {
-    "target": {
-      "type": "parent",
-      "id": 236
-    },
-    "billing": {
-      "accrue": false,
-      "align_date": false,
-      "prorate": false
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    addSubscriptionToAGroup := models.AddSubscriptionToAGroup{
+        Group:                models.ToPointer(models.GroupSettings{
+            Target:               models.GroupTarget{
+                Type:                 models.GroupTargetType_PARENT,
+                Id:                   models.ToPointer(236),
+            },
+            Billing:              models.ToPointer(models.GroupBilling{
+                Accrue:               models.ToPointer(false),
+                AlignDate:            models.ToPointer(false),
+                Prorate:              models.ToPointer(false),
+            }),
+        }),
     }
-  }
+
 }
 ```
 

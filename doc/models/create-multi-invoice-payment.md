@@ -16,21 +16,30 @@
 | `ReceivedOn` | `*string` | Optional | Date reflecting when the payment was received from a customer. Must be in the past. |
 | `Applications` | [`[]models.CreateInvoicePaymentApplication`](../../doc/models/create-invoice-payment-application.md) | Required | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "amount": "String7",
-  "applications": [
-    {
-      "invoice_uid": "invoice_uid8",
-      "amount": "amount0"
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    createMultiInvoicePayment := models.CreateMultiInvoicePayment{
+        Memo:                 models.ToPointer("memo0"),
+        Details:              models.ToPointer("details6"),
+        Method:               models.ToPointer(models.InvoicePaymentMethodType_ACH),
+        Amount:               models.CreateMultiInvoicePaymentAmountContainer.FromString("String9"),
+        ReceivedOn:           models.ToPointer("received_on8"),
+        Applications:         []models.CreateInvoicePaymentApplication{
+            models.CreateInvoicePaymentApplication{
+                InvoiceUid:           "invoice_uid8",
+                Amount:               "amount0",
+            },
+        },
     }
-  ],
-  "memo": "memo8",
-  "details": "details4",
-  "method": "credit_card",
-  "received_on": "received_on6"
+
 }
 ```
 

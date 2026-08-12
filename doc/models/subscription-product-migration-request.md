@@ -11,18 +11,27 @@
 |  --- | --- | --- | --- |
 | `Migration` | [`models.SubscriptionProductMigration`](../../doc/models/subscription-product-migration.md) | Required | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "migration": {
-    "include_trial": false,
-    "include_initial_charge": false,
-    "include_coupons": true,
-    "preserve_period": false,
-    "product_id": 158,
-    "product_price_point_id": 82
-  }
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    subscriptionProductMigrationRequest := models.SubscriptionProductMigrationRequest{
+        Migration:            models.SubscriptionProductMigration{
+            ProductId:               models.ToPointer(158),
+            ProductPricePointId:     models.ToPointer(82),
+            IncludeTrial:            models.ToPointer(false),
+            IncludeInitialCharge:    models.ToPointer(false),
+            IncludeCoupons:          models.ToPointer(true),
+            PreservePeriod:          models.ToPointer(false),
+        },
+    }
+
 }
 ```
 

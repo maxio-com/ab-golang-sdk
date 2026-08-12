@@ -11,19 +11,42 @@
 |  --- | --- | --- | --- |
 | `PricePoints` | [`[]models.ProductPricePoint`](../../doc/models/product-price-point.md) | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "price_points": [
-    {
-      "id": 40,
-      "name": "name2",
-      "handle": "handle8",
-      "price_in_cents": 108,
-      "interval": 92
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    bulkCreateProductPricePointsResponse := models.BulkCreateProductPricePointsResponse{
+        PricePoints:          []models.ProductPricePoint{
+            models.ProductPricePoint{
+                Id:                      models.ToPointer(40),
+                Name:                    models.ToPointer("name2"),
+                Handle:                  models.NewOptional(models.ToPointer("handle8")),
+                PriceInCents:            models.ToPointer(int64(108)),
+                Interval:                models.ToPointer(92),
+            },
+            models.ProductPricePoint{
+                Id:                      models.ToPointer(40),
+                Name:                    models.ToPointer("name2"),
+                Handle:                  models.NewOptional(models.ToPointer("handle8")),
+                PriceInCents:            models.ToPointer(int64(108)),
+                Interval:                models.ToPointer(92),
+            },
+            models.ProductPricePoint{
+                Id:                      models.ToPointer(40),
+                Name:                    models.ToPointer("name2"),
+                Handle:                  models.NewOptional(models.ToPointer("handle8")),
+                PriceInCents:            models.ToPointer(int64(108)),
+                Interval:                models.ToPointer(92),
+            },
+        },
     }
-  ]
+
 }
 ```
 

@@ -15,7 +15,16 @@ Passed as a parameter to list methods to return only non null values.
 
 ## Example
 
-```
-not_null
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    includeNotNull := models.IncludeNotNull_NOTNULL
+
+}
 ```
 

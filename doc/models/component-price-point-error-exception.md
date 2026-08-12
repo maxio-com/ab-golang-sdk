@@ -11,22 +11,16 @@
 |  --- | --- | --- | --- |
 | `Errors` | [`[]models.ComponentPricePointErrorItem`](../../doc/models/component-price-point-error-item.md) | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "errors": [
-    {
-      "component_id": 236,
-      "message": "message0",
-      "price_point": 122
-    },
-    {
-      "component_id": 236,
-      "message": "message0",
-      "price_point": 122
+```go
+if err != nil {
+    switch typedErr := err.(type) {
+    case *errors.ComponentPricePointErrorException:
+        log.Fatalln(typedErr)
+    default:
+        log.Fatalln(err)
     }
-  ]
 }
 ```
 

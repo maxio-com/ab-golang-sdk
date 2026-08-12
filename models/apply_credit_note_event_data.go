@@ -30,7 +30,7 @@ type ApplyCreditNoteEventData struct {
     Memo                 Optional[string]        `json:"memo"`
     // The role of the credit note (e.g. 'general')
     Role                 *string                 `json:"role,omitempty"`
-    // Shows whether it was applied to consolidated invoice or not
+    // Shows whether it was applied to consolidated invoice or not.
     ConsolidatedInvoice  *bool                   `json:"consolidated_invoice,omitempty"`
     // List of credit notes applied to children invoices (if consolidated invoice)
     AppliedCreditNotes   []AppliedCreditNoteData `json:"applied_credit_notes,omitempty"`

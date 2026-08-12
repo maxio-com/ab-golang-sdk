@@ -122,8 +122,8 @@ func (e *EventsBasedBillingSegmentsController) ListSegmentsForPricePoint(
 // UpdateSegment takes context, componentId, pricePointId, id, body as parameters and
 // returns an models.ApiResponse with models.SegmentResponse data and
 // an error if there was an issue with the request or response.
-// Updates a single segment for a component with a segmented metric. It allows you to update the pricing for the segment.
-// You may specify component and/or price point by using either the numeric ID or the `handle:gold` syntax.
+// Updates a single segment for a component with a segmented metric. You can also update the pricing for the segment.
+// You can specify component and/or price point by using either the numeric ID or the `handle:gold` syntax.
 func (e *EventsBasedBillingSegmentsController) UpdateSegment(
     ctx context.Context,
     componentId string,

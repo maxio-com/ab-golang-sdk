@@ -11,17 +11,35 @@
 |  --- | --- | --- | --- |
 | `RenewalConfiguration` | [`models.ScheduledRenewalConfigurationRequestBody`](../../doc/models/scheduled-renewal-configuration-request-body.md) | Required | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "renewal_configuration": {
-    "starts_at": "2016-03-13T12:52:32.123Z",
-    "ends_at": "2016-03-13T12:52:32.123Z",
-    "lock_in_at": "2016-03-13T12:52:32.123Z",
-    "contract_id": 244,
-    "create_new_contract": false
-  }
+```go
+package main
+
+import (
+    "log"
+    "time"
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    parseTime := func(layout, value string, errCallback func(error)) time.Time {
+        dateTime, err := time.Parse(layout, value)
+        if err != nil {
+            errCallback(err) 
+       }
+        return dateTime
+    }
+    scheduledRenewalConfigurationRequest := models.ScheduledRenewalConfigurationRequest{
+        RenewalConfiguration: models.ScheduledRenewalConfigurationRequestBody{
+            StartsAt:             models.ToPointer(parseTime(time.RFC3339, "2016-03-13T12:52:32.123Z", func(err error) { log.Fatalln(err) })),
+            EndsAt:               models.ToPointer(parseTime(time.RFC3339, "2016-03-13T12:52:32.123Z", func(err error) { log.Fatalln(err) })),
+            LockInAt:             models.ToPointer(parseTime(time.RFC3339, "2016-03-13T12:52:32.123Z", func(err error) { log.Fatalln(err) })),
+            ContractId:           models.ToPointer(244),
+            CreateNewContract:    models.ToPointer(false),
+        },
+    }
+
 }
 ```
 

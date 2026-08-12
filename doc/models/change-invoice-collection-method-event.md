@@ -15,28 +15,46 @@
 | `EventType` | [`models.InvoiceEventType`](../../doc/models/invoice-event-type.md) | Required | **Default**: `"change_invoice_collection_method"` |
 | `EventData` | [`models.ChangeInvoiceCollectionMethodEventData`](../../doc/models/change-invoice-collection-method-event-data.md) | Required | Example schema for an `change_invoice_collection_method` event |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "id": 246,
-  "timestamp": "2016-03-13T12:52:32.123Z",
-  "invoice": {
-    "issue_date": "2024-01-01",
-    "due_date": "2024-01-01",
-    "paid_date": "2024-01-01",
-    "public_url_expires_on": "2024-01-21",
-    "id": 166,
-    "uid": "uid6",
-    "site_id": 92,
-    "customer_id": 204,
-    "subscription_id": 20
-  },
-  "event_type": "change_invoice_collection_method",
-  "event_data": {
-    "from_collection_method": "from_collection_method4",
-    "to_collection_method": "to_collection_method8"
-  }
+```go
+package main
+
+import (
+    "log"
+    "time"
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    parseTime := func(layout, value string, errCallback func(error)) time.Time {
+        dateTime, err := time.Parse(layout, value)
+        if err != nil {
+            errCallback(err) 
+       }
+        return dateTime
+    }
+    changeInvoiceCollectionMethodEvent := models.ChangeInvoiceCollectionMethodEvent{
+        Id:                   int64(110),
+        Timestamp:            parseTime(time.RFC3339, "2016-03-13T12:52:32.123Z", func(err error) { log.Fatalln(err) }),
+        Invoice:              models.Invoice{
+            Id:                         models.ToPointer(int64(166)),
+            Uid:                        models.ToPointer("uid6"),
+            SiteId:                     models.ToPointer(92),
+            CustomerId:                 models.ToPointer(204),
+            SubscriptionId:             models.ToPointer(20),
+            IssueDate:                  models.ToPointer(parseTime(models.DEFAULT_DATE, "2024-01-01", func(err error) { log.Fatalln(err) })),
+            DueDate:                    models.ToPointer(parseTime(models.DEFAULT_DATE, "2024-01-01", func(err error) { log.Fatalln(err) })),
+            PaidDate:                   models.NewOptional(models.ToPointer(parseTime(models.DEFAULT_DATE, "2024-01-01", func(err error) { log.Fatalln(err) }))),
+            PublicUrlExpiresOn:         models.ToPointer(parseTime(models.DEFAULT_DATE, "2024-01-21", func(err error) { log.Fatalln(err) })),
+        },
+        EventType:            models.InvoiceEventType_CHANGEINVOICECOLLECTIONMETHOD,
+        EventData:            models.ChangeInvoiceCollectionMethodEventData{
+            FromCollectionMethod: "from_collection_method4",
+            ToCollectionMethod:   "to_collection_method8",
+        },
+    }
+
 }
 ```
 

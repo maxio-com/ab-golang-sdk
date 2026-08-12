@@ -14,7 +14,7 @@ import (
 type GroupTarget struct {
     // The type of object indicated by the id attribute.
     Type                 GroupTargetType        `json:"type"`
-    // The id of the target customer or subscription to group the existing subscription with. Ignored and should not be included if type is "self" , "parent", or "eldest"
+    // The id of the target customer or subscription to group the existing subscription with. Ignored and should not be included if type is "self", "parent", or "eldest".
     Id                   *int                   `json:"id,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
 }

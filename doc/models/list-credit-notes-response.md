@@ -11,19 +11,28 @@
 |  --- | --- | --- | --- |
 | `CreditNotes` | [`[]models.CreditNote`](../../doc/models/credit-note.md) | Required | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "credit_notes": [
-    {
-      "uid": "uid2",
-      "site_id": 112,
-      "customer_id": 224,
-      "subscription_id": 40,
-      "number": "number0"
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    listCreditNotesResponse := models.ListCreditNotesResponse{
+        CreditNotes:          []models.CreditNote{
+            models.CreditNote{
+                Uid:                  models.ToPointer("uid2"),
+                SiteId:               models.ToPointer(112),
+                CustomerId:           models.ToPointer(224),
+                SubscriptionId:       models.ToPointer(40),
+                Number:               models.ToPointer("number0"),
+            },
+        },
     }
-  ]
+
 }
 ```
 

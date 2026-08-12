@@ -15,15 +15,33 @@
 | `CurrencyCode` | `string` | Required | - |
 | `AtTime` | `time.Time` | Required | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "reason": "reason8",
-  "service_credit_account_balance_in_cents": 10,
-  "service_credit_balance_change_in_cents": 116,
-  "currency_code": "currency_code8",
-  "at_time": "2016-03-13T12:52:32.123Z"
+```go
+package main
+
+import (
+    "log"
+    "time"
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    parseTime := func(layout, value string, errCallback func(error)) time.Time {
+        dateTime, err := time.Parse(layout, value)
+        if err != nil {
+            errCallback(err) 
+       }
+        return dateTime
+    }
+    creditAccountBalanceChanged := models.CreditAccountBalanceChanged{
+        Reason:                             "reason4",
+        ServiceCreditAccountBalanceInCents: int64(216),
+        ServiceCreditBalanceChangeInCents:  int64(166),
+        CurrencyCode:                       "currency_code6",
+        AtTime:                             parseTime(time.RFC3339, "2016-03-13T12:52:32.123Z", func(err error) { log.Fatalln(err) }),
+    }
+
 }
 ```
 

@@ -12,12 +12,21 @@
 | `Id` | `int` | Required | ID of the currency price record being updated |
 | `Price` | `float64` | Required | New price for the given currency |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "id": 146,
-  "price": 71.86
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    updateCurrencyPrice := models.UpdateCurrencyPrice{
+        Id:                   104,
+        Price:                float64(163.6),
+    }
+
 }
 ```
 

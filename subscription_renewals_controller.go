@@ -215,7 +215,7 @@ func (s *SubscriptionRenewalsController) LockInScheduledRenewalImmediately(
 // UnpublishScheduledRenewalConfiguration takes context, subscriptionId, id as parameters and
 // returns an models.ApiResponse with models.ScheduledRenewalConfigurationResponse data and
 // an error if there was an issue with the request or response.
-// Returns a scheduled renewal configuration to an editable state.
+// Restores a scheduled renewal configuration to an editable state.
 func (s *SubscriptionRenewalsController) UnpublishScheduledRenewalConfiguration(
     ctx context.Context,
     subscriptionId int,
@@ -278,6 +278,7 @@ func (s *SubscriptionRenewalsController) CancelScheduledRenewalConfiguration(
 // returns an models.ApiResponse with models.ScheduledRenewalConfigurationItemResponse data and
 // an error if there was an issue with the request or response.
 // Adds product and component line items to the scheduled renewal.
+// If your site has list vs sales pricing enabled, accepts renewal_configuration_item.custom_price.list_price_point_id, validates and persists it; omitted value follows existing/default behavior; with list vs sales pricing disabled, parameter is ignored (no validation/behavioral impact). This functionality is supported in the API, but is not currently supported in SDKs.
 func (s *SubscriptionRenewalsController) CreateScheduledRenewalConfigurationItem(
     ctx context.Context,
     subscriptionId int,
@@ -314,6 +315,7 @@ func (s *SubscriptionRenewalsController) CreateScheduledRenewalConfigurationItem
 // returns an models.ApiResponse with models.ScheduledRenewalConfigurationItemResponse data and
 // an error if there was an issue with the request or response.
 // Updates an existing configuration item’s pricing and quantity.
+// If you site has list vs sales pricing enabled, accepts renewal_configuration_item.custom_price.list_price_point_id, validates and persists it; omitted value follows existing/default behavior; with list vs sales pricing disabled, parameter is ignored (no validation/behavioral impact). This functionality is supported in the API, but is not currently supported in SDKs.
 func (s *SubscriptionRenewalsController) UpdateScheduledRenewalConfigurationItem(
     ctx context.Context,
     subscriptionId int,

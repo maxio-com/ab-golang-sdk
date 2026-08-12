@@ -11,15 +11,24 @@
 |  --- | --- | --- | --- |
 | `Metadata` | [`*models.UpdateMetadata`](../../doc/models/update-metadata.md) | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "metadata": {
-    "current_name": "current_name0",
-    "name": "name6",
-    "value": "value8"
-  }
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    updateMetadataRequest := models.UpdateMetadataRequest{
+        Metadata:             models.ToPointer(models.UpdateMetadata{
+            CurrentName:          models.ToPointer("current_name0"),
+            Name:                 models.ToPointer("name6"),
+            Value:                models.ToPointer("value8"),
+        }),
+    }
+
 }
 ```
 

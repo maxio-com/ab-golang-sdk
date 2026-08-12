@@ -19,15 +19,24 @@
 | `GatewayHandle` | `models.Optional[string]` | Optional | - |
 | `AchLateReject` | `models.Optional[bool]` | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "transaction_id": 172,
-  "payment_id": 42,
-  "memo": "memo6",
-  "original_amount": "original_amount6",
-  "applied_amount": "applied_amount6"
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    invoiceRefund := models.InvoiceRefund{
+        TransactionId:        models.ToPointer(166),
+        PaymentId:            models.ToPointer(36),
+        Memo:                 models.ToPointer("memo6"),
+        OriginalAmount:       models.ToPointer("original_amount6"),
+        AppliedAmount:        models.ToPointer("applied_amount6"),
+    }
+
 }
 ```
 

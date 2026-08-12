@@ -11,14 +11,23 @@
 |  --- | --- | --- | --- |
 | `Codes` | `[]string` | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "codes": [
-    "codes0",
-    "codes1"
-  ]
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    addCouponsRequest := models.AddCouponsRequest{
+        Codes:                []string{
+            "codes6",
+            "codes7",
+        },
+    }
+
 }
 ```
 

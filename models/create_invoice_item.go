@@ -10,9 +10,9 @@ import (
 // CreateInvoiceItem represents a CreateInvoiceItem struct.
 type CreateInvoiceItem struct {
     Title                *string                               `json:"title,omitempty"`
-    // The quantity can contain up to 8 decimal places. i.e. 1.00 or 0.0012 or 0.00000065. If you submit a value with more than 8 decimal places, we will round it down to the 8th decimal place.
+    // The quantity can contain up to 8 decimal places. e.g., 1.00 or 0.0012 or 0.00000065. If you submit a value with more than 8 decimal places, we will round it down to the 8th decimal place.
     Quantity             *CreateInvoiceItemQuantity            `json:"quantity,omitempty"`
-    // The unit_price can contain up to 8 decimal places. i.e. 1.00 or 0.0012 or 0.00000065. If you submit a value with more than 8 decimal places, we will round it down to the 8th decimal place.
+    // The unit_price can contain up to 8 decimal places. e.g., 1.00 or 0.0012 or 0.00000065. If you submit a value with more than 8 decimal places, we will round it down to the 8th decimal place.
     UnitPrice            *CreateInvoiceItemUnitPrice           `json:"unit_price,omitempty"`
     // Set to true to automatically calculate taxes. Site must be configured to use and calculate taxes. If using AvaTax, a tax_code parameter must also be sent.
     Taxable              *bool                                 `json:"taxable,omitempty"`

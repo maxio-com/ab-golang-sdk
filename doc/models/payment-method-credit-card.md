@@ -15,15 +15,24 @@
 | `MaskedCardNumber` | `string` | Required | - |
 | `Type` | [`models.InvoiceEventPaymentMethod`](../../doc/models/invoice-event-payment-method.md) | Required | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "card_brand": "card_brand4",
-  "masked_card_number": "masked_card_number0",
-  "type": "credit_card",
-  "card_expiration": "card_expiration2",
-  "last_four": "last_four4"
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    paymentMethodCreditCard := models.PaymentMethodCreditCard{
+        CardBrand:            "card_brand4",
+        CardExpiration:       models.ToPointer("card_expiration2"),
+        LastFour:             models.NewOptional(models.ToPointer("last_four6")),
+        MaskedCardNumber:     "masked_card_number0",
+        Type:                 models.InvoiceEventPaymentMethod_CREDITCARD,
+    }
+
 }
 ```
 

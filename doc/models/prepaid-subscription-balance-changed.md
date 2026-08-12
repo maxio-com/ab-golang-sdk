@@ -14,14 +14,23 @@
 | `PrepaymentAccountBalanceInCents` | `int64` | Required | - |
 | `CurrentUsageAmountInCents` | `int64` | Required | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "reason": "reason8",
-  "current_account_balance_in_cents": 250,
-  "prepayment_account_balance_in_cents": 44,
-  "current_usage_amount_in_cents": 242
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    prepaidSubscriptionBalanceChanged := models.PrepaidSubscriptionBalanceChanged{
+        Reason:                          "reason6",
+        CurrentAccountBalanceInCents:    int64(194),
+        PrepaymentAccountBalanceInCents: int64(100),
+        CurrentUsageAmountInCents:       int64(186),
+    }
+
 }
 ```
 

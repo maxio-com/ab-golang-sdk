@@ -19,13 +19,13 @@ type CreditCardPaymentProfile struct {
     FirstName            *string                `json:"first_name,omitempty"`
     // The last name of the card holder.
     LastName             *string                `json:"last_name,omitempty"`
-    // A string representation of the credit card number with all but the last 4 digits masked with X’s (i.e. ‘XXXX-XXXX-XXXX-1234’).
+    // A string representation of the credit card number with all but the last 4 digits masked with X’s (e.g., ‘XXXX-XXXX-XXXX-1234’).
     MaskedCardNumber     *string                `json:"masked_card_number,omitempty"`
     // The type of card used.
-    CardType             *CardType              `json:"card_type,omitempty"`
+    CardType             Optional[CardType]     `json:"card_type"`
     // An integer representing the expiration month of the card(1 – 12).
     ExpirationMonth      *int                   `json:"expiration_month,omitempty"`
-    // An integer representing the 4-digit expiration year of the card(i.e. ‘2012’).
+    // An integer representing the 4-digit expiration year of the card(e.g., ‘2012’).
     ExpirationYear       *int                   `json:"expiration_year,omitempty"`
     // The Chargify-assigned id for the customer record to which the card belongs.
     CustomerId           *int                   `json:"customer_id,omitempty"`
@@ -49,7 +49,7 @@ type CreditCardPaymentProfile struct {
     BillingAddress2      Optional[string]       `json:"billing_address_2"`
     PaymentType          PaymentType            `json:"payment_type"`
     Disabled             *bool                  `json:"disabled,omitempty"`
-    // Token received after sending billing information using Maxio.js (formerly Chargify.js). This token will only be received if passed as a sole attribute of credit_card_attributes (i.e. tok_9g6hw85pnpt6knmskpwp4ttt)
+    // Token received after sending billing information using Maxio.js (formerly Chargify.js). This token will only be received if passed as a sole attribute of credit_card_attributes (e.g., tok_9g6hw85pnpt6knmskpwp4ttt).
     ChargifyToken        *string                `json:"chargify_token,omitempty"`
     SiteGatewaySettingId Optional[int]          `json:"site_gateway_setting_id"`
     // An identifier of connected gateway.
@@ -97,8 +97,12 @@ func (c CreditCardPaymentProfile) toMap() map[string]any {
     if c.MaskedCardNumber != nil {
         structMap["masked_card_number"] = c.MaskedCardNumber
     }
-    if c.CardType != nil {
-        structMap["card_type"] = c.CardType
+    if c.CardType.IsValueSet() {
+        if c.CardType.Value() != nil {
+            structMap["card_type"] = c.CardType.Value()
+        } else {
+            structMap["card_type"] = nil
+        }
     }
     if c.ExpirationMonth != nil {
         structMap["expiration_month"] = c.ExpirationMonth
@@ -257,30 +261,30 @@ func (c *CreditCardPaymentProfile) UnmarshalJSON(input []byte) error {
 
 // tempCreditCardPaymentProfile is a temporary struct used for validating the fields of CreditCardPaymentProfile.
 type tempCreditCardPaymentProfile  struct {
-    Id                   *int             `json:"id,omitempty"`
-    FirstName            *string          `json:"first_name,omitempty"`
-    LastName             *string          `json:"last_name,omitempty"`
-    MaskedCardNumber     *string          `json:"masked_card_number,omitempty"`
-    CardType             *CardType        `json:"card_type,omitempty"`
-    ExpirationMonth      *int             `json:"expiration_month,omitempty"`
-    ExpirationYear       *int             `json:"expiration_year,omitempty"`
-    CustomerId           *int             `json:"customer_id,omitempty"`
-    CurrentVault         *CreditCardVault `json:"current_vault,omitempty"`
-    VaultToken           Optional[string] `json:"vault_token"`
-    BillingAddress       Optional[string] `json:"billing_address"`
-    BillingCity          Optional[string] `json:"billing_city"`
-    BillingState         Optional[string] `json:"billing_state"`
-    BillingZip           Optional[string] `json:"billing_zip"`
-    BillingCountry       Optional[string] `json:"billing_country"`
-    CustomerVaultToken   Optional[string] `json:"customer_vault_token"`
-    BillingAddress2      Optional[string] `json:"billing_address_2"`
-    PaymentType          *PaymentType     `json:"payment_type"`
-    Disabled             *bool            `json:"disabled,omitempty"`
-    ChargifyToken        *string          `json:"chargify_token,omitempty"`
-    SiteGatewaySettingId Optional[int]    `json:"site_gateway_setting_id"`
-    GatewayHandle        Optional[string] `json:"gateway_handle"`
-    CreatedAt            *string          `json:"created_at,omitempty"`
-    UpdatedAt            *string          `json:"updated_at,omitempty"`
+    Id                   *int               `json:"id,omitempty"`
+    FirstName            *string            `json:"first_name,omitempty"`
+    LastName             *string            `json:"last_name,omitempty"`
+    MaskedCardNumber     *string            `json:"masked_card_number,omitempty"`
+    CardType             Optional[CardType] `json:"card_type"`
+    ExpirationMonth      *int               `json:"expiration_month,omitempty"`
+    ExpirationYear       *int               `json:"expiration_year,omitempty"`
+    CustomerId           *int               `json:"customer_id,omitempty"`
+    CurrentVault         *CreditCardVault   `json:"current_vault,omitempty"`
+    VaultToken           Optional[string]   `json:"vault_token"`
+    BillingAddress       Optional[string]   `json:"billing_address"`
+    BillingCity          Optional[string]   `json:"billing_city"`
+    BillingState         Optional[string]   `json:"billing_state"`
+    BillingZip           Optional[string]   `json:"billing_zip"`
+    BillingCountry       Optional[string]   `json:"billing_country"`
+    CustomerVaultToken   Optional[string]   `json:"customer_vault_token"`
+    BillingAddress2      Optional[string]   `json:"billing_address_2"`
+    PaymentType          *PaymentType       `json:"payment_type"`
+    Disabled             *bool              `json:"disabled,omitempty"`
+    ChargifyToken        *string            `json:"chargify_token,omitempty"`
+    SiteGatewaySettingId Optional[int]      `json:"site_gateway_setting_id"`
+    GatewayHandle        Optional[string]   `json:"gateway_handle"`
+    CreatedAt            *string            `json:"created_at,omitempty"`
+    UpdatedAt            *string            `json:"updated_at,omitempty"`
 }
 
 func (c *tempCreditCardPaymentProfile) validate() error {

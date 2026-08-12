@@ -29,16 +29,25 @@
 | `CreatedAt` | `*time.Time` | Optional | A timestamp indicating when this payment profile was created |
 | `UpdatedAt` | `*time.Time` | Optional | A timestamp indicating when this payment profile was last updated |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "payment_type": "paypal_account",
-  "id": 10,
-  "first_name": "first_name0",
-  "last_name": "last_name8",
-  "customer_id": 48,
-  "current_vault": "moduslink"
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    paypalPaymentProfile := models.PaypalPaymentProfile{
+        Id:                   models.ToPointer(214),
+        FirstName:            models.ToPointer("first_name0"),
+        LastName:             models.ToPointer("last_name8"),
+        CustomerId:           models.ToPointer(252),
+        CurrentVault:         models.ToPointer(models.PayPalVault_MODUSLINK),
+        PaymentType:          models.PaymentType_PAYPALACCOUNT,
+    }
+
 }
 ```
 

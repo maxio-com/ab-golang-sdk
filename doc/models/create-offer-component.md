@@ -13,13 +13,22 @@
 | `PricePointId` | `*int` | Optional | - |
 | `StartingQuantity` | `*int` | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "component_id": 242,
-  "price_point_id": 10,
-  "starting_quantity": 50
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    createOfferComponent := models.CreateOfferComponent{
+        ComponentId:          models.ToPointer(252),
+        PricePointId:         models.ToPointer(20),
+        StartingQuantity:     models.ToPointer(196),
+    }
+
 }
 ```
 

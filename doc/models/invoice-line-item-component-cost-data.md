@@ -11,33 +11,35 @@
 |  --- | --- | --- | --- |
 | `Rates` | [`[]models.ComponentCostData`](../../doc/models/component-cost-data.md) | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "rates": [
-    {
-      "component_code_id": 116,
-      "price_point_id": 226,
-      "product_id": 94,
-      "quantity": "quantity0",
-      "amount": "amount6"
-    },
-    {
-      "component_code_id": 116,
-      "price_point_id": 226,
-      "product_id": 94,
-      "quantity": "quantity0",
-      "amount": "amount6"
-    },
-    {
-      "component_code_id": 116,
-      "price_point_id": 226,
-      "product_id": 94,
-      "quantity": "quantity0",
-      "amount": "amount6"
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    invoiceLineItemComponentCostData := models.InvoiceLineItemComponentCostData{
+        Rates:                []models.ComponentCostData{
+            models.ComponentCostData{
+                ComponentCodeId:      models.NewOptional(models.ToPointer(116)),
+                PricePointId:         models.ToPointer(226),
+                ProductId:            models.ToPointer(94),
+                Quantity:             models.ToPointer("quantity0"),
+                Amount:               models.ToPointer("amount6"),
+            },
+            models.ComponentCostData{
+                ComponentCodeId:      models.NewOptional(models.ToPointer(116)),
+                PricePointId:         models.ToPointer(226),
+                ProductId:            models.ToPointer(94),
+                Quantity:             models.ToPointer("quantity0"),
+                Amount:               models.ToPointer("amount6"),
+            },
+        },
     }
-  ]
+
 }
 ```
 

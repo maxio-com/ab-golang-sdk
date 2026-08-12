@@ -18,15 +18,24 @@
 | `LastFour` | `models.Optional[string]` | Optional | - |
 | `MaskedCardNumber` | `*string` | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "details": "details8",
-  "kind": "kind6",
-  "memo": "memo2",
-  "type": "type8",
-  "card_brand": "card_brand8"
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    invoicePaymentMethod := models.InvoicePaymentMethod{
+        Details:              models.ToPointer("details2"),
+        Kind:                 models.ToPointer("kind0"),
+        Memo:                 models.ToPointer("memo6"),
+        Type:                 models.ToPointer("type8"),
+        CardBrand:            models.ToPointer("card_brand4"),
+    }
+
 }
 ```
 

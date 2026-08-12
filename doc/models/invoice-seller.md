@@ -16,20 +16,29 @@ Information about the seller (merchant) listed on the masthead of the invoice.
 | `Phone` | `*string` | Optional | - |
 | `LogoUrl` | `models.Optional[string]` | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "name": "name0",
-  "address": {
-    "street": "street6",
-    "line2": "line20",
-    "city": "city6",
-    "state": "state2",
-    "zip": "zip0"
-  },
-  "phone": "phone0",
-  "logo_url": "logo_url0"
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    invoiceSeller := models.InvoiceSeller{
+        Name:                 models.ToPointer("name4"),
+        Address:              models.ToPointer(models.InvoiceAddress{
+            Street:               models.NewOptional(models.ToPointer("street6")),
+            Line2:                models.NewOptional(models.ToPointer("line20")),
+            City:                 models.NewOptional(models.ToPointer("city6")),
+            State:                models.NewOptional(models.ToPointer("state2")),
+            Zip:                  models.NewOptional(models.ToPointer("zip0")),
+        }),
+        Phone:                models.ToPointer("phone6"),
+        LogoUrl:              models.NewOptional(models.ToPointer("logo_url6")),
+    }
+
 }
 ```
 

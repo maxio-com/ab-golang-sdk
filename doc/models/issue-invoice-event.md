@@ -15,31 +15,49 @@
 | `EventType` | [`models.InvoiceEventType`](../../doc/models/invoice-event-type.md) | Required | **Default**: `"issue_invoice"` |
 | `EventData` | [`models.IssueInvoiceEventData`](../../doc/models/issue-invoice-event-data.md) | Required | Example schema for an `issue_invoice` event |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "id": 130,
-  "timestamp": "2016-03-13T12:52:32.123Z",
-  "invoice": {
-    "issue_date": "2024-01-01",
-    "due_date": "2024-01-01",
-    "paid_date": "2024-01-01",
-    "public_url_expires_on": "2024-01-21",
-    "id": 166,
-    "uid": "uid6",
-    "site_id": 92,
-    "customer_id": 204,
-    "subscription_id": 20
-  },
-  "event_type": "issue_invoice",
-  "event_data": {
-    "consolidation_level": "child",
-    "from_status": "open",
-    "to_status": "pending",
-    "due_amount": "due_amount8",
-    "total_amount": "total_amount2"
-  }
+```go
+package main
+
+import (
+    "log"
+    "time"
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    parseTime := func(layout, value string, errCallback func(error)) time.Time {
+        dateTime, err := time.Parse(layout, value)
+        if err != nil {
+            errCallback(err) 
+       }
+        return dateTime
+    }
+    issueInvoiceEvent := models.IssueInvoiceEvent{
+        Id:                   int64(144),
+        Timestamp:            parseTime(time.RFC3339, "2016-03-13T12:52:32.123Z", func(err error) { log.Fatalln(err) }),
+        Invoice:              models.Invoice{
+            Id:                         models.ToPointer(int64(166)),
+            Uid:                        models.ToPointer("uid6"),
+            SiteId:                     models.ToPointer(92),
+            CustomerId:                 models.ToPointer(204),
+            SubscriptionId:             models.ToPointer(20),
+            IssueDate:                  models.ToPointer(parseTime(models.DEFAULT_DATE, "2024-01-01", func(err error) { log.Fatalln(err) })),
+            DueDate:                    models.ToPointer(parseTime(models.DEFAULT_DATE, "2024-01-01", func(err error) { log.Fatalln(err) })),
+            PaidDate:                   models.NewOptional(models.ToPointer(parseTime(models.DEFAULT_DATE, "2024-01-01", func(err error) { log.Fatalln(err) }))),
+            PublicUrlExpiresOn:         models.ToPointer(parseTime(models.DEFAULT_DATE, "2024-01-21", func(err error) { log.Fatalln(err) })),
+        },
+        EventType:            models.InvoiceEventType_ISSUEINVOICE,
+        EventData:            models.IssueInvoiceEventData{
+            ConsolidationLevel:   models.InvoiceConsolidationLevel_CHILD,
+            FromStatus:           models.InvoiceStatus_OPEN,
+            ToStatus:             models.InvoiceStatus_PENDING,
+            DueAmount:            "due_amount8",
+            TotalAmount:          "total_amount2",
+        },
+    }
+
 }
 ```
 

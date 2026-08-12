@@ -18,11 +18,11 @@ type Product struct {
     Handle                     Optional[string]                 `json:"handle"`
     // The product description
     Description                Optional[string]                 `json:"description"`
-    // E.g. Internal ID or SKU Number
+    // E.g., Internal ID or SKU Number
     AccountingCode             Optional[string]                 `json:"accounting_code"`
     // Deprecated value that can be ignored unless you have legacy hosted pages. For Public Signup Page users, read this attribute from under the signup page.
     RequestCreditCard          *bool                            `json:"request_credit_card,omitempty"`
-    // A numerical interval for the length a subscription to this product will run before it expires. See the description of interval for a description of how this value is coupled with an interval unit to calculate the full interval
+    // A numerical interval for the length a subscription to this product will run before it expires. See the description of interval for a description of how this value is coupled with an interval unit to calculate the full interval.
     ExpirationInterval         Optional[int]                    `json:"expiration_interval"`
     // A string representing the expiration interval unit for this product, either month, day or never
     ExpirationIntervalUnit     Optional[ExpirationIntervalUnit] `json:"expiration_interval_unit"`
@@ -32,7 +32,7 @@ type Product struct {
     UpdatedAt                  *time.Time                       `json:"updated_at,omitempty"`
     // The product price, in integer cents
     PriceInCents               *int64                           `json:"price_in_cents,omitempty"`
-    // The numerical interval. i.e. an interval of ‘30’ coupled with an interval_unit of day would mean this product would renew every 30 days
+    // The numerical interval. e.g., an interval of ‘30’ coupled with an interval_unit of day would mean this product would renew every 30 days.
     Interval                   *int                             `json:"interval,omitempty"`
     // A string representing the interval unit for this product, either month or day
     IntervalUnit               *IntervalUnit                    `json:"interval_unit,omitempty"`
@@ -40,7 +40,7 @@ type Product struct {
     InitialChargeInCents       Optional[int64]                  `json:"initial_charge_in_cents"`
     // The price of the trial period for a subscription to this product, in integer cents.
     TrialPriceInCents          Optional[int64]                  `json:"trial_price_in_cents"`
-    // A numerical interval for the length of the trial period of a subscription to this product. See the description of interval for a description of how this value is coupled with an interval unit to calculate the full interval
+    // A numerical interval for the length of the trial period of a subscription to this product. See the description of interval for a description of how this value is coupled with an interval unit to calculate the full interval.
     TrialInterval              Optional[int]                    `json:"trial_interval"`
     // A string representing the trial interval unit for this product, either month or day
     TrialIntervalUnit          Optional[IntervalUnit]           `json:"trial_interval_unit"`
@@ -55,7 +55,7 @@ type Product struct {
     InitialChargeAfterTrial    Optional[bool]                   `json:"initial_charge_after_trial"`
     // The version of the product
     VersionNumber              *int                             `json:"version_number,omitempty"`
-    // The parameters will append to the url after a successful account update. See [help documentation](https://help.chargify.com/products/product-editing.html#return-parameters-after-account-update)
+    // The parameters will append to the url after a successful account update. See [help documentation](https://help.chargify.com/products/product-editing.html#return-parameters-after-account-update).
     UpdateReturnParams         Optional[string]                 `json:"update_return_params"`
     ProductFamily              *ProductFamily                   `json:"product_family,omitempty"`
     PublicSignupPages          []PublicSignupPage               `json:"public_signup_pages,omitempty"`
@@ -74,6 +74,8 @@ type Product struct {
     ItemCategory               Optional[string]                 `json:"item_category"`
     ProductPricePointId        *int                             `json:"product_price_point_id,omitempty"`
     ProductPricePointHandle    Optional[string]                 `json:"product_price_point_handle"`
+    // (Optional) Custom UNSPSC commodity code for Level 3/CEDP payment data. When set, this value is sent as the commodity code on invoice line items for this product instead of the default derived from item_category.
+    UnspscCode                 Optional[string]                 `json:"unspsc_code"`
     AdditionalProperties       map[string]interface{}           `json:"_"`
 }
 
@@ -81,8 +83,8 @@ type Product struct {
 // providing a human-readable string representation useful for logging, debugging or displaying information.
 func (p Product) String() string {
     return fmt.Sprintf(
-    	"Product[Id=%v, Name=%v, Handle=%v, Description=%v, AccountingCode=%v, RequestCreditCard=%v, ExpirationInterval=%v, ExpirationIntervalUnit=%v, CreatedAt=%v, UpdatedAt=%v, PriceInCents=%v, Interval=%v, IntervalUnit=%v, InitialChargeInCents=%v, TrialPriceInCents=%v, TrialInterval=%v, TrialIntervalUnit=%v, ArchivedAt=%v, RequireCreditCard=%v, ReturnParams=%v, Taxable=%v, UpdateReturnUrl=%v, InitialChargeAfterTrial=%v, VersionNumber=%v, UpdateReturnParams=%v, ProductFamily=%v, PublicSignupPages=%v, ProductPricePointName=%v, RequestBillingAddress=%v, RequireBillingAddress=%v, RequireShippingAddress=%v, TaxCode=%v, DefaultProductPricePointId=%v, UseSiteExchangeRate=%v, ItemCategory=%v, ProductPricePointId=%v, ProductPricePointHandle=%v, AdditionalProperties=%v]",
-    	p.Id, p.Name, p.Handle, p.Description, p.AccountingCode, p.RequestCreditCard, p.ExpirationInterval, p.ExpirationIntervalUnit, p.CreatedAt, p.UpdatedAt, p.PriceInCents, p.Interval, p.IntervalUnit, p.InitialChargeInCents, p.TrialPriceInCents, p.TrialInterval, p.TrialIntervalUnit, p.ArchivedAt, p.RequireCreditCard, p.ReturnParams, p.Taxable, p.UpdateReturnUrl, p.InitialChargeAfterTrial, p.VersionNumber, p.UpdateReturnParams, p.ProductFamily, p.PublicSignupPages, p.ProductPricePointName, p.RequestBillingAddress, p.RequireBillingAddress, p.RequireShippingAddress, p.TaxCode, p.DefaultProductPricePointId, p.UseSiteExchangeRate, p.ItemCategory, p.ProductPricePointId, p.ProductPricePointHandle, p.AdditionalProperties)
+    	"Product[Id=%v, Name=%v, Handle=%v, Description=%v, AccountingCode=%v, RequestCreditCard=%v, ExpirationInterval=%v, ExpirationIntervalUnit=%v, CreatedAt=%v, UpdatedAt=%v, PriceInCents=%v, Interval=%v, IntervalUnit=%v, InitialChargeInCents=%v, TrialPriceInCents=%v, TrialInterval=%v, TrialIntervalUnit=%v, ArchivedAt=%v, RequireCreditCard=%v, ReturnParams=%v, Taxable=%v, UpdateReturnUrl=%v, InitialChargeAfterTrial=%v, VersionNumber=%v, UpdateReturnParams=%v, ProductFamily=%v, PublicSignupPages=%v, ProductPricePointName=%v, RequestBillingAddress=%v, RequireBillingAddress=%v, RequireShippingAddress=%v, TaxCode=%v, DefaultProductPricePointId=%v, UseSiteExchangeRate=%v, ItemCategory=%v, ProductPricePointId=%v, ProductPricePointHandle=%v, UnspscCode=%v, AdditionalProperties=%v]",
+    	p.Id, p.Name, p.Handle, p.Description, p.AccountingCode, p.RequestCreditCard, p.ExpirationInterval, p.ExpirationIntervalUnit, p.CreatedAt, p.UpdatedAt, p.PriceInCents, p.Interval, p.IntervalUnit, p.InitialChargeInCents, p.TrialPriceInCents, p.TrialInterval, p.TrialIntervalUnit, p.ArchivedAt, p.RequireCreditCard, p.ReturnParams, p.Taxable, p.UpdateReturnUrl, p.InitialChargeAfterTrial, p.VersionNumber, p.UpdateReturnParams, p.ProductFamily, p.PublicSignupPages, p.ProductPricePointName, p.RequestBillingAddress, p.RequireBillingAddress, p.RequireShippingAddress, p.TaxCode, p.DefaultProductPricePointId, p.UseSiteExchangeRate, p.ItemCategory, p.ProductPricePointId, p.ProductPricePointHandle, p.UnspscCode, p.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for Product.
@@ -91,7 +93,7 @@ func (p Product) MarshalJSON() (
     []byte,
     error) {
     if err := DetectConflictingProperties(p.AdditionalProperties,
-        "id", "name", "handle", "description", "accounting_code", "request_credit_card", "expiration_interval", "expiration_interval_unit", "created_at", "updated_at", "price_in_cents", "interval", "interval_unit", "initial_charge_in_cents", "trial_price_in_cents", "trial_interval", "trial_interval_unit", "archived_at", "require_credit_card", "return_params", "taxable", "update_return_url", "initial_charge_after_trial", "version_number", "update_return_params", "product_family", "public_signup_pages", "product_price_point_name", "request_billing_address", "require_billing_address", "require_shipping_address", "tax_code", "default_product_price_point_id", "use_site_exchange_rate", "item_category", "product_price_point_id", "product_price_point_handle"); err != nil {
+        "id", "name", "handle", "description", "accounting_code", "request_credit_card", "expiration_interval", "expiration_interval_unit", "created_at", "updated_at", "price_in_cents", "interval", "interval_unit", "initial_charge_in_cents", "trial_price_in_cents", "trial_interval", "trial_interval_unit", "archived_at", "require_credit_card", "return_params", "taxable", "update_return_url", "initial_charge_after_trial", "version_number", "update_return_params", "product_family", "public_signup_pages", "product_price_point_name", "request_billing_address", "require_billing_address", "require_shipping_address", "tax_code", "default_product_price_point_id", "use_site_exchange_rate", "item_category", "product_price_point_id", "product_price_point_handle", "unspsc_code"); err != nil {
         return []byte{}, err
     }
     return json.Marshal(p.toMap())
@@ -289,6 +291,13 @@ func (p Product) toMap() map[string]any {
             structMap["product_price_point_handle"] = nil
         }
     }
+    if p.UnspscCode.IsValueSet() {
+        if p.UnspscCode.Value() != nil {
+            structMap["unspsc_code"] = p.UnspscCode.Value()
+        } else {
+            structMap["unspsc_code"] = nil
+        }
+    }
     return structMap
 }
 
@@ -300,7 +309,7 @@ func (p *Product) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "id", "name", "handle", "description", "accounting_code", "request_credit_card", "expiration_interval", "expiration_interval_unit", "created_at", "updated_at", "price_in_cents", "interval", "interval_unit", "initial_charge_in_cents", "trial_price_in_cents", "trial_interval", "trial_interval_unit", "archived_at", "require_credit_card", "return_params", "taxable", "update_return_url", "initial_charge_after_trial", "version_number", "update_return_params", "product_family", "public_signup_pages", "product_price_point_name", "request_billing_address", "require_billing_address", "require_shipping_address", "tax_code", "default_product_price_point_id", "use_site_exchange_rate", "item_category", "product_price_point_id", "product_price_point_handle")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "id", "name", "handle", "description", "accounting_code", "request_credit_card", "expiration_interval", "expiration_interval_unit", "created_at", "updated_at", "price_in_cents", "interval", "interval_unit", "initial_charge_in_cents", "trial_price_in_cents", "trial_interval", "trial_interval_unit", "archived_at", "require_credit_card", "return_params", "taxable", "update_return_url", "initial_charge_after_trial", "version_number", "update_return_params", "product_family", "public_signup_pages", "product_price_point_name", "request_billing_address", "require_billing_address", "require_shipping_address", "tax_code", "default_product_price_point_id", "use_site_exchange_rate", "item_category", "product_price_point_id", "product_price_point_handle", "unspsc_code")
     if err != nil {
     	return err
     }
@@ -362,6 +371,7 @@ func (p *Product) UnmarshalJSON(input []byte) error {
     p.ItemCategory = temp.ItemCategory
     p.ProductPricePointId = temp.ProductPricePointId
     p.ProductPricePointHandle = temp.ProductPricePointHandle
+    p.UnspscCode = temp.UnspscCode
     return nil
 }
 
@@ -404,4 +414,5 @@ type tempProduct  struct {
     ItemCategory               Optional[string]                 `json:"item_category"`
     ProductPricePointId        *int                             `json:"product_price_point_id,omitempty"`
     ProductPricePointHandle    Optional[string]                 `json:"product_price_point_handle"`
+    UnspscCode                 Optional[string]                 `json:"unspsc_code"`
 }

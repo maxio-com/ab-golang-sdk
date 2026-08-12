@@ -11,23 +11,32 @@
 |  --- | --- | --- | --- |
 | `Payment` | [`models.CreateMultiInvoicePayment`](../../doc/models/create-multi-invoice-payment.md) | Required | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "payment": {
-    "amount": "String9",
-    "applications": [
-      {
-        "invoice_uid": "invoice_uid8",
-        "amount": "amount0"
-      }
-    ],
-    "memo": "memo0",
-    "details": "details6",
-    "method": "ach",
-    "received_on": "received_on8"
-  }
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    createMultiInvoicePaymentRequest := models.CreateMultiInvoicePaymentRequest{
+        Payment:              models.CreateMultiInvoicePayment{
+            Memo:                 models.ToPointer("memo0"),
+            Details:              models.ToPointer("details6"),
+            Method:               models.ToPointer(models.InvoicePaymentMethodType_ACH),
+            Amount:               models.CreateMultiInvoicePaymentAmountContainer.FromString("String9"),
+            ReceivedOn:           models.ToPointer("received_on8"),
+            Applications:         []models.CreateInvoicePaymentApplication{
+                models.CreateInvoicePaymentApplication{
+                    InvoiceUid:           "invoice_uid8",
+                    Amount:               "amount0",
+                },
+            },
+        },
+    }
+
 }
 ```
 

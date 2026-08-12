@@ -11,11 +11,20 @@
 |  --- | --- | --- | --- |
 | `WebhooksEnabled` | `bool` | Required | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "webhooks_enabled": false
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    enableWebhooksRequest := models.EnableWebhooksRequest{
+        WebhooksEnabled:      false,
+    }
+
 }
 ```
 

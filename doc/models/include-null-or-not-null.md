@@ -16,7 +16,16 @@ Allows to filter by `not_null` or `null`.
 
 ## Example
 
-```
-not_null
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    includeNullOrNotNull := models.IncludeNullOrNotNull_NOTNULL
+
+}
 ```
 

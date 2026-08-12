@@ -11,11 +11,20 @@
 |  --- | --- | --- | --- |
 | `Message` | `*string` | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "message": "message8"
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    delayedCancellationResponse := models.DelayedCancellationResponse{
+        Message:              models.ToPointer("message4"),
+    }
+
 }
 ```
 

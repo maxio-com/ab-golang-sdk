@@ -39,7 +39,7 @@ type CreditNote struct {
     Memo                 *string                 `json:"memo,omitempty"`
     // Information about the seller (merchant) listed on the masthead of the credit note.
     Seller               *InvoiceSeller          `json:"seller,omitempty"`
-    // Information about the customer who is owner or recipient the credited subscription.
+    // Information about the customer who is owner or recipient of the credited subscription.
     Customer             *InvoiceCustomer        `json:"customer,omitempty"`
     // The billing address of the credit subscription.
     BillingAddress       *InvoiceAddress         `json:"billing_address,omitempty"`
@@ -47,11 +47,11 @@ type CreditNote struct {
     ShippingAddress      *InvoiceAddress         `json:"shipping_address,omitempty"`
     // Subtotal of the credit note, which is the sum of all line items before discounts or taxes. Note that this is a positive amount representing the credit back to the customer.
     SubtotalAmount       *string                 `json:"subtotal_amount,omitempty"`
-    // Total discount applied to the credit note. Note that this is a positive amount representing the discount amount being credited back to the customer (i.e. a credit on an earlier discount). For example, if the original purchase was $1.00 and the original discount was $0.10, a credit of $0.50 of the original purchase (half) would have a discount credit of $0.05 (also half).
+    // Total discount applied to the credit note. Note that this is a positive amount representing the discount amount being credited back to the customer (i.e., a credit on an earlier discount). For example, if the original purchase was $1.00 and the original discount was $0.10, a credit of $0.50 of the original purchase (half) would have a discount credit of $0.05 (also half).
     DiscountAmount       *string                 `json:"discount_amount,omitempty"`
-    // Total tax of the credit note. Note that this is a positive amount representing a previously taxex amount being credited back to the customer (i.e. a credit of an earlier tax). For example, if the original purchase was $1.00 and the original tax was $0.10, a credit of $0.50 of the original purchase (half) would also have a tax credit of $0.05 (also half).
+    // Total tax of the credit note. Note that this is a positive amount representing a previously taxed amount being credited back to the customer (i.e., a credit of an earlier tax). For example, if the original purchase was $1.00 and the original tax was $0.10, a credit of $0.50 of the original purchase (half) would also have a tax credit of $0.05 (also half).
     TaxAmount            *string                 `json:"tax_amount,omitempty"`
-    // The credit note total, which is `subtotal_amount - discount_amount + tax_amount`.'
+    // The credit note total, which is `subtotal_amount - discount_amount + tax_amount`.
     TotalAmount          *string                 `json:"total_amount,omitempty"`
     // The amount of the credit note that has already been applied to invoices.
     AppliedAmount        *string                 `json:"applied_amount,omitempty"`
@@ -63,7 +63,7 @@ type CreditNote struct {
     Taxes                []InvoiceTax            `json:"taxes,omitempty"`
     Applications         []CreditNoteApplication `json:"applications,omitempty"`
     Refunds              []InvoiceRefund         `json:"refunds,omitempty"`
-    // An array of origin invoices for the credit note. Learn more about [Origin Invoice from our docs](https://maxio.zendesk.com/hc/en-us/articles/24252261284749-Credit-Notes-Proration#origin-invoices)
+    // An array of origin invoices for the credit note. Learn more about [Origin Invoice from our docs](https://maxio.zendesk.com/hc/en-us/articles/24252261284749-Credit-Notes-Proration#origin-invoices).
     OriginInvoices       []OriginInvoice         `json:"origin_invoices,omitempty"`
     AdditionalProperties map[string]interface{}  `json:"_"`
 }

@@ -14,12 +14,21 @@ Updatable fields for Subscription Note
 | `Body` | `string` | Required | - |
 | `Sticky` | `bool` | Required | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "body": "body8",
-  "sticky": false
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    updateSubscriptionNote := models.UpdateSubscriptionNote{
+        Body:                 "body2",
+        Sticky:               false,
+    }
+
 }
 ```
 

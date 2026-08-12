@@ -17,15 +17,24 @@
 | `TaxAmount` | `*string` | Optional | **Constraints**: *Minimum Length*: `1` |
 | `LineItemBreakouts` | [`[]models.InvoiceTaxBreakout`](../../doc/models/invoice-tax-breakout.md) | Optional | **Constraints**: *Minimum Items*: `1`, *Unique Items Required* |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "uid": "uid8",
-  "title": "title4",
-  "source_type": "Tax",
-  "percentage": "percentage6",
-  "taxable_amount": "taxable_amount2"
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    proformaInvoiceTax := models.ProformaInvoiceTax{
+        Uid:                  models.ToPointer("uid4"),
+        Title:                models.ToPointer("title0"),
+        SourceType:           models.ToPointer(models.ProformaInvoiceTaxSourceType_TAX),
+        Percentage:           models.ToPointer("percentage2"),
+        TaxableAmount:        models.ToPointer("taxable_amount8"),
+    }
+
 }
 ```
 

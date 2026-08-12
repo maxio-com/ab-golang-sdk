@@ -13,11 +13,11 @@ type SubscriptionGroupBankAccount struct {
     BankName              *string                `json:"bank_name,omitempty"`
     // (Required when creating a subscription with ACH. Required when creating a subscription with GoCardless and bank_iban is blank) The customerʼs bank account number
     BankAccountNumber     *string                `json:"bank_account_number,omitempty"`
-    // (Required when creating a subscription with ACH. Optional when creating a subscription with GoCardless). The routing number of the bank. It becomes bank_code while passing via GoCardless API
+    // (Required when creating a subscription with ACH. Optional when creating a subscription with GoCardless.) The routing number of the bank. It becomes bank_code while passing via GoCardless API.
     BankRoutingNumber     *string                `json:"bank_routing_number,omitempty"`
-    // (Optional when creating a subscription with GoCardless). International Bank Account Number. Alternatively, local bank details can be provided
+    // (Optional when creating a subscription with GoCardless). International Bank Account Number. Alternatively, local bank details can be provided.
     BankIban              *string                `json:"bank_iban,omitempty"`
-    // (Optional when creating a subscription with GoCardless) Branch code. Alternatively, an IBAN can be provided
+    // (Optional when creating a subscription with GoCardless) Branch code. Alternatively, an IBAN can be provided.
     BankBranchCode        *string                `json:"bank_branch_code,omitempty"`
     // Defaults to checking
     BankAccountType       *BankAccountType       `json:"bank_account_type,omitempty"`

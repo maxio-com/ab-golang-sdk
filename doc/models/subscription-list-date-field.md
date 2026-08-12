@@ -13,7 +13,16 @@
 
 ## Example
 
-```
-updated_at
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    subscriptionListDateField := models.SubscriptionListDateField_UPDATEDAT
+
+}
 ```
 

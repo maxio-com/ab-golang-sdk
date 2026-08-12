@@ -15,18 +15,26 @@
 | `Status` | `*string` | Optional | - |
 | `WebhookSubscriptions` | `[]string` | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "id": 196,
-  "url": "url2",
-  "site_id": 122,
-  "status": "status0",
-  "webhook_subscriptions": [
-    "webhook_subscriptions4",
-    "webhook_subscriptions3"
-  ]
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    endpoint := models.Endpoint{
+        Id:                   models.ToPointer(202),
+        Url:                  models.ToPointer("url2"),
+        SiteId:               models.ToPointer(128),
+        Status:               models.ToPointer("status0"),
+        WebhookSubscriptions: []string{
+            "webhook_subscriptions4",
+        },
+    }
+
 }
 ```
 

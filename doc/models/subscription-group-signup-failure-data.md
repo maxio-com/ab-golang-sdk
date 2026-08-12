@@ -18,21 +18,30 @@
 | `BankAccountAttributes` | [`*models.SubscriptionGroupBankAccount`](../../doc/models/subscription-group-bank-account.md) | Optional | - |
 | `Subscriptions` | [`[]models.SubscriptionGroupSignupItem`](../../doc/models/subscription-group-signup-item.md) | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "payer_id": 16,
-  "payer_reference": "payer_reference8",
-  "payment_profile_id": 6,
-  "payment_collection_method": "payment_collection_method0",
-  "payer_attributes": {
-    "first_name": "first_name2",
-    "last_name": "last_name0",
-    "email": "email4",
-    "cc_emails": "cc_emails2",
-    "organization": "organization6"
-  }
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    subscriptionGroupSignupFailureData := models.SubscriptionGroupSignupFailureData{
+        PayerId:                 models.ToPointer(236),
+        PayerReference:          models.ToPointer("payer_reference2"),
+        PaymentProfileId:        models.ToPointer(42),
+        PaymentCollectionMethod: models.ToPointer("payment_collection_method4"),
+        PayerAttributes:         models.ToPointer(models.PayerAttributes{
+            FirstName:            models.ToPointer("first_name2"),
+            LastName:             models.ToPointer("last_name0"),
+            Email:                models.ToPointer("email4"),
+            CcEmails:             models.ToPointer("cc_emails2"),
+            Organization:         models.ToPointer("organization6"),
+        }),
+    }
+
 }
 ```
 

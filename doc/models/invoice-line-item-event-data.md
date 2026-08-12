@@ -30,15 +30,24 @@
 | `BillingScheduleItemId` | `models.Optional[int]` | Optional | - |
 | `CustomItem` | `models.Optional[bool]` | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "uid": "uid4",
-  "title": "title0",
-  "description": "description6",
-  "quantity": 40,
-  "quantity_delta": 114
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    invoiceLineItemEventData := models.InvoiceLineItemEventData{
+        Uid:                   models.ToPointer("uid4"),
+        Title:                 models.ToPointer("title0"),
+        Description:           models.ToPointer("description4"),
+        Quantity:              models.ToPointer(190),
+        QuantityDelta:         models.NewOptional(models.ToPointer(36)),
+    }
+
 }
 ```
 

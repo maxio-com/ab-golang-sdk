@@ -17,15 +17,24 @@
 | `CurrencySymbol` | `*string` | Optional | - |
 | `Movements` | [`[]models.Movement`](../../doc/models/movement.md) | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "page": 150,
-  "per_page": 238,
-  "total_pages": 16,
-  "total_entries": 112,
-  "currency": "currency8"
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    listMRRResponseResult := models.ListMRRResponseResult{
+        Page:                 models.ToPointer(40),
+        PerPage:              models.ToPointer(208),
+        TotalPages:           models.ToPointer(82),
+        TotalEntries:         models.ToPointer(78),
+        Currency:             models.ToPointer("currency6"),
+    }
+
 }
 ```
 

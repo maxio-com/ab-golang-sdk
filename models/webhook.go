@@ -13,7 +13,7 @@ import (
 type Webhook struct {
     // A string describing which event type produced the given webhook
     Event                *string                `json:"event,omitempty"`
-    // The unique identifier for the webhooks (unique across all of Chargify). This is not changed on a retry/replay of the same webhook, so it may be used to avoid duplicate action for the same event.
+    // The unique identifier for the webhook (unique across all of Chargify). This is not changed on a retry/replay of the same webhook, so it may be used to avoid duplicate action for the same event.
     Id                   *int64                 `json:"id,omitempty"`
     // Timestamp indicating when the webhook was created
     CreatedAt            *time.Time             `json:"created_at,omitempty"`
@@ -27,7 +27,7 @@ type Webhook struct {
     LastSentAt           *time.Time             `json:"last_sent_at,omitempty"`
     // The url that the endpoint was last sent to.
     LastSentUrl          *string                `json:"last_sent_url,omitempty"`
-    // A boolean flag describing whether the webhook was accepted by the webhook endpoint for the most recent attempt. (Acceptance is defined by receiving a “200 OK” HTTP response within a reasonable timeframe, i.e. 15 seconds)
+    // “A boolean flag describing whether the webhook was accepted by the webhook endpoint for the most recent attempt. (Acceptance is defined by receiving a “200 OK” HTTP response within a reasonable timeframe, e.g., 15 seconds.)”
     Successful           *bool                  `json:"successful,omitempty"`
     // The data sent within the webhook post
     Body                 *string                `json:"body,omitempty"`

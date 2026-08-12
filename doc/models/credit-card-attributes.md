@@ -13,13 +13,22 @@
 | `ExpirationMonth` | `*string` | Optional | - |
 | `ExpirationYear` | `*string` | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "full_number": "full_number0",
-  "expiration_month": "expiration_month6",
-  "expiration_year": "expiration_year0"
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    creditCardAttributes := models.CreditCardAttributes{
+        FullNumber:           models.ToPointer("full_number8"),
+        ExpirationMonth:      models.ToPointer("expiration_month8"),
+        ExpirationYear:       models.ToPointer("expiration_year2"),
+    }
+
 }
 ```
 

@@ -12,12 +12,21 @@
 | `PreviousValue` | `string` | Required | - |
 | `CurrentValue` | `string` | Required | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "previous_value": "previous_value4",
-  "current_value": "current_value2"
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    paymentCollectionMethodChanged := models.PaymentCollectionMethodChanged{
+        PreviousValue:        "previous_value4",
+        CurrentValue:         "current_value2",
+    }
+
 }
 ```
 

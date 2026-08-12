@@ -11,32 +11,41 @@
 |  --- | --- | --- | --- |
 | `Payment` | [`models.MultiInvoicePayment`](../../doc/models/multi-invoice-payment.md) | Required | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "payment": {
-    "transaction_id": 224,
-    "total_amount": "total_amount2",
-    "currency_code": "currency_code2",
-    "applications": [
-      {
-        "invoice_uid": "invoice_uid8",
-        "application_uid": "application_uid8",
-        "applied_amount": "applied_amount0"
-      },
-      {
-        "invoice_uid": "invoice_uid8",
-        "application_uid": "application_uid8",
-        "applied_amount": "applied_amount0"
-      },
-      {
-        "invoice_uid": "invoice_uid8",
-        "application_uid": "application_uid8",
-        "applied_amount": "applied_amount0"
-      }
-    ]
-  }
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    multiInvoicePaymentResponse := models.MultiInvoicePaymentResponse{
+        Payment:              models.MultiInvoicePayment{
+            TransactionId:        models.ToPointer(224),
+            TotalAmount:          models.ToPointer("total_amount2"),
+            CurrencyCode:         models.ToPointer("currency_code2"),
+            Applications:         []models.InvoicePaymentApplication{
+                models.InvoicePaymentApplication{
+                    InvoiceUid:           models.ToPointer("invoice_uid8"),
+                    ApplicationUid:       models.ToPointer("application_uid8"),
+                    AppliedAmount:        models.ToPointer("applied_amount0"),
+                },
+                models.InvoicePaymentApplication{
+                    InvoiceUid:           models.ToPointer("invoice_uid8"),
+                    ApplicationUid:       models.ToPointer("application_uid8"),
+                    AppliedAmount:        models.ToPointer("applied_amount0"),
+                },
+                models.InvoicePaymentApplication{
+                    InvoiceUid:           models.ToPointer("invoice_uid8"),
+                    ApplicationUid:       models.ToPointer("application_uid8"),
+                    AppliedAmount:        models.ToPointer("applied_amount0"),
+                },
+            },
+        },
+    }
+
 }
 ```
 

@@ -19,15 +19,24 @@ Warning: When updating a metafield's scope attribute, all scope attributes must 
 | `PublicEdit` | [`*models.IncludeOption`](../../doc/models/include-option.md) | Optional | Include (1) or exclude (0) metafields used in [Embeddable Components](http://localhost:8080/go) from being editable by your ecosystem. |
 | `Hosted` | `[]string` | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "csv": "0",
-  "invoices": "0",
-  "statements": "0",
-  "portal": "0",
-  "public_show": "0"
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    metafieldScope := models.MetafieldScope{
+        Csv:                  models.ToPointer(models.IncludeOption_EXCLUDE),
+        Invoices:             models.ToPointer(models.IncludeOption_EXCLUDE),
+        Statements:           models.ToPointer(models.IncludeOption_EXCLUDE),
+        Portal:               models.ToPointer(models.IncludeOption_EXCLUDE),
+        PublicShow:           models.ToPointer(models.IncludeOption_EXCLUDE),
+    }
+
 }
 ```
 

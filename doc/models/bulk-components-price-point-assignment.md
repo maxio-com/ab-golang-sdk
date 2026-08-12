@@ -11,16 +11,25 @@
 |  --- | --- | --- | --- |
 | `Components` | [`[]models.ComponentPricePointAssignment`](../../doc/models/component-price-point-assignment.md) | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "components": [
-    {
-      "component_id": 108,
-      "price_point": "String5"
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    bulkComponentsPricePointAssignment := models.BulkComponentsPricePointAssignment{
+        Components:           []models.ComponentPricePointAssignment{
+            models.ComponentPricePointAssignment{
+                ComponentId:          models.ToPointer(108),
+                PricePoint:           models.ToPointer(models.ComponentPricePointAssignmentPricePointContainer.FromString("String5")),
+            },
+        },
     }
-  ]
+
 }
 ```
 

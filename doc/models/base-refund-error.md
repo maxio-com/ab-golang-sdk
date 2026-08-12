@@ -11,24 +11,23 @@
 |  --- | --- | --- | --- |
 | `Base` | `[]interface{}` | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "base": [
-    {
-      "key1": "val1",
-      "key2": "val2"
-    },
-    {
-      "key1": "val1",
-      "key2": "val2"
-    },
-    {
-      "key1": "val1",
-      "key2": "val2"
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    baseRefundError := models.BaseRefundError{
+        Base:                 []interface{}{
+            interface{}("[key1, val1][key2, val2]"),
+            interface{}("[key1, val1][key2, val2]"),
+        },
     }
-  ]
+
 }
 ```
 

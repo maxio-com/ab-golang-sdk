@@ -13,20 +13,16 @@ Errors returned on creating a refund prepayment when bad request
 |  --- | --- | --- | --- |
 | `Errors` | [`*models.RefundPrepaymentBaseRefundError`](../../doc/models/refund-prepayment-base-refund-error.md) | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "errors": {
-    "refund": {
-      "base": [
-        {
-          "key1": "val1",
-          "key2": "val2"
-        }
-      ]
+```go
+if err != nil {
+    switch typedErr := err.(type) {
+    case *errors.RefundPrepaymentBaseErrorsResponseException:
+        log.Fatalln(typedErr)
+    default:
+        log.Fatalln(err)
     }
-  }
 }
 ```
 

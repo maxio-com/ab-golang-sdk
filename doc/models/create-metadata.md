@@ -12,12 +12,21 @@
 | `Name` | `*string` | Optional | - |
 | `Value` | `*string` | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "name": "name4",
-  "value": "value6"
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    createMetadata := models.CreateMetadata{
+        Name:                 models.ToPointer("name0"),
+        Value:                models.ToPointer("value2"),
+    }
+
 }
 ```
 

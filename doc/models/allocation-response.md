@@ -11,17 +11,26 @@
 |  --- | --- | --- | --- |
 | `Allocation` | [`*models.Allocation`](../../doc/models/allocation.md) | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "allocation": {
-    "allocation_id": 238,
-    "component_id": 8,
-    "component_handle": "component_handle8",
-    "subscription_id": 8,
-    "quantity": 32
-  }
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    allocationResponse := models.AllocationResponse{
+        Allocation:           models.ToPointer(models.Allocation{
+            AllocationId:             models.ToPointer(238),
+            ComponentId:              models.ToPointer(8),
+            ComponentHandle:          models.NewOptional(models.ToPointer("component_handle8")),
+            SubscriptionId:           models.ToPointer(8),
+            Quantity:                 models.ToPointer(models.AllocationQuantityContainer.FromNumber(32)),
+        }),
+    }
+
 }
 ```
 

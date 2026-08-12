@@ -21,29 +21,47 @@
 | `ProductName` | `string` | Required | - |
 | `LineItems` | [`[]models.InvoiceLineItemEventData`](../../doc/models/invoice-line-item-event-data.md) | Required | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "uid": "uid0",
-  "number": "number2",
-  "role": "role6",
-  "delivery_date": "2016-03-13T12:52:32.123Z",
-  "created_at": "2016-03-13T12:52:32.123Z",
-  "due_amount": "due_amount2",
-  "paid_amount": "paid_amount8",
-  "tax_amount": "tax_amount6",
-  "total_amount": "total_amount6",
-  "product_name": "product_name6",
-  "line_items": [
-    {
-      "uid": "uid8",
-      "title": "title4",
-      "description": "description8",
-      "quantity": 102,
-      "quantity_delta": 204
+```go
+package main
+
+import (
+    "log"
+    "time"
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    parseTime := func(layout, value string, errCallback func(error)) time.Time {
+        dateTime, err := time.Parse(layout, value)
+        if err != nil {
+            errCallback(err) 
+       }
+        return dateTime
     }
-  ]
+    proformaInvoiceIssued := models.ProformaInvoiceIssued{
+        Uid:                  "uid6",
+        Number:               "number4",
+        Role:                 "role0",
+        DeliveryDate:         parseTime(models.DEFAULT_DATE, "2016-03-13T12:52:32.123Z", func(err error) { log.Fatalln(err) }),
+        CreatedAt:            parseTime(time.RFC3339, "2016-03-13T12:52:32.123Z", func(err error) { log.Fatalln(err) }),
+        DueAmount:            "due_amount8",
+        PaidAmount:           "paid_amount8",
+        TaxAmount:            "tax_amount0",
+        TotalAmount:          "total_amount2",
+        ProductName:          "product_name2",
+        LineItems:            []models.InvoiceLineItemEventData{
+            models.InvoiceLineItemEventData{
+                Uid:                   models.ToPointer("uid8"),
+                Title:                 models.ToPointer("title4"),
+                Description:           models.ToPointer("description8"),
+                Quantity:              models.ToPointer(102),
+                QuantityDelta:         models.NewOptional(models.ToPointer(204)),
+            },
+        },
+    }
+
 }
 ```
 

@@ -19,18 +19,28 @@
 | `State` | `*string` | Optional | - |
 | `CancelAtEndOfPeriod` | `*bool` | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "uid": "uid4",
-  "scheme": 66,
-  "customer_id": 86,
-  "payment_profile_id": 250,
-  "subscription_ids": [
-    196,
-    197
-  ]
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    reactivateSubscriptionGroupResponse := models.ReactivateSubscriptionGroupResponse{
+        Uid:                   models.ToPointer("uid0"),
+        Scheme:                models.ToPointer(10),
+        CustomerId:            models.ToPointer(30),
+        PaymentProfileId:      models.ToPointer(62),
+        SubscriptionIds:       []int{
+            140,
+            141,
+            142,
+        },
+    }
+
 }
 ```
 

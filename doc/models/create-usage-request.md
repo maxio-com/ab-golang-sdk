@@ -11,37 +11,55 @@
 |  --- | --- | --- | --- |
 | `Usage` | [`models.CreateUsage`](../../doc/models/create-usage.md) | Required | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "usage": {
-    "quantity": 162.34,
-    "price_point_id": "price_point_id0",
-    "memo": "memo2",
-    "billing_schedule": {
-      "initial_billing_at": "2016-03-13T12:52:32.123Z"
-    },
-    "custom_price": {
-      "tax_included": false,
-      "pricing_scheme": "stairstep",
-      "interval": 66,
-      "interval_unit": "day",
-      "list_price_point_id": 174,
-      "prices": [
-        {
-          "starting_quantity": 242,
-          "ending_quantity": 40,
-          "unit_price": 23.26
-        },
-        {
-          "starting_quantity": 242,
-          "ending_quantity": 40,
-          "unit_price": 23.26
-        }
-      ]
+```go
+package main
+
+import (
+    "log"
+    "time"
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    parseTime := func(layout, value string, errCallback func(error)) time.Time {
+        dateTime, err := time.Parse(layout, value)
+        if err != nil {
+            errCallback(err) 
+       }
+        return dateTime
     }
-  }
+    createUsageRequest := models.CreateUsageRequest{
+        Usage:                models.CreateUsage{
+            Quantity:             models.ToPointer(float64(162.34)),
+            PricePointId:         models.ToPointer("price_point_id0"),
+            Memo:                 models.ToPointer("memo2"),
+            BillingSchedule:      models.ToPointer(models.BillingSchedule{
+                InitialBillingAt:     models.NewOptional(models.ToPointer(parseTime(models.DEFAULT_DATE, "2016-03-13T12:52:32.123Z", func(err error) { log.Fatalln(err) }))),
+            }),
+            CustomPrice:          models.ToPointer(models.ComponentCustomPrice{
+                TaxIncluded:              models.ToPointer(false),
+                PricingScheme:            models.ToPointer(models.PricingScheme_STAIRSTEP),
+                Interval:                 models.ToPointer(66),
+                IntervalUnit:             models.NewOptional(models.ToPointer(models.IntervalUnit_DAY)),
+                ListPricePointId:         models.NewOptional(models.ToPointer(174)),
+                Prices:                   []models.Price{
+                    models.Price{
+                        StartingQuantity:     models.PriceStartingQuantityContainer.FromNumber(242),
+                        EndingQuantity:       models.NewOptional(models.ToPointer(models.PriceEndingQuantityContainer.FromNumber(40))),
+                        UnitPrice:            models.PriceUnitPriceContainer.FromPrecision(float64(23.26)),
+                    },
+                    models.Price{
+                        StartingQuantity:     models.PriceStartingQuantityContainer.FromNumber(242),
+                        EndingQuantity:       models.NewOptional(models.ToPointer(models.PriceEndingQuantityContainer.FromNumber(40))),
+                        UnitPrice:            models.PriceUnitPriceContainer.FromPrecision(float64(23.26)),
+                    },
+                },
+            }),
+        },
+    }
+
 }
 ```
 

@@ -15,31 +15,40 @@
 | `MrrData` | [`map[string]models.SaleRepItemMrr`](../../doc/models/sale-rep-item-mrr.md) | Optional | - |
 | `TestMode` | `*bool` | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "mrr_data": {
-    "november_2019": {
-      "mrr": "$0.00",
-      "usage": "$0.00",
-      "recurring": "$0.00"
-    },
-    "december_2019": {
-      "mrr": "$0.00",
-      "usage": "$0.00",
-      "recurring": "$0.00"
-    },
-    "january_2020": {
-      "mrr": "$400.00",
-      "usage": "$0.00",
-      "recurring": "$400.00"
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    listSaleRepItem := models.ListSaleRepItem{
+        Id:                   models.ToPointer(54),
+        FullName:             models.ToPointer("full_name2"),
+        SubscriptionsCount:   models.ToPointer(126),
+        MrrData:              map[string]models.SaleRepItemMrr{
+            "november_2019": models.SaleRepItemMrr{
+                Mrr:                  models.ToPointer("$0.00"),
+                Usage:                models.ToPointer("$0.00"),
+                Recurring:            models.ToPointer("$0.00"),
+            },
+            "december_2019": models.SaleRepItemMrr{
+                Mrr:                  models.ToPointer("$0.00"),
+                Usage:                models.ToPointer("$0.00"),
+                Recurring:            models.ToPointer("$0.00"),
+            },
+            "january_2020": models.SaleRepItemMrr{
+                Mrr:                  models.ToPointer("$400.00"),
+                Usage:                models.ToPointer("$0.00"),
+                Recurring:            models.ToPointer("$400.00"),
+            },
+        },
+        TestMode:             models.ToPointer(false),
     }
-  },
-  "id": 26,
-  "full_name": "full_name8",
-  "subscriptions_count": 154,
-  "test_mode": false
+
 }
 ```
 

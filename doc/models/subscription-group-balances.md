@@ -14,30 +14,39 @@
 | `OpenInvoices` | [`*models.AccountBalance`](../../doc/models/account-balance.md) | Optional | - |
 | `PendingDiscounts` | [`*models.AccountBalance`](../../doc/models/account-balance.md) | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "prepayments": {
-    "balance_in_cents": 192,
-    "automatic_balance_in_cents": 178,
-    "remittance_balance_in_cents": 146
-  },
-  "service_credits": {
-    "balance_in_cents": 84,
-    "automatic_balance_in_cents": 70,
-    "remittance_balance_in_cents": 38
-  },
-  "open_invoices": {
-    "balance_in_cents": 40,
-    "automatic_balance_in_cents": 202,
-    "remittance_balance_in_cents": 170
-  },
-  "pending_discounts": {
-    "balance_in_cents": 88,
-    "automatic_balance_in_cents": 154,
-    "remittance_balance_in_cents": 134
-  }
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    subscriptionGroupBalances := models.SubscriptionGroupBalances{
+        Prepayments:          models.ToPointer(models.AccountBalance{
+            BalanceInCents:           models.ToPointer(int64(192)),
+            AutomaticBalanceInCents:  models.NewOptional(models.ToPointer(int64(178))),
+            RemittanceBalanceInCents: models.NewOptional(models.ToPointer(int64(146))),
+        }),
+        ServiceCredits:       models.ToPointer(models.AccountBalance{
+            BalanceInCents:           models.ToPointer(int64(84)),
+            AutomaticBalanceInCents:  models.NewOptional(models.ToPointer(int64(70))),
+            RemittanceBalanceInCents: models.NewOptional(models.ToPointer(int64(38))),
+        }),
+        OpenInvoices:         models.ToPointer(models.AccountBalance{
+            BalanceInCents:           models.ToPointer(int64(40)),
+            AutomaticBalanceInCents:  models.NewOptional(models.ToPointer(int64(202))),
+            RemittanceBalanceInCents: models.NewOptional(models.ToPointer(int64(170))),
+        }),
+        PendingDiscounts:     models.ToPointer(models.AccountBalance{
+            BalanceInCents:           models.ToPointer(int64(88)),
+            AutomaticBalanceInCents:  models.NewOptional(models.ToPointer(int64(154))),
+            RemittanceBalanceInCents: models.NewOptional(models.ToPointer(int64(134))),
+        }),
+    }
+
 }
 ```
 

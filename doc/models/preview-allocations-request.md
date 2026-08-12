@@ -14,23 +14,41 @@
 | `UpgradeCharge` | [`models.Optional[models.CreditType]`](../../doc/models/credit-type.md) | Optional | The type of credit to be created when upgrading/downgrading. Defaults to the component and then site setting if one is not provided. |
 | `DowngradeCredit` | [`models.Optional[models.CreditType]`](../../doc/models/credit-type.md) | Optional | The type of credit to be created when upgrading/downgrading. Defaults to the component and then site setting if one is not provided. |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "allocations": [
-    {
-      "quantity": 26.48,
-      "decimal_quantity": "decimal_quantity8",
-      "previous_quantity": 55.5,
-      "decimal_previous_quantity": "decimal_previous_quantity2",
-      "component_id": 242,
-      "memo": "memo6"
+```go
+package main
+
+import (
+    "log"
+    "time"
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    parseTime := func(layout, value string, errCallback func(error)) time.Time {
+        dateTime, err := time.Parse(layout, value)
+        if err != nil {
+            errCallback(err) 
+       }
+        return dateTime
     }
-  ],
-  "effective_proration_date": "2023-12-01",
-  "upgrade_charge": "none",
-  "downgrade_credit": "prorated"
+    previewAllocationsRequest := models.PreviewAllocationsRequest{
+        Allocations:            []models.CreateAllocation{
+            models.CreateAllocation{
+                Quantity:                 float64(26.48),
+                DecimalQuantity:          models.ToPointer("decimal_quantity8"),
+                PreviousQuantity:         models.ToPointer(float64(55.5)),
+                DecimalPreviousQuantity:  models.ToPointer("decimal_previous_quantity2"),
+                ComponentId:              models.ToPointer(242),
+                Memo:                     models.ToPointer("memo6"),
+            },
+        },
+        EffectiveProrationDate: models.ToPointer(parseTime(models.DEFAULT_DATE, "2023-12-01", func(err error) { log.Fatalln(err) })),
+        UpgradeCharge:          models.NewOptional(models.ToPointer(models.CreditType_NONE)),
+        DowngradeCredit:        models.NewOptional(models.ToPointer(models.CreditType_NONE)),
+    }
+
 }
 ```
 

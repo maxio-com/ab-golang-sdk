@@ -11,17 +11,26 @@
 |  --- | --- | --- | --- |
 | `Mrr` | [`models.ListMRRResponseResult`](../../doc/models/list-mrr-response-result.md) | Required | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "mrr": {
-    "page": 30,
-    "per_page": 198,
-    "total_pages": 92,
-    "total_entries": 188,
-    "currency": "currency4"
-  }
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    listMRRResponse := models.ListMRRResponse{
+        Mrr:                  models.ListMRRResponseResult{
+            Page:                 models.ToPointer(30),
+            PerPage:              models.ToPointer(198),
+            TotalPages:           models.ToPointer(92),
+            TotalEntries:         models.ToPointer(188),
+            Currency:             models.ToPointer("currency4"),
+        },
+    }
+
 }
 ```
 

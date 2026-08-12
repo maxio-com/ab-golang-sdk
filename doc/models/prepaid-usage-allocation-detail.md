@@ -13,13 +13,22 @@
 | `ChargeId` | `*int` | Optional | - |
 | `UsageQuantity` | `*int` | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "allocation_id": 72,
-  "charge_id": 30,
-  "usage_quantity": 212
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    prepaidUsageAllocationDetail := models.PrepaidUsageAllocationDetail{
+        AllocationId:         models.ToPointer(144),
+        ChargeId:             models.ToPointer(214),
+        UsageQuantity:        models.ToPointer(140),
+    }
+
 }
 ```
 

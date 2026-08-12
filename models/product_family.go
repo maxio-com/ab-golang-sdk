@@ -16,6 +16,8 @@ type ProductFamily struct {
     Handle               *string                `json:"handle,omitempty"`
     AccountingCode       Optional[string]       `json:"accounting_code"`
     Description          Optional[string]       `json:"description"`
+    // Whether surcharging applies to this product family. Only included on sites where surcharging is enabled.
+    Surcharging          *bool                  `json:"surcharging,omitempty"`
     CreatedAt            *time.Time             `json:"created_at,omitempty"`
     UpdatedAt            *time.Time             `json:"updated_at,omitempty"`
     // Timestamp indicating when this product family was archived. `null` if the product family is not archived.
@@ -27,8 +29,8 @@ type ProductFamily struct {
 // providing a human-readable string representation useful for logging, debugging or displaying information.
 func (p ProductFamily) String() string {
     return fmt.Sprintf(
-    	"ProductFamily[Id=%v, Name=%v, Handle=%v, AccountingCode=%v, Description=%v, CreatedAt=%v, UpdatedAt=%v, ArchivedAt=%v, AdditionalProperties=%v]",
-    	p.Id, p.Name, p.Handle, p.AccountingCode, p.Description, p.CreatedAt, p.UpdatedAt, p.ArchivedAt, p.AdditionalProperties)
+    	"ProductFamily[Id=%v, Name=%v, Handle=%v, AccountingCode=%v, Description=%v, Surcharging=%v, CreatedAt=%v, UpdatedAt=%v, ArchivedAt=%v, AdditionalProperties=%v]",
+    	p.Id, p.Name, p.Handle, p.AccountingCode, p.Description, p.Surcharging, p.CreatedAt, p.UpdatedAt, p.ArchivedAt, p.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for ProductFamily.
@@ -37,7 +39,7 @@ func (p ProductFamily) MarshalJSON() (
     []byte,
     error) {
     if err := DetectConflictingProperties(p.AdditionalProperties,
-        "id", "name", "handle", "accounting_code", "description", "created_at", "updated_at", "archived_at"); err != nil {
+        "id", "name", "handle", "accounting_code", "description", "surcharging", "created_at", "updated_at", "archived_at"); err != nil {
         return []byte{}, err
     }
     return json.Marshal(p.toMap())
@@ -70,6 +72,9 @@ func (p ProductFamily) toMap() map[string]any {
             structMap["description"] = nil
         }
     }
+    if p.Surcharging != nil {
+        structMap["surcharging"] = p.Surcharging
+    }
     if p.CreatedAt != nil {
         structMap["created_at"] = p.CreatedAt.Format(time.RFC3339)
     }
@@ -99,7 +104,7 @@ func (p *ProductFamily) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "id", "name", "handle", "accounting_code", "description", "created_at", "updated_at", "archived_at")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "id", "name", "handle", "accounting_code", "description", "surcharging", "created_at", "updated_at", "archived_at")
     if err != nil {
     	return err
     }
@@ -110,6 +115,7 @@ func (p *ProductFamily) UnmarshalJSON(input []byte) error {
     p.Handle = temp.Handle
     p.AccountingCode = temp.AccountingCode
     p.Description = temp.Description
+    p.Surcharging = temp.Surcharging
     if temp.CreatedAt != nil {
         CreatedAtVal, err := time.Parse(time.RFC3339, *temp.CreatedAt)
         if err != nil {
@@ -142,6 +148,7 @@ type tempProductFamily  struct {
     Handle         *string          `json:"handle,omitempty"`
     AccountingCode Optional[string] `json:"accounting_code"`
     Description    Optional[string] `json:"description"`
+    Surcharging    *bool            `json:"surcharging,omitempty"`
     CreatedAt      *string          `json:"created_at,omitempty"`
     UpdatedAt      *string          `json:"updated_at,omitempty"`
     ArchivedAt     Optional[string] `json:"archived_at"`

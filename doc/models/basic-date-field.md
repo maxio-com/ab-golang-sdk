@@ -16,7 +16,16 @@ Allows to filter by `created_at` or `updated_at`.
 
 ## Example
 
-```
-updated_at
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    basicDateField := models.BasicDateField_UPDATEDAT
+
+}
 ```
 

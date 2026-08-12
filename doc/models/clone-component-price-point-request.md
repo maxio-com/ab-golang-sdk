@@ -11,14 +11,23 @@
 |  --- | --- | --- | --- |
 | `PricePoint` | [`models.CloneComponentPricePoint`](../../doc/models/clone-component-price-point.md) | Required | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "price_point": {
-    "name": "name0",
-    "handle": "handle6"
-  }
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    cloneComponentPricePointRequest := models.CloneComponentPricePointRequest{
+        PricePoint:           models.CloneComponentPricePoint{
+            Name:                 "name0",
+            Handle:               models.ToPointer("handle6"),
+        },
+    }
+
 }
 ```
 

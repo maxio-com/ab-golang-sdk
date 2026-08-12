@@ -17,7 +17,7 @@ type ScheduledRenewalItemRequestBodyProduct struct {
     ItemId               int                                `json:"item_id"`
     // Price point identifier.
     PricePointId         *int                               `json:"price_point_id,omitempty"`
-    // Optional quantity for the item.
+    // (Optional) Quantity for the item.
     Quantity             *int                               `json:"quantity,omitempty"`
     // Custom pricing for a product within a scheduled renewal.
     CustomPrice          *ScheduledRenewalProductPricePoint `json:"custom_price,omitempty"`

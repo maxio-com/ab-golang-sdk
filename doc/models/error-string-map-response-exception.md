@@ -11,14 +11,16 @@
 |  --- | --- | --- | --- |
 | `Errors` | `map[string]string` | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "errors": {
-    "key0": "errors3",
-    "key1": "errors4"
-  }
+```go
+if err != nil {
+    switch typedErr := err.(type) {
+    case *errors.ErrorStringMapResponseException:
+        log.Fatalln(typedErr)
+    default:
+        log.Fatalln(err)
+    }
 }
 ```
 

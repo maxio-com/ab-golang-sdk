@@ -12,12 +12,21 @@
 | `Resume` | `*bool` | Optional | - |
 | `ResumeMembers` | `*bool` | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "resume": false,
-  "resume_members": false
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    reactivateSubscriptionGroupRequest := models.ReactivateSubscriptionGroupRequest{
+        Resume:               models.ToPointer(false),
+        ResumeMembers:        models.ToPointer(false),
+    }
+
 }
 ```
 

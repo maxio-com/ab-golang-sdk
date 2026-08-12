@@ -24,15 +24,24 @@
 | `Type` | `*string` | Optional | - |
 | `TaxExemptAmount` | `*string` | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "uid": "uid8",
-  "title": "title6",
-  "description": "description2",
-  "source_type": "Tax",
-  "source_id": 164
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    invoiceTax := models.InvoiceTax{
+        Uid:                   models.ToPointer("uid2"),
+        Title:                 models.ToPointer("title8"),
+        Description:           models.NewOptional(models.ToPointer("description2")),
+        SourceType:            models.ToPointer(models.ProformaInvoiceTaxSourceType_TAX),
+        SourceId:              models.ToPointer(86),
+    }
+
 }
 ```
 

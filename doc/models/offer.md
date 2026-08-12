@@ -29,15 +29,24 @@
 | `ProductPriceInCents` | `*int64` | Optional | - |
 | `OfferSignupPages` | [`[]models.OfferSignupPage`](../../doc/models/offer-signup-page.md) | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "id": 154,
-  "site_id": 80,
-  "product_family_id": 158,
-  "product_id": 96,
-  "product_price_point_id": 20
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    offer := models.Offer{
+        Id:                     models.ToPointer(28),
+        SiteId:                 models.ToPointer(210),
+        ProductFamilyId:        models.ToPointer(224),
+        ProductId:              models.ToPointer(30),
+        ProductPricePointId:    models.ToPointer(150),
+    }
+
 }
 ```
 

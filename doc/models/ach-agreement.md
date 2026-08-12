@@ -16,14 +16,23 @@
 | `AuthorizerLastName` | `*string` | Optional | (Required when providing ACH agreement params) The last name of the person authorizing the ACH agreement. |
 | `IpAddress` | `*string` | Optional | (Required when providing ACH agreement params) The IP address of the person authorizing the ACH agreement. |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "agreement_terms": "agreement_terms4",
-  "authorizer_first_name": "authorizer_first_name2",
-  "authorizer_last_name": "authorizer_last_name2",
-  "ip_address": "ip_address2"
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    achAgreement := models.ACHAgreement{
+        AgreementTerms:       models.ToPointer("agreement_terms8"),
+        AuthorizerFirstName:  models.ToPointer("authorizer_first_name8"),
+        AuthorizerLastName:   models.ToPointer("authorizer_last_name6"),
+        IpAddress:            models.ToPointer("ip_address6"),
+    }
+
 }
 ```
 

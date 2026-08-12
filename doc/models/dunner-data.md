@@ -16,16 +16,34 @@
 | `Attempts` | `int` | Required | - |
 | `LastAttemptedAt` | `time.Time` | Required | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "state": "state4",
-  "subscription_id": 126,
-  "revenue_at_risk_in_cents": 30,
-  "created_at": "2016-03-13T12:52:32.123Z",
-  "attempts": 110,
-  "last_attempted_at": "2016-03-13T12:52:32.123Z"
+```go
+package main
+
+import (
+    "log"
+    "time"
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    parseTime := func(layout, value string, errCallback func(error)) time.Time {
+        dateTime, err := time.Parse(layout, value)
+        if err != nil {
+            errCallback(err) 
+       }
+        return dateTime
+    }
+    dunnerData := models.DunnerData{
+        State:                "state4",
+        SubscriptionId:       230,
+        RevenueAtRiskInCents: int64(134),
+        CreatedAt:            parseTime(time.RFC3339, "2016-03-13T12:52:32.123Z", func(err error) { log.Fatalln(err) }),
+        Attempts:             6,
+        LastAttemptedAt:      parseTime(time.RFC3339, "2016-03-13T12:52:32.123Z", func(err error) { log.Fatalln(err) }),
+    }
+
 }
 ```
 

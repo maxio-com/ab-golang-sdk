@@ -18,18 +18,27 @@
 | `SendSms` | `bool` | Required | - |
 | `SmsBody` | `models.Optional[string]` | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "day_threshold": 88,
-  "action": "action4",
-  "email_body": "email_body4",
-  "email_subject": "email_subject4",
-  "send_email": false,
-  "send_bcc_email": false,
-  "send_sms": false,
-  "sms_body": "sms_body0"
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    dunningStepData := models.DunningStepData{
+        DayThreshold:         206,
+        Action:               "action6",
+        EmailBody:            models.NewOptional(models.ToPointer("email_body6")),
+        EmailSubject:         models.NewOptional(models.ToPointer("email_subject6")),
+        SendEmail:            false,
+        SendBccEmail:         false,
+        SendSms:              false,
+        SmsBody:              models.NewOptional(models.ToPointer("sms_body8")),
+    }
+
 }
 ```
 

@@ -17,15 +17,33 @@
 | `OriginalAmount` | `*string` | Optional | - |
 | `AppliedAmount` | `*string` | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "uid": "uid6",
-  "credit_note_number": "credit_note_number0",
-  "credit_note_uid": "credit_note_uid0",
-  "transaction_time": "2016-03-13T12:52:32.123Z",
-  "memo": "memo0"
+```go
+package main
+
+import (
+    "log"
+    "time"
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    parseTime := func(layout, value string, errCallback func(error)) time.Time {
+        dateTime, err := time.Parse(layout, value)
+        if err != nil {
+            errCallback(err) 
+       }
+        return dateTime
+    }
+    invoiceCredit := models.InvoiceCredit{
+        Uid:                  models.ToPointer("uid8"),
+        CreditNoteNumber:     models.ToPointer("credit_note_number2"),
+        CreditNoteUid:        models.ToPointer("credit_note_uid2"),
+        TransactionTime:      models.ToPointer(parseTime(time.RFC3339, "2016-03-13T12:52:32.123Z", func(err error) { log.Fatalln(err) })),
+        Memo:                 models.ToPointer("memo2"),
+    }
+
 }
 ```
 

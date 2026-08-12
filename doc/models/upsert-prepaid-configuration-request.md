@@ -11,16 +11,25 @@
 |  --- | --- | --- | --- |
 | `PrepaidConfiguration` | [`models.UpsertPrepaidConfiguration`](../../doc/models/upsert-prepaid-configuration.md) | Required | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "prepaid_configuration": {
-    "initial_funding_amount_in_cents": 74,
-    "replenish_to_amount_in_cents": 76,
-    "auto_replenish": false,
-    "replenish_threshold_amount_in_cents": 20
-  }
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    upsertPrepaidConfigurationRequest := models.UpsertPrepaidConfigurationRequest{
+        PrepaidConfiguration: models.UpsertPrepaidConfiguration{
+            InitialFundingAmountInCents:     models.ToPointer(int64(74)),
+            ReplenishToAmountInCents:        models.ToPointer(int64(76)),
+            AutoReplenish:                   models.ToPointer(false),
+            ReplenishThresholdAmountInCents: models.ToPointer(int64(20)),
+        },
+    }
+
 }
 ```
 

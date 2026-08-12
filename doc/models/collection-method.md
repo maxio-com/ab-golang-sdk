@@ -16,3 +16,18 @@ The type of payment collection to be used in the subscription. For legacy Statem
 | `PREPAID` |
 | `INVOICE` |
 
+## Example
+
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    collectionMethod := models.CollectionMethod_AUTOMATIC
+
+}
+```
+

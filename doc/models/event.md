@@ -17,32 +17,41 @@
 | `CreatedAt` | `time.Time` | Required | - |
 | `EventSpecificData` | [`*models.EventEventSpecificData`](../../doc/models/containers/event-event-specific-data.md) | Required | This is a container for one-of cases. |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "id": 40,
-  "key": "subscription_group_signup_success",
-  "message": "message8",
-  "subscription_id": 150,
-  "customer_id": 78,
-  "created_at": "2016-03-13T12:52:32.123Z",
-  "event_specific_data": {
-    "previous_unit_balance": null,
-    "previous_overage_unit_balance": null,
-    "new_unit_balance": null,
-    "new_overage_unit_balance": null,
-    "usage_quantity": null,
-    "overage_usage_quantity": null,
-    "component_id": null,
-    "component_handle": null,
-    "memo": null,
-    "allocation_details": [
-      null
-    ],
-    "previous_product_id": 126,
-    "new_product_id": 12
-  }
+```go
+package main
+
+import (
+    "log"
+    "time"
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    parseTime := func(layout, value string, errCallback func(error)) time.Time {
+        dateTime, err := time.Parse(layout, value)
+        if err != nil {
+            errCallback(err) 
+       }
+        return dateTime
+    }
+    event := models.Event{
+        Id:                   int64(242),
+        Key:                  models.EventKey_SUBSCRIPTIONREMOVEDFROMGROUP,
+        Message:              "message0",
+        SubscriptionId:       models.ToPointer(96),
+        CustomerId:           models.ToPointer(24),
+        CreatedAt:            parseTime(time.RFC3339, "2016-03-13T12:52:32.123Z", func(err error) { log.Fatalln(err) }),
+        EventSpecificData:    models.ToPointer(models.EventEventSpecificDataContainer.FromSubscriptionProductChange(models.SubscriptionProductChange{
+            PreviousProductId:           126,
+            NewProductId:                12,
+            PreviousProductPricePointId: models.NewOptional(models.ToPointer(250)),
+            NewProductPricePointId:      models.NewOptional(models.ToPointer(244)),
+            EffectiveAt:                 models.NewOptional(models.ToPointer(parseTime(time.RFC3339, "2016-03-13T12:52:32.123Z", func(err error) { log.Fatalln(err) }))),
+        })),
+    }
+
 }
 ```
 

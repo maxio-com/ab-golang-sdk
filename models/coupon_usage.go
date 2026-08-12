@@ -19,9 +19,9 @@ type CouponUsage struct {
     Savings              Optional[int]          `json:"savings"`
     // Dollar amount of customer savings as a result of the coupon.
     SavingsInCents       Optional[int64]        `json:"savings_in_cents"`
-    // Total revenue of the all subscriptions that have received a discount from this coupon.
+    // Total revenue of all subscriptions that have received a discount from this coupon.
     Revenue              Optional[int]          `json:"revenue"`
-    // Total revenue of the all subscriptions that have received a discount from this coupon.
+    // Total revenue of all subscriptions that have received a discount from this coupon.
     RevenueInCents       *int64                 `json:"revenue_in_cents,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
 }

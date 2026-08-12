@@ -25,33 +25,51 @@
 | `ConsolidationLevel` | `string` | Required | - |
 | `LineItems` | [`[]models.InvoiceLineItemEventData`](../../doc/models/invoice-line-item-event-data.md) | Required | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "uid": "uid4",
-  "number": "number8",
-  "role": "role2",
-  "due_date": "2016-03-13T12:52:32.123Z",
-  "issue_date": "issue_date0",
-  "paid_date": "paid_date6",
-  "due_amount": "due_amount6",
-  "paid_amount": "paid_amount4",
-  "tax_amount": "tax_amount2",
-  "refund_amount": "refund_amount0",
-  "total_amount": "total_amount0",
-  "status_amount": "status_amount4",
-  "product_name": "product_name0",
-  "consolidation_level": "consolidation_level4",
-  "line_items": [
-    {
-      "uid": "uid8",
-      "title": "title4",
-      "description": "description8",
-      "quantity": 102,
-      "quantity_delta": 204
+```go
+package main
+
+import (
+    "log"
+    "time"
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    parseTime := func(layout, value string, errCallback func(error)) time.Time {
+        dateTime, err := time.Parse(layout, value)
+        if err != nil {
+            errCallback(err) 
+       }
+        return dateTime
     }
-  ]
+    invoiceIssued := models.InvoiceIssued{
+        Uid:                  "uid8",
+        Number:               "number4",
+        Role:                 "role8",
+        DueDate:              models.ToPointer(parseTime(models.DEFAULT_DATE, "2016-03-13T12:52:32.123Z", func(err error) { log.Fatalln(err) })),
+        IssueDate:            "issue_date4",
+        PaidDate:             "paid_date8",
+        DueAmount:            "due_amount0",
+        PaidAmount:           "paid_amount0",
+        TaxAmount:            "tax_amount8",
+        RefundAmount:         "refund_amount6",
+        TotalAmount:          "total_amount4",
+        StatusAmount:         "status_amount8",
+        ProductName:          "product_name4",
+        ConsolidationLevel:   "consolidation_level0",
+        LineItems:            []models.InvoiceLineItemEventData{
+            models.InvoiceLineItemEventData{
+                Uid:                   models.ToPointer("uid8"),
+                Title:                 models.ToPointer("title4"),
+                Description:           models.ToPointer("description8"),
+                Quantity:              models.ToPointer(102),
+                QuantityDelta:         models.NewOptional(models.ToPointer(204)),
+            },
+        },
+    }
+
 }
 ```
 

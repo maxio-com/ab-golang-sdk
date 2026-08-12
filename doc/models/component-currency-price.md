@@ -16,15 +16,24 @@
 | `PriceId` | `*int` | Optional | - |
 | `PricePointId` | `*int` | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "id": 4,
-  "currency": "currency8",
-  "price": "price4",
-  "formatted_price": "formatted_price6",
-  "price_id": 162
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    componentCurrencyPrice := models.ComponentCurrencyPrice{
+        Id:                   models.ToPointer(128),
+        Currency:             models.ToPointer("currency2"),
+        Price:                models.ToPointer("price4"),
+        FormattedPrice:       models.ToPointer("formatted_price6"),
+        PriceId:              models.ToPointer(38),
+    }
+
 }
 ```
 

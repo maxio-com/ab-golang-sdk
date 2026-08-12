@@ -18,3 +18,18 @@ The process used to cancel the subscription, if the subscription has been cancel
 | `UNKNOWN` |
 | `IMPORTED` |
 
+## Example
+
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    cancellationMethod := models.CancellationMethod_MERCHANTUI
+
+}
+```
+

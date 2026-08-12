@@ -11,11 +11,20 @@
 |  --- | --- | --- | --- |
 | `ProductPricePointId` | `string` | Required, Constant | Passed as a parameter to list methods to return only non null values.<br><br>**Value**: `"not_null"` |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "product_price_point_id": "not_null"
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    prepaidProductPricePointFilter := models.PrepaidProductPricePointFilter{
+        ProductPricePointId:  "not_null",
+    }
+
 }
 ```
 

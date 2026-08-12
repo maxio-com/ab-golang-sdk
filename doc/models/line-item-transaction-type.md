@@ -19,3 +19,18 @@ A handle for the line item transaction type
 | `INFOTRANSACTION` |
 | `PAYMENTAUTHORIZATION` |
 
+## Example
+
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    lineItemTransactionType := models.LineItemTransactionType_PAYMENT
+
+}
+```
+

@@ -9,9 +9,9 @@ import (
 
 // AccountBalances represents a AccountBalances struct.
 type AccountBalances struct {
-    // The balance, in cents, of the sum of the subscription's  open, payable invoices.
+    // The balance, in cents, of the sum of the subscription's open, payable invoices.
     OpenInvoices         *AccountBalance        `json:"open_invoices,omitempty"`
-    // The balance, in cents, of the sum of the subscription's  pending, payable invoices.
+    // The balance, in cents, of the sum of the subscription's pending, payable invoices.
     PendingInvoices      *AccountBalance        `json:"pending_invoices,omitempty"`
     // The balance, in cents, of the subscription's Pending Discount account.
     PendingDiscounts     *AccountBalance        `json:"pending_discounts,omitempty"`

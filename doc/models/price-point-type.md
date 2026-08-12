@@ -19,3 +19,18 @@ Price point type. We expose the following types:
 | `ENUMDEFAULT` |
 | `CUSTOM` |
 
+## Example
+
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    pricePointType := models.PricePointType_ENUMDEFAULT
+
+}
+```
+

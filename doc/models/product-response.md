@@ -11,17 +11,26 @@
 |  --- | --- | --- | --- |
 | `Product` | [`models.Product`](../../doc/models/product.md) | Required | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "product": {
-    "id": 134,
-    "name": "name0",
-    "handle": "handle6",
-    "description": "description0",
-    "accounting_code": "accounting_code6"
-  }
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    productResponse := models.ProductResponse{
+        Product:              models.Product{
+            Id:                         models.ToPointer(134),
+            Name:                       models.ToPointer("name0"),
+            Handle:                     models.NewOptional(models.ToPointer("handle6")),
+            Description:                models.NewOptional(models.ToPointer("description0")),
+            AccountingCode:             models.NewOptional(models.ToPointer("accounting_code6")),
+        },
+    }
+
 }
 ```
 

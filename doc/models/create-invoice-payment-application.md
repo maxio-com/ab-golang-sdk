@@ -12,12 +12,21 @@
 | `InvoiceUid` | `string` | Required | Unique identifier for the invoice. It has the prefix "inv_" followed by alphanumeric characters. |
 | `Amount` | `string` | Required | Dollar amount of the invoice payment (eg. "10.50" => $10.50). |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "invoice_uid": "invoice_uid4",
-  "amount": "amount6"
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    createInvoicePaymentApplication := models.CreateInvoicePaymentApplication{
+        InvoiceUid:           "invoice_uid6",
+        Amount:               "amount8",
+    }
+
 }
 ```
 

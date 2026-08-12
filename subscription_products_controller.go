@@ -26,12 +26,11 @@ func NewSubscriptionProductsController(baseController baseController) *Subscript
 // returns an models.ApiResponse with models.SubscriptionResponse data and
 // an error if there was an issue with the request or response.
 // Migrates a subscription to a different product.
-// In order to create a migration, you must pass the `product_id` or `product_handle` in the object when you send a POST request. You may also pass either a `product_price_point_id` or `product_price_point_handle` to choose which price point the subscription is moved to. If no price point identifier is passed the subscription will be moved to the products default price point. The response will be the updated subscription.
+// To create a migration, you must pass the `product_id` or `product_handle` in the object when you send a POST request. You can also pass either a `product_price_point_id` or `product_price_point_handle` to choose which price point the subscription is moved to. If no price point identifier is passed, the subscription is moved to the product's default price point. The response is the updated subscription.
 // ## Valid Subscriptions
-// Subscriptions should be in the `active` or `trialing` state in order to be migrated.
+// Subscriptions should be in the `active` or `trialing` state to be migrated.
 // (For backwards compatibility reasons, it is possible to migrate a subscription that is in the `trial_ended` state via the API, however this is not recommended.  Since `trial_ended` is an end-of-life state, the subscription should be canceled, the product changed, and then the subscription can be reactivated.)
-// ## Migrations Documentation
-// Full documentation on how to record Migrations in the Advanced Billing UI can be located [here](https://maxio.zendesk.com/hc/en-us/articles/24181589372429-Data-Migration-to-Advanced-Billing).
+// For more information, see [Product Changes and Migrations](https://docs.maxio.com/hc/en-us/articles/24252069837581-Product-Changes-and-Migrations).
 // ## Failed Migrations
 // Important note: One of the most common ways that a migration can fail is when the attempt is made to migrate a subscription to its current product. 
 // ## 3D Secure (3DS) Authentication post-authentication flow

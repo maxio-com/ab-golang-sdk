@@ -26,7 +26,7 @@ func NewInvoicesController(baseController baseController) *InvoicesController {
 // RefundInvoice takes context, uid, body as parameters and
 // returns an models.ApiResponse with models.Invoice data and
 // an error if there was an issue with the request or response.
-// Refund an invoice, segment, or consolidated invoice.
+// Refunds an invoice, segment, or consolidated invoice.
 // ## Partial Refund for Consolidated Invoice
 // A refund less than the total of a consolidated invoice will be split across its segments.
 // For a $50.00 refund on a $100.00 consolidated invoice with one $60.00 segment and one $40.00 segment, the refunded amount will be applied as 50% of each ($30.00 and $20.00, respectively).
@@ -79,19 +79,19 @@ type ListInvoicesInput struct {
     PerPage              *int                     
     // The sort direction of the returned invoices.
     Direction            *models.Direction        
-    // Include line items data
+    // Include line items data.
     LineItems            *bool                    
-    // Include discounts data
+    // Include discounts data.
     Discounts            *bool                    
-    // Include taxes data
+    // Include taxes data.
     Taxes                *bool                    
-    // Include credits data
+    // Include credits data.
     Credits              *bool                    
-    // Include payments data
+    // Include payments data.
     Payments             *bool                    
-    // Include custom fields data
+    // Include custom fields data.
     CustomFields         *bool                    
-    // Include refunds data
+    // Include refunds data.
     Refunds              *bool                    
     // The type of filter you would like to apply to your search. Use in query `date_field=issue_date`.
     DateField            *models.InvoiceDateField 
@@ -112,7 +112,7 @@ type ListInvoicesInput struct {
 // ListInvoices takes context, startDate, endDate, status, subscriptionId, subscriptionGroupUid, consolidationLevel, page, perPage, direction, lineItems, discounts, taxes, credits, payments, customFields, refunds, dateField, startDatetime, endDatetime, customerIds, number, productIds, sort as parameters and
 // returns an models.ApiResponse with models.ListInvoicesResponse data and
 // an error if there was an issue with the request or response.
-// By default, invoices returned on the index will only include totals, not detailed breakdowns for `line_items`, `discounts`, `taxes`, `credits`, `payments`, `custom_fields`, or `refunds`. To include breakdowns, pass the specific field as a key in the query with a value set to `true`.
+// Lists invoices for a site. By default, invoices returned on the index will only include totals, not detailed breakdowns for `line_items`, `discounts`, `taxes`, `credits`, `payments`, `custom_fields`, or `refunds`. To include breakdowns, pass the specific field as a key in the query with a value set to `true`.
 func (i *InvoicesController) ListInvoices(
     ctx context.Context,
     input ListInvoicesInput) (
@@ -203,7 +203,7 @@ func (i *InvoicesController) ListInvoices(
 // ReadInvoice takes context, uid as parameters and
 // returns an models.ApiResponse with models.Invoice data and
 // an error if there was an issue with the request or response.
-// Use this endpoint to retrieve the details for an invoice.
+// Returns the details for an invoice.
 // ## PDF Invoice retrieval
 // Individual PDF Invoices can be retrieved by using the "Accept" header application/pdf or appending .pdf as the format portion of the URL:
 // ```curl -u <api_key>:x -H
@@ -255,7 +255,7 @@ type ListInvoiceEventsInput struct {
 // ListInvoiceEvents takes context, sinceDate, sinceId, page, perPage, invoiceUid, withChangeInvoiceStatus, eventTypes as parameters and
 // returns an models.ApiResponse with models.ListInvoiceEventsResponse data and
 // an error if there was an issue with the request or response.
-// This endpoint returns a list of invoice events. Each event contains event "data" (such as an applied payment) as well as a snapshot of the `invoice` at the time of event completion.
+// Lists invoice events for a site. Each event contains event "data" (such as an applied payment) as well as a snapshot of the `invoice` at the time of event completion.
 // Exposed event types are:
 // + issue_invoice
 // + apply_credit_note
@@ -316,7 +316,7 @@ func (i *InvoicesController) ListInvoiceEvents(
 // RecordPaymentForInvoice takes context, uid, body as parameters and
 // returns an models.ApiResponse with models.Invoice data and
 // an error if there was an issue with the request or response.
-// Applies a payment of a given type against a specific invoice. If you would like to apply a payment across multiple invoices, you can use the Bulk Payment endpoint.
+// Applies a payment of a given type against a specific invoice. If you would like to apply a payment across multiple invoices, you can use the [Record Payment for Multiple Invoices]($e/Invoices/recordPaymentForMultipleInvoices) endpoint.
 func (i *InvoicesController) RecordPaymentForInvoice(
     ctx context.Context,
     uid string,
@@ -347,28 +347,8 @@ func (i *InvoicesController) RecordPaymentForInvoice(
 // RecordPaymentForMultipleInvoices takes context, body as parameters and
 // returns an models.ApiResponse with models.MultiInvoicePaymentResponse data and
 // an error if there was an issue with the request or response.
-// This API call should be used when you want to record an external payment against multiple invoices.
+// Records an external payment against multiple invoices.
 // To apply a payment to multiple invoices, at minimum, specify the `amount` and `applications` (i.e., `invoice_uid` and `amount`) details.
-// ```
-// {
-// "payment": {
-// "memo": "to pay the bills",
-// "details": "check number 8675309",
-// "method": "check",
-// "amount": "250.00",
-// "applications": [
-// {
-// "invoice_uid": "inv_8gk5bwkct3gqt",
-// "amount": "100.00"
-// },
-// {
-// "invoice_uid": "inv_7bc6bwkct3lyt",
-// "amount": "150.00"
-// }
-// ]
-// }
-// }
-// ```
 // Note that the invoice payment amounts must be greater than 0. Total amount must be greater or equal to invoices payment amount sum.
 func (i *InvoicesController) RecordPaymentForMultipleInvoices(
     ctx context.Context,
@@ -405,22 +385,22 @@ type ListCreditNotesInput struct {
     // This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.
     // Use in query `per_page=200`.
     PerPage        *int  
-    // Include line items data
+    // Include line items data.
     LineItems      *bool 
-    // Include discounts data
+    // Include discounts data.
     Discounts      *bool 
-    // Include taxes data
+    // Include taxes data.
     Taxes          *bool 
-    // Include refunds data
+    // Include refunds data.
     Refunds        *bool 
-    // Include applications data
+    // Include applications data.
     Applications   *bool 
 }
 
 // ListCreditNotes takes context, subscriptionId, page, perPage, lineItems, discounts, taxes, refunds, applications as parameters and
 // returns an models.ApiResponse with models.ListCreditNotesResponse data and
 // an error if there was an issue with the request or response.
-// Credit Notes are like inverse invoices. They reduce the amount a customer owes.
+// Lists credit notes for a site. Credit Notes are like inverse invoices. They reduce the amount a customer owes.
 // By default, the credit notes returned by this endpoint will exclude the arrays of `line_items`, `discounts`, `taxes`, `applications`, or `refunds`. To include these arrays, pass the specific field as a key in the query with a value set to `true`.
 func (i *InvoicesController) ListCreditNotes(
     ctx context.Context,
@@ -467,7 +447,7 @@ func (i *InvoicesController) ListCreditNotes(
 // ReadCreditNote takes context, uid as parameters and
 // returns an models.ApiResponse with models.CreditNote data and
 // an error if there was an issue with the request or response.
-// Use this endpoint to retrieve the details for a credit note.
+// Returns the details for a credit note.
 func (i *InvoicesController) ReadCreditNote(
     ctx context.Context,
     uid string) (
@@ -490,7 +470,7 @@ func (i *InvoicesController) ReadCreditNote(
 // RecordPaymentForSubscription takes context, subscriptionId, body as parameters and
 // returns an models.ApiResponse with models.RecordPaymentResponse data and
 // an error if there was an issue with the request or response.
-// Record an external payment made against a subscription that will pay partially or in full one or more invoices.
+// Records an external payment made against a subscription that will pay partially or in full one or more invoices.
 // Payment will be applied starting with the oldest open invoice and then next oldest, and so on until the amount of the payment is fully consumed.
 // Excess payment will result in the creation of a prepayment on the Invoice Account.
 // Only ungrouped or primary subscriptions may be paid using the "bulk" payment request.
@@ -524,7 +504,7 @@ func (i *InvoicesController) RecordPaymentForSubscription(
 // ReopenInvoice takes context, uid as parameters and
 // returns an models.ApiResponse with models.Invoice data and
 // an error if there was an issue with the request or response.
-// This endpoint allows you to reopen any invoice with the "canceled" status. Invoices enter "canceled" status if they were open at the time the subscription was canceled (whether through dunning or an intentional cancellation).
+// Reopens any invoice with the "canceled" status. Invoices enter "canceled" status if they were open at the time the subscription was canceled (whether through dunning or an intentional cancellation).
 // Invoices with "canceled" status are no longer considered to be due. Once reopened, they are considered due for payment. Payment may then be captured in one of the following ways:
 // - Reactivating the subscription, which will capture all open invoices (See note below about automatic reopening of invoices.)
 // - Recording a payment directly against the invoice
@@ -557,7 +537,7 @@ func (i *InvoicesController) ReopenInvoice(
 // VoidInvoice takes context, uid, body as parameters and
 // returns an models.ApiResponse with models.Invoice data and
 // an error if there was an issue with the request or response.
-// This endpoint allows you to void any invoice with the "open" or "canceled" status.  It will also allow voiding of an invoice with the "pending" status if it is not a consolidated invoice.
+// Voids any invoice with the "open" or "canceled" status.  It will also allow voiding of an invoice with the "pending" status if it is not a consolidated invoice.
 func (i *InvoicesController) VoidInvoice(
     ctx context.Context,
     uid string,
@@ -603,7 +583,7 @@ type ListConsolidatedInvoiceSegmentsInput struct {
 // ListConsolidatedInvoiceSegments takes context, invoiceUid, page, perPage, direction as parameters and
 // returns an models.ApiResponse with models.ConsolidatedInvoice data and
 // an error if there was an issue with the request or response.
-// Invoice segments returned on the index will only include totals, not detailed breakdowns for `line_items`, `discounts`, `taxes`, `credits`, `payments`, or `custom_fields`.
+// Lists segments for a consolidated invoice. Invoice segments returned on the index will only include totals, not detailed breakdowns for `line_items`, `discounts`, `taxes`, `credits`, `payments`, or `custom_fields`.
 func (i *InvoicesController) ListConsolidatedInvoiceSegments(
     ctx context.Context,
     input ListConsolidatedInvoiceSegmentsInput) (
@@ -635,7 +615,7 @@ func (i *InvoicesController) ListConsolidatedInvoiceSegments(
 // CreateInvoice takes context, subscriptionId, body as parameters and
 // returns an models.ApiResponse with models.InvoiceResponse data and
 // an error if there was an issue with the request or response.
-// This endpoint will allow you to create an ad hoc invoice.
+// Creates an ad hoc invoice.
 // ### Basic Behavior
 // You can create a basic invoice by sending an array of line items to this endpoint. Each line item, at a minimum, must include a title, a quantity and a unit price. Example:
 // ```json
@@ -804,10 +784,90 @@ func (i *InvoicesController) CreateInvoice(
     return models.NewApiResponse(result, resp), err
 }
 
+// UpdateInvoice takes context, subscriptionId, uid, body as parameters and
+// returns an models.ApiResponse with models.InvoiceResponse data and
+// an error if there was an issue with the request or response.
+// Updates an ad hoc invoice while it is in the `draft` state.
+// **Important: only invoices with the `adhoc` role and `draft` status can be updated.** Any other invoice — issued, or with a different role (e.g. `renewal`, `signup`) — cannot be updated through this endpoint and the request returns a `422` error. If the invoice does not belong to the provided subscription, a `404` error is returned.
+// Only the attributes submitted in the request are changed — omitted attributes keep their current values.
+// ### Line Items
+// The `line_items` array describes changes to the invoice's line items. Line items not referenced in the array remain unchanged.
+// #### Adding a line item
+// A line item without a `uid` is added to the invoice. The same line item types and options as on invoice creation are supported (custom items, `product_id`, `component_id`, price points, period date ranges, taxes).
+// #### Updating a line item
+// A line item with the `uid` of an existing line item updates that line item with the submitted attributes. Amounts and taxes are recalculated.
+// #### Removing a line item
+// A line item with a `uid` and `"_destroy": true` is removed from the invoice. Other line items remain unchanged.
+// Referencing a `uid` which does not exist on the invoice returns a `422` error.
+// ### Coupons
+// When the `coupons` key is present, the submitted coupons replace all discounts currently applied to the invoice. Send an empty array to remove all discounts. Coupon options are the same as on invoice creation.
+// ### Invoice Options
+// #### Issue Date and Net Terms
+// The `issue_date` parameter can be sent to change the invoice's issue date. Only today or dates in the past are accepted. The date is interpreted and validated in your site's time zone, using the `YYYY-MM-DD` format. The `net_terms` parameter indicates the number of days after the issue date on which the invoice is due. The due date is recalculated whenever the issue date or net terms change.
+// #### Addresses
+// The seller, shipping and billing addresses can be sent to replace the addresses on the invoice. Each address requires to send a `first_name` at a minimum in order to work. Taxes are recalculated after an address change.
+// #### Memo and Payment Instructions
+// A custom memo can be sent with the `memo` parameter. Likewise, custom payment instructions can be sent with the `payment_instructions` parameter.
+func (i *InvoicesController) UpdateInvoice(
+    ctx context.Context,
+    subscriptionId int,
+    uid string,
+    body *models.UpdateInvoiceRequest) (
+    models.ApiResponse[models.InvoiceResponse],
+    error) {
+    req := i.prepareRequest(ctx, "PUT", "/subscriptions/%v/invoices/%v.json")
+    req.AppendTemplateParams(subscriptionId, uid)
+    req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "404": {TemplatedMessage: "Not Found:'{$response.body}'", Unmarshaller: errors.NewErrorListResponse},
+        "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorArrayMapResponse},
+    })
+    req.Header("Content-Type", "application/json")
+    if body != nil {
+        req.Json(body)
+    }
+    
+    var result models.InvoiceResponse
+    decoder, resp, err := req.CallAsJson()
+    if err != nil {
+        return models.NewApiResponse(result, resp), err
+    }
+    
+    result, err = utilities.DecodeResults[models.InvoiceResponse](decoder)
+    return models.NewApiResponse(result, resp), err
+}
+
+// DeleteInvoice takes context, subscriptionId, uid as parameters and
+// returns an *Response and
+// an error if there was an issue with the request or response.
+// Deletes an ad hoc invoice while it is in the `draft` state.
+// **Important: only invoices with the `adhoc` role and `draft` status can be deleted.** Any other invoice — issued, or with a different role (e.g. `renewal`, `signup`) — cannot be deleted through this endpoint and the request returns a `422` error. Issued invoices should be voided instead. If the invoice does not belong to the provided subscription, a `404` error is returned.
+// A successful deletion returns a `204 No Content` response and the invoice is permanently removed.
+func (i *InvoicesController) DeleteInvoice(
+    ctx context.Context,
+    subscriptionId int,
+    uid string) (
+    *http.Response,
+    error) {
+    req := i.prepareRequest(ctx, "DELETE", "/subscriptions/%v/invoices/%v.json")
+    req.AppendTemplateParams(subscriptionId, uid)
+    req.Authenticate(NewAuth("BasicAuth"))
+    req.AppendErrors(map[string]https.ErrorBuilder[error]{
+        "404": {TemplatedMessage: "Not Found:'{$response.body}'", Unmarshaller: errors.NewErrorListResponse},
+        "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewErrorListResponse},
+    })
+    
+    httpCtx, err := req.Call()
+    if err != nil {
+        return httpCtx.Response, err
+    }
+    return httpCtx.Response, err
+}
+
 // SendInvoice takes context, uid, body as parameters and
 // returns an *Response and
 // an error if there was an issue with the request or response.
-// This endpoint allows for invoices to be programmatically delivered via email. This endpoint supports the delivery of both ad-hoc and automatically generated invoices. Additionally, this endpoint supports email delivery to direct recipients, carbon-copy (cc) recipients, and blind carbon-copy (bcc) recipients.
+// Sends an invoice to the customer via email. This endpoint supports the delivery of both ad-hoc and automatically generated invoices. Additionally, this endpoint supports email delivery to direct recipients, carbon-copy (cc) recipients, and blind carbon-copy (bcc) recipients.
 // **File Attachments**: You can attach files to invoice emails using `attachment_urls[]` parameter by providing URLs to the files you want to attach. When using attachments, the request must use `multipart/form-data` content type. Max 10 files, 10MB per file.
 // If no recipient email addresses are specified in the request, then the subscription's default email configuration will be used. For example, if `recipient_emails` is left blank, then the invoice will be delivered to the subscription's customer email address.
 // On success, a 204 no-content response will be returned. The response does not indicate that email(s) have been delivered, but instead indicates that emails have been successfully queued for delivery. If _any_ invalid or malformed email address is found in the request body, the entire request will be rejected and a 422 response will be returned.
@@ -838,7 +898,7 @@ func (i *InvoicesController) SendInvoice(
 // PreviewCustomerInformationChanges takes context, uid as parameters and
 // returns an models.ApiResponse with models.CustomerChangesPreviewResponse data and
 // an error if there was an issue with the request or response.
-// Customer information may change after an invoice is issued, which may lead to a mismatch between customer information that is present on an open invoice and actual customer information. This endpoint allows you to preview these differences, if any.
+// Previews the effect of customer information changes on an open invoice. Customer information may change after an invoice is issued, which may lead to a mismatch between customer information that is present on an open invoice and actual customer information. This endpoint allows you to preview these differences, if any.
 // The endpoint doesn't accept a request body. Customer information differences are calculated on the application side.
 func (i *InvoicesController) PreviewCustomerInformationChanges(
     ctx context.Context,
@@ -870,7 +930,7 @@ func (i *InvoicesController) PreviewCustomerInformationChanges(
 // UpdateCustomerInformation takes context, uid as parameters and
 // returns an models.ApiResponse with models.Invoice data and
 // an error if there was an issue with the request or response.
-// This endpoint updates customer information on an open invoice and returns the updated invoice. If you would like to preview changes that will be applied, use the `/invoices/{uid}/customer_information/preview.json` endpoint first.
+// Updates customer information on an open invoice and returns the updated invoice. If you would like to preview changes that will be applied, use the `/invoices/{uid}/customer_information/preview.json` endpoint first.
 // The endpoint doesn't accept a request body. Customer information differences are calculated on the application side.
 func (i *InvoicesController) UpdateCustomerInformation(
     ctx context.Context,
@@ -898,7 +958,7 @@ func (i *InvoicesController) UpdateCustomerInformation(
 // IssueInvoice takes context, uid, body as parameters and
 // returns an models.ApiResponse with models.Invoice data and
 // an error if there was an issue with the request or response.
-// This endpoint allows you to issue an invoice that is in "pending" or "draft" status. For example, you can issue an invoice that was created when allocating new quantity on a component and using "accrue charges" option.
+// Issues an invoice that is in "pending" or "draft" status. For example, you can issue an invoice that was created when allocating new quantity on a component and using "accrue charges" option.
 // You cannot issue a pending child invoice that was created for a member subscription in a group.
 // For Remittance subscriptions, the invoice will go into "open" status and payment won't be attempted. The value for `on_failed_payment` would be rejected if sent. Any prepayments or service credits that exist on the subscription will be automatically applied. Additionally, if the setting is enabled, an email will be sent for the issued invoice.
 // For Automatic subscriptions, prepayments and service credits will apply to the invoice before payment is attempted. On successful payment, the invoice will go into "paid" status and email will be sent to the customer (if setting applies). When payment fails, the next event depends on the `on_failed_payment` value:

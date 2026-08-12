@@ -26,10 +26,7 @@ func NewReferralCodesController(baseController baseController) *ReferralCodesCon
 // returns an models.ApiResponse with models.ReferralValidationResponse data and
 // an error if there was an issue with the request or response.
 // Validates whether a referral code is valid and applicable within your site. This method is useful for validating referral codes that are entered by a customer.
-// ## Referrals Documentation
-// Full documentation on how to use the referrals feature in the Advanced Billing UI can be located [here](https://maxio.zendesk.com/hc/en-us/sections/24286965611405-Referrals).
-// ## Server Response
-// If the referral code is valid the status code will be `200` and the referral code will be returned. If the referral code is invalid, a `404` response will be returned.
+// For more information, see [Understanding Referrals](https://docs.maxio.com/hc/en-us/articles/24286981223693-Understanding-Referrals) in the product documentation.
 func (r *ReferralCodesController) ValidateReferralCode(
     ctx context.Context,
     code string) (

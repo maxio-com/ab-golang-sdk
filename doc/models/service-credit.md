@@ -15,15 +15,24 @@
 | `EntryType` | [`*models.ServiceCreditType`](../../doc/models/service-credit-type.md) | Optional | The type of entry |
 | `Memo` | `*string` | Optional | The memo attached to the entry |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "id": 216,
-  "amount_in_cents": 210,
-  "ending_balance_in_cents": 86,
-  "entry_type": "Credit",
-  "memo": "memo2"
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    serviceCredit := models.ServiceCredit{
+        Id:                   models.ToPointer(132),
+        AmountInCents:        models.ToPointer(int64(218)),
+        EndingBalanceInCents: models.ToPointer(int64(2)),
+        EntryType:            models.ToPointer(models.ServiceCreditType_CREDIT),
+        Memo:                 models.ToPointer("memo8"),
+    }
+
 }
 ```
 

@@ -12,28 +12,41 @@
 | `ChargifyJsKeys` | [`[]models.PublicKey`](../../doc/models/public-key.md) | Optional | - |
 | `Meta` | [`*models.ListPublicKeysMeta`](../../doc/models/list-public-keys-meta.md) | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "chargify_js_keys": [
-    {
-      "public_key": "public_key8",
-      "requires_security_token": false,
-      "created_at": "2016-03-13T12:52:32.123Z"
-    },
-    {
-      "public_key": "public_key8",
-      "requires_security_token": false,
-      "created_at": "2016-03-13T12:52:32.123Z"
+```go
+package main
+
+import (
+    "log"
+    "time"
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    parseTime := func(layout, value string, errCallback func(error)) time.Time {
+        dateTime, err := time.Parse(layout, value)
+        if err != nil {
+            errCallback(err) 
+       }
+        return dateTime
     }
-  ],
-  "meta": {
-    "total_count": 150,
-    "current_page": 126,
-    "total_pages": 138,
-    "per_page": 152
-  }
+    listPublicKeysResponse := models.ListPublicKeysResponse{
+        ChargifyJsKeys:       []models.PublicKey{
+            models.PublicKey{
+                PublicKey:             models.ToPointer("public_key8"),
+                RequiresSecurityToken: models.ToPointer(false),
+                CreatedAt:             models.ToPointer(parseTime(time.RFC3339, "2016-03-13T12:52:32.123Z", func(err error) { log.Fatalln(err) })),
+            },
+        },
+        Meta:                 models.ToPointer(models.ListPublicKeysMeta{
+            TotalCount:           models.ToPointer(150),
+            CurrentPage:          models.ToPointer(126),
+            TotalPages:           models.ToPointer(138),
+            PerPage:              models.ToPointer(152),
+        }),
+    }
+
 }
 ```
 

@@ -14,3 +14,18 @@ all: Will clear all products, customers, and related subscriptions from the site
 | `ALL` |
 | `CUSTOMERS` |
 
+## Example
+
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    cleanupScope := models.CleanupScope_ALL
+
+}
+```
+

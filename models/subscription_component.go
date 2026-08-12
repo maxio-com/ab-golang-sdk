@@ -16,9 +16,9 @@ type SubscriptionComponent struct {
     // A handle for the component type
     Kind                      *ComponentKind                          `json:"kind,omitempty"`
     UnitName                  *string                                 `json:"unit_name,omitempty"`
-    // (for on/off components) indicates if the component is enabled for the subscription
+    // (for on/off components) indicates if the component is enabled for the subscription.
     Enabled                   *bool                                   `json:"enabled,omitempty"`
-    UnitBalance               *int                                    `json:"unit_balance,omitempty"`
+    UnitBalance               *SubscriptionComponentUnitBalance       `json:"unit_balance,omitempty"`
     Currency                  *string                                 `json:"currency,omitempty"`
     // For Quantity-based components: The current allocation for the component on the given subscription. For On/Off components: Use 1 for on. Use 0 for off.
     AllocatedQuantity         *SubscriptionComponentAllocatedQuantity `json:"allocated_quantity,omitempty"`
@@ -43,11 +43,11 @@ type SubscriptionComponent struct {
     UseSiteExchangeRate       Optional[bool]                          `json:"use_site_exchange_rate"`
     Description               Optional[string]                        `json:"description"`
     AllowFractionalQuantities *bool                                   `json:"allow_fractional_quantities,omitempty"`
-    // An optional object, will be returned if provided `include=subscription` query param.
+    // (Optional) Object that will be returned if the `include=subscription` query param is provided.
     Subscription              *SubscriptionComponentSubscription      `json:"subscription,omitempty"`
     HistoricUsages            []HistoricUsage                         `json:"historic_usages,omitempty"`
     DisplayOnHostedPage       *bool                                   `json:"display_on_hosted_page,omitempty"`
-    // The numerical interval. i.e. an interval of '30' coupled with an interval_unit of day would mean this component price point would renew every 30 days. This property is only available for sites with Multifrequency enabled.
+    // The numerical interval. e.g., an interval of '30' coupled with an interval_unit of day would mean this component price point would renew every 30 days. This property is only available for sites with Multifrequency enabled.
     Interval                  *int                                    `json:"interval,omitempty"`
     // A string representing the interval unit for this component price point, either month or day. This property is only available for sites with Multifrequency enabled.
     IntervalUnit              Optional[IntervalUnit]                  `json:"interval_unit"`
@@ -94,7 +94,7 @@ func (s SubscriptionComponent) toMap() map[string]any {
         structMap["enabled"] = s.Enabled
     }
     if s.UnitBalance != nil {
-        structMap["unit_balance"] = s.UnitBalance
+        structMap["unit_balance"] = s.UnitBalance.toMap()
     }
     if s.Currency != nil {
         structMap["currency"] = s.Currency
@@ -305,7 +305,7 @@ type tempSubscriptionComponent  struct {
     Kind                      *ComponentKind                          `json:"kind,omitempty"`
     UnitName                  *string                                 `json:"unit_name,omitempty"`
     Enabled                   *bool                                   `json:"enabled,omitempty"`
-    UnitBalance               *int                                    `json:"unit_balance,omitempty"`
+    UnitBalance               *SubscriptionComponentUnitBalance       `json:"unit_balance,omitempty"`
     Currency                  *string                                 `json:"currency,omitempty"`
     AllocatedQuantity         *SubscriptionComponentAllocatedQuantity `json:"allocated_quantity,omitempty"`
     PricingScheme             Optional[PricingScheme]                 `json:"pricing_scheme"`

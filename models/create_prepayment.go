@@ -14,7 +14,7 @@ type CreatePrepayment struct {
     Amount               float64                `json:"amount"`
     Details              string                 `json:"details"`
     Memo                 string                 `json:"memo"`
-    // :- When the `method` specified is `"credit_card_on_file"`, the prepayment amount will be collected using the default credit card payment profile and applied to the prepayment account balance. This is especially useful for manual replenishment of prepaid subscriptions.
+    // When the `method` specified is `"credit_card_on_file"`, the prepayment amount will be collected using the default credit card payment profile and applied to the prepayment account balance. This is especially useful for manual replenishment of prepaid subscriptions.
     Method               CreatePrepaymentMethod `json:"method"`
     PaymentProfileId     *int                   `json:"payment_profile_id,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`

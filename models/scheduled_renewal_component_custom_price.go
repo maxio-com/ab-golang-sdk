@@ -14,7 +14,7 @@ import (
 type ScheduledRenewalComponentCustomPrice struct {
     // Whether or not the price point includes tax
     TaxIncluded          *bool                  `json:"tax_included,omitempty"`
-    // Omit for On/Off components
+    // Omit for On/Off components.
     PricingScheme        PricingScheme          `json:"pricing_scheme"`
     // On/off components only need one price bracket starting at 1.
     Prices               []Price                `json:"prices"`

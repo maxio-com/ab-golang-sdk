@@ -11,17 +11,16 @@
 |  --- | --- | --- | --- |
 | `Subscription` | [`*models.Subscription`](../../doc/models/subscription.md) | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "subscription": {
-    "id": 8,
-    "state": "paused",
-    "balance_in_cents": 124,
-    "total_revenue_in_cents": 48,
-    "product_price_in_cents": 238
-  }
+```go
+if err != nil {
+    switch typedErr := err.(type) {
+    case *errors.SubscriptionResponseErrorException:
+        log.Fatalln(typedErr)
+    default:
+        log.Fatalln(err)
+    }
 }
 ```
 

@@ -13,13 +13,22 @@
 | `ApplicationUid` | `*string` | Optional | Unique identifier for the payment. It has the prefix "pmt_" followed by alphanumeric characters. |
 | `AppliedAmount` | `*string` | Optional | Dollar amount of the paid invoice. |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "invoice_uid": "invoice_uid2",
-  "application_uid": "application_uid4",
-  "applied_amount": "applied_amount6"
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    invoicePaymentApplication := models.InvoicePaymentApplication{
+        InvoiceUid:           models.ToPointer("invoice_uid8"),
+        ApplicationUid:       models.ToPointer("application_uid8"),
+        AppliedAmount:        models.ToPointer("applied_amount0"),
+    }
+
 }
 ```
 

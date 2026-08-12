@@ -9,8 +9,8 @@ import (
     "time"
 )
 
-// ListSubcriptionGroupPrepaymentItem represents a ListSubcriptionGroupPrepaymentItem struct.
-type ListSubcriptionGroupPrepaymentItem struct {
+// ListSubscriptionGroupPrepaymentItem represents a ListSubscriptionGroupPrepaymentItem struct.
+type ListSubscriptionGroupPrepaymentItem struct {
     Id                     *int                   `json:"id,omitempty"`
     SubscriptionGroupUid   *string                `json:"subscription_group_uid,omitempty"`
     AmountInCents          *int64                 `json:"amount_in_cents,omitempty"`
@@ -23,17 +23,17 @@ type ListSubcriptionGroupPrepaymentItem struct {
     AdditionalProperties   map[string]interface{} `json:"_"`
 }
 
-// String implements the fmt.Stringer interface for ListSubcriptionGroupPrepaymentItem,
+// String implements the fmt.Stringer interface for ListSubscriptionGroupPrepaymentItem,
 // providing a human-readable string representation useful for logging, debugging or displaying information.
-func (l ListSubcriptionGroupPrepaymentItem) String() string {
+func (l ListSubscriptionGroupPrepaymentItem) String() string {
     return fmt.Sprintf(
-    	"ListSubcriptionGroupPrepaymentItem[Id=%v, SubscriptionGroupUid=%v, AmountInCents=%v, RemainingAmountInCents=%v, Details=%v, External=%v, Memo=%v, PaymentType=%v, CreatedAt=%v, AdditionalProperties=%v]",
+    	"ListSubscriptionGroupPrepaymentItem[Id=%v, SubscriptionGroupUid=%v, AmountInCents=%v, RemainingAmountInCents=%v, Details=%v, External=%v, Memo=%v, PaymentType=%v, CreatedAt=%v, AdditionalProperties=%v]",
     	l.Id, l.SubscriptionGroupUid, l.AmountInCents, l.RemainingAmountInCents, l.Details, l.External, l.Memo, l.PaymentType, l.CreatedAt, l.AdditionalProperties)
 }
 
-// MarshalJSON implements the json.Marshaler interface for ListSubcriptionGroupPrepaymentItem.
-// It customizes the JSON marshaling process for ListSubcriptionGroupPrepaymentItem objects.
-func (l ListSubcriptionGroupPrepaymentItem) MarshalJSON() (
+// MarshalJSON implements the json.Marshaler interface for ListSubscriptionGroupPrepaymentItem.
+// It customizes the JSON marshaling process for ListSubscriptionGroupPrepaymentItem objects.
+func (l ListSubscriptionGroupPrepaymentItem) MarshalJSON() (
     []byte,
     error) {
     if err := DetectConflictingProperties(l.AdditionalProperties,
@@ -43,8 +43,8 @@ func (l ListSubcriptionGroupPrepaymentItem) MarshalJSON() (
     return json.Marshal(l.toMap())
 }
 
-// toMap converts the ListSubcriptionGroupPrepaymentItem object to a map representation for JSON marshaling.
-func (l ListSubcriptionGroupPrepaymentItem) toMap() map[string]any {
+// toMap converts the ListSubscriptionGroupPrepaymentItem object to a map representation for JSON marshaling.
+func (l ListSubscriptionGroupPrepaymentItem) toMap() map[string]any {
     structMap := make(map[string]any)
     MergeAdditionalProperties(structMap, l.AdditionalProperties)
     if l.Id != nil {
@@ -77,10 +77,10 @@ func (l ListSubcriptionGroupPrepaymentItem) toMap() map[string]any {
     return structMap
 }
 
-// UnmarshalJSON implements the json.Unmarshaler interface for ListSubcriptionGroupPrepaymentItem.
-// It customizes the JSON unmarshaling process for ListSubcriptionGroupPrepaymentItem objects.
-func (l *ListSubcriptionGroupPrepaymentItem) UnmarshalJSON(input []byte) error {
-    var temp tempListSubcriptionGroupPrepaymentItem
+// UnmarshalJSON implements the json.Unmarshaler interface for ListSubscriptionGroupPrepaymentItem.
+// It customizes the JSON unmarshaling process for ListSubscriptionGroupPrepaymentItem objects.
+func (l *ListSubscriptionGroupPrepaymentItem) UnmarshalJSON(input []byte) error {
+    var temp tempListSubscriptionGroupPrepaymentItem
     err := json.Unmarshal(input, &temp)
     if err != nil {
     	return err
@@ -109,8 +109,8 @@ func (l *ListSubcriptionGroupPrepaymentItem) UnmarshalJSON(input []byte) error {
     return nil
 }
 
-// tempListSubcriptionGroupPrepaymentItem is a temporary struct used for validating the fields of ListSubcriptionGroupPrepaymentItem.
-type tempListSubcriptionGroupPrepaymentItem  struct {
+// tempListSubscriptionGroupPrepaymentItem is a temporary struct used for validating the fields of ListSubscriptionGroupPrepaymentItem.
+type tempListSubscriptionGroupPrepaymentItem  struct {
     Id                     *int              `json:"id,omitempty"`
     SubscriptionGroupUid   *string           `json:"subscription_group_uid,omitempty"`
     AmountInCents          *int64            `json:"amount_in_cents,omitempty"`

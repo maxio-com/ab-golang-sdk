@@ -10,7 +10,7 @@ import (
 )
 
 // HistoricUsage represents a HistoricUsage struct.
-// Optional for Event Based Components. If the `include=historic_usages` query param is provided, the last ten billing periods will be returned.
+// (Optional) For Event Based Components. If the `include=historic_usages` query param is provided, the last ten billing periods will be returned.
 type HistoricUsage struct {
     // Total usage of a component for billing period
     TotalUsageQuantity    *float64               `json:"total_usage_quantity,omitempty"`

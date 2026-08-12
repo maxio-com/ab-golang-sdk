@@ -12,30 +12,39 @@
 | `SubscriptionGroup` | [`models.SubscriptionGroupSignupFailureData`](../../doc/models/subscription-group-signup-failure-data.md) | Required | - |
 | `Customer` | [`*models.Customer`](../../doc/models/customer.md) | Required | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "subscription_group": {
-    "payer_id": 150,
-    "payer_reference": "payer_reference6",
-    "payment_profile_id": 128,
-    "payment_collection_method": "payment_collection_method8",
-    "payer_attributes": {
-      "first_name": "first_name2",
-      "last_name": "last_name0",
-      "email": "email4",
-      "cc_emails": "cc_emails2",
-      "organization": "organization6"
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    subscriptionGroupSignupEventData := models.SubscriptionGroupSignupEventData{
+        SubscriptionGroup:    models.SubscriptionGroupSignupFailureData{
+            PayerId:                 models.ToPointer(150),
+            PayerReference:          models.ToPointer("payer_reference6"),
+            PaymentProfileId:        models.ToPointer(128),
+            PaymentCollectionMethod: models.ToPointer("payment_collection_method8"),
+            PayerAttributes:         models.ToPointer(models.PayerAttributes{
+                FirstName:            models.ToPointer("first_name2"),
+                LastName:             models.ToPointer("last_name0"),
+                Email:                models.ToPointer("email4"),
+                CcEmails:             models.ToPointer("cc_emails2"),
+                Organization:         models.ToPointer("organization6"),
+            }),
+        },
+        Customer:             models.ToPointer(models.Customer{
+            FirstName:                   models.ToPointer("first_name0"),
+            LastName:                    models.ToPointer("last_name8"),
+            Email:                       models.ToPointer("email6"),
+            CcEmails:                    models.NewOptional(models.ToPointer("cc_emails0")),
+            Organization:                models.NewOptional(models.ToPointer("organization6")),
+        }),
     }
-  },
-  "customer": {
-    "first_name": "first_name0",
-    "last_name": "last_name8",
-    "email": "email6",
-    "cc_emails": "cc_emails0",
-    "organization": "organization6"
-  }
+
 }
 ```
 

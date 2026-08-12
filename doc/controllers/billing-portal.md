@@ -20,21 +20,15 @@ billingPortalController := client.BillingPortalController()
 
 Enables Billing Portal access for a customer, with an option to send an invitation email at the same time.
 
-## Billing Portal Documentation
-
-Full documentation on how the Billing Portal operates within the Advanced Billing UI can be located [here](https://maxio.zendesk.com/hc/en-us/articles/24252412965133-Billing-Portal-Overview).
-
-This documentation is focused on how to configure the Billing Portal Settings, as well as Subscriber Interaction and Merchant Management of the Billing Portal.
-
-You can use this endpoint to enable Billing Portal access for a Customer, with the option of sending the Customer an Invitation email at the same time.
-
 ## Billing Portal Security
 
-If your customer has been invited to the Billing Portal, then they will receive a link to manage their subscription (the “Management URL”) automatically at the bottom of their statements, invoices, and receipts. **This link changes periodically for security and is only valid for 65 days.**
+If your customer has been invited to the Billing Portal, they receive a link to manage their subscription (the “Management URL”) automatically at the bottom of their statements, invoices, and receipts. **This link changes periodically for security and is only valid for 65 days.**
 
-If you need to provide your customer their Management URL through other means, you can retrieve it via the API. Because the URL is cryptographically signed with a timestamp, it is not possible for merchants to generate the URL without requesting it from Advanced Billing.
+If you need to provide your customer their Management URL through other means, you can retrieve it [via the API](../../doc/controllers/billing-portal.md#read-billing-portal-link). Because the URL is cryptographically signed with a timestamp, merchants cannot generate the URL without requesting it through the API.
 
-In order to prevent abuse & overuse, we ask that you request a new URL only when absolutely necessary. Management URLs are good for 65 days, so you should re-use a previously generated one as much as possible. If you use the URL frequently (such as to display on your website), **do not** make an API request to Advanced Billing every time.
+To prevent abuse and overuse, request a new URL only when absolutely necessary. Management URLs are good for 65 days, so you should re-use a previously generated one as much as possible. If you use the URL frequently (such as to display on your website), **do not** make an API request every time.
+
+For more information configuring the Billing Portal, see [Billing Portal Overview](https://maxio.zendesk.com/hc/en-us/articles/24252412965133-Billing-Portal-Overview).
 
 ```go
 EnableBillingPortalForCustomer(
@@ -95,13 +89,13 @@ if err != nil {
 
 Returns the exact URL required for a subscriber to access the Billing Portal.
 
-## Rules for Management Link API
+## Management Link Request Rules
 
-+ When retrieving a management URL, multiple requests for the same customer in a short period will return the **same** URL
-+ We will not generate a new URL for 15 days
++ When retrieving a management URL, multiple requests for the same customer in a short period return the **same** URL
++ A new URL is not generated for 15 days
 + You must cache and remember this URL if you are going to need it again within 15 days
 + Only request a new URL after the `new_link_available_at` date
-+ You are limited to 15 requests for the same URL. If you make more than 15 requests before `new_link_available_at`, you will be blocked from further Management URL requests (with a response code `429`)
++ You are limited to 15 requests for the same URL. If you make more than 15 requests before `new_link_available_at`, you are blocked from further Management URL requests (with a response code `429`).
 
 ```go
 ReadBillingPortalLink(

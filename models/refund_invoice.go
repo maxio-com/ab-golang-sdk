@@ -22,7 +22,7 @@ type RefundInvoice struct {
     External             *bool                  `json:"external,omitempty"`
     // If set to true, creates credit and applies it to an invoice. Defaults to `false`.
     ApplyCredit          *bool                  `json:"apply_credit,omitempty"`
-    // If `apply_credit` set to false and refunding full amount, if `void_invoice` set to true, invoice will be voided after refund. Defaults to `false`.
+    // If `apply_credit` is set to false and refunding full amount, if `void_invoice` is set to true, invoice will be voided after refund. Defaults to `false`.
     VoidInvoice          *bool                  `json:"void_invoice,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
 }

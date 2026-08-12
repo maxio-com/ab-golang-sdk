@@ -11,11 +11,16 @@
 |  --- | --- | --- | --- |
 | `Error` | `string` | Required | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "error": "error2"
+```go
+if err != nil {
+    switch typedErr := err.(type) {
+    case *errors.SingleErrorResponseException:
+        log.Fatalln(typedErr)
+    default:
+        log.Fatalln(err)
+    }
 }
 ```
 

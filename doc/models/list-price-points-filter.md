@@ -18,25 +18,43 @@
 | `Ids` | `[]int` | Optional | Allows fetching price points with matching id based on provided values. Use in query: `filter[ids]=1,2,3`. |
 | `ArchivedAt` | [`*models.IncludeNullOrNotNull`](../../doc/models/include-null-or-not-null.md) | Optional | Allows fetching price points only if archived_at is present or not. Use in query: `filter[archived_at]=not_null`. |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "start_date": "2011-12-17",
-  "end_date": "2011-12-15",
-  "start_datetime": "12/19/2011 09:15:30",
-  "end_datetime": "06/07/2019 17:20:06",
-  "type": [
-    "catalog",
-    "default",
-    "custom"
-  ],
-  "ids": [
-    1,
-    2,
-    3
-  ],
-  "date_field": "updated_at"
+```go
+package main
+
+import (
+    "log"
+    "time"
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    parseTime := func(layout, value string, errCallback func(error)) time.Time {
+        dateTime, err := time.Parse(layout, value)
+        if err != nil {
+            errCallback(err) 
+       }
+        return dateTime
+    }
+    listPricePointsFilter := models.ListPricePointsFilter{
+        DateField:            models.ToPointer(models.BasicDateField_UPDATEDAT),
+        StartDate:            models.ToPointer(parseTime(models.DEFAULT_DATE, "2011-12-17", func(err error) { log.Fatalln(err) })),
+        EndDate:              models.ToPointer(parseTime(models.DEFAULT_DATE, "2011-12-15", func(err error) { log.Fatalln(err) })),
+        StartDatetime:        models.ToPointer(parseTime(time.RFC3339, "2011-12-19T10:15:30+01:00", func(err error) { log.Fatalln(err) })),
+        EndDatetime:          models.ToPointer(parseTime(time.RFC3339, "2019-06-07T17:20:06Z", func(err error) { log.Fatalln(err) })),
+        Type:                 []models.PricePointType{
+            models.PricePointType_CATALOG,
+            models.PricePointType_ENUMDEFAULT,
+            models.PricePointType_CUSTOM,
+        },
+        Ids:                  []int{
+            1,
+            2,
+            3,
+        },
+    }
+
 }
 ```
 

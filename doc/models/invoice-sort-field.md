@@ -20,7 +20,16 @@
 
 ## Example
 
-```
-total_amount
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    invoiceSortField := models.InvoiceSortField_UPDATEDAT
+
+}
 ```
 

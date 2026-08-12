@@ -13,13 +13,22 @@
 | `EndingQuantity` | [`models.Optional[models.PriceEndingQuantity]`](../../doc/models/containers/price-ending-quantity.md) | Optional | This is a container for one-of cases. |
 | `UnitPrice` | [`models.PriceUnitPrice`](../../doc/models/containers/price-unit-price.md) | Required | This is a container for one-of cases. |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "starting_quantity": 40,
-  "ending_quantity": 14,
-  "unit_price": 125.12
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    price := models.Price{
+        StartingQuantity:     models.PriceStartingQuantityContainer.FromNumber(132),
+        EndingQuantity:       models.NewOptional(models.ToPointer(models.PriceEndingQuantityContainer.FromNumber(6))),
+        UnitPrice:            models.PriceUnitPriceContainer.FromPrecision(float64(70.44)),
+    }
+
 }
 ```
 

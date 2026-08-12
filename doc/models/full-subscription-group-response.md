@@ -22,19 +22,28 @@
 | `Customer` | [`*models.SubscriptionGroupCustomer`](../../doc/models/subscription-group-customer.md) | Optional | - |
 | `AccountBalances` | [`*models.SubscriptionGroupBalances`](../../doc/models/subscription-group-balances.md) | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "uid": "uid8",
-  "scheme": 90,
-  "customer_id": 110,
-  "payment_profile_id": 18,
-  "subscription_ids": [
-    220,
-    221,
-    222
-  ]
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    fullSubscriptionGroupResponse := models.FullSubscriptionGroupResponse{
+        Uid:                         models.ToPointer("uid6"),
+        Scheme:                      models.ToPointer(80),
+        CustomerId:                  models.ToPointer(100),
+        PaymentProfileId:            models.ToPointer(8),
+        SubscriptionIds:             []int{
+            210,
+            211,
+            212,
+        },
+    }
+
 }
 ```
 

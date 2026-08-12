@@ -9,7 +9,7 @@ import (
 
 // RenewalPreviewRequest represents a RenewalPreviewRequest struct.
 type RenewalPreviewRequest struct {
-    // An optional array of component definitions to preview. Providing any component definitions here will override the actual components on the subscription (and their quantities), and the billing preview will contain only these components (in addition to any product base fees).
+    // (Optional) Array of component definitions to preview. Providing any component definitions here will override the actual components on the subscription (and their quantities), and the billing preview will contain only these components (in addition to any product base fees).
     Components           []RenewalPreviewComponent `json:"components,omitempty"`
     AdditionalProperties map[string]interface{}    `json:"_"`
 }

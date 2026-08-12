@@ -1,7 +1,7 @@
 
 # Invoice Consolidation Level
 
-Consolidation level of the invoice, which is applicable to invoice consolidation.  It will hold one of the following values:
+Consolidation level of the invoice, which is applicable to invoice consolidation. It will hold one of the following values:
 
 * "none": A normal invoice with no consolidation.
 * "child": An invoice segment which has been combined into a consolidated invoice.
@@ -22,4 +22,19 @@ See also the [invoice consolidation documentation](https://maxio.zendesk.com/hc/
 | `NONE` |
 | `CHILD` |
 | `PARENT` |
+
+## Example
+
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    invoiceConsolidationLevel := models.InvoiceConsolidationLevel_NONE
+
+}
+```
 

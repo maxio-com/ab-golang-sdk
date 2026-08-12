@@ -22,21 +22,39 @@
 | `ReceivedOn` | `models.Optional[time.Time]` | Optional | Date reflecting when the payment was received from a customer. Must be in the past. Applicable only to<br>`external` payments. |
 | `Uid` | `*string` | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "transaction_time": "2016-03-13T12:52:32.123Z",
-  "memo": "memo6",
-  "original_amount": "original_amount6",
-  "applied_amount": "applied_amount6",
-  "payment_method": {
-    "details": "details0",
-    "kind": "kind8",
-    "memo": "memo4",
-    "type": "type0",
-    "card_brand": "card_brand6"
-  }
+```go
+package main
+
+import (
+    "log"
+    "time"
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    parseTime := func(layout, value string, errCallback func(error)) time.Time {
+        dateTime, err := time.Parse(layout, value)
+        if err != nil {
+            errCallback(err) 
+       }
+        return dateTime
+    }
+    invoicePayment := models.InvoicePayment{
+        TransactionTime:      models.ToPointer(parseTime(time.RFC3339, "2016-03-13T12:52:32.123Z", func(err error) { log.Fatalln(err) })),
+        Memo:                 models.ToPointer("memo6"),
+        OriginalAmount:       models.ToPointer("original_amount6"),
+        AppliedAmount:        models.ToPointer("applied_amount6"),
+        PaymentMethod:        models.ToPointer(models.InvoicePaymentMethod{
+            Details:              models.ToPointer("details0"),
+            Kind:                 models.ToPointer("kind8"),
+            Memo:                 models.ToPointer("memo4"),
+            Type:                 models.ToPointer("type0"),
+            CardBrand:            models.ToPointer("card_brand6"),
+        }),
+    }
+
 }
 ```
 

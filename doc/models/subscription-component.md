@@ -13,8 +13,8 @@
 | `Name` | `*string` | Optional | - |
 | `Kind` | [`*models.ComponentKind`](../../doc/models/component-kind.md) | Optional | A handle for the component type |
 | `UnitName` | `*string` | Optional | - |
-| `Enabled` | `*bool` | Optional | (for on/off components) indicates if the component is enabled for the subscription |
-| `UnitBalance` | `*int` | Optional | - |
+| `Enabled` | `*bool` | Optional | (for on/off components) indicates if the component is enabled for the subscription. |
+| `UnitBalance` | [`*models.SubscriptionComponentUnitBalance`](../../doc/models/containers/subscription-component-unit-balance.md) | Optional | This is a container for one-of cases. |
 | `Currency` | `*string` | Optional | - |
 | `AllocatedQuantity` | [`*models.SubscriptionComponentAllocatedQuantity`](../../doc/models/containers/subscription-component-allocated-quantity.md) | Optional | This is a container for one-of cases. |
 | `PricingScheme` | [`models.Optional[models.PricingScheme]`](../../doc/models/pricing-scheme.md) | Optional | - |
@@ -36,21 +36,30 @@
 | `UseSiteExchangeRate` | `models.Optional[bool]` | Optional | - |
 | `Description` | `models.Optional[string]` | Optional | - |
 | `AllowFractionalQuantities` | `*bool` | Optional | - |
-| `Subscription` | [`*models.SubscriptionComponentSubscription`](../../doc/models/subscription-component-subscription.md) | Optional | An optional object, will be returned if provided `include=subscription` query param. |
+| `Subscription` | [`*models.SubscriptionComponentSubscription`](../../doc/models/subscription-component-subscription.md) | Optional | (Optional) Object that will be returned if the `include=subscription` query param is provided. |
 | `HistoricUsages` | [`[]models.HistoricUsage`](../../doc/models/historic-usage.md) | Optional | - |
 | `DisplayOnHostedPage` | `*bool` | Optional | - |
-| `Interval` | `*int` | Optional | The numerical interval. i.e. an interval of '30' coupled with an interval_unit of day would mean this component price point would renew every 30 days. This property is only available for sites with Multifrequency enabled. |
+| `Interval` | `*int` | Optional | The numerical interval. e.g., an interval of '30' coupled with an interval_unit of day would mean this component price point would renew every 30 days. This property is only available for sites with Multifrequency enabled. |
 | `IntervalUnit` | [`models.Optional[models.IntervalUnit]`](../../doc/models/interval-unit.md) | Optional | A string representing the interval unit for this component price point, either month or day. This property is only available for sites with Multifrequency enabled. |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "id": 20,
-  "name": "name8",
-  "kind": "quantity_based_component",
-  "unit_name": "unit_name0",
-  "enabled": false
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    subscriptionComponent := models.SubscriptionComponent{
+        Id:                        models.ToPointer(254),
+        Name:                      models.ToPointer("name8"),
+        Kind:                      models.ToPointer(models.ComponentKind_QUANTITYBASEDCOMPONENT),
+        UnitName:                  models.ToPointer("unit_name0"),
+        Enabled:                   models.ToPointer(false),
+    }
+
 }
 ```
 

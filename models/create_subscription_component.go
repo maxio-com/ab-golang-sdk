@@ -13,7 +13,7 @@ type CreateSubscriptionComponent struct {
     // Used for on/off components only.
     Enabled              *bool                                         `json:"enabled,omitempty"`
     // Used for metered and events based components.
-    UnitBalance          *int                                          `json:"unit_balance,omitempty"`
+    UnitBalance          *CreateSubscriptionComponentUnitBalance       `json:"unit_balance,omitempty"`
     // Used for quantity based components.
     AllocatedQuantity    *CreateSubscriptionComponentAllocatedQuantity `json:"allocated_quantity,omitempty"`
     // Deprecated. Use `allocated_quantity` instead.
@@ -55,7 +55,7 @@ func (c CreateSubscriptionComponent) toMap() map[string]any {
         structMap["enabled"] = c.Enabled
     }
     if c.UnitBalance != nil {
-        structMap["unit_balance"] = c.UnitBalance
+        structMap["unit_balance"] = c.UnitBalance.toMap()
     }
     if c.AllocatedQuantity != nil {
         structMap["allocated_quantity"] = c.AllocatedQuantity.toMap()
@@ -100,7 +100,7 @@ func (c *CreateSubscriptionComponent) UnmarshalJSON(input []byte) error {
 type tempCreateSubscriptionComponent  struct {
     ComponentId       *CreateSubscriptionComponentComponentId       `json:"component_id,omitempty"`
     Enabled           *bool                                         `json:"enabled,omitempty"`
-    UnitBalance       *int                                          `json:"unit_balance,omitempty"`
+    UnitBalance       *CreateSubscriptionComponentUnitBalance       `json:"unit_balance,omitempty"`
     AllocatedQuantity *CreateSubscriptionComponentAllocatedQuantity `json:"allocated_quantity,omitempty"`
     Quantity          *int                                          `json:"quantity,omitempty"`
     PricePointId      *CreateSubscriptionComponentPricePointId      `json:"price_point_id,omitempty"`

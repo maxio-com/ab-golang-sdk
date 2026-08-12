@@ -58,9 +58,9 @@ func main() {
             UseSiteExchangeRate:  models.ToPointer(false),
             Subscription:         models.ToPointer(models.SubscriptionFilter{
                 States:               []models.SubscriptionStateFilter{
+                    models.SubscriptionStateFilter_TRIALING,
+                    models.SubscriptionStateFilter_UNPAID,
                     models.SubscriptionStateFilter_ACTIVE,
-                    models.SubscriptionStateFilter_CANCELED,
-                    models.SubscriptionStateFilter_EXPIRED,
                 },
                 DateField:            models.ToPointer(models.SubscriptionListDateField_UPDATEDAT),
                 StartDate:            models.ToPointer(parseTime(models.DEFAULT_DATE, "2016-03-13T12:52:32.123Z", func(err error) { log.Fatalln(err) })),

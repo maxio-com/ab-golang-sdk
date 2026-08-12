@@ -1,7 +1,7 @@
 
 # Create or Update Endpoint
 
-Used to Create or Update Endpoint
+Used to Create or Update Endpoint.
 
 ## Structure
 
@@ -14,14 +14,25 @@ Used to Create or Update Endpoint
 | `Url` | `string` | Required | - |
 | `WebhookSubscriptions` | [`[]models.WebhookSubscription`](../../doc/models/webhook-subscription.md) | Required | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "url": "url8",
-  "webhook_subscriptions": [
-    "refund_success"
-  ]
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    createOrUpdateEndpoint := models.CreateOrUpdateEndpoint{
+        Url:                  "url4",
+        WebhookSubscriptions: []models.WebhookSubscription{
+            models.WebhookSubscription_TRIALENDNOTICE,
+            models.WebhookSubscription_SUBSCRIPTIONSTATECHANGE,
+            models.WebhookSubscription_SUBSCRIPTIONPRODUCTCHANGESCHEDULED,
+        },
+    }
+
 }
 ```
 

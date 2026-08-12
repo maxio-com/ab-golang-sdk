@@ -170,7 +170,7 @@ func (w *WebhooksController) CreateEndpoint(
 // ListEndpoints takes context as parameters and
 // returns an models.ApiResponse with []models.Endpoint data and
 // an error if there was an issue with the request or response.
-// Returns created endpoints for a site.
+// Lists endpoints configured for a site.
 func (w *WebhooksController) ListEndpoints(ctx context.Context) (
     models.ApiResponse[[]models.Endpoint],
     error) {

@@ -14,3 +14,18 @@ Used for sorting results.
 | `ASC` |
 | `DESC` |
 
+## Example
+
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    sortingDirection := models.SortingDirection_ASC
+
+}
+```
+

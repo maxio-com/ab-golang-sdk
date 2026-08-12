@@ -15,15 +15,24 @@
 | `UnitPrice` | `*string` | Optional | - |
 | `Amount` | `*string` | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "starting_quantity": 132,
-  "ending_quantity": 106,
-  "quantity": "quantity0",
-  "unit_price": "unit_price2",
-  "amount": "amount6"
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    componentCostDataRateTier := models.ComponentCostDataRateTier{
+        StartingQuantity:     models.ToPointer(204),
+        EndingQuantity:       models.NewOptional(models.ToPointer(178)),
+        Quantity:             models.ToPointer("quantity4"),
+        UnitPrice:            models.ToPointer("unit_price6"),
+        Amount:               models.ToPointer("amount0"),
+    }
+
 }
 ```
 

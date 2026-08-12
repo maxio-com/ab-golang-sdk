@@ -14,14 +14,23 @@
 | `PrepaymentBalanceChangeInCents` | `int64` | Required | - |
 | `CurrencyCode` | `string` | Required | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "reason": "reason4",
-  "prepayment_account_balance_in_cents": 182,
-  "prepayment_balance_change_in_cents": 206,
-  "currency_code": "currency_code4"
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    prepaymentAccountBalanceChanged := models.PrepaymentAccountBalanceChanged{
+        Reason:                          "reason8",
+        PrepaymentAccountBalanceInCents: int64(134),
+        PrepaymentBalanceChangeInCents:  int64(158),
+        CurrencyCode:                    "currency_code8",
+    }
+
 }
 ```
 

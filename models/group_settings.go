@@ -13,7 +13,7 @@ import (
 type GroupSettings struct {
     // Attributes of the target customer who will be the responsible payer of the created subscription. Required.
     Target               GroupTarget            `json:"target"`
-    // Optional attributes related to billing date and accrual. Note: Only applicable for new subscriptions.
+    // (Optional) Attributes related to billing date and accrual. Note: Only applicable for new subscriptions.
     Billing              *GroupBilling          `json:"billing,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
 }

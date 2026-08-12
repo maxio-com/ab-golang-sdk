@@ -17,9 +17,9 @@ type SubscriptionGroupSignupItem struct {
     ProductPricePointId     *int                               `json:"product_price_point_id,omitempty"`
     // The user-friendly API handle of a product's particular price point.
     ProductPricePointHandle *string                            `json:"product_price_point_handle,omitempty"`
-    // Use in place of passing product and component information to set up the subscription with an existing offer. May be either the Chargify ID of the offer or its handle prefixed with `handle:`
+    // Use in place of passing product and component information to set up the subscription with an existing offer. May be either the Chargify ID of the offer or its handle prefixed with `handle:`.
     OfferId                 *int                               `json:"offer_id,omitempty"`
-    // The reference value (provided by your app) for the subscription itelf.
+    // The reference value (provided by your app) for the subscription itself.
     Reference               *string                            `json:"reference,omitempty"`
     // One of the subscriptions must be marked as primary in the group.
     Primary                 *bool                              `json:"primary,omitempty"`
@@ -30,7 +30,7 @@ type SubscriptionGroupSignupItem struct {
     Components              []SubscriptionGroupSignupComponent `json:"components,omitempty"`
     // (Optional) Used in place of `product_price_point_id` to define a custom price point unique to the subscription. A subscription can have up to 30 custom price points. Exceeding this limit will result in an API error.
     CustomPrice             *SubscriptionCustomPrice           `json:"custom_price,omitempty"`
-    // (Optional). Cannot be used when also specifying next_billing_at
+    // (Optional). Cannot be used when also specifying next_billing_at.
     CalendarBilling         *CalendarBilling                   `json:"calendar_billing,omitempty"`
     // (Optional) A set of key/value pairs representing custom fields and their values. Metafields will be created “on-the-fly” in your site for a given key, if they have not been created yet.
     Metafields              map[string]string                  `json:"metafields,omitempty"`

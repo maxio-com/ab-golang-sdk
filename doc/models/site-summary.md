@@ -15,21 +15,30 @@
 | `SiteCurrency` | `*string` | Optional | - |
 | `Stats` | [`*models.SiteStatistics`](../../doc/models/site-statistics.md) | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "seller_name": "seller_name0",
-  "site_name": "site_name4",
-  "site_id": 218,
-  "site_currency": "site_currency6",
-  "stats": {
-    "total_subscriptions": 110,
-    "subscriptions_today": 228,
-    "total_revenue": "total_revenue6",
-    "revenue_today": "revenue_today4",
-    "revenue_this_month": "revenue_this_month4"
-  }
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    siteSummary := models.SiteSummary{
+        SellerName:           models.ToPointer("seller_name4"),
+        SiteName:             models.ToPointer("site_name8"),
+        SiteId:               models.ToPointer(252),
+        SiteCurrency:         models.ToPointer("site_currency0"),
+        Stats:                models.ToPointer(models.SiteStatistics{
+            TotalSubscriptions:         models.ToPointer(110),
+            SubscriptionsToday:         models.ToPointer(228),
+            TotalRevenue:               models.ToPointer("total_revenue6"),
+            RevenueToday:               models.ToPointer("revenue_today4"),
+            RevenueThisMonth:           models.ToPointer("revenue_this_month4"),
+        }),
+    }
+
 }
 ```
 

@@ -31,31 +31,40 @@
 | `CustomerVaultToken` | `models.Optional[string]` | Optional | - |
 | `GatewayHandle` | `models.Optional[string]` | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "id": "id2",
-  "first_name": "first_name2",
-  "last_name": "last_name0",
-  "masked_card_number": "masked_card_number0",
-  "card_type": "routex",
-  "expiration_month": 187.78,
-  "expiration_year": 164.44,
-  "customer_id": "customer_id0",
-  "current_vault": "braintree_blue",
-  "vault_token": "vault_token4",
-  "billing_address": "billing_address4",
-  "billing_address_2": "billing_address_24",
-  "billing_city": "billing_city0",
-  "billing_country": "billing_country6",
-  "billing_state": "billing_state6",
-  "billing_zip": "billing_zip0",
-  "payment_type": "payment_type2",
-  "disabled": false,
-  "site_gateway_setting_id": 232,
-  "customer_vault_token": "customer_vault_token0",
-  "gateway_handle": "gateway_handle4"
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    getOneTimeTokenPaymentProfile := models.GetOneTimeTokenPaymentProfile{
+        Id:                   models.NewOptional(models.ToPointer("id4")),
+        FirstName:            "first_name4",
+        LastName:             "last_name2",
+        MaskedCardNumber:     "masked_card_number2",
+        CardType:             models.CardType_MAESTRONOLUHN,
+        ExpirationMonth:      float64(28.3),
+        ExpirationYear:       float64(4.96),
+        CustomerId:           models.NewOptional(models.ToPointer("customer_id2")),
+        CurrentVault:         models.CreditCardVault_TRUSTCOMMERCE,
+        VaultToken:           "vault_token6",
+        BillingAddress:       "billing_address6",
+        BillingAddress2:      models.ToPointer("billing_address_26"),
+        BillingCity:          "billing_city2",
+        BillingCountry:       "billing_country8",
+        BillingState:         "billing_state2",
+        BillingZip:           "billing_zip2",
+        PaymentType:          "payment_type6",
+        Disabled:             false,
+        SiteGatewaySettingId: 156,
+        CustomerVaultToken:   models.NewOptional(models.ToPointer("customer_vault_token2")),
+        GatewayHandle:        models.NewOptional(models.ToPointer("gateway_handle6")),
+    }
+
 }
 ```
 

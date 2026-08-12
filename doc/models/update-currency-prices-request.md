@@ -11,16 +11,25 @@
 |  --- | --- | --- | --- |
 | `CurrencyPrices` | [`[]models.UpdateCurrencyPrice`](../../doc/models/update-currency-price.md) | Required | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "currency_prices": [
-    {
-      "id": 50,
-      "price": 233.74
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    updateCurrencyPricesRequest := models.UpdateCurrencyPricesRequest{
+        CurrencyPrices:       []models.UpdateCurrencyPrice{
+            models.UpdateCurrencyPrice{
+                Id:                   50,
+                Price:                float64(233.74),
+            },
+        },
     }
-  ]
+
 }
 ```
 

@@ -12,30 +12,39 @@
 | `ComponentId` | `*int` | Optional | - |
 | `CustomPrice` | [`*models.ComponentCustomPrice`](../../doc/models/component-custom-price.md) | Optional | Create or update custom pricing unique to the subscription. Used in place of `price_point_id`. |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "component_id": 244,
-  "custom_price": {
-    "tax_included": false,
-    "pricing_scheme": "stairstep",
-    "interval": 66,
-    "interval_unit": "day",
-    "list_price_point_id": 174,
-    "prices": [
-      {
-        "starting_quantity": 242,
-        "ending_quantity": 40,
-        "unit_price": 23.26
-      },
-      {
-        "starting_quantity": 242,
-        "ending_quantity": 40,
-        "unit_price": 23.26
-      }
-    ]
-  }
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    updateSubscriptionComponent := models.UpdateSubscriptionComponent{
+        ComponentId:          models.ToPointer(118),
+        CustomPrice:          models.ToPointer(models.ComponentCustomPrice{
+            TaxIncluded:              models.ToPointer(false),
+            PricingScheme:            models.ToPointer(models.PricingScheme_STAIRSTEP),
+            Interval:                 models.ToPointer(66),
+            IntervalUnit:             models.NewOptional(models.ToPointer(models.IntervalUnit_DAY)),
+            ListPricePointId:         models.NewOptional(models.ToPointer(174)),
+            Prices:                   []models.Price{
+                models.Price{
+                    StartingQuantity:     models.PriceStartingQuantityContainer.FromNumber(242),
+                    EndingQuantity:       models.NewOptional(models.ToPointer(models.PriceEndingQuantityContainer.FromNumber(40))),
+                    UnitPrice:            models.PriceUnitPriceContainer.FromPrecision(float64(23.26)),
+                },
+                models.Price{
+                    StartingQuantity:     models.PriceStartingQuantityContainer.FromNumber(242),
+                    EndingQuantity:       models.NewOptional(models.ToPointer(models.PriceEndingQuantityContainer.FromNumber(40))),
+                    UnitPrice:            models.PriceUnitPriceContainer.FromPrecision(float64(23.26)),
+                },
+            },
+        }),
+    }
+
 }
 ```
 

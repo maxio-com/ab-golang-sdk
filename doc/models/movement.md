@@ -19,15 +19,33 @@
 | `SubscriptionId` | `*int` | Optional | - |
 | `SubscriberName` | `*string` | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "timestamp": "2016-03-13T12:52:32.123Z",
-  "amount_in_cents": 174,
-  "amount_formatted": "amount_formatted4",
-  "description": "description2",
-  "category": "category0"
+```go
+package main
+
+import (
+    "log"
+    "time"
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    parseTime := func(layout, value string, errCallback func(error)) time.Time {
+        dateTime, err := time.Parse(layout, value)
+        if err != nil {
+            errCallback(err) 
+       }
+        return dateTime
+    }
+    movement := models.Movement{
+        Timestamp:            models.ToPointer(parseTime(time.RFC3339, "2016-03-13T12:52:32.123Z", func(err error) { log.Fatalln(err) })),
+        AmountInCents:        models.ToPointer(int64(34)),
+        AmountFormatted:      models.ToPointer("amount_formatted6"),
+        Description:          models.ToPointer("description4"),
+        Category:             models.ToPointer("category2"),
+    }
+
 }
 ```
 

@@ -11,17 +11,26 @@
 |  --- | --- | --- | --- |
 | `Component` | [`*models.SubscriptionComponent`](../../doc/models/subscription-component.md) | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "component": {
-    "id": 80,
-    "name": "name8",
-    "kind": "quantity_based_component",
-    "unit_name": "unit_name0",
-    "enabled": false
-  }
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    subscriptionComponentResponse := models.SubscriptionComponentResponse{
+        Component:            models.ToPointer(models.SubscriptionComponent{
+            Id:                        models.ToPointer(80),
+            Name:                      models.ToPointer("name8"),
+            Kind:                      models.ToPointer(models.ComponentKind_QUANTITYBASEDCOMPONENT),
+            UnitName:                  models.ToPointer("unit_name0"),
+            Enabled:                   models.ToPointer(false),
+        }),
+    }
+
 }
 ```
 

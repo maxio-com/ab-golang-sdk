@@ -13,13 +13,22 @@
 | `Name` | `*string` | Optional | - |
 | `Value` | `*string` | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "current_name": "current_name4",
-  "name": "name0",
-  "value": "value2"
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    updateMetadata := models.UpdateMetadata{
+        CurrentName:          models.ToPointer("current_name8"),
+        Name:                 models.ToPointer("name4"),
+        Value:                models.ToPointer("value6"),
+    }
+
 }
 ```
 

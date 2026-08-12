@@ -11,17 +11,26 @@
 |  --- | --- | --- | --- |
 | `ProductFamily` | [`*models.ProductFamily`](../../doc/models/product-family.md) | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "product_family": {
-    "id": 14,
-    "name": "name0",
-    "handle": "handle6",
-    "accounting_code": "accounting_code6",
-    "description": "description0"
-  }
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    productFamilyResponse := models.ProductFamilyResponse{
+        ProductFamily:        models.ToPointer(models.ProductFamily{
+            Id:                   models.ToPointer(14),
+            Name:                 models.ToPointer("name0"),
+            Handle:               models.ToPointer("handle6"),
+            AccountingCode:       models.NewOptional(models.ToPointer("accounting_code6")),
+            Description:          models.NewOptional(models.ToPointer("description0")),
+        }),
+    }
+
 }
 ```
 

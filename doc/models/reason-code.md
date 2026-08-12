@@ -17,15 +17,24 @@
 | `CreatedAt` | `*time.Time` | Optional | - |
 | `UpdatedAt` | `*time.Time` | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "id": 164,
-  "site_id": 90,
-  "code": "code0",
-  "description": "description2",
-  "position": 194
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    reasonCode := models.ReasonCode{
+        Id:                   models.ToPointer(174),
+        SiteId:               models.ToPointer(100),
+        Code:                 models.ToPointer("code4"),
+        Description:          models.ToPointer("description6"),
+        Position:             models.ToPointer(204),
+    }
+
 }
 ```
 

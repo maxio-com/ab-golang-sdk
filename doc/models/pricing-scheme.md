@@ -16,3 +16,18 @@ The identifier for the pricing scheme. See [Product Components](https://help.cha
 | `PERUNIT` |
 | `TIERED` |
 
+## Example
+
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    pricingScheme := models.PricingScheme_STAIRSTEP
+
+}
+```
+

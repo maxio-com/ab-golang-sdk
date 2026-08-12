@@ -38,8 +38,8 @@
 
 ```go
 value := models.EventEventSpecificDataContainer.FromSubscriptionProductChange(models.SubscriptionProductChange{
-    PreviousProductId:    126,
-    NewProductId:         12,
+    PreviousProductId:           126,
+    NewProductId:                12,
 })
 ```
 
@@ -109,7 +109,7 @@ value := models.EventEventSpecificDataContainer.FromComponentAllocationChange(mo
 ```go
 value := models.EventEventSpecificDataContainer.FromMeteredUsage(models.MeteredUsage{
     PreviousUnitBalance:  "previous_unit_balance6",
-    NewUnitBalance:       80,
+    NewUnitBalance:       models.MeteredUsageNewUnitBalanceContainer.FromNumber(2),
     UsageQuantity:        42,
     ComponentId:          4,
     ComponentHandle:      "component_handle8",
@@ -127,8 +127,8 @@ value := models.EventEventSpecificDataContainer.FromMeteredUsage(models.MeteredU
 value := models.EventEventSpecificDataContainer.FromPrepaidUsage(models.PrepaidUsage{
     PreviousUnitBalance:        "previous_unit_balance0",
     PreviousOverageUnitBalance: "previous_overage_unit_balance4",
-    NewUnitBalance:             252,
-    NewOverageUnitBalance:      224,
+    NewUnitBalance:             models.PrepaidUsageNewUnitBalanceContainer.FromNumber(174),
+    NewOverageUnitBalance:      models.PrepaidUsageNewOverageUnitBalanceContainer.FromNumber(146),
     UsageQuantity:              214,
     OverageUsageQuantity:       106,
     ComponentId:                176,

@@ -20,15 +20,24 @@
 | `TotalRevenueInCents` | `*int64` | Optional | - |
 | `BalanceInCents` | `*int64` | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "id": 16,
-  "reference": "reference8",
-  "product_id": 214,
-  "product_handle": "product_handle4",
-  "product_price_point_id": 138
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    subscriptionGroupItem := models.SubscriptionGroupItem{
+        Id:                      models.ToPointer(26),
+        Reference:               models.NewOptional(models.ToPointer("reference4")),
+        ProductId:               models.ToPointer(32),
+        ProductHandle:           models.NewOptional(models.ToPointer("product_handle8")),
+        ProductPricePointId:     models.ToPointer(148),
+    }
+
 }
 ```
 

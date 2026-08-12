@@ -20,3 +20,18 @@ The vault that stores the payment profile with the provided vault_token. Use `bo
 | `MAXP` |
 | `STRIPECONNECT` |
 
+## Example
+
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    bankAccountVault := models.BankAccountVault_MAXP
+
+}
+```
+

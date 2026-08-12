@@ -17,15 +17,33 @@
 | `StartingBalanceInCents` | `*int64` | Optional | **Constraints**: `>= 0` |
 | `EndingBalanceInCents` | `*int64` | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "id": 110,
-  "subscription_id": 220,
-  "amount_in_cents": 196,
-  "memo": "memo6",
-  "created_at": "2016-03-13T12:52:32.123Z"
+```go
+package main
+
+import (
+    "log"
+    "time"
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    parseTime := func(layout, value string, errCallback func(error)) time.Time {
+        dateTime, err := time.Parse(layout, value)
+        if err != nil {
+            errCallback(err) 
+       }
+        return dateTime
+    }
+    createdPrepayment := models.CreatedPrepayment{
+        Id:                     models.ToPointer(int64(186)),
+        SubscriptionId:         models.ToPointer(40),
+        AmountInCents:          models.ToPointer(int64(240)),
+        Memo:                   models.ToPointer("memo6"),
+        CreatedAt:              models.ToPointer(parseTime(time.RFC3339, "2016-03-13T12:52:32.123Z", func(err error) { log.Fatalln(err) })),
+    }
+
 }
 ```
 

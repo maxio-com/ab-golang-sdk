@@ -8,7 +8,7 @@ import (
 )
 
 // GroupBilling represents a GroupBilling struct.
-// Optional attributes related to billing date and accrual. Note: Only applicable for new subscriptions.
+// (Optional) Attributes related to billing date and accrual. Note: Only applicable for new subscriptions.
 type GroupBilling struct {
     // A flag indicating whether or not to accrue charges on the new subscription.
     Accrue               *bool                  `json:"accrue,omitempty"`

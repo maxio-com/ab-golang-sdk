@@ -16,20 +16,29 @@
 | `Breakouts` | [`*models.Breakouts`](../../doc/models/breakouts.md) | Optional | - |
 | `AtTime` | `*time.Time` | Optional | ISO8601 timestamp |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "amount_in_cents": 208,
-  "amount_formatted": "amount_formatted2",
-  "currency": "currency0",
-  "currency_symbol": "currency_symbol8",
-  "breakouts": {
-    "plan_amount_in_cents": 254,
-    "plan_amount_formatted": "plan_amount_formatted0",
-    "usage_amount_in_cents": 106,
-    "usage_amount_formatted": "usage_amount_formatted8"
-  }
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    mrr := models.MRR{
+        AmountInCents:        models.ToPointer(int64(198)),
+        AmountFormatted:      models.ToPointer("amount_formatted6"),
+        Currency:             models.ToPointer("currency4"),
+        CurrencySymbol:       models.ToPointer("currency_symbol2"),
+        Breakouts:            models.ToPointer(models.Breakouts{
+            PlanAmountInCents:    models.ToPointer(int64(254)),
+            PlanAmountFormatted:  models.ToPointer("plan_amount_formatted0"),
+            UsageAmountInCents:   models.ToPointer(int64(106)),
+            UsageAmountFormatted: models.ToPointer("usage_amount_formatted8"),
+        }),
+    }
+
 }
 ```
 

@@ -16,15 +16,24 @@
 | `PaymentProfileId` | `*int` | Optional | The ID of the payment profile to be used for the payment. |
 | `ReceivedOn` | `*time.Time` | Optional | Date reflecting when the payment was received from a customer. Must be in the past. Applicable only to<br>`external` payments. |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "amount": "String9",
-  "memo": "memo0",
-  "method": "cash",
-  "details": "details6",
-  "payment_profile_id": 122
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    createInvoicePayment := models.CreateInvoicePayment{
+        Amount:               models.ToPointer(models.CreateInvoicePaymentAmountContainer.FromString("String7")),
+        Memo:                 models.ToPointer("memo8"),
+        Method:               models.ToPointer(models.InvoicePaymentMethodType_ACH),
+        Details:              models.ToPointer("details4"),
+        PaymentProfileId:     models.ToPointer(30),
+    }
+
 }
 ```
 

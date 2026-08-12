@@ -13,38 +13,56 @@
 | `CurrentStep` | [`models.DunningStepData`](../../doc/models/dunning-step-data.md) | Required | - |
 | `NextStep` | [`models.DunningStepData`](../../doc/models/dunning-step-data.md) | Required | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "dunner": {
-    "state": "state8",
-    "subscription_id": 194,
-    "revenue_at_risk_in_cents": 98,
-    "created_at": "2016-03-13T12:52:32.123Z",
-    "attempts": 42,
-    "last_attempted_at": "2016-03-13T12:52:32.123Z"
-  },
-  "current_step": {
-    "day_threshold": 198,
-    "action": "action4",
-    "email_body": "email_body4",
-    "email_subject": "email_subject6",
-    "send_email": false,
-    "send_bcc_email": false,
-    "send_sms": false,
-    "sms_body": "sms_body0"
-  },
-  "next_step": {
-    "day_threshold": 30,
-    "action": "action4",
-    "email_body": "email_body4",
-    "email_subject": "email_subject4",
-    "send_email": false,
-    "send_bcc_email": false,
-    "send_sms": false,
-    "sms_body": "sms_body0"
-  }
+```go
+package main
+
+import (
+    "log"
+    "time"
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    parseTime := func(layout, value string, errCallback func(error)) time.Time {
+        dateTime, err := time.Parse(layout, value)
+        if err != nil {
+            errCallback(err) 
+       }
+        return dateTime
+    }
+    dunningStepReached := models.DunningStepReached{
+        Dunner:               models.DunnerData{
+            State:                "state8",
+            SubscriptionId:       194,
+            RevenueAtRiskInCents: int64(98),
+            CreatedAt:            parseTime(time.RFC3339, "2016-03-13T12:52:32.123Z", func(err error) { log.Fatalln(err) }),
+            Attempts:             42,
+            LastAttemptedAt:      parseTime(time.RFC3339, "2016-03-13T12:52:32.123Z", func(err error) { log.Fatalln(err) }),
+        },
+        CurrentStep:          models.DunningStepData{
+            DayThreshold:         198,
+            Action:               "action4",
+            EmailBody:            models.NewOptional(models.ToPointer("email_body4")),
+            EmailSubject:         models.NewOptional(models.ToPointer("email_subject6")),
+            SendEmail:            false,
+            SendBccEmail:         false,
+            SendSms:              false,
+            SmsBody:              models.NewOptional(models.ToPointer("sms_body0")),
+        },
+        NextStep:             models.DunningStepData{
+            DayThreshold:         30,
+            Action:               "action4",
+            EmailBody:            models.NewOptional(models.ToPointer("email_body4")),
+            EmailSubject:         models.NewOptional(models.ToPointer("email_subject4")),
+            SendEmail:            false,
+            SendBccEmail:         false,
+            SendSms:              false,
+            SmsBody:              models.NewOptional(models.ToPointer("sms_body0")),
+        },
+    }
+
 }
 ```
 

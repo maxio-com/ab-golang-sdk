@@ -8,7 +8,7 @@ import (
 )
 
 // PauseRequest represents a PauseRequest struct.
-// Allows to pause a Subscription
+// Allows you to pause a Subscription.
 type PauseRequest struct {
     Hold                 *AutoResume            `json:"hold,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`

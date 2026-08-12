@@ -20,31 +20,40 @@ Object which contains subscription errors.
 | `PaymentProfileExpirationYear` | `[]string` | Optional | - |
 | `PaymentProfileFullNumber` | `[]string` | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "product": [
-    "product7",
-    "product6"
-  ],
-  "product_price_point_id": [
-    "product_price_point_id9",
-    "product_price_point_id0"
-  ],
-  "payment_profile": [
-    "payment_profile4",
-    "payment_profile5"
-  ],
-  "payment_profile.chargify_token": [
-    "payment_profile.chargify_token8",
-    "payment_profile.chargify_token9"
-  ],
-  "base": [
-    "base7",
-    "base8",
-    "base9"
-  ]
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    subscriptionGroupSubscriptionError := models.SubscriptionGroupSubscriptionError{
+        Product:                       []string{
+            "product7",
+            "product8",
+        },
+        ProductPricePointId:           []string{
+            "product_price_point_id3",
+            "product_price_point_id4",
+        },
+        PaymentProfile:                []string{
+            "payment_profile8",
+            "payment_profile9",
+        },
+        PaymentProfileChargifyToken:   []string{
+            "payment_profile.chargify_token2",
+            "payment_profile.chargify_token3",
+        },
+        Base:                          []string{
+            "base1",
+            "base2",
+            "base3",
+        },
+    }
+
 }
 ```
 

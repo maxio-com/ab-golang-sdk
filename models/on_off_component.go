@@ -11,11 +11,11 @@ import (
 
 // OnOffComponent represents a OnOffComponent struct.
 type OnOffComponent struct {
-    // A name for this component that is suitable for showing customers and displaying on billing statements, ie. "Minutes".
+    // A name for this component that is suitable for showing customers and displaying on billing statements, e.g., "Minutes".
     Name                      string                    `json:"name"`
     // A description for the component that will be displayed to the user on the hosted signup page.
     Description               *string                   `json:"description,omitempty"`
-    // A unique identifier for your use that can be used to retrieve this component is subsequent requests.  Must start with a letter or number and may only contain lowercase letters, numbers, or the characters '.', ':', '-', or '_'.
+    // A unique identifier for your use that can be used to retrieve this component in subsequent requests. Must start with a letter or number and may only contain lowercase letters, numbers, or the characters '.', ':', '-', or '_'.
     Handle                    *string                   `json:"handle,omitempty"`
     // Boolean flag describing whether a component is taxable or not.
     Taxable                   *bool                     `json:"taxable,omitempty"`
@@ -24,7 +24,7 @@ type OnOffComponent struct {
     // The type of credit to be created when upgrading/downgrading. Defaults to the component and then site setting if one is not provided.
     DowngradeCredit           Optional[CreditType]      `json:"downgrade_credit"`
     PricePoints               []ComponentPricePointItem `json:"price_points,omitempty"`
-    // This is the amount that the customer will be charged when they turn the component on for the subscription. The price can contain up to 8 decimal places. i.e. 1.00 or 0.0012 or 0.00000065
+    // This is the amount that the customer will be charged when they turn the component on for the subscription. The price can contain up to 8 decimal places. e.g., 1.00 or 0.0012 or 0.00000065
     UnitPrice                 OnOffComponentUnitPrice   `json:"unit_price"`
     // A string representing the tax code related to the component type. This is especially important when using AvaTax to tax based on locale. This attribute has a max length of 25 characters.
     TaxCode                   *string                   `json:"tax_code,omitempty"`
@@ -33,10 +33,12 @@ type OnOffComponent struct {
     DisplayOnHostedPage       *bool                     `json:"display_on_hosted_page,omitempty"`
     AllowFractionalQuantities *bool                     `json:"allow_fractional_quantities,omitempty"`
     PublicSignupPageIds       []int                     `json:"public_signup_page_ids,omitempty"`
-    // The numerical interval. i.e. an interval of ‘30’ coupled with an interval_unit of day would mean this component's default price point would renew every 30 days. This property is only available for sites with Multifrequency enabled.
+    // The numerical interval. e.g., an interval of ‘30’ coupled with an interval_unit of day would mean this component's default price point would renew every 30 days. This property is only available for sites with Multifrequency enabled.
     Interval                  *int                      `json:"interval,omitempty"`
     // A string representing the interval unit for this component's default price point, either month or day. This property is only available for sites with Multifrequency enabled.
     IntervalUnit              Optional[IntervalUnit]    `json:"interval_unit"`
+    // (Optional) Custom UNSPSC commodity code for Level 3/CEDP payment data. When set, this value is sent as the commodity code on invoice line items for this component instead of the default derived from item_category.
+    UnspscCode                Optional[string]          `json:"unspsc_code"`
     AdditionalProperties      map[string]interface{}    `json:"_"`
 }
 
@@ -44,8 +46,8 @@ type OnOffComponent struct {
 // providing a human-readable string representation useful for logging, debugging or displaying information.
 func (o OnOffComponent) String() string {
     return fmt.Sprintf(
-    	"OnOffComponent[Name=%v, Description=%v, Handle=%v, Taxable=%v, UpgradeCharge=%v, DowngradeCredit=%v, PricePoints=%v, UnitPrice=%v, TaxCode=%v, HideDateRangeOnInvoice=%v, DisplayOnHostedPage=%v, AllowFractionalQuantities=%v, PublicSignupPageIds=%v, Interval=%v, IntervalUnit=%v, AdditionalProperties=%v]",
-    	o.Name, o.Description, o.Handle, o.Taxable, o.UpgradeCharge, o.DowngradeCredit, o.PricePoints, o.UnitPrice, o.TaxCode, o.HideDateRangeOnInvoice, o.DisplayOnHostedPage, o.AllowFractionalQuantities, o.PublicSignupPageIds, o.Interval, o.IntervalUnit, o.AdditionalProperties)
+    	"OnOffComponent[Name=%v, Description=%v, Handle=%v, Taxable=%v, UpgradeCharge=%v, DowngradeCredit=%v, PricePoints=%v, UnitPrice=%v, TaxCode=%v, HideDateRangeOnInvoice=%v, DisplayOnHostedPage=%v, AllowFractionalQuantities=%v, PublicSignupPageIds=%v, Interval=%v, IntervalUnit=%v, UnspscCode=%v, AdditionalProperties=%v]",
+    	o.Name, o.Description, o.Handle, o.Taxable, o.UpgradeCharge, o.DowngradeCredit, o.PricePoints, o.UnitPrice, o.TaxCode, o.HideDateRangeOnInvoice, o.DisplayOnHostedPage, o.AllowFractionalQuantities, o.PublicSignupPageIds, o.Interval, o.IntervalUnit, o.UnspscCode, o.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for OnOffComponent.
@@ -54,7 +56,7 @@ func (o OnOffComponent) MarshalJSON() (
     []byte,
     error) {
     if err := DetectConflictingProperties(o.AdditionalProperties,
-        "name", "description", "handle", "taxable", "upgrade_charge", "downgrade_credit", "price_points", "unit_price", "tax_code", "hide_date_range_on_invoice", "display_on_hosted_page", "allow_fractional_quantities", "public_signup_page_ids", "interval", "interval_unit"); err != nil {
+        "name", "description", "handle", "taxable", "upgrade_charge", "downgrade_credit", "price_points", "unit_price", "tax_code", "hide_date_range_on_invoice", "display_on_hosted_page", "allow_fractional_quantities", "public_signup_page_ids", "interval", "interval_unit", "unspsc_code"); err != nil {
         return []byte{}, err
     }
     return json.Marshal(o.toMap())
@@ -117,6 +119,13 @@ func (o OnOffComponent) toMap() map[string]any {
             structMap["interval_unit"] = nil
         }
     }
+    if o.UnspscCode.IsValueSet() {
+        if o.UnspscCode.Value() != nil {
+            structMap["unspsc_code"] = o.UnspscCode.Value()
+        } else {
+            structMap["unspsc_code"] = nil
+        }
+    }
     return structMap
 }
 
@@ -132,7 +141,7 @@ func (o *OnOffComponent) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "name", "description", "handle", "taxable", "upgrade_charge", "downgrade_credit", "price_points", "unit_price", "tax_code", "hide_date_range_on_invoice", "display_on_hosted_page", "allow_fractional_quantities", "public_signup_page_ids", "interval", "interval_unit")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "name", "description", "handle", "taxable", "upgrade_charge", "downgrade_credit", "price_points", "unit_price", "tax_code", "hide_date_range_on_invoice", "display_on_hosted_page", "allow_fractional_quantities", "public_signup_page_ids", "interval", "interval_unit", "unspsc_code")
     if err != nil {
     	return err
     }
@@ -153,6 +162,7 @@ func (o *OnOffComponent) UnmarshalJSON(input []byte) error {
     o.PublicSignupPageIds = temp.PublicSignupPageIds
     o.Interval = temp.Interval
     o.IntervalUnit = temp.IntervalUnit
+    o.UnspscCode = temp.UnspscCode
     return nil
 }
 
@@ -173,6 +183,7 @@ type tempOnOffComponent  struct {
     PublicSignupPageIds       []int                     `json:"public_signup_page_ids,omitempty"`
     Interval                  *int                      `json:"interval,omitempty"`
     IntervalUnit              Optional[IntervalUnit]    `json:"interval_unit"`
+    UnspscCode                Optional[string]          `json:"unspsc_code"`
 }
 
 func (o *tempOnOffComponent) validate() error {

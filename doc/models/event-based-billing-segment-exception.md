@@ -11,18 +11,16 @@
 |  --- | --- | --- | --- |
 | `Errors` | [`models.EventBasedBillingSegmentError`](../../doc/models/event-based-billing-segment-error.md) | Required | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "errors": {
-    "segments": {
-      "key0": {
-        "key1": "val1",
-        "key2": "val2"
-      }
+```go
+if err != nil {
+    switch typedErr := err.(type) {
+    case *errors.EventBasedBillingSegmentException:
+        log.Fatalln(typedErr)
+    default:
+        log.Fatalln(err)
     }
-  }
 }
 ```
 
