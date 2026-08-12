@@ -47,7 +47,7 @@ func (s *SubscriptionSuite) TestSubscriptionCreate() {
 					{
 						ComponentId: models.ToPointer(models.CreateSubscriptionComponentComponentIdContainer.FromNumber(*component.Id)),
 						Enabled:     boolPtr(true),
-						UnitBalance: intPtr(1),
+						UnitBalance: models.ToPointer(models.CreateSubscriptionComponentUnitBalanceContainer.FromNumber(1)),
 					},
 				},
 			),
@@ -163,7 +163,7 @@ func (s *SubscriptionSuite) TestSubscriptionCreate() {
 					{
 						ComponentId: models.ToPointer(models.CreateSubscriptionComponentComponentIdContainer.FromNumber(*component.Id)),
 						Enabled:     boolPtr(true),
-						UnitBalance: intPtr(1),
+						UnitBalance: models.ToPointer(models.CreateSubscriptionComponentUnitBalanceContainer.FromNumber(1)),
 					},
 				},
 			),
