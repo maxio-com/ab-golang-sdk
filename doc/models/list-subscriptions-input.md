@@ -64,7 +64,7 @@ func main() {
         State:                models.ToPointer(models.SubscriptionStateFilter_PREPAIDDUNNING),
         Product:              models.ToPointer(models.ListSubscriptionsInputProductContainer.FromNumber(200)),
         Q:                    models.ToPointer("q0"),
-        QScope:               models.ToPointer(models.QScope_SUBSCRIPTIONREFERENCE),
+        QScope:               models.ToPointer(models.QScope_LASTNAME),
         CustomerId:           models.ToPointer(150),
         ProductPricePointId:  models.ToPointer(234),
         Coupon:               models.ToPointer(84),

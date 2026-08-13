@@ -3943,8 +3943,7 @@ func (e QScope) isValid() bool {
         QScope_LASTNAME,
         QScope_ORGANIZATION,
         QScope_CUSTOMERREFERENCE,
-        QScope_SUBSCRIPTIONREFERENCE,
-        QScope_LASTFOUR:
+        QScope_SUBSCRIPTIONREFERENCE:
         return true
     }
     return false
@@ -3957,7 +3956,6 @@ const (
     QScope_ORGANIZATION          QScope = "organization"
     QScope_CUSTOMERREFERENCE     QScope = "customer_reference"
     QScope_SUBSCRIPTIONREFERENCE QScope = "subscription_reference"
-    QScope_LASTFOUR              QScope = "last_four"
 )
 
 // ReactivationCharge is a string enum.
@@ -4645,7 +4643,6 @@ func (e SubscriptionListInclude) isValid() bool {
     case SubscriptionListInclude_SELFSERVICEPAGETOKEN,
         SubscriptionListInclude_CURRENTACCOUNTBALANCEINCENTS,
         SubscriptionListInclude_CURRENTBILLINGAMOUNT,
-        SubscriptionListInclude_THREEDSACTIONLINK,
         SubscriptionListInclude_COUPONS:
         return true
     }
@@ -4656,7 +4653,6 @@ const (
     SubscriptionListInclude_SELFSERVICEPAGETOKEN         SubscriptionListInclude = "self_service_page_token"
     SubscriptionListInclude_CURRENTACCOUNTBALANCEINCENTS SubscriptionListInclude = "current_account_balance_in_cents"
     SubscriptionListInclude_CURRENTBILLINGAMOUNT         SubscriptionListInclude = "current_billing_amount"
-    SubscriptionListInclude_THREEDSACTIONLINK            SubscriptionListInclude = "three_ds_action_link"
     SubscriptionListInclude_COUPONS                      SubscriptionListInclude = "coupons"
 )
 

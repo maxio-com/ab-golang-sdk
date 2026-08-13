@@ -15,7 +15,6 @@
 | `ORGANIZATION` |
 | `CUSTOMERREFERENCE` |
 | `SUBSCRIPTIONREFERENCE` |
-| `LASTFOUR` |
 
 ## Example
 
@@ -27,7 +26,7 @@ import (
 )
 
 func main() {
-    qScope := models.QScope_CUSTOMERREFERENCE
+    qScope := models.QScope_LASTNAME
 
 }
 ```
