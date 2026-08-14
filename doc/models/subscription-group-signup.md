@@ -18,34 +18,43 @@
 | `BankAccountAttributes` | [`*models.SubscriptionGroupBankAccount`](../../doc/models/subscription-group-bank-account.md) | Optional | - |
 | `Subscriptions` | [`[]models.SubscriptionGroupSignupItem`](../../doc/models/subscription-group-signup-item.md) | Required | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "subscriptions": [
-    {
-      "metafields": {
-        "custom_field_name_1": "custom_field_value_1",
-        "custom_field_name_2": "custom_field_value_2"
-      },
-      "product_handle": "product_handle8",
-      "product_id": 144,
-      "product_price_point_id": 68,
-      "product_price_point_handle": "product_price_point_handle4",
-      "offer_id": 40
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    subscriptionGroupSignup := models.SubscriptionGroupSignup{
+        PaymentProfileId:        models.ToPointer(124),
+        PayerId:                 models.ToPointer(146),
+        PayerReference:          models.ToPointer("payer_reference0"),
+        PaymentCollectionMethod: models.ToPointer(models.CollectionMethod_PREPAID),
+        PayerAttributes:         models.ToPointer(models.PayerAttributes{
+            FirstName:            models.ToPointer("first_name2"),
+            LastName:             models.ToPointer("last_name0"),
+            Email:                models.ToPointer("email4"),
+            CcEmails:             models.ToPointer("cc_emails2"),
+            Organization:         models.ToPointer("organization6"),
+        }),
+        Subscriptions:           []models.SubscriptionGroupSignupItem{
+            models.SubscriptionGroupSignupItem{
+                ProductHandle:           models.ToPointer("product_handle8"),
+                ProductId:               models.ToPointer(144),
+                ProductPricePointId:     models.ToPointer(68),
+                ProductPricePointHandle: models.ToPointer("product_price_point_handle4"),
+                OfferId:                 models.ToPointer(40),
+                Metafields:              map[string]string{
+                    "custom_field_name_1": "custom_field_value_1",
+                    "custom_field_name_2": "custom_field_value_2",
+                },
+            },
+        },
     }
-  ],
-  "payment_profile_id": 42,
-  "payer_id": 64,
-  "payer_reference": "payer_reference8",
-  "payment_collection_method": "automatic",
-  "payer_attributes": {
-    "first_name": "first_name2",
-    "last_name": "last_name0",
-    "email": "email4",
-    "cc_emails": "cc_emails2",
-    "organization": "organization6"
-  }
+
 }
 ```
 

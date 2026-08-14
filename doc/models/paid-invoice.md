@@ -14,14 +14,23 @@
 | `DueAmount` | `*string` | Optional | The remaining due amount on the invoice |
 | `PaidAmount` | `*string` | Optional | The total amount paid on this invoice (including any prior payments) |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "invoice_id": "invoice_id6",
-  "status": "open",
-  "due_amount": "due_amount8",
-  "paid_amount": "paid_amount8"
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    paidInvoice := models.PaidInvoice{
+        InvoiceId:            models.ToPointer("invoice_id2"),
+        Status:               models.ToPointer(models.InvoiceStatus_CANCELED),
+        DueAmount:            models.ToPointer("due_amount4"),
+        PaidAmount:           models.ToPointer("paid_amount6"),
+    }
+
 }
 ```
 

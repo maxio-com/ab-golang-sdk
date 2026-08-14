@@ -11,22 +11,31 @@
 |  --- | --- | --- | --- |
 | `PricePoint` | [`models.CreateProductPricePoint`](../../doc/models/create-product-price-point.md) | Required | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "price_point": {
-    "name": "name0",
-    "price_in_cents": 196,
-    "interval": 44,
-    "interval_unit": "day",
-    "use_site_exchange_rate": true,
-    "handle": "handle6",
-    "trial_price_in_cents": 108,
-    "trial_interval": 202,
-    "trial_interval_unit": "day",
-    "trial_type": "no_obligation"
-  }
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    createProductPricePointRequest := models.CreateProductPricePointRequest{
+        PricePoint:           models.CreateProductPricePoint{
+            Name:                    "name0",
+            Handle:                  models.ToPointer("handle6"),
+            PriceInCents:            int64(196),
+            Interval:                44,
+            IntervalUnit:            models.IntervalUnit_DAY,
+            TrialPriceInCents:       models.ToPointer(int64(108)),
+            TrialInterval:           models.ToPointer(202),
+            TrialIntervalUnit:       models.ToPointer(models.IntervalUnit_DAY),
+            TrialType:               models.NewOptional(models.ToPointer(models.TrialType_NOOBLIGATION)),
+            UseSiteExchangeRate:     models.ToPointer(true),
+        },
+    }
+
 }
 ```
 

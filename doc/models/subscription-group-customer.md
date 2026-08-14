@@ -15,15 +15,24 @@
 | `Email` | `*string` | Optional | - |
 | `Reference` | `*string` | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "first_name": "first_name4",
-  "last_name": "last_name2",
-  "organization": "organization2",
-  "email": "email2",
-  "reference": "reference0"
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    subscriptionGroupCustomer := models.SubscriptionGroupCustomer{
+        FirstName:            models.ToPointer("first_name6"),
+        LastName:             models.ToPointer("last_name4"),
+        Organization:         models.ToPointer("organization0"),
+        Email:                models.ToPointer("email0"),
+        Reference:            models.ToPointer("reference8"),
+    }
+
 }
 ```
 

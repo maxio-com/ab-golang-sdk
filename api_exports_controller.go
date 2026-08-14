@@ -167,8 +167,7 @@ func (a *APIExportsController) ListExportedSubscriptions(
 // ExportProformaInvoices takes context as parameters and
 // returns an models.ApiResponse with models.BatchJobResponse data and
 // an error if there was an issue with the request or response.
-// Creates a proforma invoices export and returns a batch job object.
-// It is only available for Relationship Invoicing architecture.
+// Creates a proforma invoices export and returns a batch job object. Proforma invoices are only available on Relationship Invoicing sites.
 func (a *APIExportsController) ExportProformaInvoices(ctx context.Context) (
     models.ApiResponse[models.BatchJobResponse],
     error) {
@@ -239,7 +238,7 @@ func (a *APIExportsController) ExportSubscriptions(ctx context.Context) (
 // ReadProformaInvoicesExport takes context, batchId as parameters and
 // returns an models.ApiResponse with models.BatchJobResponse data and
 // an error if there was an issue with the request or response.
-// Returns a batch job object for a proforma invoices export.
+// Returns a batch job object for a proforma invoices export. Proforma invoices are only available on Relationship Invoicing sites.
 func (a *APIExportsController) ReadProformaInvoicesExport(
     ctx context.Context,
     batchId string) (

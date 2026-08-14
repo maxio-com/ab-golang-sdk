@@ -15,41 +15,59 @@
 | `EventType` | [`models.InvoiceEventType`](../../doc/models/invoice-event-type.md) | Required | **Default**: `"refund_invoice"` |
 | `EventData` | [`models.RefundInvoiceEventData`](../../doc/models/refund-invoice-event-data.md) | Required | Example schema for an `refund_invoice` event |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "id": 54,
-  "timestamp": "2016-03-13T12:52:32.123Z",
-  "invoice": {
-    "issue_date": "2024-01-01",
-    "due_date": "2024-01-01",
-    "paid_date": "2024-01-01",
-    "public_url_expires_on": "2024-01-21",
-    "id": 166,
-    "uid": "uid6",
-    "site_id": 92,
-    "customer_id": 204,
-    "subscription_id": 20
-  },
-  "event_type": "refund_invoice",
-  "event_data": {
-    "apply_credit": false,
-    "consolidation_level": "child",
-    "credit_note_attributes": {
-      "uid": "uid2",
-      "site_id": 72,
-      "customer_id": 184,
-      "subscription_id": 0,
-      "number": "number0"
-    },
-    "memo": "memo0",
-    "original_amount": "original_amount0",
-    "payment_id": 204,
-    "refund_amount": "refund_amount8",
-    "refund_id": 248,
-    "transaction_time": "2016-03-13T12:52:32.123Z"
-  }
+```go
+package main
+
+import (
+    "log"
+    "time"
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    parseTime := func(layout, value string, errCallback func(error)) time.Time {
+        dateTime, err := time.Parse(layout, value)
+        if err != nil {
+            errCallback(err) 
+       }
+        return dateTime
+    }
+    refundInvoiceEvent := models.RefundInvoiceEvent{
+        Id:                   int64(132),
+        Timestamp:            parseTime(time.RFC3339, "2016-03-13T12:52:32.123Z", func(err error) { log.Fatalln(err) }),
+        Invoice:              models.Invoice{
+            Id:                         models.ToPointer(int64(166)),
+            Uid:                        models.ToPointer("uid6"),
+            SiteId:                     models.ToPointer(92),
+            CustomerId:                 models.ToPointer(204),
+            SubscriptionId:             models.ToPointer(20),
+            IssueDate:                  models.ToPointer(parseTime(models.DEFAULT_DATE, "2024-01-01", func(err error) { log.Fatalln(err) })),
+            DueDate:                    models.ToPointer(parseTime(models.DEFAULT_DATE, "2024-01-01", func(err error) { log.Fatalln(err) })),
+            PaidDate:                   models.NewOptional(models.ToPointer(parseTime(models.DEFAULT_DATE, "2024-01-01", func(err error) { log.Fatalln(err) }))),
+            PublicUrlExpiresOn:         models.ToPointer(parseTime(models.DEFAULT_DATE, "2024-01-21", func(err error) { log.Fatalln(err) })),
+        },
+        EventType:            models.InvoiceEventType_REFUNDINVOICE,
+        EventData:            models.RefundInvoiceEventData{
+            ApplyCredit:          false,
+            ConsolidationLevel:   models.ToPointer(models.InvoiceConsolidationLevel_CHILD),
+            CreditNoteAttributes: models.CreditNote{
+                Uid:                  models.ToPointer("uid2"),
+                SiteId:               models.ToPointer(72),
+                CustomerId:           models.ToPointer(184),
+                SubscriptionId:       models.ToPointer(0),
+                Number:               models.ToPointer("number0"),
+            },
+            Memo:                 models.ToPointer("memo0"),
+            OriginalAmount:       models.ToPointer("original_amount0"),
+            PaymentId:            204,
+            RefundAmount:         "refund_amount8",
+            RefundId:             248,
+            TransactionTime:      parseTime(time.RFC3339, "2016-03-13T12:52:32.123Z", func(err error) { log.Fatalln(err) }),
+        },
+    }
+
 }
 ```
 

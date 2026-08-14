@@ -11,13 +11,13 @@ import (
 
 // EBBComponent represents a EBBComponent struct.
 type EBBComponent struct {
-    // A name for this component that is suitable for showing customers and displaying on billing statements, ie. "Minutes".
+    // A name for this component that is suitable for showing customers and displaying on billing statements, i.e., "Minutes".
     Name                      string                    `json:"name"`
-    // The name of the unit of measurement for the component. It should be singular since it will be automatically pluralized when necessary. i.e. “message”, which may then be shown as “5 messages” on a subscription’s component line-item
+    // “The name of the unit of measurement for the component. It should be singular since it will be automatically pluralized when necessary. i.e., “message”, which may then be shown as “5 messages” on a subscription’s component line-item”
     UnitName                  string                    `json:"unit_name"`
     // A description for the component that will be displayed to the user on the hosted signup page.
     Description               *string                   `json:"description,omitempty"`
-    // A unique identifier for your use that can be used to retrieve this component is subsequent requests.  Must start with a letter or number and may only contain lowercase letters, numbers, or the characters '.', ':', '-', or '_'.
+    // A unique identifier for your use that can be used to retrieve this component in subsequent requests. Must start with a letter or number and may only contain lowercase letters, numbers, or the characters '.', ':', '-', or '_'.
     Handle                    *string                   `json:"handle,omitempty"`
     // Boolean flag describing whether a component is taxable or not.
     Taxable                   *bool                     `json:"taxable,omitempty"`
@@ -26,7 +26,7 @@ type EBBComponent struct {
     // (Not required for ‘per_unit’ pricing schemes) One or more price brackets. See [Price Bracket Rules](https://maxio.zendesk.com/hc/en-us/articles/24261149166733-Component-Pricing-Schemes#price-bracket-rules) for an overview of how price brackets work for different pricing schemes.
     Prices                    []Price                   `json:"prices,omitempty"`
     PricePoints               []ComponentPricePointItem `json:"price_points,omitempty"`
-    // The amount the customer will be charged per unit when the pricing scheme is “per_unit”. The price can contain up to 8 decimal places. i.e. 1.00 or 0.0012 or 0.00000065
+    // The amount the customer will be charged per unit when the pricing scheme is “per_unit”. The price can contain up to 8 decimal places. i.e., 1.00 or 0.0012 or 0.00000065
     UnitPrice                 *EBBComponentUnitPrice    `json:"unit_price,omitempty"`
     // A string representing the tax code related to the component type. This is especially important when using AvaTax to tax based on locale. This attribute has a max length of 25 characters.
     TaxCode                   *string                   `json:"tax_code,omitempty"`
@@ -34,10 +34,12 @@ type EBBComponent struct {
     HideDateRangeOnInvoice    *bool                     `json:"hide_date_range_on_invoice,omitempty"`
     // The ID of an event based billing metric that will be attached to this component.
     EventBasedBillingMetricId int                       `json:"event_based_billing_metric_id"`
-    // The numerical interval. i.e. an interval of ‘30’ coupled with an interval_unit of day would mean this component's default price point would renew every 30 days. This property is only available for sites with Multifrequency enabled.
+    // The numerical interval. i.e., an interval of ‘30’ coupled with an interval_unit of day would mean this component's default price point would renew every 30 days. This property is only available for sites with Multifrequency enabled.
     Interval                  *int                      `json:"interval,omitempty"`
     // A string representing the interval unit for this component's default price point, either month or day. This property is only available for sites with Multifrequency enabled.
     IntervalUnit              Optional[IntervalUnit]    `json:"interval_unit"`
+    // (Optional) Custom UNSPSC commodity code for Level 3/CEDP payment data. When set, this value is sent as the commodity code on invoice line items for this component instead of the default derived from item_category.
+    UnspscCode                Optional[string]          `json:"unspsc_code"`
     AdditionalProperties      map[string]interface{}    `json:"_"`
 }
 
@@ -45,8 +47,8 @@ type EBBComponent struct {
 // providing a human-readable string representation useful for logging, debugging or displaying information.
 func (e EBBComponent) String() string {
     return fmt.Sprintf(
-    	"EBBComponent[Name=%v, UnitName=%v, Description=%v, Handle=%v, Taxable=%v, PricingScheme=%v, Prices=%v, PricePoints=%v, UnitPrice=%v, TaxCode=%v, HideDateRangeOnInvoice=%v, EventBasedBillingMetricId=%v, Interval=%v, IntervalUnit=%v, AdditionalProperties=%v]",
-    	e.Name, e.UnitName, e.Description, e.Handle, e.Taxable, e.PricingScheme, e.Prices, e.PricePoints, e.UnitPrice, e.TaxCode, e.HideDateRangeOnInvoice, e.EventBasedBillingMetricId, e.Interval, e.IntervalUnit, e.AdditionalProperties)
+    	"EBBComponent[Name=%v, UnitName=%v, Description=%v, Handle=%v, Taxable=%v, PricingScheme=%v, Prices=%v, PricePoints=%v, UnitPrice=%v, TaxCode=%v, HideDateRangeOnInvoice=%v, EventBasedBillingMetricId=%v, Interval=%v, IntervalUnit=%v, UnspscCode=%v, AdditionalProperties=%v]",
+    	e.Name, e.UnitName, e.Description, e.Handle, e.Taxable, e.PricingScheme, e.Prices, e.PricePoints, e.UnitPrice, e.TaxCode, e.HideDateRangeOnInvoice, e.EventBasedBillingMetricId, e.Interval, e.IntervalUnit, e.UnspscCode, e.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for EBBComponent.
@@ -55,7 +57,7 @@ func (e EBBComponent) MarshalJSON() (
     []byte,
     error) {
     if err := DetectConflictingProperties(e.AdditionalProperties,
-        "name", "unit_name", "description", "handle", "taxable", "pricing_scheme", "prices", "price_points", "unit_price", "tax_code", "hide_date_range_on_invoice", "event_based_billing_metric_id", "interval", "interval_unit"); err != nil {
+        "name", "unit_name", "description", "handle", "taxable", "pricing_scheme", "prices", "price_points", "unit_price", "tax_code", "hide_date_range_on_invoice", "event_based_billing_metric_id", "interval", "interval_unit", "unspsc_code"); err != nil {
         return []byte{}, err
     }
     return json.Marshal(e.toMap())
@@ -103,6 +105,13 @@ func (e EBBComponent) toMap() map[string]any {
             structMap["interval_unit"] = nil
         }
     }
+    if e.UnspscCode.IsValueSet() {
+        if e.UnspscCode.Value() != nil {
+            structMap["unspsc_code"] = e.UnspscCode.Value()
+        } else {
+            structMap["unspsc_code"] = nil
+        }
+    }
     return structMap
 }
 
@@ -118,7 +127,7 @@ func (e *EBBComponent) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "name", "unit_name", "description", "handle", "taxable", "pricing_scheme", "prices", "price_points", "unit_price", "tax_code", "hide_date_range_on_invoice", "event_based_billing_metric_id", "interval", "interval_unit")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "name", "unit_name", "description", "handle", "taxable", "pricing_scheme", "prices", "price_points", "unit_price", "tax_code", "hide_date_range_on_invoice", "event_based_billing_metric_id", "interval", "interval_unit", "unspsc_code")
     if err != nil {
     	return err
     }
@@ -138,6 +147,7 @@ func (e *EBBComponent) UnmarshalJSON(input []byte) error {
     e.EventBasedBillingMetricId = *temp.EventBasedBillingMetricId
     e.Interval = temp.Interval
     e.IntervalUnit = temp.IntervalUnit
+    e.UnspscCode = temp.UnspscCode
     return nil
 }
 
@@ -157,6 +167,7 @@ type tempEBBComponent  struct {
     EventBasedBillingMetricId *int                      `json:"event_based_billing_metric_id"`
     Interval                  *int                      `json:"interval,omitempty"`
     IntervalUnit              Optional[IntervalUnit]    `json:"interval_unit"`
+    UnspscCode                Optional[string]          `json:"unspsc_code"`
 }
 
 func (e *tempEBBComponent) validate() error {

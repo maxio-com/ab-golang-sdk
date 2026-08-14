@@ -1,7 +1,7 @@
 
 # Pause Request
 
-Allows to pause a Subscription
+Allows you to pause a Subscription.
 
 ## Structure
 
@@ -13,13 +13,31 @@ Allows to pause a Subscription
 |  --- | --- | --- | --- |
 | `Hold` | [`*models.AutoResume`](../../doc/models/auto-resume.md) | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "hold": {
-    "automatically_resume_at": "2016-03-13T12:52:32.123Z"
-  }
+```go
+package main
+
+import (
+    "log"
+    "time"
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    parseTime := func(layout, value string, errCallback func(error)) time.Time {
+        dateTime, err := time.Parse(layout, value)
+        if err != nil {
+            errCallback(err) 
+       }
+        return dateTime
+    }
+    pauseRequest := models.PauseRequest{
+        Hold:                 models.ToPointer(models.AutoResume{
+            AutomaticallyResumeAt: models.NewOptional(models.ToPointer(parseTime(time.RFC3339, "2016-03-13T12:52:32.123Z", func(err error) { log.Fatalln(err) }))),
+        }),
+    }
+
 }
 ```
 

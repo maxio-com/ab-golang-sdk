@@ -14,14 +14,23 @@
 | `TotalPages` | `*int` | Optional | - |
 | `StatusCode` | `*int` | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "total_count": 226,
-  "current_page": 202,
-  "total_pages": 214,
-  "status_code": 244
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    listProformaInvoicesMeta := models.ListProformaInvoicesMeta{
+        TotalCount:           models.ToPointer(50),
+        CurrentPage:          models.ToPointer(26),
+        TotalPages:           models.ToPointer(38),
+        StatusCode:           models.ToPointer(68),
+    }
+
 }
 ```
 

@@ -11,13 +11,13 @@ import (
 
 // MeteredUsage represents a MeteredUsage struct.
 type MeteredUsage struct {
-    PreviousUnitBalance  string                 `json:"previous_unit_balance"`
-    NewUnitBalance       int                    `json:"new_unit_balance"`
-    UsageQuantity        int                    `json:"usage_quantity"`
-    ComponentId          int                    `json:"component_id"`
-    ComponentHandle      string                 `json:"component_handle"`
-    Memo                 string                 `json:"memo"`
-    AdditionalProperties map[string]interface{} `json:"_"`
+    PreviousUnitBalance  string                     `json:"previous_unit_balance"`
+    NewUnitBalance       MeteredUsageNewUnitBalance `json:"new_unit_balance"`
+    UsageQuantity        int                        `json:"usage_quantity"`
+    ComponentId          int                        `json:"component_id"`
+    ComponentHandle      string                     `json:"component_handle"`
+    Memo                 string                     `json:"memo"`
+    AdditionalProperties map[string]interface{}     `json:"_"`
 }
 
 // String implements the fmt.Stringer interface for MeteredUsage,
@@ -45,7 +45,7 @@ func (m MeteredUsage) toMap() map[string]any {
     structMap := make(map[string]any)
     MergeAdditionalProperties(structMap, m.AdditionalProperties)
     structMap["previous_unit_balance"] = m.PreviousUnitBalance
-    structMap["new_unit_balance"] = m.NewUnitBalance
+    structMap["new_unit_balance"] = m.NewUnitBalance.toMap()
     structMap["usage_quantity"] = m.UsageQuantity
     structMap["component_id"] = m.ComponentId
     structMap["component_handle"] = m.ComponentHandle
@@ -82,12 +82,12 @@ func (m *MeteredUsage) UnmarshalJSON(input []byte) error {
 
 // tempMeteredUsage is a temporary struct used for validating the fields of MeteredUsage.
 type tempMeteredUsage  struct {
-    PreviousUnitBalance *string `json:"previous_unit_balance"`
-    NewUnitBalance      *int    `json:"new_unit_balance"`
-    UsageQuantity       *int    `json:"usage_quantity"`
-    ComponentId         *int    `json:"component_id"`
-    ComponentHandle     *string `json:"component_handle"`
-    Memo                *string `json:"memo"`
+    PreviousUnitBalance *string                     `json:"previous_unit_balance"`
+    NewUnitBalance      *MeteredUsageNewUnitBalance `json:"new_unit_balance"`
+    UsageQuantity       *int                        `json:"usage_quantity"`
+    ComponentId         *int                        `json:"component_id"`
+    ComponentHandle     *string                     `json:"component_handle"`
+    Memo                *string                     `json:"memo"`
 }
 
 func (m *tempMeteredUsage) validate() error {

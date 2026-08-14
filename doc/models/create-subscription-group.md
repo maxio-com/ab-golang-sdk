@@ -12,14 +12,23 @@
 | `SubscriptionId` | `int` | Required | - |
 | `MemberIds` | `[]int` | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "subscription_id": 38,
-  "member_ids": [
-    162
-  ]
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    createSubscriptionGroup := models.CreateSubscriptionGroup{
+        SubscriptionId:       204,
+        MemberIds:            []int{
+            48,
+        },
+    }
+
 }
 ```
 

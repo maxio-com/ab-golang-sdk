@@ -11,16 +11,25 @@
 |  --- | --- | --- | --- |
 | `Prepayment` | [`models.SubscriptionGroupPrepayment`](../../doc/models/subscription-group-prepayment.md) | Required | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "prepayment": {
-    "amount": 136,
-    "details": "details8",
-    "memo": "memo2",
-    "method": "paypal_account"
-  }
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    subscriptionGroupPrepaymentRequest := models.SubscriptionGroupPrepaymentRequest{
+        Prepayment:           models.SubscriptionGroupPrepayment{
+            Amount:               136,
+            Details:              "details8",
+            Memo:                 "memo2",
+            Method:               models.SubscriptionGroupPrepaymentMethod_PAYPALACCOUNT,
+        },
+    }
+
 }
 ```
 

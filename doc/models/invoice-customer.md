@@ -1,7 +1,7 @@
 
 # Invoice Customer
 
-Information about the customer who is owner or recipient the invoiced subscription.
+Information about the customer who is owner or recipient of the invoiced subscription.
 
 ## Structure
 
@@ -19,15 +19,24 @@ Information about the customer who is owner or recipient the invoiced subscripti
 | `VatNumber` | `models.Optional[string]` | Optional | - |
 | `Reference` | `models.Optional[string]` | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "chargify_id": 236,
-  "first_name": "first_name0",
-  "last_name": "last_name8",
-  "organization": "organization4",
-  "email": "email6"
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    invoiceCustomer := models.InvoiceCustomer{
+        ChargifyId:           models.NewOptional(models.ToPointer(82)),
+        FirstName:            models.ToPointer("first_name2"),
+        LastName:             models.ToPointer("last_name0"),
+        Organization:         models.NewOptional(models.ToPointer("organization6")),
+        Email:                models.ToPointer("email4"),
+    }
+
 }
 ```
 

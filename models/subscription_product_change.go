@@ -6,22 +6,29 @@ import (
     "encoding/json"
     "errors"
     "fmt"
+    "log"
     "strings"
+    "time"
 )
 
 // SubscriptionProductChange represents a SubscriptionProductChange struct.
+// Event data for both `subscription_product_change` and `subscription_product_change_scheduled`. The price point and `effective_at` fields are only populated for scheduled changes.
 type SubscriptionProductChange struct {
-    PreviousProductId    int                    `json:"previous_product_id"`
-    NewProductId         int                    `json:"new_product_id"`
-    AdditionalProperties map[string]interface{} `json:"_"`
+    PreviousProductId           int                    `json:"previous_product_id"`
+    NewProductId                int                    `json:"new_product_id"`
+    PreviousProductPricePointId Optional[int]          `json:"previous_product_price_point_id"`
+    NewProductPricePointId      Optional[int]          `json:"new_product_price_point_id"`
+    // When the scheduled product change takes effect (the subscription's next renewal). Only sent for `subscription_product_change_scheduled`.
+    EffectiveAt                 Optional[time.Time]    `json:"effective_at"`
+    AdditionalProperties        map[string]interface{} `json:"_"`
 }
 
 // String implements the fmt.Stringer interface for SubscriptionProductChange,
 // providing a human-readable string representation useful for logging, debugging or displaying information.
 func (s SubscriptionProductChange) String() string {
     return fmt.Sprintf(
-    	"SubscriptionProductChange[PreviousProductId=%v, NewProductId=%v, AdditionalProperties=%v]",
-    	s.PreviousProductId, s.NewProductId, s.AdditionalProperties)
+    	"SubscriptionProductChange[PreviousProductId=%v, NewProductId=%v, PreviousProductPricePointId=%v, NewProductPricePointId=%v, EffectiveAt=%v, AdditionalProperties=%v]",
+    	s.PreviousProductId, s.NewProductId, s.PreviousProductPricePointId, s.NewProductPricePointId, s.EffectiveAt, s.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for SubscriptionProductChange.
@@ -30,7 +37,7 @@ func (s SubscriptionProductChange) MarshalJSON() (
     []byte,
     error) {
     if err := DetectConflictingProperties(s.AdditionalProperties,
-        "previous_product_id", "new_product_id"); err != nil {
+        "previous_product_id", "new_product_id", "previous_product_price_point_id", "new_product_price_point_id", "effective_at"); err != nil {
         return []byte{}, err
     }
     return json.Marshal(s.toMap())
@@ -42,6 +49,32 @@ func (s SubscriptionProductChange) toMap() map[string]any {
     MergeAdditionalProperties(structMap, s.AdditionalProperties)
     structMap["previous_product_id"] = s.PreviousProductId
     structMap["new_product_id"] = s.NewProductId
+    if s.PreviousProductPricePointId.IsValueSet() {
+        if s.PreviousProductPricePointId.Value() != nil {
+            structMap["previous_product_price_point_id"] = s.PreviousProductPricePointId.Value()
+        } else {
+            structMap["previous_product_price_point_id"] = nil
+        }
+    }
+    if s.NewProductPricePointId.IsValueSet() {
+        if s.NewProductPricePointId.Value() != nil {
+            structMap["new_product_price_point_id"] = s.NewProductPricePointId.Value()
+        } else {
+            structMap["new_product_price_point_id"] = nil
+        }
+    }
+    if s.EffectiveAt.IsValueSet() {
+        var EffectiveAtVal *string = nil
+        if s.EffectiveAt.Value() != nil {
+            val := s.EffectiveAt.Value().Format(time.RFC3339)
+            EffectiveAtVal = &val
+        }
+        if s.EffectiveAt.Value() != nil {
+            structMap["effective_at"] = EffectiveAtVal
+        } else {
+            structMap["effective_at"] = nil
+        }
+    }
     return structMap
 }
 
@@ -57,7 +90,7 @@ func (s *SubscriptionProductChange) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "previous_product_id", "new_product_id")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "previous_product_id", "new_product_id", "previous_product_price_point_id", "new_product_price_point_id", "effective_at")
     if err != nil {
     	return err
     }
@@ -65,13 +98,26 @@ func (s *SubscriptionProductChange) UnmarshalJSON(input []byte) error {
     
     s.PreviousProductId = *temp.PreviousProductId
     s.NewProductId = *temp.NewProductId
+    s.PreviousProductPricePointId = temp.PreviousProductPricePointId
+    s.NewProductPricePointId = temp.NewProductPricePointId
+    s.EffectiveAt.ShouldSetValue(temp.EffectiveAt.IsValueSet())
+    if temp.EffectiveAt.Value() != nil {
+        EffectiveAtVal, err := time.Parse(time.RFC3339, (*temp.EffectiveAt.Value()))
+        if err != nil {
+            log.Fatalf("Cannot Parse effective_at as % s format.", time.RFC3339)
+        }
+        s.EffectiveAt.SetValue(&EffectiveAtVal)
+    }
     return nil
 }
 
 // tempSubscriptionProductChange is a temporary struct used for validating the fields of SubscriptionProductChange.
 type tempSubscriptionProductChange  struct {
-    PreviousProductId *int `json:"previous_product_id"`
-    NewProductId      *int `json:"new_product_id"`
+    PreviousProductId           *int             `json:"previous_product_id"`
+    NewProductId                *int             `json:"new_product_id"`
+    PreviousProductPricePointId Optional[int]    `json:"previous_product_price_point_id"`
+    NewProductPricePointId      Optional[int]    `json:"new_product_price_point_id"`
+    EffectiveAt                 Optional[string] `json:"effective_at"`
 }
 
 func (s *tempSubscriptionProductChange) validate() error {

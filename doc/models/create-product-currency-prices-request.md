@@ -11,17 +11,26 @@
 |  --- | --- | --- | --- |
 | `CurrencyPrices` | [`[]models.CreateProductCurrencyPrice`](../../doc/models/create-product-currency-price.md) | Required | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "currency_prices": [
-    {
-      "currency": "currency8",
-      "price": 78,
-      "role": "initial"
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    createProductCurrencyPricesRequest := models.CreateProductCurrencyPricesRequest{
+        CurrencyPrices:       []models.CreateProductCurrencyPrice{
+            models.CreateProductCurrencyPrice{
+                Currency:             "currency8",
+                Price:                78,
+                Role:                 models.CurrencyPriceRole_INITIAL,
+            },
+        },
     }
-  ]
+
 }
 ```
 

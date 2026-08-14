@@ -11,11 +11,20 @@
 |  --- | --- | --- | --- |
 | `Force` | `*bool` | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "force": false
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    issueAdvanceInvoiceRequest := models.IssueAdvanceInvoiceRequest{
+        Force:                models.ToPointer(false),
+    }
+
 }
 ```
 

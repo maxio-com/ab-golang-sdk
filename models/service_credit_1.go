@@ -20,7 +20,7 @@ type ServiceCredit1 struct {
     EntryType               *ServiceCreditType     `json:"entry_type,omitempty"`
     // The memo attached to the entry
     Memo                    *string                `json:"memo,omitempty"`
-    // The invoice uid associated with the entry. Only present for debit entries
+    // The invoice uid associated with the entry. Only present for debit entries.
     InvoiceUid              Optional[string]       `json:"invoice_uid"`
     // The remaining balance for the entry
     RemainingBalanceInCents *int64                 `json:"remaining_balance_in_cents,omitempty"`

@@ -11,11 +11,20 @@
 |  --- | --- | --- | --- |
 | `Reason` | `string` | Required | **Constraints**: *Minimum Length*: `1` |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "reason": "reason2"
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    voidInvoice := models.VoidInvoice{
+        Reason:               "reason8",
+    }
+
 }
 ```
 

@@ -24,15 +24,24 @@
 | `PeriodRangeStart` | `*string` | Optional | - |
 | `PeriodRangeEnd` | `*string` | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "transaction_type": "info_transaction",
-  "kind": "baseline",
-  "amount_in_cents": 216,
-  "memo": "memo4",
-  "discount_amount_in_cents": 236
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    billingManifestItem := models.BillingManifestItem{
+        TransactionType:       models.ToPointer(models.LineItemTransactionType_PAYMENT),
+        Kind:                  models.ToPointer(models.BillingManifestLineItemKind_TRIAL),
+        AmountInCents:         models.ToPointer(int64(148)),
+        Memo:                  models.ToPointer("memo0"),
+        DiscountAmountInCents: models.ToPointer(int64(88)),
+    }
+
 }
 ```
 

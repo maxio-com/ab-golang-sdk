@@ -11,17 +11,26 @@
 |  --- | --- | --- | --- |
 | `PricePoint` | [`*models.UpdateComponentPricePoint`](../../doc/models/update-component-price-point.md) | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "price_point": {
-    "name": "name0",
-    "handle": "handle6",
-    "pricing_scheme": "per_unit",
-    "use_site_exchange_rate": false,
-    "tax_included": false
-  }
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    updateComponentPricePointRequest := models.UpdateComponentPricePointRequest{
+        PricePoint:           models.ToPointer(models.UpdateComponentPricePoint{
+            Name:                 models.ToPointer("name0"),
+            Handle:               models.ToPointer("handle6"),
+            PricingScheme:        models.ToPointer(models.PricingScheme_PERUNIT),
+            UseSiteExchangeRate:  models.ToPointer(false),
+            TaxIncluded:          models.ToPointer(false),
+        }),
+    }
+
 }
 ```
 

@@ -14,12 +14,21 @@ Example schema for an `change_invoice_collection_method` event
 | `FromCollectionMethod` | `string` | Required | The previous collection method of the invoice. |
 | `ToCollectionMethod` | `string` | Required | The new collection method of the invoice. |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "from_collection_method": "from_collection_method4",
-  "to_collection_method": "to_collection_method2"
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    changeInvoiceCollectionMethodEventData := models.ChangeInvoiceCollectionMethodEventData{
+        FromCollectionMethod: "from_collection_method8",
+        ToCollectionMethod:   "to_collection_method4",
+    }
+
 }
 ```
 

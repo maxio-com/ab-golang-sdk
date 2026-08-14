@@ -13,13 +13,22 @@
 | `EligibleAmount` | `*string` | Optional | - |
 | `DiscountAmount` | `*string` | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "uid": "uid8",
-  "eligible_amount": "eligible_amount0",
-  "discount_amount": "discount_amount8"
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    invoiceDiscountBreakout := models.InvoiceDiscountBreakout{
+        Uid:                  models.ToPointer("uid0"),
+        EligibleAmount:       models.ToPointer("eligible_amount2"),
+        DiscountAmount:       models.ToPointer("discount_amount4"),
+    }
+
 }
 ```
 

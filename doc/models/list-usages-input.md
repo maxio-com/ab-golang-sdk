@@ -13,8 +13,8 @@ Input structure for the method ListUsages
 |  --- | --- | --- | --- |
 | `SubscriptionIdOrReference` | [`models.ListUsagesInputSubscriptionIdOrReference`](../../doc/models/containers/list-usages-input-subscription-id-or-reference.md) | Required | This is a container for one-of cases. |
 | `ComponentId` | [`models.ListUsagesInputComponentId`](../../doc/models/containers/list-usages-input-component-id.md) | Required | This is a container for one-of cases. |
-| `SinceId` | `*int64` | Optional | Returns usages with an id greater than or equal to the one specified |
-| `MaxId` | `*int64` | Optional | Returns usages with an id less than or equal to the one specified |
+| `SinceId` | `*int64` | Optional | Returns usages with an id greater than or equal to the one specified. |
+| `MaxId` | `*int64` | Optional | Returns usages with an id less than or equal to the one specified. |
 | `SinceDate` | `*time.Time` | Optional | Returns usages with a created_at date greater than or equal to midnight (12:00 AM) on the date specified. |
 | `UntilDate` | `*time.Time` | Optional | Returns usages with a created_at date less than or equal to midnight (12:00 AM) on the date specified. |
 | `Page` | `*int` | Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br><br>**Default**: `1`<br><br>**Constraints**: `>= 1` |

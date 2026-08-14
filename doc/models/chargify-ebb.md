@@ -16,15 +16,33 @@
 | `SubscriptionId` | `*int` | Optional | Id of Maxio Advanced Billing Subscription which is connected to this event.<br>Provide `subscription_id` if you configured `chargify.subscription_id` as Subscription Identifier in your Event Stream. |
 | `SubscriptionReference` | `*string` | Optional | Reference of Maxio Advanced Billing Subscription which is connected to this event.<br>Provide `subscription_reference` if you configured `chargify.subscription_reference` as Subscription Identifier in your Event Stream. |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "timestamp": "2016-03-13T12:52:32.123Z",
-  "id": "id4",
-  "created_at": "2016-03-13T12:52:32.123Z",
-  "uniqueness_token": "uniqueness_token0",
-  "subscription_id": 200
+```go
+package main
+
+import (
+    "log"
+    "time"
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    parseTime := func(layout, value string, errCallback func(error)) time.Time {
+        dateTime, err := time.Parse(layout, value)
+        if err != nil {
+            errCallback(err) 
+       }
+        return dateTime
+    }
+    chargifyEBB := models.ChargifyEBB{
+        Timestamp:             models.ToPointer(parseTime(time.RFC3339, "2016-03-13T12:52:32.123Z", func(err error) { log.Fatalln(err) })),
+        Id:                    models.ToPointer("id2"),
+        CreatedAt:             models.ToPointer(parseTime(time.RFC3339, "2016-03-13T12:52:32.123Z", func(err error) { log.Fatalln(err) })),
+        UniquenessToken:       models.ToPointer("uniqueness_token8"),
+        SubscriptionId:        models.ToPointer(224),
+    }
+
 }
 ```
 

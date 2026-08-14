@@ -12,7 +12,7 @@ import (
 type AgreementAcceptance struct {
     // Required when providing agreement acceptance params.
     IpAddress               *string                `json:"ip_address,omitempty"`
-    // Required when creating a subscription with Maxio Payments. Either terms_url or provacy_policy_url required when providing agreement_acceptance params.
+    // Required when creating a subscription with Maxio Payments. Either terms_url or privacy_policy_url is required when providing agreement_acceptance params.
     TermsUrl                *string                `json:"terms_url,omitempty"`
     PrivacyPolicyUrl        *string                `json:"privacy_policy_url,omitempty"`
     ReturnRefundPolicyUrl   *string                `json:"return_refund_policy_url,omitempty"`

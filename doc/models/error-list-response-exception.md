@@ -13,15 +13,16 @@ Error which contains list of messages.
 |  --- | --- | --- | --- |
 | `Errors` | `[]string` | Required | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "errors": [
-    "errors5",
-    "errors6",
-    "errors7"
-  ]
+```go
+if err != nil {
+    switch typedErr := err.(type) {
+    case *errors.ErrorListResponseException:
+        log.Fatalln(typedErr)
+    default:
+        log.Fatalln(err)
+    }
 }
 ```
 

@@ -10,15 +10,15 @@
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `Id` | `*int` | Optional | The unique ID assigned to the component by Chargify. This ID can be used to fetch the component from the API. |
-| `Name` | `*string` | Optional | The name of the Component, suitable for display on statements. i.e. Text Messages. |
+| `Name` | `*string` | Optional | The name of the Component, suitable for display on statements. e.g., Text Messages. |
 | `Handle` | `models.Optional[string]` | Optional | The component API handle |
 | `PricingScheme` | [`models.Optional[models.PricingScheme]`](../../doc/models/pricing-scheme.md) | Optional | - |
-| `UnitName` | `*string` | Optional | The name of the unit that the component’s usage is measured in. i.e. message |
+| `UnitName` | `*string` | Optional | The name of the unit that the component’s usage is measured in. e.g., message |
 | `UnitPrice` | `models.Optional[string]` | Optional | The amount the customer will be charged per unit. This field is only populated for ‘per_unit’ pricing schemes, otherwise it may be null. |
 | `ProductFamilyId` | `*int` | Optional | The id of the Product Family to which the Component belongs |
 | `ProductFamilyName` | `*string` | Optional | The name of the Product Family to which the Component belongs |
 | `ProductFamilyHandle` | `*string` | Optional | The handle of the Product Family to which the Component belongs |
-| `PricePerUnitInCents` | `models.Optional[int64]` | Optional | deprecated - use unit_price instead |
+| `PricePerUnitInCents` | `models.Optional[int64]` | Optional | deprecated - use unit_price instead. |
 | `Kind` | [`*models.ComponentKind`](../../doc/models/component-kind.md) | Optional | A handle for the component type |
 | `Archived` | `*bool` | Optional | Boolean flag describing whether a component is archived or not. |
 | `Description` | `models.Optional[string]` | Optional | The description of the component. |
@@ -42,19 +42,29 @@
 | `UseSiteExchangeRate` | `models.Optional[bool]` | Optional | - |
 | `AccountingCode` | `models.Optional[string]` | Optional | E.g. Internal ID or SKU Number |
 | `EventBasedBillingMetricId` | `*int` | Optional | (Only for Event Based Components) This is an ID of a metric attached to the component. This metric is used to bill upon collected events. |
-| `Interval` | `*int` | Optional | The numerical interval. i.e. an interval of ‘30’ coupled with an interval_unit of day would mean this component's default price point would renew every 30 days. This property is only available for sites with Multifrequency enabled. |
+| `Interval` | `*int` | Optional | The numerical interval. e.g., an interval of ‘30’ coupled with an interval_unit of day would mean this component’s default price point would renew every 30 days. This property is only available for sites with Multifrequency enabled. |
 | `IntervalUnit` | [`models.Optional[models.IntervalUnit]`](../../doc/models/interval-unit.md) | Optional | A string representing the interval unit for this component's default price point, either month or day. This property is only available for sites with Multifrequency enabled. |
+| `UnspscCode` | `models.Optional[string]` | Optional | (Optional) Custom UNSPSC commodity code for Level 3/CEDP payment data. When set, this value is sent as the commodity code on invoice line items for this component instead of the default derived from item_category. |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "item_category": "Business Software",
-  "id": 24,
-  "name": "name2",
-  "handle": "handle8",
-  "pricing_scheme": "per_unit",
-  "unit_name": "unit_name4"
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    component := models.Component{
+        Id:                        models.ToPointer(80),
+        Name:                      models.ToPointer("name8"),
+        Handle:                    models.NewOptional(models.ToPointer("handle4")),
+        PricingScheme:             models.NewOptional(models.ToPointer(models.PricingScheme_PERUNIT)),
+        UnitName:                  models.ToPointer("unit_name0"),
+        ItemCategory:              models.NewOptional(models.ToPointer(models.ItemCategory_ENUMBUSINESSSOFTWARE)),
+    }
+
 }
 ```
 

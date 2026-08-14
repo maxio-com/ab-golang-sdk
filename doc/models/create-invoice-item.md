@@ -22,15 +22,24 @@
 | `ProductPricePointId` | [`*models.CreateInvoiceItemProductPricePointId`](../../doc/models/containers/create-invoice-item-product-price-point-id.md) | Optional | This is a container for one-of cases. |
 | `Description` | `*string` | Optional | **Constraints**: *Maximum Length*: `255` |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "title": "title2",
-  "quantity": 154.86,
-  "unit_price": 138.08,
-  "taxable": false,
-  "tax_code": "tax_code4"
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    createInvoiceItem := models.CreateInvoiceItem{
+        Title:                models.ToPointer("title8"),
+        Quantity:             models.ToPointer(models.CreateInvoiceItemQuantityContainer.FromPrecision(float64(107.22))),
+        UnitPrice:            models.ToPointer(models.CreateInvoiceItemUnitPriceContainer.FromPrecision(float64(90.44))),
+        Taxable:              models.ToPointer(false),
+        TaxCode:              models.ToPointer("tax_code0"),
+    }
+
 }
 ```
 

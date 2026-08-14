@@ -11,8 +11,8 @@ import (
 
 // GetOneTimeTokenRequest represents a GetOneTimeTokenRequest struct.
 type GetOneTimeTokenRequest struct {
-    PaymentProfile       GetOneTimeTokenPaymentProfile `json:"payment_profile"`
-    AdditionalProperties map[string]interface{}        `json:"_"`
+    PaymentProfile       GetOneTimeTokenRequestPaymentProfile `json:"payment_profile"`
+    AdditionalProperties map[string]interface{}               `json:"_"`
 }
 
 // String implements the fmt.Stringer interface for GetOneTimeTokenRequest,
@@ -67,7 +67,7 @@ func (g *GetOneTimeTokenRequest) UnmarshalJSON(input []byte) error {
 
 // tempGetOneTimeTokenRequest is a temporary struct used for validating the fields of GetOneTimeTokenRequest.
 type tempGetOneTimeTokenRequest  struct {
-    PaymentProfile *GetOneTimeTokenPaymentProfile `json:"payment_profile"`
+    PaymentProfile *GetOneTimeTokenRequestPaymentProfile `json:"payment_profile"`
 }
 
 func (g *tempGetOneTimeTokenRequest) validate() error {

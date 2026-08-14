@@ -11,14 +11,23 @@
 |  --- | --- | --- | --- |
 | `SendEmail` | [`*models.SendEmail`](../../doc/models/send-email.md) | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "send_email": {
-    "can_execute": false,
-    "url": "url0"
-  }
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    availableActions := models.AvailableActions{
+        SendEmail:            models.ToPointer(models.SendEmail{
+            CanExecute:           false,
+            Url:                  "url0",
+        }),
+    }
+
 }
 ```
 

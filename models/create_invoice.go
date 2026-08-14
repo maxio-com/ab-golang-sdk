@@ -19,11 +19,11 @@ type CreateInvoice struct {
     PaymentInstructions  *string                `json:"payment_instructions,omitempty"`
     // A custom memo can be sent to override the site's default.
     Memo                 *string                `json:"memo,omitempty"`
-    // Overrides the defaults for the site
+    // Overrides the defaults for the site.
     SellerAddress        *CreateInvoiceAddress  `json:"seller_address,omitempty"`
-    // Overrides the default for the customer
+    // Overrides the default for the customer.
     BillingAddress       *CreateInvoiceAddress  `json:"billing_address,omitempty"`
-    // Overrides the default for the customer
+    // Overrides the default for the customer.
     ShippingAddress      *CreateInvoiceAddress  `json:"shipping_address,omitempty"`
     Coupons              []CreateInvoiceCoupon  `json:"coupons,omitempty"`
     Status               *CreateInvoiceStatus   `json:"status,omitempty"`

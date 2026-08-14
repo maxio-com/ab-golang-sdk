@@ -19,7 +19,7 @@ type AllocationPreviewLineItem struct {
     TaxableAmountInCents  *int64                         `json:"taxable_amount_in_cents,omitempty"`
     ComponentId           *int                           `json:"component_id,omitempty"`
     ComponentHandle       *string                        `json:"component_handle,omitempty"`
-    // Visible when using Fine-grained Component Control
+    // Visible when using Fine-grained Component Control.
     Direction             *AllocationPreviewDirection    `json:"direction,omitempty"`
     AdditionalProperties  map[string]interface{}         `json:"_"`
 }

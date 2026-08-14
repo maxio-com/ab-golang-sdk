@@ -18,15 +18,24 @@
 | `DiscountAmount` | `*string` | Optional | **Constraints**: *Minimum Length*: `1` |
 | `LineItemBreakouts` | [`[]models.InvoiceDiscountBreakout`](../../doc/models/invoice-discount-breakout.md) | Optional | **Constraints**: *Minimum Items*: `1`, *Unique Items Required* |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "uid": "uid2",
-  "title": "title8",
-  "code": "code0",
-  "source_type": "Coupon",
-  "discount_type": "percentage"
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    proformaInvoiceDiscount := models.ProformaInvoiceDiscount{
+        Uid:                  models.ToPointer("uid2"),
+        Title:                models.ToPointer("title8"),
+        Code:                 models.ToPointer("code0"),
+        SourceType:           models.ToPointer(models.ProformaInvoiceDiscountSourceType_COUPON),
+        DiscountType:         models.ToPointer(models.InvoiceDiscountType_PERCENTAGE),
+    }
+
 }
 ```
 

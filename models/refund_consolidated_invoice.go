@@ -10,7 +10,7 @@ import (
 )
 
 // RefundConsolidatedInvoice represents a RefundConsolidatedInvoice struct.
-// Refund consolidated invoice
+// Refund consolidated invoice.
 type RefundConsolidatedInvoice struct {
     // A description for the refund
     Memo                 string                               `json:"memo"`

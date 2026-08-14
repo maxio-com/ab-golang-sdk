@@ -26,7 +26,7 @@ func NewProformaInvoicesController(baseController baseController) *ProformaInvoi
 // CreateConsolidatedProformaInvoice takes context, uid as parameters and
 // returns an *Response and
 // an error if there was an issue with the request or response.
-// Creates a consolidated proforma invoice asynchronously. It will return a 201 with no message, or a 422 with any errors. To find and view the new consolidated proforma invoice, you may poll the subscription group listing for proforma invoices; only one consolidated proforma invoice may be created per group at a time.
+// Creates a consolidated proforma invoice asynchronously. To find and view the new consolidated proforma invoice, you can poll the subscription group listing for proforma invoices; only one consolidated proforma invoice can be created per group at a time.
 // If the information becomes outdated, simply void the old consolidated proforma invoice and generate a new one.
 // ## Restrictions
 // Proforma invoices are only available on Relationship Invoicing sites. To create a proforma invoice, the subscription must not be prepaid, and must be in a live state.
@@ -57,17 +57,17 @@ func (p *ProformaInvoicesController) CreateConsolidatedProformaInvoice(
 type ListSubscriptionGroupProformaInvoicesInput struct {
     // The uid of the subscription group
     Uid          string 
-    // Include line items data
+    // Include line items data.
     LineItems    *bool  
-    // Include discounts data
+    // Include discounts data.
     Discounts    *bool  
-    // Include taxes data
+    // Include taxes data.
     Taxes        *bool  
-    // Include credits data
+    // Include credits data.
     Credits      *bool  
-    // Include payments data
+    // Include payments data.
     Payments     *bool  
-    // Include custom fields data
+    // Include custom fields data.
     CustomFields *bool  
 }
 
@@ -195,17 +195,17 @@ type ListProformaInvoicesInput struct {
     PerPage        *int                          
     // The sort direction of the returned invoices.
     Direction      *models.Direction             
-    // Include line items data
+    // Include line items data.
     LineItems      *bool                         
-    // Include discounts data
+    // Include discounts data.
     Discounts      *bool                         
-    // Include taxes data
+    // Include taxes data.
     Taxes          *bool                         
-    // Include credits data
+    // Include credits data.
     Credits        *bool                         
-    // Include payments data
+    // Include payments data.
     Payments       *bool                         
-    // Include custom fields data
+    // Include custom fields data.
     CustomFields   *bool                         
 }
 
@@ -343,7 +343,7 @@ func (p *ProformaInvoicesController) VoidProformaInvoice(
 // PreviewProformaInvoice takes context, subscriptionId as parameters and
 // returns an models.ApiResponse with models.ProformaInvoice data and
 // an error if there was an issue with the request or response.
-// Returns a preview of the data that will be included on a given subscription's proforma invoice if one were to be generated. It will have similar line items and totals as a renewal preview, but the response will be presented in the format of a proforma invoice. Consequently it will include additional information such as the name and addresses that will appear on the proforma invoice.
+// Previews the data that will be included on a given subscription's proforma invoice if one were to be generated. It will have similar line items and totals as a renewal preview, but the response will be presented in the format of a proforma invoice. Consequently it will include additional information such as the name and addresses that will appear on the proforma invoice.
 // The preview endpoint is subject to all the same conditions as the proforma invoice endpoint. For example, previews are only available on the Relationship Invoicing architecture, and previews cannot be made for end-of-life subscriptions.
 // If all the data returned in the preview is as expected, you may then create a static proforma invoice and send it to your customer. The data within a preview will not be saved and will not be accessible after the call is made.
 // Alternatively, if you have some proforma invoices already, you may make a preview call to determine whether any billing information for the subscription's upcoming renewal has changed.

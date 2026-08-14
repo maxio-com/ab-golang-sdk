@@ -19,7 +19,7 @@ type ApplePayPaymentProfile struct {
     FirstName            *string                `json:"first_name,omitempty"`
     // The last name of the Apple Pay account holder
     LastName             *string                `json:"last_name,omitempty"`
-    // The Chargify-assigned id for the customer record to which the Apple Pay account belongs
+    // The Chargify-assigned ID for the customer record to which the Apple Pay account belongs
     CustomerId           *int                   `json:"customer_id,omitempty"`
     // The vault that stores the payment profile with the provided vault_token.
     CurrentVault         *ApplePayVault         `json:"current_vault,omitempty"`

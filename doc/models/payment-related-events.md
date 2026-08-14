@@ -12,12 +12,21 @@
 | `ProductId` | `int` | Required | - |
 | `AccountTransactionId` | `int` | Required | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "product_id": 42,
-  "account_transaction_id": 58
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    paymentRelatedEvents := models.PaymentRelatedEvents{
+        ProductId:            186,
+        AccountTransactionId: 170,
+    }
+
 }
 ```
 

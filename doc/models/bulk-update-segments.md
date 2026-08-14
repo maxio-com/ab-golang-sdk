@@ -11,54 +11,63 @@
 |  --- | --- | --- | --- |
 | `Segments` | [`[]models.BulkUpdateSegmentsItem`](../../doc/models/bulk-update-segments-item.md) | Optional | **Constraints**: *Maximum Items*: `1000` |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "segments": [
-    {
-      "id": 50,
-      "pricing_scheme": "stairstep",
-      "prices": [
-        {
-          "starting_quantity": 64,
-          "ending_quantity": 38,
-          "unit_price": "String3"
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    bulkUpdateSegments := models.BulkUpdateSegments{
+        Segments:             []models.BulkUpdateSegmentsItem{
+            models.BulkUpdateSegmentsItem{
+                Id:                   50,
+                PricingScheme:        models.PricingScheme_STAIRSTEP,
+                Prices:               []models.CreateOrUpdateSegmentPrice{
+                    models.CreateOrUpdateSegmentPrice{
+                        StartingQuantity:     models.ToPointer(64),
+                        EndingQuantity:       models.ToPointer(38),
+                        UnitPrice:            models.CreateOrUpdateSegmentPriceUnitPriceContainer.FromString("String3"),
+                    },
+                    models.CreateOrUpdateSegmentPrice{
+                        StartingQuantity:     models.ToPointer(64),
+                        EndingQuantity:       models.ToPointer(38),
+                        UnitPrice:            models.CreateOrUpdateSegmentPriceUnitPriceContainer.FromString("String3"),
+                    },
+                    models.CreateOrUpdateSegmentPrice{
+                        StartingQuantity:     models.ToPointer(64),
+                        EndingQuantity:       models.ToPointer(38),
+                        UnitPrice:            models.CreateOrUpdateSegmentPriceUnitPriceContainer.FromString("String3"),
+                    },
+                },
+            },
+            models.BulkUpdateSegmentsItem{
+                Id:                   50,
+                PricingScheme:        models.PricingScheme_STAIRSTEP,
+                Prices:               []models.CreateOrUpdateSegmentPrice{
+                    models.CreateOrUpdateSegmentPrice{
+                        StartingQuantity:     models.ToPointer(64),
+                        EndingQuantity:       models.ToPointer(38),
+                        UnitPrice:            models.CreateOrUpdateSegmentPriceUnitPriceContainer.FromString("String3"),
+                    },
+                    models.CreateOrUpdateSegmentPrice{
+                        StartingQuantity:     models.ToPointer(64),
+                        EndingQuantity:       models.ToPointer(38),
+                        UnitPrice:            models.CreateOrUpdateSegmentPriceUnitPriceContainer.FromString("String3"),
+                    },
+                    models.CreateOrUpdateSegmentPrice{
+                        StartingQuantity:     models.ToPointer(64),
+                        EndingQuantity:       models.ToPointer(38),
+                        UnitPrice:            models.CreateOrUpdateSegmentPriceUnitPriceContainer.FromString("String3"),
+                    },
+                },
+            },
         },
-        {
-          "starting_quantity": 64,
-          "ending_quantity": 38,
-          "unit_price": "String3"
-        },
-        {
-          "starting_quantity": 64,
-          "ending_quantity": 38,
-          "unit_price": "String3"
-        }
-      ]
-    },
-    {
-      "id": 50,
-      "pricing_scheme": "stairstep",
-      "prices": [
-        {
-          "starting_quantity": 64,
-          "ending_quantity": 38,
-          "unit_price": "String3"
-        },
-        {
-          "starting_quantity": 64,
-          "ending_quantity": 38,
-          "unit_price": "String3"
-        },
-        {
-          "starting_quantity": 64,
-          "ending_quantity": 38,
-          "unit_price": "String3"
-        }
-      ]
     }
-  ]
+
 }
 ```
 

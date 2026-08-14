@@ -851,6 +851,52 @@ const (
     CollectionMethod_INVOICE    CollectionMethod = "invoice"
 )
 
+// CollectionMethod1 is a string enum.
+type CollectionMethod1 string
+
+// MarshalJSON implements the json.Marshaler interface for CollectionMethod1.
+// It customizes the JSON marshaling process for CollectionMethod1 objects.
+func (e CollectionMethod1) MarshalJSON() (
+    []byte,
+    error) {
+    if e.isValid() {
+        return []byte(fmt.Sprintf("\"%v\"", e)), nil
+    }
+    return nil, errors.New("the provided enum value is not allowed for CollectionMethod1")
+}
+
+// UnmarshalJSON implements the json.Unmarshaler interface for CollectionMethod1.
+// It customizes the JSON unmarshaling process for CollectionMethod1 objects.
+func (e *CollectionMethod1) UnmarshalJSON(input []byte) error {
+    var enumValue string
+    err := json.Unmarshal(input, &enumValue)
+    if err != nil {
+        return err
+    }
+    *e = CollectionMethod1(enumValue)
+    if !e.isValid() {
+        return errors.New("the value " + string(input) + " cannot be unmarshalled to CollectionMethod1")
+    }
+    return nil
+}
+
+// Checks whether the value is actually a member of CollectionMethod1.
+func (e CollectionMethod1) isValid() bool {
+    switch e {
+    case CollectionMethod1_AUTOMATIC,
+        CollectionMethod1_REMITTANCE,
+        CollectionMethod1_PREPAID:
+        return true
+    }
+    return false
+}
+
+const (
+    CollectionMethod1_AUTOMATIC  CollectionMethod1 = "automatic"
+    CollectionMethod1_REMITTANCE CollectionMethod1 = "remittance"
+    CollectionMethod1_PREPAID    CollectionMethod1 = "prepaid"
+)
+
 // ComponentKind is a string enum.
 // A handle for the component type
 type ComponentKind string
@@ -992,7 +1038,7 @@ const (
 )
 
 // CreatePrepaymentMethod is a string enum.
-// :- When the `method` specified is `"credit_card_on_file"`, the prepayment amount will be collected using the default credit card payment profile and applied to the prepayment account balance. This is especially useful for manual replenishment of prepaid subscriptions.
+// When the `method` specified is `"credit_card_on_file"`, the prepayment amount will be collected using the default credit card payment profile and applied to the prepayment account balance. This is especially useful for manual replenishment of prepaid subscriptions.
 type CreatePrepaymentMethod string
 
 // MarshalJSON implements the json.Marshaler interface for CreatePrepaymentMethod.
@@ -1702,6 +1748,7 @@ func (e EventKey) isValid() bool {
         EventKey_RENEWALFAILURE,
         EventKey_SUBSCRIPTIONSTATECHANGE,
         EventKey_SUBSCRIPTIONPRODUCTCHANGE,
+        EventKey_SUBSCRIPTIONPRODUCTCHANGESCHEDULED,
         EventKey_PENDINGCANCELLATIONCHANGE,
         EventKey_EXPIRINGCARD,
         EventKey_CUSTOMERUPDATE,
@@ -1791,6 +1838,7 @@ const (
     EventKey_RENEWALFAILURE                                 EventKey = "renewal_failure"
     EventKey_SUBSCRIPTIONSTATECHANGE                        EventKey = "subscription_state_change"
     EventKey_SUBSCRIPTIONPRODUCTCHANGE                      EventKey = "subscription_product_change"
+    EventKey_SUBSCRIPTIONPRODUCTCHANGESCHEDULED             EventKey = "subscription_product_change_scheduled"
     EventKey_PENDINGCANCELLATIONCHANGE                      EventKey = "pending_cancellation_change"
     EventKey_EXPIRINGCARD                                   EventKey = "expiring_card"
     EventKey_CUSTOMERUPDATE                                 EventKey = "customer_update"
@@ -1914,7 +1962,7 @@ const (
 // Action taken when payment for an invoice fails:
 // - `leave_open_invoice` - prepayments and credits applied to invoice; invoice status set to "open"; email sent to the customer for the issued invoice (if setting applies); payment failure recorded in the invoice history. This is the default option.
 // - `rollback_to_pending` - prepayments and credits not applied; invoice remains in "pending" status; no email sent to the customer; payment failure recorded in the invoice history.
-// - `initiate_dunning` - prepayments and credits applied to the invoice; invoice status set to "open"; email sent to the customer for the issued invoice (if setting applies); payment failure recorded in the invoice history; subscription will  most likely go into "past_due" or "canceled" state (depending upon net terms and dunning settings).
+// - `initiate_dunning` - prepayments and credits applied to the invoice; invoice status set to "open"; email sent to the customer for the issued invoice (if setting applies); payment failure recorded in the invoice history; subscription will most likely go into "past_due" or "canceled" state (depending upon net terms and dunning settings).
 type FailedPaymentAction string
 
 // MarshalJSON implements the json.Marshaler interface for FailedPaymentAction.
@@ -2101,6 +2149,50 @@ const (
     GroupType_MULTIPLECUSTOMERS GroupType = "multiple_customers"
 )
 
+// GroupStatus is a string enum.
+type GroupStatus string
+
+// MarshalJSON implements the json.Marshaler interface for GroupStatus.
+// It customizes the JSON marshaling process for GroupStatus objects.
+func (e GroupStatus) MarshalJSON() (
+    []byte,
+    error) {
+    if e.isValid() {
+        return []byte(fmt.Sprintf("\"%v\"", e)), nil
+    }
+    return nil, errors.New("the provided enum value is not allowed for GroupStatus")
+}
+
+// UnmarshalJSON implements the json.Unmarshaler interface for GroupStatus.
+// It customizes the JSON unmarshaling process for GroupStatus objects.
+func (e *GroupStatus) UnmarshalJSON(input []byte) error {
+    var enumValue string
+    err := json.Unmarshal(input, &enumValue)
+    if err != nil {
+        return err
+    }
+    *e = GroupStatus(enumValue)
+    if !e.isValid() {
+        return errors.New("the value " + string(input) + " cannot be unmarshalled to GroupStatus")
+    }
+    return nil
+}
+
+// Checks whether the value is actually a member of GroupStatus.
+func (e GroupStatus) isValid() bool {
+    switch e {
+    case GroupStatus_UNGROUPED,
+        GroupStatus_GROUPED:
+        return true
+    }
+    return false
+}
+
+const (
+    GroupStatus_UNGROUPED GroupStatus = "ungrouped"
+    GroupStatus_GROUPED   GroupStatus = "grouped"
+)
+
 // IncludeNotNull is a string enum.
 // Passed as a parameter to list methods to return only non null values.
 type IncludeNotNull string
@@ -2278,7 +2370,7 @@ const (
 )
 
 // InvoiceConsolidationLevel is a string enum.
-// Consolidation level of the invoice, which is applicable to invoice consolidation.  It will hold one of the following values:
+// Consolidation level of the invoice, which is applicable to invoice consolidation. It will hold one of the following values:
 // * "none": A normal invoice with no consolidation.
 // * "child": An invoice segment which has been combined into a consolidated invoice.
 // * "parent": A consolidated invoice, whose contents are composed of invoice segments.
@@ -3333,7 +3425,7 @@ const (
 )
 
 // MetafieldInput is a string enum.
-// Indicates the type of metafield. A text metafield allows any string value. Dropdown and radio metafields have a set of values that can be selected.  Defaults to 'text'.
+// Indicates the type of metafield. A text metafield allows any string value. Dropdown and radio metafields have a set of values that can be selected. Defaults to 'text'.
 type MetafieldInput string
 
 // MarshalJSON implements the json.Marshaler interface for MetafieldInput.
@@ -3676,7 +3768,7 @@ const (
 )
 
 // ProformaInvoiceRole is a string enum.
-// 'proforma' value is deprecated in favor of proforma_adhoc and proforma_automatic
+// 'proforma' value is deprecated in favor of proforma_adhoc and proforma_automatic.
 type ProformaInvoiceRole string
 
 // MarshalJSON implements the json.Marshaler interface for ProformaInvoiceRole.
@@ -3814,8 +3906,60 @@ const (
     ProformaInvoiceTaxSourceType_AVALARA ProformaInvoiceTaxSourceType = "Avalara"
 )
 
+// QScope is a string enum.
+type QScope string
+
+// MarshalJSON implements the json.Marshaler interface for QScope.
+// It customizes the JSON marshaling process for QScope objects.
+func (e QScope) MarshalJSON() (
+    []byte,
+    error) {
+    if e.isValid() {
+        return []byte(fmt.Sprintf("\"%v\"", e)), nil
+    }
+    return nil, errors.New("the provided enum value is not allowed for QScope")
+}
+
+// UnmarshalJSON implements the json.Unmarshaler interface for QScope.
+// It customizes the JSON unmarshaling process for QScope objects.
+func (e *QScope) UnmarshalJSON(input []byte) error {
+    var enumValue string
+    err := json.Unmarshal(input, &enumValue)
+    if err != nil {
+        return err
+    }
+    *e = QScope(enumValue)
+    if !e.isValid() {
+        return errors.New("the value " + string(input) + " cannot be unmarshalled to QScope")
+    }
+    return nil
+}
+
+// Checks whether the value is actually a member of QScope.
+func (e QScope) isValid() bool {
+    switch e {
+    case QScope_FULLNAME,
+        QScope_FIRSTNAME,
+        QScope_LASTNAME,
+        QScope_ORGANIZATION,
+        QScope_CUSTOMERREFERENCE,
+        QScope_SUBSCRIPTIONREFERENCE:
+        return true
+    }
+    return false
+}
+
+const (
+    QScope_FULLNAME              QScope = "full_name"
+    QScope_FIRSTNAME             QScope = "first_name"
+    QScope_LASTNAME              QScope = "last_name"
+    QScope_ORGANIZATION          QScope = "organization"
+    QScope_CUSTOMERREFERENCE     QScope = "customer_reference"
+    QScope_SUBSCRIPTIONREFERENCE QScope = "subscription_reference"
+)
+
 // ReactivationCharge is a string enum.
-// You may choose how to handle the reactivation charge for that subscription: 1) `prorated` A prorated charge for the product price will be attempted for to complete the period 2) `immediate` A full-price charge for the product price will be attempted immediately 3) `delayed` A full-price charge for the product price will be attempted at the next renewal
+// You may choose how to handle the reactivation charge for that subscription: 1) `prorated` A prorated charge for the product price will be attempted to complete the period 2) `immediate` A full-price charge for the product price will be attempted immediately 3) `delayed` A full-price charge for the product price will be attempted at the next renewal.
 type ReactivationCharge string
 
 // MarshalJSON implements the json.Marshaler interface for ReactivationCharge.
@@ -4496,14 +4640,20 @@ func (e *SubscriptionListInclude) UnmarshalJSON(input []byte) error {
 // Checks whether the value is actually a member of SubscriptionListInclude.
 func (e SubscriptionListInclude) isValid() bool {
     switch e {
-    case SubscriptionListInclude_SELFSERVICEPAGETOKEN:
+    case SubscriptionListInclude_SELFSERVICEPAGETOKEN,
+        SubscriptionListInclude_CURRENTACCOUNTBALANCEINCENTS,
+        SubscriptionListInclude_CURRENTBILLINGAMOUNT,
+        SubscriptionListInclude_COUPONS:
         return true
     }
     return false
 }
 
 const (
-    SubscriptionListInclude_SELFSERVICEPAGETOKEN SubscriptionListInclude = "self_service_page_token"
+    SubscriptionListInclude_SELFSERVICEPAGETOKEN         SubscriptionListInclude = "self_service_page_token"
+    SubscriptionListInclude_CURRENTACCOUNTBALANCEINCENTS SubscriptionListInclude = "current_account_balance_in_cents"
+    SubscriptionListInclude_CURRENTBILLINGAMOUNT         SubscriptionListInclude = "current_billing_amount"
+    SubscriptionListInclude_COUPONS                      SubscriptionListInclude = "coupons"
 )
 
 // SubscriptionPurgeType is a string enum.
@@ -4737,10 +4887,15 @@ func (e SubscriptionStateFilter) isValid() bool {
         SubscriptionStateFilter_CANCELED,
         SubscriptionStateFilter_EXPIRED,
         SubscriptionStateFilter_EXPIREDCARDS,
+        SubscriptionStateFilter_ENUMEXPIREDCARDSLIVESUBSCRIPTIONS,
+        SubscriptionStateFilter_ENUMEXPIREDCARDSALLSUBSCRIPTIONS,
         SubscriptionStateFilter_ONHOLD,
+        SubscriptionStateFilter_AWAITINGSIGNUP,
+        SubscriptionStateFilter_AWAITINGSIGNUPDATE,
         SubscriptionStateFilter_PASTDUE,
         SubscriptionStateFilter_PENDINGCANCELLATION,
         SubscriptionStateFilter_PENDINGRENEWAL,
+        SubscriptionStateFilter_PREPAIDDUNNING,
         SubscriptionStateFilter_SUSPENDED,
         SubscriptionStateFilter_TRIALENDED,
         SubscriptionStateFilter_TRIALING,
@@ -4751,18 +4906,23 @@ func (e SubscriptionStateFilter) isValid() bool {
 }
 
 const (
-    SubscriptionStateFilter_ACTIVE              SubscriptionStateFilter = "active"
-    SubscriptionStateFilter_CANCELED            SubscriptionStateFilter = "canceled"
-    SubscriptionStateFilter_EXPIRED             SubscriptionStateFilter = "expired"
-    SubscriptionStateFilter_EXPIREDCARDS        SubscriptionStateFilter = "expired_cards"
-    SubscriptionStateFilter_ONHOLD              SubscriptionStateFilter = "on_hold"
-    SubscriptionStateFilter_PASTDUE             SubscriptionStateFilter = "past_due"
-    SubscriptionStateFilter_PENDINGCANCELLATION SubscriptionStateFilter = "pending_cancellation"
-    SubscriptionStateFilter_PENDINGRENEWAL      SubscriptionStateFilter = "pending_renewal"
-    SubscriptionStateFilter_SUSPENDED           SubscriptionStateFilter = "suspended"
-    SubscriptionStateFilter_TRIALENDED          SubscriptionStateFilter = "trial_ended"
-    SubscriptionStateFilter_TRIALING            SubscriptionStateFilter = "trialing"
-    SubscriptionStateFilter_UNPAID              SubscriptionStateFilter = "unpaid"
+    SubscriptionStateFilter_ACTIVE                            SubscriptionStateFilter = "active"
+    SubscriptionStateFilter_CANCELED                          SubscriptionStateFilter = "canceled"
+    SubscriptionStateFilter_EXPIRED                           SubscriptionStateFilter = "expired"
+    SubscriptionStateFilter_EXPIREDCARDS                      SubscriptionStateFilter = "expired_cards"
+    SubscriptionStateFilter_ENUMEXPIREDCARDSLIVESUBSCRIPTIONS SubscriptionStateFilter = "expired_cards_(live_subscriptions)"
+    SubscriptionStateFilter_ENUMEXPIREDCARDSALLSUBSCRIPTIONS  SubscriptionStateFilter = "expired_cards_(all_subscriptions)"
+    SubscriptionStateFilter_ONHOLD                            SubscriptionStateFilter = "on_hold"
+    SubscriptionStateFilter_AWAITINGSIGNUP                    SubscriptionStateFilter = "awaiting_signup"
+    SubscriptionStateFilter_AWAITINGSIGNUPDATE                SubscriptionStateFilter = "awaiting_signup_date"
+    SubscriptionStateFilter_PASTDUE                           SubscriptionStateFilter = "past_due"
+    SubscriptionStateFilter_PENDINGCANCELLATION               SubscriptionStateFilter = "pending_cancellation"
+    SubscriptionStateFilter_PENDINGRENEWAL                    SubscriptionStateFilter = "pending_renewal"
+    SubscriptionStateFilter_PREPAIDDUNNING                    SubscriptionStateFilter = "prepaid_dunning"
+    SubscriptionStateFilter_SUSPENDED                         SubscriptionStateFilter = "suspended"
+    SubscriptionStateFilter_TRIALENDED                        SubscriptionStateFilter = "trial_ended"
+    SubscriptionStateFilter_TRIALING                          SubscriptionStateFilter = "trialing"
+    SubscriptionStateFilter_UNPAID                            SubscriptionStateFilter = "unpaid"
 )
 
 // TaxConfigurationKind is a string enum.
@@ -4862,7 +5022,7 @@ const (
 )
 
 // TrialType is a string enum.
-// Indicates how a trial is handled when the trail period ends and there is no credit card on file. For `no_obligation`, the subscription transitions to a Trial Ended state. Maxio will not send any emails or statements. For `payment_expected`, the subscription transitions to a Past Due state. Maxio will send normal dunning emails and statements according to your other settings.
+// Indicates how a trial is handled when the trial period ends and there is no credit card on file. For `no_obligation`, the subscription transitions to a Trial Ended state. Maxio will not send any emails or statements. For `payment_expected`, the subscription transitions to a Past Due state. Maxio will send normal dunning emails and statements according to your other settings.
 type TrialType string
 
 // MarshalJSON implements the json.Marshaler interface for TrialType.
@@ -5110,6 +5270,7 @@ func (e WebhookSubscription) isValid() bool {
         WebhookSubscription_SUBSCRIPTIONCARDUPDATE,
         WebhookSubscription_SUBSCRIPTIONGROUPCARDUPDATE,
         WebhookSubscription_SUBSCRIPTIONPRODUCTCHANGE,
+        WebhookSubscription_SUBSCRIPTIONPRODUCTCHANGESCHEDULED,
         WebhookSubscription_SUBSCRIPTIONSTATECHANGE,
         WebhookSubscription_TRIALENDNOTICE,
         WebhookSubscription_UPCOMINGRENEWALNOTICE,
@@ -5154,6 +5315,7 @@ const (
     WebhookSubscription_SUBSCRIPTIONCARDUPDATE                         WebhookSubscription = "subscription_card_update"
     WebhookSubscription_SUBSCRIPTIONGROUPCARDUPDATE                    WebhookSubscription = "subscription_group_card_update"
     WebhookSubscription_SUBSCRIPTIONPRODUCTCHANGE                      WebhookSubscription = "subscription_product_change"
+    WebhookSubscription_SUBSCRIPTIONPRODUCTCHANGESCHEDULED             WebhookSubscription = "subscription_product_change_scheduled"
     WebhookSubscription_SUBSCRIPTIONSTATECHANGE                        WebhookSubscription = "subscription_state_change"
     WebhookSubscription_TRIALENDNOTICE                                 WebhookSubscription = "trial_end_notice"
     WebhookSubscription_UPCOMINGRENEWALNOTICE                          WebhookSubscription = "upcoming_renewal_notice"

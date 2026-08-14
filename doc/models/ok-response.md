@@ -11,11 +11,20 @@
 |  --- | --- | --- | --- |
 | `Ok` | `*string` | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "ok": "ok4"
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    okResponse := models.OkResponse{
+        Ok:                   models.ToPointer("ok8"),
+    }
+
 }
 ```
 

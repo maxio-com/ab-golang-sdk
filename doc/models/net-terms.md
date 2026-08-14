@@ -15,15 +15,24 @@
 | `NetTermsOnRemittanceSignupsEnabled` | `*bool` | Optional | **Default**: `false` |
 | `CustomNetTermsEnabled` | `*bool` | Optional | **Default**: `false` |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "default_net_terms": 0,
-  "automatic_net_terms": 0,
-  "remittance_net_terms": 0,
-  "net_terms_on_remittance_signups_enabled": false,
-  "custom_net_terms_enabled": false
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    netTerms := models.NetTerms{
+        DefaultNetTerms:                    models.ToPointer(0),
+        AutomaticNetTerms:                  models.ToPointer(0),
+        RemittanceNetTerms:                 models.ToPointer(0),
+        NetTermsOnRemittanceSignupsEnabled: models.ToPointer(false),
+        CustomNetTermsEnabled:              models.ToPointer(false),
+    }
+
 }
 ```
 

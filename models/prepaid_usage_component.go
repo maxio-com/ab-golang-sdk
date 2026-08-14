@@ -11,13 +11,13 @@ import (
 
 // PrepaidUsageComponent represents a PrepaidUsageComponent struct.
 type PrepaidUsageComponent struct {
-    // A name for this component that is suitable for showing customers and displaying on billing statements, ie. "Minutes".
+    // A name for this component that is suitable for showing customers and displaying on billing statements, e.g., "Minutes".
     Name                      string                                  `json:"name"`
-    // The name of the unit of measurement for the component. It should be singular since it will be automatically pluralized when necessary. i.e. “message”, which may then be shown as “5 messages” on a subscription’s component line-item
+    // The name of the unit of measurement for the component. It should be singular since it will be automatically pluralized when necessary. e.g., “message”, which may then be shown as “5 messages” on a subscription’s component line-item
     UnitName                  string                                  `json:"unit_name"`
     // A description for the component that will be displayed to the user on the hosted signup page.
     Description               *string                                 `json:"description,omitempty"`
-    // A unique identifier for your use that can be used to retrieve this component is subsequent requests.  Must start with a letter or number and may only contain lowercase letters, numbers, or the characters '.', ':', '-', or '_'.
+    // A unique identifier for your use that can be used to retrieve this component in subsequent requests. Must start with a letter or number and may only contain lowercase letters, numbers, or the characters '.', ':', '-', or '_'.
     Handle                    *string                                 `json:"handle,omitempty"`
     // Boolean flag describing whether a component is taxable or not.
     Taxable                   *bool                                   `json:"taxable,omitempty"`
@@ -30,16 +30,16 @@ type PrepaidUsageComponent struct {
     // The type of credit to be created when upgrading/downgrading. Defaults to the component and then site setting if one is not provided.
     DowngradeCredit           Optional[CreditType]                    `json:"downgrade_credit"`
     PricePoints               []CreatePrepaidUsageComponentPricePoint `json:"price_points,omitempty"`
-    // The amount the customer will be charged per unit when the pricing scheme is “per_unit”. For On/Off Components, this is the amount that the customer will be charged when they turn the component on for the subscription. The price can contain up to 8 decimal places. i.e. 1.00 or 0.0012 or 0.00000065
+    // The amount the customer will be charged per unit when the pricing scheme is “per_unit”. For On/Off Components, this is the amount that the customer will be charged when they turn the component on for the subscription. The price can contain up to 8 decimal places. e.g., 1.00 or 0.0012 or 0.00000065
     UnitPrice                 *PrepaidUsageComponentUnitPrice         `json:"unit_price,omitempty"`
     // A string representing the tax code related to the component type. This is especially important when using AvaTax to tax based on locale. This attribute has a max length of 25 characters.
     TaxCode                   *string                                 `json:"tax_code,omitempty"`
     // (Only available on Relationship Invoicing sites) Boolean flag describing if the service date range should show for the component on generated invoices.
     HideDateRangeOnInvoice    *bool                                   `json:"hide_date_range_on_invoice,omitempty"`
     OveragePricing            OveragePricing                          `json:"overage_pricing"`
-    // Boolean which controls whether or not remaining units should be rolled over to the next period
+    // Boolean which controls whether or not remaining units should be rolled over to the next period.
     RolloverPrepaidRemainder  *bool                                   `json:"rollover_prepaid_remainder,omitempty"`
-    // Boolean which controls whether or not the allocated quantity should be renewed at the beginning of each period
+    // Boolean which controls whether or not the allocated quantity should be renewed at the beginning of each period.
     RenewPrepaidAllocation    *bool                                   `json:"renew_prepaid_allocation,omitempty"`
     // (only for prepaid usage components where rollover_prepaid_remainder is true) The number of `expiration_interval_unit`s after which rollover amounts should expire
     ExpirationInterval        *float64                                `json:"expiration_interval,omitempty"`
@@ -47,6 +47,8 @@ type PrepaidUsageComponent struct {
     DisplayOnHostedPage       *bool                                   `json:"display_on_hosted_page,omitempty"`
     AllowFractionalQuantities *bool                                   `json:"allow_fractional_quantities,omitempty"`
     PublicSignupPageIds       []int                                   `json:"public_signup_page_ids,omitempty"`
+    // (Optional) Custom UNSPSC commodity code for Level 3/CEDP payment data. When set, this value is sent as the commodity code on invoice line items for this component instead of the default derived from item_category.
+    UnspscCode                Optional[string]                        `json:"unspsc_code"`
     AdditionalProperties      map[string]interface{}                  `json:"_"`
 }
 
@@ -54,8 +56,8 @@ type PrepaidUsageComponent struct {
 // providing a human-readable string representation useful for logging, debugging or displaying information.
 func (p PrepaidUsageComponent) String() string {
     return fmt.Sprintf(
-    	"PrepaidUsageComponent[Name=%v, UnitName=%v, Description=%v, Handle=%v, Taxable=%v, PricingScheme=%v, Prices=%v, UpgradeCharge=%v, DowngradeCredit=%v, PricePoints=%v, UnitPrice=%v, TaxCode=%v, HideDateRangeOnInvoice=%v, OveragePricing=%v, RolloverPrepaidRemainder=%v, RenewPrepaidAllocation=%v, ExpirationInterval=%v, ExpirationIntervalUnit=%v, DisplayOnHostedPage=%v, AllowFractionalQuantities=%v, PublicSignupPageIds=%v, AdditionalProperties=%v]",
-    	p.Name, p.UnitName, p.Description, p.Handle, p.Taxable, p.PricingScheme, p.Prices, p.UpgradeCharge, p.DowngradeCredit, p.PricePoints, p.UnitPrice, p.TaxCode, p.HideDateRangeOnInvoice, p.OveragePricing, p.RolloverPrepaidRemainder, p.RenewPrepaidAllocation, p.ExpirationInterval, p.ExpirationIntervalUnit, p.DisplayOnHostedPage, p.AllowFractionalQuantities, p.PublicSignupPageIds, p.AdditionalProperties)
+    	"PrepaidUsageComponent[Name=%v, UnitName=%v, Description=%v, Handle=%v, Taxable=%v, PricingScheme=%v, Prices=%v, UpgradeCharge=%v, DowngradeCredit=%v, PricePoints=%v, UnitPrice=%v, TaxCode=%v, HideDateRangeOnInvoice=%v, OveragePricing=%v, RolloverPrepaidRemainder=%v, RenewPrepaidAllocation=%v, ExpirationInterval=%v, ExpirationIntervalUnit=%v, DisplayOnHostedPage=%v, AllowFractionalQuantities=%v, PublicSignupPageIds=%v, UnspscCode=%v, AdditionalProperties=%v]",
+    	p.Name, p.UnitName, p.Description, p.Handle, p.Taxable, p.PricingScheme, p.Prices, p.UpgradeCharge, p.DowngradeCredit, p.PricePoints, p.UnitPrice, p.TaxCode, p.HideDateRangeOnInvoice, p.OveragePricing, p.RolloverPrepaidRemainder, p.RenewPrepaidAllocation, p.ExpirationInterval, p.ExpirationIntervalUnit, p.DisplayOnHostedPage, p.AllowFractionalQuantities, p.PublicSignupPageIds, p.UnspscCode, p.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for PrepaidUsageComponent.
@@ -64,7 +66,7 @@ func (p PrepaidUsageComponent) MarshalJSON() (
     []byte,
     error) {
     if err := DetectConflictingProperties(p.AdditionalProperties,
-        "name", "unit_name", "description", "handle", "taxable", "pricing_scheme", "prices", "upgrade_charge", "downgrade_credit", "price_points", "unit_price", "tax_code", "hide_date_range_on_invoice", "overage_pricing", "rollover_prepaid_remainder", "renew_prepaid_allocation", "expiration_interval", "expiration_interval_unit", "display_on_hosted_page", "allow_fractional_quantities", "public_signup_page_ids"); err != nil {
+        "name", "unit_name", "description", "handle", "taxable", "pricing_scheme", "prices", "upgrade_charge", "downgrade_credit", "price_points", "unit_price", "tax_code", "hide_date_range_on_invoice", "overage_pricing", "rollover_prepaid_remainder", "renew_prepaid_allocation", "expiration_interval", "expiration_interval_unit", "display_on_hosted_page", "allow_fractional_quantities", "public_signup_page_ids", "unspsc_code"); err != nil {
         return []byte{}, err
     }
     return json.Marshal(p.toMap())
@@ -141,6 +143,13 @@ func (p PrepaidUsageComponent) toMap() map[string]any {
     if p.PublicSignupPageIds != nil {
         structMap["public_signup_page_ids"] = p.PublicSignupPageIds
     }
+    if p.UnspscCode.IsValueSet() {
+        if p.UnspscCode.Value() != nil {
+            structMap["unspsc_code"] = p.UnspscCode.Value()
+        } else {
+            structMap["unspsc_code"] = nil
+        }
+    }
     return structMap
 }
 
@@ -156,7 +165,7 @@ func (p *PrepaidUsageComponent) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "name", "unit_name", "description", "handle", "taxable", "pricing_scheme", "prices", "upgrade_charge", "downgrade_credit", "price_points", "unit_price", "tax_code", "hide_date_range_on_invoice", "overage_pricing", "rollover_prepaid_remainder", "renew_prepaid_allocation", "expiration_interval", "expiration_interval_unit", "display_on_hosted_page", "allow_fractional_quantities", "public_signup_page_ids")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "name", "unit_name", "description", "handle", "taxable", "pricing_scheme", "prices", "upgrade_charge", "downgrade_credit", "price_points", "unit_price", "tax_code", "hide_date_range_on_invoice", "overage_pricing", "rollover_prepaid_remainder", "renew_prepaid_allocation", "expiration_interval", "expiration_interval_unit", "display_on_hosted_page", "allow_fractional_quantities", "public_signup_page_ids", "unspsc_code")
     if err != nil {
     	return err
     }
@@ -183,6 +192,7 @@ func (p *PrepaidUsageComponent) UnmarshalJSON(input []byte) error {
     p.DisplayOnHostedPage = temp.DisplayOnHostedPage
     p.AllowFractionalQuantities = temp.AllowFractionalQuantities
     p.PublicSignupPageIds = temp.PublicSignupPageIds
+    p.UnspscCode = temp.UnspscCode
     return nil
 }
 
@@ -209,6 +219,7 @@ type tempPrepaidUsageComponent  struct {
     DisplayOnHostedPage       *bool                                   `json:"display_on_hosted_page,omitempty"`
     AllowFractionalQuantities *bool                                   `json:"allow_fractional_quantities,omitempty"`
     PublicSignupPageIds       []int                                   `json:"public_signup_page_ids,omitempty"`
+    UnspscCode                Optional[string]                        `json:"unspsc_code"`
 }
 
 func (p *tempPrepaidUsageComponent) validate() error {

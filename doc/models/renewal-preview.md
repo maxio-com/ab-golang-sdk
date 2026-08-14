@@ -19,15 +19,33 @@
 | `UncalculatedTaxes` | `*bool` | Optional | A boolean indicating whether or not additional taxes will be calculated at the time of renewal. This will be true if you are using Avalara and the address of the subscription is in one of your defined taxable regions. |
 | `LineItems` | [`[]models.RenewalPreviewLineItem`](../../doc/models/renewal-preview-line-item.md) | Optional | An array of objects representing the individual transactions that will be created at the next renewal |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "next_assessment_at": "2016-03-13T12:52:32.123Z",
-  "subtotal_in_cents": 160,
-  "total_tax_in_cents": 28,
-  "total_discount_in_cents": 34,
-  "total_in_cents": 48
+```go
+package main
+
+import (
+    "log"
+    "time"
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    parseTime := func(layout, value string, errCallback func(error)) time.Time {
+        dateTime, err := time.Parse(layout, value)
+        if err != nil {
+            errCallback(err) 
+       }
+        return dateTime
+    }
+    renewalPreview := models.RenewalPreview{
+        NextAssessmentAt:       models.ToPointer(parseTime(time.RFC3339, "2016-03-13T12:52:32.123Z", func(err error) { log.Fatalln(err) })),
+        SubtotalInCents:        models.ToPointer(int64(102)),
+        TotalTaxInCents:        models.ToPointer(int64(226)),
+        TotalDiscountInCents:   models.ToPointer(int64(232)),
+        TotalInCents:           models.ToPointer(int64(246)),
+    }
+
 }
 ```
 

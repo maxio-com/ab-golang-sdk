@@ -11,11 +11,16 @@
 |  --- | --- | --- | --- |
 | `Errors` | `*string` | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "errors": "errors4"
+```go
+if err != nil {
+    switch typedErr := err.(type) {
+    case *errors.SingleStringErrorResponseException:
+        log.Fatalln(typedErr)
+    default:
+        log.Fatalln(err)
+    }
 }
 ```
 

@@ -11,17 +11,26 @@
 |  --- | --- | --- | --- |
 | `Site` | [`models.Site`](../../doc/models/site.md) | Required | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "site": {
-    "id": 64,
-    "name": "name4",
-    "subdomain": "subdomain0",
-    "currency": "currency4",
-    "seller_id": 228
-  }
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    siteResponse := models.SiteResponse{
+        Site:                 models.Site{
+            Id:                                      models.ToPointer(64),
+            Name:                                    models.ToPointer("name4"),
+            Subdomain:                               models.ToPointer("subdomain0"),
+            Currency:                                models.ToPointer("currency4"),
+            SellerId:                                models.ToPointer(228),
+        },
+    }
+
 }
 ```
 

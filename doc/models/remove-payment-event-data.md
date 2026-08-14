@@ -19,19 +19,37 @@ Example schema for an `remove_payment` event
 | `PaymentMethod` | [`models.InvoiceEventPayment`](../../doc/models/containers/invoice-event-payment.md) | Required | A nested data structure detailing the method of payment |
 | `Prepayment` | `bool` | Required | The flag that shows whether the original payment was a prepayment or not |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "transaction_id": 180,
-  "memo": "memo0",
-  "applied_amount": "applied_amount2",
-  "transaction_time": "2016-03-13T12:52:32.123Z",
-  "payment_method": {
-    "type": "apple_pay"
-  },
-  "prepayment": false,
-  "original_amount": "original_amount0"
+```go
+package main
+
+import (
+    "log"
+    "time"
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    parseTime := func(layout, value string, errCallback func(error)) time.Time {
+        dateTime, err := time.Parse(layout, value)
+        if err != nil {
+            errCallback(err) 
+       }
+        return dateTime
+    }
+    removePaymentEventData := models.RemovePaymentEventData{
+        TransactionId:        20,
+        Memo:                 "memo4",
+        OriginalAmount:       models.ToPointer("original_amount4"),
+        AppliedAmount:        "applied_amount8",
+        TransactionTime:      parseTime(time.RFC3339, "2016-03-13T12:52:32.123Z", func(err error) { log.Fatalln(err) }),
+        PaymentMethod:        models.InvoiceEventPaymentContainer.FromPaymentMethodApplePay(models.PaymentMethodApplePay{
+            Type:                 models.InvoiceEventPaymentMethod_APPLEPAY,
+        }),
+        Prepayment:           false,
+    }
+
 }
 ```
 

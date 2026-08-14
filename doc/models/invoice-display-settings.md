@@ -12,12 +12,21 @@
 | `HideZeroSubtotalLines` | `*bool` | Optional | - |
 | `IncludeDiscountsOnLines` | `*bool` | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "hide_zero_subtotal_lines": false,
-  "include_discounts_on_lines": false
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    invoiceDisplaySettings := models.InvoiceDisplaySettings{
+        HideZeroSubtotalLines:   models.ToPointer(false),
+        IncludeDiscountsOnLines: models.ToPointer(false),
+    }
+
 }
 ```
 

@@ -16,18 +16,27 @@ Refund an invoice or a segment of a consolidated invoice.
 | `PaymentId` | `int` | Required | The ID of the payment to be refunded |
 | `External` | `*bool` | Optional | Flag that marks refund as external (no money is returned to the customer). Defaults to `false`. |
 | `ApplyCredit` | `*bool` | Optional | If set to true, creates credit and applies it to an invoice. Defaults to `false`. |
-| `VoidInvoice` | `*bool` | Optional | If `apply_credit` set to false and refunding full amount, if `void_invoice` set to true, invoice will be voided after refund. Defaults to `false`. |
+| `VoidInvoice` | `*bool` | Optional | If `apply_credit` is set to false and refunding full amount, if `void_invoice` is set to true, invoice will be voided after refund. Defaults to `false`. |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "amount": "amount8",
-  "memo": "memo0",
-  "payment_id": 0,
-  "external": false,
-  "apply_credit": false,
-  "void_invoice": false
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    refundInvoice := models.RefundInvoice{
+        Amount:               "amount2",
+        Memo:                 "memo4",
+        PaymentId:            36,
+        External:             models.ToPointer(false),
+        ApplyCredit:          models.ToPointer(false),
+        VoidInvoice:          models.ToPointer(false),
+    }
+
 }
 ```
 

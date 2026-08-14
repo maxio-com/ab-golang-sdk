@@ -14,3 +14,18 @@ Applicable only to stackable coupons. For `compound`, Percentage-based discounts
 | `COMPOUND` |
 | `FULLPRICE` |
 
+## Example
+
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    compoundingStrategy := models.CompoundingStrategy_COMPOUND
+
+}
+```
+

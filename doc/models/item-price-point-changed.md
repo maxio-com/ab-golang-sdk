@@ -16,24 +16,33 @@
 | `PreviousPricePoint` | [`models.ItemPricePointData`](../../doc/models/item-price-point-data.md) | Required | - |
 | `CurrentPricePoint` | [`models.ItemPricePointData`](../../doc/models/item-price-point-data.md) | Required | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "item_id": 66,
-  "item_type": "item_type6",
-  "item_handle": "item_handle4",
-  "item_name": "item_name8",
-  "previous_price_point": {
-    "id": 216,
-    "handle": "handle6",
-    "name": "name0"
-  },
-  "current_price_point": {
-    "id": 218,
-    "handle": "handle6",
-    "name": "name0"
-  }
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    itemPricePointChanged := models.ItemPricePointChanged{
+        ItemId:               30,
+        ItemType:             "item_type6",
+        ItemHandle:           "item_handle4",
+        ItemName:             "item_name8",
+        PreviousPricePoint:   models.ItemPricePointData{
+            Id:                   models.ToPointer(216),
+            Handle:               models.ToPointer("handle6"),
+            Name:                 models.ToPointer("name0"),
+        },
+        CurrentPricePoint:    models.ItemPricePointData{
+            Id:                   models.ToPointer(218),
+            Handle:               models.ToPointer("handle6"),
+            Name:                 models.ToPointer("name0"),
+        },
+    }
+
 }
 ```
 

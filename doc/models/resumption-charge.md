@@ -15,3 +15,18 @@
 | `IMMEDIATE` |
 | `DELAYED` |
 
+## Example
+
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    resumptionCharge := models.ResumptionCharge_IMMEDIATE
+
+}
+```
+

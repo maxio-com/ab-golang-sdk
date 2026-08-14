@@ -17,17 +17,26 @@
 | `ResourceType` | `string` | Required | - |
 | `ResourceId` | `int` | Required | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "event_type": "event_type2",
-  "metafield_name": "metafield_name6",
-  "metafield_id": 78,
-  "old_value": "old_value2",
-  "new_value": "new_value8",
-  "resource_type": "resource_type2",
-  "resource_id": 74
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    customFieldValueChange := models.CustomFieldValueChange{
+        EventType:            "event_type8",
+        MetafieldName:        "metafield_name2",
+        MetafieldId:          138,
+        OldValue:             models.ToPointer("old_value6"),
+        NewValue:             models.ToPointer("new_value2"),
+        ResourceType:         "resource_type6",
+        ResourceId:           14,
+    }
+
 }
 ```
 

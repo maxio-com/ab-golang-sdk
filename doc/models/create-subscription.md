@@ -20,19 +20,20 @@
 | `ReceivesInvoiceEmails` | `*string` | Optional | (Optional) Default: True - Whether or not this subscription is set to receive emails related to this subscription. |
 | `NetTerms` | `*string` | Optional | (Optional) Default: null The number of days after renewal (on invoice billing) that a subscription is due. A value between 0 (due immediately) and 180. |
 | `CustomerId` | `*int` | Optional | The ID of an existing customer within Chargify. Required, unless a `customer_reference` or a set of `customer_attributes` is given. |
+| `BrandingThemeId` | `models.Optional[int]` | Optional | The ID of the Branding Theme to assign to this subscription. When set, this subscription-level Branding Theme is used instead of the customer's default Branding Theme for subscription-related documents and communications that use subscription theming. Pass null or an empty value to clear the subscription-level Branding Theme. Available only when Branding Themes are enabled for the site. Not returned in the response. |
 | `NextBillingAt` | `*time.Time` | Optional | (Optional) Set this attribute to a future date/time to sync imported subscriptions to your existing renewal schedule. See the notes on “Date/Time Format” in our [subscription import documentation](https://maxio.zendesk.com/hc/en-us/articles/24251489107213-Advanced-Billing-Subscription-Imports#date-format). If you provide a next_billing_at timestamp that is in the future, no trial or initial charges will be applied when you create the subscription. In fact, no payment will be captured at all. The first payment will be captured, according to the prices defined by the product, near the time specified by next_billing_at. If you do not provide a value for next_billing_at, any trial and/or initial charges will be assessed and charged at the time of subscription creation. If the card cannot be successfully charged, the subscription will not be created. See further notes in the section on Importing Subscriptions. |
 | `InitialBillingAt` | `*time.Time` | Optional | (Optional) Set this attribute to a future date/time to create a subscription in the Awaiting Signup state, rather than Active or Trialing. You can omit the initial_billing_at date to activate the subscription immediately. In the Awaiting Signup state, a subscription behaves like any other. It can be canceled, allocated to, or have its billing date changed. etc. When the initial_billing_at date hits, the subscription will transition to the expected state. If the product has a trial, the subscription will enter a trial, otherwise it will go active. Setup fees will be respected either before or after the trial, as configured on the price point. If the payment is due at the initial_billing_at and it fails the subscription will be immediately canceled. See the [subscription import](https://maxio.zendesk.com/hc/en-us/articles/24251489107213-Advanced-Billing-Subscription-Imports#date-format) documentation for more information about Date/Time Formats. |
-| `DeferSignup` | `*bool` | Optional | (Optional) Set this attribute to true to create the subscription in the Awaiting Signup Date state. Use this when you want to create a subscription that has an unknown first  billing date. When the first billing date is known, update a subscription and set the `initial_billing_at` date. The subscription moves to the Awaiting Signup state with a scheduled initial billing date. You can omit the initial_billing_at date to activate the subscription immediately. See [Subscription States](https://maxio-chargify.zendesk.com/hc/en-us/articles/5404222005773-Subscription-States) for more information.<br><br>**Default**: `false` |
+| `DeferSignup` | `*bool` | Optional | (Optional) Set this attribute to true to create the subscription in the Awaiting Signup Date state. Use this when you want to create a subscription that has an unknown first billing date. When the first billing date is known, update a subscription and set the `initial_billing_at` date. The subscription moves to the Awaiting Signup state with a scheduled initial billing date. You can omit the initial_billing_at date to activate the subscription immediately. See [Subscription States](https://maxio-chargify.zendesk.com/hc/en-us/articles/5404222005773-Subscription-States) for more information.<br><br>**Default**: `false` |
 | `StoredCredentialTransactionId` | `*int` | Optional | For European sites subject to PSD2 and using 3D Secure, this can be used to reference a previous transaction for the customer. This will ensure the card will be charged successfully at renewal. |
 | `SalesRepId` | `*int` | Optional | - |
-| `PaymentProfileId` | `*int` | Optional | The Payment Profile ID of an existing card or bank account, which belongs to an existing customer to use for payment for this subscription. If the card, bank account, or customer does not exist already, or if you want to use a new (unstored) card or bank account for the subscription, use `payment_profile_attributes` instead to create a new payment profile along with the subscription. (This value is available on an existing subscription via the API as `credit_card` > id or `bank_account` > id) |
+| `PaymentProfileId` | `*int` | Optional | The Payment Profile ID of an existing card or bank account, which belongs to an existing customer to use for payment for this subscription. If the card, bank account, or customer does not exist already, or if you want to use a new (unstored) card or bank account for the subscription, use `payment_profile_attributes` instead to create a new payment profile along with the subscription. (This value is available on an existing subscription via the API as `credit_card` > id or `bank_account` > id.) |
 | `Reference` | `*string` | Optional | The reference value (provided by your app) for the subscription itself. |
 | `CustomerAttributes` | [`*models.CustomerAttributes`](../../doc/models/customer-attributes.md) | Optional | - |
 | `PaymentProfileAttributes` | [`*models.PaymentProfileAttributes`](../../doc/models/payment-profile-attributes.md) | Optional | alias to credit_card_attributes |
 | `CreditCardAttributes` | [`*models.PaymentProfileAttributes`](../../doc/models/payment-profile-attributes.md) | Optional | Credit Card data to create a new Subscription. Interchangeable with `payment_profile_attributes` property. |
 | `BankAccountAttributes` | [`*models.BankAccountAttributes`](../../doc/models/bank-account-attributes.md) | Optional | - |
 | `Components` | [`[]models.CreateSubscriptionComponent`](../../doc/models/create-subscription-component.md) | Optional | (Optional) An array of component ids and quantities to be added to the subscription. See [Components](https://maxio.zendesk.com/hc/en-us/articles/24261141522189-Components-Overview) for more information. |
-| `CalendarBilling` | [`*models.CalendarBilling`](../../doc/models/calendar-billing.md) | Optional | (Optional). Cannot be used when also specifying next_billing_at |
+| `CalendarBilling` | [`*models.CalendarBilling`](../../doc/models/calendar-billing.md) | Optional | (Optional). Cannot be used when also specifying next_billing_at. |
 | `Metafields` | `map[string]string` | Optional | (Optional) A set of key/value pairs representing custom fields and their values. Metafields will be created “on-the-fly” in your site for a given key, if they have not been created yet. |
 | `CustomerReference` | `*string` | Optional | The reference value (provided by your app) of an existing customer within Chargify. Required, unless a `customer_id` or a set of `customer_attributes` is given. |
 | `Group` | [`*models.GroupSettings`](../../doc/models/group-settings.md) | Optional | - |
@@ -60,31 +61,40 @@
 | `DunningCommunicationDelayTimeZone` | `models.Optional[string]` | Optional | Time zone for the Dunning Communication Delay feature. |
 | `SkipBillingManifestTaxes` | `*bool` | Optional | Valid only for the Subscription Preview endpoint. When set to `true` it skips calculating taxes for the current and next billing manifests. Defaults to `false` when not provided. |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "defer_signup": false,
-  "metafields": {
-    "custom_field_name_1": "custom_field_value_1",
-    "custom_field_name_2": "custom_field_value_2"
-  },
-  "dunning_communication_delay_enabled": false,
-  "dunning_communication_delay_time_zone": "\"Eastern Time (US & Canada)\"",
-  "product_handle": "product_handle6",
-  "product_id": 212,
-  "product_price_point_handle": "product_price_point_handle0",
-  "product_price_point_id": 136,
-  "custom_price": {
-    "name": "name4",
-    "handle": "handle0",
-    "price_in_cents": "String3",
-    "interval": "String3",
-    "interval_unit": "day",
-    "trial_price_in_cents": "String3",
-    "trial_interval": "String5",
-    "trial_interval_unit": "day"
-  }
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    createSubscription := models.CreateSubscription{
+        ProductHandle:                     models.ToPointer("product_handle4"),
+        ProductId:                         models.ToPointer(82),
+        ProductPricePointHandle:           models.ToPointer("product_price_point_handle2"),
+        ProductPricePointId:               models.ToPointer(6),
+        CustomPrice:                       models.ToPointer(models.SubscriptionCustomPrice{
+            Name:                    models.ToPointer("name4"),
+            Handle:                  models.ToPointer("handle0"),
+            PriceInCents:            models.SubscriptionCustomPricePriceInCentsContainer.FromString("String3"),
+            Interval:                models.SubscriptionCustomPriceIntervalContainer.FromString("String3"),
+            IntervalUnit:            models.ToPointer(models.IntervalUnit_DAY),
+            TrialPriceInCents:       models.ToPointer(models.SubscriptionCustomPriceTrialPriceInCentsContainer.FromString("String3")),
+            TrialInterval:           models.ToPointer(models.SubscriptionCustomPriceTrialIntervalContainer.FromString("String5")),
+            TrialIntervalUnit:       models.ToPointer(models.IntervalUnit_DAY),
+        }),
+        DeferSignup:                       models.ToPointer(false),
+        Metafields:                        map[string]string{
+            "custom_field_name_1": "custom_field_value_1",
+            "custom_field_name_2": "custom_field_value_2",
+        },
+        DunningCommunicationDelayEnabled:  models.ToPointer(false),
+        DunningCommunicationDelayTimeZone: models.NewOptional(models.ToPointer("\"Eastern Time (US & Canada)\"")),
+    }
+
 }
 ```
 

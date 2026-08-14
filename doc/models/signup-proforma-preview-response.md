@@ -11,26 +11,35 @@
 |  --- | --- | --- | --- |
 | `ProformaInvoicePreview` | [`models.SignupProformaPreview`](../../doc/models/signup-proforma-preview.md) | Required | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "proforma_invoice_preview": {
-    "current_proforma_invoice": {
-      "uid": "uid6",
-      "site_id": 72,
-      "customer_id": 184,
-      "subscription_id": 0,
-      "number": 132
-    },
-    "next_proforma_invoice": {
-      "uid": "uid8",
-      "site_id": 212,
-      "customer_id": 68,
-      "subscription_id": 140,
-      "number": 16
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    signupProformaPreviewResponse := models.SignupProformaPreviewResponse{
+        ProformaInvoicePreview: models.SignupProformaPreview{
+            CurrentProformaInvoice: models.ToPointer(models.ProformaInvoice{
+                Uid:                  models.ToPointer("uid6"),
+                SiteId:               models.ToPointer(72),
+                CustomerId:           models.NewOptional(models.ToPointer(184)),
+                SubscriptionId:       models.NewOptional(models.ToPointer(0)),
+                Number:               models.NewOptional(models.ToPointer(132)),
+            }),
+            NextProformaInvoice:    models.ToPointer(models.ProformaInvoice{
+                Uid:                  models.ToPointer("uid8"),
+                SiteId:               models.ToPointer(212),
+                CustomerId:           models.NewOptional(models.ToPointer(68)),
+                SubscriptionId:       models.NewOptional(models.ToPointer(140)),
+                Number:               models.NewOptional(models.ToPointer(16)),
+            }),
+        },
     }
-  }
+
 }
 ```
 

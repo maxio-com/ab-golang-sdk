@@ -12,18 +12,28 @@
 | `PerPage` | `[]string` | Optional | - |
 | `PricePoint` | `[]string` | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "per_page": [
-    "per_page7",
-    "per_page8"
-  ],
-  "price_point": [
-    "price_point6",
-    "price_point7"
-  ]
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    mErrors := models.Errors{
+        PerPage:              []string{
+            "per_page9",
+            "per_page8",
+            "per_page7",
+        },
+        PricePoint:           []string{
+            "price_point0",
+            "price_point1",
+        },
+    }
+
 }
 ```
 

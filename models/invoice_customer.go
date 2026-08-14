@@ -8,7 +8,7 @@ import (
 )
 
 // InvoiceCustomer represents a InvoiceCustomer struct.
-// Information about the customer who is owner or recipient the invoiced subscription.
+// Information about the customer who is owner or recipient of the invoiced subscription.
 type InvoiceCustomer struct {
     ChargifyId           Optional[int]          `json:"chargify_id"`
     FirstName            *string                `json:"first_name,omitempty"`

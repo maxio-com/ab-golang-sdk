@@ -12,39 +12,48 @@
 | `ProformaInvoices` | [`[]models.ProformaInvoice`](../../doc/models/proforma-invoice.md) | Optional | - |
 | `Meta` | [`*models.ListProformaInvoicesMeta`](../../doc/models/list-proforma-invoices-meta.md) | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "proforma_invoices": [
-    {
-      "uid": "uid0",
-      "site_id": 140,
-      "customer_id": 252,
-      "subscription_id": 68,
-      "number": 56
-    },
-    {
-      "uid": "uid0",
-      "site_id": 140,
-      "customer_id": 252,
-      "subscription_id": 68,
-      "number": 56
-    },
-    {
-      "uid": "uid0",
-      "site_id": 140,
-      "customer_id": 252,
-      "subscription_id": 68,
-      "number": 56
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    listProformaInvoicesResponse := models.ListProformaInvoicesResponse{
+        ProformaInvoices:     []models.ProformaInvoice{
+            models.ProformaInvoice{
+                Uid:                  models.ToPointer("uid0"),
+                SiteId:               models.ToPointer(140),
+                CustomerId:           models.NewOptional(models.ToPointer(252)),
+                SubscriptionId:       models.NewOptional(models.ToPointer(68)),
+                Number:               models.NewOptional(models.ToPointer(56)),
+            },
+            models.ProformaInvoice{
+                Uid:                  models.ToPointer("uid0"),
+                SiteId:               models.ToPointer(140),
+                CustomerId:           models.NewOptional(models.ToPointer(252)),
+                SubscriptionId:       models.NewOptional(models.ToPointer(68)),
+                Number:               models.NewOptional(models.ToPointer(56)),
+            },
+            models.ProformaInvoice{
+                Uid:                  models.ToPointer("uid0"),
+                SiteId:               models.ToPointer(140),
+                CustomerId:           models.NewOptional(models.ToPointer(252)),
+                SubscriptionId:       models.NewOptional(models.ToPointer(68)),
+                Number:               models.NewOptional(models.ToPointer(56)),
+            },
+        },
+        Meta:                 models.ToPointer(models.ListProformaInvoicesMeta{
+            TotalCount:           models.ToPointer(150),
+            CurrentPage:          models.ToPointer(126),
+            TotalPages:           models.ToPointer(138),
+            StatusCode:           models.ToPointer(168),
+        }),
     }
-  ],
-  "meta": {
-    "total_count": 150,
-    "current_page": 126,
-    "total_pages": 138,
-    "status_code": 168
-  }
+
 }
 ```
 

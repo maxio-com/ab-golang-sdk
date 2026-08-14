@@ -10,7 +10,7 @@ import (
 )
 
 // SubscriptionComponentSubscription represents a SubscriptionComponentSubscription struct.
-// An optional object, will be returned if provided `include=subscription` query param.
+// (Optional) Object that will be returned if the `include=subscription` query param is provided.
 type SubscriptionComponentSubscription struct {
     // The state of a subscription.
     // * **Live States**

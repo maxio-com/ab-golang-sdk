@@ -17,7 +17,7 @@ type Customer struct {
     LastName                    *string                `json:"last_name,omitempty"`
     // The email address of the customer
     Email                       *string                `json:"email,omitempty"`
-    // A comma-separated list of emails that should be cc’d on all customer communications (i.e. “joe@example.com, sue@example.com”)
+    // “A comma-separated list of emails that should be cc’d on all customer communications (e.g., “joe@example.com, sue@example.com”)”
     CcEmails                    Optional[string]       `json:"cc_emails"`
     // The organization of the customer. If no value, `null` or empty string is provided, `organization` will be populated with the customer's first and last name, separated with a space.
     Organization                Optional[string]       `json:"organization"`
@@ -29,17 +29,17 @@ type Customer struct {
     CreatedAt                   *time.Time             `json:"created_at,omitempty"`
     // The timestamp in which the customer object was last edited
     UpdatedAt                   *time.Time             `json:"updated_at,omitempty"`
-    // The customer’s shipping street address (i.e. “123 Main St.”)
+    // The customer’s shipping street address (e.g., “123 Main St.”)
     Address                     Optional[string]       `json:"address"`
-    // Second line of the customer’s shipping address i.e. “Apt. 100”
+    // Second line of the customer’s shipping address e.g., “Apt. 100”
     Address2                    Optional[string]       `json:"address_2"`
-    // The customer’s shipping address city (i.e. “Boston”)
+    // The customer’s shipping address city (e.g., “Boston”)
     City                        Optional[string]       `json:"city"`
-    // The customer’s shipping address state (i.e. “MA”)
+    // The customer’s shipping address state (e.g., “MA”)
     State                       Optional[string]       `json:"state"`
     // The customer's full name of state
     StateName                   Optional[string]       `json:"state_name"`
-    // The customer’s shipping address zip code (i.e. “12345”)
+    // The customer’s shipping address zip code (e.g., “12345”)
     Zip                         Optional[string]       `json:"zip"`
     // The customer shipping address country
     Country                     Optional[string]       `json:"country"`
@@ -57,6 +57,8 @@ type Customer struct {
     PortalInviteLastAcceptedAt  Optional[time.Time]    `json:"portal_invite_last_accepted_at"`
     // The tax exempt status for the customer. Acceptable values are true or 1 for true and false or 0 for false.
     TaxExempt                   *bool                  `json:"tax_exempt,omitempty"`
+    // Whether surcharging is enabled for the customer. Only included on sites where surcharging control is enabled.
+    Surcharging                 *bool                  `json:"surcharging,omitempty"`
     // The VAT business identification number for the customer. This number is used to determine VAT tax opt out rules. It is not validated when added or updated on a customer record. Instead, it is validated via VIES before calculating taxes. Only valid business identification numbers will allow for VAT opt out.
     VatNumber                   Optional[string]       `json:"vat_number"`
     // The parent ID in Chargify if applicable. Parent is another Customer object.
@@ -72,6 +74,8 @@ type Customer struct {
     DefaultAutoRenewalProfileId Optional[int]          `json:"default_auto_renewal_profile_id"`
     // The Maxio-generated unique identifier for the customer.
     Maxioid                     Optional[string]       `json:"maxioid"`
+    // The ID of the Branding Theme assigned to this customer as the customer's default Branding Theme. This customer-level Branding Theme is used when a subscription does not have its own subscription-level Branding Theme.  Available only when Branding Themes are enabled for the site.
+    BrandingThemeId             Optional[int]          `json:"branding_theme_id"`
     AdditionalProperties        map[string]interface{} `json:"_"`
 }
 
@@ -79,8 +83,8 @@ type Customer struct {
 // providing a human-readable string representation useful for logging, debugging or displaying information.
 func (c Customer) String() string {
     return fmt.Sprintf(
-    	"Customer[FirstName=%v, LastName=%v, Email=%v, CcEmails=%v, Organization=%v, Reference=%v, Id=%v, CreatedAt=%v, UpdatedAt=%v, Address=%v, Address2=%v, City=%v, State=%v, StateName=%v, Zip=%v, Country=%v, CountryName=%v, Phone=%v, Verified=%v, PortalCustomerCreatedAt=%v, PortalInviteLastSentAt=%v, PortalInviteLastAcceptedAt=%v, TaxExempt=%v, VatNumber=%v, ParentId=%v, Locale=%v, DefaultSubscriptionGroupUid=%v, SalesforceId=%v, TaxExemptReason=%v, DefaultAutoRenewalProfileId=%v, Maxioid=%v, AdditionalProperties=%v]",
-    	c.FirstName, c.LastName, c.Email, c.CcEmails, c.Organization, c.Reference, c.Id, c.CreatedAt, c.UpdatedAt, c.Address, c.Address2, c.City, c.State, c.StateName, c.Zip, c.Country, c.CountryName, c.Phone, c.Verified, c.PortalCustomerCreatedAt, c.PortalInviteLastSentAt, c.PortalInviteLastAcceptedAt, c.TaxExempt, c.VatNumber, c.ParentId, c.Locale, c.DefaultSubscriptionGroupUid, c.SalesforceId, c.TaxExemptReason, c.DefaultAutoRenewalProfileId, c.Maxioid, c.AdditionalProperties)
+    	"Customer[FirstName=%v, LastName=%v, Email=%v, CcEmails=%v, Organization=%v, Reference=%v, Id=%v, CreatedAt=%v, UpdatedAt=%v, Address=%v, Address2=%v, City=%v, State=%v, StateName=%v, Zip=%v, Country=%v, CountryName=%v, Phone=%v, Verified=%v, PortalCustomerCreatedAt=%v, PortalInviteLastSentAt=%v, PortalInviteLastAcceptedAt=%v, TaxExempt=%v, Surcharging=%v, VatNumber=%v, ParentId=%v, Locale=%v, DefaultSubscriptionGroupUid=%v, SalesforceId=%v, TaxExemptReason=%v, DefaultAutoRenewalProfileId=%v, Maxioid=%v, BrandingThemeId=%v, AdditionalProperties=%v]",
+    	c.FirstName, c.LastName, c.Email, c.CcEmails, c.Organization, c.Reference, c.Id, c.CreatedAt, c.UpdatedAt, c.Address, c.Address2, c.City, c.State, c.StateName, c.Zip, c.Country, c.CountryName, c.Phone, c.Verified, c.PortalCustomerCreatedAt, c.PortalInviteLastSentAt, c.PortalInviteLastAcceptedAt, c.TaxExempt, c.Surcharging, c.VatNumber, c.ParentId, c.Locale, c.DefaultSubscriptionGroupUid, c.SalesforceId, c.TaxExemptReason, c.DefaultAutoRenewalProfileId, c.Maxioid, c.BrandingThemeId, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for Customer.
@@ -89,7 +93,7 @@ func (c Customer) MarshalJSON() (
     []byte,
     error) {
     if err := DetectConflictingProperties(c.AdditionalProperties,
-        "first_name", "last_name", "email", "cc_emails", "organization", "reference", "id", "created_at", "updated_at", "address", "address_2", "city", "state", "state_name", "zip", "country", "country_name", "phone", "verified", "portal_customer_created_at", "portal_invite_last_sent_at", "portal_invite_last_accepted_at", "tax_exempt", "vat_number", "parent_id", "locale", "default_subscription_group_uid", "salesforce_id", "tax_exempt_reason", "default_auto_renewal_profile_id", "maxioid"); err != nil {
+        "first_name", "last_name", "email", "cc_emails", "organization", "reference", "id", "created_at", "updated_at", "address", "address_2", "city", "state", "state_name", "zip", "country", "country_name", "phone", "verified", "portal_customer_created_at", "portal_invite_last_sent_at", "portal_invite_last_accepted_at", "tax_exempt", "surcharging", "vat_number", "parent_id", "locale", "default_subscription_group_uid", "salesforce_id", "tax_exempt_reason", "default_auto_renewal_profile_id", "maxioid", "branding_theme_id"); err != nil {
         return []byte{}, err
     }
     return json.Marshal(c.toMap())
@@ -247,6 +251,9 @@ func (c Customer) toMap() map[string]any {
     if c.TaxExempt != nil {
         structMap["tax_exempt"] = c.TaxExempt
     }
+    if c.Surcharging != nil {
+        structMap["surcharging"] = c.Surcharging
+    }
     if c.VatNumber.IsValueSet() {
         if c.VatNumber.Value() != nil {
             structMap["vat_number"] = c.VatNumber.Value()
@@ -303,6 +310,13 @@ func (c Customer) toMap() map[string]any {
             structMap["maxioid"] = nil
         }
     }
+    if c.BrandingThemeId.IsValueSet() {
+        if c.BrandingThemeId.Value() != nil {
+            structMap["branding_theme_id"] = c.BrandingThemeId.Value()
+        } else {
+            structMap["branding_theme_id"] = nil
+        }
+    }
     return structMap
 }
 
@@ -314,7 +328,7 @@ func (c *Customer) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "first_name", "last_name", "email", "cc_emails", "organization", "reference", "id", "created_at", "updated_at", "address", "address_2", "city", "state", "state_name", "zip", "country", "country_name", "phone", "verified", "portal_customer_created_at", "portal_invite_last_sent_at", "portal_invite_last_accepted_at", "tax_exempt", "vat_number", "parent_id", "locale", "default_subscription_group_uid", "salesforce_id", "tax_exempt_reason", "default_auto_renewal_profile_id", "maxioid")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "first_name", "last_name", "email", "cc_emails", "organization", "reference", "id", "created_at", "updated_at", "address", "address_2", "city", "state", "state_name", "zip", "country", "country_name", "phone", "verified", "portal_customer_created_at", "portal_invite_last_sent_at", "portal_invite_last_accepted_at", "tax_exempt", "surcharging", "vat_number", "parent_id", "locale", "default_subscription_group_uid", "salesforce_id", "tax_exempt_reason", "default_auto_renewal_profile_id", "maxioid", "branding_theme_id")
     if err != nil {
     	return err
     }
@@ -376,6 +390,7 @@ func (c *Customer) UnmarshalJSON(input []byte) error {
         c.PortalInviteLastAcceptedAt.SetValue(&PortalInviteLastAcceptedAtVal)
     }
     c.TaxExempt = temp.TaxExempt
+    c.Surcharging = temp.Surcharging
     c.VatNumber = temp.VatNumber
     c.ParentId = temp.ParentId
     c.Locale = temp.Locale
@@ -384,6 +399,7 @@ func (c *Customer) UnmarshalJSON(input []byte) error {
     c.TaxExemptReason = temp.TaxExemptReason
     c.DefaultAutoRenewalProfileId = temp.DefaultAutoRenewalProfileId
     c.Maxioid = temp.Maxioid
+    c.BrandingThemeId = temp.BrandingThemeId
     return nil
 }
 
@@ -412,6 +428,7 @@ type tempCustomer  struct {
     PortalInviteLastSentAt      Optional[string] `json:"portal_invite_last_sent_at"`
     PortalInviteLastAcceptedAt  Optional[string] `json:"portal_invite_last_accepted_at"`
     TaxExempt                   *bool            `json:"tax_exempt,omitempty"`
+    Surcharging                 *bool            `json:"surcharging,omitempty"`
     VatNumber                   Optional[string] `json:"vat_number"`
     ParentId                    Optional[int]    `json:"parent_id"`
     Locale                      Optional[string] `json:"locale"`
@@ -420,4 +437,5 @@ type tempCustomer  struct {
     TaxExemptReason             Optional[string] `json:"tax_exempt_reason"`
     DefaultAutoRenewalProfileId Optional[int]    `json:"default_auto_renewal_profile_id"`
     Maxioid                     Optional[string] `json:"maxioid"`
+    BrandingThemeId             Optional[int]    `json:"branding_theme_id"`
 }

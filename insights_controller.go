@@ -80,7 +80,7 @@ func (i *InsightsController) ReadMrr(
 
 // ListMrrMovementsInput represents the input of the ListMrrMovements endpoint.
 type ListMrrMovementsInput struct {
-    // optionally filter results by subscription
+    // (Optional) Filter results by subscription.
     SubscriptionId *int                     
     // Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.
     // Use in query `page=1`.
@@ -161,7 +161,7 @@ type ListMrrPerSubscriptionInput struct {
 // returns an models.ApiResponse with models.SubscriptionMRRResponse data and
 // an error if there was an issue with the request or response.
 // Deprecated: listMrrPerSubscription is deprecated
-// This endpoint returns your site's current MRR, including plan and usage breakouts split per subscription.
+// Lists your site's current MRR, including plan and usage breakouts split per subscription.
 func (i *InsightsController) ListMrrPerSubscription(
     ctx context.Context,
     input ListMrrPerSubscriptionInput) (

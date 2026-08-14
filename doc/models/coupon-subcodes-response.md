@@ -13,23 +13,29 @@
 | `DuplicateCodes` | `[]string` | Optional | - |
 | `InvalidCodes` | `[]string` | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "created_codes": [
-    "created_codes1",
-    "created_codes2"
-  ],
-  "duplicate_codes": [
-    "duplicate_codes8",
-    "duplicate_codes7"
-  ],
-  "invalid_codes": [
-    "invalid_codes0",
-    "invalid_codes9",
-    "invalid_codes8"
-  ]
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    couponSubcodesResponse := models.CouponSubcodesResponse{
+        CreatedCodes:         []string{
+            "created_codes7",
+        },
+        DuplicateCodes:       []string{
+            "duplicate_codes8",
+        },
+        InvalidCodes:         []string{
+            "invalid_codes4",
+            "invalid_codes3",
+        },
+    }
+
 }
 ```
 

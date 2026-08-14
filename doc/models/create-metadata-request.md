@@ -11,16 +11,25 @@
 |  --- | --- | --- | --- |
 | `Metadata` | [`[]models.CreateMetadata`](../../doc/models/create-metadata.md) | Required | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "metadata": [
-    {
-      "name": "name6",
-      "value": "value8"
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    createMetadataRequest := models.CreateMetadataRequest{
+        Metadata:             []models.CreateMetadata{
+            models.CreateMetadata{
+                Name:                 models.ToPointer("name6"),
+                Value:                models.ToPointer("value8"),
+            },
+        },
     }
-  ]
+
 }
 ```
 

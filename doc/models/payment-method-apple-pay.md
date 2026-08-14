@@ -11,11 +11,20 @@
 |  --- | --- | --- | --- |
 | `Type` | [`models.InvoiceEventPaymentMethod`](../../doc/models/invoice-event-payment-method.md) | Required | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "type": "apple_pay"
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    paymentMethodApplePay := models.PaymentMethodApplePay{
+        Type:                 models.InvoiceEventPaymentMethod_APPLEPAY,
+    }
+
 }
 ```
 

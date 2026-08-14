@@ -23,15 +23,33 @@
 | `PeriodType` | `*string` | Optional | - |
 | `ExistingBalanceInCents` | `*int64` | Optional | An integer representing the amount of the subscription's current balance |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "start_date": "2016-03-13T12:52:32.123Z",
-  "end_date": "2016-03-13T12:52:32.123Z",
-  "subtotal_in_cents": 4,
-  "total_tax_in_cents": 128,
-  "total_discount_in_cents": 122
+```go
+package main
+
+import (
+    "log"
+    "time"
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    parseTime := func(layout, value string, errCallback func(error)) time.Time {
+        dateTime, err := time.Parse(layout, value)
+        if err != nil {
+            errCallback(err) 
+       }
+        return dateTime
+    }
+    allocationPreview := models.AllocationPreview{
+        StartDate:              models.ToPointer(parseTime(time.RFC3339, "2016-03-13T12:52:32.123Z", func(err error) { log.Fatalln(err) })),
+        EndDate:                models.ToPointer(parseTime(time.RFC3339, "2016-03-13T12:52:32.123Z", func(err error) { log.Fatalln(err) })),
+        SubtotalInCents:        models.ToPointer(int64(140)),
+        TotalTaxInCents:        models.ToPointer(int64(8)),
+        TotalDiscountInCents:   models.ToPointer(int64(242)),
+    }
+
 }
 ```
 

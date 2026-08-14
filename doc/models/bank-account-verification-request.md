@@ -11,14 +11,23 @@
 |  --- | --- | --- | --- |
 | `BankAccountVerification` | [`models.BankAccountVerification`](../../doc/models/bank-account-verification.md) | Required | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "bank_account_verification": {
-    "deposit_1_in_cents": 244,
-    "deposit_2_in_cents": 6
-  }
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    bankAccountVerificationRequest := models.BankAccountVerificationRequest{
+        BankAccountVerification: models.BankAccountVerification{
+            Deposit1InCents:      models.ToPointer(int64(244)),
+            Deposit2InCents:      models.ToPointer(int64(6)),
+        },
+    }
+
 }
 ```
 

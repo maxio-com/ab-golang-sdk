@@ -21,15 +21,24 @@
 | `TotalUnpaidSubscriptions` | `*int` | Optional | - |
 | `TotalDunningSubscriptions` | `*int` | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "total_subscriptions": 204,
-  "subscriptions_today": 134,
-  "total_revenue": "total_revenue6",
-  "revenue_today": "revenue_today4",
-  "revenue_this_month": "revenue_this_month4"
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    siteStatistics := models.SiteStatistics{
+        TotalSubscriptions:         models.ToPointer(168),
+        SubscriptionsToday:         models.ToPointer(170),
+        TotalRevenue:               models.ToPointer("total_revenue2"),
+        RevenueToday:               models.ToPointer("revenue_today0"),
+        RevenueThisMonth:           models.ToPointer("revenue_this_month0"),
+    }
+
 }
 ```
 

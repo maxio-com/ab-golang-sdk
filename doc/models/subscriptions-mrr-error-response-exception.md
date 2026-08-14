@@ -11,15 +11,16 @@
 |  --- | --- | --- | --- |
 | `Errors` | [`models.AttributeError`](../../doc/models/attribute-error.md) | Required | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "errors": {
-    "attribute": [
-      "supplied value is invalid, expected ISO 8601 format"
-    ]
-  }
+```go
+if err != nil {
+    switch typedErr := err.(type) {
+    case *errors.SubscriptionsMrrErrorResponseException:
+        log.Fatalln(typedErr)
+    default:
+        log.Fatalln(err)
+    }
 }
 ```
 

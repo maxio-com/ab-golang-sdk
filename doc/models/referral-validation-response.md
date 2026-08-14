@@ -11,16 +11,25 @@
 |  --- | --- | --- | --- |
 | `ReferralCode` | [`*models.ReferralCode`](../../doc/models/referral-code.md) | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "referral_code": {
-    "id": 46,
-    "site_id": 228,
-    "subscription_id": 156,
-    "code": "code0"
-  }
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    referralValidationResponse := models.ReferralValidationResponse{
+        ReferralCode:         models.ToPointer(models.ReferralCode{
+            Id:                   models.ToPointer(46),
+            SiteId:               models.ToPointer(228),
+            SubscriptionId:       models.ToPointer(156),
+            Code:                 models.ToPointer("code0"),
+        }),
+    }
+
 }
 ```
 

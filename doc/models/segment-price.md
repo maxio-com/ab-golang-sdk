@@ -18,15 +18,24 @@
 | `FormattedUnitPrice` | `*string` | Optional | - |
 | `SegmentId` | `*int` | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "id": 220,
-  "component_id": 74,
-  "starting_quantity": 118,
-  "ending_quantity": 92,
-  "unit_price": "unit_price0"
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    segmentPrice := models.SegmentPrice{
+        Id:                   models.ToPointer(194),
+        ComponentId:          models.ToPointer(48),
+        StartingQuantity:     models.ToPointer(144),
+        EndingQuantity:       models.NewOptional(models.ToPointer(118)),
+        UnitPrice:            models.ToPointer("unit_price0"),
+    }
+
 }
 ```
 

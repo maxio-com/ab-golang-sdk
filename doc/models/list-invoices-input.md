@@ -20,13 +20,13 @@ Input structure for the method ListInvoices
 | `Page` | `*int` | Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br><br>**Default**: `1`<br><br>**Constraints**: `>= 1` |
 | `PerPage` | `*int` | Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`.<br><br>**Default**: `20`<br><br>**Constraints**: `<= 200` |
 | `Direction` | [`*models.Direction`](../../doc/models/direction.md) | Optional | The sort direction of the returned invoices.<br><br>**Default**: `"desc"` |
-| `LineItems` | `*bool` | Optional | Include line items data<br><br>**Default**: `false` |
-| `Discounts` | `*bool` | Optional | Include discounts data<br><br>**Default**: `false` |
-| `Taxes` | `*bool` | Optional | Include taxes data<br><br>**Default**: `false` |
-| `Credits` | `*bool` | Optional | Include credits data<br><br>**Default**: `false` |
-| `Payments` | `*bool` | Optional | Include payments data<br><br>**Default**: `false` |
-| `CustomFields` | `*bool` | Optional | Include custom fields data<br><br>**Default**: `false` |
-| `Refunds` | `*bool` | Optional | Include refunds data<br><br>**Default**: `false` |
+| `LineItems` | `*bool` | Optional | Include line items data.<br><br>**Default**: `false` |
+| `Discounts` | `*bool` | Optional | Include discounts data.<br><br>**Default**: `false` |
+| `Taxes` | `*bool` | Optional | Include taxes data.<br><br>**Default**: `false` |
+| `Credits` | `*bool` | Optional | Include credits data.<br><br>**Default**: `false` |
+| `Payments` | `*bool` | Optional | Include payments data.<br><br>**Default**: `false` |
+| `CustomFields` | `*bool` | Optional | Include custom fields data.<br><br>**Default**: `false` |
+| `Refunds` | `*bool` | Optional | Include refunds data.<br><br>**Default**: `false` |
 | `DateField` | [`*models.InvoiceDateField`](../../doc/models/invoice-date-field.md) | Optional | The type of filter you would like to apply to your search. Use in query `date_field=issue_date`.<br><br>**Default**: `"due_date"` |
 | `StartDatetime` | `*string` | Optional | The start date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns invoices with a timestamp at or after exact time provided in query. You can specify timezone in query - otherwise your site's time zone will be used. If provided, this parameter will be used instead of start_date. Allowed to be used only along with date_field set to created_at or updated_at. |
 | `EndDatetime` | `*string` | Optional | The end date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns invoices with a timestamp at or before exact time provided in query. You can specify timezone in query - otherwise your site's time zone will be used. If provided, this parameter will be used instead of end_date. Allowed to be used only along with date_field set to created_at or updated_at. |

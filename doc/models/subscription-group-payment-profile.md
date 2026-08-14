@@ -14,14 +14,23 @@
 | `LastName` | `*string` | Optional | - |
 | `MaskedCardNumber` | `*string` | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "id": 22,
-  "first_name": "first_name4",
-  "last_name": "last_name2",
-  "masked_card_number": "masked_card_number2"
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    subscriptionGroupPaymentProfile := models.SubscriptionGroupPaymentProfile{
+        Id:                   models.ToPointer(246),
+        FirstName:            models.ToPointer("first_name6"),
+        LastName:             models.ToPointer("last_name4"),
+        MaskedCardNumber:     models.ToPointer("masked_card_number4"),
+    }
+
 }
 ```
 

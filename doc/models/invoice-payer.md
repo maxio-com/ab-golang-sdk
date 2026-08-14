@@ -16,15 +16,24 @@
 | `Email` | `*string` | Optional | - |
 | `VatNumber` | `models.Optional[string]` | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "chargify_id": 46,
-  "first_name": "first_name4",
-  "last_name": "last_name2",
-  "organization": "organization8",
-  "email": "email2"
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    invoicePayer := models.InvoicePayer{
+        ChargifyId:           models.ToPointer(198),
+        FirstName:            models.ToPointer("first_name2"),
+        LastName:             models.ToPointer("last_name0"),
+        Organization:         models.NewOptional(models.ToPointer("organization4")),
+        Email:                models.ToPointer("email4"),
+    }
+
 }
 ```
 

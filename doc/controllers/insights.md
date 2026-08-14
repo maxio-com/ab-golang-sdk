@@ -103,8 +103,8 @@ This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `atTime` | `*time.Time` | Query, Optional | submit a timestamp in ISO8601 format to request MRR for a historic time |
-| `subscriptionId` | `*int` | Query, Optional | submit the id of a subscription in order to limit results |
+| `atTime` | `*time.Time` | Query, Optional | submit a timestamp in ISO8601 format to request MRR for a historic time. |
+| `subscriptionId` | `*int` | Query, Optional | submit the id of a subscription in order to limit results. |
 
 ## Response Type
 
@@ -278,7 +278,7 @@ if err != nil {
 
 **This endpoint is deprecated.**
 
-This endpoint returns your site's current MRR, including plan and usage breakouts split per subscription.
+Lists your site's current MRR, including plan and usage breakouts split per subscription.
 
 ```go
 ListMrrPerSubscription(

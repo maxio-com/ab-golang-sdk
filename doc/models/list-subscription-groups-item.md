@@ -21,17 +21,27 @@
 | `AccountBalances` | [`*models.SubscriptionGroupBalances`](../../doc/models/subscription-group-balances.md) | Optional | - |
 | `GroupType` | [`*models.GroupType`](../../doc/models/group-type.md) | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "uid": "uid0",
-  "scheme": 124,
-  "customer_id": 144,
-  "payment_profile_id": 52,
-  "subscription_ids": [
-    254
-  ]
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    listSubscriptionGroupsItem := models.ListSubscriptionGroupsItem{
+        Uid:                   models.ToPointer("uid0"),
+        Scheme:                models.ToPointer(228),
+        CustomerId:            models.ToPointer(248),
+        PaymentProfileId:      models.ToPointer(100),
+        SubscriptionIds:       []int{
+            102,
+            103,
+        },
+    }
+
 }
 ```
 

@@ -10,22 +10,31 @@
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `PreviousUnitBalance` | `string` | Required | **Constraints**: *Minimum Length*: `1` |
-| `NewUnitBalance` | `int` | Required | - |
+| `NewUnitBalance` | [`models.MeteredUsageNewUnitBalance`](../../doc/models/containers/metered-usage-new-unit-balance.md) | Required | This is a container for one-of cases. |
 | `UsageQuantity` | `int` | Required | - |
 | `ComponentId` | `int` | Required | - |
 | `ComponentHandle` | `string` | Required | - |
 | `Memo` | `string` | Required | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "previous_unit_balance": "previous_unit_balance6",
-  "new_unit_balance": 80,
-  "usage_quantity": 42,
-  "component_id": 4,
-  "component_handle": "component_handle8",
-  "memo": "memo2"
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    meteredUsage := models.MeteredUsage{
+        PreviousUnitBalance:  "previous_unit_balance6",
+        NewUnitBalance:       models.MeteredUsageNewUnitBalanceContainer.FromNumber(66),
+        UsageQuantity:        106,
+        ComponentId:          68,
+        ComponentHandle:      "component_handle0",
+        Memo:                 "memo4",
+    }
+
 }
 ```
 

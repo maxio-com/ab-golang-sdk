@@ -11,30 +11,27 @@
 |  --- | --- | --- | --- |
 | `CurrencyPrices` | [`[]models.CouponCurrency`](../../doc/models/coupon-currency.md) | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "currency_prices": [
-    {
-      "id": 50,
-      "currency": "currency8",
-      "price": 233.74,
-      "coupon_id": 224
-    },
-    {
-      "id": 50,
-      "currency": "currency8",
-      "price": 233.74,
-      "coupon_id": 224
-    },
-    {
-      "id": 50,
-      "currency": "currency8",
-      "price": 233.74,
-      "coupon_id": 224
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    couponCurrencyResponse := models.CouponCurrencyResponse{
+        CurrencyPrices:       []models.CouponCurrency{
+            models.CouponCurrency{
+                Id:                   models.NewOptional(models.ToPointer(50)),
+                Currency:             models.ToPointer("currency8"),
+                Price:                models.NewOptional(models.ToPointer(float64(233.74))),
+                CouponId:             models.ToPointer(224),
+            },
+        },
     }
-  ]
+
 }
 ```
 

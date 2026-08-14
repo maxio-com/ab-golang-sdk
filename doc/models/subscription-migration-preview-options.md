@@ -20,16 +20,25 @@
 | `Proration` | [`*models.Proration`](../../doc/models/proration.md) | Optional | - |
 | `ProrationDate` | `*time.Time` | Optional | The date that the proration is calculated from for the preview |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "include_trial": false,
-  "include_initial_charge": false,
-  "include_coupons": true,
-  "preserve_period": false,
-  "product_id": 242,
-  "product_price_point_id": 166
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    subscriptionMigrationPreviewOptions := models.SubscriptionMigrationPreviewOptions{
+        ProductId:               models.ToPointer(70),
+        ProductPricePointId:     models.ToPointer(250),
+        IncludeTrial:            models.ToPointer(false),
+        IncludeInitialCharge:    models.ToPointer(false),
+        IncludeCoupons:          models.ToPointer(true),
+        PreservePeriod:          models.ToPointer(false),
+    }
+
 }
 ```
 

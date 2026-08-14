@@ -20,3 +20,18 @@
 | `BACKPORT` |
 | `BACKPORTBALANCERECONCILIATION` |
 
+## Example
+
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    invoiceRole := models.InvoiceRole_RENEWAL
+
+}
+```
+

@@ -11,17 +11,35 @@
 |  --- | --- | --- | --- |
 | `RenewalPreview` | [`models.RenewalPreview`](../../doc/models/renewal-preview.md) | Required | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "renewal_preview": {
-    "next_assessment_at": "2016-03-13T12:52:32.123Z",
-    "subtotal_in_cents": 132,
-    "total_tax_in_cents": 0,
-    "total_discount_in_cents": 250,
-    "total_in_cents": 20
-  }
+```go
+package main
+
+import (
+    "log"
+    "time"
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    parseTime := func(layout, value string, errCallback func(error)) time.Time {
+        dateTime, err := time.Parse(layout, value)
+        if err != nil {
+            errCallback(err) 
+       }
+        return dateTime
+    }
+    renewalPreviewResponse := models.RenewalPreviewResponse{
+        RenewalPreview:       models.RenewalPreview{
+            NextAssessmentAt:       models.ToPointer(parseTime(time.RFC3339, "2016-03-13T12:52:32.123Z", func(err error) { log.Fatalln(err) })),
+            SubtotalInCents:        models.ToPointer(int64(132)),
+            TotalTaxInCents:        models.ToPointer(int64(0)),
+            TotalDiscountInCents:   models.ToPointer(int64(250)),
+            TotalInCents:           models.ToPointer(int64(20)),
+        },
+    }
+
 }
 ```
 

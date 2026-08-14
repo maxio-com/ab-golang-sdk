@@ -11,17 +11,17 @@ import (
 
 // PrepaidUsage represents a PrepaidUsage struct.
 type PrepaidUsage struct {
-    PreviousUnitBalance        string                         `json:"previous_unit_balance"`
-    PreviousOverageUnitBalance string                         `json:"previous_overage_unit_balance"`
-    NewUnitBalance             int                            `json:"new_unit_balance"`
-    NewOverageUnitBalance      int                            `json:"new_overage_unit_balance"`
-    UsageQuantity              int                            `json:"usage_quantity"`
-    OverageUsageQuantity       int                            `json:"overage_usage_quantity"`
-    ComponentId                int                            `json:"component_id"`
-    ComponentHandle            string                         `json:"component_handle"`
-    Memo                       string                         `json:"memo"`
-    AllocationDetails          []PrepaidUsageAllocationDetail `json:"allocation_details"`
-    AdditionalProperties       map[string]interface{}         `json:"_"`
+    PreviousUnitBalance        string                            `json:"previous_unit_balance"`
+    PreviousOverageUnitBalance string                            `json:"previous_overage_unit_balance"`
+    NewUnitBalance             PrepaidUsageNewUnitBalance        `json:"new_unit_balance"`
+    NewOverageUnitBalance      PrepaidUsageNewOverageUnitBalance `json:"new_overage_unit_balance"`
+    UsageQuantity              int                               `json:"usage_quantity"`
+    OverageUsageQuantity       int                               `json:"overage_usage_quantity"`
+    ComponentId                int                               `json:"component_id"`
+    ComponentHandle            string                            `json:"component_handle"`
+    Memo                       string                            `json:"memo"`
+    AllocationDetails          []PrepaidUsageAllocationDetail    `json:"allocation_details"`
+    AdditionalProperties       map[string]interface{}            `json:"_"`
 }
 
 // String implements the fmt.Stringer interface for PrepaidUsage,
@@ -50,8 +50,8 @@ func (p PrepaidUsage) toMap() map[string]any {
     MergeAdditionalProperties(structMap, p.AdditionalProperties)
     structMap["previous_unit_balance"] = p.PreviousUnitBalance
     structMap["previous_overage_unit_balance"] = p.PreviousOverageUnitBalance
-    structMap["new_unit_balance"] = p.NewUnitBalance
-    structMap["new_overage_unit_balance"] = p.NewOverageUnitBalance
+    structMap["new_unit_balance"] = p.NewUnitBalance.toMap()
+    structMap["new_overage_unit_balance"] = p.NewOverageUnitBalance.toMap()
     structMap["usage_quantity"] = p.UsageQuantity
     structMap["overage_usage_quantity"] = p.OverageUsageQuantity
     structMap["component_id"] = p.ComponentId
@@ -94,16 +94,16 @@ func (p *PrepaidUsage) UnmarshalJSON(input []byte) error {
 
 // tempPrepaidUsage is a temporary struct used for validating the fields of PrepaidUsage.
 type tempPrepaidUsage  struct {
-    PreviousUnitBalance        *string                         `json:"previous_unit_balance"`
-    PreviousOverageUnitBalance *string                         `json:"previous_overage_unit_balance"`
-    NewUnitBalance             *int                            `json:"new_unit_balance"`
-    NewOverageUnitBalance      *int                            `json:"new_overage_unit_balance"`
-    UsageQuantity              *int                            `json:"usage_quantity"`
-    OverageUsageQuantity       *int                            `json:"overage_usage_quantity"`
-    ComponentId                *int                            `json:"component_id"`
-    ComponentHandle            *string                         `json:"component_handle"`
-    Memo                       *string                         `json:"memo"`
-    AllocationDetails          *[]PrepaidUsageAllocationDetail `json:"allocation_details"`
+    PreviousUnitBalance        *string                            `json:"previous_unit_balance"`
+    PreviousOverageUnitBalance *string                            `json:"previous_overage_unit_balance"`
+    NewUnitBalance             *PrepaidUsageNewUnitBalance        `json:"new_unit_balance"`
+    NewOverageUnitBalance      *PrepaidUsageNewOverageUnitBalance `json:"new_overage_unit_balance"`
+    UsageQuantity              *int                               `json:"usage_quantity"`
+    OverageUsageQuantity       *int                               `json:"overage_usage_quantity"`
+    ComponentId                *int                               `json:"component_id"`
+    ComponentHandle            *string                            `json:"component_handle"`
+    Memo                       *string                            `json:"memo"`
+    AllocationDetails          *[]PrepaidUsageAllocationDetail    `json:"allocation_details"`
 }
 
 func (p *tempPrepaidUsage) validate() error {

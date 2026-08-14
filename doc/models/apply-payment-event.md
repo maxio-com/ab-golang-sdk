@@ -15,39 +15,57 @@
 | `EventType` | [`models.InvoiceEventType`](../../doc/models/invoice-event-type.md) | Required | **Default**: `"apply_payment"` |
 | `EventData` | [`models.ApplyPaymentEventData`](../../doc/models/apply-payment-event-data.md) | Required | Example schema for an `apply_payment` event |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "id": 234,
-  "timestamp": "2016-03-13T12:52:32.123Z",
-  "invoice": {
-    "issue_date": "2024-01-01",
-    "due_date": "2024-01-01",
-    "paid_date": "2024-01-01",
-    "public_url_expires_on": "2024-01-21",
-    "id": 166,
-    "uid": "uid6",
-    "site_id": 92,
-    "customer_id": 204,
-    "subscription_id": 20
-  },
-  "event_type": "apply_payment",
-  "event_data": {
-    "consolidation_level": "child",
-    "memo": "memo0",
-    "original_amount": "original_amount0",
-    "applied_amount": "applied_amount2",
-    "transaction_time": "2016-03-13T12:52:32.123Z",
-    "payment_method": {
-      "type": "apple_pay"
-    },
-    "transaction_id": 78,
-    "parent_invoice_number": 36,
-    "remaining_prepayment_amount": "remaining_prepayment_amount6",
-    "prepayment": false,
-    "external": false
-  }
+```go
+package main
+
+import (
+    "log"
+    "time"
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    parseTime := func(layout, value string, errCallback func(error)) time.Time {
+        dateTime, err := time.Parse(layout, value)
+        if err != nil {
+            errCallback(err) 
+       }
+        return dateTime
+    }
+    applyPaymentEvent := models.ApplyPaymentEvent{
+        Id:                   int64(112),
+        Timestamp:            parseTime(time.RFC3339, "2016-03-13T12:52:32.123Z", func(err error) { log.Fatalln(err) }),
+        Invoice:              models.Invoice{
+            Id:                         models.ToPointer(int64(166)),
+            Uid:                        models.ToPointer("uid6"),
+            SiteId:                     models.ToPointer(92),
+            CustomerId:                 models.ToPointer(204),
+            SubscriptionId:             models.ToPointer(20),
+            IssueDate:                  models.ToPointer(parseTime(models.DEFAULT_DATE, "2024-01-01", func(err error) { log.Fatalln(err) })),
+            DueDate:                    models.ToPointer(parseTime(models.DEFAULT_DATE, "2024-01-01", func(err error) { log.Fatalln(err) })),
+            PaidDate:                   models.NewOptional(models.ToPointer(parseTime(models.DEFAULT_DATE, "2024-01-01", func(err error) { log.Fatalln(err) }))),
+            PublicUrlExpiresOn:         models.ToPointer(parseTime(models.DEFAULT_DATE, "2024-01-21", func(err error) { log.Fatalln(err) })),
+        },
+        EventType:            models.InvoiceEventType_APPLYPAYMENT,
+        EventData:            models.ApplyPaymentEventData{
+            ConsolidationLevel:        models.InvoiceConsolidationLevel_CHILD,
+            Memo:                      "memo0",
+            OriginalAmount:            "original_amount0",
+            AppliedAmount:             "applied_amount2",
+            TransactionTime:           parseTime(time.RFC3339, "2016-03-13T12:52:32.123Z", func(err error) { log.Fatalln(err) }),
+            PaymentMethod:             models.InvoiceEventPaymentContainer.FromPaymentMethodApplePay(models.PaymentMethodApplePay{
+                Type:                 models.InvoiceEventPaymentMethod_APPLEPAY,
+            }),
+            TransactionId:             models.ToPointer(78),
+            ParentInvoiceNumber:       models.NewOptional(models.ToPointer(36)),
+            RemainingPrepaymentAmount: models.NewOptional(models.ToPointer("remaining_prepayment_amount6")),
+            Prepayment:                models.ToPointer(false),
+            External:                  models.ToPointer(false),
+        },
+    }
+
 }
 ```
 

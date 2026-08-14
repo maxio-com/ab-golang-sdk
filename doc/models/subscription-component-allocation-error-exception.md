@@ -11,16 +11,16 @@
 |  --- | --- | --- | --- |
 | `Errors` | [`[]models.SubscriptionComponentAllocationErrorItem`](../../doc/models/subscription-component-allocation-error-item.md) | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "errors": [
-    {
-      "kind": "kind8",
-      "message": "message0"
+```go
+if err != nil {
+    switch typedErr := err.(type) {
+    case *errors.SubscriptionComponentAllocationErrorException:
+        log.Fatalln(typedErr)
+    default:
+        log.Fatalln(err)
     }
-  ]
 }
 ```
 

@@ -9,41 +9,50 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `OpenInvoices` | [`*models.AccountBalance`](../../doc/models/account-balance.md) | Optional | The balance, in cents, of the sum of the subscription's  open, payable invoices. |
-| `PendingInvoices` | [`*models.AccountBalance`](../../doc/models/account-balance.md) | Optional | The balance, in cents, of the sum of the subscription's  pending, payable invoices. |
+| `OpenInvoices` | [`*models.AccountBalance`](../../doc/models/account-balance.md) | Optional | The balance, in cents, of the sum of the subscription's open, payable invoices. |
+| `PendingInvoices` | [`*models.AccountBalance`](../../doc/models/account-balance.md) | Optional | The balance, in cents, of the sum of the subscription's pending, payable invoices. |
 | `PendingDiscounts` | [`*models.AccountBalance`](../../doc/models/account-balance.md) | Optional | The balance, in cents, of the subscription's Pending Discount account. |
 | `ServiceCredits` | [`*models.AccountBalance`](../../doc/models/account-balance.md) | Optional | The balance, in cents, of the subscription's Service Credit account. |
 | `Prepayments` | [`*models.AccountBalance`](../../doc/models/account-balance.md) | Optional | The balance, in cents, of the subscription's Prepayment account. |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "open_invoices": {
-    "balance_in_cents": 40,
-    "automatic_balance_in_cents": 202,
-    "remittance_balance_in_cents": 170
-  },
-  "pending_invoices": {
-    "balance_in_cents": 0,
-    "automatic_balance_in_cents": 242,
-    "remittance_balance_in_cents": 46
-  },
-  "pending_discounts": {
-    "balance_in_cents": 88,
-    "automatic_balance_in_cents": 154,
-    "remittance_balance_in_cents": 134
-  },
-  "service_credits": {
-    "balance_in_cents": 84,
-    "automatic_balance_in_cents": 70,
-    "remittance_balance_in_cents": 38
-  },
-  "prepayments": {
-    "balance_in_cents": 192,
-    "automatic_balance_in_cents": 178,
-    "remittance_balance_in_cents": 146
-  }
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    accountBalances := models.AccountBalances{
+        OpenInvoices:         models.ToPointer(models.AccountBalance{
+            BalanceInCents:           models.ToPointer(int64(40)),
+            AutomaticBalanceInCents:  models.NewOptional(models.ToPointer(int64(202))),
+            RemittanceBalanceInCents: models.NewOptional(models.ToPointer(int64(170))),
+        }),
+        PendingInvoices:      models.ToPointer(models.AccountBalance{
+            BalanceInCents:           models.ToPointer(int64(0)),
+            AutomaticBalanceInCents:  models.NewOptional(models.ToPointer(int64(242))),
+            RemittanceBalanceInCents: models.NewOptional(models.ToPointer(int64(46))),
+        }),
+        PendingDiscounts:     models.ToPointer(models.AccountBalance{
+            BalanceInCents:           models.ToPointer(int64(88)),
+            AutomaticBalanceInCents:  models.NewOptional(models.ToPointer(int64(154))),
+            RemittanceBalanceInCents: models.NewOptional(models.ToPointer(int64(134))),
+        }),
+        ServiceCredits:       models.ToPointer(models.AccountBalance{
+            BalanceInCents:           models.ToPointer(int64(84)),
+            AutomaticBalanceInCents:  models.NewOptional(models.ToPointer(int64(70))),
+            RemittanceBalanceInCents: models.NewOptional(models.ToPointer(int64(38))),
+        }),
+        Prepayments:          models.ToPointer(models.AccountBalance{
+            BalanceInCents:           models.ToPointer(int64(192)),
+            AutomaticBalanceInCents:  models.NewOptional(models.ToPointer(int64(178))),
+            RemittanceBalanceInCents: models.NewOptional(models.ToPointer(int64(146))),
+        }),
+    }
+
 }
 ```
 

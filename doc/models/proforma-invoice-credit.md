@@ -14,14 +14,23 @@
 | `OriginalAmount` | `*string` | Optional | **Constraints**: *Minimum Length*: `1` |
 | `AppliedAmount` | `*string` | Optional | **Constraints**: *Minimum Length*: `1` |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "uid": "uid8",
-  "memo": "memo2",
-  "original_amount": "original_amount2",
-  "applied_amount": "applied_amount0"
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    proformaInvoiceCredit := models.ProformaInvoiceCredit{
+        Uid:                  models.ToPointer("uid4"),
+        Memo:                 models.ToPointer("memo8"),
+        OriginalAmount:       models.ToPointer("original_amount8"),
+        AppliedAmount:        models.ToPointer("applied_amount4"),
+    }
+
 }
 ```
 

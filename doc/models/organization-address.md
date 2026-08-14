@@ -18,15 +18,24 @@
 | `Name` | `models.Optional[string]` | Optional | - |
 | `Phone` | `models.Optional[string]` | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "street": "street4",
-  "line2": "line28",
-  "city": "city4",
-  "state": "state0",
-  "zip": "zip2"
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    organizationAddress := models.OrganizationAddress{
+        Street:               models.NewOptional(models.ToPointer("street2")),
+        Line2:                models.NewOptional(models.ToPointer("line26")),
+        City:                 models.NewOptional(models.ToPointer("city2")),
+        State:                models.NewOptional(models.ToPointer("state8")),
+        Zip:                  models.NewOptional(models.ToPointer("zip6")),
+    }
+
 }
 ```
 

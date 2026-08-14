@@ -11,13 +11,22 @@
 |  --- | --- | --- | --- |
 | `Void` | [`models.VoidInvoice`](../../doc/models/void-invoice.md) | Required | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "void": {
-    "reason": "reason6"
-  }
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    voidInvoiceRequest := models.VoidInvoiceRequest{
+        Void:                 models.VoidInvoice{
+            Reason:               "reason6",
+        },
+    }
+
 }
 ```
 

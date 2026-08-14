@@ -16,3 +16,18 @@
 | `PAYPALACCOUNT` |
 | `OTHER` |
 
+## Example
+
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    subscriptionGroupPrepaymentMethod := models.SubscriptionGroupPrepaymentMethod_CHECK
+
+}
+```
+

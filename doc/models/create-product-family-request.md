@@ -11,15 +11,25 @@
 |  --- | --- | --- | --- |
 | `ProductFamily` | [`models.CreateProductFamily`](../../doc/models/create-product-family.md) | Required | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "product_family": {
-    "name": "name0",
-    "handle": "handle6",
-    "description": "description0"
-  }
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    createProductFamilyRequest := models.CreateProductFamilyRequest{
+        ProductFamily:        models.CreateProductFamily{
+            Name:                 "name0",
+            Handle:               models.NewOptional(models.ToPointer("handle6")),
+            Description:          models.NewOptional(models.ToPointer("description0")),
+            Surcharging:          models.ToPointer(false),
+        },
+    }
+
 }
 ```
 

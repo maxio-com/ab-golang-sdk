@@ -14,14 +14,23 @@
 | `SubscriberDelta` | `*int` | Optional | - |
 | `LeadDelta` | `*int` | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "amount": 210,
-  "category": "category0",
-  "subscriber_delta": 170,
-  "lead_delta": 198
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    mrrMovement := models.MRRMovement{
+        Amount:               models.ToPointer(10),
+        Category:             models.ToPointer("category0"),
+        SubscriberDelta:      models.ToPointer(206),
+        LeadDelta:            models.ToPointer(234),
+    }
+
 }
 ```
 

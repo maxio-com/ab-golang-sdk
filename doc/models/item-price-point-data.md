@@ -13,13 +13,22 @@
 | `Handle` | `*string` | Optional | - |
 | `Name` | `*string` | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "id": 192,
-  "handle": "handle6",
-  "name": "name0"
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    itemPricePointData := models.ItemPricePointData{
+        Id:                   models.ToPointer(80),
+        Handle:               models.ToPointer("handle8"),
+        Name:                 models.ToPointer("name2"),
+    }
+
 }
 ```
 

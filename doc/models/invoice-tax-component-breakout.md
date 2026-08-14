@@ -24,15 +24,24 @@
 | `StateAssignedNo` | `*string` | Optional | - |
 | `TaxSubType` | `*string` | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "tax_rule_id": 226,
-  "percentage": "percentage0",
-  "country_code": "country_code8",
-  "subdivision_code": "subdivision_code6",
-  "tax_amount": "tax_amount4"
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    invoiceTaxComponentBreakout := models.InvoiceTaxComponentBreakout{
+        TaxRuleId:            models.ToPointer(66),
+        Percentage:           models.ToPointer("percentage0"),
+        CountryCode:          models.ToPointer("country_code2"),
+        SubdivisionCode:      models.ToPointer("subdivision_code6"),
+        TaxAmount:            models.ToPointer("tax_amount4"),
+    }
+
 }
 ```
 

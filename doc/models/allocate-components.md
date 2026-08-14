@@ -15,35 +15,52 @@
 | `AccrueCharge` | `*bool` | Optional | - |
 | `UpgradeCharge` | [`models.Optional[models.CreditType]`](../../doc/models/credit-type.md) | Optional | The type of credit to be created when upgrading/downgrading. Defaults to the component and then site setting if one is not provided. |
 | `DowngradeCredit` | [`models.Optional[models.CreditType]`](../../doc/models/credit-type.md) | Optional | The type of credit to be created when upgrading/downgrading. Defaults to the component and then site setting if one is not provided. |
-| `PaymentCollectionMethod` | [`*models.CollectionMethod`](../../doc/models/collection-method.md) | Optional | (Optional) If not passed, the allocation(s) will use the payment collection method on the subscription |
+| `PaymentCollectionMethod` | [`*models.CollectionMethod`](../../doc/models/collection-method.md) | Optional | (Optional) If not passed, the allocation(s) will use the payment collection method on the subscription. |
 | `InitiateDunning` | `*bool` | Optional | If true, if the immediate component payment fails, initiate dunning for the subscription.<br>Otherwise, leave the charges on the subscription to pay for at renewal. |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "proration_upgrade_scheme": "proration_upgrade_scheme2",
-  "proration_downgrade_scheme": "proration_downgrade_scheme0",
-  "allocations": [
-    {
-      "quantity": 26.48,
-      "decimal_quantity": "decimal_quantity8",
-      "previous_quantity": 55.5,
-      "decimal_previous_quantity": "decimal_previous_quantity2",
-      "component_id": 242,
-      "memo": "memo6"
-    },
-    {
-      "quantity": 26.48,
-      "decimal_quantity": "decimal_quantity8",
-      "previous_quantity": 55.5,
-      "decimal_previous_quantity": "decimal_previous_quantity2",
-      "component_id": 242,
-      "memo": "memo6"
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    allocateComponents := models.AllocateComponents{
+        ProrationUpgradeScheme:   models.ToPointer("proration_upgrade_scheme8"),
+        ProrationDowngradeScheme: models.ToPointer("proration_downgrade_scheme6"),
+        Allocations:              []models.CreateAllocation{
+            models.CreateAllocation{
+                Quantity:                 float64(26.48),
+                DecimalQuantity:          models.ToPointer("decimal_quantity8"),
+                PreviousQuantity:         models.ToPointer(float64(55.5)),
+                DecimalPreviousQuantity:  models.ToPointer("decimal_previous_quantity2"),
+                ComponentId:              models.ToPointer(242),
+                Memo:                     models.ToPointer("memo6"),
+            },
+            models.CreateAllocation{
+                Quantity:                 float64(26.48),
+                DecimalQuantity:          models.ToPointer("decimal_quantity8"),
+                PreviousQuantity:         models.ToPointer(float64(55.5)),
+                DecimalPreviousQuantity:  models.ToPointer("decimal_previous_quantity2"),
+                ComponentId:              models.ToPointer(242),
+                Memo:                     models.ToPointer("memo6"),
+            },
+            models.CreateAllocation{
+                Quantity:                 float64(26.48),
+                DecimalQuantity:          models.ToPointer("decimal_quantity8"),
+                PreviousQuantity:         models.ToPointer(float64(55.5)),
+                DecimalPreviousQuantity:  models.ToPointer("decimal_previous_quantity2"),
+                ComponentId:              models.ToPointer(242),
+                Memo:                     models.ToPointer("memo6"),
+            },
+        },
+        AccrueCharge:             models.ToPointer(false),
+        UpgradeCharge:            models.NewOptional(models.ToPointer(models.CreditType_PRORATED)),
     }
-  ],
-  "accrue_charge": false,
-  "upgrade_charge": "full"
+
 }
 ```
 

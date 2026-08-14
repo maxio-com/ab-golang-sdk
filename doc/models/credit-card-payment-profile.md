@@ -12,10 +12,10 @@
 | `Id` | `*int` | Optional | The Chargify-assigned ID of the stored card. This value can be used as an input to payment_profile_id when creating a subscription, in order to re-use a stored payment profile for the same customer. |
 | `FirstName` | `*string` | Optional | The first name of the card holder. |
 | `LastName` | `*string` | Optional | The last name of the card holder. |
-| `MaskedCardNumber` | `*string` | Optional | A string representation of the credit card number with all but the last 4 digits masked with X’s (i.e. ‘XXXX-XXXX-XXXX-1234’). |
-| `CardType` | [`*models.CardType`](../../doc/models/card-type.md) | Optional | The type of card used. |
+| `MaskedCardNumber` | `*string` | Optional | A string representation of the credit card number with all but the last 4 digits masked with X’s (e.g., ‘XXXX-XXXX-XXXX-1234’). |
+| `CardType` | [`models.Optional[models.CardType]`](../../doc/models/card-type.md) | Optional | The type of card used. |
 | `ExpirationMonth` | `*int` | Optional | An integer representing the expiration month of the card(1 – 12). |
-| `ExpirationYear` | `*int` | Optional | An integer representing the 4-digit expiration year of the card(i.e. ‘2012’). |
+| `ExpirationYear` | `*int` | Optional | An integer representing the 4-digit expiration year of the card(e.g., ‘2012’). |
 | `CustomerId` | `*int` | Optional | The Chargify-assigned id for the customer record to which the card belongs. |
 | `CurrentVault` | [`*models.CreditCardVault`](../../doc/models/credit-card-vault.md) | Optional | The vault that stores the payment profile with the provided `vault_token`. Use `bogus` for testing. |
 | `VaultToken` | `models.Optional[string]` | Optional | The “token” provided by your vault storage for an already stored payment profile. |
@@ -28,36 +28,45 @@
 | `BillingAddress2` | `models.Optional[string]` | Optional | The current billing street address, second line, for the card. |
 | `PaymentType` | [`models.PaymentType`](../../doc/models/payment-type.md) | Required | **Default**: `"credit_card"` |
 | `Disabled` | `*bool` | Optional | - |
-| `ChargifyToken` | `*string` | Optional | Token received after sending billing information using Maxio.js (formerly Chargify.js). This token will only be received if passed as a sole attribute of credit_card_attributes (i.e. tok_9g6hw85pnpt6knmskpwp4ttt) |
+| `ChargifyToken` | `*string` | Optional | Token received after sending billing information using Maxio.js (formerly Chargify.js). This token will only be received if passed as a sole attribute of credit_card_attributes (e.g., tok_9g6hw85pnpt6knmskpwp4ttt). |
 | `SiteGatewaySettingId` | `models.Optional[int]` | Optional | - |
 | `GatewayHandle` | `models.Optional[string]` | Optional | An identifier of connected gateway. |
 | `CreatedAt` | `*time.Time` | Optional | A timestamp indicating when this payment profile was created |
 | `UpdatedAt` | `*time.Time` | Optional | A timestamp indicating when this payment profile was last updated |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "id": 10088716,
-  "first_name": "Test",
-  "last_name": "Subscription",
-  "masked_card_number": "XXXX-XXXX-XXXX-1",
-  "card_type": "bogus",
-  "expiration_month": 1,
-  "expiration_year": 2022,
-  "customer_id": 14543792,
-  "current_vault": "bogus",
-  "vault_token": "1",
-  "billing_address": "123 Montana Way",
-  "billing_city": "Billings",
-  "billing_state": "MT",
-  "billing_zip": "59101",
-  "billing_country": "US",
-  "customer_vault_token": null,
-  "billing_address_2": "",
-  "payment_type": "credit_card",
-  "site_gateway_setting_id": 1,
-  "gateway_handle": null
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    creditCardPaymentProfile := models.CreditCardPaymentProfile{
+        Id:                   models.ToPointer(10088716),
+        FirstName:            models.ToPointer("Test"),
+        LastName:             models.ToPointer("Subscription"),
+        MaskedCardNumber:     models.ToPointer("XXXX-XXXX-XXXX-1"),
+        CardType:             models.NewOptional(models.ToPointer(models.CardType_BOGUS)),
+        ExpirationMonth:      models.ToPointer(1),
+        ExpirationYear:       models.ToPointer(2022),
+        CustomerId:           models.ToPointer(14543792),
+        CurrentVault:         models.ToPointer(models.CreditCardVault_BOGUS),
+        VaultToken:           models.NewOptional(models.ToPointer("1")),
+        BillingAddress:       models.NewOptional(models.ToPointer("123 Montana Way")),
+        BillingCity:          models.NewOptional(models.ToPointer("Billings")),
+        BillingState:         models.NewOptional(models.ToPointer("MT")),
+        BillingZip:           models.NewOptional(models.ToPointer("59101")),
+        BillingCountry:       models.NewOptional(models.ToPointer("US")),
+        CustomerVaultToken:   models.NewOptional(models.ToPointer("customer_vault_token2")),
+        BillingAddress2:      models.NewOptional(models.ToPointer("")),
+        PaymentType:          models.PaymentType_CREDITCARD,
+        SiteGatewaySettingId: models.NewOptional(models.ToPointer(1)),
+        GatewayHandle:        models.NewOptional(models.ToPointer("gateway_handle8")),
+    }
+
 }
 ```
 

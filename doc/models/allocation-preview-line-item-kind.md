@@ -16,3 +16,18 @@ A handle for the line item kind for allocation preview
 | `COUPON` |
 | `TAX` |
 
+## Example
+
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    allocationPreviewLineItemKind := models.AllocationPreviewLineItemKind_COUPON
+
+}
+```
+

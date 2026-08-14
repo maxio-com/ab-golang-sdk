@@ -12,22 +12,31 @@
 | `Before` | [`models.InvoicePayerChange`](../../doc/models/invoice-payer-change.md) | Required | - |
 | `After` | [`models.InvoicePayerChange`](../../doc/models/invoice-payer-change.md) | Required | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "before": {
-    "first_name": "first_name0",
-    "last_name": "last_name8",
-    "organization": "organization4",
-    "email": "email6"
-  },
-  "after": {
-    "first_name": "first_name2",
-    "last_name": "last_name0",
-    "organization": "organization4",
-    "email": "email4"
-  }
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    customerPayerChange := models.CustomerPayerChange{
+        Before:               models.InvoicePayerChange{
+            FirstName:            models.ToPointer("first_name0"),
+            LastName:             models.ToPointer("last_name8"),
+            Organization:         models.ToPointer("organization4"),
+            Email:                models.ToPointer("email6"),
+        },
+        After:                models.InvoicePayerChange{
+            FirstName:            models.ToPointer("first_name2"),
+            LastName:             models.ToPointer("last_name0"),
+            Organization:         models.ToPointer("organization4"),
+            Email:                models.ToPointer("email4"),
+        },
+    }
+
 }
 ```
 

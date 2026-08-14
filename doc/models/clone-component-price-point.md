@@ -12,12 +12,21 @@
 | `Name` | `string` | Required | - |
 | `Handle` | `*string` | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "name": "name2",
-  "handle": "handle8"
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    cloneComponentPricePoint := models.CloneComponentPricePoint{
+        Name:                 "name4",
+        Handle:               models.ToPointer("handle0"),
+    }
+
 }
 ```
 

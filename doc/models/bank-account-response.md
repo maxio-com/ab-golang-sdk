@@ -11,19 +11,28 @@
 |  --- | --- | --- | --- |
 | `PaymentProfile` | [`models.BankAccountPaymentProfile`](../../doc/models/bank-account-payment-profile.md) | Required | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "payment_profile": {
-    "payment_type": "bank_account",
-    "verified": false,
-    "id": 44,
-    "first_name": "first_name4",
-    "last_name": "last_name2",
-    "customer_id": 82,
-    "current_vault": "authorizenet"
-  }
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    bankAccountResponse := models.BankAccountResponse{
+        PaymentProfile:       models.BankAccountPaymentProfile{
+            Id:                      models.ToPointer(44),
+            FirstName:               models.ToPointer("first_name4"),
+            LastName:                models.ToPointer("last_name2"),
+            CustomerId:              models.ToPointer(82),
+            CurrentVault:            models.ToPointer(models.BankAccountVault_AUTHORIZENET),
+            PaymentType:             models.PaymentType_BANKACCOUNT,
+            Verified:                models.ToPointer(false),
+        },
+    }
+
 }
 ```
 

@@ -23,12 +23,12 @@ type Invoice struct {
     // A unique, identifying string that appears on the invoice and in places the invoice is referenced.
     // While the UID is long and not appropriate to show to customers, the number is usually shorter and consumable by the customer and the merchant alike.
     Number                     *string                    `json:"number,omitempty"`
-    // A monotonically increasing number assigned to invoices as they are created.  This number is unique within a site and can be used to sort and order invoices.
+    // A monotonically increasing number assigned to invoices as they are created. This number is unique within a site and can be used to sort and order invoices.
     SequenceNumber             *int                       `json:"sequence_number,omitempty"`
     TransactionTime            *time.Time                 `json:"transaction_time,omitempty"`
     CreatedAt                  *time.Time                 `json:"created_at,omitempty"`
     UpdatedAt                  *time.Time                 `json:"updated_at,omitempty"`
-    // Date the invoice was issued to the customer.  This is the date that the invoice was made available for payment.
+    // Date the invoice was issued to the customer. This is the date that the invoice was made available for payment.
     // The format is `"YYYY-MM-DD"`.
     IssueDate                  *time.Time                 `json:"issue_date,omitempty"`
     // Date the invoice is due.
@@ -48,7 +48,7 @@ type Invoice struct {
     PaymentInstructions        *string                    `json:"payment_instructions,omitempty"`
     // The ISO 4217 currency code (3 character string) representing the currency of invoice transaction.
     Currency                   *string                    `json:"currency,omitempty"`
-    // Consolidation level of the invoice, which is applicable to invoice consolidation.  It will hold one of the following values:
+    // Consolidation level of the invoice, which is applicable to invoice consolidation. It will hold one of the following values:
     // * "none": A normal invoice with no consolidation.
     // * "child": An invoice segment which has been combined into a consolidated invoice.
     // * "parent": A consolidated invoice, whose contents are composed of invoice segments.
@@ -68,12 +68,12 @@ type Invoice struct {
     ProductFamilyName          *string                    `json:"product_family_name,omitempty"`
     // Information about the seller (merchant) listed on the masthead of the invoice.
     Seller                     *InvoiceSeller             `json:"seller,omitempty"`
-    // Information about the customer who is owner or recipient the invoiced subscription.
+    // Information about the customer who is owner or recipient of the invoiced subscription.
     Customer                   *InvoiceCustomer           `json:"customer,omitempty"`
     Payer                      *InvoicePayer              `json:"payer,omitempty"`
     RecipientEmails            []string                   `json:"recipient_emails,omitempty"`
     NetTerms                   *int                       `json:"net_terms,omitempty"`
-    // The memo printed on invoices of any collection type.  This message is in control of the merchant.
+    // The memo printed on invoices of any collection type. This message is in control of the merchant.
     Memo                       *string                    `json:"memo,omitempty"`
     // The invoice billing address.
     BillingAddress             *InvoiceAddress            `json:"billing_address,omitempty"`
@@ -85,7 +85,7 @@ type Invoice struct {
     DiscountAmount             *string                    `json:"discount_amount,omitempty"`
     // Total tax on the invoice.
     TaxAmount                  *string                    `json:"tax_amount,omitempty"`
-    // The invoice total, which is `subtotal_amount - discount_amount + tax_amount`.'
+    // The invoice total, which is `subtotal_amount - discount_amount + tax_amount`.
     TotalAmount                *string                    `json:"total_amount,omitempty"`
     // The amount of credit (from credit notes) applied to this invoice.
     // Credits offset the amount due from the customer.
@@ -112,6 +112,8 @@ type Invoice struct {
     PreviousBalanceData        *InvoicePreviousBalance    `json:"previous_balance_data,omitempty"`
     // The format is `"YYYY-MM-DD"`.
     PublicUrlExpiresOn         *time.Time                 `json:"public_url_expires_on,omitempty"`
+    // The ID of the Branding Theme associated with this invoice. This value represents the Branding Theme used for invoice theming, such as themed invoice rendering. Available only when Branding Themes are enabled for the site.
+    BrandingThemeId            Optional[int]              `json:"branding_theme_id"`
     AdditionalProperties       map[string]interface{}     `json:"_"`
 }
 
@@ -119,8 +121,8 @@ type Invoice struct {
 // providing a human-readable string representation useful for logging, debugging or displaying information.
 func (i Invoice) String() string {
     return fmt.Sprintf(
-    	"Invoice[Id=%v, Uid=%v, SiteId=%v, CustomerId=%v, SubscriptionId=%v, Number=%v, SequenceNumber=%v, TransactionTime=%v, CreatedAt=%v, UpdatedAt=%v, IssueDate=%v, DueDate=%v, PaidDate=%v, Status=%v, Role=%v, ParentInvoiceId=%v, CollectionMethod=%v, PaymentInstructions=%v, Currency=%v, ConsolidationLevel=%v, ParentInvoiceUid=%v, SubscriptionGroupId=%v, ParentInvoiceNumber=%v, GroupPrimarySubscriptionId=%v, ProductName=%v, ProductFamilyName=%v, Seller=%v, Customer=%v, Payer=%v, RecipientEmails=%v, NetTerms=%v, Memo=%v, BillingAddress=%v, ShippingAddress=%v, SubtotalAmount=%v, DiscountAmount=%v, TaxAmount=%v, TotalAmount=%v, CreditAmount=%v, DebitAmount=%v, RefundAmount=%v, PaidAmount=%v, DueAmount=%v, LineItems=%v, Discounts=%v, Taxes=%v, Credits=%v, Debits=%v, Refunds=%v, Payments=%v, CustomFields=%v, DisplaySettings=%v, AvataxDetails=%v, PublicUrl=%v, PreviousBalanceData=%v, PublicUrlExpiresOn=%v, AdditionalProperties=%v]",
-    	i.Id, i.Uid, i.SiteId, i.CustomerId, i.SubscriptionId, i.Number, i.SequenceNumber, i.TransactionTime, i.CreatedAt, i.UpdatedAt, i.IssueDate, i.DueDate, i.PaidDate, i.Status, i.Role, i.ParentInvoiceId, i.CollectionMethod, i.PaymentInstructions, i.Currency, i.ConsolidationLevel, i.ParentInvoiceUid, i.SubscriptionGroupId, i.ParentInvoiceNumber, i.GroupPrimarySubscriptionId, i.ProductName, i.ProductFamilyName, i.Seller, i.Customer, i.Payer, i.RecipientEmails, i.NetTerms, i.Memo, i.BillingAddress, i.ShippingAddress, i.SubtotalAmount, i.DiscountAmount, i.TaxAmount, i.TotalAmount, i.CreditAmount, i.DebitAmount, i.RefundAmount, i.PaidAmount, i.DueAmount, i.LineItems, i.Discounts, i.Taxes, i.Credits, i.Debits, i.Refunds, i.Payments, i.CustomFields, i.DisplaySettings, i.AvataxDetails, i.PublicUrl, i.PreviousBalanceData, i.PublicUrlExpiresOn, i.AdditionalProperties)
+    	"Invoice[Id=%v, Uid=%v, SiteId=%v, CustomerId=%v, SubscriptionId=%v, Number=%v, SequenceNumber=%v, TransactionTime=%v, CreatedAt=%v, UpdatedAt=%v, IssueDate=%v, DueDate=%v, PaidDate=%v, Status=%v, Role=%v, ParentInvoiceId=%v, CollectionMethod=%v, PaymentInstructions=%v, Currency=%v, ConsolidationLevel=%v, ParentInvoiceUid=%v, SubscriptionGroupId=%v, ParentInvoiceNumber=%v, GroupPrimarySubscriptionId=%v, ProductName=%v, ProductFamilyName=%v, Seller=%v, Customer=%v, Payer=%v, RecipientEmails=%v, NetTerms=%v, Memo=%v, BillingAddress=%v, ShippingAddress=%v, SubtotalAmount=%v, DiscountAmount=%v, TaxAmount=%v, TotalAmount=%v, CreditAmount=%v, DebitAmount=%v, RefundAmount=%v, PaidAmount=%v, DueAmount=%v, LineItems=%v, Discounts=%v, Taxes=%v, Credits=%v, Debits=%v, Refunds=%v, Payments=%v, CustomFields=%v, DisplaySettings=%v, AvataxDetails=%v, PublicUrl=%v, PreviousBalanceData=%v, PublicUrlExpiresOn=%v, BrandingThemeId=%v, AdditionalProperties=%v]",
+    	i.Id, i.Uid, i.SiteId, i.CustomerId, i.SubscriptionId, i.Number, i.SequenceNumber, i.TransactionTime, i.CreatedAt, i.UpdatedAt, i.IssueDate, i.DueDate, i.PaidDate, i.Status, i.Role, i.ParentInvoiceId, i.CollectionMethod, i.PaymentInstructions, i.Currency, i.ConsolidationLevel, i.ParentInvoiceUid, i.SubscriptionGroupId, i.ParentInvoiceNumber, i.GroupPrimarySubscriptionId, i.ProductName, i.ProductFamilyName, i.Seller, i.Customer, i.Payer, i.RecipientEmails, i.NetTerms, i.Memo, i.BillingAddress, i.ShippingAddress, i.SubtotalAmount, i.DiscountAmount, i.TaxAmount, i.TotalAmount, i.CreditAmount, i.DebitAmount, i.RefundAmount, i.PaidAmount, i.DueAmount, i.LineItems, i.Discounts, i.Taxes, i.Credits, i.Debits, i.Refunds, i.Payments, i.CustomFields, i.DisplaySettings, i.AvataxDetails, i.PublicUrl, i.PreviousBalanceData, i.PublicUrlExpiresOn, i.BrandingThemeId, i.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for Invoice.
@@ -129,7 +131,7 @@ func (i Invoice) MarshalJSON() (
     []byte,
     error) {
     if err := DetectConflictingProperties(i.AdditionalProperties,
-        "id", "uid", "site_id", "customer_id", "subscription_id", "number", "sequence_number", "transaction_time", "created_at", "updated_at", "issue_date", "due_date", "paid_date", "status", "role", "parent_invoice_id", "collection_method", "payment_instructions", "currency", "consolidation_level", "parent_invoice_uid", "subscription_group_id", "parent_invoice_number", "group_primary_subscription_id", "product_name", "product_family_name", "seller", "customer", "payer", "recipient_emails", "net_terms", "memo", "billing_address", "shipping_address", "subtotal_amount", "discount_amount", "tax_amount", "total_amount", "credit_amount", "debit_amount", "refund_amount", "paid_amount", "due_amount", "line_items", "discounts", "taxes", "credits", "debits", "refunds", "payments", "custom_fields", "display_settings", "avatax_details", "public_url", "previous_balance_data", "public_url_expires_on"); err != nil {
+        "id", "uid", "site_id", "customer_id", "subscription_id", "number", "sequence_number", "transaction_time", "created_at", "updated_at", "issue_date", "due_date", "paid_date", "status", "role", "parent_invoice_id", "collection_method", "payment_instructions", "currency", "consolidation_level", "parent_invoice_uid", "subscription_group_id", "parent_invoice_number", "group_primary_subscription_id", "product_name", "product_family_name", "seller", "customer", "payer", "recipient_emails", "net_terms", "memo", "billing_address", "shipping_address", "subtotal_amount", "discount_amount", "tax_amount", "total_amount", "credit_amount", "debit_amount", "refund_amount", "paid_amount", "due_amount", "line_items", "discounts", "taxes", "credits", "debits", "refunds", "payments", "custom_fields", "display_settings", "avatax_details", "public_url", "previous_balance_data", "public_url_expires_on", "branding_theme_id"); err != nil {
         return []byte{}, err
     }
     return json.Marshal(i.toMap())
@@ -336,6 +338,13 @@ func (i Invoice) toMap() map[string]any {
     if i.PublicUrlExpiresOn != nil {
         structMap["public_url_expires_on"] = i.PublicUrlExpiresOn.Format(DEFAULT_DATE)
     }
+    if i.BrandingThemeId.IsValueSet() {
+        if i.BrandingThemeId.Value() != nil {
+            structMap["branding_theme_id"] = i.BrandingThemeId.Value()
+        } else {
+            structMap["branding_theme_id"] = nil
+        }
+    }
     return structMap
 }
 
@@ -347,7 +356,7 @@ func (i *Invoice) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "id", "uid", "site_id", "customer_id", "subscription_id", "number", "sequence_number", "transaction_time", "created_at", "updated_at", "issue_date", "due_date", "paid_date", "status", "role", "parent_invoice_id", "collection_method", "payment_instructions", "currency", "consolidation_level", "parent_invoice_uid", "subscription_group_id", "parent_invoice_number", "group_primary_subscription_id", "product_name", "product_family_name", "seller", "customer", "payer", "recipient_emails", "net_terms", "memo", "billing_address", "shipping_address", "subtotal_amount", "discount_amount", "tax_amount", "total_amount", "credit_amount", "debit_amount", "refund_amount", "paid_amount", "due_amount", "line_items", "discounts", "taxes", "credits", "debits", "refunds", "payments", "custom_fields", "display_settings", "avatax_details", "public_url", "previous_balance_data", "public_url_expires_on")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "id", "uid", "site_id", "customer_id", "subscription_id", "number", "sequence_number", "transaction_time", "created_at", "updated_at", "issue_date", "due_date", "paid_date", "status", "role", "parent_invoice_id", "collection_method", "payment_instructions", "currency", "consolidation_level", "parent_invoice_uid", "subscription_group_id", "parent_invoice_number", "group_primary_subscription_id", "product_name", "product_family_name", "seller", "customer", "payer", "recipient_emails", "net_terms", "memo", "billing_address", "shipping_address", "subtotal_amount", "discount_amount", "tax_amount", "total_amount", "credit_amount", "debit_amount", "refund_amount", "paid_amount", "due_amount", "line_items", "discounts", "taxes", "credits", "debits", "refunds", "payments", "custom_fields", "display_settings", "avatax_details", "public_url", "previous_balance_data", "public_url_expires_on", "branding_theme_id")
     if err != nil {
     	return err
     }
@@ -452,6 +461,7 @@ func (i *Invoice) UnmarshalJSON(input []byte) error {
         }
         i.PublicUrlExpiresOn = &PublicUrlExpiresOnVal
     }
+    i.BrandingThemeId = temp.BrandingThemeId
     return nil
 }
 
@@ -513,4 +523,5 @@ type tempInvoice  struct {
     PublicUrl                  *string                    `json:"public_url,omitempty"`
     PreviousBalanceData        *InvoicePreviousBalance    `json:"previous_balance_data,omitempty"`
     PublicUrlExpiresOn         *string                    `json:"public_url_expires_on,omitempty"`
+    BrandingThemeId            Optional[int]              `json:"branding_theme_id"`
 }

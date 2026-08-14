@@ -11,15 +11,23 @@
 |  --- | --- | --- | --- |
 | `Members` | `[]string` | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "members": [
-    "members4",
-    "members5",
-    "members6"
-  ]
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    subscriptionGroupUpdateError := models.SubscriptionGroupUpdateError{
+        Members:              []string{
+            "members6",
+            "members7",
+        },
+    }
+
 }
 ```
 

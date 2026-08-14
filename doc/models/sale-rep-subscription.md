@@ -20,15 +20,24 @@
 | `LastPayment` | `*string` | Optional | - |
 | `ChurnDate` | `models.Optional[string]` | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "id": 18,
-  "site_name": "site_name2",
-  "subscription_url": "subscription_url6",
-  "customer_name": "customer_name2",
-  "created_at": "created_at8"
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    saleRepSubscription := models.SaleRepSubscription{
+        Id:                   models.ToPointer(68),
+        SiteName:             models.ToPointer("site_name8"),
+        SubscriptionUrl:      models.ToPointer("subscription_url2"),
+        CustomerName:         models.ToPointer("customer_name8"),
+        CreatedAt:            models.ToPointer("created_at4"),
+    }
+
 }
 ```
 

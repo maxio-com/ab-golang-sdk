@@ -13,13 +13,22 @@
 | `Description` | `string` | Required | The friendly summary of what the code signifies |
 | `Position` | `*int` | Optional | The order that code appears in lists |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "code": "code4",
-  "description": "description6",
-  "position": 86
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    createReasonCode := models.CreateReasonCode{
+        Code:                 "code4",
+        Description:          "description6",
+        Position:             models.ToPointer(40),
+    }
+
 }
 ```
 

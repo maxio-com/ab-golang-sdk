@@ -12,12 +12,21 @@
 | `Email` | `string` | Required | - |
 | `Type` | [`models.InvoiceEventPaymentMethod`](../../doc/models/invoice-event-payment-method.md) | Required | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "email": "email2",
-  "type": "paypal_account"
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    paymentMethodPaypal := models.PaymentMethodPaypal{
+        Email:                "email8",
+        Type:                 models.InvoiceEventPaymentMethod_PAYPALACCOUNT,
+    }
+
 }
 ```
 

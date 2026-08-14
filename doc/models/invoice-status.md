@@ -19,3 +19,18 @@ The current status of the invoice. See [Invoice Statuses](https://maxio.zendesk.
 | `CANCELED` |
 | `PROCESSING` |
 
+## Example
+
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    invoiceStatus := models.InvoiceStatus_PAID
+
+}
+```
+

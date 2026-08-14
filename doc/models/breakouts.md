@@ -14,14 +14,23 @@
 | `UsageAmountInCents` | `*int64` | Optional | - |
 | `UsageAmountFormatted` | `*string` | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "plan_amount_in_cents": 68,
-  "plan_amount_formatted": "plan_amount_formatted2",
-  "usage_amount_in_cents": 176,
-  "usage_amount_formatted": "usage_amount_formatted0"
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    breakouts := models.Breakouts{
+        PlanAmountInCents:    models.ToPointer(int64(254)),
+        PlanAmountFormatted:  models.ToPointer("plan_amount_formatted0"),
+        UsageAmountInCents:   models.ToPointer(int64(106)),
+        UsageAmountFormatted: models.ToPointer("usage_amount_formatted8"),
+    }
+
 }
 ```
 

@@ -15,29 +15,64 @@
 | `PerPage` | `*int` | Optional | - |
 | `Metafields` | [`[]models.Metafield`](../../doc/models/metafield.md) | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "total_count": 210,
-  "current_page": 186,
-  "total_pages": 198,
-  "per_page": 92,
-  "metafields": [
-    {
-      "id": 22,
-      "name": "name2",
-      "scope": {
-        "csv": "0",
-        "invoices": "0",
-        "statements": "0",
-        "portal": "0",
-        "public_show": "0"
-      },
-      "data_count": 10,
-      "input_type": "balance_tracker"
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    listMetafieldsResponse := models.ListMetafieldsResponse{
+        TotalCount:           models.ToPointer(228),
+        CurrentPage:          models.ToPointer(204),
+        TotalPages:           models.ToPointer(216),
+        PerPage:              models.ToPointer(74),
+        Metafields:           []models.Metafield{
+            models.Metafield{
+                Id:                   models.ToPointer(22),
+                Name:                 models.ToPointer("name2"),
+                Scope:                models.ToPointer(models.MetafieldScope{
+                    Csv:                  models.ToPointer(models.IncludeOption_EXCLUDE),
+                    Invoices:             models.ToPointer(models.IncludeOption_EXCLUDE),
+                    Statements:           models.ToPointer(models.IncludeOption_EXCLUDE),
+                    Portal:               models.ToPointer(models.IncludeOption_EXCLUDE),
+                    PublicShow:           models.ToPointer(models.IncludeOption_EXCLUDE),
+                }),
+                DataCount:            models.ToPointer(10),
+                InputType:            models.ToPointer(models.MetafieldInput_BALANCETRACKER),
+            },
+            models.Metafield{
+                Id:                   models.ToPointer(22),
+                Name:                 models.ToPointer("name2"),
+                Scope:                models.ToPointer(models.MetafieldScope{
+                    Csv:                  models.ToPointer(models.IncludeOption_EXCLUDE),
+                    Invoices:             models.ToPointer(models.IncludeOption_EXCLUDE),
+                    Statements:           models.ToPointer(models.IncludeOption_EXCLUDE),
+                    Portal:               models.ToPointer(models.IncludeOption_EXCLUDE),
+                    PublicShow:           models.ToPointer(models.IncludeOption_EXCLUDE),
+                }),
+                DataCount:            models.ToPointer(10),
+                InputType:            models.ToPointer(models.MetafieldInput_BALANCETRACKER),
+            },
+            models.Metafield{
+                Id:                   models.ToPointer(22),
+                Name:                 models.ToPointer("name2"),
+                Scope:                models.ToPointer(models.MetafieldScope{
+                    Csv:                  models.ToPointer(models.IncludeOption_EXCLUDE),
+                    Invoices:             models.ToPointer(models.IncludeOption_EXCLUDE),
+                    Statements:           models.ToPointer(models.IncludeOption_EXCLUDE),
+                    Portal:               models.ToPointer(models.IncludeOption_EXCLUDE),
+                    PublicShow:           models.ToPointer(models.IncludeOption_EXCLUDE),
+                }),
+                DataCount:            models.ToPointer(10),
+                InputType:            models.ToPointer(models.MetafieldInput_BALANCETRACKER),
+            },
+        },
     }
-  ]
+
 }
 ```
 

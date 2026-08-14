@@ -13,7 +13,16 @@
 
 ## Example
 
-```
-prepaid_product_price_point
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    listProductsInclude := models.ListProductsInclude_PREPAIDPRODUCTPRICEPOINT
+
+}
 ```
 

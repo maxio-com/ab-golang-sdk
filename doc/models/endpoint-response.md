@@ -11,19 +11,28 @@
 |  --- | --- | --- | --- |
 | `Endpoint` | [`*models.Endpoint`](../../doc/models/endpoint.md) | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "endpoint": {
-    "id": 202,
-    "url": "url2",
-    "site_id": 128,
-    "status": "status0",
-    "webhook_subscriptions": [
-      "webhook_subscriptions4"
-    ]
-  }
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    endpointResponse := models.EndpointResponse{
+        Endpoint:             models.ToPointer(models.Endpoint{
+            Id:                   models.ToPointer(202),
+            Url:                  models.ToPointer("url2"),
+            SiteId:               models.ToPointer(128),
+            Status:               models.ToPointer("status0"),
+            WebhookSubscriptions: []string{
+                "webhook_subscriptions4",
+            },
+        }),
+    }
+
 }
 ```
 

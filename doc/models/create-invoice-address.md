@@ -21,15 +21,24 @@ Overrides the default address.
 | `Zip` | `*string` | Optional | - |
 | `Country` | `*string` | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "first_name": "first_name4",
-  "last_name": "last_name2",
-  "phone": "phone6",
-  "address": "address0",
-  "address_2": "address_28"
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    createInvoiceAddress := models.CreateInvoiceAddress{
+        FirstName:            models.ToPointer("first_name6"),
+        LastName:             models.ToPointer("last_name4"),
+        Phone:                models.ToPointer("phone4"),
+        Address:              models.ToPointer("address2"),
+        Address2:             models.ToPointer("address_20"),
+    }
+
 }
 ```
 

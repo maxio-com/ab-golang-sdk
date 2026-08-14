@@ -10,7 +10,7 @@ import (
 // UpdateComponent represents a UpdateComponent struct.
 type UpdateComponent struct {
     Handle               *string                `json:"handle,omitempty"`
-    // The name of the Component, suitable for display on statements. i.e. Text Messages.
+    // The name of the Component, suitable for display on statements. e.g., Text Messages.
     Name                 *string                `json:"name,omitempty"`
     // The description of the component.
     Description          Optional[string]       `json:"description"`
@@ -24,6 +24,8 @@ type UpdateComponent struct {
     DisplayOnHostedPage  *bool                  `json:"display_on_hosted_page,omitempty"`
     // The type of credit to be created when upgrading/downgrading. Defaults to the component and then site setting if one is not provided.
     UpgradeCharge        Optional[CreditType]   `json:"upgrade_charge"`
+    // (Optional) Custom UNSPSC commodity code for Level 3/CEDP payment data. When set, this value is sent as the commodity code on invoice line items for this component instead of the default derived from item_category.
+    UnspscCode           Optional[string]       `json:"unspsc_code"`
     AdditionalProperties map[string]interface{} `json:"_"`
 }
 
@@ -31,8 +33,8 @@ type UpdateComponent struct {
 // providing a human-readable string representation useful for logging, debugging or displaying information.
 func (u UpdateComponent) String() string {
     return fmt.Sprintf(
-    	"UpdateComponent[Handle=%v, Name=%v, Description=%v, AccountingCode=%v, Taxable=%v, TaxCode=%v, ItemCategory=%v, DisplayOnHostedPage=%v, UpgradeCharge=%v, AdditionalProperties=%v]",
-    	u.Handle, u.Name, u.Description, u.AccountingCode, u.Taxable, u.TaxCode, u.ItemCategory, u.DisplayOnHostedPage, u.UpgradeCharge, u.AdditionalProperties)
+    	"UpdateComponent[Handle=%v, Name=%v, Description=%v, AccountingCode=%v, Taxable=%v, TaxCode=%v, ItemCategory=%v, DisplayOnHostedPage=%v, UpgradeCharge=%v, UnspscCode=%v, AdditionalProperties=%v]",
+    	u.Handle, u.Name, u.Description, u.AccountingCode, u.Taxable, u.TaxCode, u.ItemCategory, u.DisplayOnHostedPage, u.UpgradeCharge, u.UnspscCode, u.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for UpdateComponent.
@@ -41,7 +43,7 @@ func (u UpdateComponent) MarshalJSON() (
     []byte,
     error) {
     if err := DetectConflictingProperties(u.AdditionalProperties,
-        "handle", "name", "description", "accounting_code", "taxable", "tax_code", "item_category", "display_on_hosted_page", "upgrade_charge"); err != nil {
+        "handle", "name", "description", "accounting_code", "taxable", "tax_code", "item_category", "display_on_hosted_page", "upgrade_charge", "unspsc_code"); err != nil {
         return []byte{}, err
     }
     return json.Marshal(u.toMap())
@@ -98,6 +100,13 @@ func (u UpdateComponent) toMap() map[string]any {
             structMap["upgrade_charge"] = nil
         }
     }
+    if u.UnspscCode.IsValueSet() {
+        if u.UnspscCode.Value() != nil {
+            structMap["unspsc_code"] = u.UnspscCode.Value()
+        } else {
+            structMap["unspsc_code"] = nil
+        }
+    }
     return structMap
 }
 
@@ -109,7 +118,7 @@ func (u *UpdateComponent) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "handle", "name", "description", "accounting_code", "taxable", "tax_code", "item_category", "display_on_hosted_page", "upgrade_charge")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "handle", "name", "description", "accounting_code", "taxable", "tax_code", "item_category", "display_on_hosted_page", "upgrade_charge", "unspsc_code")
     if err != nil {
     	return err
     }
@@ -124,6 +133,7 @@ func (u *UpdateComponent) UnmarshalJSON(input []byte) error {
     u.ItemCategory = temp.ItemCategory
     u.DisplayOnHostedPage = temp.DisplayOnHostedPage
     u.UpgradeCharge = temp.UpgradeCharge
+    u.UnspscCode = temp.UnspscCode
     return nil
 }
 
@@ -138,4 +148,5 @@ type tempUpdateComponent  struct {
     ItemCategory        Optional[ItemCategory] `json:"item_category"`
     DisplayOnHostedPage *bool                  `json:"display_on_hosted_page,omitempty"`
     UpgradeCharge       Optional[CreditType]   `json:"upgrade_charge"`
+    UnspscCode          Optional[string]       `json:"unspsc_code"`
 }

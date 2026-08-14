@@ -19,37 +19,32 @@
 | `PeriodType` | `models.Optional[string]` | Optional | - |
 | `ExistingBalanceInCents` | `*int64` | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "line_items": [
-    {
-      "transaction_type": "credit",
-      "kind": "component",
-      "amount_in_cents": 24,
-      "memo": "memo2",
-      "discount_amount_in_cents": 172
-    },
-    {
-      "transaction_type": "credit",
-      "kind": "component",
-      "amount_in_cents": 24,
-      "memo": "memo2",
-      "discount_amount_in_cents": 172
-    },
-    {
-      "transaction_type": "credit",
-      "kind": "component",
-      "amount_in_cents": 24,
-      "memo": "memo2",
-      "discount_amount_in_cents": 172
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    billingManifest := models.BillingManifest{
+        LineItems:              []models.BillingManifestItem{
+            models.BillingManifestItem{
+                TransactionType:       models.ToPointer(models.LineItemTransactionType_CREDIT),
+                Kind:                  models.ToPointer(models.BillingManifestLineItemKind_COMPONENT),
+                AmountInCents:         models.ToPointer(int64(24)),
+                Memo:                  models.ToPointer("memo2"),
+                DiscountAmountInCents: models.ToPointer(int64(172)),
+            },
+        },
+        TotalInCents:           models.ToPointer(int64(96)),
+        TotalDiscountInCents:   models.ToPointer(int64(174)),
+        TotalTaxInCents:        models.ToPointer(int64(76)),
+        SubtotalInCents:        models.ToPointer(int64(208)),
     }
-  ],
-  "total_in_cents": 192,
-  "total_discount_in_cents": 178,
-  "total_tax_in_cents": 172,
-  "subtotal_in_cents": 48
+
 }
 ```
 

@@ -24,7 +24,7 @@ type ProformaInvoice struct {
     CollectionMethod     *CollectionMethod          `json:"collection_method,omitempty"`
     PaymentInstructions  *string                    `json:"payment_instructions,omitempty"`
     Currency             *string                    `json:"currency,omitempty"`
-    // Consolidation level of the invoice, which is applicable to invoice consolidation.  It will hold one of the following values:
+    // Consolidation level of the invoice, which is applicable to invoice consolidation. It will hold one of the following values:
     // * "none": A normal invoice with no consolidation.
     // * "child": An invoice segment which has been combined into a consolidated invoice.
     // * "parent": A consolidated invoice, whose contents are composed of invoice segments.
@@ -33,11 +33,11 @@ type ProformaInvoice struct {
     ConsolidationLevel   *InvoiceConsolidationLevel `json:"consolidation_level,omitempty"`
     ProductName          *string                    `json:"product_name,omitempty"`
     ProductFamilyName    *string                    `json:"product_family_name,omitempty"`
-    // 'proforma' value is deprecated in favor of proforma_adhoc and proforma_automatic
+    // 'proforma' value is deprecated in favor of proforma_adhoc and proforma_automatic.
     Role                 *ProformaInvoiceRole       `json:"role,omitempty"`
     // Information about the seller (merchant) listed on the masthead of the invoice.
     Seller               *InvoiceSeller             `json:"seller,omitempty"`
-    // Information about the customer who is owner or recipient the invoiced subscription.
+    // Information about the customer who is owner or recipient of the invoiced subscription.
     Customer             *InvoiceCustomer           `json:"customer,omitempty"`
     Memo                 *string                    `json:"memo,omitempty"`
     BillingAddress       *InvoiceAddress            `json:"billing_address,omitempty"`

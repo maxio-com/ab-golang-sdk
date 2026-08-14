@@ -21,21 +21,11 @@ reasonCodesController := client.ReasonCodesController()
 
 Creates a reason code for a given site.
 
-# Reason Codes Intro
-
 Reason Codes are a way to gain a high-level view of why your customers are cancelling the subscription to your product or service.
 
 Add a set of churn reason codes to be displayed in-app and/or the Maxio Billing Portal. As your subscribers decide to cancel their subscription, learn why they decided to cancel.
 
-## Reason Code Documentation
-
-Full documentation on how Reason Codes operate within Advanced Billing can be located under the following links.
-
-[Churn Reason Codes](https://maxio.zendesk.com/hc/en-us/articles/24286647554701-Churn-Reason-Codes)
-
-## Create Reason Code
-
-This method gives a merchant the option to create reason codes for a given site.
+For more information, see [Churn Reason Codes](https://maxio.zendesk.com/hc/en-us/articles/24286647554701-Churn-Reason-Codes).
 
 ```go
 CreateReasonCode(

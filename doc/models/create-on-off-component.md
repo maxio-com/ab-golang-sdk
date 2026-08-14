@@ -11,19 +11,28 @@
 |  --- | --- | --- | --- |
 | `OnOffComponent` | [`models.OnOffComponent`](../../doc/models/on-off-component.md) | Required | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "on_off_component": {
-    "name": "name6",
-    "description": "description6",
-    "handle": "handle2",
-    "taxable": false,
-    "upgrade_charge": "full",
-    "downgrade_credit": "full",
-    "unit_price": "String5"
-  }
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    createOnOffComponent := models.CreateOnOffComponent{
+        OnOffComponent:       models.OnOffComponent{
+            Name:                      "name6",
+            Description:               models.ToPointer("description6"),
+            Handle:                    models.ToPointer("handle2"),
+            Taxable:                   models.ToPointer(false),
+            UpgradeCharge:             models.NewOptional(models.ToPointer(models.CreditType_FULL)),
+            DowngradeCredit:           models.NewOptional(models.ToPointer(models.CreditType_FULL)),
+            UnitPrice:                 models.OnOffComponentUnitPriceContainer.FromString("String5"),
+        },
+    }
+
 }
 ```
 

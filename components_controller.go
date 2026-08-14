@@ -28,7 +28,10 @@ func NewComponentsController(baseController baseController) *ComponentsControlle
 // Creates a metered component definition under the specified product family. A metered component can then be added and “allocated” for a subscription.
 // Metered components are used to bill for any type of unit that resets to 0 at the end of the billing period (think daily Google Ads clicks or monthly cell phone minutes). This is most commonly associated with usage-based billing and many other pricing schemes.
 // Note that this is different from recurring quantity-based components, which DO NOT reset to zero at the start of every billing period. If you want to bill for a quantity of something that does not change unless you change it, then you want quantity components, instead.
+// #### Hybrid Pricing
+// A `volume`, `tiered`, or `stairstep` metered component can combine its primary pricing with a secondary pricing model (the `overage_pricing` parameter) so both bill as a single invoice line item instead of two. This does not apply to metered components configured for event-based billing (metric, meter, or formula). See [Hybrid Pricing](page:introduction/basic-concepts/hybrid-pricing) for requirements and configuration details.
 // For more information on components, see our documentation [here](https://maxio.zendesk.com/hc/en-us/articles/24261141522189-Components-Overview).
+// If you have the new [Catalog experience](page:help/announcements/2026-announcements#new-catalog-experience-and-terminology) enabled, taxable components must include a non-blank `tax_code`. Sending `"tax_code": ""` returns `422`.
 func (c *ComponentsController) CreateMeteredComponent(
     ctx context.Context,
     productFamilyId string,
@@ -65,13 +68,17 @@ func (c *ComponentsController) CreateMeteredComponent(
 // returns an models.ApiResponse with models.ComponentResponse data and
 // an error if there was an issue with the request or response.
 // Creates a Quantity Based component definition under the specified product family. A Quantity Based component can then be added and “allocated” for a subscription.
-// When defining a Quantity Based component, you can choose one of 2 types:
+// When defining a Quantity Based component, you can choose one of two types:
 // #### Recurring
 // Recurring quantity-based components are used to bill for the number of some unit (think monthly software user licenses or the number of pairs of socks in a box-a-month club). This is most commonly associated with billing for user licenses, number of users, number of employees, etc.
 // #### One-time
 // One-time quantity-based components are used to create ad hoc usage charges that do not recur. For example, at the time of signup, you might want to charge your customer a one-time fee for onboarding or other services.
 // The allocated quantity for one-time quantity-based components immediately gets reset back to zero after the allocation is made.
+// For more information, see [Components Overview](https://maxio.zendesk.com/hc/en-us/articles/24261141522189-Components-Overview).
+// #### Hybrid Pricing
+// A `volume`, `tiered`, or `stairstep` component can combine its primary pricing with a secondary pricing model (the `overage_pricing` parameter) so both bill as a single invoice line item instead of two. See [Hybrid Pricing](page:introduction/basic-concepts/hybrid-pricing) for requirements and configuration details.
 // For more information on components, see our documentation [here](https://maxio.zendesk.com/hc/en-us/articles/24261141522189-Components-Overview).
+// If you have the new [Catalog experience](page:help/announcements/2026-announcements#new-catalog-experience-and-terminology) enabled, taxable components must include a non-blank `tax_code`. Sending `"tax_code": ""` returns `422`.
 func (c *ComponentsController) CreateQuantityBasedComponent(
     ctx context.Context,
     productFamilyId string,
@@ -110,6 +117,7 @@ func (c *ComponentsController) CreateQuantityBasedComponent(
 // Creates an On/Off component definition under the specified product family. An On/Off component can then be added and “allocated” for a subscription.
 // On/off components are used for any flat fee, recurring add on (think $99/month for tech support or a flat add on shipping fee).
 // For more information on components, see our documentation [here](https://maxio.zendesk.com/hc/en-us/articles/24261141522189-Components-Overview).
+// If you have the new [Catalog experience](page:help/announcements/2026-announcements#new-catalog-experience-and-terminology) enabled, taxable components must include a non-blank `tax_code`. Sending `"tax_code": ""` returns `422`.
 func (c *ComponentsController) CreateOnOffComponent(
     ctx context.Context,
     productFamilyId string,
@@ -146,8 +154,9 @@ func (c *ComponentsController) CreateOnOffComponent(
 // returns an models.ApiResponse with models.ComponentResponse data and
 // an error if there was an issue with the request or response.
 // Creates a prepaid usage component definition under the specified product family. A prepaid component can then be added and “allocated” for a subscription.
-// Prepaid components allow customers to pre-purchase units that can be used up over time on their subscription. In a sense, they are the mirror image of metered components; while metered components charge at the end of the period for the amount of units used, prepaid components are charged for at the time of purchase, and we subsequently keep track of the usage against the amount purchased.
-// For more information on components, see our documentation [here](https://maxio.zendesk.com/hc/en-us/articles/24261141522189-Components-Overview).
+// Prepaid components allow customers to pre-purchase units that can be used up over time on their subscription. In a sense, they are the mirror image of metered components; while metered components charge at the end of the period for the amount of units used, prepaid components are charged for at the time of purchase, and usage is subsequently tracked against the amount purchased.
+// For more information, see [Components Overview](https://maxio.zendesk.com/hc/en-us/articles/24261141522189-Components-Overview).
+// If you have the new [Catalog experience](page:help/announcements/2026-announcements#new-catalog-experience-and-terminology) enabled, taxable components must include a non-blank `tax_code`; sending a blank value results in a validation error.
 func (c *ComponentsController) CreatePrepaidUsageComponent(
     ctx context.Context,
     productFamilyId string,
@@ -186,7 +195,8 @@ func (c *ComponentsController) CreatePrepaidUsageComponent(
 // Creates an event-based component definition under the specified product family. An event-based component can then be added and “allocated” for a subscription.
 // Event-based components are similar to other component types, in that you define the component parameters (such as name and taxability) and the pricing. A key difference for the event-based component is that it must be attached to a metric. This is because the metric provides the component with the actual quantity used in computing what and how much will be billed each period for each subscription.
 // So, instead of reporting usage directly for each component (as you would with metered components), the usage is derived from analysis of your events.
-// For more information on components, see our documentation [here](https://maxio.zendesk.com/hc/en-us/articles/24261141522189-Components-Overview).
+// For more information, see [Components Overview](https://maxio.zendesk.com/hc/en-us/articles/24261141522189-Components-Overview).
+// If you have the new [Catalog experience](page:help/announcements/2026-announcements#new-catalog-experience-and-terminology) enabled, taxable components must include a non-blank `tax_code`; sending a blank value results in a validation error.
 func (c *ComponentsController) CreateEventBasedComponent(
     ctx context.Context,
     productFamilyId string,
@@ -272,6 +282,7 @@ func (c *ComponentsController) ReadComponent(
 // an error if there was an issue with the request or response.
 // Updates a component from a specific product family.
 // You may read the component by either the component's id or handle. When using the handle, it must be prefixed with `handle:`.
+// If you have the new [Catalog experience](page:help/announcements/2026-announcements#new-catalog-experience-and-terminology) enabled, taxable components must include a non-blank `tax_code`. Sending `"tax_code": ""` returns `422`.
 func (c *ComponentsController) UpdateProductFamilyComponent(
     ctx context.Context,
     productFamilyId int,
@@ -337,9 +348,9 @@ type ListComponentsInput struct {
     EndDate         *string                      
     // The start date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns components with a timestamp at or after exact time provided in query. You can specify timezone in query - otherwise your site's time zone will be used. If provided, this parameter will be used instead of start_date.
     StartDatetime   *string                      
-    // The end date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns components with a timestamp at or before exact time provided in query. You can specify timezone in query - otherwise your site's time zone will be used. If provided, this parameter will be used instead of end_date.  optional
+    // The end date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns components with a timestamp at or before exact time provided in query. You can specify timezone in query - otherwise your site's time zone will be used. If provided, this parameter will be used instead of end_date.
     EndDatetime     *string                      
-    // Include archived items
+    // Include archived items.
     IncludeArchived *bool                        
     // Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.
     // Use in query `page=1`.
@@ -405,6 +416,7 @@ func (c *ComponentsController) ListComponents(
 // an error if there was an issue with the request or response.
 // Updates a component.
 // You may read the component by either the component's id or handle. When using the handle, it must be prefixed with `handle:`.
+// If you have the new [Catalog experience](page:help/announcements/2026-announcements#new-catalog-experience-and-terminology) enabled, taxable components must include a non-blank `tax_code`. Sending `"tax_code": ""` returns `422`.
 func (c *ComponentsController) UpdateComponent(
     ctx context.Context,
     componentId string,
@@ -450,7 +462,7 @@ type ListComponentsForProductFamilyInput struct {
     DateField       *models.BasicDateField       
     // The end date (format YYYY-MM-DD) with which to filter the date_field. Returns components with a timestamp up to and including 11:59:59PM in your site’s time zone on the date specified.
     EndDate         *string                      
-    // The end date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns components with a timestamp at or before exact time provided in query. You can specify timezone in query - otherwise your site's time zone will be used. If provided, this parameter will be used instead of end_date. optional.
+    // The end date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns components with a timestamp at or before exact time provided in query. You can specify timezone in query - otherwise your site's time zone will be used. If provided, this parameter will be used instead of end_date.
     EndDatetime     *string                      
     // The start date (format YYYY-MM-DD) with which to filter the date_field. Returns components with a timestamp at or after midnight (12:00:00 AM) in your site’s time zone on the date specified.
     StartDate       *string                      

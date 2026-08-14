@@ -609,7 +609,7 @@ if err != nil {
 
 # List Allocations
 
-Returns the 50 most recent Allocations, ordered by most recent first.
+Lists the 50 most recent Allocations, ordered by most recent first.
 
 ## On/Off Components
 
@@ -1344,7 +1344,7 @@ if err != nil {
 
 # List Usages
 
-Returns a list of usages associated with a subscription for a particular metered component. This will display the previously recorded components for a subscription.
+Lists usages associated with a subscription for a particular metered component. This will display the previously recorded components for a subscription.
 
 This endpoint is not compatible with quantity-based components.
 
@@ -1442,13 +1442,13 @@ if err != nil {
 
 Activates an event-based component for a single subscription.
 
-In order to bill your subscribers on your Events data under the Events-Based Billing feature, the components must be activated for the subscriber.
+To bill your subscribers on your Events data under the Events-Based Billing feature, the components must be activated for the subscriber.
 
-Learn more about the role of activation in the [Events-Based Billing docs](https://maxio.zendesk.com/hc/en-us/articles/24260323329805-Events-Based-Billing-Overview).
+For more information, see [Design Your Catalog](https://docs.maxio.com/hc/en-us/articles/24181036583053-Design-Your-Catalog?method=componenttypes).
 
-Use this endpoint to activate an event-based component for a single subscription. Activating an event-based component causes Advanced Billing to bill for events when the subscription is renewed.
+Use this endpoint to activate an event-based component for a single subscription. Activating an event-based component causes billing for events when the subscription is renewed.
 
-*Note: it is possible to stream events for a subscription at any time, regardless of component activation status. The activation status only determines if the subscription should be billed for event-based component usage at renewal.*
+Note: it is possible to stream events for a subscription at any time, regardless of component activation status. The activation status only determines if the subscription should be billed for event-based component usage at renewal.
 
 ```go
 ActivateEventBasedComponent(
@@ -1568,21 +1568,15 @@ if err != nil {
 
 Records a single event for Events-Based Billing.
 
-## Documentation
-
 Events-Based Billing is an evolved form of metered billing that is based on data-rich events streamed in real-time from your system to Advanced Billing.
 
 These events can then be transformed, enriched, or analyzed to form the computed totals of usage charges billed to your customers.
 
 This API allows you to stream events into the Advanced Billing data ingestion engine.
 
-Learn more about the feature in general in the [Events-Based Billing help docs](https://maxio.zendesk.com/hc/en-us/articles/24260323329805-Events-Based-Billing-Overview).
+For more information, see [Design Your Catalog](https://docs.maxio.com/hc/en-us/articles/24181036583053-Design-Your-Catalog?method=componenttypes).
 
-## Record Event
-
-Use this endpoint to record a single event.
-
-*Note: this endpoint differs from the standard Chargify API endpoints in that the URL subdomain will be `events` and your site subdomain will be included in the URL path. For example:*
+Note: this endpoint differs from the standard URL for this API in that `events` and your site subdomain are included in the path. For example:
 
 ```
 https://events.chargify.com/my-site-subdomain/events/my-stream-api-handle
@@ -1607,7 +1601,7 @@ This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `apiHandle` | `string` | Template, Required | Identifies the Stream for which the event should be published. |
-| `storeUid` | `*string` | Query, Optional | If you've attached your own Keen project as an Advanced Billing event data-store, use this parameter to indicate the data-store. |
+| `storeUid` | `*string` | Query, Optional | If you've attached your own Keen project as an Advanced Billing event data-store, use this parameter to indicate the data-store. This applies to Legacy Metering sites only — it has no effect on Maxio Metering sites. |
 | `body` | [`*models.EBBEvent`](../../doc/models/ebb-event.md) | Body, Optional | - |
 
 ## Response Type
@@ -1643,7 +1637,7 @@ if err != nil {
 
 Records a collection of events.
 
-*Note: this endpoint differs from the standard Chargify API endpoints in that the subdomain will be `events` and your site subdomain will be included in the URL path.*
+Note: this endpoint differs from the standard URL for this API in that `events` and your site subdomain are included in the path.
 
 A maximum of 1000 events can be published in a single request. A 422 will be returned if this limit is exceeded.
 
@@ -1666,7 +1660,7 @@ This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `apiHandle` | `string` | Template, Required | Identifies the Stream for which the events should be published. |
-| `storeUid` | `*string` | Query, Optional | If you've attached your own Keen project as an Advanced Billing event data-store, use this parameter to indicate the data-store. |
+| `storeUid` | `*string` | Query, Optional | If you've attached your own Keen project as an Advanced Billing event data-store, use this parameter to indicate the data-store. This applies to Legacy Metering sites only — it has no effect on Maxio Metering sites. |
 | `body` | [`[]models.EBBEvent`](../../doc/models/ebb-event.md) | Body, Optional | - |
 
 ## Response Type

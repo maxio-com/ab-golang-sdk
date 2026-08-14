@@ -11,19 +11,28 @@
 |  --- | --- | --- | --- |
 | `CurrencyPrices` | [`[]models.ComponentCurrencyPrice`](../../doc/models/component-currency-price.md) | Required | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "currency_prices": [
-    {
-      "id": 50,
-      "currency": "currency8",
-      "price": "price4",
-      "formatted_price": "formatted_price6",
-      "price_id": 116
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    componentCurrencyPricesResponse := models.ComponentCurrencyPricesResponse{
+        CurrencyPrices:       []models.ComponentCurrencyPrice{
+            models.ComponentCurrencyPrice{
+                Id:                   models.ToPointer(50),
+                Currency:             models.ToPointer("currency8"),
+                Price:                models.ToPointer("price4"),
+                FormattedPrice:       models.ToPointer("formatted_price6"),
+                PriceId:              models.ToPointer(116),
+            },
+        },
     }
-  ]
+
 }
 ```
 

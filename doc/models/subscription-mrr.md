@@ -13,16 +13,25 @@
 | `MrrAmountInCents` | `int64` | Required | - |
 | `Breakouts` | [`*models.SubscriptionMRRBreakout`](../../doc/models/subscription-mrr-breakout.md) | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "subscription_id": 4,
-  "mrr_amount_in_cents": 22,
-  "breakouts": {
-    "plan_amount_in_cents": 254,
-    "usage_amount_in_cents": 106
-  }
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    subscriptionMRR := models.SubscriptionMRR{
+        SubscriptionId:       192,
+        MrrAmountInCents:     int64(210),
+        Breakouts:            models.ToPointer(models.SubscriptionMRRBreakout{
+            PlanAmountInCents:    int64(254),
+            UsageAmountInCents:   int64(106),
+        }),
+    }
+
 }
 ```
 

@@ -17,17 +17,26 @@
 | `TaxableAmountInCents` | `*int64` | Optional | - |
 | `ComponentId` | `*int` | Optional | - |
 | `ComponentHandle` | `*string` | Optional | - |
-| `Direction` | [`*models.AllocationPreviewDirection`](../../doc/models/allocation-preview-direction.md) | Optional | Visible when using Fine-grained Component Control |
+| `Direction` | [`*models.AllocationPreviewDirection`](../../doc/models/allocation-preview-direction.md) | Optional | Visible when using Fine-grained Component Control. |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "transaction_type": "credit",
-  "kind": "quantity_based_component",
-  "amount_in_cents": 24,
-  "memo": "memo6",
-  "discount_amount_in_cents": 172
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    allocationPreviewLineItem := models.AllocationPreviewLineItem{
+        TransactionType:       models.ToPointer(models.LineItemTransactionType_CREDIT),
+        Kind:                  models.ToPointer(models.AllocationPreviewLineItemKind_QUANTITYBASEDCOMPONENT),
+        AmountInCents:         models.ToPointer(int64(236)),
+        Memo:                  models.ToPointer("memo6"),
+        DiscountAmountInCents: models.ToPointer(int64(40)),
+    }
+
 }
 ```
 

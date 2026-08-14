@@ -13,13 +13,22 @@
 | `LastAcceptedAt` | `*string` | Optional | - |
 | `UninvitedCount` | `*int` | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "last_sent_at": "last_sent_at2",
-  "last_accepted_at": "last_accepted_at2",
-  "uninvited_count": 226
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    revokedInvitation := models.RevokedInvitation{
+        LastSentAt:           models.ToPointer("last_sent_at8"),
+        LastAcceptedAt:       models.ToPointer("last_accepted_at8"),
+        UninvitedCount:       models.ToPointer(130),
+    }
+
 }
 ```
 

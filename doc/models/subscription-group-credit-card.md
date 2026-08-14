@@ -30,16 +30,25 @@
 | `Cvv` | `*string` | Optional | - |
 | `PaymentType` | `*string` | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "chargify_token": "tok_592nf92ng0sjd4300p",
-  "full_number": 4111111111111111,
-  "vault_token": "vault_token6",
-  "current_vault": "braintree_blue",
-  "gateway_handle": "gateway_handle6",
-  "first_name": "first_name4"
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    subscriptionGroupCreditCard := models.SubscriptionGroupCreditCard{
+        ChargifyToken:        models.ToPointer("tok_592nf92ng0sjd4300p"),
+        VaultToken:           models.ToPointer("vault_token0"),
+        CurrentVault:         models.ToPointer(models.CreditCardVault_BLUESNAP),
+        GatewayHandle:        models.ToPointer("gateway_handle0"),
+        FirstName:            models.ToPointer("first_name8"),
+        FullNumber:           models.ToPointer(models.SubscriptionGroupCreditCardFullNumberContainer.FromNumber(4111111111111111)),
+    }
+
 }
 ```
 

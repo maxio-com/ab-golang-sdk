@@ -19,16 +19,25 @@
 | `ProductPricePointHandle` | `*string` | Optional | The ID or handle of the specified product's price point. This can be passed to migrate to a non-default price point. |
 | `Proration` | [`*models.Proration`](../../doc/models/proration.md) | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "include_trial": false,
-  "include_initial_charge": false,
-  "include_coupons": true,
-  "preserve_period": false,
-  "product_id": 8,
-  "product_price_point_id": 172
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    subscriptionProductMigration := models.SubscriptionProductMigration{
+        ProductId:               models.ToPointer(44),
+        ProductPricePointId:     models.ToPointer(224),
+        IncludeTrial:            models.ToPointer(false),
+        IncludeInitialCharge:    models.ToPointer(false),
+        IncludeCoupons:          models.ToPointer(true),
+        PreservePeriod:          models.ToPointer(false),
+    }
+
 }
 ```
 

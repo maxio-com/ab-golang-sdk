@@ -47,7 +47,7 @@ func (s *SubscriptionSuite) TestSubscriptionCreate() {
 					{
 						ComponentId: models.ToPointer(models.CreateSubscriptionComponentComponentIdContainer.FromNumber(*component.Id)),
 						Enabled:     boolPtr(true),
-						UnitBalance: intPtr(1),
+						UnitBalance: models.ToPointer(models.CreateSubscriptionComponentUnitBalanceContainer.FromNumber(1)),
 					},
 				},
 			),
@@ -77,9 +77,11 @@ func (s *SubscriptionSuite) TestSubscriptionCreate() {
 				s.Equal(http.StatusOK, listResp.Response.StatusCode)
 
 				prices := *component.Prices.Value()
+				unitBalance, isNumber := listResp.Data[0].Component.UnitBalance.AsNumber()
+				s.True(isNumber)
 				s.Equal(
 					*prices[0].StartingQuantity,
-					*listResp.Data[0].Component.UnitBalance,
+					*unitBalance,
 				)
 
 				readSubResp, err := s.client.SubscriptionsController().ReadSubscription(
@@ -163,7 +165,7 @@ func (s *SubscriptionSuite) TestSubscriptionCreate() {
 					{
 						ComponentId: models.ToPointer(models.CreateSubscriptionComponentComponentIdContainer.FromNumber(*component.Id)),
 						Enabled:     boolPtr(true),
-						UnitBalance: intPtr(1),
+						UnitBalance: models.ToPointer(models.CreateSubscriptionComponentUnitBalanceContainer.FromNumber(1)),
 					},
 				},
 			),

@@ -19,24 +19,42 @@
 | `UseSiteExchangeRate` | `*bool` | Optional | If true, restricts the list to coupons whose pricing is recalculated from the site’s current exchange rates, so their currency_prices array contains on-the-fly conversions rather than stored price records. If false, restricts the list to coupons that have manually defined amounts for each currency, ensuring the response includes the saved currency_prices entries instead of exchange-rate-derived values. Use in query `filter[use_site_exchange_rate]=true`. |
 | `IncludeArchived` | `*bool` | Optional | Controls returning archived coupons. |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "start_date": "2011-12-17",
-  "end_date": "2011-12-15",
-  "start_datetime": "12/19/2011 09:15:30",
-  "end_datetime": "06/07/2019 17:20:06",
-  "ids": [
-    1,
-    2,
-    3
-  ],
-  "codes": [
-    "free",
-    "free_trial"
-  ],
-  "date_field": "updated_at"
+```go
+package main
+
+import (
+    "log"
+    "time"
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    parseTime := func(layout, value string, errCallback func(error)) time.Time {
+        dateTime, err := time.Parse(layout, value)
+        if err != nil {
+            errCallback(err) 
+       }
+        return dateTime
+    }
+    listCouponsFilter := models.ListCouponsFilter{
+        DateField:            models.ToPointer(models.BasicDateField_UPDATEDAT),
+        StartDate:            models.ToPointer(parseTime(models.DEFAULT_DATE, "2011-12-17", func(err error) { log.Fatalln(err) })),
+        EndDate:              models.ToPointer(parseTime(models.DEFAULT_DATE, "2011-12-15", func(err error) { log.Fatalln(err) })),
+        StartDatetime:        models.ToPointer(parseTime(time.RFC3339, "2011-12-19T10:15:30+01:00", func(err error) { log.Fatalln(err) })),
+        EndDatetime:          models.ToPointer(parseTime(time.RFC3339, "2019-06-07T17:20:06Z", func(err error) { log.Fatalln(err) })),
+        Ids:                  []int{
+            1,
+            2,
+            3,
+        },
+        Codes:                []string{
+            "free",
+            "free_trial",
+        },
+    }
+
 }
 ```
 

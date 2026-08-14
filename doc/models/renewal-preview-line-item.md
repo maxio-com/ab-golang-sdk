@@ -24,15 +24,24 @@
 | `PeriodRangeStart` | `*string` | Optional | - |
 | `PeriodRangeEnd` | `*string` | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "transaction_type": "charge",
-  "kind": "prepaid_usage_component",
-  "amount_in_cents": 154,
-  "memo": "memo0",
-  "discount_amount_in_cents": 214
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    renewalPreviewLineItem := models.RenewalPreviewLineItem{
+        TransactionType:       models.ToPointer(models.LineItemTransactionType_ADJUSTMENT),
+        Kind:                  models.ToPointer(models.LineItemKind_PREPAIDUSAGECOMPONENT),
+        AmountInCents:         models.ToPointer(int64(32)),
+        Memo:                  models.ToPointer("memo0"),
+        DiscountAmountInCents: models.ToPointer(int64(228)),
+    }
+
 }
 ```
 

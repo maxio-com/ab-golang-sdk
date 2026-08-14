@@ -14,14 +14,23 @@
 | `Price` | `models.Optional[float64]` | Optional | - |
 | `CouponId` | `*int` | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "id": 228,
-  "currency": "currency8",
-  "price": 169.96,
-  "coupon_id": 210
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    couponCurrency := models.CouponCurrency{
+        Id:                   models.NewOptional(models.ToPointer(202)),
+        Currency:             models.ToPointer("currency0"),
+        Price:                models.NewOptional(models.ToPointer(float64(14.62))),
+        CouponId:             models.ToPointer(184),
+    }
+
 }
 ```
 

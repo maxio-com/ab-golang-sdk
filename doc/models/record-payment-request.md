@@ -11,16 +11,25 @@
 |  --- | --- | --- | --- |
 | `Payment` | [`models.CreatePayment`](../../doc/models/create-payment.md) | Required | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "payment": {
-    "amount": "amount8",
-    "memo": "memo0",
-    "payment_details": "payment_details6",
-    "payment_method": "cash"
-  }
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    recordPaymentRequest := models.RecordPaymentRequest{
+        Payment:              models.CreatePayment{
+            Amount:               "amount8",
+            Memo:                 "memo0",
+            PaymentDetails:       "payment_details6",
+            PaymentMethod:        models.InvoicePaymentMethodType_CASH,
+        },
+    }
+
 }
 ```
 

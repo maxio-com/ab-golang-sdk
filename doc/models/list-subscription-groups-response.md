@@ -12,43 +12,34 @@
 | `SubscriptionGroups` | [`[]models.ListSubscriptionGroupsItem`](../../doc/models/list-subscription-groups-item.md) | Optional | - |
 | `Meta` | [`*models.ListSubscriptionGroupsMeta`](../../doc/models/list-subscription-groups-meta.md) | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "subscription_groups": [
-    {
-      "uid": "uid2",
-      "scheme": 166,
-      "customer_id": 186,
-      "payment_profile_id": 162,
-      "subscription_ids": [
-        40
-      ]
-    },
-    {
-      "uid": "uid2",
-      "scheme": 166,
-      "customer_id": 186,
-      "payment_profile_id": 162,
-      "subscription_ids": [
-        40
-      ]
-    },
-    {
-      "uid": "uid2",
-      "scheme": 166,
-      "customer_id": 186,
-      "payment_profile_id": 162,
-      "subscription_ids": [
-        40
-      ]
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    listSubscriptionGroupsResponse := models.ListSubscriptionGroupsResponse{
+        SubscriptionGroups:   []models.ListSubscriptionGroupsItem{
+            models.ListSubscriptionGroupsItem{
+                Uid:                   models.ToPointer("uid2"),
+                Scheme:                models.ToPointer(166),
+                CustomerId:            models.ToPointer(186),
+                PaymentProfileId:      models.ToPointer(162),
+                SubscriptionIds:       []int{
+                    40,
+                },
+            },
+        },
+        Meta:                 models.ToPointer(models.ListSubscriptionGroupsMeta{
+            CurrentPage:          models.ToPointer(126),
+            TotalCount:           models.ToPointer(150),
+        }),
     }
-  ],
-  "meta": {
-    "current_page": 126,
-    "total_count": 150
-  }
+
 }
 ```
 

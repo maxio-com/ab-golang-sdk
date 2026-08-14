@@ -22,3 +22,18 @@ A handle for the line item kind
 | `COUPON` |
 | `TAX` |
 
+## Example
+
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    lineItemKind := models.LineItemKind_PREPAIDUSAGECOMPONENT
+
+}
+```
+

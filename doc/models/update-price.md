@@ -15,15 +15,24 @@
 | `Destroy` | `*bool` | Optional | - |
 | `StartingQuantity` | [`*models.UpdatePriceStartingQuantity`](../../doc/models/containers/update-price-starting-quantity.md) | Optional | This is a container for one-of cases. |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "id": 18,
-  "ending_quantity": 216,
-  "unit_price": 166.62,
-  "_destroy": false,
-  "starting_quantity": 242
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    updatePrice := models.UpdatePrice{
+        Id:                   models.ToPointer(206),
+        EndingQuantity:       models.ToPointer(models.UpdatePriceEndingQuantityContainer.FromNumber(28)),
+        UnitPrice:            models.ToPointer(models.UpdatePriceUnitPriceContainer.FromPrecision(float64(181.3))),
+        Destroy:              models.ToPointer(false),
+        StartingQuantity:     models.ToPointer(models.UpdatePriceStartingQuantityContainer.FromNumber(54)),
+    }
+
 }
 ```
 

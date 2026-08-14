@@ -12,12 +12,21 @@
 | `CanExecute` | `bool` | Required | - |
 | `Url` | `string` | Required | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "can_execute": false,
-  "url": "url2"
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    sendEmail := models.SendEmail{
+        CanExecute:           false,
+        Url:                  "url2",
+    }
+
 }
 ```
 

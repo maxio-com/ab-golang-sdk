@@ -23,25 +23,27 @@ type CreateOrUpdateProduct struct {
     RequireCreditCard      *bool                            `json:"require_credit_card,omitempty"`
     // The product price, in integer cents
     PriceInCents           int64                            `json:"price_in_cents"`
-    // The numerical interval. i.e. an interval of ‘30’ coupled with an interval_unit of day would mean this product would renew every 30 days
+    // The numerical interval. e.g., an interval of ‘30’ coupled with an interval_unit of day would mean this product would renew every 30 days.
     Interval               int                              `json:"interval"`
     // A string representing the interval unit for this product, either month or day
     IntervalUnit           IntervalUnit                     `json:"interval_unit"`
     // The product trial price, in integer cents
     TrialPriceInCents      *int64                           `json:"trial_price_in_cents,omitempty"`
-    // The numerical trial interval. i.e. an interval of ‘30’ coupled with a trial_interval_unit of day would mean this product trial would last 30 days.
+    // The numerical trial interval. e.g., an interval of ‘30’ coupled with a trial_interval_unit of day would mean this product trial would last 30 days.
     TrialInterval          *int                             `json:"trial_interval,omitempty"`
     // A string representing the trial interval unit for this product, either month or day
     TrialIntervalUnit      Optional[IntervalUnit]           `json:"trial_interval_unit"`
-    // Indicates how a trial is handled when the trail period ends and there is no credit card on file. For `no_obligation`, the subscription transitions to a Trial Ended state. Maxio will not send any emails or statements. For `payment_expected`, the subscription transitions to a Past Due state. Maxio will send normal dunning emails and statements according to your other settings.
+    // Indicates how a trial is handled when the trial period ends and there is no credit card on file. For `no_obligation`, the subscription transitions to a Trial Ended state. Maxio will not send any emails or statements. For `payment_expected`, the subscription transitions to a Past Due state. Maxio will send normal dunning emails and statements according to your other settings.
     TrialType              Optional[TrialType]              `json:"trial_type"`
-    // The numerical expiration interval. i.e. an expiration_interval of ‘30’ coupled with an expiration_interval_unit of day would mean this product would expire after 30 days.
+    // The numerical expiration interval. e.g., an expiration_interval of ‘30’ coupled with an expiration_interval_unit of day would mean this product would expire after 30 days.
     ExpirationInterval     *int                             `json:"expiration_interval,omitempty"`
     // A string representing the expiration interval unit for this product, either month, day or never
     ExpirationIntervalUnit Optional[ExpirationIntervalUnit] `json:"expiration_interval_unit"`
     AutoCreateSignupPage   *bool                            `json:"auto_create_signup_page,omitempty"`
     // A string representing the tax code related to the product type. This is especially important when using AvaTax to tax based on locale. This attribute has a max length of 25 characters.
     TaxCode                *string                          `json:"tax_code,omitempty"`
+    // (Optional) Custom UNSPSC commodity code for Level 3/CEDP payment data. When set, this value is sent as the commodity code on invoice line items for this product instead of the default derived from item_category.
+    UnspscCode             Optional[string]                 `json:"unspsc_code"`
     AdditionalProperties   map[string]interface{}           `json:"_"`
 }
 
@@ -49,8 +51,8 @@ type CreateOrUpdateProduct struct {
 // providing a human-readable string representation useful for logging, debugging or displaying information.
 func (c CreateOrUpdateProduct) String() string {
     return fmt.Sprintf(
-    	"CreateOrUpdateProduct[Name=%v, Handle=%v, Description=%v, AccountingCode=%v, RequireCreditCard=%v, PriceInCents=%v, Interval=%v, IntervalUnit=%v, TrialPriceInCents=%v, TrialInterval=%v, TrialIntervalUnit=%v, TrialType=%v, ExpirationInterval=%v, ExpirationIntervalUnit=%v, AutoCreateSignupPage=%v, TaxCode=%v, AdditionalProperties=%v]",
-    	c.Name, c.Handle, c.Description, c.AccountingCode, c.RequireCreditCard, c.PriceInCents, c.Interval, c.IntervalUnit, c.TrialPriceInCents, c.TrialInterval, c.TrialIntervalUnit, c.TrialType, c.ExpirationInterval, c.ExpirationIntervalUnit, c.AutoCreateSignupPage, c.TaxCode, c.AdditionalProperties)
+    	"CreateOrUpdateProduct[Name=%v, Handle=%v, Description=%v, AccountingCode=%v, RequireCreditCard=%v, PriceInCents=%v, Interval=%v, IntervalUnit=%v, TrialPriceInCents=%v, TrialInterval=%v, TrialIntervalUnit=%v, TrialType=%v, ExpirationInterval=%v, ExpirationIntervalUnit=%v, AutoCreateSignupPage=%v, TaxCode=%v, UnspscCode=%v, AdditionalProperties=%v]",
+    	c.Name, c.Handle, c.Description, c.AccountingCode, c.RequireCreditCard, c.PriceInCents, c.Interval, c.IntervalUnit, c.TrialPriceInCents, c.TrialInterval, c.TrialIntervalUnit, c.TrialType, c.ExpirationInterval, c.ExpirationIntervalUnit, c.AutoCreateSignupPage, c.TaxCode, c.UnspscCode, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreateOrUpdateProduct.
@@ -59,7 +61,7 @@ func (c CreateOrUpdateProduct) MarshalJSON() (
     []byte,
     error) {
     if err := DetectConflictingProperties(c.AdditionalProperties,
-        "name", "handle", "description", "accounting_code", "require_credit_card", "price_in_cents", "interval", "interval_unit", "trial_price_in_cents", "trial_interval", "trial_interval_unit", "trial_type", "expiration_interval", "expiration_interval_unit", "auto_create_signup_page", "tax_code"); err != nil {
+        "name", "handle", "description", "accounting_code", "require_credit_card", "price_in_cents", "interval", "interval_unit", "trial_price_in_cents", "trial_interval", "trial_interval_unit", "trial_type", "expiration_interval", "expiration_interval_unit", "auto_create_signup_page", "tax_code", "unspsc_code"); err != nil {
         return []byte{}, err
     }
     return json.Marshal(c.toMap())
@@ -119,6 +121,13 @@ func (c CreateOrUpdateProduct) toMap() map[string]any {
     if c.TaxCode != nil {
         structMap["tax_code"] = c.TaxCode
     }
+    if c.UnspscCode.IsValueSet() {
+        if c.UnspscCode.Value() != nil {
+            structMap["unspsc_code"] = c.UnspscCode.Value()
+        } else {
+            structMap["unspsc_code"] = nil
+        }
+    }
     return structMap
 }
 
@@ -134,7 +143,7 @@ func (c *CreateOrUpdateProduct) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "name", "handle", "description", "accounting_code", "require_credit_card", "price_in_cents", "interval", "interval_unit", "trial_price_in_cents", "trial_interval", "trial_interval_unit", "trial_type", "expiration_interval", "expiration_interval_unit", "auto_create_signup_page", "tax_code")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "name", "handle", "description", "accounting_code", "require_credit_card", "price_in_cents", "interval", "interval_unit", "trial_price_in_cents", "trial_interval", "trial_interval_unit", "trial_type", "expiration_interval", "expiration_interval_unit", "auto_create_signup_page", "tax_code", "unspsc_code")
     if err != nil {
     	return err
     }
@@ -156,6 +165,7 @@ func (c *CreateOrUpdateProduct) UnmarshalJSON(input []byte) error {
     c.ExpirationIntervalUnit = temp.ExpirationIntervalUnit
     c.AutoCreateSignupPage = temp.AutoCreateSignupPage
     c.TaxCode = temp.TaxCode
+    c.UnspscCode = temp.UnspscCode
     return nil
 }
 
@@ -177,6 +187,7 @@ type tempCreateOrUpdateProduct  struct {
     ExpirationIntervalUnit Optional[ExpirationIntervalUnit] `json:"expiration_interval_unit"`
     AutoCreateSignupPage   *bool                            `json:"auto_create_signup_page,omitempty"`
     TaxCode                *string                          `json:"tax_code,omitempty"`
+    UnspscCode             Optional[string]                 `json:"unspsc_code"`
 }
 
 func (c *tempCreateOrUpdateProduct) validate() error {

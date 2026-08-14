@@ -13,13 +13,22 @@
 | `Message` | `*string` | Optional | - |
 | `PricePoint` | `*int` | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "component_id": 206,
-  "message": "message4",
-  "price_point": 152
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    componentPricePointErrorItem := models.ComponentPricePointErrorItem{
+        ComponentId:          models.ToPointer(174),
+        Message:              models.ToPointer("message2"),
+        PricePoint:           models.ToPointer(72),
+    }
+
 }
 ```
 

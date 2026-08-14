@@ -11,17 +11,26 @@
 |  --- | --- | --- | --- |
 | `PricePoint` | [`models.ProductPricePoint`](../../doc/models/product-price-point.md) | Required | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "price_point": {
-    "id": 248,
-    "name": "name0",
-    "handle": "handle6",
-    "price_in_cents": 196,
-    "interval": 44
-  }
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    productPricePointResponse := models.ProductPricePointResponse{
+        PricePoint:           models.ProductPricePoint{
+            Id:                      models.ToPointer(248),
+            Name:                    models.ToPointer("name0"),
+            Handle:                  models.NewOptional(models.ToPointer("handle6")),
+            PriceInCents:            models.ToPointer(int64(196)),
+            Interval:                models.ToPointer(44),
+        },
+    }
+
 }
 ```
 

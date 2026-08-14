@@ -13,13 +13,22 @@
 | `CouponId` | `*int` | Optional | - |
 | `CouponName` | `*string` | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "coupon_code": "coupon_code8",
-  "coupon_id": 86,
-  "coupon_name": "coupon_name4"
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    offerDiscount := models.OfferDiscount{
+        CouponCode:           models.ToPointer("coupon_code6"),
+        CouponId:             models.ToPointer(202),
+        CouponName:           models.ToPointer("coupon_name6"),
+    }
+
 }
 ```
 

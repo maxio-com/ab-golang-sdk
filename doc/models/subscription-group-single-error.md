@@ -11,11 +11,20 @@
 |  --- | --- | --- | --- |
 | `SubscriptionGroup` | `string` | Required | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "subscription_group": "subscription_group2"
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    subscriptionGroupSingleError := models.SubscriptionGroupSingleError{
+        SubscriptionGroup:    "subscription_group0",
+    }
+
 }
 ```
 

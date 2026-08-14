@@ -13,13 +13,22 @@
 | `Usage` | `*string` | Optional | - |
 | `Recurring` | `*string` | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "mrr": "mrr2",
-  "usage": "usage0",
-  "recurring": "recurring4"
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    saleRepItemMrr := models.SaleRepItemMrr{
+        Mrr:                  models.ToPointer("mrr8"),
+        Usage:                models.ToPointer("usage0"),
+        Recurring:            models.ToPointer("recurring6"),
+    }
+
 }
 ```
 

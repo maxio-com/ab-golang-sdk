@@ -11,11 +11,20 @@
 |  --- | --- | --- | --- |
 | `ChargeUnbilledUsage` | `*bool` | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "charge_unbilled_usage": false
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    cancelGroupedSubscriptionsRequest := models.CancelGroupedSubscriptionsRequest{
+        ChargeUnbilledUsage:  models.ToPointer(false),
+    }
+
 }
 ```
 

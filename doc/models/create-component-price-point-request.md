@@ -11,26 +11,35 @@
 |  --- | --- | --- | --- |
 | `PricePoint` | [`models.CreateComponentPricePointRequestPricePoint`](../../doc/models/containers/create-component-price-point-request-price-point.md) | Required | This is a container for any-of cases. |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "price_point": {
-    "name": "name0",
-    "pricing_scheme": "per_unit",
-    "prices": [
-      {
-        "starting_quantity": 242,
-        "ending_quantity": 40,
-        "unit_price": 23.26
-      }
-    ],
-    "use_site_exchange_rate": true,
-    "handle": "handle6",
-    "tax_included": false,
-    "interval": 24,
-    "interval_unit": "day"
-  }
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    createComponentPricePointRequest := models.CreateComponentPricePointRequest{
+        PricePoint:           models.CreateComponentPricePointRequestPricePointContainer.FromCreateComponentPricePoint(models.CreateComponentPricePoint{
+            Name:                 "name0",
+            Handle:               models.ToPointer("handle6"),
+            PricingScheme:        models.PricingScheme_PERUNIT,
+            Prices:               []models.Price{
+                models.Price{
+                    StartingQuantity:     models.PriceStartingQuantityContainer.FromNumber(242),
+                    EndingQuantity:       models.NewOptional(models.ToPointer(models.PriceEndingQuantityContainer.FromNumber(40))),
+                    UnitPrice:            models.PriceUnitPriceContainer.FromPrecision(float64(23.26)),
+                },
+            },
+            UseSiteExchangeRate:  models.ToPointer(true),
+            TaxIncluded:          models.ToPointer(false),
+            Interval:             models.ToPointer(24),
+            IntervalUnit:         models.NewOptional(models.ToPointer(models.IntervalUnit_DAY)),
+        }),
+    }
+
 }
 ```
 

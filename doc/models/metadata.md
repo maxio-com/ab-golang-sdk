@@ -16,15 +16,33 @@
 | `DeletedAt` | `models.Optional[time.Time]` | Optional | - |
 | `MetafieldId` | `models.Optional[int]` | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "id": 12,
-  "value": "value0",
-  "resource_id": 96,
-  "name": "name8",
-  "deleted_at": "2016-03-13T12:52:32.123Z"
+```go
+package main
+
+import (
+    "log"
+    "time"
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    parseTime := func(layout, value string, errCallback func(error)) time.Time {
+        dateTime, err := time.Parse(layout, value)
+        if err != nil {
+            errCallback(err) 
+       }
+        return dateTime
+    }
+    metadata := models.Metadata{
+        Id:                   models.NewOptional(models.ToPointer(50)),
+        Value:                models.NewOptional(models.ToPointer("value8")),
+        ResourceId:           models.NewOptional(models.ToPointer(134)),
+        Name:                 models.ToPointer("name6"),
+        DeletedAt:            models.NewOptional(models.ToPointer(parseTime(time.RFC3339, "2016-03-13T12:52:32.123Z", func(err error) { log.Fatalln(err) }))),
+    }
+
 }
 ```
 

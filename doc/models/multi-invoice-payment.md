@@ -14,20 +14,34 @@
 | `CurrencyCode` | `*string` | Optional | The ISO 4217 currency code (3 character string) representing the currency of invoice transaction. |
 | `Applications` | [`[]models.InvoicePaymentApplication`](../../doc/models/invoice-payment-application.md) | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "transaction_id": 144,
-  "total_amount": "total_amount2",
-  "currency_code": "currency_code2",
-  "applications": [
-    {
-      "invoice_uid": "invoice_uid8",
-      "application_uid": "application_uid8",
-      "applied_amount": "applied_amount0"
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    multiInvoicePayment := models.MultiInvoicePayment{
+        TransactionId:        models.ToPointer(246),
+        TotalAmount:          models.ToPointer("total_amount0"),
+        CurrencyCode:         models.ToPointer("currency_code0"),
+        Applications:         []models.InvoicePaymentApplication{
+            models.InvoicePaymentApplication{
+                InvoiceUid:           models.ToPointer("invoice_uid8"),
+                ApplicationUid:       models.ToPointer("application_uid8"),
+                AppliedAmount:        models.ToPointer("applied_amount0"),
+            },
+            models.InvoicePaymentApplication{
+                InvoiceUid:           models.ToPointer("invoice_uid8"),
+                ApplicationUid:       models.ToPointer("application_uid8"),
+                AppliedAmount:        models.ToPointer("applied_amount0"),
+            },
+        },
     }
-  ]
+
 }
 ```
 

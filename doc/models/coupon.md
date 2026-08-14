@@ -41,15 +41,24 @@
 | `CouponRestrictions` | [`[]models.CouponRestriction`](../../doc/models/coupon-restriction.md) | Optional | - |
 | `CurrencyPrices` | [`[]models.CouponCurrency`](../../doc/models/coupon-currency.md) | Optional | Returned in read, find, and list endpoints if the query parameter is provided. |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "id": 22,
-  "name": "name2",
-  "code": "code0",
-  "description": "description2",
-  "amount": 62.64
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    coupon := models.Coupon{
+        Id:                            models.ToPointer(196),
+        Name:                          models.ToPointer("name4"),
+        Code:                          models.ToPointer("code2"),
+        Description:                   models.ToPointer("description6"),
+        Amount:                        models.NewOptional(models.ToPointer(float64(97.66))),
+    }
+
 }
 ```
 

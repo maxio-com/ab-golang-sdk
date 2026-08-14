@@ -16,19 +16,28 @@ Contract linked to the scheduled renewal configuration.
 | `Number` | `models.Optional[string]` | Optional | - |
 | `Register` | [`*models.Register`](../../doc/models/register.md) | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "id": 136,
-  "maxio_id": "maxio_id8",
-  "number": "number6",
-  "register": {
-    "id": 54,
-    "maxio_id": "maxio_id4",
-    "name": "name2",
-    "currency_code": "currency_code2"
-  }
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    contract := models.Contract{
+        Id:                   models.ToPointer(112),
+        MaxioId:              models.ToPointer("maxio_id6"),
+        Number:               models.NewOptional(models.ToPointer("number2")),
+        Register:             models.ToPointer(models.Register{
+            Id:                   models.ToPointer(54),
+            MaxioId:              models.ToPointer("maxio_id4"),
+            Name:                 models.ToPointer("name2"),
+            CurrencyCode:         models.ToPointer("currency_code2"),
+        }),
+    }
+
 }
 ```
 

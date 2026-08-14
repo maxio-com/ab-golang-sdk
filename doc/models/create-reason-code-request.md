@@ -11,15 +11,24 @@
 |  --- | --- | --- | --- |
 | `ReasonCode` | [`models.CreateReasonCode`](../../doc/models/create-reason-code.md) | Required | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "reason_code": {
-    "code": "code4",
-    "description": "description6",
-    "position": 14
-  }
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    createReasonCodeRequest := models.CreateReasonCodeRequest{
+        ReasonCode:           models.CreateReasonCode{
+            Code:                 "code4",
+            Description:          "description6",
+            Position:             models.ToPointer(14),
+        },
+    }
+
 }
 ```
 

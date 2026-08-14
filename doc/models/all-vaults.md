@@ -46,3 +46,18 @@ The vault that stores the payment profile with the provided `vault_token`. Use `
 | `UNIPAAS` |
 | `WIRECARD` |
 
+## Example
+
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    allVaults := models.AllVaults_EWAYRAPIDSTD
+
+}
+```
+

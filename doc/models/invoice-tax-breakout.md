@@ -14,14 +14,23 @@
 | `TaxAmount` | `*string` | Optional | - |
 | `TaxExemptAmount` | `*string` | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "uid": "uid2",
-  "taxable_amount": "taxable_amount6",
-  "tax_amount": "tax_amount6",
-  "tax_exempt_amount": "tax_exempt_amount2"
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    invoiceTaxBreakout := models.InvoiceTaxBreakout{
+        Uid:                  models.ToPointer("uid4"),
+        TaxableAmount:        models.ToPointer("taxable_amount8"),
+        TaxAmount:            models.ToPointer("tax_amount2"),
+        TaxExemptAmount:      models.ToPointer("tax_exempt_amount4"),
+    }
+
 }
 ```
 

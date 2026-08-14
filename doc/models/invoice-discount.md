@@ -22,15 +22,24 @@
 | `TransactionId` | `*int` | Optional | - |
 | `LineItemBreakouts` | [`[]models.InvoiceDiscountBreakout`](../../doc/models/invoice-discount-breakout.md) | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "uid": "uid0",
-  "title": "title4",
-  "description": "description0",
-  "code": "code8",
-  "source_type": "Coupon"
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    invoiceDiscount := models.InvoiceDiscount{
+        Uid:                  models.ToPointer("uid4"),
+        Title:                models.ToPointer("title0"),
+        Description:          models.NewOptional(models.ToPointer("description6")),
+        Code:                 models.ToPointer("code2"),
+        SourceType:           models.ToPointer(models.InvoiceDiscountSourceType_COUPON),
+    }
+
 }
 ```
 

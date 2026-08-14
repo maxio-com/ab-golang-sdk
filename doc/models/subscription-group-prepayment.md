@@ -14,14 +14,23 @@
 | `Memo` | `string` | Required | - |
 | `Method` | [`models.SubscriptionGroupPrepaymentMethod`](../../doc/models/subscription-group-prepayment-method.md) | Required | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "amount": 96,
-  "details": "details2",
-  "memo": "memo6",
-  "method": "money_order"
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    subscriptionGroupPrepayment := models.SubscriptionGroupPrepayment{
+        Amount:               12,
+        Details:              "details4",
+        Memo:                 "memo8",
+        Method:               models.SubscriptionGroupPrepaymentMethod_MONEYORDER,
+    }
+
 }
 ```
 

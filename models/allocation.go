@@ -11,21 +11,21 @@ import (
 
 // Allocation represents a Allocation struct.
 type Allocation struct {
-    // The allocation unique id
+    // The allocation unique ID
     AllocationId             *int                           `json:"allocation_id,omitempty"`
-    // The integer component ID for the allocation. This references a component that you have created in your Product setup
+    // The integer component ID for the allocation. This references a component that you have created in your Product setup.
     ComponentId              *int                           `json:"component_id,omitempty"`
-    // The handle of the component. This references a component that you have created in your Product setup
+    // The handle of the component. This references a component that you have created in your Product setup.
     ComponentHandle          Optional[string]               `json:"component_handle"`
-    // The integer subscription ID for the allocation. This references a unique subscription in your Site
+    // The integer subscription ID for the allocation. This references a unique subscription in your Site.
     SubscriptionId           *int                           `json:"subscription_id,omitempty"`
-    // The allocated quantity set in to effect by the allocation. String for components supporting fractional quantities
+    // The allocated quantity set into effect by the allocation. String for components supporting fractional quantities
     Quantity                 *AllocationQuantity            `json:"quantity,omitempty"`
     // The allocated quantity that was in effect before this allocation was created. String for components supporting fractional quantities
     PreviousQuantity         *AllocationPreviousQuantity    `json:"previous_quantity,omitempty"`
     // The memo passed when the allocation was created
     Memo                     Optional[string]               `json:"memo"`
-    // The time that the allocation was recorded, in format and UTC timezone, i.e. 2012-11-20T22:00:37Z
+    // The time that the allocation was recorded, in ISO 8601 format and UTC timezone, e.g., 2012-11-20T22:00:37Z
     Timestamp                *time.Time                     `json:"timestamp,omitempty"`
     // Timestamp indicating when this allocation was created
     CreatedAt                *time.Time                     `json:"created_at,omitempty"`
@@ -36,7 +36,7 @@ type Allocation struct {
     PricePointId             *int                           `json:"price_point_id,omitempty"`
     PricePointName           *string                        `json:"price_point_name,omitempty"`
     PricePointHandle         *string                        `json:"price_point_handle,omitempty"`
-    // The numerical interval. i.e. an interval of ‘30’ coupled with an interval_unit of day would mean this component price point would renew every 30 days. This property is only available for sites with Multifrequency enabled.
+    // The numerical interval. e.g., an interval of ‘30’ coupled with an interval_unit of day would mean this component price point would renew every 30 days. This property is only available for sites with Multifrequency enabled.
     Interval                 *int                           `json:"interval,omitempty"`
     // A string representing the interval unit for this component price point, either month or day. This property is only available for sites with Multifrequency enabled.
     IntervalUnit             Optional[IntervalUnit]         `json:"interval_unit"`

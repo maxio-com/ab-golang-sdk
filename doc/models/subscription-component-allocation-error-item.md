@@ -12,12 +12,21 @@
 | `Kind` | `*string` | Optional | - |
 | `Message` | `*string` | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "kind": "kind0",
-  "message": "message8"
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    subscriptionComponentAllocationErrorItem := models.SubscriptionComponentAllocationErrorItem{
+        Kind:                 models.ToPointer("kind6"),
+        Message:              models.ToPointer("message8"),
+    }
+
 }
 ```
 

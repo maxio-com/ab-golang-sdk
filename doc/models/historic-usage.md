@@ -1,7 +1,7 @@
 
 # Historic Usage
 
-Optional for Event Based Components. If the `include=historic_usages` query param is provided, the last ten billing periods will be returned.
+(Optional) For Event Based Components. If the `include=historic_usages` query param is provided, the last ten billing periods will be returned.
 
 ## Structure
 
@@ -15,13 +15,31 @@ Optional for Event Based Components. If the `include=historic_usages` query para
 | `BillingPeriodStartsAt` | `*time.Time` | Optional | Start date of billing period |
 | `BillingPeriodEndsAt` | `*time.Time` | Optional | End date of billing period |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "total_usage_quantity": 26.6,
-  "billing_period_starts_at": "2016-03-13T12:52:32.123Z",
-  "billing_period_ends_at": "2016-03-13T12:52:32.123Z"
+```go
+package main
+
+import (
+    "log"
+    "time"
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    parseTime := func(layout, value string, errCallback func(error)) time.Time {
+        dateTime, err := time.Parse(layout, value)
+        if err != nil {
+            errCallback(err) 
+       }
+        return dateTime
+    }
+    historicUsage := models.HistoricUsage{
+        TotalUsageQuantity:    models.ToPointer(float64(140.74)),
+        BillingPeriodStartsAt: models.ToPointer(parseTime(time.RFC3339, "2016-03-13T12:52:32.123Z", func(err error) { log.Fatalln(err) })),
+        BillingPeriodEndsAt:   models.ToPointer(parseTime(time.RFC3339, "2016-03-13T12:52:32.123Z", func(err error) { log.Fatalln(err) })),
+    }
+
 }
 ```
 

@@ -15,3 +15,18 @@ Role for the price.
 | `TRIAL` |
 | `INITIAL` |
 
+## Example
+
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    currencyPriceRole := models.CurrencyPriceRole_INITIAL
+
+}
+```
+

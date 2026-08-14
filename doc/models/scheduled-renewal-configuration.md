@@ -20,15 +20,33 @@
 | `ScheduledRenewalConfigurationItems` | [`[]models.ScheduledRenewalConfigurationItem`](../../doc/models/scheduled-renewal-configuration-item.md) | Optional | - |
 | `Contract` | [`*models.Contract`](../../doc/models/contract.md) | Optional | Contract linked to the scheduled renewal configuration. |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "id": 152,
-  "site_id": 78,
-  "subscription_id": 6,
-  "starts_at": "2016-03-13T12:52:32.123Z",
-  "ends_at": "2016-03-13T12:52:32.123Z"
+```go
+package main
+
+import (
+    "log"
+    "time"
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    parseTime := func(layout, value string, errCallback func(error)) time.Time {
+        dateTime, err := time.Parse(layout, value)
+        if err != nil {
+            errCallback(err) 
+       }
+        return dateTime
+    }
+    scheduledRenewalConfiguration := models.ScheduledRenewalConfiguration{
+        Id:                                 models.ToPointer(8),
+        SiteId:                             models.ToPointer(190),
+        SubscriptionId:                     models.ToPointer(118),
+        StartsAt:                           models.ToPointer(parseTime(time.RFC3339, "2016-03-13T12:52:32.123Z", func(err error) { log.Fatalln(err) })),
+        EndsAt:                             models.ToPointer(parseTime(time.RFC3339, "2016-03-13T12:52:32.123Z", func(err error) { log.Fatalln(err) })),
+    }
+
 }
 ```
 

@@ -26,12 +26,16 @@ type UpdateCustomer struct {
     Locale               *string                `json:"locale,omitempty"`
     VatNumber            *string                `json:"vat_number,omitempty"`
     TaxExempt            *bool                  `json:"tax_exempt,omitempty"`
+    // Whether surcharging is enabled for the customer. Only applied on sites where surcharging control is enabled.
+    Surcharging          *bool                  `json:"surcharging,omitempty"`
     TaxExemptReason      *string                `json:"tax_exempt_reason,omitempty"`
     ParentId             Optional[int]          `json:"parent_id"`
-    // Is the customer verified to use ACH as a payment method. Available only on Authorize.Net gateway
+    // Is the customer verified to use ACH as a payment method. Available only on the Authorize.Net gateway.
     Verified             Optional[bool]         `json:"verified"`
     // The Salesforce ID of the customer
     SalesforceId         Optional[string]       `json:"salesforce_id"`
+    // The ID of the Branding Theme assigned to this customer as the customer's default Branding Theme. This customer-level Branding Theme is used when a subscription does not have its own subscription-level Branding Theme. Available only when Branding Themes are enabled for the site.
+    BrandingThemeId      Optional[int]          `json:"branding_theme_id"`
     AdditionalProperties map[string]interface{} `json:"_"`
 }
 
@@ -39,8 +43,8 @@ type UpdateCustomer struct {
 // providing a human-readable string representation useful for logging, debugging or displaying information.
 func (u UpdateCustomer) String() string {
     return fmt.Sprintf(
-    	"UpdateCustomer[FirstName=%v, LastName=%v, Email=%v, CcEmails=%v, Organization=%v, Reference=%v, Address=%v, Address2=%v, City=%v, State=%v, Zip=%v, Country=%v, Phone=%v, Locale=%v, VatNumber=%v, TaxExempt=%v, TaxExemptReason=%v, ParentId=%v, Verified=%v, SalesforceId=%v, AdditionalProperties=%v]",
-    	u.FirstName, u.LastName, u.Email, u.CcEmails, u.Organization, u.Reference, u.Address, u.Address2, u.City, u.State, u.Zip, u.Country, u.Phone, u.Locale, u.VatNumber, u.TaxExempt, u.TaxExemptReason, u.ParentId, u.Verified, u.SalesforceId, u.AdditionalProperties)
+    	"UpdateCustomer[FirstName=%v, LastName=%v, Email=%v, CcEmails=%v, Organization=%v, Reference=%v, Address=%v, Address2=%v, City=%v, State=%v, Zip=%v, Country=%v, Phone=%v, Locale=%v, VatNumber=%v, TaxExempt=%v, Surcharging=%v, TaxExemptReason=%v, ParentId=%v, Verified=%v, SalesforceId=%v, BrandingThemeId=%v, AdditionalProperties=%v]",
+    	u.FirstName, u.LastName, u.Email, u.CcEmails, u.Organization, u.Reference, u.Address, u.Address2, u.City, u.State, u.Zip, u.Country, u.Phone, u.Locale, u.VatNumber, u.TaxExempt, u.Surcharging, u.TaxExemptReason, u.ParentId, u.Verified, u.SalesforceId, u.BrandingThemeId, u.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for UpdateCustomer.
@@ -49,7 +53,7 @@ func (u UpdateCustomer) MarshalJSON() (
     []byte,
     error) {
     if err := DetectConflictingProperties(u.AdditionalProperties,
-        "first_name", "last_name", "email", "cc_emails", "organization", "reference", "address", "address_2", "city", "state", "zip", "country", "phone", "locale", "vat_number", "tax_exempt", "tax_exempt_reason", "parent_id", "verified", "salesforce_id"); err != nil {
+        "first_name", "last_name", "email", "cc_emails", "organization", "reference", "address", "address_2", "city", "state", "zip", "country", "phone", "locale", "vat_number", "tax_exempt", "surcharging", "tax_exempt_reason", "parent_id", "verified", "salesforce_id", "branding_theme_id"); err != nil {
         return []byte{}, err
     }
     return json.Marshal(u.toMap())
@@ -107,6 +111,9 @@ func (u UpdateCustomer) toMap() map[string]any {
     if u.TaxExempt != nil {
         structMap["tax_exempt"] = u.TaxExempt
     }
+    if u.Surcharging != nil {
+        structMap["surcharging"] = u.Surcharging
+    }
     if u.TaxExemptReason != nil {
         structMap["tax_exempt_reason"] = u.TaxExemptReason
     }
@@ -131,6 +138,13 @@ func (u UpdateCustomer) toMap() map[string]any {
             structMap["salesforce_id"] = nil
         }
     }
+    if u.BrandingThemeId.IsValueSet() {
+        if u.BrandingThemeId.Value() != nil {
+            structMap["branding_theme_id"] = u.BrandingThemeId.Value()
+        } else {
+            structMap["branding_theme_id"] = nil
+        }
+    }
     return structMap
 }
 
@@ -142,7 +156,7 @@ func (u *UpdateCustomer) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "first_name", "last_name", "email", "cc_emails", "organization", "reference", "address", "address_2", "city", "state", "zip", "country", "phone", "locale", "vat_number", "tax_exempt", "tax_exempt_reason", "parent_id", "verified", "salesforce_id")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "first_name", "last_name", "email", "cc_emails", "organization", "reference", "address", "address_2", "city", "state", "zip", "country", "phone", "locale", "vat_number", "tax_exempt", "surcharging", "tax_exempt_reason", "parent_id", "verified", "salesforce_id", "branding_theme_id")
     if err != nil {
     	return err
     }
@@ -164,10 +178,12 @@ func (u *UpdateCustomer) UnmarshalJSON(input []byte) error {
     u.Locale = temp.Locale
     u.VatNumber = temp.VatNumber
     u.TaxExempt = temp.TaxExempt
+    u.Surcharging = temp.Surcharging
     u.TaxExemptReason = temp.TaxExemptReason
     u.ParentId = temp.ParentId
     u.Verified = temp.Verified
     u.SalesforceId = temp.SalesforceId
+    u.BrandingThemeId = temp.BrandingThemeId
     return nil
 }
 
@@ -189,8 +205,10 @@ type tempUpdateCustomer  struct {
     Locale          *string          `json:"locale,omitempty"`
     VatNumber       *string          `json:"vat_number,omitempty"`
     TaxExempt       *bool            `json:"tax_exempt,omitempty"`
+    Surcharging     *bool            `json:"surcharging,omitempty"`
     TaxExemptReason *string          `json:"tax_exempt_reason,omitempty"`
     ParentId        Optional[int]    `json:"parent_id"`
     Verified        Optional[bool]   `json:"verified"`
     SalesforceId    Optional[string] `json:"salesforce_id"`
+    BrandingThemeId Optional[int]    `json:"branding_theme_id"`
 }

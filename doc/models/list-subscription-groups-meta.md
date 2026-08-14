@@ -12,12 +12,21 @@
 | `CurrentPage` | `*int` | Optional | - |
 | `TotalCount` | `*int` | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "current_page": 14,
-  "total_count": 38
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    listSubscriptionGroupsMeta := models.ListSubscriptionGroupsMeta{
+        CurrentPage:          models.ToPointer(104),
+        TotalCount:           models.ToPointer(128),
+    }
+
 }
 ```
 

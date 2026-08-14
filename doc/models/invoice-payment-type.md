@@ -16,3 +16,18 @@ The type of payment to be applied to an Invoice. Defaults to external.
 | `SERVICECREDIT` |
 | `PAYMENT` |
 
+## Example
+
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    invoicePaymentType := models.InvoicePaymentType_EXTERNAL
+
+}
+```
+

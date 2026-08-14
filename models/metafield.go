@@ -15,7 +15,7 @@ type Metafield struct {
     Scope                *MetafieldScope         `json:"scope,omitempty"`
     // The amount of subscriptions this metafield has been applied to in Advanced Billing.
     DataCount            *int                    `json:"data_count,omitempty"`
-    // Indicates the type of metafield. A text metafield allows any string value. Dropdown and radio metafields have a set of values that can be selected.  Defaults to 'text'.
+    // Indicates the type of metafield. A text metafield allows any string value. Dropdown and radio metafields have a set of values that can be selected. Defaults to 'text'.
     InputType            *MetafieldInput         `json:"input_type,omitempty"`
     Enum                 Optional[MetafieldEnum] `json:"enum"`
     AdditionalProperties map[string]interface{}  `json:"_"`

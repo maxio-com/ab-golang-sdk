@@ -17,17 +17,26 @@
 | `AmountInCents` | `models.Optional[int64]` | Optional | **Constraints**: `>= 0` |
 | `Percentage` | `models.Optional[string]` | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "code": "\"ABCD_10\"",
-  "use_count": 2,
-  "uses_allowed": 10,
-  "expires_at": "\"2023-07-13T05:18:58-04:00\"",
-  "amount_in_cents": 1000,
-  "percentage": "\"15.0\"",
-  "recurring": false
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    subscriptionIncludedCoupon := models.SubscriptionIncludedCoupon{
+        Code:                 models.ToPointer("\"ABCD_10\""),
+        UseCount:             models.ToPointer(2),
+        UsesAllowed:          models.ToPointer(10),
+        ExpiresAt:            models.NewOptional(models.ToPointer("\"2023-07-13T05:18:58-04:00\"")),
+        Recurring:            models.ToPointer(false),
+        AmountInCents:        models.NewOptional(models.ToPointer(int64(1000))),
+        Percentage:           models.NewOptional(models.ToPointer("\"15.0\"")),
+    }
+
 }
 ```
 

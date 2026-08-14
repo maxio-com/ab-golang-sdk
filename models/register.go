@@ -12,7 +12,7 @@ type Register struct {
     Id                   *int                   `json:"id,omitempty"`
     MaxioId              *string                `json:"maxio_id,omitempty"`
     Name                 *string                `json:"name,omitempty"`
-    // The ISO 4217 currency code (3 character string) representing the currency of invoice transaction.
+    // The ISO 4217 currency code (3 character string) representing the currency of an invoice transaction.
     CurrencyCode         *string                `json:"currency_code,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
 }

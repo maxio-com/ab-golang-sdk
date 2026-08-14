@@ -26,11 +26,10 @@ func NewOffersController(baseController baseController) *OffersController {
 // CreateOffer takes context, body as parameters and
 // returns an models.ApiResponse with models.OfferResponse data and
 // an error if there was an issue with the request or response.
-// Creates an offer within your Advanced Billing site.
-// ## Documentation
+// Creates an offer within your site.
 // Offers allow you to package complicated combinations of products, components and coupons into a convenient package which can then be subscribed to just like products.
 // Once an offer is defined it can be used as an alternative to the product when creating subscriptions.
-// Full documentation on how to use offers in the Advanced Billing UI can be located [here](https://maxio.zendesk.com/hc/en-us/articles/24261295098637-Offers-Overview).
+// For more information, see [Offers](https://maxio.zendesk.com/hc/en-us/articles/24261295098637-Offers-Overview) in the product documentation.
 // ## Using a Product Price Point
 // You can optionally pass in a `product_price_point_id` that corresponds with the `product_id` and the offer will use that price point. If a `product_price_point_id` is not passed in, the product's default price point will be used.
 func (o *OffersController) CreateOffer(

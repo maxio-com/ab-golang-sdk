@@ -11,15 +11,24 @@
 |  --- | --- | --- | --- |
 | `MemberIds` | `[]int` | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "member_ids": [
-    52,
-    53,
-    54
-  ]
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    updateSubscriptionGroup := models.UpdateSubscriptionGroup{
+        MemberIds:            []int{
+            248,
+            249,
+            250,
+        },
+    }
+
 }
 ```
 

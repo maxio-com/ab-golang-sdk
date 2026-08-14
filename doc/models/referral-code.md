@@ -14,14 +14,23 @@
 | `SubscriptionId` | `*int` | Optional | - |
 | `Code` | `*string` | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "id": 42,
-  "site_id": 224,
-  "subscription_id": 152,
-  "code": "code6"
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    referralCode := models.ReferralCode{
+        Id:                   models.ToPointer(186),
+        SiteId:               models.ToPointer(112),
+        SubscriptionId:       models.ToPointer(40),
+        Code:                 models.ToPointer("code6"),
+    }
+
 }
 ```
 

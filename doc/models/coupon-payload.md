@@ -10,10 +10,10 @@
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `Name` | `*string` | Optional | Required when creating a new coupon. This name is not displayed to customers and is limited to 255 characters. |
-| `Code` | `*string` | Optional | Required when creating a new coupon. The code is limited to 255 characters. May contain uppercase alphanumeric characters and these special characters (which allow for email addresses to be used): “%”, “@”, “+”, “-”, “_”, and “.” |
+| `Code` | `*string` | Optional | Required when creating a new coupon. The code is limited to 255 characters. May contain uppercase alphanumeric characters and these special characters (which allow for email addresses to be used): “%”, “@”, “+”, “-”, “_”, and “.”. |
 | `Description` | `*string` | Optional | Required when creating a new coupon. A description of the coupon that can be displayed to customers in transactions and on statements. The description is limited to 255 characters. |
 | `Percentage` | [`*models.CouponPayloadPercentage`](../../doc/models/containers/coupon-payload-percentage.md) | Optional | This is a container for one-of cases. |
-| `AmountInCents` | `*int64` | Optional | Required when creating a new flat amount coupon. Can't be used together with percentage. Flat USD discount |
+| `AmountInCents` | `*int64` | Optional | Required when creating a new flat amount coupon. Can't be used together with percentage. Flat USD discount. |
 | `AllowNegativeBalance` | `*bool` | Optional | If set to true, discount is not limited (credits will carry forward to next billing). Can't be used together with restrictions. |
 | `Recurring` | `*bool` | Optional | - |
 | `EndDate` | `*time.Time` | Optional | After the end of the given day, this coupon code will be invalid for new signups. Recurring discounts started before this date will continue to recur even after this date. |
@@ -24,15 +24,24 @@
 | `ApplyOnCancelAtEndOfPeriod` | `*bool` | Optional | - |
 | `ApplyOnSubscriptionExpiration` | `*bool` | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "name": "name8",
-  "code": "code6",
-  "description": "description8",
-  "percentage": "String7",
-  "amount_in_cents": 110
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    couponPayload := models.CouponPayload{
+        Name:                          models.ToPointer("name8"),
+        Code:                          models.ToPointer("code6"),
+        Description:                   models.ToPointer("description2"),
+        Percentage:                    models.ToPointer(models.CouponPayloadPercentageContainer.FromString("String7")),
+        AmountInCents:                 models.ToPointer(int64(124)),
+    }
+
 }
 ```
 

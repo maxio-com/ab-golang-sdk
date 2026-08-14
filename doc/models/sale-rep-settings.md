@@ -17,15 +17,24 @@
 | `SalesRepId` | `*int` | Optional | - |
 | `SalesRepName` | `*string` | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "customer_name": "customer_name8",
-  "subscription_id": 200,
-  "site_link": "site_link4",
-  "site_name": "site_name8",
-  "subscription_mrr": "subscription_mrr6"
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    saleRepSettings := models.SaleRepSettings{
+        CustomerName:         models.ToPointer("customer_name6"),
+        SubscriptionId:       models.ToPointer(202),
+        SiteLink:             models.ToPointer("site_link2"),
+        SiteName:             models.ToPointer("site_name6"),
+        SubscriptionMrr:      models.ToPointer("subscription_mrr4"),
+    }
+
 }
 ```
 

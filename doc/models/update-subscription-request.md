@@ -11,23 +11,32 @@
 |  --- | --- | --- | --- |
 | `Subscription` | [`models.UpdateSubscription`](../../doc/models/update-subscription.md) | Required | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "subscription": {
-    "defer_signup": false,
-    "dunning_communication_delay_time_zone": "\"Eastern Time (US & Canada)\"",
-    "credit_card_attributes": {
-      "full_number": "full_number2",
-      "expiration_month": "expiration_month6",
-      "expiration_year": "expiration_year2"
-    },
-    "product_handle": "product_handle6",
-    "product_id": 206,
-    "product_change_delayed": false,
-    "next_product_id": "next_product_id6"
-  }
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    updateSubscriptionRequest := models.UpdateSubscriptionRequest{
+        Subscription:         models.UpdateSubscription{
+            CreditCardAttributes:              models.ToPointer(models.CreditCardAttributes{
+                FullNumber:           models.ToPointer("full_number2"),
+                ExpirationMonth:      models.ToPointer("expiration_month6"),
+                ExpirationYear:       models.ToPointer("expiration_year2"),
+            }),
+            ProductHandle:                     models.ToPointer("product_handle6"),
+            ProductId:                         models.ToPointer(206),
+            ProductChangeDelayed:              models.ToPointer(false),
+            NextProductId:                     models.ToPointer("next_product_id6"),
+            DeferSignup:                       models.ToPointer(false),
+            DunningCommunicationDelayTimeZone: models.NewOptional(models.ToPointer("\"Eastern Time (US & Canada)\"")),
+        },
+    }
+
 }
 ```
 

@@ -21,3 +21,18 @@ The type of credit to be created when upgrading/downgrading. Defaults to the com
 | `PRORATED` |
 | `NONE` |
 
+## Example
+
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    upgradeChargeCreditType := models.UpgradeChargeCreditType_FULL
+
+}
+```
+

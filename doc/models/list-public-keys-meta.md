@@ -14,14 +14,23 @@
 | `TotalPages` | `*int` | Optional | - |
 | `PerPage` | `*int` | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "total_count": 22,
-  "current_page": 254,
-  "total_pages": 10,
-  "per_page": 24
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    listPublicKeysMeta := models.ListPublicKeysMeta{
+        TotalCount:           models.ToPointer(232),
+        CurrentPage:          models.ToPointer(208),
+        TotalPages:           models.ToPointer(220),
+        PerPage:              models.ToPointer(70),
+    }
+
 }
 ```
 

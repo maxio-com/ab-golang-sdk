@@ -13,33 +13,51 @@
 | `BillingSchedule` | [`*models.BillingSchedule`](../../doc/models/billing-schedule.md) | Optional | Billing schedule settings for component allocations or usages on multi-frequency subscriptions. Use this to start a component's billing period on a custom date instead of aligning with the product charge schedule. |
 | `CustomPrice` | [`*models.ComponentCustomPrice`](../../doc/models/component-custom-price.md) | Optional | Create or update custom pricing unique to the subscription. Used in place of `price_point_id`. |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "price_point_id": 44,
-  "billing_schedule": {
-    "initial_billing_at": "2016-03-13T12:52:32.123Z"
-  },
-  "custom_price": {
-    "tax_included": false,
-    "pricing_scheme": "stairstep",
-    "interval": 66,
-    "interval_unit": "day",
-    "list_price_point_id": 174,
-    "prices": [
-      {
-        "starting_quantity": 242,
-        "ending_quantity": 40,
-        "unit_price": 23.26
-      },
-      {
-        "starting_quantity": 242,
-        "ending_quantity": 40,
-        "unit_price": 23.26
-      }
-    ]
-  }
+```go
+package main
+
+import (
+    "log"
+    "time"
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    parseTime := func(layout, value string, errCallback func(error)) time.Time {
+        dateTime, err := time.Parse(layout, value)
+        if err != nil {
+            errCallback(err) 
+       }
+        return dateTime
+    }
+    activateEventBasedComponent := models.ActivateEventBasedComponent{
+        PricePointId:         models.ToPointer(68),
+        BillingSchedule:      models.ToPointer(models.BillingSchedule{
+            InitialBillingAt:     models.NewOptional(models.ToPointer(parseTime(models.DEFAULT_DATE, "2016-03-13T12:52:32.123Z", func(err error) { log.Fatalln(err) }))),
+        }),
+        CustomPrice:          models.ToPointer(models.ComponentCustomPrice{
+            TaxIncluded:              models.ToPointer(false),
+            PricingScheme:            models.ToPointer(models.PricingScheme_STAIRSTEP),
+            Interval:                 models.ToPointer(66),
+            IntervalUnit:             models.NewOptional(models.ToPointer(models.IntervalUnit_DAY)),
+            ListPricePointId:         models.NewOptional(models.ToPointer(174)),
+            Prices:                   []models.Price{
+                models.Price{
+                    StartingQuantity:     models.PriceStartingQuantityContainer.FromNumber(242),
+                    EndingQuantity:       models.NewOptional(models.ToPointer(models.PriceEndingQuantityContainer.FromNumber(40))),
+                    UnitPrice:            models.PriceUnitPriceContainer.FromPrecision(float64(23.26)),
+                },
+                models.Price{
+                    StartingQuantity:     models.PriceStartingQuantityContainer.FromNumber(242),
+                    EndingQuantity:       models.NewOptional(models.ToPointer(models.PriceEndingQuantityContainer.FromNumber(40))),
+                    UnitPrice:            models.PriceUnitPriceContainer.FromPrecision(float64(23.26)),
+                },
+            },
+        }),
+    }
+
 }
 ```
 

@@ -11,15 +11,16 @@
 |  --- | --- | --- | --- |
 | `Errors` | [`models.SubscriptionGroupCreateErrorResponseErrors`](../../doc/models/containers/subscription-group-create-error-response-errors.md) | Required | This is a container for one-of cases. |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "errors": {
-    "members": [
-      "members6"
-    ]
-  }
+```go
+if err != nil {
+    switch typedErr := err.(type) {
+    case *errors.SubscriptionGroupCreateErrorResponseException:
+        log.Fatalln(typedErr)
+    default:
+        log.Fatalln(err)
+    }
 }
 ```
 

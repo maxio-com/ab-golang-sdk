@@ -17,7 +17,7 @@ type CancellationOptions struct {
     ReasonCode                     *string                `json:"reason_code,omitempty"`
     // When true, the subscription is cancelled at the current period end instead of immediately. To use this option, the Schedule Subscription Cancellation feature must be enabled on your site.
     CancelAtEndOfPeriod            *bool                  `json:"cancel_at_end_of_period,omitempty"`
-    // Schedules the cancellation on the provided date. This is option is not applicable for prepaid subscriptions. To use this option, the Schedule Subscription Cancellation feature must be enabled on your site.
+    // Schedules the cancellation on the provided date. This option is not applicable for prepaid subscriptions. To use this option, the Schedule Subscription Cancellation feature must be enabled on your site.
     ScheduledCancellationAt        Optional[time.Time]    `json:"scheduled_cancellation_at"`
     // Applies to prepaid subscriptions. When true, which is the default, the remaining prepaid balance is refunded as part of cancellation processing. When false, prepaid balance is not refunded as part of cancellation processing. To use this option, the Schedule Subscription Cancellation feature must be enabled on your site.
     RefundPrepaymentAccountBalance *bool                  `json:"refund_prepayment_account_balance,omitempty"`

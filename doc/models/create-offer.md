@@ -17,30 +17,46 @@
 | `Components` | [`[]models.CreateOfferComponent`](../../doc/models/create-offer-component.md) | Optional | - |
 | `Coupons` | `[]string` | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "name": "name4",
-  "handle": "handle0",
-  "description": "description4",
-  "product_id": 208,
-  "product_price_point_id": 132,
-  "components": [
-    {
-      "component_id": 108,
-      "price_point_id": 124,
-      "starting_quantity": 84
-    },
-    {
-      "component_id": 108,
-      "price_point_id": 124,
-      "starting_quantity": 84
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    createOffer := models.CreateOffer{
+        Name:                 "name6",
+        Handle:               "handle2",
+        Description:          models.ToPointer("description6"),
+        ProductId:            66,
+        ProductPricePointId:  models.ToPointer(246),
+        Components:           []models.CreateOfferComponent{
+            models.CreateOfferComponent{
+                ComponentId:          models.ToPointer(108),
+                PricePointId:         models.ToPointer(124),
+                StartingQuantity:     models.ToPointer(84),
+            },
+            models.CreateOfferComponent{
+                ComponentId:          models.ToPointer(108),
+                PricePointId:         models.ToPointer(124),
+                StartingQuantity:     models.ToPointer(84),
+            },
+            models.CreateOfferComponent{
+                ComponentId:          models.ToPointer(108),
+                PricePointId:         models.ToPointer(124),
+                StartingQuantity:     models.ToPointer(84),
+            },
+        },
+        Coupons:              []string{
+            "coupons6",
+            "coupons5",
+            "coupons4",
+        },
     }
-  ],
-  "coupons": [
-    "coupons4"
-  ]
+
 }
 ```
 

@@ -13,13 +13,22 @@
 | `MaskedRoutingNumber` | `string` | Required | - |
 | `Type` | [`models.InvoiceEventPaymentMethod`](../../doc/models/invoice-event-payment-method.md) | Required | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "masked_account_number": "masked_account_number2",
-  "masked_routing_number": "masked_routing_number2",
-  "type": "bank_account"
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    paymentMethodBankAccount := models.PaymentMethodBankAccount{
+        MaskedAccountNumber:  "masked_account_number4",
+        MaskedRoutingNumber:  "masked_routing_number4",
+        Type:                 models.InvoiceEventPaymentMethod_BANKACCOUNT,
+    }
+
 }
 ```
 

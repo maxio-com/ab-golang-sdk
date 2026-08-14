@@ -13,13 +13,22 @@
 | `AutomaticBalanceInCents` | `models.Optional[int64]` | Optional | The automatic balance in cents. |
 | `RemittanceBalanceInCents` | `models.Optional[int64]` | Optional | The remittance balance in cents. |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "balance_in_cents": 16,
-  "automatic_balance_in_cents": 226,
-  "remittance_balance_in_cents": 62
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    accountBalance := models.AccountBalance{
+        BalanceInCents:           models.ToPointer(int64(242)),
+        AutomaticBalanceInCents:  models.NewOptional(models.ToPointer(int64(0))),
+        RemittanceBalanceInCents: models.NewOptional(models.ToPointer(int64(32))),
+    }
+
 }
 ```
 

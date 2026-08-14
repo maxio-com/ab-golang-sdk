@@ -30,15 +30,24 @@
 | `PortalEnabled` | `*bool` | Optional | Whether the Billing Portal is enabled for this site. |
 | `Test` | `*bool` | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "id": 34,
-  "name": "name0",
-  "subdomain": "subdomain4",
-  "currency": "currency0",
-  "seller_id": 198
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    site := models.Site{
+        Id:                                      models.ToPointer(64),
+        Name:                                    models.ToPointer("name4"),
+        Subdomain:                               models.ToPointer("subdomain0"),
+        Currency:                                models.ToPointer("currency4"),
+        SellerId:                                models.ToPointer(228),
+    }
+
 }
 ```
 

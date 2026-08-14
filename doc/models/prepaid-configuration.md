@@ -15,15 +15,24 @@
 | `AutoReplenish` | `*bool` | Optional | - |
 | `ReplenishThresholdAmountInCents` | `*int64` | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "id": 156,
-  "initial_funding_amount_in_cents": 88,
-  "replenish_to_amount_in_cents": 166,
-  "auto_replenish": false,
-  "replenish_threshold_amount_in_cents": 222
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    prepaidConfiguration := models.PrepaidConfiguration{
+        Id:                              models.ToPointer(146),
+        InitialFundingAmountInCents:     models.ToPointer(int64(78)),
+        ReplenishToAmountInCents:        models.ToPointer(int64(80)),
+        AutoReplenish:                   models.ToPointer(false),
+        ReplenishThresholdAmountInCents: models.ToPointer(int64(232)),
+    }
+
 }
 ```
 

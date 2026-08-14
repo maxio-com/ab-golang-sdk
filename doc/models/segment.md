@@ -22,15 +22,24 @@
 | `UpdatedAt` | `*time.Time` | Optional | - |
 | `Prices` | [`[]models.SegmentPrice`](../../doc/models/segment-price.md) | Optional | **Constraints**: *Minimum Items*: `1` |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "id": 6,
-  "component_id": 116,
-  "price_point_id": 140,
-  "event_based_billing_metric_id": 200,
-  "pricing_scheme": "stairstep"
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    segment := models.Segment{
+        Id:                        models.ToPointer(118),
+        ComponentId:               models.ToPointer(228),
+        PricePointId:              models.ToPointer(4),
+        EventBasedBillingMetricId: models.ToPointer(56),
+        PricingScheme:             models.ToPointer(models.PricingScheme_STAIRSTEP),
+    }
+
 }
 ```
 

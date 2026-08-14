@@ -13,12 +13,12 @@ import (
 type Component struct {
     // The unique ID assigned to the component by Chargify. This ID can be used to fetch the component from the API.
     Id                        *int                       `json:"id,omitempty"`
-    // The name of the Component, suitable for display on statements. i.e. Text Messages.
+    // The name of the Component, suitable for display on statements. e.g., Text Messages.
     Name                      *string                    `json:"name,omitempty"`
     // The component API handle
     Handle                    Optional[string]           `json:"handle"`
     PricingScheme             Optional[PricingScheme]    `json:"pricing_scheme"`
-    // The name of the unit that the component’s usage is measured in. i.e. message
+    // The name of the unit that the component’s usage is measured in. e.g., message
     UnitName                  *string                    `json:"unit_name,omitempty"`
     // The amount the customer will be charged per unit. This field is only populated for ‘per_unit’ pricing schemes, otherwise it may be null.
     UnitPrice                 Optional[string]           `json:"unit_price"`
@@ -28,7 +28,7 @@ type Component struct {
     ProductFamilyName         *string                    `json:"product_family_name,omitempty"`
     // The handle of the Product Family to which the Component belongs
     ProductFamilyHandle       *string                    `json:"product_family_handle,omitempty"`
-    // deprecated - use unit_price instead
+    // deprecated - use unit_price instead.
     PricePerUnitInCents       Optional[int64]            `json:"price_per_unit_in_cents"`
     // A handle for the component type
     Kind                      *ComponentKind             `json:"kind,omitempty"`
@@ -71,10 +71,12 @@ type Component struct {
     AccountingCode            Optional[string]           `json:"accounting_code"`
     // (Only for Event Based Components) This is an ID of a metric attached to the component. This metric is used to bill upon collected events.
     EventBasedBillingMetricId *int                       `json:"event_based_billing_metric_id,omitempty"`
-    // The numerical interval. i.e. an interval of ‘30’ coupled with an interval_unit of day would mean this component's default price point would renew every 30 days. This property is only available for sites with Multifrequency enabled.
+    // The numerical interval. e.g., an interval of ‘30’ coupled with an interval_unit of day would mean this component’s default price point would renew every 30 days. This property is only available for sites with Multifrequency enabled.
     Interval                  *int                       `json:"interval,omitempty"`
     // A string representing the interval unit for this component's default price point, either month or day. This property is only available for sites with Multifrequency enabled.
     IntervalUnit              Optional[IntervalUnit]     `json:"interval_unit"`
+    // (Optional) Custom UNSPSC commodity code for Level 3/CEDP payment data. When set, this value is sent as the commodity code on invoice line items for this component instead of the default derived from item_category.
+    UnspscCode                Optional[string]           `json:"unspsc_code"`
     AdditionalProperties      map[string]interface{}     `json:"_"`
 }
 
@@ -82,8 +84,8 @@ type Component struct {
 // providing a human-readable string representation useful for logging, debugging or displaying information.
 func (c Component) String() string {
     return fmt.Sprintf(
-    	"Component[Id=%v, Name=%v, Handle=%v, PricingScheme=%v, UnitName=%v, UnitPrice=%v, ProductFamilyId=%v, ProductFamilyName=%v, ProductFamilyHandle=%v, PricePerUnitInCents=%v, Kind=%v, Archived=%v, Description=%v, DefaultPricePointId=%v, OveragePrices=%v, Prices=%v, PricePointCount=%v, PricePointsUrl=%v, DefaultPricePointName=%v, Taxable=%v, TaxCode=%v, Recurring=%v, UpgradeCharge=%v, DowngradeCredit=%v, CreatedAt=%v, UpdatedAt=%v, ArchivedAt=%v, HideDateRangeOnInvoice=%v, AllowFractionalQuantities=%v, ItemCategory=%v, UseSiteExchangeRate=%v, AccountingCode=%v, EventBasedBillingMetricId=%v, Interval=%v, IntervalUnit=%v, AdditionalProperties=%v]",
-    	c.Id, c.Name, c.Handle, c.PricingScheme, c.UnitName, c.UnitPrice, c.ProductFamilyId, c.ProductFamilyName, c.ProductFamilyHandle, c.PricePerUnitInCents, c.Kind, c.Archived, c.Description, c.DefaultPricePointId, c.OveragePrices, c.Prices, c.PricePointCount, c.PricePointsUrl, c.DefaultPricePointName, c.Taxable, c.TaxCode, c.Recurring, c.UpgradeCharge, c.DowngradeCredit, c.CreatedAt, c.UpdatedAt, c.ArchivedAt, c.HideDateRangeOnInvoice, c.AllowFractionalQuantities, c.ItemCategory, c.UseSiteExchangeRate, c.AccountingCode, c.EventBasedBillingMetricId, c.Interval, c.IntervalUnit, c.AdditionalProperties)
+    	"Component[Id=%v, Name=%v, Handle=%v, PricingScheme=%v, UnitName=%v, UnitPrice=%v, ProductFamilyId=%v, ProductFamilyName=%v, ProductFamilyHandle=%v, PricePerUnitInCents=%v, Kind=%v, Archived=%v, Description=%v, DefaultPricePointId=%v, OveragePrices=%v, Prices=%v, PricePointCount=%v, PricePointsUrl=%v, DefaultPricePointName=%v, Taxable=%v, TaxCode=%v, Recurring=%v, UpgradeCharge=%v, DowngradeCredit=%v, CreatedAt=%v, UpdatedAt=%v, ArchivedAt=%v, HideDateRangeOnInvoice=%v, AllowFractionalQuantities=%v, ItemCategory=%v, UseSiteExchangeRate=%v, AccountingCode=%v, EventBasedBillingMetricId=%v, Interval=%v, IntervalUnit=%v, UnspscCode=%v, AdditionalProperties=%v]",
+    	c.Id, c.Name, c.Handle, c.PricingScheme, c.UnitName, c.UnitPrice, c.ProductFamilyId, c.ProductFamilyName, c.ProductFamilyHandle, c.PricePerUnitInCents, c.Kind, c.Archived, c.Description, c.DefaultPricePointId, c.OveragePrices, c.Prices, c.PricePointCount, c.PricePointsUrl, c.DefaultPricePointName, c.Taxable, c.TaxCode, c.Recurring, c.UpgradeCharge, c.DowngradeCredit, c.CreatedAt, c.UpdatedAt, c.ArchivedAt, c.HideDateRangeOnInvoice, c.AllowFractionalQuantities, c.ItemCategory, c.UseSiteExchangeRate, c.AccountingCode, c.EventBasedBillingMetricId, c.Interval, c.IntervalUnit, c.UnspscCode, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for Component.
@@ -92,7 +94,7 @@ func (c Component) MarshalJSON() (
     []byte,
     error) {
     if err := DetectConflictingProperties(c.AdditionalProperties,
-        "id", "name", "handle", "pricing_scheme", "unit_name", "unit_price", "product_family_id", "product_family_name", "product_family_handle", "price_per_unit_in_cents", "kind", "archived", "description", "default_price_point_id", "overage_prices", "prices", "price_point_count", "price_points_url", "default_price_point_name", "taxable", "tax_code", "recurring", "upgrade_charge", "downgrade_credit", "created_at", "updated_at", "archived_at", "hide_date_range_on_invoice", "allow_fractional_quantities", "item_category", "use_site_exchange_rate", "accounting_code", "event_based_billing_metric_id", "interval", "interval_unit"); err != nil {
+        "id", "name", "handle", "pricing_scheme", "unit_name", "unit_price", "product_family_id", "product_family_name", "product_family_handle", "price_per_unit_in_cents", "kind", "archived", "description", "default_price_point_id", "overage_prices", "prices", "price_point_count", "price_points_url", "default_price_point_name", "taxable", "tax_code", "recurring", "upgrade_charge", "downgrade_credit", "created_at", "updated_at", "archived_at", "hide_date_range_on_invoice", "allow_fractional_quantities", "item_category", "use_site_exchange_rate", "accounting_code", "event_based_billing_metric_id", "interval", "interval_unit", "unspsc_code"); err != nil {
         return []byte{}, err
     }
     return json.Marshal(c.toMap())
@@ -280,6 +282,13 @@ func (c Component) toMap() map[string]any {
             structMap["interval_unit"] = nil
         }
     }
+    if c.UnspscCode.IsValueSet() {
+        if c.UnspscCode.Value() != nil {
+            structMap["unspsc_code"] = c.UnspscCode.Value()
+        } else {
+            structMap["unspsc_code"] = nil
+        }
+    }
     return structMap
 }
 
@@ -291,7 +300,7 @@ func (c *Component) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "id", "name", "handle", "pricing_scheme", "unit_name", "unit_price", "product_family_id", "product_family_name", "product_family_handle", "price_per_unit_in_cents", "kind", "archived", "description", "default_price_point_id", "overage_prices", "prices", "price_point_count", "price_points_url", "default_price_point_name", "taxable", "tax_code", "recurring", "upgrade_charge", "downgrade_credit", "created_at", "updated_at", "archived_at", "hide_date_range_on_invoice", "allow_fractional_quantities", "item_category", "use_site_exchange_rate", "accounting_code", "event_based_billing_metric_id", "interval", "interval_unit")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "id", "name", "handle", "pricing_scheme", "unit_name", "unit_price", "product_family_id", "product_family_name", "product_family_handle", "price_per_unit_in_cents", "kind", "archived", "description", "default_price_point_id", "overage_prices", "prices", "price_point_count", "price_points_url", "default_price_point_name", "taxable", "tax_code", "recurring", "upgrade_charge", "downgrade_credit", "created_at", "updated_at", "archived_at", "hide_date_range_on_invoice", "allow_fractional_quantities", "item_category", "use_site_exchange_rate", "accounting_code", "event_based_billing_metric_id", "interval", "interval_unit", "unspsc_code")
     if err != nil {
     	return err
     }
@@ -351,6 +360,7 @@ func (c *Component) UnmarshalJSON(input []byte) error {
     c.EventBasedBillingMetricId = temp.EventBasedBillingMetricId
     c.Interval = temp.Interval
     c.IntervalUnit = temp.IntervalUnit
+    c.UnspscCode = temp.UnspscCode
     return nil
 }
 
@@ -391,4 +401,5 @@ type tempComponent  struct {
     EventBasedBillingMetricId *int                       `json:"event_based_billing_metric_id,omitempty"`
     Interval                  *int                       `json:"interval,omitempty"`
     IntervalUnit              Optional[IntervalUnit]     `json:"interval_unit"`
+    UnspscCode                Optional[string]           `json:"unspsc_code"`
 }

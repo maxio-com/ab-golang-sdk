@@ -16,16 +16,34 @@
 | `LastInviteSentAt` | `*time.Time` | Optional | - |
 | `LastInviteAcceptedAt` | `*time.Time` | Optional | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "last_invite_sent_at": "01/01/2024 04:30:00",
-  "last_invite_accepted_at": "01/01/2024 04:35:00",
-  "last_sent_at": "last_sent_at8",
-  "last_accepted_at": "last_accepted_at8",
-  "send_invite_link_text": "send_invite_link_text6",
-  "uninvited_count": 6
+```go
+package main
+
+import (
+    "log"
+    "time"
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    parseTime := func(layout, value string, errCallback func(error)) time.Time {
+        dateTime, err := time.Parse(layout, value)
+        if err != nil {
+            errCallback(err) 
+       }
+        return dateTime
+    }
+    resentInvitation := models.ResentInvitation{
+        LastSentAt:           models.ToPointer("last_sent_at0"),
+        LastAcceptedAt:       models.ToPointer("last_accepted_at0"),
+        SendInviteLinkText:   models.ToPointer("send_invite_link_text8"),
+        UninvitedCount:       models.ToPointer(178),
+        LastInviteSentAt:     models.ToPointer(parseTime(time.RFC3339, "2024-01-01T00:30:00-04:00", func(err error) { log.Fatalln(err) })),
+        LastInviteAcceptedAt: models.ToPointer(parseTime(time.RFC3339, "2024-01-01T00:35:00-04:00", func(err error) { log.Fatalln(err) })),
+    }
+
 }
 ```
 

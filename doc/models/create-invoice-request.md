@@ -11,40 +11,58 @@
 |  --- | --- | --- | --- |
 | `Invoice` | [`models.CreateInvoice`](../../doc/models/create-invoice.md) | Required | - |
 
-## Example (as JSON)
+## Example
 
-```json
-{
-  "invoice": {
-    "issue_date": "2024-01-01",
-    "status": "draft",
-    "line_items": [
-      {
-        "title": "title4",
-        "quantity": 56.68,
-        "unit_price": 39.9,
-        "taxable": false,
-        "tax_code": "tax_code6"
-      },
-      {
-        "title": "title4",
-        "quantity": 56.68,
-        "unit_price": 39.9,
-        "taxable": false,
-        "tax_code": "tax_code6"
-      },
-      {
-        "title": "title4",
-        "quantity": 56.68,
-        "unit_price": 39.9,
-        "taxable": false,
-        "tax_code": "tax_code6"
-      }
-    ],
-    "net_terms": 144,
-    "payment_instructions": "payment_instructions6",
-    "memo": "memo0"
-  }
+```go
+package main
+
+import (
+    "log"
+    "time"
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    parseTime := func(layout, value string, errCallback func(error)) time.Time {
+        dateTime, err := time.Parse(layout, value)
+        if err != nil {
+            errCallback(err) 
+       }
+        return dateTime
+    }
+    createInvoiceRequest := models.CreateInvoiceRequest{
+        Invoice:              models.CreateInvoice{
+            LineItems:            []models.CreateInvoiceItem{
+                models.CreateInvoiceItem{
+                    Title:                models.ToPointer("title4"),
+                    Quantity:             models.ToPointer(models.CreateInvoiceItemQuantityContainer.FromPrecision(float64(56.68))),
+                    UnitPrice:            models.ToPointer(models.CreateInvoiceItemUnitPriceContainer.FromPrecision(float64(39.9))),
+                    Taxable:              models.ToPointer(false),
+                    TaxCode:              models.ToPointer("tax_code6"),
+                },
+                models.CreateInvoiceItem{
+                    Title:                models.ToPointer("title4"),
+                    Quantity:             models.ToPointer(models.CreateInvoiceItemQuantityContainer.FromPrecision(float64(56.68))),
+                    UnitPrice:            models.ToPointer(models.CreateInvoiceItemUnitPriceContainer.FromPrecision(float64(39.9))),
+                    Taxable:              models.ToPointer(false),
+                    TaxCode:              models.ToPointer("tax_code6"),
+                },
+                models.CreateInvoiceItem{
+                    Title:                models.ToPointer("title4"),
+                    Quantity:             models.ToPointer(models.CreateInvoiceItemQuantityContainer.FromPrecision(float64(56.68))),
+                    UnitPrice:            models.ToPointer(models.CreateInvoiceItemUnitPriceContainer.FromPrecision(float64(39.9))),
+                    Taxable:              models.ToPointer(false),
+                    TaxCode:              models.ToPointer("tax_code6"),
+                },
+            },
+            IssueDate:            models.ToPointer(parseTime(models.DEFAULT_DATE, "2024-01-01", func(err error) { log.Fatalln(err) })),
+            NetTerms:             models.ToPointer(144),
+            PaymentInstructions:  models.ToPointer("payment_instructions6"),
+            Memo:                 models.ToPointer("memo0"),
+            Status:               models.ToPointer(models.CreateInvoiceStatus_DRAFT),
+        },
+    }
+
 }
 ```
 
