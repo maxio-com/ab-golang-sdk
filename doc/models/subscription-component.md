@@ -39,6 +39,7 @@
 | `Subscription` | [`*models.SubscriptionComponentSubscription`](../../doc/models/subscription-component-subscription.md) | Optional | (Optional) Object that will be returned if the `include=subscription` query param is provided. |
 | `HistoricUsages` | [`[]models.HistoricUsage`](../../doc/models/historic-usage.md) | Optional | - |
 | `DisplayOnHostedPage` | `*bool` | Optional | - |
+| `ListPricePointId` | `models.Optional[int]` | Optional | The ID of the catalog price point used as the list price for this component's custom price. Returned only when list vs sales pricing is enabled for the site. |
 | `Interval` | `*int` | Optional | The numerical interval. e.g., an interval of '30' coupled with an interval_unit of day would mean this component price point would renew every 30 days. This property is only available for sites with Multifrequency enabled. |
 | `IntervalUnit` | [`models.Optional[models.IntervalUnit]`](../../doc/models/interval-unit.md) | Optional | A string representing the interval unit for this component price point, either month or day. This property is only available for sites with Multifrequency enabled. |
 
@@ -55,7 +56,7 @@ func main() {
     subscriptionComponent := models.SubscriptionComponent{
         Id:                        models.ToPointer(254),
         Name:                      models.ToPointer("name8"),
-        Kind:                      models.ToPointer(models.ComponentKind_QUANTITYBASEDCOMPONENT),
+        Kind:                      models.ToPointer(models.ComponentKind_ONOFFCOMPONENT),
         UnitName:                  models.ToPointer("unit_name0"),
         Enabled:                   models.ToPointer(false),
     }

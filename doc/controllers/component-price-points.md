@@ -28,7 +28,7 @@ componentPricePointsController := client.ComponentPricePointsController()
 
 Sets a new default price point for the component. This new default will apply to all new subscriptions going forward - existing subscriptions will remain on their current price point.
 
-See [Price Points Documentation](https://maxio.zendesk.com/hc/en-us/articles/24261191737101-Price-Points-Components) for more information on price points and moving subscriptions between price points.
+See [Price Points Documentation](https://docs.maxio.com/billing/catalog/products/set-product-price-points) for more information on price points and moving subscriptions between price points.
 
 Note: Custom price points are not able to be set as the default for a component.
 
@@ -150,10 +150,10 @@ componentId := 222
 
 body := models.CreateComponentPricePointRequest{
     PricePoint:           models.CreateComponentPricePointRequestPricePointContainer.FromCreateComponentPricePoint(models.CreateComponentPricePoint{
-        Name:                 "Wholesale",
-        Handle:               models.ToPointer("wholesale-handle"),
-        PricingScheme:        models.PricingScheme_STAIRSTEP,
-        Prices:               []models.Price{
+        Name:                   "Wholesale",
+        Handle:                 models.ToPointer("wholesale-handle"),
+        PricingScheme:          models.PricingScheme_STAIRSTEP,
+        Prices:                 []models.Price{
             models.Price{
                 StartingQuantity:     models.PriceStartingQuantityContainer.FromString("1"),
                 EndingQuantity:       models.NewOptional(models.ToPointer(models.PriceEndingQuantityContainer.FromString("100"))),
@@ -165,7 +165,7 @@ body := models.CreateComponentPricePointRequest{
                 UnitPrice:            models.PriceUnitPriceContainer.FromString("4.00"),
             },
         },
-        UseSiteExchangeRate:  models.ToPointer(false),
+        UseSiteExchangeRate:    models.ToPointer(false),
     }),
 }
 
@@ -335,10 +335,10 @@ componentId := "component_id8"
 body := models.CreateComponentPricePointsRequest{
     PricePoints:          []models.CreateComponentPricePointsRequestPricePoints{
         models.CreateComponentPricePointsRequestPricePointsContainer.FromCreateComponentPricePoint(models.CreateComponentPricePoint{
-            Name:                 "Wholesale",
-            Handle:               models.ToPointer("wholesale"),
-            PricingScheme:        models.PricingScheme_PERUNIT,
-            Prices:               []models.Price{
+            Name:                   "Wholesale",
+            Handle:                 models.ToPointer("wholesale"),
+            PricingScheme:          models.PricingScheme_PERUNIT,
+            Prices:                 []models.Price{
                 models.Price{
                     StartingQuantity:     models.PriceStartingQuantityContainer.FromNumber(1),
                     UnitPrice:            models.PriceUnitPriceContainer.FromPrecision(float64(5)),
@@ -346,10 +346,10 @@ body := models.CreateComponentPricePointsRequest{
             },
         }),
         models.CreateComponentPricePointsRequestPricePointsContainer.FromCreateComponentPricePoint(models.CreateComponentPricePoint{
-            Name:                 "MSRP",
-            Handle:               models.ToPointer("msrp"),
-            PricingScheme:        models.PricingScheme_PERUNIT,
-            Prices:               []models.Price{
+            Name:                   "MSRP",
+            Handle:                 models.ToPointer("msrp"),
+            PricingScheme:          models.PricingScheme_PERUNIT,
+            Prices:                 []models.Price{
                 models.Price{
                     StartingQuantity:     models.PriceStartingQuantityContainer.FromNumber(1),
                     UnitPrice:            models.PriceUnitPriceContainer.FromPrecision(float64(4)),
@@ -357,10 +357,10 @@ body := models.CreateComponentPricePointsRequest{
             },
         }),
         models.CreateComponentPricePointsRequestPricePointsContainer.FromCreateComponentPricePoint(models.CreateComponentPricePoint{
-            Name:                 "Special Pricing",
-            Handle:               models.ToPointer("special"),
-            PricingScheme:        models.PricingScheme_PERUNIT,
-            Prices:               []models.Price{
+            Name:                   "Special Pricing",
+            Handle:                 models.ToPointer("special"),
+            PricingScheme:          models.PricingScheme_PERUNIT,
+            Prices:                 []models.Price{
                 models.Price{
                     StartingQuantity:     models.PriceStartingQuantityContainer.FromNumber(1),
                     UnitPrice:            models.PriceUnitPriceContainer.FromPrecision(float64(5)),
@@ -640,8 +640,8 @@ pricePointId := models.UpdateComponentPricePointPricePointIdContainer.FromNumber
 
 body := models.UpdateComponentPricePointRequest{
     PricePoint:           models.ToPointer(models.UpdateComponentPricePoint{
-        Name:                 models.ToPointer("Default"),
-        Prices:               []models.UpdatePrice{
+        Name:                   models.ToPointer("Default"),
+        Prices:                 []models.UpdatePrice{
             models.UpdatePrice{
                 Id:                   models.ToPointer(1),
                 EndingQuantity:       models.ToPointer(models.UpdatePriceEndingQuantityContainer.FromNumber(100)),

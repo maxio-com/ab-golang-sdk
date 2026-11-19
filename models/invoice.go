@@ -38,7 +38,7 @@ type Invoice struct {
     // If partial payments are applied to the invoice, this date will not be present until payment has been made in full.
     // The format is `"YYYY-MM-DD"`.
     PaidDate                   Optional[time.Time]        `json:"paid_date"`
-    // The current status of the invoice. See [Invoice Statuses](https://maxio.zendesk.com/hc/en-us/articles/24252287829645-Advanced-Billing-Invoices-Overview#invoice-statuses) for more.
+    // The current status of the invoice. See [Invoice Statuses](https://docs.maxio.com/billing/invoicing/overview/understand-how-invoices-are-generated#invoice-statuses) for more.
     Status                     *InvoiceStatus             `json:"status,omitempty"`
     Role                       *InvoiceRole               `json:"role,omitempty"`
     ParentInvoiceId            Optional[int]              `json:"parent_invoice_id"`
@@ -53,7 +53,7 @@ type Invoice struct {
     // * "child": An invoice segment which has been combined into a consolidated invoice.
     // * "parent": A consolidated invoice, whose contents are composed of invoice segments.
     // "Parent" invoices do not have lines of their own, but they have subtotals and totals which aggregate the member invoice segments.
-    // See also the [invoice consolidation documentation](https://maxio.zendesk.com/hc/en-us/articles/24252269909389-Invoice-Consolidation).
+    // See also the [invoice consolidation documentation](https://docs.maxio.com/billing/invoicing/working-with-invoices/understand-invoice-consolidation).
     ConsolidationLevel         *InvoiceConsolidationLevel `json:"consolidation_level,omitempty"`
     // For invoices with `consolidation_level` of `child`, this specifies the UID of the parent (consolidated) invoice.
     ParentInvoiceUid           Optional[string]           `json:"parent_invoice_uid"`

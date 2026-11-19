@@ -12,79 +12,85 @@ import (
 // Customer represents a Customer struct.
 type Customer struct {
     // The first name of the customer
-    FirstName                   *string                `json:"first_name,omitempty"`
+    FirstName                   *string                        `json:"first_name,omitempty"`
     // The last name of the customer
-    LastName                    *string                `json:"last_name,omitempty"`
+    LastName                    *string                        `json:"last_name,omitempty"`
     // The email address of the customer
-    Email                       *string                `json:"email,omitempty"`
+    Email                       *string                        `json:"email,omitempty"`
     // “A comma-separated list of emails that should be cc’d on all customer communications (e.g., “joe@example.com, sue@example.com”)”
-    CcEmails                    Optional[string]       `json:"cc_emails"`
+    CcEmails                    Optional[string]               `json:"cc_emails"`
     // The organization of the customer. If no value, `null` or empty string is provided, `organization` will be populated with the customer's first and last name, separated with a space.
-    Organization                Optional[string]       `json:"organization"`
+    Organization                Optional[string]               `json:"organization"`
     // The unique identifier used within your own application for this customer
-    Reference                   Optional[string]       `json:"reference"`
+    Reference                   Optional[string]               `json:"reference"`
     // The customer ID in Chargify
-    Id                          *int                   `json:"id,omitempty"`
+    Id                          *int                           `json:"id,omitempty"`
     // The timestamp in which the customer object was created in Chargify
-    CreatedAt                   *time.Time             `json:"created_at,omitempty"`
+    CreatedAt                   *time.Time                     `json:"created_at,omitempty"`
     // The timestamp in which the customer object was last edited
-    UpdatedAt                   *time.Time             `json:"updated_at,omitempty"`
+    UpdatedAt                   *time.Time                     `json:"updated_at,omitempty"`
     // The customer’s shipping street address (e.g., “123 Main St.”)
-    Address                     Optional[string]       `json:"address"`
+    Address                     Optional[string]               `json:"address"`
     // Second line of the customer’s shipping address e.g., “Apt. 100”
-    Address2                    Optional[string]       `json:"address_2"`
+    Address2                    Optional[string]               `json:"address_2"`
     // The customer’s shipping address city (e.g., “Boston”)
-    City                        Optional[string]       `json:"city"`
+    City                        Optional[string]               `json:"city"`
     // The customer’s shipping address state (e.g., “MA”)
-    State                       Optional[string]       `json:"state"`
+    State                       Optional[string]               `json:"state"`
     // The customer's full name of state
-    StateName                   Optional[string]       `json:"state_name"`
+    StateName                   Optional[string]               `json:"state_name"`
     // The customer’s shipping address zip code (e.g., “12345”)
-    Zip                         Optional[string]       `json:"zip"`
+    Zip                         Optional[string]               `json:"zip"`
     // The customer shipping address country
-    Country                     Optional[string]       `json:"country"`
+    Country                     Optional[string]               `json:"country"`
     // The customer's full name of country
-    CountryName                 Optional[string]       `json:"country_name"`
+    CountryName                 Optional[string]               `json:"country_name"`
     // The phone number of the customer
-    Phone                       Optional[string]       `json:"phone"`
+    Phone                       Optional[string]               `json:"phone"`
     // Is the customer verified to use ACH as a payment method.
-    Verified                    Optional[bool]         `json:"verified"`
+    Verified                    Optional[bool]                 `json:"verified"`
     // The timestamp of when the Billing Portal entry was created at for the customer
-    PortalCustomerCreatedAt     Optional[time.Time]    `json:"portal_customer_created_at"`
+    PortalCustomerCreatedAt     Optional[time.Time]            `json:"portal_customer_created_at"`
     // The timestamp of when the Billing Portal invite was last sent at
-    PortalInviteLastSentAt      Optional[time.Time]    `json:"portal_invite_last_sent_at"`
+    PortalInviteLastSentAt      Optional[time.Time]            `json:"portal_invite_last_sent_at"`
     // The timestamp of when the Billing Portal invite was last accepted
-    PortalInviteLastAcceptedAt  Optional[time.Time]    `json:"portal_invite_last_accepted_at"`
+    PortalInviteLastAcceptedAt  Optional[time.Time]            `json:"portal_invite_last_accepted_at"`
     // The tax exempt status for the customer. Acceptable values are true or 1 for true and false or 0 for false.
-    TaxExempt                   *bool                  `json:"tax_exempt,omitempty"`
+    TaxExempt                   *bool                          `json:"tax_exempt,omitempty"`
     // Whether surcharging is enabled for the customer. Only included on sites where surcharging control is enabled.
-    Surcharging                 *bool                  `json:"surcharging,omitempty"`
-    // The VAT business identification number for the customer. This number is used to determine VAT tax opt out rules. It is not validated when added or updated on a customer record. Instead, it is validated via VIES before calculating taxes. Only valid business identification numbers will allow for VAT opt out.
-    VatNumber                   Optional[string]       `json:"vat_number"`
+    Surcharging                 *bool                          `json:"surcharging,omitempty"`
+    // The VAT business identification number for the customer. This number is used to determine VAT tax opt out rules. It is not validated when added or updated on a customer record. Instead, it is validated via VIES before calculating taxes. Only valid business identification numbers will allow for VAT opt out. When the customer holds an entity identifier, this field returns that identifier's value, whatever its kind.
+    VatNumber                   Optional[string]               `json:"vat_number"`
+    // The two-letter ISO 3166-1 country code that qualifies the customer's VAT number. Set to `null` when an identifier is stored through `entity_identifier_kind` for a kind that is not tied to a VAT country, meaning `company_reg`, `gln`, `duns`, or `lei`.
+    VatCountry                  Optional[string]               `json:"vat_country"`
+    // The kind of tax or business identifier held by the customer. Returned as `null` when the customer has no entity identifier, including a legacy customer whose `vat_number` predates entity identifiers.
+    EntityIdentifierKind        Optional[EntityIdentifierKind] `json:"entity_identifier_kind"`
+    // The value of the customer's tax or business identifier. Returned as `null` when the customer has no entity identifier.
+    EntityIdentifierValue       Optional[string]               `json:"entity_identifier_value"`
     // The parent ID in Chargify if applicable. Parent is another Customer object.
-    ParentId                    Optional[int]          `json:"parent_id"`
+    ParentId                    Optional[int]                  `json:"parent_id"`
     // The locale for the customer to identify language-region
-    Locale                      Optional[string]       `json:"locale"`
-    DefaultSubscriptionGroupUid Optional[string]       `json:"default_subscription_group_uid"`
+    Locale                      Optional[string]               `json:"locale"`
+    DefaultSubscriptionGroupUid Optional[string]               `json:"default_subscription_group_uid"`
     // The Salesforce ID for the customer
-    SalesforceId                Optional[string]       `json:"salesforce_id"`
+    SalesforceId                Optional[string]               `json:"salesforce_id"`
     // The Tax Exemption Reason Code for the customer
-    TaxExemptReason             Optional[string]       `json:"tax_exempt_reason"`
+    TaxExemptReason             Optional[string]               `json:"tax_exempt_reason"`
     // The default auto-renewal profile ID for the customer
-    DefaultAutoRenewalProfileId Optional[int]          `json:"default_auto_renewal_profile_id"`
+    DefaultAutoRenewalProfileId Optional[int]                  `json:"default_auto_renewal_profile_id"`
     // The Maxio-generated unique identifier for the customer.
-    Maxioid                     Optional[string]       `json:"maxioid"`
+    Maxioid                     Optional[string]               `json:"maxioid"`
     // The ID of the Branding Theme assigned to this customer as the customer's default Branding Theme. This customer-level Branding Theme is used when a subscription does not have its own subscription-level Branding Theme.  Available only when Branding Themes are enabled for the site.
-    BrandingThemeId             Optional[int]          `json:"branding_theme_id"`
-    AdditionalProperties        map[string]interface{} `json:"_"`
+    BrandingThemeId             Optional[int]                  `json:"branding_theme_id"`
+    AdditionalProperties        map[string]interface{}         `json:"_"`
 }
 
 // String implements the fmt.Stringer interface for Customer,
 // providing a human-readable string representation useful for logging, debugging or displaying information.
 func (c Customer) String() string {
     return fmt.Sprintf(
-    	"Customer[FirstName=%v, LastName=%v, Email=%v, CcEmails=%v, Organization=%v, Reference=%v, Id=%v, CreatedAt=%v, UpdatedAt=%v, Address=%v, Address2=%v, City=%v, State=%v, StateName=%v, Zip=%v, Country=%v, CountryName=%v, Phone=%v, Verified=%v, PortalCustomerCreatedAt=%v, PortalInviteLastSentAt=%v, PortalInviteLastAcceptedAt=%v, TaxExempt=%v, Surcharging=%v, VatNumber=%v, ParentId=%v, Locale=%v, DefaultSubscriptionGroupUid=%v, SalesforceId=%v, TaxExemptReason=%v, DefaultAutoRenewalProfileId=%v, Maxioid=%v, BrandingThemeId=%v, AdditionalProperties=%v]",
-    	c.FirstName, c.LastName, c.Email, c.CcEmails, c.Organization, c.Reference, c.Id, c.CreatedAt, c.UpdatedAt, c.Address, c.Address2, c.City, c.State, c.StateName, c.Zip, c.Country, c.CountryName, c.Phone, c.Verified, c.PortalCustomerCreatedAt, c.PortalInviteLastSentAt, c.PortalInviteLastAcceptedAt, c.TaxExempt, c.Surcharging, c.VatNumber, c.ParentId, c.Locale, c.DefaultSubscriptionGroupUid, c.SalesforceId, c.TaxExemptReason, c.DefaultAutoRenewalProfileId, c.Maxioid, c.BrandingThemeId, c.AdditionalProperties)
+    	"Customer[FirstName=%v, LastName=%v, Email=%v, CcEmails=%v, Organization=%v, Reference=%v, Id=%v, CreatedAt=%v, UpdatedAt=%v, Address=%v, Address2=%v, City=%v, State=%v, StateName=%v, Zip=%v, Country=%v, CountryName=%v, Phone=%v, Verified=%v, PortalCustomerCreatedAt=%v, PortalInviteLastSentAt=%v, PortalInviteLastAcceptedAt=%v, TaxExempt=%v, Surcharging=%v, VatNumber=%v, VatCountry=%v, EntityIdentifierKind=%v, EntityIdentifierValue=%v, ParentId=%v, Locale=%v, DefaultSubscriptionGroupUid=%v, SalesforceId=%v, TaxExemptReason=%v, DefaultAutoRenewalProfileId=%v, Maxioid=%v, BrandingThemeId=%v, AdditionalProperties=%v]",
+    	c.FirstName, c.LastName, c.Email, c.CcEmails, c.Organization, c.Reference, c.Id, c.CreatedAt, c.UpdatedAt, c.Address, c.Address2, c.City, c.State, c.StateName, c.Zip, c.Country, c.CountryName, c.Phone, c.Verified, c.PortalCustomerCreatedAt, c.PortalInviteLastSentAt, c.PortalInviteLastAcceptedAt, c.TaxExempt, c.Surcharging, c.VatNumber, c.VatCountry, c.EntityIdentifierKind, c.EntityIdentifierValue, c.ParentId, c.Locale, c.DefaultSubscriptionGroupUid, c.SalesforceId, c.TaxExemptReason, c.DefaultAutoRenewalProfileId, c.Maxioid, c.BrandingThemeId, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for Customer.
@@ -93,7 +99,7 @@ func (c Customer) MarshalJSON() (
     []byte,
     error) {
     if err := DetectConflictingProperties(c.AdditionalProperties,
-        "first_name", "last_name", "email", "cc_emails", "organization", "reference", "id", "created_at", "updated_at", "address", "address_2", "city", "state", "state_name", "zip", "country", "country_name", "phone", "verified", "portal_customer_created_at", "portal_invite_last_sent_at", "portal_invite_last_accepted_at", "tax_exempt", "surcharging", "vat_number", "parent_id", "locale", "default_subscription_group_uid", "salesforce_id", "tax_exempt_reason", "default_auto_renewal_profile_id", "maxioid", "branding_theme_id"); err != nil {
+        "first_name", "last_name", "email", "cc_emails", "organization", "reference", "id", "created_at", "updated_at", "address", "address_2", "city", "state", "state_name", "zip", "country", "country_name", "phone", "verified", "portal_customer_created_at", "portal_invite_last_sent_at", "portal_invite_last_accepted_at", "tax_exempt", "surcharging", "vat_number", "vat_country", "entity_identifier_kind", "entity_identifier_value", "parent_id", "locale", "default_subscription_group_uid", "salesforce_id", "tax_exempt_reason", "default_auto_renewal_profile_id", "maxioid", "branding_theme_id"); err != nil {
         return []byte{}, err
     }
     return json.Marshal(c.toMap())
@@ -261,6 +267,27 @@ func (c Customer) toMap() map[string]any {
             structMap["vat_number"] = nil
         }
     }
+    if c.VatCountry.IsValueSet() {
+        if c.VatCountry.Value() != nil {
+            structMap["vat_country"] = c.VatCountry.Value()
+        } else {
+            structMap["vat_country"] = nil
+        }
+    }
+    if c.EntityIdentifierKind.IsValueSet() {
+        if c.EntityIdentifierKind.Value() != nil {
+            structMap["entity_identifier_kind"] = c.EntityIdentifierKind.Value()
+        } else {
+            structMap["entity_identifier_kind"] = nil
+        }
+    }
+    if c.EntityIdentifierValue.IsValueSet() {
+        if c.EntityIdentifierValue.Value() != nil {
+            structMap["entity_identifier_value"] = c.EntityIdentifierValue.Value()
+        } else {
+            structMap["entity_identifier_value"] = nil
+        }
+    }
     if c.ParentId.IsValueSet() {
         if c.ParentId.Value() != nil {
             structMap["parent_id"] = c.ParentId.Value()
@@ -328,7 +355,7 @@ func (c *Customer) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "first_name", "last_name", "email", "cc_emails", "organization", "reference", "id", "created_at", "updated_at", "address", "address_2", "city", "state", "state_name", "zip", "country", "country_name", "phone", "verified", "portal_customer_created_at", "portal_invite_last_sent_at", "portal_invite_last_accepted_at", "tax_exempt", "surcharging", "vat_number", "parent_id", "locale", "default_subscription_group_uid", "salesforce_id", "tax_exempt_reason", "default_auto_renewal_profile_id", "maxioid", "branding_theme_id")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "first_name", "last_name", "email", "cc_emails", "organization", "reference", "id", "created_at", "updated_at", "address", "address_2", "city", "state", "state_name", "zip", "country", "country_name", "phone", "verified", "portal_customer_created_at", "portal_invite_last_sent_at", "portal_invite_last_accepted_at", "tax_exempt", "surcharging", "vat_number", "vat_country", "entity_identifier_kind", "entity_identifier_value", "parent_id", "locale", "default_subscription_group_uid", "salesforce_id", "tax_exempt_reason", "default_auto_renewal_profile_id", "maxioid", "branding_theme_id")
     if err != nil {
     	return err
     }
@@ -392,6 +419,9 @@ func (c *Customer) UnmarshalJSON(input []byte) error {
     c.TaxExempt = temp.TaxExempt
     c.Surcharging = temp.Surcharging
     c.VatNumber = temp.VatNumber
+    c.VatCountry = temp.VatCountry
+    c.EntityIdentifierKind = temp.EntityIdentifierKind
+    c.EntityIdentifierValue = temp.EntityIdentifierValue
     c.ParentId = temp.ParentId
     c.Locale = temp.Locale
     c.DefaultSubscriptionGroupUid = temp.DefaultSubscriptionGroupUid
@@ -405,37 +435,40 @@ func (c *Customer) UnmarshalJSON(input []byte) error {
 
 // tempCustomer is a temporary struct used for validating the fields of Customer.
 type tempCustomer  struct {
-    FirstName                   *string          `json:"first_name,omitempty"`
-    LastName                    *string          `json:"last_name,omitempty"`
-    Email                       *string          `json:"email,omitempty"`
-    CcEmails                    Optional[string] `json:"cc_emails"`
-    Organization                Optional[string] `json:"organization"`
-    Reference                   Optional[string] `json:"reference"`
-    Id                          *int             `json:"id,omitempty"`
-    CreatedAt                   *string          `json:"created_at,omitempty"`
-    UpdatedAt                   *string          `json:"updated_at,omitempty"`
-    Address                     Optional[string] `json:"address"`
-    Address2                    Optional[string] `json:"address_2"`
-    City                        Optional[string] `json:"city"`
-    State                       Optional[string] `json:"state"`
-    StateName                   Optional[string] `json:"state_name"`
-    Zip                         Optional[string] `json:"zip"`
-    Country                     Optional[string] `json:"country"`
-    CountryName                 Optional[string] `json:"country_name"`
-    Phone                       Optional[string] `json:"phone"`
-    Verified                    Optional[bool]   `json:"verified"`
-    PortalCustomerCreatedAt     Optional[string] `json:"portal_customer_created_at"`
-    PortalInviteLastSentAt      Optional[string] `json:"portal_invite_last_sent_at"`
-    PortalInviteLastAcceptedAt  Optional[string] `json:"portal_invite_last_accepted_at"`
-    TaxExempt                   *bool            `json:"tax_exempt,omitempty"`
-    Surcharging                 *bool            `json:"surcharging,omitempty"`
-    VatNumber                   Optional[string] `json:"vat_number"`
-    ParentId                    Optional[int]    `json:"parent_id"`
-    Locale                      Optional[string] `json:"locale"`
-    DefaultSubscriptionGroupUid Optional[string] `json:"default_subscription_group_uid"`
-    SalesforceId                Optional[string] `json:"salesforce_id"`
-    TaxExemptReason             Optional[string] `json:"tax_exempt_reason"`
-    DefaultAutoRenewalProfileId Optional[int]    `json:"default_auto_renewal_profile_id"`
-    Maxioid                     Optional[string] `json:"maxioid"`
-    BrandingThemeId             Optional[int]    `json:"branding_theme_id"`
+    FirstName                   *string                        `json:"first_name,omitempty"`
+    LastName                    *string                        `json:"last_name,omitempty"`
+    Email                       *string                        `json:"email,omitempty"`
+    CcEmails                    Optional[string]               `json:"cc_emails"`
+    Organization                Optional[string]               `json:"organization"`
+    Reference                   Optional[string]               `json:"reference"`
+    Id                          *int                           `json:"id,omitempty"`
+    CreatedAt                   *string                        `json:"created_at,omitempty"`
+    UpdatedAt                   *string                        `json:"updated_at,omitempty"`
+    Address                     Optional[string]               `json:"address"`
+    Address2                    Optional[string]               `json:"address_2"`
+    City                        Optional[string]               `json:"city"`
+    State                       Optional[string]               `json:"state"`
+    StateName                   Optional[string]               `json:"state_name"`
+    Zip                         Optional[string]               `json:"zip"`
+    Country                     Optional[string]               `json:"country"`
+    CountryName                 Optional[string]               `json:"country_name"`
+    Phone                       Optional[string]               `json:"phone"`
+    Verified                    Optional[bool]                 `json:"verified"`
+    PortalCustomerCreatedAt     Optional[string]               `json:"portal_customer_created_at"`
+    PortalInviteLastSentAt      Optional[string]               `json:"portal_invite_last_sent_at"`
+    PortalInviteLastAcceptedAt  Optional[string]               `json:"portal_invite_last_accepted_at"`
+    TaxExempt                   *bool                          `json:"tax_exempt,omitempty"`
+    Surcharging                 *bool                          `json:"surcharging,omitempty"`
+    VatNumber                   Optional[string]               `json:"vat_number"`
+    VatCountry                  Optional[string]               `json:"vat_country"`
+    EntityIdentifierKind        Optional[EntityIdentifierKind] `json:"entity_identifier_kind"`
+    EntityIdentifierValue       Optional[string]               `json:"entity_identifier_value"`
+    ParentId                    Optional[int]                  `json:"parent_id"`
+    Locale                      Optional[string]               `json:"locale"`
+    DefaultSubscriptionGroupUid Optional[string]               `json:"default_subscription_group_uid"`
+    SalesforceId                Optional[string]               `json:"salesforce_id"`
+    TaxExemptReason             Optional[string]               `json:"tax_exempt_reason"`
+    DefaultAutoRenewalProfileId Optional[int]                  `json:"default_auto_renewal_profile_id"`
+    Maxioid                     Optional[string]               `json:"maxioid"`
+    BrandingThemeId             Optional[int]                  `json:"branding_theme_id"`
 }

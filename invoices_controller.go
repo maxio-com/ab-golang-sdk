@@ -378,26 +378,38 @@ func (i *InvoicesController) RecordPaymentForMultipleInvoices(
 // ListCreditNotesInput represents the input of the ListCreditNotes endpoint.
 type ListCreditNotesInput struct {
     // The subscription's Advanced Billing id
-    SubscriptionId *int  
+    SubscriptionId *int                        
+    // The type of filter you would like to apply to your search. Use in query `date_field=issue_date`. If a date range is provided without an explicit `date_field`, it defaults to `issue_date`. If only `start_datetime`/`end_datetime` are provided without an explicit `date_field`, it defaults to `created_at` instead. An unrecognized `date_field` is ignored rather than raising an error.
+    DateField      *models.CreditNoteDateField 
+    // The start date (format YYYY-MM-DD) with which to filter the date_field. Returns credit notes with a timestamp at or after midnight (12:00:00 AM) in your site’s time zone on the date specified.
+    StartDate      *string                     
+    // The end date (format YYYY-MM-DD) with which to filter the date_field. Returns credit notes with a timestamp up to and including 11:59:59PM in your site’s time zone on the date specified.
+    EndDate        *string                     
+    // The start date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns credit notes with a timestamp at or after exact time provided in query. If provided, this parameter will be used instead of start_date. If no timezone offset is included in the value, it is interpreted as UTC. Allowed to be used only along with date_field set to created_at or updated_at.
+    StartDatetime  *string                     
+    // The end date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns credit notes with a timestamp at or before exact time provided in query. If provided, this parameter will be used instead of end_date. If no timezone offset is included in the value, it is interpreted as UTC. Allowed to be used only along with date_field set to created_at or updated_at.
+    EndDatetime    *string                     
     // Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.
     // Use in query `page=1`.
-    Page           *int  
+    Page           *int                        
     // This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.
     // Use in query `per_page=200`.
-    PerPage        *int  
+    PerPage        *int                        
+    // The sort direction of the returned credit notes, sorted by sequence_number.
+    Direction      *models.Direction           
     // Include line items data.
-    LineItems      *bool 
+    LineItems      *bool                       
     // Include discounts data.
-    Discounts      *bool 
+    Discounts      *bool                       
     // Include taxes data.
-    Taxes          *bool 
+    Taxes          *bool                       
     // Include refunds data.
-    Refunds        *bool 
+    Refunds        *bool                       
     // Include applications data.
-    Applications   *bool 
+    Applications   *bool                       
 }
 
-// ListCreditNotes takes context, subscriptionId, page, perPage, lineItems, discounts, taxes, refunds, applications as parameters and
+// ListCreditNotes takes context, subscriptionId, dateField, startDate, endDate, startDatetime, endDatetime, page, perPage, direction, lineItems, discounts, taxes, refunds, applications as parameters and
 // returns an models.ApiResponse with models.ListCreditNotesResponse data and
 // an error if there was an issue with the request or response.
 // Lists credit notes for a site. Credit Notes are like inverse invoices. They reduce the amount a customer owes.
@@ -413,11 +425,29 @@ func (i *InvoicesController) ListCreditNotes(
     if input.SubscriptionId != nil {
         req.QueryParam("subscription_id", *input.SubscriptionId)
     }
+    if input.DateField != nil {
+        req.QueryParam("date_field", *input.DateField)
+    }
+    if input.StartDate != nil {
+        req.QueryParam("start_date", *input.StartDate)
+    }
+    if input.EndDate != nil {
+        req.QueryParam("end_date", *input.EndDate)
+    }
+    if input.StartDatetime != nil {
+        req.QueryParam("start_datetime", *input.StartDatetime)
+    }
+    if input.EndDatetime != nil {
+        req.QueryParam("end_datetime", *input.EndDatetime)
+    }
     if input.Page != nil {
         req.QueryParam("page", *input.Page)
     }
     if input.PerPage != nil {
         req.QueryParam("per_page", *input.PerPage)
+    }
+    if input.Direction != nil {
+        req.QueryParam("direction", *input.Direction)
     }
     if input.LineItems != nil {
         req.QueryParam("line_items", *input.LineItems)
@@ -654,6 +684,7 @@ func (i *InvoicesController) ListConsolidatedInvoiceSegments(
 // Product handle (with handle: prefix) or id from the scope of current subscription's site can be provided with `product_id`. By default `unit_price` is taken from product's default price point, but can be overwritten by passing `unit_price` or `product_price_point_id`. If `product_id` is used, following fields cannot be used: `title`, `component_id`.
 // #### Component id
 // Component handle (with handle: prefix) or id from the scope of current subscription's site can be provided with `component_id`. If `component_id` is used, following fields cannot be used: `title`, `product_id`. By default `unit_price` is taken from product's default price point, but can be overwritten by passing `unit_price` or `price_point_id`. At this moment price points are supported only for quantity based, on/off and metered components. For prepaid and event based billing components `unit_price` is required.
+// A Wallet Product can't be invoiced this way: a line item for one returns `422` ("Wallet Products can only be invoiced through a wallet purchase"). Use [Create Wallet Purchase]($e/Wallet%20Purchases/createWalletPurchase) instead.
 // ### Coupons
 // When creating ad hoc invoice, new discounts can be applied in following way:
 // ```json
@@ -870,7 +901,7 @@ func (i *InvoicesController) DeleteInvoice(
 // Sends an invoice to the customer via email. This endpoint supports the delivery of both ad-hoc and automatically generated invoices. Additionally, this endpoint supports email delivery to direct recipients, carbon-copy (cc) recipients, and blind carbon-copy (bcc) recipients.
 // **File Attachments**: You can attach files to invoice emails using `attachment_urls[]` parameter by providing URLs to the files you want to attach. When using attachments, the request must use `multipart/form-data` content type. Max 10 files, 10MB per file.
 // If no recipient email addresses are specified in the request, then the subscription's default email configuration will be used. For example, if `recipient_emails` is left blank, then the invoice will be delivered to the subscription's customer email address.
-// On success, a 204 no-content response will be returned. The response does not indicate that email(s) have been delivered, but instead indicates that emails have been successfully queued for delivery. If _any_ invalid or malformed email address is found in the request body, the entire request will be rejected and a 422 response will be returned.
+// On success, a 204 no-content response will be returned. The response does not indicate that email(s) have been delivered, but instead indicates that emails have been successfully queued for delivery. If _any_ invalid or malformed email address is found in the request body, the entire request will be rejected and a 422 response will be returned. A 422 response will also be returned if the invoice is in `draft`, `pending`, or `processing` status, or if the invoice cannot be found within the site instance.
 func (i *InvoicesController) SendInvoice(
     ctx context.Context,
     uid string,

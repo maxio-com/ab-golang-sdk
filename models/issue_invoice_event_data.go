@@ -17,11 +17,11 @@ type IssueInvoiceEventData struct {
     // * "child": An invoice segment which has been combined into a consolidated invoice.
     // * "parent": A consolidated invoice, whose contents are composed of invoice segments.
     // "Parent" invoices do not have lines of their own, but they have subtotals and totals which aggregate the member invoice segments.
-    // See also the [invoice consolidation documentation](https://maxio.zendesk.com/hc/en-us/articles/24252269909389-Invoice-Consolidation).
+    // See also the [invoice consolidation documentation](https://docs.maxio.com/billing/invoicing/working-with-invoices/understand-invoice-consolidation).
     ConsolidationLevel   InvoiceConsolidationLevel `json:"consolidation_level"`
-    // The status of the invoice before event occurrence. See [Invoice Statuses](https://maxio.zendesk.com/hc/en-us/articles/24252287829645-Advanced-Billing-Invoices-Overview#invoice-statuses) for more.
+    // The status of the invoice before event occurrence. See [Invoice Statuses](https://docs.maxio.com/billing/invoicing/overview/understand-how-invoices-are-generated#invoice-statuses) for more.
     FromStatus           InvoiceStatus             `json:"from_status"`
-    // The status of the invoice after event occurrence. See [Invoice Statuses](https://maxio.zendesk.com/hc/en-us/articles/24252287829645-Advanced-Billing-Invoices-Overview#invoice-statuses) for more.
+    // The status of the invoice after event occurrence. See [Invoice Statuses](https://docs.maxio.com/billing/invoicing/overview/understand-how-invoices-are-generated#invoice-statuses) for more.
     ToStatus             InvoiceStatus             `json:"to_status"`
     // Amount due on the invoice, which is `total_amount - credit_amount - paid_amount`.
     DueAmount            string                    `json:"due_amount"`

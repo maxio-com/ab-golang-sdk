@@ -9,12 +9,12 @@ The Maxio API returns JSON responses as the primary and recommended format, but 
 
 ### Steps to make your first Maxio Advanced Billing API call
 
-1. [Sign-up](https://app.chargify.com/signup/maxio-billing-sandbox) or [log-in](https://app.chargify.com/login.html) to your [test site](https://maxio.zendesk.com/hc/en-us/articles/24250712113165-Testing-Overview) account.
-2. [Setup authentication](https://maxio.zendesk.com/hc/en-us/articles/24294819360525-API-Keys) credentials.
+1. [Sign-up](https://app.chargify.com/signup/maxio-billing-sandbox) or [log-in](https://app.chargify.com/login.html) to your [test site](https://docs.maxio.com/configuration/advanced-billing/sites/testing-overview) account.
+2. [Setup authentication](https://docs.maxio.com/configuration/advanced-billing/advanced-billing-api-keys) credentials.
 3. [Submit an API request and verify the response](http://localhost:8080/go/development-tools/development-tools/client-libraries#make-your-first-maxio-advanced-billing-api-request).
 4. Test the Advanced Billing [integrations](https://www.maxio.com/integrations).
 
-Next, you can explore [authentication methods](http://localhost:8080/go/getting-started/introduction/authentication), [basic concepts](http://localhost:8080/go) for interacting with Advanced Billing via the API, and the entire set of [application-based documentation](https://docs.maxio.com/hc/en-us) to aid in your discovery of the product.
+Next, you can explore [authentication methods](http://localhost:8080/go/getting-started/introduction/authentication), [basic concepts](http://localhost:8080/go) for interacting with Advanced Billing via the API, and the entire set of [application-based documentation](https://docs.maxio.com/) to aid in your discovery of the product.
 
 #### Request Example
 
@@ -37,10 +37,10 @@ The following section explains how to use the advancedbilling library in a new p
 To use the package in your application, you can install the package from [pkg.go.dev](https://pkg.go.dev/) using the following command:
 
 ```bash
-$ go get github.com/maxio-com/ab-golang-sdk@v0.10.0
+$ go get github.com/maxio-com/ab-golang-sdk@v0.11.0
 ```
 
-You can also view the package at: https://pkg.go.dev/github.com/maxio-com/ab-golang-sdk@v0.10.0
+You can also view the package at: https://pkg.go.dev/github.com/maxio-com/ab-golang-sdk@v0.11.0
 
 ## Initialize the API Client
 
@@ -107,11 +107,14 @@ This API uses the following authentication schemes.
 * [API Exports](doc/controllers/api-exports.md)
 * [Advance Invoice](doc/controllers/advance-invoice.md)
 * [Billing Portal](doc/controllers/billing-portal.md)
+* [Component Features](doc/controllers/component-features.md)
 * [Component Price Points](doc/controllers/component-price-points.md)
 * [Custom Fields](doc/controllers/custom-fields.md)
 * [Events-Based Billing Segments](doc/controllers/events-based-billing-segments.md)
+* [Feature Templates](doc/controllers/feature-templates.md)
 * [Payment Profiles](doc/controllers/payment-profiles.md)
 * [Product Families](doc/controllers/product-families.md)
+* [Product Features](doc/controllers/product-features.md)
 * [Product Price Points](doc/controllers/product-price-points.md)
 * [Proforma Invoices](doc/controllers/proforma-invoices.md)
 * [Reason Codes](doc/controllers/reason-codes.md)
@@ -126,9 +129,14 @@ This API uses the following authentication schemes.
 * [Subscription Products](doc/controllers/subscription-products.md)
 * [Subscription Renewals](doc/controllers/subscription-renewals.md)
 * [Subscription Status](doc/controllers/subscription-status.md)
+* [Wallet Transactions](doc/controllers/wallet-transactions.md)
+* [Wallet Adjustments](doc/controllers/wallet-adjustments.md)
+* [Wallet Purchases](doc/controllers/wallet-purchases.md)
+* [Wallet Products](doc/controllers/wallet-products.md)
 * [Coupons](doc/controllers/coupons.md)
 * [Components](doc/controllers/components.md)
 * [Customers](doc/controllers/customers.md)
+* [Entitlements](doc/controllers/entitlements.md)
 * [Events](doc/controllers/events.md)
 * [Insights](doc/controllers/insights.md)
 * [Invoices](doc/controllers/invoices.md)
@@ -136,6 +144,7 @@ This API uses the following authentication schemes.
 * [Products](doc/controllers/products.md)
 * [Sites](doc/controllers/sites.md)
 * [Subscriptions](doc/controllers/subscriptions.md)
+* [Wallets](doc/controllers/wallets.md)
 * [Webhooks](doc/controllers/webhooks.md)
 
 ## SDK Infrastructure

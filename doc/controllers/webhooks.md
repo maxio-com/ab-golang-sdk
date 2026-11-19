@@ -1,5 +1,9 @@
 # Webhooks
 
+The Webhook object represents a single notification sent to your configured endpoint when an event occurs.
+
+A webhook tracks delivery status, including when it was last sent, whether the merchant endpoint accepted it, and any error from a failed attempt. For more information, see [Understand Webhooks in Advanced Billing](https://docs.maxio.com/configuration/advanced-billing/webhooks/understand-webhooks-in-advanced-billing).
+
 ```go
 webhooksController := client.WebhooksController()
 ```

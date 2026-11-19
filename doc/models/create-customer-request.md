@@ -23,14 +23,14 @@ import (
 func main() {
     createCustomerRequest := models.CreateCustomerRequest{
         Customer:             models.CreateCustomer{
-            FirstName:            "first_name0",
-            LastName:             "last_name8",
-            Email:                "email6",
-            CcEmails:             models.ToPointer("cc_emails0"),
-            Organization:         models.ToPointer("organization6"),
-            Reference:            models.ToPointer("reference4"),
-            Address:              models.ToPointer("address6"),
-            Address2:             models.ToPointer("address_24"),
+            FirstName:             "first_name0",
+            LastName:              "last_name8",
+            Email:                 "email6",
+            CcEmails:              models.ToPointer("cc_emails0"),
+            Organization:          models.ToPointer("organization6"),
+            Reference:             models.ToPointer("reference4"),
+            Address:               models.ToPointer("address6"),
+            Address2:              models.ToPointer("address_24"),
         },
     }
 

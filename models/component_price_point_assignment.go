@@ -9,9 +9,10 @@ import (
 
 // ComponentPricePointAssignment represents a ComponentPricePointAssignment struct.
 type ComponentPricePointAssignment struct {
-    ComponentId          *int                                     `json:"component_id,omitempty"`
-    PricePoint           *ComponentPricePointAssignmentPricePoint `json:"price_point,omitempty"`
-    AdditionalProperties map[string]interface{}                   `json:"_"`
+    // The component to update. Pass the component ID as an integer, or the component handle as a string with the `handle:` prefix, for example `handle:my-component`. The response returns the value in the same form that you sent.
+    ComponentId          *ComponentPricePointAssignmentComponentId `json:"component_id,omitempty"`
+    PricePoint           *ComponentPricePointAssignmentPricePoint  `json:"price_point,omitempty"`
+    AdditionalProperties map[string]interface{}                    `json:"_"`
 }
 
 // String implements the fmt.Stringer interface for ComponentPricePointAssignment,
@@ -39,7 +40,7 @@ func (c ComponentPricePointAssignment) toMap() map[string]any {
     structMap := make(map[string]any)
     MergeAdditionalProperties(structMap, c.AdditionalProperties)
     if c.ComponentId != nil {
-        structMap["component_id"] = c.ComponentId
+        structMap["component_id"] = c.ComponentId.toMap()
     }
     if c.PricePoint != nil {
         structMap["price_point"] = c.PricePoint.toMap()
@@ -68,6 +69,6 @@ func (c *ComponentPricePointAssignment) UnmarshalJSON(input []byte) error {
 
 // tempComponentPricePointAssignment is a temporary struct used for validating the fields of ComponentPricePointAssignment.
 type tempComponentPricePointAssignment  struct {
-    ComponentId *int                                     `json:"component_id,omitempty"`
-    PricePoint  *ComponentPricePointAssignmentPricePoint `json:"price_point,omitempty"`
+    ComponentId *ComponentPricePointAssignmentComponentId `json:"component_id,omitempty"`
+    PricePoint  *ComponentPricePointAssignmentPricePoint  `json:"price_point,omitempty"`
 }

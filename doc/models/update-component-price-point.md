@@ -17,6 +17,8 @@
 | `Interval` | `*int` | Optional | The numerical interval. e.g., an interval of ‘30’ coupled with an interval_unit of day would mean this component price point would renew every 30 days. This property is only available for sites with Multifrequency enabled. |
 | `IntervalUnit` | [`models.Optional[models.IntervalUnit]`](../../doc/models/interval-unit.md) | Optional | A string representing the interval unit for this component price point, either month or day. This property is only available for sites with Multifrequency enabled. |
 | `Prices` | [`[]models.UpdatePrice`](../../doc/models/update-price.md) | Optional | - |
+| `SecondaryPricing` | [`*models.UpdateSecondaryPricing`](../../doc/models/update-secondary-pricing.md) | Optional | Hybrid Pricing only. Changes the secondary pricing model of an existing hybrid price point. Send `pricing_scheme` (or the top-level `secondary_pricing_scheme`) every time you send this block; a block without a scheme returns `422`. Brackets sent without an `id` are added to the existing ones rather than replacing them, so to change a bracket set, update existing brackets by `id` and remove the ones you no longer want with `_destroy: true`. See [Hybrid Pricing](http://localhost:8080/go). |
+| `SecondaryPricingScheme` | [`*models.PricingScheme`](../../doc/models/pricing-scheme.md) | Optional | Hybrid Pricing only. Alternative to `secondary_pricing.pricing_scheme`; when both are sent, `secondary_pricing.pricing_scheme` is used. |
 
 ## Example
 
@@ -29,11 +31,11 @@ import (
 
 func main() {
     updateComponentPricePoint := models.UpdateComponentPricePoint{
-        Name:                 models.ToPointer("name4"),
-        Handle:               models.ToPointer("handle0"),
-        PricingScheme:        models.ToPointer(models.PricingScheme_STAIRSTEP),
-        UseSiteExchangeRate:  models.ToPointer(false),
-        TaxIncluded:          models.ToPointer(false),
+        Name:                   models.ToPointer("name4"),
+        Handle:                 models.ToPointer("handle0"),
+        PricingScheme:          models.ToPointer(models.PricingScheme_STAIRSTEP),
+        UseSiteExchangeRate:    models.ToPointer(false),
+        TaxIncluded:            models.ToPointer(false),
     }
 
 }

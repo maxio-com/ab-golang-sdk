@@ -9,7 +9,8 @@ import (
 
 // ComponentCurrencyPrice represents a ComponentCurrencyPrice struct.
 type ComponentCurrencyPrice struct {
-    Id                   *int                   `json:"id,omitempty"`
+    // The ID of the stored currency price. This is `null` when the price point uses the site exchange rate (`use_site_exchange_rate: true`), because the price is calculated from the rate and is not stored.
+    Id                   Optional[int]          `json:"id"`
     Currency             *string                `json:"currency,omitempty"`
     Price                *string                `json:"price,omitempty"`
     FormattedPrice       *string                `json:"formatted_price,omitempty"`
@@ -42,8 +43,12 @@ func (c ComponentCurrencyPrice) MarshalJSON() (
 func (c ComponentCurrencyPrice) toMap() map[string]any {
     structMap := make(map[string]any)
     MergeAdditionalProperties(structMap, c.AdditionalProperties)
-    if c.Id != nil {
-        structMap["id"] = c.Id
+    if c.Id.IsValueSet() {
+        if c.Id.Value() != nil {
+            structMap["id"] = c.Id.Value()
+        } else {
+            structMap["id"] = nil
+        }
     }
     if c.Currency != nil {
         structMap["currency"] = c.Currency
@@ -88,10 +93,10 @@ func (c *ComponentCurrencyPrice) UnmarshalJSON(input []byte) error {
 
 // tempComponentCurrencyPrice is a temporary struct used for validating the fields of ComponentCurrencyPrice.
 type tempComponentCurrencyPrice  struct {
-    Id             *int    `json:"id,omitempty"`
-    Currency       *string `json:"currency,omitempty"`
-    Price          *string `json:"price,omitempty"`
-    FormattedPrice *string `json:"formatted_price,omitempty"`
-    PriceId        *int    `json:"price_id,omitempty"`
-    PricePointId   *int    `json:"price_point_id,omitempty"`
+    Id             Optional[int] `json:"id"`
+    Currency       *string       `json:"currency,omitempty"`
+    Price          *string       `json:"price,omitempty"`
+    FormattedPrice *string       `json:"formatted_price,omitempty"`
+    PriceId        *int          `json:"price_id,omitempty"`
+    PricePointId   *int          `json:"price_point_id,omitempty"`
 }

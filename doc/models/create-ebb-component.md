@@ -45,7 +45,6 @@ func main() {
                     IntervalUnit:         models.NewOptional(models.ToPointer(models.IntervalUnit_DAY)),
                 },
             },
-            EventBasedBillingMetricId: 68,
         },
     }
 

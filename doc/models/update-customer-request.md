@@ -23,11 +23,11 @@ import (
 func main() {
     updateCustomerRequest := models.UpdateCustomerRequest{
         Customer:             models.UpdateCustomer{
-            FirstName:            models.ToPointer("first_name0"),
-            LastName:             models.ToPointer("last_name8"),
-            Email:                models.ToPointer("email6"),
-            CcEmails:             models.ToPointer("cc_emails0"),
-            Organization:         models.ToPointer("organization6"),
+            FirstName:             models.ToPointer("first_name0"),
+            LastName:              models.ToPointer("last_name8"),
+            Email:                 models.ToPointer("email6"),
+            CcEmails:              models.ToPointer("cc_emails0"),
+            Organization:          models.ToPointer("organization6"),
         },
     }
 

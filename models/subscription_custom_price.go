@@ -40,6 +40,10 @@ type SubscriptionCustomPrice struct {
     ExpirationIntervalUnit  Optional[ExpirationIntervalUnit]             `json:"expiration_interval_unit"`
     // (Optional)
     TaxIncluded             *bool                                        `json:"tax_included,omitempty"`
+    // (Optional) The ID of a catalog price point of the same product to use as the list price. Ignored unless list vs sales pricing is enabled for the site.
+    ListPricePointId        Optional[int]                                `json:"list_price_point_id"`
+    // (Optional) When list vs sales pricing is enabled and `list_price_point_id` is omitted, the product's default price point is used as the list price unless this is `false`. Defaults to `true`.
+    UseDefaultListPrice     *bool                                        `json:"use_default_list_price,omitempty"`
     AdditionalProperties    map[string]interface{}                       `json:"_"`
 }
 
@@ -47,8 +51,8 @@ type SubscriptionCustomPrice struct {
 // providing a human-readable string representation useful for logging, debugging or displaying information.
 func (s SubscriptionCustomPrice) String() string {
     return fmt.Sprintf(
-    	"SubscriptionCustomPrice[Name=%v, Handle=%v, PriceInCents=%v, Interval=%v, IntervalUnit=%v, TrialPriceInCents=%v, TrialInterval=%v, TrialIntervalUnit=%v, TrialType=%v, InitialChargeInCents=%v, InitialChargeAfterTrial=%v, ExpirationInterval=%v, ExpirationIntervalUnit=%v, TaxIncluded=%v, AdditionalProperties=%v]",
-    	s.Name, s.Handle, s.PriceInCents, s.Interval, s.IntervalUnit, s.TrialPriceInCents, s.TrialInterval, s.TrialIntervalUnit, s.TrialType, s.InitialChargeInCents, s.InitialChargeAfterTrial, s.ExpirationInterval, s.ExpirationIntervalUnit, s.TaxIncluded, s.AdditionalProperties)
+    	"SubscriptionCustomPrice[Name=%v, Handle=%v, PriceInCents=%v, Interval=%v, IntervalUnit=%v, TrialPriceInCents=%v, TrialInterval=%v, TrialIntervalUnit=%v, TrialType=%v, InitialChargeInCents=%v, InitialChargeAfterTrial=%v, ExpirationInterval=%v, ExpirationIntervalUnit=%v, TaxIncluded=%v, ListPricePointId=%v, UseDefaultListPrice=%v, AdditionalProperties=%v]",
+    	s.Name, s.Handle, s.PriceInCents, s.Interval, s.IntervalUnit, s.TrialPriceInCents, s.TrialInterval, s.TrialIntervalUnit, s.TrialType, s.InitialChargeInCents, s.InitialChargeAfterTrial, s.ExpirationInterval, s.ExpirationIntervalUnit, s.TaxIncluded, s.ListPricePointId, s.UseDefaultListPrice, s.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for SubscriptionCustomPrice.
@@ -57,7 +61,7 @@ func (s SubscriptionCustomPrice) MarshalJSON() (
     []byte,
     error) {
     if err := DetectConflictingProperties(s.AdditionalProperties,
-        "name", "handle", "price_in_cents", "interval", "interval_unit", "trial_price_in_cents", "trial_interval", "trial_interval_unit", "trial_type", "initial_charge_in_cents", "initial_charge_after_trial", "expiration_interval", "expiration_interval_unit", "tax_included"); err != nil {
+        "name", "handle", "price_in_cents", "interval", "interval_unit", "trial_price_in_cents", "trial_interval", "trial_interval_unit", "trial_type", "initial_charge_in_cents", "initial_charge_after_trial", "expiration_interval", "expiration_interval_unit", "tax_included", "list_price_point_id", "use_default_list_price"); err != nil {
         return []byte{}, err
     }
     return json.Marshal(s.toMap())
@@ -115,6 +119,16 @@ func (s SubscriptionCustomPrice) toMap() map[string]any {
     if s.TaxIncluded != nil {
         structMap["tax_included"] = s.TaxIncluded
     }
+    if s.ListPricePointId.IsValueSet() {
+        if s.ListPricePointId.Value() != nil {
+            structMap["list_price_point_id"] = s.ListPricePointId.Value()
+        } else {
+            structMap["list_price_point_id"] = nil
+        }
+    }
+    if s.UseDefaultListPrice != nil {
+        structMap["use_default_list_price"] = s.UseDefaultListPrice
+    }
     return structMap
 }
 
@@ -130,7 +144,7 @@ func (s *SubscriptionCustomPrice) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "name", "handle", "price_in_cents", "interval", "interval_unit", "trial_price_in_cents", "trial_interval", "trial_interval_unit", "trial_type", "initial_charge_in_cents", "initial_charge_after_trial", "expiration_interval", "expiration_interval_unit", "tax_included")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "name", "handle", "price_in_cents", "interval", "interval_unit", "trial_price_in_cents", "trial_interval", "trial_interval_unit", "trial_type", "initial_charge_in_cents", "initial_charge_after_trial", "expiration_interval", "expiration_interval_unit", "tax_included", "list_price_point_id", "use_default_list_price")
     if err != nil {
     	return err
     }
@@ -150,6 +164,8 @@ func (s *SubscriptionCustomPrice) UnmarshalJSON(input []byte) error {
     s.ExpirationInterval = temp.ExpirationInterval
     s.ExpirationIntervalUnit = temp.ExpirationIntervalUnit
     s.TaxIncluded = temp.TaxIncluded
+    s.ListPricePointId = temp.ListPricePointId
+    s.UseDefaultListPrice = temp.UseDefaultListPrice
     return nil
 }
 
@@ -169,6 +185,8 @@ type tempSubscriptionCustomPrice  struct {
     ExpirationInterval      *SubscriptionCustomPriceExpirationInterval   `json:"expiration_interval,omitempty"`
     ExpirationIntervalUnit  Optional[ExpirationIntervalUnit]             `json:"expiration_interval_unit"`
     TaxIncluded             *bool                                        `json:"tax_included,omitempty"`
+    ListPricePointId        Optional[int]                                `json:"list_price_point_id"`
+    UseDefaultListPrice     *bool                                        `json:"use_default_list_price,omitempty"`
 }
 
 func (s *tempSubscriptionCustomPrice) validate() error {

@@ -11,6 +11,7 @@ import (
 type ProformaInvoiceTax struct {
     Uid                  *string                       `json:"uid,omitempty"`
     Title                *string                       `json:"title,omitempty"`
+    // The source of the tax. `Tax` is a tax configured in Advanced Billing. The other values identify the tax service that calculated the tax.
     SourceType           *ProformaInvoiceTaxSourceType `json:"source_type,omitempty"`
     Percentage           *string                       `json:"percentage,omitempty"`
     TaxableAmount        *string                       `json:"taxable_amount,omitempty"`

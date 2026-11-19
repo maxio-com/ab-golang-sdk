@@ -11,7 +11,7 @@
 |  --- | --- | --- | --- |
 | `Uid` | `*string` | Optional | **Constraints**: *Minimum Length*: `1` |
 | `Title` | `*string` | Optional | **Constraints**: *Minimum Length*: `1` |
-| `SourceType` | [`*models.ProformaInvoiceTaxSourceType`](../../doc/models/proforma-invoice-tax-source-type.md) | Optional | - |
+| `SourceType` | [`*models.ProformaInvoiceTaxSourceType`](../../doc/models/proforma-invoice-tax-source-type.md) | Optional | The source of the tax. `Tax` is a tax configured in Advanced Billing. The other values identify the tax service that calculated the tax. |
 | `Percentage` | `*string` | Optional | **Constraints**: *Minimum Length*: `1` |
 | `TaxableAmount` | `*string` | Optional | **Constraints**: *Minimum Length*: `1` |
 | `TaxAmount` | `*string` | Optional | **Constraints**: *Minimum Length*: `1` |
@@ -30,7 +30,7 @@ func main() {
     proformaInvoiceTax := models.ProformaInvoiceTax{
         Uid:                  models.ToPointer("uid4"),
         Title:                models.ToPointer("title0"),
-        SourceType:           models.ToPointer(models.ProformaInvoiceTaxSourceType_TAX),
+        SourceType:           models.ToPointer(models.ProformaInvoiceTaxSourceType_NUMERAL),
         Percentage:           models.ToPointer("percentage2"),
         TaxableAmount:        models.ToPointer("taxable_amount8"),
     }

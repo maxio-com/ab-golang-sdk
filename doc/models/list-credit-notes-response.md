@@ -28,7 +28,7 @@ func main() {
                 SiteId:               models.ToPointer(112),
                 CustomerId:           models.ToPointer(224),
                 SubscriptionId:       models.ToPointer(40),
-                Number:               models.ToPointer("number0"),
+                Number:               models.NewOptional(models.ToPointer("number0")),
             },
         },
     }

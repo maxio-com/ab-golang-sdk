@@ -30,11 +30,14 @@ Extends a component price point with currency overage prices.
 | `CurrencyPrices` | [`[]models.ComponentCurrencyPrice`](../../doc/models/component-currency-price.md) | Optional | An array of currency pricing data is available when multiple currencies are defined for the site. It varies based on the use_site_exchange_rate setting for the price point. This parameter is present only in the response of read endpoints, after including the appropriate query parameter. The clone endpoint always returns currency prices if they are present. |
 | `OveragePrices` | [`[]models.ComponentPrice`](../../doc/models/component-price.md) | Optional | Applicable only to prepaid usage components. An array of overage price brackets. |
 | `OveragePricingScheme` | [`*models.PricingScheme`](../../doc/models/pricing-scheme.md) | Optional | Applicable only to prepaid usage components. Pricing scheme for overage pricing. |
+| `SecondaryPrices` | [`[]models.ComponentPrice`](../../doc/models/component-price.md) | Optional | Returned only for hybrid price points. An array of secondary price brackets. Hybrid price points never return `overage_prices` or `overage_pricing_scheme`. |
+| `SecondaryPricingScheme` | [`*models.PricingScheme`](../../doc/models/pricing-scheme.md) | Optional | Returned only for hybrid price points. Pricing scheme for the secondary pricing model. |
 | `RenewPrepaidAllocation` | `*bool` | Optional | Applicable only to prepaid usage components. Boolean which controls whether or not the allocated quantity should be renewed at the beginning of each period. |
 | `RolloverPrepaidRemainder` | `*bool` | Optional | Applicable only to prepaid usage components. Boolean which controls whether or not remaining units should be rolled over to the next period. |
 | `ExpirationInterval` | `models.Optional[int]` | Optional | Applicable only to prepaid usage components where rollover_prepaid_remainder is true. The number of `expiration_interval_unit`s after which rollover amounts should expire. |
 | `ExpirationIntervalUnit` | [`models.Optional[models.ExpirationIntervalUnit]`](../../doc/models/expiration-interval-unit.md) | Optional | Applicable only to prepaid usage components where rollover_prepaid_remainder is true. A string representing the expiration interval unit for this component, either month or day. |
 | `CurrencyOveragePrices` | [`[]models.ComponentCurrencyPrice`](../../doc/models/component-currency-price.md) | Optional | Applicable only to prepaid usage components. An array of currency pricing data for overage prices. |
+| `CurrencySecondaryPrices` | [`[]models.ComponentCurrencyPrice`](../../doc/models/component-currency-price.md) | Optional | Returned only for hybrid price points, by List All Component Price Points with `include=currency_secondary_prices` or `include=currency_overage_prices`. An array of currency pricing data for secondary prices. |
 
 ## Example
 

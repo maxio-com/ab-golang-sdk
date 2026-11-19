@@ -25,7 +25,7 @@ func NewProductPricePointsController(baseController baseController) *ProductPric
 // CreateProductPricePoint takes context, productId, body as parameters and
 // returns an models.ApiResponse with models.ProductPricePointResponse data and
 // an error if there was an issue with the request or response.
-// Creates a Product Price Point. See the [Product Price Point](https://maxio.zendesk.com/hc/en-us/articles/24261111947789-Product-Price-Points) documentation for details.
+// Creates a Product Price Point. See the [Product Price Point](https://docs.maxio.com/billing/catalog/plans/setting-up-plan-price-points) documentation for details.
 func (p *ProductPricePointsController) CreateProductPricePoint(
     ctx context.Context,
     productId models.CreateProductPricePointProductId,

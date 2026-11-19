@@ -1,5 +1,9 @@
 # Coupons
 
+The Coupon object defines a discount, either a percentage or a fixed amount, that can be applied to a subscription to reduce the subscription's billing amount.
+
+Coupons can be restricted to a specific Product Family, limited to a date range, and configured to apply once or recur over a set duration. For more information, see [Understand Coupons](https://docs.maxio.com/billing/catalog/coupons/understand-coupons).
+
 ```go
 couponsController := client.CouponsController()
 ```
@@ -32,7 +36,7 @@ Creates a coupon under the specified product family.
 
 You can create either a flat amount coupon, by specifying `amount_in_cents`, or percentage coupon by specifying `percentage`.
 
-See [Apply Coupons to Subscriptions](https://maxio.zendesk.com/hc/en-us/articles/24261259337101-Coupons-and-Subscriptions) for information on applying a coupon to a subscription in the Advanced Billing UI.
+See [Apply Coupons to Subscriptions](https://docs.maxio.com/billing/catalog/coupons/apply-coupons-to-subscriptions) for information on applying a coupon to a subscription in the Advanced Billing UI.
 
 ```go
 CreateCoupon(
@@ -1011,7 +1015,7 @@ Note: If you are using any of the allowed special characters ("%", "@", "+", "-"
 
 So, if the coupon subcode is `20%OFF`, the URL to delete this coupon subcode would be: `https://<subdomain>.chargify.com/coupons/567/codes/20%25OFF.<format>`.
 
-For more information on coupon codes and applying coupons to subscriptions, see [Coupon Codes](https://maxio.zendesk.com/hc/en-us/articles/24261208729229-Coupon-Codes) and [Coupons and Subscriptions](https://maxio.zendesk.com/hc/en-us/articles/24261259337101-Coupons-and-Subscriptions).
+For more information on coupon codes and applying coupons to subscriptions, see [Coupon Codes](https://docs.maxio.com/billing/catalog/coupons/set-coupon-codes) and [Coupons and Subscriptions](https://docs.maxio.com/billing/catalog/coupons/apply-coupons-to-subscriptions).
 
 ```go
 CreateCouponSubcodes(

@@ -46,7 +46,10 @@
 | `ItemCategory` | `models.Optional[string]` | Optional | One of the following: Business Software, Consumer Software, Digital Services, Physical Goods, Other |
 | `ProductPricePointId` | `*int` | Optional | - |
 | `ProductPricePointHandle` | `models.Optional[string]` | Optional | - |
+| `ProductPricePointListPricePointId` | `models.Optional[int]` | Optional | The ID of the catalog price point used as the list price for the subscription's custom product price. Returned only when list vs sales pricing is enabled for the site. |
+| `ProductPricePointListPricePointHandle` | `models.Optional[string]` | Optional | The handle of the catalog price point used as the list price for the subscription's custom product price. Returned only when list vs sales pricing is enabled for the site. |
 | `UnspscCode` | `models.Optional[string]` | Optional | (Optional) Custom UNSPSC commodity code for Level 3/CEDP payment data. When set, this value is sent as the commodity code on invoice line items for this product instead of the default derived from item_category. |
+| `Features` | [`models.Optional[[]models.FeatureCatalogItem]`](../../doc/models/feature-catalog-item.md) | Optional | The active feature catalog items attached to this product. Present only when the request includes `include_features=true`. |
 
 ## Example
 
@@ -59,11 +62,11 @@ import (
 
 func main() {
     product := models.Product{
-        Id:                         models.ToPointer(134),
-        Name:                       models.ToPointer("name0"),
-        Handle:                     models.NewOptional(models.ToPointer("handle6")),
-        Description:                models.NewOptional(models.ToPointer("description0")),
-        AccountingCode:             models.NewOptional(models.ToPointer("accounting_code6")),
+        Id:                                    models.ToPointer(134),
+        Name:                                  models.ToPointer("name0"),
+        Handle:                                models.NewOptional(models.ToPointer("handle6")),
+        Description:                           models.NewOptional(models.ToPointer("description0")),
+        AccountingCode:                        models.NewOptional(models.ToPointer("accounting_code6")),
     }
 
 }

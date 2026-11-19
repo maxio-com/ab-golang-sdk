@@ -29,27 +29,27 @@ func NewPaymentProfilesController(baseController baseController) *PaymentProfile
 // Creates a payment profile for a customer.
 // When you create a new payment profile for a customer via the API, it does not automatically make the profile current for any of the customer’s subscriptions. To use the payment profile as the default, you must set it explicitly for the subscription or subscription group.
 // Select an option from the **Request Examples** drop-down on the right side of the portal to see examples of common scenarios for creating payment profiles. 
-// Do not use real card information for testing. See the Sites articles that cover [testing your site setup](https://docs.maxio.com/hc/en-us/articles/24250712113165-Testing-Overview#testing-overview-0-0) for more details on testing in your sandbox.
-// Note that collecting and sending raw card details in production requires [PCI compliance](https://docs.maxio.com/hc/en-us/articles/24183956938381-PCI-Compliance#pci-compliance-0-0) on your end. If your business is not PCI compliant, use [Maxio.js (formerly Chargify.js)](https://docs.maxio.com/hc/en-us/articles/38163190843789-Chargify-js-Overview#chargify-js-overview-0-0) to collect credit card or bank account information.
+// Do not use real card information for testing. See the Sites articles that cover [testing your site setup](https://docs.maxio.com/configuration/advanced-billing/sites/testing-overview) for more details on testing in your sandbox.
+// Note that collecting and sending raw card details in production requires [PCI compliance](https://docs.maxio.com/configuration/compliance/understand-pci-compliance) on your end. If your business is not PCI compliant, use [Maxio.js (formerly Chargify.js)](https://docs.maxio.com/configuration/advanced-billing/maxiojs-formerly-chargifyjs/understand-maxiojs) to collect credit card or bank account information.
 // See the following articles to learn more about subscriptions and payments:
-// + [Subscriber Payment Details](https://maxio.zendesk.com/hc/en-us/articles/24251599929613-Subscription-Summary-Payment-Details-Tab)
-// + [Self Service Pages](https://maxio.zendesk.com/hc/en-us/articles/24261425318541-Self-Service-Pages) (Allows credit card updates by Subscriber)
-// + [Public Signup Pages payment settings](https://maxio.zendesk.com/hc/en-us/articles/24261368332557-Individual-Page-Settings)
+// + [Subscriber Payment Details](https://docs.maxio.com/getting-started/maxio-platform-basics/advanced-billing-overview-and-resources/subscription-summary-tabs/managing-payment-methods)
+// + [Self Service Pages](https://docs.maxio.com/billing/public-pages/understand-self-service-pages) (Allows credit card updates by Subscriber)
+// + [Public Signup Pages payment settings](https://docs.maxio.com/selling/public-signup-pages/individual-page-settings)
 // + [Taxes](https://developers.chargify.com/docs/developer-docs/d2e9e34db740e-signups#taxes)
-// + [Maxio.js (formerly Chargify.js)](https://docs.maxio.com/hc/en-us/articles/38163190843789-Chargify-js-Overview)
-// + [Maxio.js with GoCardless - minimal example](https://docs.maxio.com/hc/en-us/articles/38206331271693-Examples#h_01K0PJ15QQZKCER8CFK40MR6XJ)
-// + [Maxio.js with GoCardless - full example](https://docs.maxio.com/hc/en-us/articles/38206331271693-Examples#h_01K0PJ15QR09JVHWW0MCA7HVJV)
-// + [Maxio.js with Stripe Direct Debit - minimal example](https://docs.maxio.com/hc/en-us/articles/38206331271693-Examples#h_01K0PJ15QQFKKN8Z7B7DZ9AJS5)
-// + [Maxio.js with Stripe Direct Debit - full example](https://docs.maxio.com/hc/en-us/articles/38206331271693-Examples#h_01K0PJ15QRECQQ4ECS3ZA55GY7)
+// + [Maxio.js (formerly Chargify.js)](https://docs.maxio.com/configuration/advanced-billing/maxiojs-formerly-chargifyjs/understand-maxiojs)
+// + [Maxio.js with GoCardless - minimal example](https://docs.maxio.com/configuration/advanced-billing/maxiojs-formerly-chargifyjs/review-maxiojs-form-examples#minimal-example-with-direct-debit-gocardless-gateway)
+// + [Maxio.js with GoCardless - full example](https://docs.maxio.com/configuration/advanced-billing/maxiojs-formerly-chargifyjs/review-maxiojs-form-examples#full-example-with-direct-debit-gocardless-gateway)
+// + [Maxio.js with Stripe Direct Debit - minimal example](https://docs.maxio.com/configuration/advanced-billing/maxiojs-formerly-chargifyjs/review-maxiojs-form-examples#minimal-example-with-sepa-becs-or-bacs-direct-debit-stripe-gateway)
+// + [Maxio.js with Stripe Direct Debit - full example](https://docs.maxio.com/configuration/advanced-billing/maxiojs-formerly-chargifyjs/review-maxiojs-form-examples#full-example-with-sepa-direct-debit-stripe-gateway)
 // + [Maxio.js with Stripe BECS Direct Debit - minimal example](https://developers.chargify.com/docs/developer-docs/ZG9jOjE0NjAzNDIy-examples#minimal-example-with-sepa-or-becs-direct-debit-stripe-gateway)
 // + [Maxio.js with Stripe BECS Direct Debit - full example](https://developers.chargify.com/docs/developer-docs/ZG9jOjE0NjAzNDIy-examples#full-example-with-sepa-direct-debit-stripe-gateway)
-// + [Full documentation on GoCardless](https://maxio.zendesk.com/hc/en-us/articles/24176159136909-GoCardless)
-// + [Full documentation on Stripe SEPA Direct Debit](https://maxio.zendesk.com/hc/en-us/articles/24176170430093-Stripe-SEPA-and-BECS-Direct-Debit)
-// + [Full documentation on Stripe BECS Direct Debit](https://maxio.zendesk.com/hc/en-us/articles/24176170430093-Stripe-SEPA-and-BECS-Direct-Debit)
-// + [Full documentation on Stripe BACS Direct Debit](https://maxio.zendesk.com/hc/en-us/articles/24176170430093-Stripe-SEPA-and-BECS-Direct-Debit)
+// + [Full documentation on GoCardless](https://docs.maxio.com/payments/additional-gateways/supported-payment-methods/direct-debit/gocardless)
+// + [Full documentation on Stripe SEPA Direct Debit](https://docs.maxio.com/payments/additional-gateways/supported-payment-methods/direct-debit/stripe-sepa-and-becs-direct-debit)
+// + [Full documentation on Stripe BECS Direct Debit](https://docs.maxio.com/payments/additional-gateways/supported-payment-methods/direct-debit/stripe-sepa-and-becs-direct-debit)
+// + [Full documentation on Stripe BACS Direct Debit](https://docs.maxio.com/payments/additional-gateways/supported-payment-methods/direct-debit/stripe-sepa-and-becs-direct-debit)
 // ## 3D Secure (3DS) Authentication post-authentication flow
 // When a payment requires 3DS Authentication to adhere to Strong Customer Authentication (SCA), the request enters a post-authentication flow where a 422 Unprocessable Entity status is returned with an action_link that will direct the customer through 3DS Authentication. 
-// See the [3D Secure Post-Authentication Flow](https://docs.maxio.com/hc/en-us/articles/44277749524365-3D-Secure-Post-Authentication-Flow) article in the product documentation to learn how to manage the redirect flow.
+// See the [3D Secure Post-Authentication Flow](https://docs.maxio.com/configuration/advanced-billing/maxiojs-formerly-chargifyjs/handle-3d-secure-post-authentication) article in the product documentation to learn how to manage the redirect flow.
 func (p *PaymentProfilesController) CreatePaymentProfile(
     ctx context.Context,
     body *models.CreatePaymentProfileRequest) (
@@ -414,7 +414,7 @@ func (p *PaymentProfilesController) ChangeSubscriptionGroupDefaultPaymentProfile
 // an error if there was an issue with the request or response.
 // Returns the one-time token data, including credit card or ACH details, associated with the provided token ID. One Time Tokens aka Advanced Billing Tokens house the credit card or ACH (Authorize.Net or Stripe only) data for a customer.
 // You can use One Time Tokens while creating a subscription or payment profile instead of passing all bank account or credit card data directly to a given API endpoint.
-// To obtain a One Time Token you have to use [Chargify.js](https://docs.maxio.com/hc/en-us/articles/38163190843789-Chargify-js-Overview#chargify-js-overview-0-0).
+// To obtain a One Time Token you have to use [Chargify.js](https://docs.maxio.com/configuration/advanced-billing/maxiojs-formerly-chargifyjs/understand-maxiojs).
 func (p *PaymentProfilesController) ReadOneTimeToken(
     ctx context.Context,
     chargifyToken string) (

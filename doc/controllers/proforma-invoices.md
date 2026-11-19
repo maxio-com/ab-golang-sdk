@@ -538,6 +538,10 @@ Pass a payload that resembles a subscription create or signup preview request. F
 
 A product and customer first name, last name, and email are the minimum requirements. We recommend associating the proforma invoice with a customer_id to easily find their proforma invoices, since the subscription_id will always be blank.
 
+## Segment-Level Custom Pricing
+
+When a component's `custom_price` includes `segments`, this endpoint validates them with the same rules as [Create Subscription](../../doc/controllers/subscriptions.md#create-subscription) and returns the same `422 Unprocessable Entity` errors. No segment rates are persisted. Valid segment rates do not change the totals returned here, because no usage has been recorded for a subscription that is only being signed up.
+
 ```go
 CreateSignupProformaInvoice(
     ctx context.Context,
@@ -610,6 +614,10 @@ Creates a signup preview in the format of a proforma invoice to preview costs be
 Pass a payload that resembles a subscription create or signup preview request. For example, you can specify components, coupons/a referral, offers, custom pricing, and an existing customer or payment profile to populate a shipping or billing address.
 
 A product and customer first name, last name, and email are the minimum requirements.
+
+## Segment-Level Custom Pricing
+
+When a component's `custom_price` includes `segments`, this endpoint validates them with the same rules as [Create Subscription](../../doc/controllers/subscriptions.md#create-subscription) and returns the same `422 Unprocessable Entity` errors. No segment rates are persisted. Valid segment rates do not change the totals returned here, because no usage has been recorded for a subscription that is only being signed up.
 
 ```go
 PreviewSignupProformaInvoice(

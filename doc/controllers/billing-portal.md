@@ -28,7 +28,7 @@ If you need to provide your customer their Management URL through other means, y
 
 To prevent abuse and overuse, request a new URL only when absolutely necessary. Management URLs are good for 65 days, so you should re-use a previously generated one as much as possible. If you use the URL frequently (such as to display on your website), **do not** make an API request every time.
 
-For more information configuring the Billing Portal, see [Billing Portal Overview](https://maxio.zendesk.com/hc/en-us/articles/24252412965133-Billing-Portal-Overview).
+For more information configuring the Billing Portal, see [Billing Portal Overview](https://docs.maxio.com/billing/billing-portal/overview/understand-the-billing-portal).
 
 ```go
 EnableBillingPortalForCustomer(

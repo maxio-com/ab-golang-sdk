@@ -11,8 +11,8 @@ Example schema for an `refund_invoice` event
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `ApplyCredit` | `bool` | Required | If true, credit was created and applied it to the invoice. |
-| `ConsolidationLevel` | [`*models.InvoiceConsolidationLevel`](../../doc/models/invoice-consolidation-level.md) | Optional | Consolidation level of the invoice, which is applicable to invoice consolidation. It will hold one of the following values:<br><br>* "none": A normal invoice with no consolidation.<br>* "child": An invoice segment which has been combined into a consolidated invoice.<br>* "parent": A consolidated invoice, whose contents are composed of invoice segments.<br><br>"Parent" invoices do not have lines of their own, but they have subtotals and totals which aggregate the member invoice segments.<br><br>See also the [invoice consolidation documentation](https://maxio.zendesk.com/hc/en-us/articles/24252269909389-Invoice-Consolidation). |
+| `ApplyCredit` | `bool` | Required | If true, credit was created and applied it to the invoice.<br><br>If false, no credit note was created. `credit_note_attributes` is still present, but its `number` and `sequence_number` are `null`. |
+| `ConsolidationLevel` | [`*models.InvoiceConsolidationLevel`](../../doc/models/invoice-consolidation-level.md) | Optional | Consolidation level of the invoice, which is applicable to invoice consolidation. It will hold one of the following values:<br><br>* "none": A normal invoice with no consolidation.<br>* "child": An invoice segment which has been combined into a consolidated invoice.<br>* "parent": A consolidated invoice, whose contents are composed of invoice segments.<br><br>"Parent" invoices do not have lines of their own, but they have subtotals and totals which aggregate the member invoice segments.<br><br>See also the [invoice consolidation documentation](https://docs.maxio.com/billing/invoicing/working-with-invoices/understand-invoice-consolidation). |
 | `CreditNoteAttributes` | [`models.CreditNote`](../../doc/models/credit-note.md) | Required | - |
 | `Memo` | `*string` | Optional | The refund memo. |
 | `OriginalAmount` | `*string` | Optional | The full, original amount of the refund. |
@@ -48,7 +48,7 @@ func main() {
             SiteId:               models.ToPointer(72),
             CustomerId:           models.ToPointer(184),
             SubscriptionId:       models.ToPointer(0),
-            Number:               models.ToPointer("number0"),
+            Number:               models.NewOptional(models.ToPointer("number0")),
         },
         Memo:                 models.ToPointer("memo0"),
         OriginalAmount:       models.ToPointer("original_amount0"),

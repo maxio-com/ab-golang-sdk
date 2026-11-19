@@ -12,80 +12,84 @@ import (
 // Component represents a Component struct.
 type Component struct {
     // The unique ID assigned to the component by Chargify. This ID can be used to fetch the component from the API.
-    Id                        *int                       `json:"id,omitempty"`
+    Id                        *int                           `json:"id,omitempty"`
     // The name of the Component, suitable for display on statements. e.g., Text Messages.
-    Name                      *string                    `json:"name,omitempty"`
+    Name                      *string                        `json:"name,omitempty"`
     // The component API handle
-    Handle                    Optional[string]           `json:"handle"`
-    PricingScheme             Optional[PricingScheme]    `json:"pricing_scheme"`
+    Handle                    Optional[string]               `json:"handle"`
+    PricingScheme             Optional[PricingScheme]        `json:"pricing_scheme"`
     // The name of the unit that the component’s usage is measured in. e.g., message
-    UnitName                  *string                    `json:"unit_name,omitempty"`
+    UnitName                  *string                        `json:"unit_name,omitempty"`
     // The amount the customer will be charged per unit. This field is only populated for ‘per_unit’ pricing schemes, otherwise it may be null.
-    UnitPrice                 Optional[string]           `json:"unit_price"`
-    // The id of the Product Family to which the Component belongs
-    ProductFamilyId           *int                       `json:"product_family_id,omitempty"`
-    // The name of the Product Family to which the Component belongs
-    ProductFamilyName         *string                    `json:"product_family_name,omitempty"`
-    // The handle of the Product Family to which the Component belongs
-    ProductFamilyHandle       *string                    `json:"product_family_handle,omitempty"`
+    UnitPrice                 Optional[string]               `json:"unit_price"`
+    // The id of the Product Family to which the Component belongs. `null` for a Wallet Product, which has no Product Family.
+    ProductFamilyId           Optional[int]                  `json:"product_family_id"`
+    // The name of the Product Family to which the Component belongs. `null` for a Wallet Product, which has no Product Family.
+    ProductFamilyName         Optional[string]               `json:"product_family_name"`
+    // The handle of the Product Family to which the Component belongs. `null` for a Wallet Product, which has no Product Family.
+    ProductFamilyHandle       Optional[string]               `json:"product_family_handle"`
     // deprecated - use unit_price instead.
-    PricePerUnitInCents       Optional[int64]            `json:"price_per_unit_in_cents"`
+    PricePerUnitInCents       Optional[int64]                `json:"price_per_unit_in_cents"`
     // A handle for the component type
-    Kind                      *ComponentKind             `json:"kind,omitempty"`
+    Kind                      *ComponentKind                 `json:"kind,omitempty"`
     // Boolean flag describing whether a component is archived or not.
-    Archived                  *bool                      `json:"archived,omitempty"`
+    Archived                  *bool                          `json:"archived,omitempty"`
     // The description of the component.
-    Description               Optional[string]           `json:"description"`
-    DefaultPricePointId       Optional[int]              `json:"default_price_point_id"`
+    Description               Optional[string]               `json:"description"`
+    DefaultPricePointId       Optional[int]                  `json:"default_price_point_id"`
     // Applicable only to prepaid usage components. An array of overage price brackets.
-    OveragePrices             Optional[[]ComponentPrice] `json:"overage_prices"`
+    OveragePrices             Optional[[]ComponentPrice]     `json:"overage_prices"`
     // An array of price brackets. If the component uses the ‘per_unit’ pricing scheme, this array will be empty.
-    Prices                    Optional[[]ComponentPrice] `json:"prices"`
+    Prices                    Optional[[]ComponentPrice]     `json:"prices"`
     // Count for the number of price points associated with the component
-    PricePointCount           *int                       `json:"price_point_count,omitempty"`
+    PricePointCount           *int                           `json:"price_point_count,omitempty"`
     // URL that points to the location to read the existing price points via GET request
-    PricePointsUrl            Optional[string]           `json:"price_points_url"`
-    DefaultPricePointName     *string                    `json:"default_price_point_name,omitempty"`
+    PricePointsUrl            Optional[string]               `json:"price_points_url"`
+    DefaultPricePointName     *string                        `json:"default_price_point_name,omitempty"`
     // Boolean flag describing whether a component is taxable or not.
-    Taxable                   *bool                      `json:"taxable,omitempty"`
+    Taxable                   *bool                          `json:"taxable,omitempty"`
     // A string representing the tax code related to the component type. This is especially important when using AvaTax to tax based on locale. This attribute has a max length of 25 characters.
-    TaxCode                   Optional[string]           `json:"tax_code"`
-    Recurring                 *bool                      `json:"recurring,omitempty"`
+    TaxCode                   Optional[string]               `json:"tax_code"`
+    Recurring                 *bool                          `json:"recurring,omitempty"`
     // The type of credit to be created when upgrading/downgrading. Defaults to the component and then site setting if one is not provided.
-    UpgradeCharge             Optional[CreditType]       `json:"upgrade_charge"`
+    UpgradeCharge             Optional[CreditType]           `json:"upgrade_charge"`
     // The type of credit to be created when upgrading/downgrading. Defaults to the component and then site setting if one is not provided.
-    DowngradeCredit           Optional[CreditType]       `json:"downgrade_credit"`
+    DowngradeCredit           Optional[CreditType]           `json:"downgrade_credit"`
     // Timestamp indicating when this component was created
-    CreatedAt                 *time.Time                 `json:"created_at,omitempty"`
+    CreatedAt                 *time.Time                     `json:"created_at,omitempty"`
     // Timestamp indicating when this component was updated
-    UpdatedAt                 *time.Time                 `json:"updated_at,omitempty"`
+    UpdatedAt                 *time.Time                     `json:"updated_at,omitempty"`
     // Timestamp indicating when this component was archived
-    ArchivedAt                Optional[time.Time]        `json:"archived_at"`
+    ArchivedAt                Optional[time.Time]            `json:"archived_at"`
     // (Only available on Relationship Invoicing sites) Boolean flag describing if the service date range should show for the component on generated invoices.
-    HideDateRangeOnInvoice    *bool                      `json:"hide_date_range_on_invoice,omitempty"`
-    AllowFractionalQuantities *bool                      `json:"allow_fractional_quantities,omitempty"`
+    HideDateRangeOnInvoice    *bool                          `json:"hide_date_range_on_invoice,omitempty"`
+    AllowFractionalQuantities *bool                          `json:"allow_fractional_quantities,omitempty"`
     // One of the following: Business Software, Consumer Software, Digital Services, Physical Goods, Other
-    ItemCategory              Optional[ItemCategory]     `json:"item_category"`
-    UseSiteExchangeRate       Optional[bool]             `json:"use_site_exchange_rate"`
+    ItemCategory              Optional[ItemCategory]         `json:"item_category"`
+    UseSiteExchangeRate       Optional[bool]                 `json:"use_site_exchange_rate"`
     // E.g. Internal ID or SKU Number
-    AccountingCode            Optional[string]           `json:"accounting_code"`
-    // (Only for Event Based Components) This is an ID of a metric attached to the component. This metric is used to bill upon collected events.
-    EventBasedBillingMetricId *int                       `json:"event_based_billing_metric_id,omitempty"`
+    AccountingCode            Optional[string]               `json:"accounting_code"`
+    // The ID of an attached metric from legacy Events Based Billing. Omitted if no metric is attached. If the metric is linked to a Maxio Metering meter, the response can include both event_based_billing_metric_id and metering_meter_id.
+    EventBasedBillingMetricId *int                           `json:"event_based_billing_metric_id,omitempty"`
+    // The ID of an attached single Maxio Metering meter. Omitted if no single meter is attached, including when the component uses only an Advanced Formula. If a legacy Events Based Billing metric is linked to the meter, the response can include both metering_meter_id and event_based_billing_metric_id.
+    MeteringMeterId           *int                           `json:"metering_meter_id,omitempty"`
     // The numerical interval. e.g., an interval of ‘30’ coupled with an interval_unit of day would mean this component’s default price point would renew every 30 days. This property is only available for sites with Multifrequency enabled.
-    Interval                  *int                       `json:"interval,omitempty"`
+    Interval                  *int                           `json:"interval,omitempty"`
     // A string representing the interval unit for this component's default price point, either month or day. This property is only available for sites with Multifrequency enabled.
-    IntervalUnit              Optional[IntervalUnit]     `json:"interval_unit"`
+    IntervalUnit              Optional[IntervalUnit]         `json:"interval_unit"`
     // (Optional) Custom UNSPSC commodity code for Level 3/CEDP payment data. When set, this value is sent as the commodity code on invoice line items for this component instead of the default derived from item_category.
-    UnspscCode                Optional[string]           `json:"unspsc_code"`
-    AdditionalProperties      map[string]interface{}     `json:"_"`
+    UnspscCode                Optional[string]               `json:"unspsc_code"`
+    // The active feature catalog items attached to this component. Present only when the request includes `include_features=true`.
+    Features                  Optional[[]FeatureCatalogItem] `json:"features"`
+    AdditionalProperties      map[string]interface{}         `json:"_"`
 }
 
 // String implements the fmt.Stringer interface for Component,
 // providing a human-readable string representation useful for logging, debugging or displaying information.
 func (c Component) String() string {
     return fmt.Sprintf(
-    	"Component[Id=%v, Name=%v, Handle=%v, PricingScheme=%v, UnitName=%v, UnitPrice=%v, ProductFamilyId=%v, ProductFamilyName=%v, ProductFamilyHandle=%v, PricePerUnitInCents=%v, Kind=%v, Archived=%v, Description=%v, DefaultPricePointId=%v, OveragePrices=%v, Prices=%v, PricePointCount=%v, PricePointsUrl=%v, DefaultPricePointName=%v, Taxable=%v, TaxCode=%v, Recurring=%v, UpgradeCharge=%v, DowngradeCredit=%v, CreatedAt=%v, UpdatedAt=%v, ArchivedAt=%v, HideDateRangeOnInvoice=%v, AllowFractionalQuantities=%v, ItemCategory=%v, UseSiteExchangeRate=%v, AccountingCode=%v, EventBasedBillingMetricId=%v, Interval=%v, IntervalUnit=%v, UnspscCode=%v, AdditionalProperties=%v]",
-    	c.Id, c.Name, c.Handle, c.PricingScheme, c.UnitName, c.UnitPrice, c.ProductFamilyId, c.ProductFamilyName, c.ProductFamilyHandle, c.PricePerUnitInCents, c.Kind, c.Archived, c.Description, c.DefaultPricePointId, c.OveragePrices, c.Prices, c.PricePointCount, c.PricePointsUrl, c.DefaultPricePointName, c.Taxable, c.TaxCode, c.Recurring, c.UpgradeCharge, c.DowngradeCredit, c.CreatedAt, c.UpdatedAt, c.ArchivedAt, c.HideDateRangeOnInvoice, c.AllowFractionalQuantities, c.ItemCategory, c.UseSiteExchangeRate, c.AccountingCode, c.EventBasedBillingMetricId, c.Interval, c.IntervalUnit, c.UnspscCode, c.AdditionalProperties)
+    	"Component[Id=%v, Name=%v, Handle=%v, PricingScheme=%v, UnitName=%v, UnitPrice=%v, ProductFamilyId=%v, ProductFamilyName=%v, ProductFamilyHandle=%v, PricePerUnitInCents=%v, Kind=%v, Archived=%v, Description=%v, DefaultPricePointId=%v, OveragePrices=%v, Prices=%v, PricePointCount=%v, PricePointsUrl=%v, DefaultPricePointName=%v, Taxable=%v, TaxCode=%v, Recurring=%v, UpgradeCharge=%v, DowngradeCredit=%v, CreatedAt=%v, UpdatedAt=%v, ArchivedAt=%v, HideDateRangeOnInvoice=%v, AllowFractionalQuantities=%v, ItemCategory=%v, UseSiteExchangeRate=%v, AccountingCode=%v, EventBasedBillingMetricId=%v, MeteringMeterId=%v, Interval=%v, IntervalUnit=%v, UnspscCode=%v, Features=%v, AdditionalProperties=%v]",
+    	c.Id, c.Name, c.Handle, c.PricingScheme, c.UnitName, c.UnitPrice, c.ProductFamilyId, c.ProductFamilyName, c.ProductFamilyHandle, c.PricePerUnitInCents, c.Kind, c.Archived, c.Description, c.DefaultPricePointId, c.OveragePrices, c.Prices, c.PricePointCount, c.PricePointsUrl, c.DefaultPricePointName, c.Taxable, c.TaxCode, c.Recurring, c.UpgradeCharge, c.DowngradeCredit, c.CreatedAt, c.UpdatedAt, c.ArchivedAt, c.HideDateRangeOnInvoice, c.AllowFractionalQuantities, c.ItemCategory, c.UseSiteExchangeRate, c.AccountingCode, c.EventBasedBillingMetricId, c.MeteringMeterId, c.Interval, c.IntervalUnit, c.UnspscCode, c.Features, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for Component.
@@ -94,7 +98,7 @@ func (c Component) MarshalJSON() (
     []byte,
     error) {
     if err := DetectConflictingProperties(c.AdditionalProperties,
-        "id", "name", "handle", "pricing_scheme", "unit_name", "unit_price", "product_family_id", "product_family_name", "product_family_handle", "price_per_unit_in_cents", "kind", "archived", "description", "default_price_point_id", "overage_prices", "prices", "price_point_count", "price_points_url", "default_price_point_name", "taxable", "tax_code", "recurring", "upgrade_charge", "downgrade_credit", "created_at", "updated_at", "archived_at", "hide_date_range_on_invoice", "allow_fractional_quantities", "item_category", "use_site_exchange_rate", "accounting_code", "event_based_billing_metric_id", "interval", "interval_unit", "unspsc_code"); err != nil {
+        "id", "name", "handle", "pricing_scheme", "unit_name", "unit_price", "product_family_id", "product_family_name", "product_family_handle", "price_per_unit_in_cents", "kind", "archived", "description", "default_price_point_id", "overage_prices", "prices", "price_point_count", "price_points_url", "default_price_point_name", "taxable", "tax_code", "recurring", "upgrade_charge", "downgrade_credit", "created_at", "updated_at", "archived_at", "hide_date_range_on_invoice", "allow_fractional_quantities", "item_category", "use_site_exchange_rate", "accounting_code", "event_based_billing_metric_id", "metering_meter_id", "interval", "interval_unit", "unspsc_code", "features"); err != nil {
         return []byte{}, err
     }
     return json.Marshal(c.toMap())
@@ -134,14 +138,26 @@ func (c Component) toMap() map[string]any {
             structMap["unit_price"] = nil
         }
     }
-    if c.ProductFamilyId != nil {
-        structMap["product_family_id"] = c.ProductFamilyId
+    if c.ProductFamilyId.IsValueSet() {
+        if c.ProductFamilyId.Value() != nil {
+            structMap["product_family_id"] = c.ProductFamilyId.Value()
+        } else {
+            structMap["product_family_id"] = nil
+        }
     }
-    if c.ProductFamilyName != nil {
-        structMap["product_family_name"] = c.ProductFamilyName
+    if c.ProductFamilyName.IsValueSet() {
+        if c.ProductFamilyName.Value() != nil {
+            structMap["product_family_name"] = c.ProductFamilyName.Value()
+        } else {
+            structMap["product_family_name"] = nil
+        }
     }
-    if c.ProductFamilyHandle != nil {
-        structMap["product_family_handle"] = c.ProductFamilyHandle
+    if c.ProductFamilyHandle.IsValueSet() {
+        if c.ProductFamilyHandle.Value() != nil {
+            structMap["product_family_handle"] = c.ProductFamilyHandle.Value()
+        } else {
+            structMap["product_family_handle"] = nil
+        }
     }
     if c.PricePerUnitInCents.IsValueSet() {
         if c.PricePerUnitInCents.Value() != nil {
@@ -272,6 +288,9 @@ func (c Component) toMap() map[string]any {
     if c.EventBasedBillingMetricId != nil {
         structMap["event_based_billing_metric_id"] = c.EventBasedBillingMetricId
     }
+    if c.MeteringMeterId != nil {
+        structMap["metering_meter_id"] = c.MeteringMeterId
+    }
     if c.Interval != nil {
         structMap["interval"] = c.Interval
     }
@@ -289,6 +308,13 @@ func (c Component) toMap() map[string]any {
             structMap["unspsc_code"] = nil
         }
     }
+    if c.Features.IsValueSet() {
+        if c.Features.Value() != nil {
+            structMap["features"] = c.Features.Value()
+        } else {
+            structMap["features"] = nil
+        }
+    }
     return structMap
 }
 
@@ -300,7 +326,7 @@ func (c *Component) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "id", "name", "handle", "pricing_scheme", "unit_name", "unit_price", "product_family_id", "product_family_name", "product_family_handle", "price_per_unit_in_cents", "kind", "archived", "description", "default_price_point_id", "overage_prices", "prices", "price_point_count", "price_points_url", "default_price_point_name", "taxable", "tax_code", "recurring", "upgrade_charge", "downgrade_credit", "created_at", "updated_at", "archived_at", "hide_date_range_on_invoice", "allow_fractional_quantities", "item_category", "use_site_exchange_rate", "accounting_code", "event_based_billing_metric_id", "interval", "interval_unit", "unspsc_code")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "id", "name", "handle", "pricing_scheme", "unit_name", "unit_price", "product_family_id", "product_family_name", "product_family_handle", "price_per_unit_in_cents", "kind", "archived", "description", "default_price_point_id", "overage_prices", "prices", "price_point_count", "price_points_url", "default_price_point_name", "taxable", "tax_code", "recurring", "upgrade_charge", "downgrade_credit", "created_at", "updated_at", "archived_at", "hide_date_range_on_invoice", "allow_fractional_quantities", "item_category", "use_site_exchange_rate", "accounting_code", "event_based_billing_metric_id", "metering_meter_id", "interval", "interval_unit", "unspsc_code", "features")
     if err != nil {
     	return err
     }
@@ -358,48 +384,52 @@ func (c *Component) UnmarshalJSON(input []byte) error {
     c.UseSiteExchangeRate = temp.UseSiteExchangeRate
     c.AccountingCode = temp.AccountingCode
     c.EventBasedBillingMetricId = temp.EventBasedBillingMetricId
+    c.MeteringMeterId = temp.MeteringMeterId
     c.Interval = temp.Interval
     c.IntervalUnit = temp.IntervalUnit
     c.UnspscCode = temp.UnspscCode
+    c.Features = temp.Features
     return nil
 }
 
 // tempComponent is a temporary struct used for validating the fields of Component.
 type tempComponent  struct {
-    Id                        *int                       `json:"id,omitempty"`
-    Name                      *string                    `json:"name,omitempty"`
-    Handle                    Optional[string]           `json:"handle"`
-    PricingScheme             Optional[PricingScheme]    `json:"pricing_scheme"`
-    UnitName                  *string                    `json:"unit_name,omitempty"`
-    UnitPrice                 Optional[string]           `json:"unit_price"`
-    ProductFamilyId           *int                       `json:"product_family_id,omitempty"`
-    ProductFamilyName         *string                    `json:"product_family_name,omitempty"`
-    ProductFamilyHandle       *string                    `json:"product_family_handle,omitempty"`
-    PricePerUnitInCents       Optional[int64]            `json:"price_per_unit_in_cents"`
-    Kind                      *ComponentKind             `json:"kind,omitempty"`
-    Archived                  *bool                      `json:"archived,omitempty"`
-    Description               Optional[string]           `json:"description"`
-    DefaultPricePointId       Optional[int]              `json:"default_price_point_id"`
-    OveragePrices             Optional[[]ComponentPrice] `json:"overage_prices"`
-    Prices                    Optional[[]ComponentPrice] `json:"prices"`
-    PricePointCount           *int                       `json:"price_point_count,omitempty"`
-    PricePointsUrl            Optional[string]           `json:"price_points_url"`
-    DefaultPricePointName     *string                    `json:"default_price_point_name,omitempty"`
-    Taxable                   *bool                      `json:"taxable,omitempty"`
-    TaxCode                   Optional[string]           `json:"tax_code"`
-    Recurring                 *bool                      `json:"recurring,omitempty"`
-    UpgradeCharge             Optional[CreditType]       `json:"upgrade_charge"`
-    DowngradeCredit           Optional[CreditType]       `json:"downgrade_credit"`
-    CreatedAt                 *string                    `json:"created_at,omitempty"`
-    UpdatedAt                 *string                    `json:"updated_at,omitempty"`
-    ArchivedAt                Optional[string]           `json:"archived_at"`
-    HideDateRangeOnInvoice    *bool                      `json:"hide_date_range_on_invoice,omitempty"`
-    AllowFractionalQuantities *bool                      `json:"allow_fractional_quantities,omitempty"`
-    ItemCategory              Optional[ItemCategory]     `json:"item_category"`
-    UseSiteExchangeRate       Optional[bool]             `json:"use_site_exchange_rate"`
-    AccountingCode            Optional[string]           `json:"accounting_code"`
-    EventBasedBillingMetricId *int                       `json:"event_based_billing_metric_id,omitempty"`
-    Interval                  *int                       `json:"interval,omitempty"`
-    IntervalUnit              Optional[IntervalUnit]     `json:"interval_unit"`
-    UnspscCode                Optional[string]           `json:"unspsc_code"`
+    Id                        *int                           `json:"id,omitempty"`
+    Name                      *string                        `json:"name,omitempty"`
+    Handle                    Optional[string]               `json:"handle"`
+    PricingScheme             Optional[PricingScheme]        `json:"pricing_scheme"`
+    UnitName                  *string                        `json:"unit_name,omitempty"`
+    UnitPrice                 Optional[string]               `json:"unit_price"`
+    ProductFamilyId           Optional[int]                  `json:"product_family_id"`
+    ProductFamilyName         Optional[string]               `json:"product_family_name"`
+    ProductFamilyHandle       Optional[string]               `json:"product_family_handle"`
+    PricePerUnitInCents       Optional[int64]                `json:"price_per_unit_in_cents"`
+    Kind                      *ComponentKind                 `json:"kind,omitempty"`
+    Archived                  *bool                          `json:"archived,omitempty"`
+    Description               Optional[string]               `json:"description"`
+    DefaultPricePointId       Optional[int]                  `json:"default_price_point_id"`
+    OveragePrices             Optional[[]ComponentPrice]     `json:"overage_prices"`
+    Prices                    Optional[[]ComponentPrice]     `json:"prices"`
+    PricePointCount           *int                           `json:"price_point_count,omitempty"`
+    PricePointsUrl            Optional[string]               `json:"price_points_url"`
+    DefaultPricePointName     *string                        `json:"default_price_point_name,omitempty"`
+    Taxable                   *bool                          `json:"taxable,omitempty"`
+    TaxCode                   Optional[string]               `json:"tax_code"`
+    Recurring                 *bool                          `json:"recurring,omitempty"`
+    UpgradeCharge             Optional[CreditType]           `json:"upgrade_charge"`
+    DowngradeCredit           Optional[CreditType]           `json:"downgrade_credit"`
+    CreatedAt                 *string                        `json:"created_at,omitempty"`
+    UpdatedAt                 *string                        `json:"updated_at,omitempty"`
+    ArchivedAt                Optional[string]               `json:"archived_at"`
+    HideDateRangeOnInvoice    *bool                          `json:"hide_date_range_on_invoice,omitempty"`
+    AllowFractionalQuantities *bool                          `json:"allow_fractional_quantities,omitempty"`
+    ItemCategory              Optional[ItemCategory]         `json:"item_category"`
+    UseSiteExchangeRate       Optional[bool]                 `json:"use_site_exchange_rate"`
+    AccountingCode            Optional[string]               `json:"accounting_code"`
+    EventBasedBillingMetricId *int                           `json:"event_based_billing_metric_id,omitempty"`
+    MeteringMeterId           *int                           `json:"metering_meter_id,omitempty"`
+    Interval                  *int                           `json:"interval,omitempty"`
+    IntervalUnit              Optional[IntervalUnit]         `json:"interval_unit"`
+    UnspscCode                Optional[string]               `json:"unspsc_code"`
+    Features                  Optional[[]FeatureCatalogItem] `json:"features"`
 }

@@ -26,6 +26,9 @@
 | `ProductVersion` | `*int` | Optional | The version of the product being credited. |
 | `ComponentId` | `models.Optional[int]` | Optional | The ID of the component being credited. Will be `nil` for non-component credits. |
 | `PricePointId` | `models.Optional[int]` | Optional | The price point ID of the component being credited. Will be `nil` for non-component credits. |
+| `ListUnitPrice` | `models.Optional[string]` | Optional | The unit price from the list price point, in decimal format |
+| `ListTotalAmount` | `models.Optional[string]` | Optional | The total amount for the line item at the list price, in decimal format |
+| `ListPricePointId` | `models.Optional[int]` | Optional | The ID of the list price point this line item's sales price is compared against |
 | `BillingScheduleItemId` | `models.Optional[int]` | Optional | - |
 | `CustomItem` | `*bool` | Optional | - |
 | `PrepaidAllocationExpiresAt` | `models.Optional[time.Time]` | Optional | The date a prepaid allocation is set to expire. Only present on line items representing prepaid component allocations. The format is `"YYYY-MM-DD"`. |

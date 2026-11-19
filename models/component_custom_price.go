@@ -13,37 +13,41 @@ import (
 // Create or update custom pricing unique to the subscription. Used in place of `price_point_id`.
 type ComponentCustomPrice struct {
     // Whether or not the price point includes tax
-    TaxIncluded              *bool                            `json:"tax_included,omitempty"`
+    TaxIncluded              *bool                                     `json:"tax_included,omitempty"`
     // Omit for On/Off components.
-    PricingScheme            *PricingScheme                   `json:"pricing_scheme,omitempty"`
+    PricingScheme            *PricingScheme                            `json:"pricing_scheme,omitempty"`
     // The numerical interval. e.g., an interval of ‘30’ coupled with an interval_unit of day would mean this component price point would renew every 30 days. This property is only available for sites with Multifrequency enabled.
-    Interval                 *int                             `json:"interval,omitempty"`
+    Interval                 *int                                      `json:"interval,omitempty"`
     // A string representing the interval unit for this component price point, either month or day. This property is only available for sites with Multifrequency enabled.
-    IntervalUnit             Optional[IntervalUnit]           `json:"interval_unit"`
+    IntervalUnit             Optional[IntervalUnit]                    `json:"interval_unit"`
     // (Optional) Id of the price point to use for list price calculations when
     // overriding the customer price.
-    ListPricePointId         Optional[int]                    `json:"list_price_point_id"`
-    // When true, list price calculations will continue to use the default price point even when a `custom_price` is supplied.
-    UseDefaultListPrice      *bool                            `json:"use_default_list_price,omitempty"`
+    ListPricePointId         Optional[int]                             `json:"list_price_point_id"`
+    // (Optional) When list vs sales pricing is enabled and `list_price_point_id` is omitted, the component's default price point is used as the list price unless this is `false`. Defaults to `true`.
+    UseDefaultListPrice      *bool                                     `json:"use_default_list_price,omitempty"`
     // On/off components only need one price bracket starting at 1.
-    Prices                   []Price                          `json:"prices"`
+    Prices                   []Price                                   `json:"prices"`
     // Applicable only to prepaid usage components. Controls whether the allocated quantity renews each period.
-    RenewPrepaidAllocation   *bool                            `json:"renew_prepaid_allocation,omitempty"`
+    RenewPrepaidAllocation   *bool                                     `json:"renew_prepaid_allocation,omitempty"`
     // Applicable only to prepaid usage components. Controls whether remaining units roll over to the next period.
-    RolloverPrepaidRemainder *bool                            `json:"rollover_prepaid_remainder,omitempty"`
+    RolloverPrepaidRemainder *bool                                     `json:"rollover_prepaid_remainder,omitempty"`
     // Applicable only when rollover is enabled. Number of `expiration_interval_unit`s after which rollover amounts expire.
-    ExpirationInterval       Optional[int]                    `json:"expiration_interval"`
+    ExpirationInterval       Optional[int]                             `json:"expiration_interval"`
     // Applicable only when rollover is enabled. Interval unit for rollover expiration (month or day).
-    ExpirationIntervalUnit   Optional[ExpirationIntervalUnit] `json:"expiration_interval_unit"`
-    AdditionalProperties     map[string]interface{}           `json:"_"`
+    ExpirationIntervalUnit   Optional[ExpirationIntervalUnit]          `json:"expiration_interval_unit"`
+    // Applicable only to segmented event-based components on sites using Maxio Metering. Per-segment rates for the component: each entry sets the pricing scheme and prices for one segment of the component's meter, identified by its property values.
+    // Accepted only by Create Subscription and Update Subscription, which save the segment rates. Preview Subscription and the signup proforma invoice endpoints validate segments the same way but do not save them. Every other endpoint that accepts a component `custom_price` returns `422 Unprocessable Entity` when the `segments` key is present, even when its value is `null` or an empty array. Omit this property unless you are setting segment rates.
+    // Saved segment rates take effect as soon as the request succeeds and price all of the current billing period's usage at the new rates, including usage recorded before the request. To read them back, take the `price_point_id` of the subscription's component (for example, from [Read Subscription Component]($e/Subscription%20Components/readSubscriptionComponent)) and call `GET /components/{component_id}/price_points/{price_point_id}/segments.json`.
+    Segments                 []SubscriptionComponentCustomPriceSegment `json:"segments,omitempty"`
+    AdditionalProperties     map[string]interface{}                    `json:"_"`
 }
 
 // String implements the fmt.Stringer interface for ComponentCustomPrice,
 // providing a human-readable string representation useful for logging, debugging or displaying information.
 func (c ComponentCustomPrice) String() string {
     return fmt.Sprintf(
-    	"ComponentCustomPrice[TaxIncluded=%v, PricingScheme=%v, Interval=%v, IntervalUnit=%v, ListPricePointId=%v, UseDefaultListPrice=%v, Prices=%v, RenewPrepaidAllocation=%v, RolloverPrepaidRemainder=%v, ExpirationInterval=%v, ExpirationIntervalUnit=%v, AdditionalProperties=%v]",
-    	c.TaxIncluded, c.PricingScheme, c.Interval, c.IntervalUnit, c.ListPricePointId, c.UseDefaultListPrice, c.Prices, c.RenewPrepaidAllocation, c.RolloverPrepaidRemainder, c.ExpirationInterval, c.ExpirationIntervalUnit, c.AdditionalProperties)
+    	"ComponentCustomPrice[TaxIncluded=%v, PricingScheme=%v, Interval=%v, IntervalUnit=%v, ListPricePointId=%v, UseDefaultListPrice=%v, Prices=%v, RenewPrepaidAllocation=%v, RolloverPrepaidRemainder=%v, ExpirationInterval=%v, ExpirationIntervalUnit=%v, Segments=%v, AdditionalProperties=%v]",
+    	c.TaxIncluded, c.PricingScheme, c.Interval, c.IntervalUnit, c.ListPricePointId, c.UseDefaultListPrice, c.Prices, c.RenewPrepaidAllocation, c.RolloverPrepaidRemainder, c.ExpirationInterval, c.ExpirationIntervalUnit, c.Segments, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for ComponentCustomPrice.
@@ -52,7 +56,7 @@ func (c ComponentCustomPrice) MarshalJSON() (
     []byte,
     error) {
     if err := DetectConflictingProperties(c.AdditionalProperties,
-        "tax_included", "pricing_scheme", "interval", "interval_unit", "list_price_point_id", "use_default_list_price", "prices", "renew_prepaid_allocation", "rollover_prepaid_remainder", "expiration_interval", "expiration_interval_unit"); err != nil {
+        "tax_included", "pricing_scheme", "interval", "interval_unit", "list_price_point_id", "use_default_list_price", "prices", "renew_prepaid_allocation", "rollover_prepaid_remainder", "expiration_interval", "expiration_interval_unit", "segments"); err != nil {
         return []byte{}, err
     }
     return json.Marshal(c.toMap())
@@ -109,6 +113,9 @@ func (c ComponentCustomPrice) toMap() map[string]any {
             structMap["expiration_interval_unit"] = nil
         }
     }
+    if c.Segments != nil {
+        structMap["segments"] = c.Segments
+    }
     return structMap
 }
 
@@ -124,7 +131,7 @@ func (c *ComponentCustomPrice) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "tax_included", "pricing_scheme", "interval", "interval_unit", "list_price_point_id", "use_default_list_price", "prices", "renew_prepaid_allocation", "rollover_prepaid_remainder", "expiration_interval", "expiration_interval_unit")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "tax_included", "pricing_scheme", "interval", "interval_unit", "list_price_point_id", "use_default_list_price", "prices", "renew_prepaid_allocation", "rollover_prepaid_remainder", "expiration_interval", "expiration_interval_unit", "segments")
     if err != nil {
     	return err
     }
@@ -141,22 +148,24 @@ func (c *ComponentCustomPrice) UnmarshalJSON(input []byte) error {
     c.RolloverPrepaidRemainder = temp.RolloverPrepaidRemainder
     c.ExpirationInterval = temp.ExpirationInterval
     c.ExpirationIntervalUnit = temp.ExpirationIntervalUnit
+    c.Segments = temp.Segments
     return nil
 }
 
 // tempComponentCustomPrice is a temporary struct used for validating the fields of ComponentCustomPrice.
 type tempComponentCustomPrice  struct {
-    TaxIncluded              *bool                            `json:"tax_included,omitempty"`
-    PricingScheme            *PricingScheme                   `json:"pricing_scheme,omitempty"`
-    Interval                 *int                             `json:"interval,omitempty"`
-    IntervalUnit             Optional[IntervalUnit]           `json:"interval_unit"`
-    ListPricePointId         Optional[int]                    `json:"list_price_point_id"`
-    UseDefaultListPrice      *bool                            `json:"use_default_list_price,omitempty"`
-    Prices                   *[]Price                         `json:"prices"`
-    RenewPrepaidAllocation   *bool                            `json:"renew_prepaid_allocation,omitempty"`
-    RolloverPrepaidRemainder *bool                            `json:"rollover_prepaid_remainder,omitempty"`
-    ExpirationInterval       Optional[int]                    `json:"expiration_interval"`
-    ExpirationIntervalUnit   Optional[ExpirationIntervalUnit] `json:"expiration_interval_unit"`
+    TaxIncluded              *bool                                     `json:"tax_included,omitempty"`
+    PricingScheme            *PricingScheme                            `json:"pricing_scheme,omitempty"`
+    Interval                 *int                                      `json:"interval,omitempty"`
+    IntervalUnit             Optional[IntervalUnit]                    `json:"interval_unit"`
+    ListPricePointId         Optional[int]                             `json:"list_price_point_id"`
+    UseDefaultListPrice      *bool                                     `json:"use_default_list_price,omitempty"`
+    Prices                   *[]Price                                  `json:"prices"`
+    RenewPrepaidAllocation   *bool                                     `json:"renew_prepaid_allocation,omitempty"`
+    RolloverPrepaidRemainder *bool                                     `json:"rollover_prepaid_remainder,omitempty"`
+    ExpirationInterval       Optional[int]                             `json:"expiration_interval"`
+    ExpirationIntervalUnit   Optional[ExpirationIntervalUnit]          `json:"expiration_interval_unit"`
+    Segments                 []SubscriptionComponentCustomPriceSegment `json:"segments,omitempty"`
 }
 
 func (c *tempComponentCustomPrice) validate() error {
