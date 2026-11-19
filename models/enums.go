@@ -934,7 +934,8 @@ func (e ComponentKind) isValid() bool {
         ComponentKind_QUANTITYBASEDCOMPONENT,
         ComponentKind_ONOFFCOMPONENT,
         ComponentKind_PREPAIDUSAGECOMPONENT,
-        ComponentKind_EVENTBASEDCOMPONENT:
+        ComponentKind_EVENTBASEDCOMPONENT,
+        ComponentKind_WALLETPRODUCT:
         return true
     }
     return false
@@ -946,6 +947,7 @@ const (
     ComponentKind_ONOFFCOMPONENT         ComponentKind = "on_off_component"
     ComponentKind_PREPAIDUSAGECOMPONENT  ComponentKind = "prepaid_usage_component"
     ComponentKind_EVENTBASEDCOMPONENT    ComponentKind = "event_based_component"
+    ComponentKind_WALLETPRODUCT          ComponentKind = "wallet_product"
 )
 
 // CompoundingStrategy is a string enum.
@@ -1241,6 +1243,54 @@ const (
     CreditCardVault_TRUSTCOMMERCE  CreditCardVault = "trust_commerce"
     CreditCardVault_UNIPAAS        CreditCardVault = "unipaas"
     CreditCardVault_WIRECARD       CreditCardVault = "wirecard"
+)
+
+// CreditNoteDateField is a string enum.
+type CreditNoteDateField string
+
+// MarshalJSON implements the json.Marshaler interface for CreditNoteDateField.
+// It customizes the JSON marshaling process for CreditNoteDateField objects.
+func (e CreditNoteDateField) MarshalJSON() (
+    []byte,
+    error) {
+    if e.isValid() {
+        return []byte(fmt.Sprintf("\"%v\"", e)), nil
+    }
+    return nil, errors.New("the provided enum value is not allowed for CreditNoteDateField")
+}
+
+// UnmarshalJSON implements the json.Unmarshaler interface for CreditNoteDateField.
+// It customizes the JSON unmarshaling process for CreditNoteDateField objects.
+func (e *CreditNoteDateField) UnmarshalJSON(input []byte) error {
+    var enumValue string
+    err := json.Unmarshal(input, &enumValue)
+    if err != nil {
+        return err
+    }
+    *e = CreditNoteDateField(enumValue)
+    if !e.isValid() {
+        return errors.New("the value " + string(input) + " cannot be unmarshalled to CreditNoteDateField")
+    }
+    return nil
+}
+
+// Checks whether the value is actually a member of CreditNoteDateField.
+func (e CreditNoteDateField) isValid() bool {
+    switch e {
+    case CreditNoteDateField_ISSUEDATE,
+        CreditNoteDateField_APPLIEDDATE,
+        CreditNoteDateField_CREATEDAT,
+        CreditNoteDateField_UPDATEDAT:
+        return true
+    }
+    return false
+}
+
+const (
+    CreditNoteDateField_ISSUEDATE   CreditNoteDateField = "issue_date"
+    CreditNoteDateField_APPLIEDDATE CreditNoteDateField = "applied_date"
+    CreditNoteDateField_CREATEDAT   CreditNoteDateField = "created_at"
+    CreditNoteDateField_UPDATEDAT   CreditNoteDateField = "updated_at"
 )
 
 // CreditNoteStatus is a string enum.
@@ -1704,6 +1754,117 @@ const (
     DowngradeCreditCreditType_NONE     DowngradeCreditCreditType = "none"
 )
 
+// EntitlementPeriodicityUnit is a string enum.
+// The recurring window over which a `usage_limit` feature's allowance resets.
+type EntitlementPeriodicityUnit string
+
+// MarshalJSON implements the json.Marshaler interface for EntitlementPeriodicityUnit.
+// It customizes the JSON marshaling process for EntitlementPeriodicityUnit objects.
+func (e EntitlementPeriodicityUnit) MarshalJSON() (
+    []byte,
+    error) {
+    if e.isValid() {
+        return []byte(fmt.Sprintf("\"%v\"", e)), nil
+    }
+    return nil, errors.New("the provided enum value is not allowed for EntitlementPeriodicityUnit")
+}
+
+// UnmarshalJSON implements the json.Unmarshaler interface for EntitlementPeriodicityUnit.
+// It customizes the JSON unmarshaling process for EntitlementPeriodicityUnit objects.
+func (e *EntitlementPeriodicityUnit) UnmarshalJSON(input []byte) error {
+    var enumValue string
+    err := json.Unmarshal(input, &enumValue)
+    if err != nil {
+        return err
+    }
+    *e = EntitlementPeriodicityUnit(enumValue)
+    if !e.isValid() {
+        return errors.New("the value " + string(input) + " cannot be unmarshalled to EntitlementPeriodicityUnit")
+    }
+    return nil
+}
+
+// Checks whether the value is actually a member of EntitlementPeriodicityUnit.
+func (e EntitlementPeriodicityUnit) isValid() bool {
+    switch e {
+    case EntitlementPeriodicityUnit_HOUR,
+        EntitlementPeriodicityUnit_DAY,
+        EntitlementPeriodicityUnit_WEEK,
+        EntitlementPeriodicityUnit_MONTH,
+        EntitlementPeriodicityUnit_YEAR:
+        return true
+    }
+    return false
+}
+
+const (
+    EntitlementPeriodicityUnit_HOUR  EntitlementPeriodicityUnit = "hour"
+    EntitlementPeriodicityUnit_DAY   EntitlementPeriodicityUnit = "day"
+    EntitlementPeriodicityUnit_WEEK  EntitlementPeriodicityUnit = "week"
+    EntitlementPeriodicityUnit_MONTH EntitlementPeriodicityUnit = "month"
+    EntitlementPeriodicityUnit_YEAR  EntitlementPeriodicityUnit = "year"
+)
+
+// EntityIdentifierKind is a string enum.
+// The kind of tax or business identifier held by the customer:
+// - `vat_eu`: an EU VAT number. Requires `vat_country` to be an EU member state code or `GB`.
+// - `national_tax`: a national tax ID registered outside the EU. Requires `vat_country` to be one of `AL`, `AM`, `AR`, `AU`, `BR`, `CA`, `CH`, `DZ`, `IN`, `MX`, `NO`, `NZ`, or `ZA`.
+// - `company_reg`: a company registration number, such as a French SIREN. No `vat_country` is required.
+// - `gln`: a Global Location Number. The value must be 13 digits.
+// - `duns`: a D-U-N-S Number. The value must be 9 digits.
+// - `lei`: a Legal Entity Identifier. The value must be 20 characters: 18 letters or digits followed by 2 digits.
+// A customer holds one identifier at a time. Saving an identifier of a different kind replaces the existing one.
+type EntityIdentifierKind string
+
+// MarshalJSON implements the json.Marshaler interface for EntityIdentifierKind.
+// It customizes the JSON marshaling process for EntityIdentifierKind objects.
+func (e EntityIdentifierKind) MarshalJSON() (
+    []byte,
+    error) {
+    if e.isValid() {
+        return []byte(fmt.Sprintf("\"%v\"", e)), nil
+    }
+    return nil, errors.New("the provided enum value is not allowed for EntityIdentifierKind")
+}
+
+// UnmarshalJSON implements the json.Unmarshaler interface for EntityIdentifierKind.
+// It customizes the JSON unmarshaling process for EntityIdentifierKind objects.
+func (e *EntityIdentifierKind) UnmarshalJSON(input []byte) error {
+    var enumValue string
+    err := json.Unmarshal(input, &enumValue)
+    if err != nil {
+        return err
+    }
+    *e = EntityIdentifierKind(enumValue)
+    if !e.isValid() {
+        return errors.New("the value " + string(input) + " cannot be unmarshalled to EntityIdentifierKind")
+    }
+    return nil
+}
+
+// Checks whether the value is actually a member of EntityIdentifierKind.
+func (e EntityIdentifierKind) isValid() bool {
+    switch e {
+    case EntityIdentifierKind_VATEU,
+        EntityIdentifierKind_NATIONALTAX,
+        EntityIdentifierKind_COMPANYREG,
+        EntityIdentifierKind_GLN,
+        EntityIdentifierKind_DUNS,
+        EntityIdentifierKind_LEI:
+        return true
+    }
+    return false
+}
+
+const (
+    EntityIdentifierKind_VATEU       EntityIdentifierKind = "vat_eu"
+    EntityIdentifierKind_NATIONALTAX EntityIdentifierKind = "national_tax"
+    EntityIdentifierKind_COMPANYREG  EntityIdentifierKind = "company_reg"
+    EntityIdentifierKind_GLN         EntityIdentifierKind = "gln"
+    EntityIdentifierKind_DUNS        EntityIdentifierKind = "duns"
+    EntityIdentifierKind_LEI         EntityIdentifierKind = "lei"
+)
+
 // EventKey is a string enum.
 type EventKey string
 
@@ -2008,6 +2169,148 @@ const (
     FailedPaymentAction_INITIATEDUNNING   FailedPaymentAction = "initiate_dunning"
 )
 
+// FeatureKind is a string enum.
+// The behavior of a feature:
+// - `access_right`: a boolean entitlement. A subscriber either has access or does not.
+// - `usage_limit`: a quantified allowance measured over a recurring period (for example, "10,000 API calls per month").
+// - `service_right`: a free-form value (text, boolean, or number) that isn't a simple access flag or a metered limit.
+type FeatureKind string
+
+// MarshalJSON implements the json.Marshaler interface for FeatureKind.
+// It customizes the JSON marshaling process for FeatureKind objects.
+func (e FeatureKind) MarshalJSON() (
+    []byte,
+    error) {
+    if e.isValid() {
+        return []byte(fmt.Sprintf("\"%v\"", e)), nil
+    }
+    return nil, errors.New("the provided enum value is not allowed for FeatureKind")
+}
+
+// UnmarshalJSON implements the json.Unmarshaler interface for FeatureKind.
+// It customizes the JSON unmarshaling process for FeatureKind objects.
+func (e *FeatureKind) UnmarshalJSON(input []byte) error {
+    var enumValue string
+    err := json.Unmarshal(input, &enumValue)
+    if err != nil {
+        return err
+    }
+    *e = FeatureKind(enumValue)
+    if !e.isValid() {
+        return errors.New("the value " + string(input) + " cannot be unmarshalled to FeatureKind")
+    }
+    return nil
+}
+
+// Checks whether the value is actually a member of FeatureKind.
+func (e FeatureKind) isValid() bool {
+    switch e {
+    case FeatureKind_ACCESSRIGHT,
+        FeatureKind_USAGELIMIT,
+        FeatureKind_SERVICERIGHT:
+        return true
+    }
+    return false
+}
+
+const (
+    FeatureKind_ACCESSRIGHT  FeatureKind = "access_right"
+    FeatureKind_USAGELIMIT   FeatureKind = "usage_limit"
+    FeatureKind_SERVICERIGHT FeatureKind = "service_right"
+)
+
+// FeatureOwnerPricePointType is a string enum.
+// Identifies which kind of price point a feature catalog item override applies to: `ProductPricePoint` for a product price point, `PricePoint` for a component price point. Only relevant when `price_point_id` is set.
+type FeatureOwnerPricePointType string
+
+// MarshalJSON implements the json.Marshaler interface for FeatureOwnerPricePointType.
+// It customizes the JSON marshaling process for FeatureOwnerPricePointType objects.
+func (e FeatureOwnerPricePointType) MarshalJSON() (
+    []byte,
+    error) {
+    if e.isValid() {
+        return []byte(fmt.Sprintf("\"%v\"", e)), nil
+    }
+    return nil, errors.New("the provided enum value is not allowed for FeatureOwnerPricePointType")
+}
+
+// UnmarshalJSON implements the json.Unmarshaler interface for FeatureOwnerPricePointType.
+// It customizes the JSON unmarshaling process for FeatureOwnerPricePointType objects.
+func (e *FeatureOwnerPricePointType) UnmarshalJSON(input []byte) error {
+    var enumValue string
+    err := json.Unmarshal(input, &enumValue)
+    if err != nil {
+        return err
+    }
+    *e = FeatureOwnerPricePointType(enumValue)
+    if !e.isValid() {
+        return errors.New("the value " + string(input) + " cannot be unmarshalled to FeatureOwnerPricePointType")
+    }
+    return nil
+}
+
+// Checks whether the value is actually a member of FeatureOwnerPricePointType.
+func (e FeatureOwnerPricePointType) isValid() bool {
+    switch e {
+    case FeatureOwnerPricePointType_PRODUCTPRICEPOINT,
+        FeatureOwnerPricePointType_PRICEPOINT:
+        return true
+    }
+    return false
+}
+
+const (
+    FeatureOwnerPricePointType_PRODUCTPRICEPOINT FeatureOwnerPricePointType = "ProductPricePoint"
+    FeatureOwnerPricePointType_PRICEPOINT        FeatureOwnerPricePointType = "PricePoint"
+)
+
+// FeatureValueType is a string enum.
+// The data type of a feature's value. For `access_right` features this is always `boolean`, and for `usage_limit` features this is always `numeric`. For `service_right` features, you choose the value type explicitly.
+type FeatureValueType string
+
+// MarshalJSON implements the json.Marshaler interface for FeatureValueType.
+// It customizes the JSON marshaling process for FeatureValueType objects.
+func (e FeatureValueType) MarshalJSON() (
+    []byte,
+    error) {
+    if e.isValid() {
+        return []byte(fmt.Sprintf("\"%v\"", e)), nil
+    }
+    return nil, errors.New("the provided enum value is not allowed for FeatureValueType")
+}
+
+// UnmarshalJSON implements the json.Unmarshaler interface for FeatureValueType.
+// It customizes the JSON unmarshaling process for FeatureValueType objects.
+func (e *FeatureValueType) UnmarshalJSON(input []byte) error {
+    var enumValue string
+    err := json.Unmarshal(input, &enumValue)
+    if err != nil {
+        return err
+    }
+    *e = FeatureValueType(enumValue)
+    if !e.isValid() {
+        return errors.New("the value " + string(input) + " cannot be unmarshalled to FeatureValueType")
+    }
+    return nil
+}
+
+// Checks whether the value is actually a member of FeatureValueType.
+func (e FeatureValueType) isValid() bool {
+    switch e {
+    case FeatureValueType_TEXT,
+        FeatureValueType_BOOLEAN,
+        FeatureValueType_NUMERIC:
+        return true
+    }
+    return false
+}
+
+const (
+    FeatureValueType_TEXT    FeatureValueType = "text"
+    FeatureValueType_BOOLEAN FeatureValueType = "boolean"
+    FeatureValueType_NUMERIC FeatureValueType = "numeric"
+)
+
 // FirstChargeType is a string enum.
 type FirstChargeType string
 
@@ -2052,6 +2355,53 @@ const (
     FirstChargeType_PRORATED  FirstChargeType = "prorated"
     FirstChargeType_IMMEDIATE FirstChargeType = "immediate"
     FirstChargeType_DELAYED   FirstChargeType = "delayed"
+)
+
+// GrantExpirationUnit is a string enum.
+// How long a wallet grant funded by a `usage_limit` feature stays spendable. `day` and `month` need a `grant_expiration_interval`; `until_next_refill` takes none and expires the grant when the next refill lands. Omit both fields for a grant that never expires.
+type GrantExpirationUnit string
+
+// MarshalJSON implements the json.Marshaler interface for GrantExpirationUnit.
+// It customizes the JSON marshaling process for GrantExpirationUnit objects.
+func (e GrantExpirationUnit) MarshalJSON() (
+    []byte,
+    error) {
+    if e.isValid() {
+        return []byte(fmt.Sprintf("\"%v\"", e)), nil
+    }
+    return nil, errors.New("the provided enum value is not allowed for GrantExpirationUnit")
+}
+
+// UnmarshalJSON implements the json.Unmarshaler interface for GrantExpirationUnit.
+// It customizes the JSON unmarshaling process for GrantExpirationUnit objects.
+func (e *GrantExpirationUnit) UnmarshalJSON(input []byte) error {
+    var enumValue string
+    err := json.Unmarshal(input, &enumValue)
+    if err != nil {
+        return err
+    }
+    *e = GrantExpirationUnit(enumValue)
+    if !e.isValid() {
+        return errors.New("the value " + string(input) + " cannot be unmarshalled to GrantExpirationUnit")
+    }
+    return nil
+}
+
+// Checks whether the value is actually a member of GrantExpirationUnit.
+func (e GrantExpirationUnit) isValid() bool {
+    switch e {
+    case GrantExpirationUnit_DAY,
+        GrantExpirationUnit_MONTH,
+        GrantExpirationUnit_UNTILNEXTREFILL:
+        return true
+    }
+    return false
+}
+
+const (
+    GrantExpirationUnit_DAY             GrantExpirationUnit = "day"
+    GrantExpirationUnit_MONTH           GrantExpirationUnit = "month"
+    GrantExpirationUnit_UNTILNEXTREFILL GrantExpirationUnit = "until_next_refill"
 )
 
 // GroupTargetType is a string enum.
@@ -2375,7 +2725,7 @@ const (
 // * "child": An invoice segment which has been combined into a consolidated invoice.
 // * "parent": A consolidated invoice, whose contents are composed of invoice segments.
 // "Parent" invoices do not have lines of their own, but they have subtotals and totals which aggregate the member invoice segments.
-// See also the [invoice consolidation documentation](https://maxio.zendesk.com/hc/en-us/articles/24252269909389-Invoice-Consolidation).
+// See also the [invoice consolidation documentation](https://docs.maxio.com/billing/invoicing/working-with-invoices/understand-invoice-consolidation).
 type InvoiceConsolidationLevel string
 
 // MarshalJSON implements the json.Marshaler interface for InvoiceConsolidationLevel.
@@ -2903,7 +3253,7 @@ const (
 )
 
 // InvoiceStatus is a string enum.
-// The current status of the invoice. See [Invoice Statuses](https://maxio.zendesk.com/hc/en-us/articles/24252287829645-Advanced-Billing-Invoices-Overview#invoice-statuses) for more.
+// The current status of the invoice. See [Invoice Statuses](https://docs.maxio.com/billing/invoicing/overview/understand-how-invoices-are-generated#invoice-statuses) for more.
 type InvoiceStatus string
 
 // MarshalJSON implements the json.Marshaler interface for InvoiceStatus.
@@ -3006,6 +3356,99 @@ const (
     ItemCategory_ENUMDIGITALSERVICES  ItemCategory = "Digital Services"
     ItemCategory_ENUMPHYSICALGOODS    ItemCategory = "Physical Goods"
     ItemCategory_OTHER                ItemCategory = "Other"
+)
+
+// Kind is a string enum.
+type Kind string
+
+// MarshalJSON implements the json.Marshaler interface for Kind.
+// It customizes the JSON marshaling process for Kind objects.
+func (e Kind) MarshalJSON() (
+    []byte,
+    error) {
+    if e.isValid() {
+        return []byte(fmt.Sprintf("\"%v\"", e)), nil
+    }
+    return nil, errors.New("the provided enum value is not allowed for Kind")
+}
+
+// UnmarshalJSON implements the json.Unmarshaler interface for Kind.
+// It customizes the JSON unmarshaling process for Kind objects.
+func (e *Kind) UnmarshalJSON(input []byte) error {
+    var enumValue string
+    err := json.Unmarshal(input, &enumValue)
+    if err != nil {
+        return err
+    }
+    *e = Kind(enumValue)
+    if !e.isValid() {
+        return errors.New("the value " + string(input) + " cannot be unmarshalled to Kind")
+    }
+    return nil
+}
+
+// Checks whether the value is actually a member of Kind.
+func (e Kind) isValid() bool {
+    switch e {
+    case Kind_ACCESSRIGHT,
+        Kind_USAGELIMIT,
+        Kind_SERVICERIGHT,
+        Kind_ALL:
+        return true
+    }
+    return false
+}
+
+const (
+    Kind_ACCESSRIGHT  Kind = "access_right"
+    Kind_USAGELIMIT   Kind = "usage_limit"
+    Kind_SERVICERIGHT Kind = "service_right"
+    Kind_ALL          Kind = "all"
+)
+
+// Kind1 is a string enum.
+// Determines the direction of the movement. The amount itself is always sent positive.
+type Kind1 string
+
+// MarshalJSON implements the json.Marshaler interface for Kind1.
+// It customizes the JSON marshaling process for Kind1 objects.
+func (e Kind1) MarshalJSON() (
+    []byte,
+    error) {
+    if e.isValid() {
+        return []byte(fmt.Sprintf("\"%v\"", e)), nil
+    }
+    return nil, errors.New("the provided enum value is not allowed for Kind1")
+}
+
+// UnmarshalJSON implements the json.Unmarshaler interface for Kind1.
+// It customizes the JSON unmarshaling process for Kind1 objects.
+func (e *Kind1) UnmarshalJSON(input []byte) error {
+    var enumValue string
+    err := json.Unmarshal(input, &enumValue)
+    if err != nil {
+        return err
+    }
+    *e = Kind1(enumValue)
+    if !e.isValid() {
+        return errors.New("the value " + string(input) + " cannot be unmarshalled to Kind1")
+    }
+    return nil
+}
+
+// Checks whether the value is actually a member of Kind1.
+func (e Kind1) isValid() bool {
+    switch e {
+    case Kind1_GRANT,
+        Kind1_DEBIT:
+        return true
+    }
+    return false
+}
+
+const (
+    Kind1_GRANT Kind1 = "grant"
+    Kind1_DEBIT Kind1 = "debit"
 )
 
 // LineItemKind is a string enum.
@@ -3156,14 +3599,18 @@ func (e *ListComponentsPricePointsInclude) UnmarshalJSON(input []byte) error {
 // Checks whether the value is actually a member of ListComponentsPricePointsInclude.
 func (e ListComponentsPricePointsInclude) isValid() bool {
     switch e {
-    case ListComponentsPricePointsInclude_CURRENCYPRICES:
+    case ListComponentsPricePointsInclude_CURRENCYPRICES,
+        ListComponentsPricePointsInclude_CURRENCYOVERAGEPRICES,
+        ListComponentsPricePointsInclude_CURRENCYSECONDARYPRICES:
         return true
     }
     return false
 }
 
 const (
-    ListComponentsPricePointsInclude_CURRENCYPRICES ListComponentsPricePointsInclude = "currency_prices"
+    ListComponentsPricePointsInclude_CURRENCYPRICES          ListComponentsPricePointsInclude = "currency_prices"
+    ListComponentsPricePointsInclude_CURRENCYOVERAGEPRICES   ListComponentsPricePointsInclude = "currency_overage_prices"
+    ListComponentsPricePointsInclude_CURRENCYSECONDARYPRICES ListComponentsPricePointsInclude = "currency_secondary_prices"
 )
 
 // ListEventsDateField is a string enum.
@@ -3471,6 +3918,100 @@ const (
     MetafieldInput_TEXT           MetafieldInput = "text"
     MetafieldInput_RADIO          MetafieldInput = "radio"
     MetafieldInput_DROPDOWN       MetafieldInput = "dropdown"
+)
+
+// Origin is a string enum.
+// How the grant was created. `recurring` comes from the wallet's automatic funding schedule (see the wallet's `recurring_funding` array). `manual` comes from a one-time grant posted to [Create Wallet Transaction]($e/Wallet%20Transactions/createWalletTransaction). `initial_balance` comes from a non-zero `initial_balance` at wallet creation. `allowance_increase` comes from raising a funding entitlement's allowance while it's already funding a wallet. `purchase` comes from [Create Wallet Purchase]($e/Wallet%20Purchases/createWalletPurchase).
+type Origin string
+
+// MarshalJSON implements the json.Marshaler interface for Origin.
+// It customizes the JSON marshaling process for Origin objects.
+func (e Origin) MarshalJSON() (
+    []byte,
+    error) {
+    if e.isValid() {
+        return []byte(fmt.Sprintf("\"%v\"", e)), nil
+    }
+    return nil, errors.New("the provided enum value is not allowed for Origin")
+}
+
+// UnmarshalJSON implements the json.Unmarshaler interface for Origin.
+// It customizes the JSON unmarshaling process for Origin objects.
+func (e *Origin) UnmarshalJSON(input []byte) error {
+    var enumValue string
+    err := json.Unmarshal(input, &enumValue)
+    if err != nil {
+        return err
+    }
+    *e = Origin(enumValue)
+    if !e.isValid() {
+        return errors.New("the value " + string(input) + " cannot be unmarshalled to Origin")
+    }
+    return nil
+}
+
+// Checks whether the value is actually a member of Origin.
+func (e Origin) isValid() bool {
+    switch e {
+    case Origin_RECURRING,
+        Origin_MANUAL,
+        Origin_INITIALBALANCE,
+        Origin_ALLOWANCEINCREASE,
+        Origin_PURCHASE:
+        return true
+    }
+    return false
+}
+
+const (
+    Origin_RECURRING         Origin = "recurring"
+    Origin_MANUAL            Origin = "manual"
+    Origin_INITIALBALANCE    Origin = "initial_balance"
+    Origin_ALLOWANCEINCREASE Origin = "allowance_increase"
+    Origin_PURCHASE          Origin = "purchase"
+)
+
+// OwnerType is a string enum.
+// The polymorphic owner type. `subscription` is the only value currently supported.
+type OwnerType string
+
+// MarshalJSON implements the json.Marshaler interface for OwnerType.
+// It customizes the JSON marshaling process for OwnerType objects.
+func (e OwnerType) MarshalJSON() (
+    []byte,
+    error) {
+    if e.isValid() {
+        return []byte(fmt.Sprintf("\"%v\"", e)), nil
+    }
+    return nil, errors.New("the provided enum value is not allowed for OwnerType")
+}
+
+// UnmarshalJSON implements the json.Unmarshaler interface for OwnerType.
+// It customizes the JSON unmarshaling process for OwnerType objects.
+func (e *OwnerType) UnmarshalJSON(input []byte) error {
+    var enumValue string
+    err := json.Unmarshal(input, &enumValue)
+    if err != nil {
+        return err
+    }
+    *e = OwnerType(enumValue)
+    if !e.isValid() {
+        return errors.New("the value " + string(input) + " cannot be unmarshalled to OwnerType")
+    }
+    return nil
+}
+
+// Checks whether the value is actually a member of OwnerType.
+func (e OwnerType) isValid() bool {
+    switch e {
+    case OwnerType_SUBSCRIPTION:
+        return true
+    }
+    return false
+}
+
+const (
+    OwnerType_SUBSCRIPTION OwnerType = "subscription"
 )
 
 // PaymentType is a string enum.
@@ -3863,6 +4404,7 @@ const (
 )
 
 // ProformaInvoiceTaxSourceType is a string enum.
+// The source of the tax. `Tax` is a tax configured in Advanced Billing. The other values identify the tax service that calculated the tax.
 type ProformaInvoiceTaxSourceType string
 
 // MarshalJSON implements the json.Marshaler interface for ProformaInvoiceTaxSourceType.
@@ -3895,7 +4437,12 @@ func (e *ProformaInvoiceTaxSourceType) UnmarshalJSON(input []byte) error {
 func (e ProformaInvoiceTaxSourceType) isValid() bool {
     switch e {
     case ProformaInvoiceTaxSourceType_TAX,
-        ProformaInvoiceTaxSourceType_AVALARA:
+        ProformaInvoiceTaxSourceType_AVALARA,
+        ProformaInvoiceTaxSourceType_ANROK,
+        ProformaInvoiceTaxSourceType_TAXJAR,
+        ProformaInvoiceTaxSourceType_NUMERAL,
+        ProformaInvoiceTaxSourceType_SPHERE,
+        ProformaInvoiceTaxSourceType_TAXWIRE:
         return true
     }
     return false
@@ -3904,6 +4451,11 @@ func (e ProformaInvoiceTaxSourceType) isValid() bool {
 const (
     ProformaInvoiceTaxSourceType_TAX     ProformaInvoiceTaxSourceType = "Tax"
     ProformaInvoiceTaxSourceType_AVALARA ProformaInvoiceTaxSourceType = "Avalara"
+    ProformaInvoiceTaxSourceType_ANROK   ProformaInvoiceTaxSourceType = "Anrok"
+    ProformaInvoiceTaxSourceType_TAXJAR  ProformaInvoiceTaxSourceType = "TaxJar"
+    ProformaInvoiceTaxSourceType_NUMERAL ProformaInvoiceTaxSourceType = "Numeral"
+    ProformaInvoiceTaxSourceType_SPHERE  ProformaInvoiceTaxSourceType = "Sphere"
+    ProformaInvoiceTaxSourceType_TAXWIRE ProformaInvoiceTaxSourceType = "Taxwire"
 )
 
 // QScope is a string enum.
@@ -3943,7 +4495,8 @@ func (e QScope) isValid() bool {
         QScope_LASTNAME,
         QScope_ORGANIZATION,
         QScope_CUSTOMERREFERENCE,
-        QScope_SUBSCRIPTIONREFERENCE:
+        QScope_SUBSCRIPTIONREFERENCE,
+        QScope_LASTFOUR:
         return true
     }
     return false
@@ -3956,6 +4509,7 @@ const (
     QScope_ORGANIZATION          QScope = "organization"
     QScope_CUSTOMERREFERENCE     QScope = "customer_reference"
     QScope_SUBSCRIPTIONREFERENCE QScope = "subscription_reference"
+    QScope_LASTFOUR              QScope = "last_four"
 )
 
 // ReactivationCharge is a string enum.
@@ -4003,6 +4557,65 @@ const (
     ReactivationCharge_PRORATED  ReactivationCharge = "prorated"
     ReactivationCharge_IMMEDIATE ReactivationCharge = "immediate"
     ReactivationCharge_DELAYED   ReactivationCharge = "delayed"
+)
+
+// Reason is a string enum.
+// Set whenever `status` isn't `active`. Accompanying `stopped`: `entitlement_missing` (an ordinary product or component change removed the entitlement), `wallet_archived` (the wallet was archived), `subscription_terminated` (the subscription reached a terminal state; funding resumes if the subscription returns to a granting state, for example on reactivation, without back-granting the periods it missed), `feature_removed` (the subscription no longer has this Feature), `wallet_behavior_disabled` (the Feature no longer has `wallet_behavior` configured), `superseded_by_replacement` (a later entitlement now funds this wallet instead), or `subscription_prepaid` (the subscription switched to prepaid, which cannot carry an active wallet). Accompanying `erroring`: `allowance_not_representable` (the entitlement's current allowance doesn't fit the wallet's amount encoding) or `balance_at_capacity` (granting it would push the balance past the maximum supported value).
+type Reason string
+
+// MarshalJSON implements the json.Marshaler interface for Reason.
+// It customizes the JSON marshaling process for Reason objects.
+func (e Reason) MarshalJSON() (
+    []byte,
+    error) {
+    if e.isValid() {
+        return []byte(fmt.Sprintf("\"%v\"", e)), nil
+    }
+    return nil, errors.New("the provided enum value is not allowed for Reason")
+}
+
+// UnmarshalJSON implements the json.Unmarshaler interface for Reason.
+// It customizes the JSON unmarshaling process for Reason objects.
+func (e *Reason) UnmarshalJSON(input []byte) error {
+    var enumValue string
+    err := json.Unmarshal(input, &enumValue)
+    if err != nil {
+        return err
+    }
+    *e = Reason(enumValue)
+    if !e.isValid() {
+        return errors.New("the value " + string(input) + " cannot be unmarshalled to Reason")
+    }
+    return nil
+}
+
+// Checks whether the value is actually a member of Reason.
+func (e Reason) isValid() bool {
+    switch e {
+    case Reason_ENTITLEMENTMISSING,
+        Reason_WALLETARCHIVED,
+        Reason_SUBSCRIPTIONTERMINATED,
+        Reason_FEATUREREMOVED,
+        Reason_WALLETBEHAVIORDISABLED,
+        Reason_SUPERSEDEDBYREPLACEMENT,
+        Reason_SUBSCRIPTIONPREPAID,
+        Reason_ALLOWANCENOTREPRESENTABLE,
+        Reason_BALANCEATCAPACITY:
+        return true
+    }
+    return false
+}
+
+const (
+    Reason_ENTITLEMENTMISSING        Reason = "entitlement_missing"
+    Reason_WALLETARCHIVED            Reason = "wallet_archived"
+    Reason_SUBSCRIPTIONTERMINATED    Reason = "subscription_terminated"
+    Reason_FEATUREREMOVED            Reason = "feature_removed"
+    Reason_WALLETBEHAVIORDISABLED    Reason = "wallet_behavior_disabled"
+    Reason_SUPERSEDEDBYREPLACEMENT   Reason = "superseded_by_replacement"
+    Reason_SUBSCRIPTIONPREPAID       Reason = "subscription_prepaid"
+    Reason_ALLOWANCENOTREPRESENTABLE Reason = "allowance_not_representable"
+    Reason_BALANCEATCAPACITY         Reason = "balance_at_capacity"
 )
 
 // RecurringScheme is a string enum.
@@ -4231,6 +4844,144 @@ const (
     ServiceCreditType_DEBIT  ServiceCreditType = "Debit"
 )
 
+// SortBy is a string enum.
+type SortBy string
+
+// MarshalJSON implements the json.Marshaler interface for SortBy.
+// It customizes the JSON marshaling process for SortBy objects.
+func (e SortBy) MarshalJSON() (
+    []byte,
+    error) {
+    if e.isValid() {
+        return []byte(fmt.Sprintf("\"%v\"", e)), nil
+    }
+    return nil, errors.New("the provided enum value is not allowed for SortBy")
+}
+
+// UnmarshalJSON implements the json.Unmarshaler interface for SortBy.
+// It customizes the JSON unmarshaling process for SortBy objects.
+func (e *SortBy) UnmarshalJSON(input []byte) error {
+    var enumValue string
+    err := json.Unmarshal(input, &enumValue)
+    if err != nil {
+        return err
+    }
+    *e = SortBy(enumValue)
+    if !e.isValid() {
+        return errors.New("the value " + string(input) + " cannot be unmarshalled to SortBy")
+    }
+    return nil
+}
+
+// Checks whether the value is actually a member of SortBy.
+func (e SortBy) isValid() bool {
+    switch e {
+    case SortBy_NAME,
+        SortBy_UPDATEDAT,
+        SortBy_KIND,
+        SortBy_VALUETYPE:
+        return true
+    }
+    return false
+}
+
+const (
+    SortBy_NAME      SortBy = "name"
+    SortBy_UPDATEDAT SortBy = "updated_at"
+    SortBy_KIND      SortBy = "kind"
+    SortBy_VALUETYPE SortBy = "value_type"
+)
+
+// SortBy1 is a string enum.
+type SortBy1 string
+
+// MarshalJSON implements the json.Marshaler interface for SortBy1.
+// It customizes the JSON marshaling process for SortBy1 objects.
+func (e SortBy1) MarshalJSON() (
+    []byte,
+    error) {
+    if e.isValid() {
+        return []byte(fmt.Sprintf("\"%v\"", e)), nil
+    }
+    return nil, errors.New("the provided enum value is not allowed for SortBy1")
+}
+
+// UnmarshalJSON implements the json.Unmarshaler interface for SortBy1.
+// It customizes the JSON unmarshaling process for SortBy1 objects.
+func (e *SortBy1) UnmarshalJSON(input []byte) error {
+    var enumValue string
+    err := json.Unmarshal(input, &enumValue)
+    if err != nil {
+        return err
+    }
+    *e = SortBy1(enumValue)
+    if !e.isValid() {
+        return errors.New("the value " + string(input) + " cannot be unmarshalled to SortBy1")
+    }
+    return nil
+}
+
+// Checks whether the value is actually a member of SortBy1.
+func (e SortBy1) isValid() bool {
+    switch e {
+    case SortBy1_NAME,
+        SortBy1_UNITNAME,
+        SortBy1_UPDATEDAT:
+        return true
+    }
+    return false
+}
+
+const (
+    SortBy1_NAME      SortBy1 = "name"
+    SortBy1_UNITNAME  SortBy1 = "unit_name"
+    SortBy1_UPDATEDAT SortBy1 = "updated_at"
+)
+
+// SortDirection is a string enum.
+type SortDirection string
+
+// MarshalJSON implements the json.Marshaler interface for SortDirection.
+// It customizes the JSON marshaling process for SortDirection objects.
+func (e SortDirection) MarshalJSON() (
+    []byte,
+    error) {
+    if e.isValid() {
+        return []byte(fmt.Sprintf("\"%v\"", e)), nil
+    }
+    return nil, errors.New("the provided enum value is not allowed for SortDirection")
+}
+
+// UnmarshalJSON implements the json.Unmarshaler interface for SortDirection.
+// It customizes the JSON unmarshaling process for SortDirection objects.
+func (e *SortDirection) UnmarshalJSON(input []byte) error {
+    var enumValue string
+    err := json.Unmarshal(input, &enumValue)
+    if err != nil {
+        return err
+    }
+    *e = SortDirection(enumValue)
+    if !e.isValid() {
+        return errors.New("the value " + string(input) + " cannot be unmarshalled to SortDirection")
+    }
+    return nil
+}
+
+// Checks whether the value is actually a member of SortDirection.
+func (e SortDirection) isValid() bool {
+    switch e {
+    case SortDirection_ASC,
+        SortDirection_DESC:
+        return true
+    }
+    return false
+}
+
+const (
+    SortDirection_ASC  SortDirection = "asc"
+    SortDirection_DESC SortDirection = "desc"
+)
+
 // SortingDirection is a string enum.
 // Used for sorting results.
 type SortingDirection string
@@ -4326,6 +5077,96 @@ const (
     Status_CANCELED  Status = "canceled"
     Status_ACTIVE    Status = "active"
     Status_FULFILLED Status = "fulfilled"
+)
+
+// Status1 is a string enum.
+type Status1 string
+
+// MarshalJSON implements the json.Marshaler interface for Status1.
+// It customizes the JSON marshaling process for Status1 objects.
+func (e Status1) MarshalJSON() (
+    []byte,
+    error) {
+    if e.isValid() {
+        return []byte(fmt.Sprintf("\"%v\"", e)), nil
+    }
+    return nil, errors.New("the provided enum value is not allowed for Status1")
+}
+
+// UnmarshalJSON implements the json.Unmarshaler interface for Status1.
+// It customizes the JSON unmarshaling process for Status1 objects.
+func (e *Status1) UnmarshalJSON(input []byte) error {
+    var enumValue string
+    err := json.Unmarshal(input, &enumValue)
+    if err != nil {
+        return err
+    }
+    *e = Status1(enumValue)
+    if !e.isValid() {
+        return errors.New("the value " + string(input) + " cannot be unmarshalled to Status1")
+    }
+    return nil
+}
+
+// Checks whether the value is actually a member of Status1.
+func (e Status1) isValid() bool {
+    switch e {
+    case Status1_ACTIVE,
+        Status1_ARCHIVED,
+        Status1_ALL:
+        return true
+    }
+    return false
+}
+
+const (
+    Status1_ACTIVE   Status1 = "active"
+    Status1_ARCHIVED Status1 = "archived"
+    Status1_ALL      Status1 = "all"
+)
+
+// Status2 is a string enum.
+type Status2 string
+
+// MarshalJSON implements the json.Marshaler interface for Status2.
+// It customizes the JSON marshaling process for Status2 objects.
+func (e Status2) MarshalJSON() (
+    []byte,
+    error) {
+    if e.isValid() {
+        return []byte(fmt.Sprintf("\"%v\"", e)), nil
+    }
+    return nil, errors.New("the provided enum value is not allowed for Status2")
+}
+
+// UnmarshalJSON implements the json.Unmarshaler interface for Status2.
+// It customizes the JSON unmarshaling process for Status2 objects.
+func (e *Status2) UnmarshalJSON(input []byte) error {
+    var enumValue string
+    err := json.Unmarshal(input, &enumValue)
+    if err != nil {
+        return err
+    }
+    *e = Status2(enumValue)
+    if !e.isValid() {
+        return errors.New("the value " + string(input) + " cannot be unmarshalled to Status2")
+    }
+    return nil
+}
+
+// Checks whether the value is actually a member of Status2.
+func (e Status2) isValid() bool {
+    switch e {
+    case Status2_ACTIVE,
+        Status2_ARCHIVED:
+        return true
+    }
+    return false
+}
+
+const (
+    Status2_ACTIVE   Status2 = "active"
+    Status2_ARCHIVED Status2 = "archived"
 )
 
 // SubscriptionDateField is a string enum.
@@ -4771,16 +5612,16 @@ const (
 // * **Problem States**
 // * `past_due` - Indicates that the most recent payment has failed, and payment is past due for this subscription. If you have enabled our automated dunning, this subscription will be in the dunning process (additional status and callbacks from the dunning process will be available in the future). If you are handling dunning and payment updates yourself, you will want to use this state to initiate a payment update from your customers.
 // * `soft_failure` - Indicates that normal assessment/processing of the subscription has failed for a reason that cannot be fixed by the Customer. For example, a Soft Fail may result from a timeout at the gateway or incorrect credentials on your part. The subscriptions should be retried automatically. An interface is being built for you to review problems resulting from these events to take manual action when needed.
-// * `unpaid` - Indicates an unpaid subscription. A subscription is marked unpaid if the retry period expires and you have configured your [Dunning](https://maxio.zendesk.com/hc/en-us/articles/24287076583565-Dunning-Overview) settings to have a Final Action of `mark the subscription unpaid`.
+// * `unpaid` - Indicates an unpaid subscription. A subscription is marked unpaid if the retry period expires and you have configured your [Dunning](https://docs.maxio.com/billing/subscriptions/dunning/overview/understanding-how-dunning-works) settings to have a Final Action of `mark the subscription unpaid`.
 // * **End of Life States**
-// * `canceled` - Indicates a canceled subscription. This may happen at your request (via the API or the web interface) or due to the expiration of the [Dunning](https://maxio.zendesk.com/hc/en-us/articles/24287076583565-Dunning-Overview) process without payment. See the [Reactivation](https://maxio.zendesk.com/hc/en-us/articles/24252109503629-Reactivating-and-Resuming) documentation for info on how to restart a canceled subscription.
+// * `canceled` - Indicates a canceled subscription. This may happen at your request (via the API or the web interface) or due to the expiration of the [Dunning](https://docs.maxio.com/billing/subscriptions/dunning/overview/understanding-how-dunning-works) process without payment. See the [Reactivation](https://docs.maxio.com/billing/subscriptions/management/state-management/understand-reactivation-and-resume-scenarios) documentation for info on how to restart a canceled subscription.
 // While a subscription is canceled, its period will not advance, it will not accrue any new charges, and Advanced Billing will not attempt to collect the overdue balance.
 // * `expired` - Indicates a subscription that has expired due to running its normal life cycle. Some products may be configured to have an expiration period. An expired subscription then is one that stayed active until it fulfilled its full period.
 // * `failed_to_create` - Indicates that signup has failed. (You may see this state in a signup_failure webhook.)
 // * `on_hold` - Indicates that a subscription’s billing has been temporarily stopped. While it is expected that the subscription will resume and return to active status, this is still treated as an “End of Life” state because the customer is not paying for services during this time.
 // * `suspended` - Indicates that a prepaid subscription has used up all their prepayment balance. If a prepayment is applied, it will return to an active state.
-// * `trial_ended` - A subscription in a trial_ended state is a subscription that completed a no-obligation trial and did not have a card on file at the expiration of the trial period. See [Product Pricing – No Obligation Trials](https://maxio.zendesk.com/hc/en-us/articles/24261076617869-Product-Editing) for more details.
-// See [Subscription States](https://maxio.zendesk.com/hc/en-us/articles/24252119027853-Subscription-States) for more info about subscription states and state transitions.
+// * `trial_ended` - A subscription in a trial_ended state is a subscription that completed a no-obligation trial and did not have a card on file at the expiration of the trial period. See [Product Pricing – No Obligation Trials](https://docs.maxio.com/billing/catalog/plans/creating-plans) for more details.
+// See [Subscription States](https://docs.maxio.com/billing/subscriptions/management/subscription-states/understand-subscription-states) for more info about subscription states and state transitions.
 type SubscriptionState string
 
 // MarshalJSON implements the json.Marshaler interface for SubscriptionState.
@@ -4960,7 +5801,12 @@ func (e TaxConfigurationKind) isValid() bool {
     case TaxConfigurationKind_CUSTOM,
         TaxConfigurationKind_ENUMMANAGEDAVALARA,
         TaxConfigurationKind_ENUMLINKEDAVALARA,
-        TaxConfigurationKind_ENUMDIGITALRIVER:
+        TaxConfigurationKind_ENUMDIGITALRIVER,
+        TaxConfigurationKind_ANROK,
+        TaxConfigurationKind_TAXJAR,
+        TaxConfigurationKind_NUMERAL,
+        TaxConfigurationKind_SPHERE,
+        TaxConfigurationKind_TAXWIRE:
         return true
     }
     return false
@@ -4971,6 +5817,11 @@ const (
     TaxConfigurationKind_ENUMMANAGEDAVALARA TaxConfigurationKind = "managed avalara"
     TaxConfigurationKind_ENUMLINKEDAVALARA  TaxConfigurationKind = "linked avalara"
     TaxConfigurationKind_ENUMDIGITALRIVER   TaxConfigurationKind = "digital river"
+    TaxConfigurationKind_ANROK              TaxConfigurationKind = "anrok"
+    TaxConfigurationKind_TAXJAR             TaxConfigurationKind = "taxjar"
+    TaxConfigurationKind_NUMERAL            TaxConfigurationKind = "numeral"
+    TaxConfigurationKind_SPHERE             TaxConfigurationKind = "sphere"
+    TaxConfigurationKind_TAXWIRE            TaxConfigurationKind = "taxwire"
 )
 
 // TaxDestinationAddress is a string enum.
@@ -5114,6 +5965,187 @@ const (
     UpgradeChargeCreditType_FULL     UpgradeChargeCreditType = "full"
     UpgradeChargeCreditType_PRORATED UpgradeChargeCreditType = "prorated"
     UpgradeChargeCreditType_NONE     UpgradeChargeCreditType = "none"
+)
+
+// WalletHardStopOverflow is a string enum.
+// Behavior at the hard-stop boundary. `discard` drains the wallet to zero and rejects the excess (the default). `allow_negative` deducts the full amount, letting the balance go negative. The excess past the wallet's grants is booked as an overdraft ledger row with `grant_id` set to `null`.
+type WalletHardStopOverflow string
+
+// MarshalJSON implements the json.Marshaler interface for WalletHardStopOverflow.
+// It customizes the JSON marshaling process for WalletHardStopOverflow objects.
+func (e WalletHardStopOverflow) MarshalJSON() (
+    []byte,
+    error) {
+    if e.isValid() {
+        return []byte(fmt.Sprintf("\"%v\"", e)), nil
+    }
+    return nil, errors.New("the provided enum value is not allowed for WalletHardStopOverflow")
+}
+
+// UnmarshalJSON implements the json.Unmarshaler interface for WalletHardStopOverflow.
+// It customizes the JSON unmarshaling process for WalletHardStopOverflow objects.
+func (e *WalletHardStopOverflow) UnmarshalJSON(input []byte) error {
+    var enumValue string
+    err := json.Unmarshal(input, &enumValue)
+    if err != nil {
+        return err
+    }
+    *e = WalletHardStopOverflow(enumValue)
+    if !e.isValid() {
+        return errors.New("the value " + string(input) + " cannot be unmarshalled to WalletHardStopOverflow")
+    }
+    return nil
+}
+
+// Checks whether the value is actually a member of WalletHardStopOverflow.
+func (e WalletHardStopOverflow) isValid() bool {
+    switch e {
+    case WalletHardStopOverflow_DISCARD,
+        WalletHardStopOverflow_ALLOWNEGATIVE:
+        return true
+    }
+    return false
+}
+
+const (
+    WalletHardStopOverflow_DISCARD       WalletHardStopOverflow = "discard"
+    WalletHardStopOverflow_ALLOWNEGATIVE WalletHardStopOverflow = "allow_negative"
+)
+
+// WalletOrigin is a string enum.
+// How the wallet came to exist. `manual` for a wallet created directly with [Create Wallet]($e/Wallets/createWallet). `feature` for a wallet auto-provisioned because a subscription resolved a usage-limit entitlement whose Feature has `wallet_behavior` configured.
+type WalletOrigin string
+
+// MarshalJSON implements the json.Marshaler interface for WalletOrigin.
+// It customizes the JSON marshaling process for WalletOrigin objects.
+func (e WalletOrigin) MarshalJSON() (
+    []byte,
+    error) {
+    if e.isValid() {
+        return []byte(fmt.Sprintf("\"%v\"", e)), nil
+    }
+    return nil, errors.New("the provided enum value is not allowed for WalletOrigin")
+}
+
+// UnmarshalJSON implements the json.Unmarshaler interface for WalletOrigin.
+// It customizes the JSON unmarshaling process for WalletOrigin objects.
+func (e *WalletOrigin) UnmarshalJSON(input []byte) error {
+    var enumValue string
+    err := json.Unmarshal(input, &enumValue)
+    if err != nil {
+        return err
+    }
+    *e = WalletOrigin(enumValue)
+    if !e.isValid() {
+        return errors.New("the value " + string(input) + " cannot be unmarshalled to WalletOrigin")
+    }
+    return nil
+}
+
+// Checks whether the value is actually a member of WalletOrigin.
+func (e WalletOrigin) isValid() bool {
+    switch e {
+    case WalletOrigin_MANUAL,
+        WalletOrigin_FEATURE:
+        return true
+    }
+    return false
+}
+
+const (
+    WalletOrigin_MANUAL  WalletOrigin = "manual"
+    WalletOrigin_FEATURE WalletOrigin = "feature"
+)
+
+// WalletRecurringFundingStatus is a string enum.
+// `active`: refilling normally. `erroring`: the schedule is still due and retrying, but the last attempt couldn't be written (see `reason`); correcting the underlying entitlement resumes funding on the next run with no action needed on the wallet itself. `stopped`: funding has ended for good (see `reason`); units already granted stay on the wallet and remain spendable, but no further automatic grants will be made.
+type WalletRecurringFundingStatus string
+
+// MarshalJSON implements the json.Marshaler interface for WalletRecurringFundingStatus.
+// It customizes the JSON marshaling process for WalletRecurringFundingStatus objects.
+func (e WalletRecurringFundingStatus) MarshalJSON() (
+    []byte,
+    error) {
+    if e.isValid() {
+        return []byte(fmt.Sprintf("\"%v\"", e)), nil
+    }
+    return nil, errors.New("the provided enum value is not allowed for WalletRecurringFundingStatus")
+}
+
+// UnmarshalJSON implements the json.Unmarshaler interface for WalletRecurringFundingStatus.
+// It customizes the JSON unmarshaling process for WalletRecurringFundingStatus objects.
+func (e *WalletRecurringFundingStatus) UnmarshalJSON(input []byte) error {
+    var enumValue string
+    err := json.Unmarshal(input, &enumValue)
+    if err != nil {
+        return err
+    }
+    *e = WalletRecurringFundingStatus(enumValue)
+    if !e.isValid() {
+        return errors.New("the value " + string(input) + " cannot be unmarshalled to WalletRecurringFundingStatus")
+    }
+    return nil
+}
+
+// Checks whether the value is actually a member of WalletRecurringFundingStatus.
+func (e WalletRecurringFundingStatus) isValid() bool {
+    switch e {
+    case WalletRecurringFundingStatus_ACTIVE,
+        WalletRecurringFundingStatus_ERRORING,
+        WalletRecurringFundingStatus_STOPPED:
+        return true
+    }
+    return false
+}
+
+const (
+    WalletRecurringFundingStatus_ACTIVE   WalletRecurringFundingStatus = "active"
+    WalletRecurringFundingStatus_ERRORING WalletRecurringFundingStatus = "erroring"
+    WalletRecurringFundingStatus_STOPPED  WalletRecurringFundingStatus = "stopped"
+)
+
+// WalletStatus is a string enum.
+type WalletStatus string
+
+// MarshalJSON implements the json.Marshaler interface for WalletStatus.
+// It customizes the JSON marshaling process for WalletStatus objects.
+func (e WalletStatus) MarshalJSON() (
+    []byte,
+    error) {
+    if e.isValid() {
+        return []byte(fmt.Sprintf("\"%v\"", e)), nil
+    }
+    return nil, errors.New("the provided enum value is not allowed for WalletStatus")
+}
+
+// UnmarshalJSON implements the json.Unmarshaler interface for WalletStatus.
+// It customizes the JSON unmarshaling process for WalletStatus objects.
+func (e *WalletStatus) UnmarshalJSON(input []byte) error {
+    var enumValue string
+    err := json.Unmarshal(input, &enumValue)
+    if err != nil {
+        return err
+    }
+    *e = WalletStatus(enumValue)
+    if !e.isValid() {
+        return errors.New("the value " + string(input) + " cannot be unmarshalled to WalletStatus")
+    }
+    return nil
+}
+
+// Checks whether the value is actually a member of WalletStatus.
+func (e WalletStatus) isValid() bool {
+    switch e {
+    case WalletStatus_ACTIVE,
+        WalletStatus_ARCHIVED:
+        return true
+    }
+    return false
+}
+
+const (
+    WalletStatus_ACTIVE   WalletStatus = "active"
+    WalletStatus_ARCHIVED WalletStatus = "archived"
 )
 
 // WebhookOrder is a string enum.

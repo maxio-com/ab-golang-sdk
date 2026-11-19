@@ -24,10 +24,10 @@ func main() {
     createComponentPricePointsRequest := models.CreateComponentPricePointsRequest{
         PricePoints:          []models.CreateComponentPricePointsRequestPricePoints{
             models.CreateComponentPricePointsRequestPricePointsContainer.FromCreateComponentPricePoint(models.CreateComponentPricePoint{
-                Name:                 "name0",
-                Handle:               models.ToPointer("handle6"),
-                PricingScheme:        models.PricingScheme_PERUNIT,
-                Prices:               []models.Price{
+                Name:                   "name0",
+                Handle:                 models.ToPointer("handle6"),
+                PricingScheme:          models.PricingScheme_PERUNIT,
+                Prices:                 []models.Price{
                     models.Price{
                         StartingQuantity:     models.PriceStartingQuantityContainer.FromNumber(242),
                         EndingQuantity:       models.NewOptional(models.ToPointer(models.PriceEndingQuantityContainer.FromNumber(40))),
@@ -44,10 +44,24 @@ func main() {
                         UnitPrice:            models.PriceUnitPriceContainer.FromPrecision(float64(23.26)),
                     },
                 },
-                UseSiteExchangeRate:  models.ToPointer(false),
-                TaxIncluded:          models.ToPointer(false),
-                Interval:             models.ToPointer(24),
-                IntervalUnit:         models.NewOptional(models.ToPointer(models.IntervalUnit_DAY)),
+                SecondaryPricing:       models.ToPointer(models.SecondaryPricing{
+                    PricingScheme:        models.ToPointer(models.PricingScheme_STAIRSTEP),
+                    Prices:               []models.Price{
+                        models.Price{
+                            StartingQuantity:     models.PriceStartingQuantityContainer.FromNumber(242),
+                            EndingQuantity:       models.NewOptional(models.ToPointer(models.PriceEndingQuantityContainer.FromNumber(40))),
+                            UnitPrice:            models.PriceUnitPriceContainer.FromPrecision(float64(23.26)),
+                        },
+                        models.Price{
+                            StartingQuantity:     models.PriceStartingQuantityContainer.FromNumber(242),
+                            EndingQuantity:       models.NewOptional(models.ToPointer(models.PriceEndingQuantityContainer.FromNumber(40))),
+                            UnitPrice:            models.PriceUnitPriceContainer.FromPrecision(float64(23.26)),
+                        },
+                    },
+                }),
+                SecondaryPricingScheme: models.ToPointer(models.PricingScheme_STAIRSTEP),
+                UseSiteExchangeRate:    models.ToPointer(false),
+                TaxIncluded:            models.ToPointer(false),
             }),
         },
     }

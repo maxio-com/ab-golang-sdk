@@ -18,17 +18,21 @@ type ClientInterface interface {
     AdvanceInvoiceController() *AdvanceInvoiceController
     BillingPortalController() *BillingPortalController
     CouponsController() *CouponsController
+    ComponentFeaturesController() *ComponentFeaturesController
     ComponentsController() *ComponentsController
     ComponentPricePointsController() *ComponentPricePointsController
     CustomersController() *CustomersController
     CustomFieldsController() *CustomFieldsController
+    EntitlementsController() *EntitlementsController
     EventsController() *EventsController
     EventsBasedBillingSegmentsController() *EventsBasedBillingSegmentsController
+    FeatureTemplatesController() *FeatureTemplatesController
     InsightsController() *InsightsController
     InvoicesController() *InvoicesController
     OffersController() *OffersController
     PaymentProfilesController() *PaymentProfilesController
     ProductFamiliesController() *ProductFamiliesController
+    ProductFeaturesController() *ProductFeaturesController
     ProductsController() *ProductsController
     ProductPricePointsController() *ProductPricePointsController
     ProformaInvoicesController() *ProformaInvoicesController
@@ -46,6 +50,11 @@ type ClientInterface interface {
     SubscriptionProductsController() *SubscriptionProductsController
     SubscriptionRenewalsController() *SubscriptionRenewalsController
     SubscriptionStatusController() *SubscriptionStatusController
+    WalletsController() *WalletsController
+    WalletTransactionsController() *WalletTransactionsController
+    WalletAdjustmentsController() *WalletAdjustmentsController
+    WalletPurchasesController() *WalletPurchasesController
+    WalletProductsController() *WalletProductsController
     WebhooksController() *WebhooksController
     UserAgent() *string
 }
@@ -59,17 +68,21 @@ type client struct {
     advanceInvoiceController                  AdvanceInvoiceController
     billingPortalController                   BillingPortalController
     couponsController                         CouponsController
+    componentFeaturesController               ComponentFeaturesController
     componentsController                      ComponentsController
     componentPricePointsController            ComponentPricePointsController
     customersController                       CustomersController
     customFieldsController                    CustomFieldsController
+    entitlementsController                    EntitlementsController
     eventsController                          EventsController
     eventsBasedBillingSegmentsController      EventsBasedBillingSegmentsController
+    featureTemplatesController                FeatureTemplatesController
     insightsController                        InsightsController
     invoicesController                        InvoicesController
     offersController                          OffersController
     paymentProfilesController                 PaymentProfilesController
     productFamiliesController                 ProductFamiliesController
+    productFeaturesController                 ProductFeaturesController
     productsController                        ProductsController
     productPricePointsController              ProductPricePointsController
     proformaInvoicesController                ProformaInvoicesController
@@ -87,6 +100,11 @@ type client struct {
     subscriptionProductsController            SubscriptionProductsController
     subscriptionRenewalsController            SubscriptionRenewalsController
     subscriptionStatusController              SubscriptionStatusController
+    walletsController                         WalletsController
+    walletTransactionsController              WalletTransactionsController
+    walletAdjustmentsController               WalletAdjustmentsController
+    walletPurchasesController                 WalletPurchasesController
+    walletProductsController                  WalletProductsController
     webhooksController                        WebhooksController
 }
 
@@ -97,7 +115,7 @@ func NewClient(configuration Configuration) ClientInterface {
         configuration: configuration,
     }
     
-    client.userAgent = utilities.UpdateUserAgent("AB SDK Go:0.10.0 on OS {os-info}")
+    client.userAgent = utilities.UpdateUserAgent("AB SDK Go:0.11.0 on OS {os-info}")
     client.callBuilderFactory = callBuilderHandler(
     	func(server string) string {
     		if server == "" {
@@ -118,17 +136,21 @@ func NewClient(configuration Configuration) ClientInterface {
     client.advanceInvoiceController = *NewAdvanceInvoiceController(*baseController)
     client.billingPortalController = *NewBillingPortalController(*baseController)
     client.couponsController = *NewCouponsController(*baseController)
+    client.componentFeaturesController = *NewComponentFeaturesController(*baseController)
     client.componentsController = *NewComponentsController(*baseController)
     client.componentPricePointsController = *NewComponentPricePointsController(*baseController)
     client.customersController = *NewCustomersController(*baseController)
     client.customFieldsController = *NewCustomFieldsController(*baseController)
+    client.entitlementsController = *NewEntitlementsController(*baseController)
     client.eventsController = *NewEventsController(*baseController)
     client.eventsBasedBillingSegmentsController = *NewEventsBasedBillingSegmentsController(*baseController)
+    client.featureTemplatesController = *NewFeatureTemplatesController(*baseController)
     client.insightsController = *NewInsightsController(*baseController)
     client.invoicesController = *NewInvoicesController(*baseController)
     client.offersController = *NewOffersController(*baseController)
     client.paymentProfilesController = *NewPaymentProfilesController(*baseController)
     client.productFamiliesController = *NewProductFamiliesController(*baseController)
+    client.productFeaturesController = *NewProductFeaturesController(*baseController)
     client.productsController = *NewProductsController(*baseController)
     client.productPricePointsController = *NewProductPricePointsController(*baseController)
     client.proformaInvoicesController = *NewProformaInvoicesController(*baseController)
@@ -146,6 +168,11 @@ func NewClient(configuration Configuration) ClientInterface {
     client.subscriptionProductsController = *NewSubscriptionProductsController(*baseController)
     client.subscriptionRenewalsController = *NewSubscriptionRenewalsController(*baseController)
     client.subscriptionStatusController = *NewSubscriptionStatusController(*baseController)
+    client.walletsController = *NewWalletsController(*baseController)
+    client.walletTransactionsController = *NewWalletTransactionsController(*baseController)
+    client.walletAdjustmentsController = *NewWalletAdjustmentsController(*baseController)
+    client.walletPurchasesController = *NewWalletPurchasesController(*baseController)
+    client.walletProductsController = *NewWalletProductsController(*baseController)
     client.webhooksController = *NewWebhooksController(*baseController)
     return client
 }
@@ -180,6 +207,11 @@ func (c *client) CouponsController() *CouponsController {
     return &c.couponsController
 }
 
+// ComponentFeaturesController returns the componentFeaturesController instance of the client.
+func (c *client) ComponentFeaturesController() *ComponentFeaturesController {
+    return &c.componentFeaturesController
+}
+
 // ComponentsController returns the componentsController instance of the client.
 func (c *client) ComponentsController() *ComponentsController {
     return &c.componentsController
@@ -200,6 +232,11 @@ func (c *client) CustomFieldsController() *CustomFieldsController {
     return &c.customFieldsController
 }
 
+// EntitlementsController returns the entitlementsController instance of the client.
+func (c *client) EntitlementsController() *EntitlementsController {
+    return &c.entitlementsController
+}
+
 // EventsController returns the eventsController instance of the client.
 func (c *client) EventsController() *EventsController {
     return &c.eventsController
@@ -208,6 +245,11 @@ func (c *client) EventsController() *EventsController {
 // EventsBasedBillingSegmentsController returns the eventsBasedBillingSegmentsController instance of the client.
 func (c *client) EventsBasedBillingSegmentsController() *EventsBasedBillingSegmentsController {
     return &c.eventsBasedBillingSegmentsController
+}
+
+// FeatureTemplatesController returns the featureTemplatesController instance of the client.
+func (c *client) FeatureTemplatesController() *FeatureTemplatesController {
+    return &c.featureTemplatesController
 }
 
 // InsightsController returns the insightsController instance of the client.
@@ -233,6 +275,11 @@ func (c *client) PaymentProfilesController() *PaymentProfilesController {
 // ProductFamiliesController returns the productFamiliesController instance of the client.
 func (c *client) ProductFamiliesController() *ProductFamiliesController {
     return &c.productFamiliesController
+}
+
+// ProductFeaturesController returns the productFeaturesController instance of the client.
+func (c *client) ProductFeaturesController() *ProductFeaturesController {
+    return &c.productFeaturesController
 }
 
 // ProductsController returns the productsController instance of the client.
@@ -318,6 +365,31 @@ func (c *client) SubscriptionRenewalsController() *SubscriptionRenewalsControlle
 // SubscriptionStatusController returns the subscriptionStatusController instance of the client.
 func (c *client) SubscriptionStatusController() *SubscriptionStatusController {
     return &c.subscriptionStatusController
+}
+
+// WalletsController returns the walletsController instance of the client.
+func (c *client) WalletsController() *WalletsController {
+    return &c.walletsController
+}
+
+// WalletTransactionsController returns the walletTransactionsController instance of the client.
+func (c *client) WalletTransactionsController() *WalletTransactionsController {
+    return &c.walletTransactionsController
+}
+
+// WalletAdjustmentsController returns the walletAdjustmentsController instance of the client.
+func (c *client) WalletAdjustmentsController() *WalletAdjustmentsController {
+    return &c.walletAdjustmentsController
+}
+
+// WalletPurchasesController returns the walletPurchasesController instance of the client.
+func (c *client) WalletPurchasesController() *WalletPurchasesController {
+    return &c.walletPurchasesController
+}
+
+// WalletProductsController returns the walletProductsController instance of the client.
+func (c *client) WalletProductsController() *WalletProductsController {
+    return &c.walletProductsController
 }
 
 // WebhooksController returns the webhooksController instance of the client.

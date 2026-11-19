@@ -24,7 +24,7 @@ func main() {
     componentCurrencyPricesResponse := models.ComponentCurrencyPricesResponse{
         CurrencyPrices:       []models.ComponentCurrencyPrice{
             models.ComponentCurrencyPrice{
-                Id:                   models.ToPointer(50),
+                Id:                   models.NewOptional(models.ToPointer(50)),
                 Currency:             models.ToPointer("currency8"),
                 Price:                models.ToPointer("price4"),
                 FormattedPrice:       models.ToPointer("formatted_price6"),

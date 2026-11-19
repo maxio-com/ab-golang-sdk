@@ -1,5 +1,9 @@
 # Customers
 
+The Customer object represents the person or organization being billed and is the anchor that subscriptions, payment profiles, and invoices are all attached to.
+
+A customer record stores contact and billing details (name, address, tax exemption status, locale) along with references to related records, such as the customer's default subscription group. For more information, see [Understand Customers for Subscription Management](https://docs.maxio.com/billing/subscriptions/customers/understand-customers-for-subscription-management).
+
 ```go
 customersController := client.CustomersController()
 ```
@@ -25,7 +29,7 @@ Creates a new customer; can also be created alongside a new subscription. The on
 
 If provided, the `reference` value must be unique. It represents a unique identifier for the customer from your own app, i.e. the customer’s ID. This allows you to retrieve a given customer via a piece of shared information. Alternatively, you can choose to leave `reference` blank, and store the system-assigned unique ID for the customer, which is in the `id` attribute.
 
-For more information, see [Customer Details](https://maxio.zendesk.com/hc/en-us/articles/24252190590093-Customer-Details).
+For more information, see [Customer Details](https://docs.maxio.com/billing/subscriptions/customers/view-customer-information).
 
 ## Required Country Format
 
@@ -43,7 +47,21 @@ Format the state attribute of the customer using the ISO Standard State codes.
 
 ## Locale
 
-You can attribute a language/region to the customer to deliver invoices in any required language. For more information, see [Customer Locale](https://maxio.zendesk.com/hc/en-us/articles/24286672013709-Customer-Locale).
+You can attribute a language/region to the customer to deliver invoices in any required language. For more information, see [Customer Locale](https://docs.maxio.com/configuration/advanced-billing/settings/multi-lingual-invoices/customer-locale).
+
+## Tax and Business Identifiers
+
+Send `entity_identifier_kind` and `entity_identifier_value` together to store the customer's tax or business identifier, such as an EU VAT number, a French SIREN, or a LEI. A customer holds one identifier at a time.
+
+The `vat_eu` and `national_tax` kinds also require `vat_country`. An unsupported kind, a missing or mismatched `vat_country`, or a `gln`, `duns`, or `lei` value in the wrong format returns `422`.
+
+Always send the kind. `entity_identifier_value` on its own is stored as a `company_reg` when no `vat_country` is present, and returns `422` naming `entity_identifier_kind` when one is.
+
+A blank pair is ignored rather than rejected, so a `vat_number` sent alongside it still takes effect.
+
+The legacy `vat_number` and `vat_country` pair still works on its own. When neither entity identifier field is sent, Advanced Billing derives the kind from `vat_country`: an EU member state code or `GB` gives `vat_eu`, one of the national tax country codes gives `national_tax`, and a blank or unrecognized country gives `company_reg`.
+
+The response reports the stored identifier in `entity_identifier_kind` and `entity_identifier_value`, and repeats its value in `vat_number`.
 
 ```go
 CreateCustomer(
@@ -76,20 +94,20 @@ ctx := context.Background()
 
 body := models.CreateCustomerRequest{
     Customer:             models.CreateCustomer{
-        FirstName:            "Martha",
-        LastName:             "Washington",
-        Email:                "martha@example.com",
-        CcEmails:             models.ToPointer("george@example.com"),
-        Organization:         models.ToPointer("ABC, Inc."),
-        Reference:            models.ToPointer("1234567890"),
-        Address:              models.ToPointer("123 Main Street"),
-        Address2:             models.ToPointer("Unit 10"),
-        City:                 models.ToPointer("Anytown"),
-        State:                models.ToPointer("MA"),
-        Zip:                  models.ToPointer("02120"),
-        Country:              models.ToPointer("US"),
-        Phone:                models.ToPointer("555-555-1212"),
-        Locale:               models.ToPointer("es-MX"),
+        FirstName:             "Martha",
+        LastName:              "Washington",
+        Email:                 "martha@example.com",
+        CcEmails:              models.ToPointer("george@example.com"),
+        Organization:          models.ToPointer("ABC, Inc."),
+        Reference:             models.ToPointer("1234567890"),
+        Address:               models.ToPointer("123 Main Street"),
+        Address2:              models.ToPointer("Unit 10"),
+        City:                  models.ToPointer("Anytown"),
+        State:                 models.ToPointer("MA"),
+        Zip:                   models.ToPointer("02120"),
+        Country:               models.ToPointer("US"),
+        Phone:                 models.ToPointer("555-555-1212"),
+        Locale:                models.ToPointer("es-MX"),
     },
 }
 
@@ -138,6 +156,9 @@ if err != nil {
     "tax_exempt": false,
     "surcharging": false,
     "vat_number": null,
+    "vat_country": null,
+    "entity_identifier_kind": null,
+    "entity_identifier_value": null,
     "parent_id": null,
     "locale": "en-US"
   }
@@ -390,6 +411,24 @@ if err != nil {
 
 Updates the customer.
 
+## Tax and Business Identifiers
+
+Send `entity_identifier_kind` and `entity_identifier_value` together to store the customer's tax or business identifier, such as an EU VAT number, a French SIREN, or a LEI. A customer holds one identifier at a time, so saving an identifier of a different kind replaces the existing one.
+
+The `vat_eu` and `national_tax` kinds also require `vat_country`. An unsupported kind, a missing or mismatched `vat_country`, or a `gln`, `duns`, or `lei` value in the wrong format returns `422`.
+
+Always send the kind. `entity_identifier_value` on its own is stored as a `company_reg` when no `vat_country` is present, and returns `422` naming `entity_identifier_kind` when one is.
+
+To clear an identifier, send a supported `entity_identifier_kind` with a blank `entity_identifier_value`, or send a blank `vat_number` on its own. The first form also clears `vat_number` and `vat_country`, and it removes whichever identifier the customer holds, whatever kind you send with it.
+
+The legacy `vat_number` and `vat_country` pair still works on its own. When neither entity identifier field is sent, Advanced Billing derives the kind from `vat_country`: an EU member state code or `GB` gives `vat_eu`, one of the national tax country codes gives `national_tax`, and a blank or unrecognized country gives `company_reg`.
+
+Sending a customer response straight back leaves the tax ID alone. A blank pair, and a pair that still matches the stored identifier with `vat_country` unchanged, are read as nothing to change rather than as a request to clear. For `gln`, `duns`, and `lei` that also covers the `vat_number` the response mirrors back, so the kind survives the round trip.
+
+What you do change is applied, and the entity identifier fields take precedence over `vat_number`. A different kind or value writes that identifier, and `vat_number` and `vat_country` follow from it. A different `vat_country` next to an unchanged pair is a real edit, so it is validated and can return `422`. Changing only `vat_number` leaves the pair unchanged, so the derivation above decides the kind, which turns a `gln`, `duns`, or `lei` customer into a `company_reg`. Setting `vat_number` to `null` or a blank string still clears the identifier.
+
+The response reports the stored identifier in `entity_identifier_kind` and `entity_identifier_value`, and repeats its value in `vat_number`.
+
 ```go
 UpdateCustomer(
     ctx context.Context,
@@ -425,9 +464,9 @@ id := 112
 
 body := models.UpdateCustomerRequest{
     Customer:             models.UpdateCustomer{
-        FirstName:            models.ToPointer("Martha"),
-        LastName:             models.ToPointer("Washington"),
-        Email:                models.ToPointer("martha.washington@example.com"),
+        FirstName:             models.ToPointer("Martha"),
+        LastName:              models.ToPointer("Washington"),
+        Email:                 models.ToPointer("martha.washington@example.com"),
     },
 }
 
@@ -473,7 +512,10 @@ if err != nil {
     "portal_invite_last_accepted_at": null,
     "tax_exempt": false,
     "surcharging": false,
-    "vat_number": "012345678"
+    "vat_number": "012345678",
+    "vat_country": null,
+    "entity_identifier_kind": null,
+    "entity_identifier_value": null
   }
 }
 ```

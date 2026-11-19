@@ -20,15 +20,15 @@
 
 ```go
 value := models.CreateComponentPricePointRequestPricePointContainer.FromCreateComponentPricePoint(models.CreateComponentPricePoint{
-    Name:                 "name0",
-    PricingScheme:        models.PricingScheme_PERUNIT,
-    Prices:               []models.Price{
+    Name:                   "name0",
+    PricingScheme:          models.PricingScheme_PERUNIT,
+    Prices:                 []models.Price{
         models.Price{
             StartingQuantity:     models.PriceStartingQuantityContainer.FromNumber(242),
             UnitPrice:            models.PriceUnitPriceContainer.FromPrecision(float64(23.26)),
         },
     },
-    UseSiteExchangeRate:  models.ToPointer(true),
+    UseSiteExchangeRate:    models.ToPointer(true),
 })
 ```
 

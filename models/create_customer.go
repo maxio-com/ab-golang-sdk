@@ -11,41 +11,54 @@ import (
 
 // CreateCustomer represents a CreateCustomer struct.
 type CreateCustomer struct {
-    FirstName            string                 `json:"first_name"`
-    LastName             string                 `json:"last_name"`
-    Email                string                 `json:"email"`
-    CcEmails             *string                `json:"cc_emails,omitempty"`
-    Organization         *string                `json:"organization,omitempty"`
-    Reference            *string                `json:"reference,omitempty"`
-    Address              *string                `json:"address,omitempty"`
-    Address2             *string                `json:"address_2,omitempty"`
-    City                 *string                `json:"city,omitempty"`
-    State                *string                `json:"state,omitempty"`
-    Zip                  *string                `json:"zip,omitempty"`
-    Country              *string                `json:"country,omitempty"`
-    Phone                *string                `json:"phone,omitempty"`
+    FirstName             string                 `json:"first_name"`
+    LastName              string                 `json:"last_name"`
+    Email                 string                 `json:"email"`
+    CcEmails              *string                `json:"cc_emails,omitempty"`
+    Organization          *string                `json:"organization,omitempty"`
+    Reference             *string                `json:"reference,omitempty"`
+    Address               *string                `json:"address,omitempty"`
+    Address2              *string                `json:"address_2,omitempty"`
+    City                  *string                `json:"city,omitempty"`
+    State                 *string                `json:"state,omitempty"`
+    Zip                   *string                `json:"zip,omitempty"`
+    Country               *string                `json:"country,omitempty"`
+    Phone                 *string                `json:"phone,omitempty"`
     // Set a specific language on a customer record.
-    Locale               *string                `json:"locale,omitempty"`
-    VatNumber            *string                `json:"vat_number,omitempty"`
-    TaxExempt            *bool                  `json:"tax_exempt,omitempty"`
+    Locale                *string                `json:"locale,omitempty"`
+    VatNumber             *string                `json:"vat_number,omitempty"`
+    // The two-letter ISO 3166-1 country code that qualifies the customer's tax ID. Required when `entity_identifier_kind` is `vat_eu` or `national_tax`, and used to derive the kind when only the legacy `vat_number` is sent.
+    VatCountry            *string                `json:"vat_country,omitempty"`
+    // The kind of tax or business identifier held by the customer:
+    // - `vat_eu`: an EU VAT number. Requires `vat_country` to be an EU member state code or `GB`.
+    // - `national_tax`: a national tax ID registered outside the EU. Requires `vat_country` to be one of `AL`, `AM`, `AR`, `AU`, `BR`, `CA`, `CH`, `DZ`, `IN`, `MX`, `NO`, `NZ`, or `ZA`.
+    // - `company_reg`: a company registration number, such as a French SIREN. No `vat_country` is required.
+    // - `gln`: a Global Location Number. The value must be 13 digits.
+    // - `duns`: a D-U-N-S Number. The value must be 9 digits.
+    // - `lei`: a Legal Entity Identifier. The value must be 20 characters: 18 letters or digits followed by 2 digits.
+    // A customer holds one identifier at a time. Saving an identifier of a different kind replaces the existing one.
+    EntityIdentifierKind  *EntityIdentifierKind  `json:"entity_identifier_kind,omitempty"`
+    // The customer's tax or business identifier, sent together with `entity_identifier_kind`. Advanced Billing trims surrounding whitespace and stores the value in uppercase.
+    EntityIdentifierValue *string                `json:"entity_identifier_value,omitempty"`
+    TaxExempt             *bool                  `json:"tax_exempt,omitempty"`
     // Whether surcharging is enabled for the customer. Defaults to `true` when omitted. Only applied on sites where surcharging control is enabled.
-    Surcharging          *bool                  `json:"surcharging,omitempty"`
-    TaxExemptReason      *string                `json:"tax_exempt_reason,omitempty"`
+    Surcharging           *bool                  `json:"surcharging,omitempty"`
+    TaxExemptReason       *string                `json:"tax_exempt_reason,omitempty"`
     // The parent ID in Chargify if applicable. Parent is another Customer object.
-    ParentId             Optional[int]          `json:"parent_id"`
+    ParentId              Optional[int]          `json:"parent_id"`
     // The Salesforce ID of the customer
-    SalesforceId         Optional[string]       `json:"salesforce_id"`
+    SalesforceId          Optional[string]       `json:"salesforce_id"`
     // The ID of the Branding Theme assigned to this customer as the customer's default Branding Theme. This customer-level Branding Theme is used when a subscription does not have its own subscription-level Branding Theme. Available only when Branding Themes are enabled for the site.
-    BrandingThemeId      Optional[int]          `json:"branding_theme_id"`
-    AdditionalProperties map[string]interface{} `json:"_"`
+    BrandingThemeId       Optional[int]          `json:"branding_theme_id"`
+    AdditionalProperties  map[string]interface{} `json:"_"`
 }
 
 // String implements the fmt.Stringer interface for CreateCustomer,
 // providing a human-readable string representation useful for logging, debugging or displaying information.
 func (c CreateCustomer) String() string {
     return fmt.Sprintf(
-    	"CreateCustomer[FirstName=%v, LastName=%v, Email=%v, CcEmails=%v, Organization=%v, Reference=%v, Address=%v, Address2=%v, City=%v, State=%v, Zip=%v, Country=%v, Phone=%v, Locale=%v, VatNumber=%v, TaxExempt=%v, Surcharging=%v, TaxExemptReason=%v, ParentId=%v, SalesforceId=%v, BrandingThemeId=%v, AdditionalProperties=%v]",
-    	c.FirstName, c.LastName, c.Email, c.CcEmails, c.Organization, c.Reference, c.Address, c.Address2, c.City, c.State, c.Zip, c.Country, c.Phone, c.Locale, c.VatNumber, c.TaxExempt, c.Surcharging, c.TaxExemptReason, c.ParentId, c.SalesforceId, c.BrandingThemeId, c.AdditionalProperties)
+    	"CreateCustomer[FirstName=%v, LastName=%v, Email=%v, CcEmails=%v, Organization=%v, Reference=%v, Address=%v, Address2=%v, City=%v, State=%v, Zip=%v, Country=%v, Phone=%v, Locale=%v, VatNumber=%v, VatCountry=%v, EntityIdentifierKind=%v, EntityIdentifierValue=%v, TaxExempt=%v, Surcharging=%v, TaxExemptReason=%v, ParentId=%v, SalesforceId=%v, BrandingThemeId=%v, AdditionalProperties=%v]",
+    	c.FirstName, c.LastName, c.Email, c.CcEmails, c.Organization, c.Reference, c.Address, c.Address2, c.City, c.State, c.Zip, c.Country, c.Phone, c.Locale, c.VatNumber, c.VatCountry, c.EntityIdentifierKind, c.EntityIdentifierValue, c.TaxExempt, c.Surcharging, c.TaxExemptReason, c.ParentId, c.SalesforceId, c.BrandingThemeId, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreateCustomer.
@@ -54,7 +67,7 @@ func (c CreateCustomer) MarshalJSON() (
     []byte,
     error) {
     if err := DetectConflictingProperties(c.AdditionalProperties,
-        "first_name", "last_name", "email", "cc_emails", "organization", "reference", "address", "address_2", "city", "state", "zip", "country", "phone", "locale", "vat_number", "tax_exempt", "surcharging", "tax_exempt_reason", "parent_id", "salesforce_id", "branding_theme_id"); err != nil {
+        "first_name", "last_name", "email", "cc_emails", "organization", "reference", "address", "address_2", "city", "state", "zip", "country", "phone", "locale", "vat_number", "vat_country", "entity_identifier_kind", "entity_identifier_value", "tax_exempt", "surcharging", "tax_exempt_reason", "parent_id", "salesforce_id", "branding_theme_id"); err != nil {
         return []byte{}, err
     }
     return json.Marshal(c.toMap())
@@ -103,6 +116,15 @@ func (c CreateCustomer) toMap() map[string]any {
     if c.VatNumber != nil {
         structMap["vat_number"] = c.VatNumber
     }
+    if c.VatCountry != nil {
+        structMap["vat_country"] = c.VatCountry
+    }
+    if c.EntityIdentifierKind != nil {
+        structMap["entity_identifier_kind"] = c.EntityIdentifierKind
+    }
+    if c.EntityIdentifierValue != nil {
+        structMap["entity_identifier_value"] = c.EntityIdentifierValue
+    }
     if c.TaxExempt != nil {
         structMap["tax_exempt"] = c.TaxExempt
     }
@@ -148,7 +170,7 @@ func (c *CreateCustomer) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "first_name", "last_name", "email", "cc_emails", "organization", "reference", "address", "address_2", "city", "state", "zip", "country", "phone", "locale", "vat_number", "tax_exempt", "surcharging", "tax_exempt_reason", "parent_id", "salesforce_id", "branding_theme_id")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "first_name", "last_name", "email", "cc_emails", "organization", "reference", "address", "address_2", "city", "state", "zip", "country", "phone", "locale", "vat_number", "vat_country", "entity_identifier_kind", "entity_identifier_value", "tax_exempt", "surcharging", "tax_exempt_reason", "parent_id", "salesforce_id", "branding_theme_id")
     if err != nil {
     	return err
     }
@@ -169,6 +191,9 @@ func (c *CreateCustomer) UnmarshalJSON(input []byte) error {
     c.Phone = temp.Phone
     c.Locale = temp.Locale
     c.VatNumber = temp.VatNumber
+    c.VatCountry = temp.VatCountry
+    c.EntityIdentifierKind = temp.EntityIdentifierKind
+    c.EntityIdentifierValue = temp.EntityIdentifierValue
     c.TaxExempt = temp.TaxExempt
     c.Surcharging = temp.Surcharging
     c.TaxExemptReason = temp.TaxExemptReason
@@ -180,27 +205,30 @@ func (c *CreateCustomer) UnmarshalJSON(input []byte) error {
 
 // tempCreateCustomer is a temporary struct used for validating the fields of CreateCustomer.
 type tempCreateCustomer  struct {
-    FirstName       *string          `json:"first_name"`
-    LastName        *string          `json:"last_name"`
-    Email           *string          `json:"email"`
-    CcEmails        *string          `json:"cc_emails,omitempty"`
-    Organization    *string          `json:"organization,omitempty"`
-    Reference       *string          `json:"reference,omitempty"`
-    Address         *string          `json:"address,omitempty"`
-    Address2        *string          `json:"address_2,omitempty"`
-    City            *string          `json:"city,omitempty"`
-    State           *string          `json:"state,omitempty"`
-    Zip             *string          `json:"zip,omitempty"`
-    Country         *string          `json:"country,omitempty"`
-    Phone           *string          `json:"phone,omitempty"`
-    Locale          *string          `json:"locale,omitempty"`
-    VatNumber       *string          `json:"vat_number,omitempty"`
-    TaxExempt       *bool            `json:"tax_exempt,omitempty"`
-    Surcharging     *bool            `json:"surcharging,omitempty"`
-    TaxExemptReason *string          `json:"tax_exempt_reason,omitempty"`
-    ParentId        Optional[int]    `json:"parent_id"`
-    SalesforceId    Optional[string] `json:"salesforce_id"`
-    BrandingThemeId Optional[int]    `json:"branding_theme_id"`
+    FirstName             *string               `json:"first_name"`
+    LastName              *string               `json:"last_name"`
+    Email                 *string               `json:"email"`
+    CcEmails              *string               `json:"cc_emails,omitempty"`
+    Organization          *string               `json:"organization,omitempty"`
+    Reference             *string               `json:"reference,omitempty"`
+    Address               *string               `json:"address,omitempty"`
+    Address2              *string               `json:"address_2,omitempty"`
+    City                  *string               `json:"city,omitempty"`
+    State                 *string               `json:"state,omitempty"`
+    Zip                   *string               `json:"zip,omitempty"`
+    Country               *string               `json:"country,omitempty"`
+    Phone                 *string               `json:"phone,omitempty"`
+    Locale                *string               `json:"locale,omitempty"`
+    VatNumber             *string               `json:"vat_number,omitempty"`
+    VatCountry            *string               `json:"vat_country,omitempty"`
+    EntityIdentifierKind  *EntityIdentifierKind `json:"entity_identifier_kind,omitempty"`
+    EntityIdentifierValue *string               `json:"entity_identifier_value,omitempty"`
+    TaxExempt             *bool                 `json:"tax_exempt,omitempty"`
+    Surcharging           *bool                 `json:"surcharging,omitempty"`
+    TaxExemptReason       *string               `json:"tax_exempt_reason,omitempty"`
+    ParentId              Optional[int]         `json:"parent_id"`
+    SalesforceId          Optional[string]      `json:"salesforce_id"`
+    BrandingThemeId       Optional[int]         `json:"branding_theme_id"`
 }
 
 func (c *tempCreateCustomer) validate() error {

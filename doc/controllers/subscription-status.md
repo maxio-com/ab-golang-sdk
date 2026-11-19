@@ -30,7 +30,7 @@ Retries collecting the balance due on a past-due subscription without waiting fo
 
 When a payment requires 3DS Authentication to adhere to Strong Customer Authentication (SCA), the request enters a post-authentication flow where a 422 Unprocessable Entity status is returned with an action_link that will direct the customer through 3DS Authentication.
 
-See the [3D Secure Post-Authentication Flow](https://docs.maxio.com/hc/en-us/articles/44277749524365-3D-Secure-Post-Authentication-Flow) article in the product documentation to learn how to manage the redirect flow.
+See the [3D Secure Post-Authentication Flow](https://docs.maxio.com/configuration/advanced-billing/maxiojs-formerly-chargifyjs/handle-3d-secure-post-authentication) article in the product documentation to learn how to manage the redirect flow.
 
 ```go
 RetrySubscription(
@@ -952,7 +952,7 @@ if err != nil {
 
 # Reactivate Subscription
 
-Reactivates a previously canceled subscription. For details on how the reactivation works, and how to reactivate subscriptions through the application, see [reactivation](https://maxio.zendesk.com/hc/en-us/articles/24252109503629-Reactivating-and-Resuming).
+Reactivates a previously canceled subscription. For details on how the reactivation works, and how to reactivate subscriptions through the application, see [reactivation](https://docs.maxio.com/billing/subscriptions/management/state-management/understand-reactivation-and-resume-scenarios).
 
 **Note: The term "resume" is used also during another process in Advanced Billing. This occurs when an on-hold subscription is "resumed". This returns the subscription to an active state.**
 
@@ -1117,7 +1117,7 @@ PUT request sent to:
 
 When a payment requires 3DS Authentication to adhere to Strong Customer Authentication (SCA), the request enters a post-authentication flow where a 422 Unprocessable Entity status is returned with an action_link that will direct the customer through 3DS Authentication.
 
-See the [3D Secure Post-Authentication Flow](https://docs.maxio.com/hc/en-us/articles/44277749524365-3D-Secure-Post-Authentication-Flow) article in the product documentation to learn how to manage the redirect flow.
+See the [3D Secure Post-Authentication Flow](https://docs.maxio.com/configuration/advanced-billing/maxiojs-formerly-chargifyjs/handle-3d-secure-post-authentication) article in the product documentation to learn how to manage the redirect flow.
 
 ```go
 ReactivateSubscription(
@@ -1478,7 +1478,7 @@ if err != nil {
 
 Previews a subscription’s next renewal assessment. Renewal Preview is an object representing a subscription’s next assessment. You can retrieve it to see a snapshot of how much your customer will be charged on their next renewal.
 
-The "Next Billing" amount and "Next Billing" date are already represented in the UI on each Subscriber's Summary. For more information, see [Subscriber Interface Overview](https://maxio.zendesk.com/hc/en-us/articles/24252493695757-Subscriber-Interface-Overview).
+The "Next Billing" amount and "Next Billing" date are already represented in the UI on each Subscriber's Summary. For more information, see [Subscriber Interface Overview](https://docs.maxio.com/billing/billing-portal/using/see-the-billing-portal-screens-subscribers-use).
 
 ## Optional Component Fields
 

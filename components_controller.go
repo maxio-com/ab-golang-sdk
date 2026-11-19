@@ -29,8 +29,8 @@ func NewComponentsController(baseController baseController) *ComponentsControlle
 // Metered components are used to bill for any type of unit that resets to 0 at the end of the billing period (think daily Google Ads clicks or monthly cell phone minutes). This is most commonly associated with usage-based billing and many other pricing schemes.
 // Note that this is different from recurring quantity-based components, which DO NOT reset to zero at the start of every billing period. If you want to bill for a quantity of something that does not change unless you change it, then you want quantity components, instead.
 // #### Hybrid Pricing
-// A `volume`, `tiered`, or `stairstep` metered component can combine its primary pricing with a secondary pricing model (the `overage_pricing` parameter) so both bill as a single invoice line item instead of two. This does not apply to metered components configured for event-based billing (metric, meter, or formula). See [Hybrid Pricing](page:introduction/basic-concepts/hybrid-pricing) for requirements and configuration details.
-// For more information on components, see our documentation [here](https://maxio.zendesk.com/hc/en-us/articles/24261141522189-Components-Overview).
+// A `volume`, `tiered`, or `stairstep` metered component can combine its primary pricing with a secondary pricing model (the `secondary_pricing` parameter) so both bill as a single invoice line item instead of two. This does not apply to metered components configured for event-based billing (metric, meter, or formula). See [Hybrid Pricing](page:introduction/basic-concepts/hybrid-pricing) for requirements and configuration details.
+// For more information on components, see our documentation [here](https://docs.maxio.com/billing/catalog/products/understand-products).
 // If you have the new [Catalog experience](page:help/announcements/2026-announcements#new-catalog-experience-and-terminology) enabled, taxable components must include a non-blank `tax_code`. Sending `"tax_code": ""` returns `422`.
 func (c *ComponentsController) CreateMeteredComponent(
     ctx context.Context,
@@ -74,10 +74,10 @@ func (c *ComponentsController) CreateMeteredComponent(
 // #### One-time
 // One-time quantity-based components are used to create ad hoc usage charges that do not recur. For example, at the time of signup, you might want to charge your customer a one-time fee for onboarding or other services.
 // The allocated quantity for one-time quantity-based components immediately gets reset back to zero after the allocation is made.
-// For more information, see [Components Overview](https://maxio.zendesk.com/hc/en-us/articles/24261141522189-Components-Overview).
+// For more information, see [Understand Products](https://docs.maxio.com/billing/catalog/products/understand-products).
 // #### Hybrid Pricing
-// A `volume`, `tiered`, or `stairstep` component can combine its primary pricing with a secondary pricing model (the `overage_pricing` parameter) so both bill as a single invoice line item instead of two. See [Hybrid Pricing](page:introduction/basic-concepts/hybrid-pricing) for requirements and configuration details.
-// For more information on components, see our documentation [here](https://maxio.zendesk.com/hc/en-us/articles/24261141522189-Components-Overview).
+// A `volume`, `tiered`, or `stairstep` component can combine its primary pricing with a secondary pricing model (the `secondary_pricing` parameter) so both bill as a single invoice line item instead of two. See [Hybrid Pricing](page:introduction/basic-concepts/hybrid-pricing) for requirements and configuration details.
+// For more information on components, see our documentation [here](https://docs.maxio.com/billing/catalog/products/understand-products).
 // If you have the new [Catalog experience](page:help/announcements/2026-announcements#new-catalog-experience-and-terminology) enabled, taxable components must include a non-blank `tax_code`. Sending `"tax_code": ""` returns `422`.
 func (c *ComponentsController) CreateQuantityBasedComponent(
     ctx context.Context,
@@ -116,7 +116,7 @@ func (c *ComponentsController) CreateQuantityBasedComponent(
 // an error if there was an issue with the request or response.
 // Creates an On/Off component definition under the specified product family. An On/Off component can then be added and “allocated” for a subscription.
 // On/off components are used for any flat fee, recurring add on (think $99/month for tech support or a flat add on shipping fee).
-// For more information on components, see our documentation [here](https://maxio.zendesk.com/hc/en-us/articles/24261141522189-Components-Overview).
+// For more information on components, see our documentation [here](https://docs.maxio.com/billing/catalog/products/understand-products).
 // If you have the new [Catalog experience](page:help/announcements/2026-announcements#new-catalog-experience-and-terminology) enabled, taxable components must include a non-blank `tax_code`. Sending `"tax_code": ""` returns `422`.
 func (c *ComponentsController) CreateOnOffComponent(
     ctx context.Context,
@@ -155,7 +155,7 @@ func (c *ComponentsController) CreateOnOffComponent(
 // an error if there was an issue with the request or response.
 // Creates a prepaid usage component definition under the specified product family. A prepaid component can then be added and “allocated” for a subscription.
 // Prepaid components allow customers to pre-purchase units that can be used up over time on their subscription. In a sense, they are the mirror image of metered components; while metered components charge at the end of the period for the amount of units used, prepaid components are charged for at the time of purchase, and usage is subsequently tracked against the amount purchased.
-// For more information, see [Components Overview](https://maxio.zendesk.com/hc/en-us/articles/24261141522189-Components-Overview).
+// For more information, see [Understand Products](https://docs.maxio.com/billing/catalog/products/understand-products).
 // If you have the new [Catalog experience](page:help/announcements/2026-announcements#new-catalog-experience-and-terminology) enabled, taxable components must include a non-blank `tax_code`; sending a blank value results in a validation error.
 func (c *ComponentsController) CreatePrepaidUsageComponent(
     ctx context.Context,
@@ -193,9 +193,10 @@ func (c *ComponentsController) CreatePrepaidUsageComponent(
 // returns an models.ApiResponse with models.ComponentResponse data and
 // an error if there was an issue with the request or response.
 // Creates an event-based component definition under the specified product family. An event-based component can then be added and “allocated” for a subscription.
-// Event-based components are similar to other component types, in that you define the component parameters (such as name and taxability) and the pricing. A key difference for the event-based component is that it must be attached to a metric. This is because the metric provides the component with the actual quantity used in computing what and how much will be billed each period for each subscription.
-// So, instead of reporting usage directly for each component (as you would with metered components), the usage is derived from analysis of your events.
-// For more information, see [Components Overview](https://maxio.zendesk.com/hc/en-us/articles/24261141522189-Components-Overview).
+// Event-based components are similar to other component types: you define their parameters (such as name and taxability) and pricing.
+// For [Maxio Metering](https://docs.maxio.com/billing/maxio-metering/overview/understand-maxio-metering), provide either `metering_meter_id` or `metering_formula`, but not both. For legacy Events Based Billing, provide `event_based_billing_metric_id` instead. Meter IDs and legacy metric IDs identify different resources. A legacy metric ID cannot replace a meter ID or formula on a site using Maxio Metering.
+// Instead of reporting usage directly for each component (as you would with metered components), usage is derived from analysis of your events.
+// For more information, see [Understand Products](https://docs.maxio.com/billing/catalog/products/understand-products).
 // If you have the new [Catalog experience](page:help/announcements/2026-announcements#new-catalog-experience-and-terminology) enabled, taxable components must include a non-blank `tax_code`; sending a blank value results in a validation error.
 func (c *ComponentsController) CreateEventBasedComponent(
     ctx context.Context,
@@ -252,7 +253,7 @@ func (c *ComponentsController) FindComponent(
     return models.NewApiResponse(result, resp), err
 }
 
-// ReadComponent takes context, productFamilyId, componentId as parameters and
+// ReadComponent takes context, productFamilyId, componentId, includeFeatures as parameters and
 // returns an models.ApiResponse with models.ComponentResponse data and
 // an error if there was an issue with the request or response.
 // Returns information regarding a component from a specific product family.
@@ -260,12 +261,16 @@ func (c *ComponentsController) FindComponent(
 func (c *ComponentsController) ReadComponent(
     ctx context.Context,
     productFamilyId int,
-    componentId string) (
+    componentId string,
+    includeFeatures *bool) (
     models.ApiResponse[models.ComponentResponse],
     error) {
     req := c.prepareRequest(ctx, "GET", "/product_families/%v/components/%v.json")
     req.AppendTemplateParams(productFamilyId, componentId)
     req.Authenticate(NewAuth("BasicAuth"))
+    if includeFeatures != nil {
+        req.QueryParam("include_features", *includeFeatures)
+    }
     
     var result models.ComponentResponse
     decoder, resp, err := req.CallAsJson()

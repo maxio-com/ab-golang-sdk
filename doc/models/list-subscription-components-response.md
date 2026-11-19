@@ -26,7 +26,7 @@ func main() {
             models.SubscriptionComponent{
                 Id:                        models.ToPointer(138),
                 Name:                      models.ToPointer("name2"),
-                Kind:                      models.ToPointer(models.ComponentKind_METEREDCOMPONENT),
+                Kind:                      models.ToPointer(models.ComponentKind_EVENTBASEDCOMPONENT),
                 UnitName:                  models.ToPointer("unit_name4"),
                 Enabled:                   models.ToPointer(false),
             },

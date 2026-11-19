@@ -23,11 +23,11 @@ import (
 func main() {
     productResponse := models.ProductResponse{
         Product:              models.Product{
-            Id:                         models.ToPointer(134),
-            Name:                       models.ToPointer("name0"),
-            Handle:                     models.NewOptional(models.ToPointer("handle6")),
-            Description:                models.NewOptional(models.ToPointer("description0")),
-            AccountingCode:             models.NewOptional(models.ToPointer("accounting_code6")),
+            Id:                                    models.ToPointer(134),
+            Name:                                  models.ToPointer("name0"),
+            Handle:                                models.NewOptional(models.ToPointer("handle6")),
+            Description:                           models.NewOptional(models.ToPointer("description0")),
+            AccountingCode:                        models.NewOptional(models.ToPointer("accounting_code6")),
         },
     }
 

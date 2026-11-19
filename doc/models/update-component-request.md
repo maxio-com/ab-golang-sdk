@@ -23,12 +23,12 @@ import (
 func main() {
     updateComponentRequest := models.UpdateComponentRequest{
         Component:            models.UpdateComponent{
-            Handle:               models.ToPointer("handle4"),
-            Name:                 models.ToPointer("name8"),
-            Description:          models.NewOptional(models.ToPointer("description2")),
-            AccountingCode:       models.NewOptional(models.ToPointer("accounting_code4")),
-            Taxable:              models.ToPointer(false),
-            ItemCategory:         models.NewOptional(models.ToPointer(models.ItemCategory_ENUMBUSINESSSOFTWARE)),
+            Handle:                    models.ToPointer("handle4"),
+            Name:                      models.ToPointer("name8"),
+            Description:               models.NewOptional(models.ToPointer("description2")),
+            AccountingCode:            models.NewOptional(models.ToPointer("accounting_code4")),
+            Taxable:                   models.ToPointer(false),
+            ItemCategory:              models.NewOptional(models.ToPointer(models.ItemCategory_ENUMBUSINESSSOFTWARE)),
         },
     }
 

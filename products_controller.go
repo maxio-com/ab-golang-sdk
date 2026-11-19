@@ -29,8 +29,8 @@ func NewProductsController(baseController baseController) *ProductsController {
 // Creates a product in your site.
 // If you have the new [Catalog experience](page:help/announcements/2026-announcements#new-catalog-experience-and-terminology) enabled, the `auto_create_signup_page` parameter is not supported. If `auto_create_signup_page` is included (with any value) an error is returned.
 // For more information, see:
-// + [Products Overview](https://maxio.zendesk.com/hc/en-us/articles/24261090117645-Products-Overview)
-// + [Changing a Subscription's Product](https://maxio.zendesk.com/hc/en-us/articles/24252069837581-Product-Changes-and-Migrations)
+// + [Products Overview](https://docs.maxio.com/billing/catalog/plans/understand-plans)
+// + [Changing a Subscription's Product](https://docs.maxio.com/billing/subscriptions/management/subscription-actions/understand-upgrade-and-downgrade-scenarios)
 func (p *ProductsController) CreateProduct(
     ctx context.Context,
     productFamilyId string,
@@ -58,18 +58,22 @@ func (p *ProductsController) CreateProduct(
     return models.NewApiResponse(result, resp), err
 }
 
-// ReadProduct takes context, productId as parameters and
+// ReadProduct takes context, productId, includeFeatures as parameters and
 // returns an models.ApiResponse with models.ProductResponse data and
 // an error if there was an issue with the request or response.
 // Reads the current details of a product.
 func (p *ProductsController) ReadProduct(
     ctx context.Context,
-    productId int) (
+    productId int,
+    includeFeatures *bool) (
     models.ApiResponse[models.ProductResponse],
     error) {
     req := p.prepareRequest(ctx, "GET", "/products/%v.json")
     req.AppendTemplateParams(productId)
     req.Authenticate(NewAuth("BasicAuth"))
+    if includeFeatures != nil {
+        req.QueryParam("include_features", *includeFeatures)
+    }
     
     var result models.ProductResponse
     decoder, resp, err := req.CallAsJson()
@@ -191,9 +195,11 @@ type ListProductsInput struct {
     IncludeArchived *bool                       
     // Allows including additional data in the response. Use in query `include=prepaid_product_price_point`.
     Include         *models.ListProductsInclude 
+    // When `true`, embeds the active feature catalog items for each result in a `features` array. Default value is `false`. Ignored on sites without Entitlements enabled: no `features` key is returned and no error is raised.
+    IncludeFeatures *bool                       
 }
 
-// ListProducts takes context, dateField, filter, endDate, endDatetime, startDate, startDatetime, page, perPage, includeArchived, include as parameters and
+// ListProducts takes context, dateField, filter, endDate, endDatetime, startDate, startDatetime, page, perPage, includeArchived, include, includeFeatures as parameters and
 // returns an models.ApiResponse with []models.ProductResponse data and
 // an error if there was an issue with the request or response.
 // Lists products belonging to a site.
@@ -234,6 +240,9 @@ func (p *ProductsController) ListProducts(
     }
     if input.Include != nil {
         req.QueryParam("include", *input.Include)
+    }
+    if input.IncludeFeatures != nil {
+        req.QueryParam("include_features", *input.IncludeFeatures)
     }
     var result []models.ProductResponse
     decoder, resp, err := req.CallAsJson()

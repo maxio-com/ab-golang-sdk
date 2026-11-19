@@ -23,11 +23,11 @@ import (
 func main() {
     updateComponentPricePointRequest := models.UpdateComponentPricePointRequest{
         PricePoint:           models.ToPointer(models.UpdateComponentPricePoint{
-            Name:                 models.ToPointer("name0"),
-            Handle:               models.ToPointer("handle6"),
-            PricingScheme:        models.ToPointer(models.PricingScheme_PERUNIT),
-            UseSiteExchangeRate:  models.ToPointer(false),
-            TaxIncluded:          models.ToPointer(false),
+            Name:                   models.ToPointer("name0"),
+            Handle:                 models.ToPointer("handle6"),
+            PricingScheme:          models.ToPointer(models.PricingScheme_PERUNIT),
+            UseSiteExchangeRate:    models.ToPointer(false),
+            TaxIncluded:            models.ToPointer(false),
         }),
     }
 

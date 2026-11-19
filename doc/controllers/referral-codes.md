@@ -13,7 +13,7 @@ referralCodesController := client.ReferralCodesController()
 
 Validates whether a referral code is valid and applicable within your site. This method is useful for validating referral codes that are entered by a customer.
 
-For more information, see [Understanding Referrals](https://docs.maxio.com/hc/en-us/articles/24286981223693-Understanding-Referrals) in the product documentation.
+For more information, see [Understanding Referrals](https://docs.maxio.com/configuration/advanced-billing/understand-referrals) in the product documentation.
 
 ```go
 ValidateReferralCode(

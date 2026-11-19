@@ -13,8 +13,8 @@
 | `SiteId` | `*int` | Optional | ID of the site to which the credit note belongs. |
 | `CustomerId` | `*int` | Optional | ID of the customer to which the credit note belongs. |
 | `SubscriptionId` | `*int` | Optional | ID of the subscription that generated the credit note. |
-| `Number` | `*string` | Optional | A unique, identifying string that appears on the credit note and in places it is referenced.<br><br>While the UID is long and not appropriate to show to customers, the number is usually shorter and consumable by the customer and the merchant alike. |
-| `SequenceNumber` | `*int` | Optional | A monotonically increasing number assigned to credit notes as they are created.  This number is unique within a site and can be used to sort and order credit notes. |
+| `Number` | `models.Optional[string]` | Optional | A unique, identifying string that appears on the credit note and in places it is referenced.<br><br>While the UID is long and not appropriate to show to customers, the number is usually shorter and consumable by the customer and the merchant alike.<br><br>A saved credit note always has a number. The value is `null` only in `refund_invoice` event data when the refund did not create a credit note (`apply_credit` is `false`). |
+| `SequenceNumber` | `models.Optional[int]` | Optional | A monotonically increasing number assigned to credit notes as they are created.  This number is unique within a site and can be used to sort and order credit notes.<br><br>A saved credit note always has a sequence number. The value is `null` only in `refund_invoice` event data when the refund did not create a credit note (`apply_credit` is `false`). |
 | `IssueDate` | `*time.Time` | Optional | Date the credit note was issued to the customer.  This is the date that the credit was made available for application, and may come before it is fully applied.<br><br>The format is `"YYYY-MM-DD"`. |
 | `AppliedDate` | `*time.Time` | Optional | Credit notes are applied to invoices to offset invoiced amounts - they reduce the amount due. This field is the date the credit note became fully applied to invoices.<br><br>If the credit note has been partially applied, this field will not have a value until it has been fully applied.<br><br>The format is `"YYYY-MM-DD"`. |
 | `Status` | [`*models.CreditNoteStatus`](../../doc/models/credit-note-status.md) | Optional | Current status of the credit note. |
@@ -35,7 +35,7 @@
 | `Taxes` | [`[]models.InvoiceTax`](../../doc/models/invoice-tax.md) | Optional | - |
 | `Applications` | [`[]models.CreditNoteApplication`](../../doc/models/credit-note-application.md) | Optional | - |
 | `Refunds` | [`[]models.InvoiceRefund`](../../doc/models/invoice-refund.md) | Optional | - |
-| `OriginInvoices` | [`[]models.OriginInvoice`](../../doc/models/origin-invoice.md) | Optional | An array of origin invoices for the credit note. Learn more about [Origin Invoice from our docs](https://maxio.zendesk.com/hc/en-us/articles/24252261284749-Credit-Notes-Proration#origin-invoices). |
+| `OriginInvoices` | [`[]models.OriginInvoice`](../../doc/models/origin-invoice.md) | Optional | An array of origin invoices for the credit note. Learn more about [Origin Invoice from our docs](https://docs.maxio.com/billing/invoicing/working-with-invoices/how-credit-notes-work#how-origin-invoices-work). |
 
 ## Example
 
@@ -52,7 +52,7 @@ func main() {
         SiteId:               models.ToPointer(20),
         CustomerId:           models.ToPointer(132),
         SubscriptionId:       models.ToPointer(204),
-        Number:               models.ToPointer("number4"),
+        Number:               models.NewOptional(models.ToPointer("number4")),
     }
 
 }

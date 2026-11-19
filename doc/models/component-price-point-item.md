@@ -15,6 +15,7 @@
 | `Interval` | `*int` | Optional | The numerical interval. e.g., an interval of ‘30’ coupled with an interval_unit of day would mean this component price point would renew every 30 days. This property is only available for sites with Multifrequency enabled. |
 | `IntervalUnit` | [`models.Optional[models.IntervalUnit]`](../../doc/models/interval-unit.md) | Optional | A string representing the interval unit for this component price point, either month or day. This property is only available for sites with Multifrequency enabled. |
 | `Prices` | [`[]models.Price`](../../doc/models/price.md) | Optional | - |
+| `SecondaryPricing` | [`*models.SecondaryPricing`](../../doc/models/secondary-pricing.md) | Optional | Hybrid Pricing only. Applies only to price points of Quantity-Based and Metered Components on Sites with Hybrid Pricing enabled; ignored for other component types and on Sites without Hybrid Pricing. Omit it to create a normal, non-hybrid price point. See [Hybrid Pricing](http://localhost:8080/go). |
 
 ## Example
 

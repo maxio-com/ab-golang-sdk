@@ -11,7 +11,7 @@ import (
 type PaidInvoice struct {
     // The uid of the paid invoice
     InvoiceId            *string                `json:"invoice_id,omitempty"`
-    // The current status of the invoice. See [Invoice Statuses](https://maxio.zendesk.com/hc/en-us/articles/24252287829645-Advanced-Billing-Invoices-Overview#invoice-statuses) for more.
+    // The current status of the invoice. See [Invoice Statuses](https://docs.maxio.com/billing/invoicing/overview/understand-how-invoices-are-generated#invoice-statuses) for more.
     Status               *InvoiceStatus         `json:"status,omitempty"`
     // The remaining due amount on the invoice
     DueAmount            *string                `json:"due_amount,omitempty"`

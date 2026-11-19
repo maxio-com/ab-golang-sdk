@@ -26,7 +26,7 @@ func NewComponentPricePointsController(baseController baseController) *Component
 // returns an models.ApiResponse with models.ComponentResponse data and
 // an error if there was an issue with the request or response.
 // Sets a new default price point for the component. This new default will apply to all new subscriptions going forward - existing subscriptions will remain on their current price point.
-// See [Price Points Documentation](https://maxio.zendesk.com/hc/en-us/articles/24261191737101-Price-Points-Components) for more information on price points and moving subscriptions between price points.
+// See [Price Points Documentation](https://docs.maxio.com/billing/catalog/products/set-product-price-points) for more information on price points and moving subscriptions between price points.
 // Note: Custom price points are not able to be set as the default for a component.
 func (c *ComponentPricePointsController) PromoteComponentPricePointToDefault(
     ctx context.Context,

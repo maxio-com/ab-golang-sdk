@@ -23,8 +23,10 @@ type QuantityBasedComponent struct {
     Taxable                   *bool                            `json:"taxable,omitempty"`
     // The identifier for the pricing scheme. See [Product Components](https://help.chargify.com/products/product-components.html) for an overview of pricing schemes.
     PricingScheme             PricingScheme                    `json:"pricing_scheme"`
-    // (Not required for ‘per_unit’ pricing schemes) One or more price brackets. See [Price Bracket Rules](https://maxio.zendesk.com/hc/en-us/articles/24261149166733-Component-Pricing-Schemes#price-bracket-rules) for an overview of how price brackets work for different pricing schemes.
+    // (Not required for ‘per_unit’ pricing schemes) One or more price brackets. See [Price Bracket Rules](https://docs.maxio.com/billing/catalog/products/use-product-pricing-schemes#price-bracket-rules) for an overview of how price brackets work for different pricing schemes.
     Prices                    []Price                          `json:"prices,omitempty"`
+    // Hybrid Pricing only. The secondary pricing model that takes over once usage passes the primary model's included threshold. Applies to Quantity-Based and Metered Components on Sites with Hybrid Pricing enabled; ignored otherwise. Its `prices` brackets start at `1`, not at the primary model's highest `ending_quantity`. See [Hybrid Pricing](page:introduction/basic-concepts/hybrid-pricing).
+    SecondaryPricing          *SecondaryPricing                `json:"secondary_pricing,omitempty"`
     // The type of credit to be created when upgrading/downgrading. Defaults to the component and then site setting if one is not provided.
     UpgradeCharge             Optional[CreditType]             `json:"upgrade_charge"`
     // The type of credit to be created when upgrading/downgrading. Defaults to the component and then site setting if one is not provided.
@@ -53,8 +55,8 @@ type QuantityBasedComponent struct {
 // providing a human-readable string representation useful for logging, debugging or displaying information.
 func (q QuantityBasedComponent) String() string {
     return fmt.Sprintf(
-    	"QuantityBasedComponent[Name=%v, UnitName=%v, Description=%v, Handle=%v, Taxable=%v, PricingScheme=%v, Prices=%v, UpgradeCharge=%v, DowngradeCredit=%v, PricePoints=%v, UnitPrice=%v, TaxCode=%v, HideDateRangeOnInvoice=%v, Recurring=%v, DisplayOnHostedPage=%v, AllowFractionalQuantities=%v, PublicSignupPageIds=%v, Interval=%v, IntervalUnit=%v, UnspscCode=%v, AdditionalProperties=%v]",
-    	q.Name, q.UnitName, q.Description, q.Handle, q.Taxable, q.PricingScheme, q.Prices, q.UpgradeCharge, q.DowngradeCredit, q.PricePoints, q.UnitPrice, q.TaxCode, q.HideDateRangeOnInvoice, q.Recurring, q.DisplayOnHostedPage, q.AllowFractionalQuantities, q.PublicSignupPageIds, q.Interval, q.IntervalUnit, q.UnspscCode, q.AdditionalProperties)
+    	"QuantityBasedComponent[Name=%v, UnitName=%v, Description=%v, Handle=%v, Taxable=%v, PricingScheme=%v, Prices=%v, SecondaryPricing=%v, UpgradeCharge=%v, DowngradeCredit=%v, PricePoints=%v, UnitPrice=%v, TaxCode=%v, HideDateRangeOnInvoice=%v, Recurring=%v, DisplayOnHostedPage=%v, AllowFractionalQuantities=%v, PublicSignupPageIds=%v, Interval=%v, IntervalUnit=%v, UnspscCode=%v, AdditionalProperties=%v]",
+    	q.Name, q.UnitName, q.Description, q.Handle, q.Taxable, q.PricingScheme, q.Prices, q.SecondaryPricing, q.UpgradeCharge, q.DowngradeCredit, q.PricePoints, q.UnitPrice, q.TaxCode, q.HideDateRangeOnInvoice, q.Recurring, q.DisplayOnHostedPage, q.AllowFractionalQuantities, q.PublicSignupPageIds, q.Interval, q.IntervalUnit, q.UnspscCode, q.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for QuantityBasedComponent.
@@ -63,7 +65,7 @@ func (q QuantityBasedComponent) MarshalJSON() (
     []byte,
     error) {
     if err := DetectConflictingProperties(q.AdditionalProperties,
-        "name", "unit_name", "description", "handle", "taxable", "pricing_scheme", "prices", "upgrade_charge", "downgrade_credit", "price_points", "unit_price", "tax_code", "hide_date_range_on_invoice", "recurring", "display_on_hosted_page", "allow_fractional_quantities", "public_signup_page_ids", "interval", "interval_unit", "unspsc_code"); err != nil {
+        "name", "unit_name", "description", "handle", "taxable", "pricing_scheme", "prices", "secondary_pricing", "upgrade_charge", "downgrade_credit", "price_points", "unit_price", "tax_code", "hide_date_range_on_invoice", "recurring", "display_on_hosted_page", "allow_fractional_quantities", "public_signup_page_ids", "interval", "interval_unit", "unspsc_code"); err != nil {
         return []byte{}, err
     }
     return json.Marshal(q.toMap())
@@ -87,6 +89,9 @@ func (q QuantityBasedComponent) toMap() map[string]any {
     structMap["pricing_scheme"] = q.PricingScheme
     if q.Prices != nil {
         structMap["prices"] = q.Prices
+    }
+    if q.SecondaryPricing != nil {
+        structMap["secondary_pricing"] = q.SecondaryPricing.toMap()
     }
     if q.UpgradeCharge.IsValueSet() {
         if q.UpgradeCharge.Value() != nil {
@@ -158,7 +163,7 @@ func (q *QuantityBasedComponent) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "name", "unit_name", "description", "handle", "taxable", "pricing_scheme", "prices", "upgrade_charge", "downgrade_credit", "price_points", "unit_price", "tax_code", "hide_date_range_on_invoice", "recurring", "display_on_hosted_page", "allow_fractional_quantities", "public_signup_page_ids", "interval", "interval_unit", "unspsc_code")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "name", "unit_name", "description", "handle", "taxable", "pricing_scheme", "prices", "secondary_pricing", "upgrade_charge", "downgrade_credit", "price_points", "unit_price", "tax_code", "hide_date_range_on_invoice", "recurring", "display_on_hosted_page", "allow_fractional_quantities", "public_signup_page_ids", "interval", "interval_unit", "unspsc_code")
     if err != nil {
     	return err
     }
@@ -171,6 +176,7 @@ func (q *QuantityBasedComponent) UnmarshalJSON(input []byte) error {
     q.Taxable = temp.Taxable
     q.PricingScheme = *temp.PricingScheme
     q.Prices = temp.Prices
+    q.SecondaryPricing = temp.SecondaryPricing
     q.UpgradeCharge = temp.UpgradeCharge
     q.DowngradeCredit = temp.DowngradeCredit
     q.PricePoints = temp.PricePoints
@@ -196,6 +202,7 @@ type tempQuantityBasedComponent  struct {
     Taxable                   *bool                            `json:"taxable,omitempty"`
     PricingScheme             *PricingScheme                   `json:"pricing_scheme"`
     Prices                    []Price                          `json:"prices,omitempty"`
+    SecondaryPricing          *SecondaryPricing                `json:"secondary_pricing,omitempty"`
     UpgradeCharge             Optional[CreditType]             `json:"upgrade_charge"`
     DowngradeCredit           Optional[CreditType]             `json:"downgrade_credit"`
     PricePoints               []ComponentPricePointItem        `json:"price_points,omitempty"`

@@ -380,6 +380,8 @@ func (p *ProformaInvoicesController) PreviewProformaInvoice(
 // Creates a proforma invoice to preview costs before a subscription's signup. This endpoint is only available for Relationship Invoicing sites and cannot be used to create consolidated proforma invoices or preview prepaid subscriptions. Like other proforma invoices, it can be emailed to the customer, voided, and publicly viewed on the chargifypay domain.
 // Pass a payload that resembles a subscription create or signup preview request. For example, you can specify components, coupons/a referral, offers, custom pricing, and an existing customer or payment profile to populate a shipping or billing address.
 // A product and customer first name, last name, and email are the minimum requirements. We recommend associating the proforma invoice with a customer_id to easily find their proforma invoices, since the subscription_id will always be blank.
+// ## Segment-Level Custom Pricing
+// When a component's `custom_price` includes `segments`, this endpoint validates them with the same rules as [Create Subscription]($e/Subscriptions/createSubscription) and returns the same `422 Unprocessable Entity` errors. No segment rates are persisted. Valid segment rates do not change the totals returned here, because no usage has been recorded for a subscription that is only being signed up.
 func (p *ProformaInvoicesController) CreateSignupProformaInvoice(
     ctx context.Context,
     body *models.CreateSubscriptionRequest) (
@@ -412,6 +414,8 @@ func (p *ProformaInvoicesController) CreateSignupProformaInvoice(
 // Creates a signup preview in the format of a proforma invoice to preview costs before a subscription's signup. This endpoint is only available for Relationship Invoicing sites and cannot be used to create consolidated proforma invoice previews or preview prepaid subscriptions. You have the option of previewing the first renewal's costs as well. The proforma invoice preview will not be persisted.
 // Pass a payload that resembles a subscription create or signup preview request. For example, you can specify components, coupons/a referral, offers, custom pricing, and an existing customer or payment profile to populate a shipping or billing address.
 // A product and customer first name, last name, and email are the minimum requirements.
+// ## Segment-Level Custom Pricing
+// When a component's `custom_price` includes `segments`, this endpoint validates them with the same rules as [Create Subscription]($e/Subscriptions/createSubscription) and returns the same `422 Unprocessable Entity` errors. No segment rates are persisted. Valid segment rates do not change the totals returned here, because no usage has been recorded for a subscription that is only being signed up.
 func (p *ProformaInvoicesController) PreviewSignupProformaInvoice(
     ctx context.Context,
     include *models.CreateSignupProformaPreviewInclude,

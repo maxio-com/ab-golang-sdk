@@ -44,6 +44,10 @@ type CurrencyOveragePrices struct {
     OveragePrices            []ComponentPrice                 `json:"overage_prices,omitempty"`
     // Applicable only to prepaid usage components. Pricing scheme for overage pricing.
     OveragePricingScheme     *PricingScheme                   `json:"overage_pricing_scheme,omitempty"`
+    // Returned only for hybrid price points. An array of secondary price brackets. Hybrid price points never return `overage_prices` or `overage_pricing_scheme`.
+    SecondaryPrices          []ComponentPrice                 `json:"secondary_prices,omitempty"`
+    // Returned only for hybrid price points. Pricing scheme for the secondary pricing model.
+    SecondaryPricingScheme   *PricingScheme                   `json:"secondary_pricing_scheme,omitempty"`
     // Applicable only to prepaid usage components. Boolean which controls whether or not the allocated quantity should be renewed at the beginning of each period.
     RenewPrepaidAllocation   *bool                            `json:"renew_prepaid_allocation,omitempty"`
     // Applicable only to prepaid usage components. Boolean which controls whether or not remaining units should be rolled over to the next period.
@@ -54,6 +58,8 @@ type CurrencyOveragePrices struct {
     ExpirationIntervalUnit   Optional[ExpirationIntervalUnit] `json:"expiration_interval_unit"`
     // Applicable only to prepaid usage components. An array of currency pricing data for overage prices.
     CurrencyOveragePrices    []ComponentCurrencyPrice         `json:"currency_overage_prices,omitempty"`
+    // Returned only for hybrid price points, by List All Component Price Points with `include=currency_secondary_prices` or `include=currency_overage_prices`. An array of currency pricing data for secondary prices.
+    CurrencySecondaryPrices  []ComponentCurrencyPrice         `json:"currency_secondary_prices,omitempty"`
     AdditionalProperties     map[string]interface{}           `json:"_"`
 }
 
@@ -61,8 +67,8 @@ type CurrencyOveragePrices struct {
 // providing a human-readable string representation useful for logging, debugging or displaying information.
 func (c CurrencyOveragePrices) String() string {
     return fmt.Sprintf(
-    	"CurrencyOveragePrices[Id=%v, Type=%v, Default=%v, Name=%v, PricingScheme=%v, ComponentId=%v, Handle=%v, ArchivedAt=%v, CreatedAt=%v, UpdatedAt=%v, Prices=%v, UseSiteExchangeRate=%v, SubscriptionId=%v, TaxIncluded=%v, Interval=%v, IntervalUnit=%v, CurrencyPrices=%v, OveragePrices=%v, OveragePricingScheme=%v, RenewPrepaidAllocation=%v, RolloverPrepaidRemainder=%v, ExpirationInterval=%v, ExpirationIntervalUnit=%v, CurrencyOveragePrices=%v, AdditionalProperties=%v]",
-    	c.Id, c.Type, c.Default, c.Name, c.PricingScheme, c.ComponentId, c.Handle, c.ArchivedAt, c.CreatedAt, c.UpdatedAt, c.Prices, c.UseSiteExchangeRate, c.SubscriptionId, c.TaxIncluded, c.Interval, c.IntervalUnit, c.CurrencyPrices, c.OveragePrices, c.OveragePricingScheme, c.RenewPrepaidAllocation, c.RolloverPrepaidRemainder, c.ExpirationInterval, c.ExpirationIntervalUnit, c.CurrencyOveragePrices, c.AdditionalProperties)
+    	"CurrencyOveragePrices[Id=%v, Type=%v, Default=%v, Name=%v, PricingScheme=%v, ComponentId=%v, Handle=%v, ArchivedAt=%v, CreatedAt=%v, UpdatedAt=%v, Prices=%v, UseSiteExchangeRate=%v, SubscriptionId=%v, TaxIncluded=%v, Interval=%v, IntervalUnit=%v, CurrencyPrices=%v, OveragePrices=%v, OveragePricingScheme=%v, SecondaryPrices=%v, SecondaryPricingScheme=%v, RenewPrepaidAllocation=%v, RolloverPrepaidRemainder=%v, ExpirationInterval=%v, ExpirationIntervalUnit=%v, CurrencyOveragePrices=%v, CurrencySecondaryPrices=%v, AdditionalProperties=%v]",
+    	c.Id, c.Type, c.Default, c.Name, c.PricingScheme, c.ComponentId, c.Handle, c.ArchivedAt, c.CreatedAt, c.UpdatedAt, c.Prices, c.UseSiteExchangeRate, c.SubscriptionId, c.TaxIncluded, c.Interval, c.IntervalUnit, c.CurrencyPrices, c.OveragePrices, c.OveragePricingScheme, c.SecondaryPrices, c.SecondaryPricingScheme, c.RenewPrepaidAllocation, c.RolloverPrepaidRemainder, c.ExpirationInterval, c.ExpirationIntervalUnit, c.CurrencyOveragePrices, c.CurrencySecondaryPrices, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for CurrencyOveragePrices.
@@ -71,7 +77,7 @@ func (c CurrencyOveragePrices) MarshalJSON() (
     []byte,
     error) {
     if err := DetectConflictingProperties(c.AdditionalProperties,
-        "id", "type", "default", "name", "pricing_scheme", "component_id", "handle", "archived_at", "created_at", "updated_at", "prices", "use_site_exchange_rate", "subscription_id", "tax_included", "interval", "interval_unit", "currency_prices", "overage_prices", "overage_pricing_scheme", "renew_prepaid_allocation", "rollover_prepaid_remainder", "expiration_interval", "expiration_interval_unit", "currency_overage_prices"); err != nil {
+        "id", "type", "default", "name", "pricing_scheme", "component_id", "handle", "archived_at", "created_at", "updated_at", "prices", "use_site_exchange_rate", "subscription_id", "tax_included", "interval", "interval_unit", "currency_prices", "overage_prices", "overage_pricing_scheme", "secondary_prices", "secondary_pricing_scheme", "renew_prepaid_allocation", "rollover_prepaid_remainder", "expiration_interval", "expiration_interval_unit", "currency_overage_prices", "currency_secondary_prices"); err != nil {
         return []byte{}, err
     }
     return json.Marshal(c.toMap())
@@ -159,6 +165,12 @@ func (c CurrencyOveragePrices) toMap() map[string]any {
     if c.OveragePricingScheme != nil {
         structMap["overage_pricing_scheme"] = c.OveragePricingScheme
     }
+    if c.SecondaryPrices != nil {
+        structMap["secondary_prices"] = c.SecondaryPrices
+    }
+    if c.SecondaryPricingScheme != nil {
+        structMap["secondary_pricing_scheme"] = c.SecondaryPricingScheme
+    }
     if c.RenewPrepaidAllocation != nil {
         structMap["renew_prepaid_allocation"] = c.RenewPrepaidAllocation
     }
@@ -182,6 +194,9 @@ func (c CurrencyOveragePrices) toMap() map[string]any {
     if c.CurrencyOveragePrices != nil {
         structMap["currency_overage_prices"] = c.CurrencyOveragePrices
     }
+    if c.CurrencySecondaryPrices != nil {
+        structMap["currency_secondary_prices"] = c.CurrencySecondaryPrices
+    }
     return structMap
 }
 
@@ -193,7 +208,7 @@ func (c *CurrencyOveragePrices) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "id", "type", "default", "name", "pricing_scheme", "component_id", "handle", "archived_at", "created_at", "updated_at", "prices", "use_site_exchange_rate", "subscription_id", "tax_included", "interval", "interval_unit", "currency_prices", "overage_prices", "overage_pricing_scheme", "renew_prepaid_allocation", "rollover_prepaid_remainder", "expiration_interval", "expiration_interval_unit", "currency_overage_prices")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "id", "type", "default", "name", "pricing_scheme", "component_id", "handle", "archived_at", "created_at", "updated_at", "prices", "use_site_exchange_rate", "subscription_id", "tax_included", "interval", "interval_unit", "currency_prices", "overage_prices", "overage_pricing_scheme", "secondary_prices", "secondary_pricing_scheme", "renew_prepaid_allocation", "rollover_prepaid_remainder", "expiration_interval", "expiration_interval_unit", "currency_overage_prices", "currency_secondary_prices")
     if err != nil {
     	return err
     }
@@ -237,11 +252,14 @@ func (c *CurrencyOveragePrices) UnmarshalJSON(input []byte) error {
     c.CurrencyPrices = temp.CurrencyPrices
     c.OveragePrices = temp.OveragePrices
     c.OveragePricingScheme = temp.OveragePricingScheme
+    c.SecondaryPrices = temp.SecondaryPrices
+    c.SecondaryPricingScheme = temp.SecondaryPricingScheme
     c.RenewPrepaidAllocation = temp.RenewPrepaidAllocation
     c.RolloverPrepaidRemainder = temp.RolloverPrepaidRemainder
     c.ExpirationInterval = temp.ExpirationInterval
     c.ExpirationIntervalUnit = temp.ExpirationIntervalUnit
     c.CurrencyOveragePrices = temp.CurrencyOveragePrices
+    c.CurrencySecondaryPrices = temp.CurrencySecondaryPrices
     return nil
 }
 
@@ -266,9 +284,12 @@ type tempCurrencyOveragePrices  struct {
     CurrencyPrices           []ComponentCurrencyPrice         `json:"currency_prices,omitempty"`
     OveragePrices            []ComponentPrice                 `json:"overage_prices,omitempty"`
     OveragePricingScheme     *PricingScheme                   `json:"overage_pricing_scheme,omitempty"`
+    SecondaryPrices          []ComponentPrice                 `json:"secondary_prices,omitempty"`
+    SecondaryPricingScheme   *PricingScheme                   `json:"secondary_pricing_scheme,omitempty"`
     RenewPrepaidAllocation   *bool                            `json:"renew_prepaid_allocation,omitempty"`
     RolloverPrepaidRemainder *bool                            `json:"rollover_prepaid_remainder,omitempty"`
     ExpirationInterval       Optional[int]                    `json:"expiration_interval"`
     ExpirationIntervalUnit   Optional[ExpirationIntervalUnit] `json:"expiration_interval_unit"`
     CurrencyOveragePrices    []ComponentCurrencyPrice         `json:"currency_overage_prices,omitempty"`
+    CurrencySecondaryPrices  []ComponentCurrencyPrice         `json:"currency_secondary_prices,omitempty"`
 }

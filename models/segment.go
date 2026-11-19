@@ -24,6 +24,8 @@ type Segment struct {
     CreatedAt                 *time.Time                    `json:"created_at,omitempty"`
     UpdatedAt                 *time.Time                    `json:"updated_at,omitempty"`
     Prices                    []SegmentPrice                `json:"prices,omitempty"`
+    // Prices of the segment in the site's non-primary currencies, one entry for each price and currency. This field is present only when the request includes `currency_prices=true`. If the price point uses the site exchange rate, the prices are calculated from the current rate and each `id` is `null`.
+    CurrencyPrices            []ComponentCurrencyPrice      `json:"currency_prices,omitempty"`
     AdditionalProperties      map[string]interface{}        `json:"_"`
 }
 
@@ -31,8 +33,8 @@ type Segment struct {
 // providing a human-readable string representation useful for logging, debugging or displaying information.
 func (s Segment) String() string {
     return fmt.Sprintf(
-    	"Segment[Id=%v, ComponentId=%v, PricePointId=%v, EventBasedBillingMetricId=%v, PricingScheme=%v, SegmentProperty1Value=%v, SegmentProperty2Value=%v, SegmentProperty3Value=%v, SegmentProperty4Value=%v, CreatedAt=%v, UpdatedAt=%v, Prices=%v, AdditionalProperties=%v]",
-    	s.Id, s.ComponentId, s.PricePointId, s.EventBasedBillingMetricId, s.PricingScheme, s.SegmentProperty1Value, s.SegmentProperty2Value, s.SegmentProperty3Value, s.SegmentProperty4Value, s.CreatedAt, s.UpdatedAt, s.Prices, s.AdditionalProperties)
+    	"Segment[Id=%v, ComponentId=%v, PricePointId=%v, EventBasedBillingMetricId=%v, PricingScheme=%v, SegmentProperty1Value=%v, SegmentProperty2Value=%v, SegmentProperty3Value=%v, SegmentProperty4Value=%v, CreatedAt=%v, UpdatedAt=%v, Prices=%v, CurrencyPrices=%v, AdditionalProperties=%v]",
+    	s.Id, s.ComponentId, s.PricePointId, s.EventBasedBillingMetricId, s.PricingScheme, s.SegmentProperty1Value, s.SegmentProperty2Value, s.SegmentProperty3Value, s.SegmentProperty4Value, s.CreatedAt, s.UpdatedAt, s.Prices, s.CurrencyPrices, s.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for Segment.
@@ -41,7 +43,7 @@ func (s Segment) MarshalJSON() (
     []byte,
     error) {
     if err := DetectConflictingProperties(s.AdditionalProperties,
-        "id", "component_id", "price_point_id", "event_based_billing_metric_id", "pricing_scheme", "segment_property_1_value", "segment_property_2_value", "segment_property_3_value", "segment_property_4_value", "created_at", "updated_at", "prices"); err != nil {
+        "id", "component_id", "price_point_id", "event_based_billing_metric_id", "pricing_scheme", "segment_property_1_value", "segment_property_2_value", "segment_property_3_value", "segment_property_4_value", "created_at", "updated_at", "prices", "currency_prices"); err != nil {
         return []byte{}, err
     }
     return json.Marshal(s.toMap())
@@ -87,6 +89,9 @@ func (s Segment) toMap() map[string]any {
     if s.Prices != nil {
         structMap["prices"] = s.Prices
     }
+    if s.CurrencyPrices != nil {
+        structMap["currency_prices"] = s.CurrencyPrices
+    }
     return structMap
 }
 
@@ -98,7 +103,7 @@ func (s *Segment) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "id", "component_id", "price_point_id", "event_based_billing_metric_id", "pricing_scheme", "segment_property_1_value", "segment_property_2_value", "segment_property_3_value", "segment_property_4_value", "created_at", "updated_at", "prices")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "id", "component_id", "price_point_id", "event_based_billing_metric_id", "pricing_scheme", "segment_property_1_value", "segment_property_2_value", "segment_property_3_value", "segment_property_4_value", "created_at", "updated_at", "prices", "currency_prices")
     if err != nil {
     	return err
     }
@@ -128,6 +133,7 @@ func (s *Segment) UnmarshalJSON(input []byte) error {
         s.UpdatedAt = &UpdatedAtVal
     }
     s.Prices = temp.Prices
+    s.CurrencyPrices = temp.CurrencyPrices
     return nil
 }
 
@@ -145,4 +151,5 @@ type tempSegment  struct {
     CreatedAt                 *string                       `json:"created_at,omitempty"`
     UpdatedAt                 *string                       `json:"updated_at,omitempty"`
     Prices                    []SegmentPrice                `json:"prices,omitempty"`
+    CurrencyPrices            []ComponentCurrencyPrice      `json:"currency_prices,omitempty"`
 }

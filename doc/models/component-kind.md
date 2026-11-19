@@ -16,6 +16,7 @@ A handle for the component type
 | `ONOFFCOMPONENT` |
 | `PREPAIDUSAGECOMPONENT` |
 | `EVENTBASEDCOMPONENT` |
+| `WALLETPRODUCT` |
 
 ## Example
 
@@ -27,7 +28,7 @@ import (
 )
 
 func main() {
-    componentKind := models.ComponentKind_PREPAIDUSAGECOMPONENT
+    componentKind := models.ComponentKind_EVENTBASEDCOMPONENT
 
 }
 ```

@@ -279,6 +279,8 @@ func (s *SubscriptionRenewalsController) CancelScheduledRenewalConfiguration(
 // an error if there was an issue with the request or response.
 // Adds product and component line items to the scheduled renewal.
 // If your site has list vs sales pricing enabled, accepts renewal_configuration_item.custom_price.list_price_point_id, validates and persists it; omitted value follows existing/default behavior; with list vs sales pricing disabled, parameter is ignored (no validation/behavioral impact). This functionality is supported in the API, but is not currently supported in SDKs.
+// ## Segment-Level Custom Pricing
+// This endpoint does not support segment-level custom pricing. A request whose component `custom_price` includes a `segments` key, whatever its value, returns `422 Unprocessable Entity` with a message such as "Segment-level custom pricing is not supported on this endpoint", and nothing is saved. To set segment rates for a subscription, send `custom_price.segments` to [Create Subscription]($e/Subscriptions/createSubscription) or [Update Subscription]($e/Subscriptions/updateSubscription).
 func (s *SubscriptionRenewalsController) CreateScheduledRenewalConfigurationItem(
     ctx context.Context,
     subscriptionId int,
@@ -316,6 +318,8 @@ func (s *SubscriptionRenewalsController) CreateScheduledRenewalConfigurationItem
 // an error if there was an issue with the request or response.
 // Updates an existing configuration item’s pricing and quantity.
 // If you site has list vs sales pricing enabled, accepts renewal_configuration_item.custom_price.list_price_point_id, validates and persists it; omitted value follows existing/default behavior; with list vs sales pricing disabled, parameter is ignored (no validation/behavioral impact). This functionality is supported in the API, but is not currently supported in SDKs.
+// ## Segment-Level Custom Pricing
+// This endpoint does not support segment-level custom pricing. A request whose component `custom_price` includes a `segments` key, whatever its value, returns `422 Unprocessable Entity` with a message such as "Segment-level custom pricing is not supported on this endpoint", and nothing is saved. To set segment rates for a subscription, send `custom_price.segments` to [Create Subscription]($e/Subscriptions/createSubscription) or [Update Subscription]($e/Subscriptions/updateSubscription).
 func (s *SubscriptionRenewalsController) UpdateScheduledRenewalConfigurationItem(
     ctx context.Context,
     subscriptionId int,

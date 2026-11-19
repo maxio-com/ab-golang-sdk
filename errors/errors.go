@@ -199,7 +199,7 @@ func (e ErrorStringMapResponse) String() string {
 // EventBasedBillingListSegmentsErrors is a custom error.
 type EventBasedBillingListSegmentsErrors struct {
     https.ApiError
-    Errors         *models.Errors `json:"errors,omitempty"`
+    Errors         *models.Errors1 `json:"errors,omitempty"`
 }
 
 // NewEventBasedBillingListSegmentsErrors is a constructor for EventBasedBillingListSegmentsErrors.
@@ -227,65 +227,35 @@ func (e EventBasedBillingListSegmentsErrors) String() string {
     	prefixTrimmed, e.Errors)
 }
 
-// EventBasedBillingSegment is a custom error.
-type EventBasedBillingSegment struct {
+// EventBasedBillingSegmentWriteErrorResponse is a custom error.
+// Errors returned when creating or updating a single segment. Validation problems use the per-field error map; a write to a subscription's custom price point returns a `price_point` error.
+type EventBasedBillingSegmentWriteErrorResponse struct {
     https.ApiError
-    Errors         models.EventBasedBillingSegmentError `json:"errors"`
+    Errors         *models.EventBasedBillingSegmentSingleError `json:"errors,omitempty"`
 }
 
-// NewEventBasedBillingSegment is a constructor for EventBasedBillingSegment.
-// It creates and returns a pointer to a new EventBasedBillingSegment instance with the given statusCode and body.
-func NewEventBasedBillingSegment(apiError https.ApiError) error {
-    return &EventBasedBillingSegment{
+// NewEventBasedBillingSegmentWriteErrorResponse is a constructor for EventBasedBillingSegmentWriteErrorResponse.
+// It creates and returns a pointer to a new EventBasedBillingSegmentWriteErrorResponse instance with the given statusCode and body.
+func NewEventBasedBillingSegmentWriteErrorResponse(apiError https.ApiError) error {
+    return &EventBasedBillingSegmentWriteErrorResponse{
 		ApiError: apiError,
     }
 }
 
 // Error implements the Error method for the error interface.
-// It returns a formatted error message for EventBasedBillingSegment.
-func (e EventBasedBillingSegment) Error() string {
-    return fmt.Sprintf("EventBasedBillingSegment occured: %v", e.Message)
+// It returns a formatted error message for EventBasedBillingSegmentWriteErrorResponse.
+func (e EventBasedBillingSegmentWriteErrorResponse) Error() string {
+    return fmt.Sprintf("EventBasedBillingSegmentWriteErrorResponse occured: %v", e.Message)
 }
 
-// String implements the fmt.Stringer interface for EventBasedBillingSegment,
+// String implements the fmt.Stringer interface for EventBasedBillingSegmentWriteErrorResponse,
 // providing a human-readable string representation useful for logging, debugging or displaying information.
-func (e EventBasedBillingSegment) String() string {
+func (e EventBasedBillingSegmentWriteErrorResponse) String() string {
     suffixTrimmed := strings.TrimSuffix(e.ApiError.String(), "]")
     prefixTrimmed := strings.TrimPrefix(suffixTrimmed, "ApiError[")
     
     return fmt.Sprintf(
-    	"EventBasedBillingSegment[%v, Errors=%v]",
-    	prefixTrimmed, e.Errors)
-}
-
-// EventBasedBillingSegmentErrors is a custom error.
-type EventBasedBillingSegmentErrors struct {
-    https.ApiError
-    Errors         map[string]interface{} `json:"errors,omitempty"`
-}
-
-// NewEventBasedBillingSegmentErrors is a constructor for EventBasedBillingSegmentErrors.
-// It creates and returns a pointer to a new EventBasedBillingSegmentErrors instance with the given statusCode and body.
-func NewEventBasedBillingSegmentErrors(apiError https.ApiError) error {
-    return &EventBasedBillingSegmentErrors{
-		ApiError: apiError,
-    }
-}
-
-// Error implements the Error method for the error interface.
-// It returns a formatted error message for EventBasedBillingSegmentErrors.
-func (e EventBasedBillingSegmentErrors) Error() string {
-    return fmt.Sprintf("EventBasedBillingSegmentErrors occured: %v", e.Message)
-}
-
-// String implements the fmt.Stringer interface for EventBasedBillingSegmentErrors,
-// providing a human-readable string representation useful for logging, debugging or displaying information.
-func (e EventBasedBillingSegmentErrors) String() string {
-    suffixTrimmed := strings.TrimSuffix(e.ApiError.String(), "]")
-    prefixTrimmed := strings.TrimPrefix(suffixTrimmed, "ApiError[")
-    
-    return fmt.Sprintf(
-    	"EventBasedBillingSegmentErrors[%v, Errors=%v]",
+    	"EventBasedBillingSegmentWriteErrorResponse[%v, Errors=%v]",
     	prefixTrimmed, e.Errors)
 }
 
@@ -381,6 +351,38 @@ func (r RefundPrepaymentBaseErrorsResponse) String() string {
     return fmt.Sprintf(
     	"RefundPrepaymentBaseErrorsResponse[%v, Errors=%v]",
     	prefixTrimmed, r.Errors)
+}
+
+// SegmentPricePointErrorsError is a custom error.
+// Returned when a segment write targets a subscription's custom price point. Segments on a custom price point can only be set through `custom_price` on the subscription or component endpoints.
+type SegmentPricePointErrorsError struct {
+    https.ApiError
+    Errors         models.Errors `json:"errors"`
+}
+
+// NewSegmentPricePointErrorsError is a constructor for SegmentPricePointErrorsError.
+// It creates and returns a pointer to a new SegmentPricePointErrorsError instance with the given statusCode and body.
+func NewSegmentPricePointErrorsError(apiError https.ApiError) error {
+    return &SegmentPricePointErrorsError{
+		ApiError: apiError,
+    }
+}
+
+// Error implements the Error method for the error interface.
+// It returns a formatted error message for SegmentPricePointErrorsError.
+func (s SegmentPricePointErrorsError) Error() string {
+    return fmt.Sprintf("SegmentPricePointErrorsError occured: %v", s.Message)
+}
+
+// String implements the fmt.Stringer interface for SegmentPricePointErrorsError,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (s SegmentPricePointErrorsError) String() string {
+    suffixTrimmed := strings.TrimSuffix(s.ApiError.String(), "]")
+    prefixTrimmed := strings.TrimPrefix(suffixTrimmed, "ApiError[")
+    
+    return fmt.Sprintf(
+    	"SegmentPricePointErrorsError[%v, Errors=%v]",
+    	prefixTrimmed, s.Errors)
 }
 
 // SingleErrorResponse is a custom error.
@@ -725,4 +727,39 @@ func (t TooManyManagementLinkRequestsError) String() string {
     return fmt.Sprintf(
     	"TooManyManagementLinkRequestsError[%v, Errors=%v]",
     	prefixTrimmed, t.Errors)
+}
+
+// WalletErrorResponse is a custom error.
+// The JSON error body returned by every wallet, transaction, adjustment, purchase, and Wallet Product endpoint for `400`, `404`, `409`, `422`, `500`, and `503` responses. A `403` is not JSON; it is the plain text `403 Forbidden`.
+type WalletErrorResponse struct {
+    https.ApiError
+    Errors         []string `json:"errors"`
+    Code           string   `json:"code"`
+    InvoiceUid     *string  `json:"invoice_uid,omitempty"`
+    InvoiceNumber  *string  `json:"invoice_number,omitempty"`
+}
+
+// NewWalletErrorResponse is a constructor for WalletErrorResponse.
+// It creates and returns a pointer to a new WalletErrorResponse instance with the given statusCode and body.
+func NewWalletErrorResponse(apiError https.ApiError) error {
+    return &WalletErrorResponse{
+		ApiError: apiError,
+    }
+}
+
+// Error implements the Error method for the error interface.
+// It returns a formatted error message for WalletErrorResponse.
+func (w WalletErrorResponse) Error() string {
+    return fmt.Sprintf("WalletErrorResponse occured: %v", w.Message)
+}
+
+// String implements the fmt.Stringer interface for WalletErrorResponse,
+// providing a human-readable string representation useful for logging, debugging or displaying information.
+func (w WalletErrorResponse) String() string {
+    suffixTrimmed := strings.TrimSuffix(w.ApiError.String(), "]")
+    prefixTrimmed := strings.TrimPrefix(suffixTrimmed, "ApiError[")
+    
+    return fmt.Sprintf(
+    	"WalletErrorResponse[%v, Errors=%v, Code=%v, InvoiceUid=%v, InvoiceNumber=%v]",
+    	prefixTrimmed, w.Errors, w.Code, w.InvoiceUid, w.InvoiceNumber)
 }

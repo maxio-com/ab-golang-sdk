@@ -24,7 +24,7 @@ func main() {
     bulkComponentsPricePointAssignment := models.BulkComponentsPricePointAssignment{
         Components:           []models.ComponentPricePointAssignment{
             models.ComponentPricePointAssignment{
-                ComponentId:          models.ToPointer(108),
+                ComponentId:          models.ToPointer(models.ComponentPricePointAssignmentComponentIdContainer.FromNumber(30)),
                 PricePoint:           models.ToPointer(models.ComponentPricePointAssignmentPricePointContainer.FromString("String5")),
             },
         },
