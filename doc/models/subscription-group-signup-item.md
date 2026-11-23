@@ -15,6 +15,8 @@
 | `ProductPricePointHandle` | `*string` | Optional | The user-friendly API handle of a product's particular price point. |
 | `OfferId` | `*int` | Optional | Use in place of passing product and component information to set up the subscription with an existing offer. May be either the Chargify ID of the offer or its handle prefixed with `handle:`. |
 | `Reference` | `*string` | Optional | The reference value (provided by your app) for the subscription itself. |
+| `CustomerId` | `*int` | Optional | (Optional) The ID of the customer the subscription belongs to. The customer must be the payer or a customer below the payer in the customer hierarchy. If you omit both `customer_id` and `customer_reference`, the subscription belongs to the payer. |
+| `CustomerReference` | `*string` | Optional | (Optional) The reference of the customer the subscription belongs to, matched case-insensitively. Use in place of `customer_id`. If you pass both, `customer_id` is used. |
 | `Primary` | `*bool` | Optional | One of the subscriptions must be marked as primary in the group. |
 | `Currency` | `*string` | Optional | (Optional) If Multi-Currency is enabled and the currency is configured in Chargify, pass it at signup to create a subscription on a non-default currency. Note that you cannot update the currency of an existing subscription. |
 | `CouponCodes` | `[]string` | Optional | An array for all the coupons attached to the subscription. |

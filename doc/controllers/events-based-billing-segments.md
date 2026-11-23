@@ -24,6 +24,10 @@ Creates a new segment for a component with a segmented metric. It allows you to 
 
 You may specify component and/or price point by using either the numeric ID or the `handle:gold` syntax.
 
+## Custom Price Points
+
+This endpoint changes segments on catalog price points only. If the price point is a subscription's custom price point, the request returns `422 Unprocessable Entity` with a `price_point` error such as "Segments on a subscription's custom price point can't be changed here. Set them with custom_price on the subscription or component endpoints.", and nothing is saved. To change a subscription's segment rates, send `custom_price.segments` to [Update Subscription](../../doc/controllers/subscriptions.md#update-subscription).
+
 ```go
 CreateSegment(
     ctx context.Context,
@@ -83,8 +87,8 @@ body := models.CreateSegmentRequest{
 apiResponse, err := eventsBasedBillingSegmentsController.CreateSegment(ctx, componentId, pricePointId, &body)
 if err != nil {
     switch typedErr := err.(type) {
-        case *errors.EventBasedBillingSegmentErrors:
-            log.Fatalln("EventBasedBillingSegmentErrorsException: ", typedErr)
+        case *errors.EventBasedBillingSegmentWriteErrorResponse:
+            log.Fatalln("EventBasedBillingSegmentWriteErrorResponseException: ", typedErr)
         default:
             log.Fatalln(err)
     }
@@ -100,7 +104,7 @@ if err != nil {
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
 | 404 | Not Found | `ApiError` |
-| 422 | Unprocessable Entity (WebDAV) | [`EventBasedBillingSegmentErrorsException`](../../doc/models/event-based-billing-segment-errors-exception.md) |
+| 422 | Unprocessable Entity (WebDAV) | [`EventBasedBillingSegmentWriteErrorResponseException`](../../doc/models/event-based-billing-segment-write-error-response-exception.md) |
 
 
 # List Segments for Price Point
@@ -110,6 +114,10 @@ Lists segments created for a given price point, in order of creation.
 You can pass `page` and `per_page` parameters in order to access all of the segments. By default it will return `30` records. You can set `per_page` to `200` at most.
 
 You may specify component and/or price point by using either the numeric ID or the `handle:gold` syntax.
+
+## Subscription Segment Rates
+
+This endpoint also returns the segments of a subscription's custom price point, including segment rates set through `custom_price.segments` on [Create Subscription](../../doc/controllers/subscriptions.md#create-subscription) or [Update Subscription](../../doc/controllers/subscriptions.md#update-subscription). Use the subscription component's `price_point_id`, available from [Read Subscription Component](../../doc/controllers/subscription-components.md#read-subscription-component).
 
 ```go
 ListSegmentsForPricePoint(
@@ -141,13 +149,14 @@ This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The 
 ctx := context.Background()
 
 collectedInput := advancedbilling.ListSegmentsForPricePointInput{
-    ComponentId:  "component_id8",
-    PricePointId: "price_point_id8",
-    Page:         models.ToPointer(1),
-    PerPage:      models.ToPointer(50),
-    Filter:       models.ToPointer(models.ListSegmentsFilter{
+    ComponentId:    "component_id8",
+    PricePointId:   "price_point_id8",
+    Page:           models.ToPointer(1),
+    PerPage:        models.ToPointer(50),
+    Filter:         models.ToPointer(models.ListSegmentsFilter{
         SegmentProperty1Value: models.ToPointer("EU"),
     }),
+    CurrencyPrices: models.ToPointer(true),
 }
 
 apiResponse, err := eventsBasedBillingSegmentsController.ListSegmentsForPricePoint(ctx, collectedInput)
@@ -178,6 +187,10 @@ if err != nil {
 Updates a single segment for a component with a segmented metric. You can also update the pricing for the segment.
 
 You can specify component and/or price point by using either the numeric ID or the `handle:gold` syntax.
+
+## Custom Price Points
+
+This endpoint changes segments on catalog price points only. If the segment belongs to a subscription's custom price point, or the `price_point_id` in the URL names one, the request returns `422 Unprocessable Entity` with a `price_point` error such as "Segments on a subscription's custom price point can't be changed here. Set them with custom_price on the subscription or component endpoints.", and nothing is saved. To change a subscription's segment rates, send `custom_price.segments` to [Update Subscription](../../doc/controllers/subscriptions.md#update-subscription).
 
 ```go
 UpdateSegment(
@@ -223,8 +236,8 @@ id := float64(60)
 apiResponse, err := eventsBasedBillingSegmentsController.UpdateSegment(ctx, componentId, pricePointId, id, nil)
 if err != nil {
     switch typedErr := err.(type) {
-        case *errors.EventBasedBillingSegmentErrors:
-            log.Fatalln("EventBasedBillingSegmentErrorsException: ", typedErr)
+        case *errors.EventBasedBillingSegmentWriteErrorResponse:
+            log.Fatalln("EventBasedBillingSegmentWriteErrorResponseException: ", typedErr)
         default:
             log.Fatalln(err)
     }
@@ -240,7 +253,7 @@ if err != nil {
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
 | 404 | Not Found | `ApiError` |
-| 422 | Unprocessable Entity (WebDAV) | [`EventBasedBillingSegmentErrorsException`](../../doc/models/event-based-billing-segment-errors-exception.md) |
+| 422 | Unprocessable Entity (WebDAV) | [`EventBasedBillingSegmentWriteErrorResponseException`](../../doc/models/event-based-billing-segment-write-error-response-exception.md) |
 
 
 # Delete Segment
@@ -248,6 +261,10 @@ if err != nil {
 Deletes a segment with the specified ID.
 
 You may specify component and/or price point by using either the numeric ID or the `handle:gold` syntax.
+
+## Custom Price Points
+
+This endpoint changes segments on catalog price points only. If the segment belongs to a subscription's custom price point, the request returns `422 Unprocessable Entity` with a `price_point` error such as "Segments on a subscription's custom price point can't be changed here. Set them with custom_price on the subscription or component endpoints.", and nothing is saved. The check uses the segment's own price point, whichever `price_point_id` the URL names. To change a subscription's segment rates, send `custom_price.segments` to [Update Subscription](../../doc/controllers/subscriptions.md#update-subscription).
 
 ```go
 DeleteSegment(
@@ -290,7 +307,12 @@ id := float64(60)
 
 resp, err := eventsBasedBillingSegmentsController.DeleteSegment(ctx, componentId, pricePointId, id)
 if err != nil {
-    log.Fatalln(err)
+    switch typedErr := err.(type) {
+        case *errors.SegmentPricePointErrors:
+            log.Fatalln("SegmentPricePointErrorsException: ", typedErr)
+        default:
+            log.Fatalln(err)
+    }
 } else {
     fmt.Println(resp.StatusCode)
 }
@@ -301,7 +323,7 @@ if err != nil {
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
 | 404 | Not Found | `ApiError` |
-| 422 | Unprocessable Entity (WebDAV) | `ApiError` |
+| 422 | Unprocessable Entity (WebDAV) | [`SegmentPricePointErrorsException`](../../doc/models/segment-price-point-errors-exception.md) |
 
 
 # Bulk Create Segments
@@ -311,6 +333,10 @@ Creates multiple segments in one request. The array of segments can contain up t
 If any of the records contain an error the whole request would fail and none of the requested segments get created. The error response contains a message for only the one segment that failed validation, with the corresponding index in the array.
 
 You may specify component and/or price point by using either the numeric ID or the `handle:gold` syntax.
+
+## Custom Price Points
+
+This endpoint changes segments on catalog price points only. If the price point is a subscription's custom price point, the request returns `422 Unprocessable Entity` with a `price_point` error such as "Segments on a subscription's custom price point can't be changed here. Set them with custom_price on the subscription or component endpoints.", and nothing is saved. To change a subscription's segment rates, send `custom_price.segments` to [Update Subscription](../../doc/controllers/subscriptions.md#update-subscription).
 
 ```go
 BulkCreateSegments(
@@ -351,12 +377,7 @@ pricePointId := "price_point_id8"
 
 apiResponse, err := eventsBasedBillingSegmentsController.BulkCreateSegments(ctx, componentId, pricePointId, nil)
 if err != nil {
-    switch typedErr := err.(type) {
-        case *errors.EventBasedBillingSegment:
-            log.Fatalln("EventBasedBillingSegmentException: ", typedErr)
-        default:
-            log.Fatalln(err)
-    }
+    log.Fatalln(err)
 } else {
     // Printing the result and response
     fmt.Println(apiResponse.Data)
@@ -369,7 +390,7 @@ if err != nil {
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
 | 404 | Not Found | `ApiError` |
-| 422 | Unprocessable Entity (WebDAV) | [`EventBasedBillingSegmentException`](../../doc/models/event-based-billing-segment-exception.md) |
+| 422 | Unprocessable Entity (WebDAV) | `ApiError` |
 
 
 # Bulk Update Segments
@@ -379,6 +400,10 @@ Updates multiple segments in one request. The array of segments can contain up t
 If any of the records contain an error the whole request would fail and none of the requested segments get updated. The error response contains a message for only the one segment that failed validation, with the corresponding index in the array.
 
 You may specify component and/or price point by using either the numeric ID or the `handle:gold` syntax.
+
+## Custom Price Points
+
+This endpoint changes segments on catalog price points only. If the price point is a subscription's custom price point, the request returns `422 Unprocessable Entity` with a `price_point` error such as "Segments on a subscription's custom price point can't be changed here. Set them with custom_price on the subscription or component endpoints.", and nothing is saved. To change a subscription's segment rates, send `custom_price.segments` to [Update Subscription](../../doc/controllers/subscriptions.md#update-subscription).
 
 ```go
 BulkUpdateSegments(
@@ -419,12 +444,7 @@ pricePointId := "price_point_id8"
 
 apiResponse, err := eventsBasedBillingSegmentsController.BulkUpdateSegments(ctx, componentId, pricePointId, nil)
 if err != nil {
-    switch typedErr := err.(type) {
-        case *errors.EventBasedBillingSegment:
-            log.Fatalln("EventBasedBillingSegmentException: ", typedErr)
-        default:
-            log.Fatalln(err)
-    }
+    log.Fatalln(err)
 } else {
     // Printing the result and response
     fmt.Println(apiResponse.Data)
@@ -437,5 +457,5 @@ if err != nil {
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
 | 404 | Not Found | `ApiError` |
-| 422 | Unprocessable Entity (WebDAV) | [`EventBasedBillingSegmentException`](../../doc/models/event-based-billing-segment-exception.md) |
+| 422 | Unprocessable Entity (WebDAV) | `ApiError` |
 

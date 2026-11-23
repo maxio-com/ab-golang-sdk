@@ -21,9 +21,11 @@ type CreditNote struct {
     SubscriptionId       *int                    `json:"subscription_id,omitempty"`
     // A unique, identifying string that appears on the credit note and in places it is referenced.
     // While the UID is long and not appropriate to show to customers, the number is usually shorter and consumable by the customer and the merchant alike.
-    Number               *string                 `json:"number,omitempty"`
+    // A saved credit note always has a number. The value is `null` only in `refund_invoice` event data when the refund did not create a credit note (`apply_credit` is `false`).
+    Number               Optional[string]        `json:"number"`
     // A monotonically increasing number assigned to credit notes as they are created.  This number is unique within a site and can be used to sort and order credit notes.
-    SequenceNumber       *int                    `json:"sequence_number,omitempty"`
+    // A saved credit note always has a sequence number. The value is `null` only in `refund_invoice` event data when the refund did not create a credit note (`apply_credit` is `false`).
+    SequenceNumber       Optional[int]           `json:"sequence_number"`
     // Date the credit note was issued to the customer.  This is the date that the credit was made available for application, and may come before it is fully applied.
     // The format is `"YYYY-MM-DD"`.
     IssueDate            *time.Time              `json:"issue_date,omitempty"`
@@ -63,7 +65,7 @@ type CreditNote struct {
     Taxes                []InvoiceTax            `json:"taxes,omitempty"`
     Applications         []CreditNoteApplication `json:"applications,omitempty"`
     Refunds              []InvoiceRefund         `json:"refunds,omitempty"`
-    // An array of origin invoices for the credit note. Learn more about [Origin Invoice from our docs](https://maxio.zendesk.com/hc/en-us/articles/24252261284749-Credit-Notes-Proration#origin-invoices).
+    // An array of origin invoices for the credit note. Learn more about [Origin Invoice from our docs](https://docs.maxio.com/billing/invoicing/working-with-invoices/how-credit-notes-work#how-origin-invoices-work).
     OriginInvoices       []OriginInvoice         `json:"origin_invoices,omitempty"`
     AdditionalProperties map[string]interface{}  `json:"_"`
 }
@@ -104,11 +106,19 @@ func (c CreditNote) toMap() map[string]any {
     if c.SubscriptionId != nil {
         structMap["subscription_id"] = c.SubscriptionId
     }
-    if c.Number != nil {
-        structMap["number"] = c.Number
+    if c.Number.IsValueSet() {
+        if c.Number.Value() != nil {
+            structMap["number"] = c.Number.Value()
+        } else {
+            structMap["number"] = nil
+        }
     }
-    if c.SequenceNumber != nil {
-        structMap["sequence_number"] = c.SequenceNumber
+    if c.SequenceNumber.IsValueSet() {
+        if c.SequenceNumber.Value() != nil {
+            structMap["sequence_number"] = c.SequenceNumber.Value()
+        } else {
+            structMap["sequence_number"] = nil
+        }
     }
     if c.IssueDate != nil {
         structMap["issue_date"] = c.IssueDate.Format(DEFAULT_DATE)
@@ -238,8 +248,8 @@ type tempCreditNote  struct {
     SiteId          *int                    `json:"site_id,omitempty"`
     CustomerId      *int                    `json:"customer_id,omitempty"`
     SubscriptionId  *int                    `json:"subscription_id,omitempty"`
-    Number          *string                 `json:"number,omitempty"`
-    SequenceNumber  *int                    `json:"sequence_number,omitempty"`
+    Number          Optional[string]        `json:"number"`
+    SequenceNumber  Optional[int]           `json:"sequence_number"`
     IssueDate       *string                 `json:"issue_date,omitempty"`
     AppliedDate     *string                 `json:"applied_date,omitempty"`
     Status          *CreditNoteStatus       `json:"status,omitempty"`

@@ -1,0 +1,76 @@
+
+# Wallet Product List Item
+
+A Wallet Product as it appears in [List Wallet Products](../../doc/controllers/wallet-products.md#list-wallet-products): the full Component field set, plus a usage count and a price point summary that only the list response reports.
+
+## Structure
+
+`WalletProductListItem`
+
+## Fields
+
+| Name | Type | Tags | Description |
+|  --- | --- | --- | --- |
+| `Id` | `*int` | Optional | The unique ID assigned to the component by Chargify. This ID can be used to fetch the component from the API. |
+| `Name` | `*string` | Optional | The name of the Component, suitable for display on statements. e.g., Text Messages. |
+| `Handle` | `models.Optional[string]` | Optional | The component API handle |
+| `PricingScheme` | [`models.Optional[models.PricingScheme]`](../../doc/models/pricing-scheme.md) | Optional | - |
+| `UnitName` | `*string` | Optional | The name of the unit that the component’s usage is measured in. e.g., message |
+| `UnitPrice` | `models.Optional[string]` | Optional | The amount the customer will be charged per unit. This field is only populated for ‘per_unit’ pricing schemes, otherwise it may be null. |
+| `ProductFamilyId` | `models.Optional[int]` | Optional | The id of the Product Family to which the Component belongs. `null` for a Wallet Product, which has no Product Family. |
+| `ProductFamilyName` | `models.Optional[string]` | Optional | The name of the Product Family to which the Component belongs. `null` for a Wallet Product, which has no Product Family. |
+| `ProductFamilyHandle` | `models.Optional[string]` | Optional | The handle of the Product Family to which the Component belongs. `null` for a Wallet Product, which has no Product Family. |
+| `PricePerUnitInCents` | `models.Optional[int64]` | Optional | deprecated - use unit_price instead. |
+| `Kind` | [`*models.ComponentKind`](../../doc/models/component-kind.md) | Optional | A handle for the component type |
+| `Archived` | `*bool` | Optional | Boolean flag describing whether a component is archived or not. |
+| `Description` | `models.Optional[string]` | Optional | The description of the component. |
+| `DefaultPricePointId` | `models.Optional[int]` | Optional | - |
+| `OveragePrices` | [`models.Optional[[]models.ComponentPrice]`](../../doc/models/component-price.md) | Optional | Applicable only to prepaid usage components. An array of overage price brackets. |
+| `Prices` | [`models.Optional[[]models.ComponentPrice]`](../../doc/models/component-price.md) | Optional | An array of price brackets. If the component uses the ‘per_unit’ pricing scheme, this array will be empty. |
+| `PricePointCount` | `*int` | Optional | Count for the number of price points associated with the component |
+| `PricePointsUrl` | `models.Optional[string]` | Optional | URL that points to the location to read the existing price points via GET request |
+| `DefaultPricePointName` | `*string` | Optional | - |
+| `Taxable` | `*bool` | Optional | Boolean flag describing whether a component is taxable or not. |
+| `TaxCode` | `models.Optional[string]` | Optional | A string representing the tax code related to the component type. This is especially important when using AvaTax to tax based on locale. This attribute has a max length of 25 characters. |
+| `Recurring` | `*bool` | Optional | - |
+| `UpgradeCharge` | [`models.Optional[models.CreditType]`](../../doc/models/credit-type.md) | Optional | The type of credit to be created when upgrading/downgrading. Defaults to the component and then site setting if one is not provided. |
+| `DowngradeCredit` | [`models.Optional[models.CreditType]`](../../doc/models/credit-type.md) | Optional | The type of credit to be created when upgrading/downgrading. Defaults to the component and then site setting if one is not provided. |
+| `CreatedAt` | `*time.Time` | Optional | Timestamp indicating when this component was created |
+| `UpdatedAt` | `*time.Time` | Optional | Timestamp indicating when this component was updated |
+| `ArchivedAt` | `models.Optional[time.Time]` | Optional | Timestamp indicating when this component was archived |
+| `HideDateRangeOnInvoice` | `*bool` | Optional | (Only available on Relationship Invoicing sites) Boolean flag describing if the service date range should show for the component on generated invoices. |
+| `AllowFractionalQuantities` | `*bool` | Optional | - |
+| `ItemCategory` | [`models.Optional[models.ItemCategory]`](../../doc/models/item-category.md) | Optional | One of the following: Business Software, Consumer Software, Digital Services, Physical Goods, Other |
+| `UseSiteExchangeRate` | `models.Optional[bool]` | Optional | - |
+| `AccountingCode` | `models.Optional[string]` | Optional | E.g. Internal ID or SKU Number |
+| `EventBasedBillingMetricId` | `*int` | Optional | The ID of an attached metric from legacy Events Based Billing. Omitted if no metric is attached. If the metric is linked to a Maxio Metering meter, the response can include both event_based_billing_metric_id and metering_meter_id. |
+| `MeteringMeterId` | `*int` | Optional | The ID of an attached single Maxio Metering meter. Omitted if no single meter is attached, including when the component uses only an Advanced Formula. If a legacy Events Based Billing metric is linked to the meter, the response can include both metering_meter_id and event_based_billing_metric_id. |
+| `Interval` | `*int` | Optional | The numerical interval. e.g., an interval of ‘30’ coupled with an interval_unit of day would mean this component’s default price point would renew every 30 days. This property is only available for sites with Multifrequency enabled. |
+| `IntervalUnit` | [`models.Optional[models.IntervalUnit]`](../../doc/models/interval-unit.md) | Optional | A string representing the interval unit for this component's default price point, either month or day. This property is only available for sites with Multifrequency enabled. |
+| `UnspscCode` | `models.Optional[string]` | Optional | (Optional) Custom UNSPSC commodity code for Level 3/CEDP payment data. When set, this value is sent as the commodity code on invoice line items for this component instead of the default derived from item_category. |
+| `Features` | [`models.Optional[[]models.FeatureCatalogItem]`](../../doc/models/feature-catalog-item.md) | Optional | The active feature catalog items attached to this component. Present only when the request includes `include_features=true`. |
+| `UsedBy` | [`*models.WalletProductUsageCount`](../../doc/models/wallet-product-usage-count.md) | Optional | A rollup of what's using this Wallet Product, for the catalog listing. |
+| `PricePointSummary` | [`*models.WalletProductPricePointSummary`](../../doc/models/wallet-product-price-point-summary.md) | Optional | A summary of the Wallet Product's default price point, for rendering a catalog listing without a separate price points call. |
+
+## Example
+
+```go
+package main
+
+import (
+    "github.com/maxio-com/ab-golang-sdk/models"
+)
+
+func main() {
+    walletProductListItem := models.WalletProductListItem{
+        Id:                        models.ToPointer(146),
+        Name:                      models.ToPointer("name2"),
+        Handle:                    models.NewOptional(models.ToPointer("handle8")),
+        PricingScheme:             models.NewOptional(models.ToPointer(models.PricingScheme_STAIRSTEP)),
+        UnitName:                  models.ToPointer("unit_name4"),
+        ItemCategory:              models.NewOptional(models.ToPointer(models.ItemCategory_ENUMBUSINESSSOFTWARE)),
+    }
+
+}
+```
+

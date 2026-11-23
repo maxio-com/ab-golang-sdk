@@ -52,17 +52,21 @@ The gateway for the SDK. This class acts as a factory for the Controllers and al
 | AdvanceInvoiceController() | Gets AdvanceInvoiceController |
 | BillingPortalController() | Gets BillingPortalController |
 | CouponsController() | Gets CouponsController |
+| ComponentFeaturesController() | Gets ComponentFeaturesController |
 | ComponentsController() | Gets ComponentsController |
 | ComponentPricePointsController() | Gets ComponentPricePointsController |
 | CustomersController() | Gets CustomersController |
 | CustomFieldsController() | Gets CustomFieldsController |
+| EntitlementsController() | Gets EntitlementsController |
 | EventsController() | Gets EventsController |
 | EventsBasedBillingSegmentsController() | Gets EventsBasedBillingSegmentsController |
+| FeatureTemplatesController() | Gets FeatureTemplatesController |
 | InsightsController() | Gets InsightsController |
 | InvoicesController() | Gets InvoicesController |
 | OffersController() | Gets OffersController |
 | PaymentProfilesController() | Gets PaymentProfilesController |
 | ProductFamiliesController() | Gets ProductFamiliesController |
+| ProductFeaturesController() | Gets ProductFeaturesController |
 | ProductsController() | Gets ProductsController |
 | ProductPricePointsController() | Gets ProductPricePointsController |
 | ProformaInvoicesController() | Gets ProformaInvoicesController |
@@ -80,5 +84,10 @@ The gateway for the SDK. This class acts as a factory for the Controllers and al
 | SubscriptionProductsController() | Gets SubscriptionProductsController |
 | SubscriptionRenewalsController() | Gets SubscriptionRenewalsController |
 | SubscriptionStatusController() | Gets SubscriptionStatusController |
+| WalletsController() | Gets WalletsController |
+| WalletTransactionsController() | Gets WalletTransactionsController |
+| WalletAdjustmentsController() | Gets WalletAdjustmentsController |
+| WalletPurchasesController() | Gets WalletPurchasesController |
+| WalletProductsController() | Gets WalletProductsController |
 | WebhooksController() | Gets WebhooksController |
 

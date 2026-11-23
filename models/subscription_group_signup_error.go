@@ -9,7 +9,7 @@ import (
 
 // SubscriptionGroupSignupError represents a SubscriptionGroupSignupError struct.
 type SubscriptionGroupSignupError struct {
-    // Object that as key have subscription position in request subscriptions array and as value subscription errors object.
+    // Subscription errors keyed by the subscription's `reference` from the request, or by its zero-based position in the `subscriptions` array when it has no reference.
     Subscriptions        map[string]SubscriptionGroupSubscriptionError `json:"subscriptions,omitempty"`
     PayerReference       *string                                       `json:"payer_reference,omitempty"`
     Payer                *PayerError                                   `json:"payer,omitempty"`

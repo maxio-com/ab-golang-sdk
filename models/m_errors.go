@@ -8,6 +8,7 @@ import (
 )
 
 // Errors represents a Errors struct.
+// Validation error details for listing segments.
 type Errors struct {
     PerPage              []string               `json:"per_page,omitempty"`
     PricePoint           []string               `json:"price_point,omitempty"`

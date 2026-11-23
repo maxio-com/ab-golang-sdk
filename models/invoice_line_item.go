@@ -66,6 +66,16 @@ type InvoiceLineItem struct {
     ComponentCostData          Optional[InvoiceLineItemComponentCostData] `json:"component_cost_data"`
     // The price point ID of the line item's product
     ProductPricePointId        Optional[int]                              `json:"product_price_point_id"`
+    // The unit price from the list price point, in decimal format. Returned only when list vs sales pricing is enabled for the site.
+    ListUnitPrice              Optional[string]                           `json:"list_unit_price"`
+    // The total amount for the line item at the list price, in decimal format
+    ListTotalAmount            Optional[string]                           `json:"list_total_amount"`
+    // The difference between the list total and the sales total, in decimal format
+    ListDiscountAmount         Optional[string]                           `json:"list_discount_amount"`
+    // The list discount as a fraction of the list total, in decimal format. For example, `"0.25"` is a 25% discount.
+    ListDiscountRate           Optional[string]                           `json:"list_discount_rate"`
+    // The ID of the list price point this line item's sales price is compared against
+    ListPricePointId           Optional[int]                              `json:"list_price_point_id"`
     CustomItem                 *bool                                      `json:"custom_item,omitempty"`
     Kind                       *string                                    `json:"kind,omitempty"`
     // The date a prepaid allocation is set to expire. Only present on line items representing prepaid component allocations. The format is `"YYYY-MM-DD"`.
@@ -77,8 +87,8 @@ type InvoiceLineItem struct {
 // providing a human-readable string representation useful for logging, debugging or displaying information.
 func (i InvoiceLineItem) String() string {
     return fmt.Sprintf(
-    	"InvoiceLineItem[Uid=%v, Title=%v, Description=%v, Quantity=%v, UnitPrice=%v, SubtotalAmount=%v, DiscountAmount=%v, TaxAmount=%v, TaxIncluded=%v, TotalAmount=%v, TieredUnitPrice=%v, PeriodRangeStart=%v, PeriodRangeEnd=%v, TransactionId=%v, ProductId=%v, ProductVersion=%v, ComponentId=%v, PricePointId=%v, BillingScheduleItemId=%v, Hide=%v, ComponentCostData=%v, ProductPricePointId=%v, CustomItem=%v, Kind=%v, PrepaidAllocationExpiresAt=%v, AdditionalProperties=%v]",
-    	i.Uid, i.Title, i.Description, i.Quantity, i.UnitPrice, i.SubtotalAmount, i.DiscountAmount, i.TaxAmount, i.TaxIncluded, i.TotalAmount, i.TieredUnitPrice, i.PeriodRangeStart, i.PeriodRangeEnd, i.TransactionId, i.ProductId, i.ProductVersion, i.ComponentId, i.PricePointId, i.BillingScheduleItemId, i.Hide, i.ComponentCostData, i.ProductPricePointId, i.CustomItem, i.Kind, i.PrepaidAllocationExpiresAt, i.AdditionalProperties)
+    	"InvoiceLineItem[Uid=%v, Title=%v, Description=%v, Quantity=%v, UnitPrice=%v, SubtotalAmount=%v, DiscountAmount=%v, TaxAmount=%v, TaxIncluded=%v, TotalAmount=%v, TieredUnitPrice=%v, PeriodRangeStart=%v, PeriodRangeEnd=%v, TransactionId=%v, ProductId=%v, ProductVersion=%v, ComponentId=%v, PricePointId=%v, BillingScheduleItemId=%v, Hide=%v, ComponentCostData=%v, ProductPricePointId=%v, ListUnitPrice=%v, ListTotalAmount=%v, ListDiscountAmount=%v, ListDiscountRate=%v, ListPricePointId=%v, CustomItem=%v, Kind=%v, PrepaidAllocationExpiresAt=%v, AdditionalProperties=%v]",
+    	i.Uid, i.Title, i.Description, i.Quantity, i.UnitPrice, i.SubtotalAmount, i.DiscountAmount, i.TaxAmount, i.TaxIncluded, i.TotalAmount, i.TieredUnitPrice, i.PeriodRangeStart, i.PeriodRangeEnd, i.TransactionId, i.ProductId, i.ProductVersion, i.ComponentId, i.PricePointId, i.BillingScheduleItemId, i.Hide, i.ComponentCostData, i.ProductPricePointId, i.ListUnitPrice, i.ListTotalAmount, i.ListDiscountAmount, i.ListDiscountRate, i.ListPricePointId, i.CustomItem, i.Kind, i.PrepaidAllocationExpiresAt, i.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for InvoiceLineItem.
@@ -87,7 +97,7 @@ func (i InvoiceLineItem) MarshalJSON() (
     []byte,
     error) {
     if err := DetectConflictingProperties(i.AdditionalProperties,
-        "uid", "title", "description", "quantity", "unit_price", "subtotal_amount", "discount_amount", "tax_amount", "tax_included", "total_amount", "tiered_unit_price", "period_range_start", "period_range_end", "transaction_id", "product_id", "product_version", "component_id", "price_point_id", "billing_schedule_item_id", "hide", "component_cost_data", "product_price_point_id", "custom_item", "kind", "prepaid_allocation_expires_at"); err != nil {
+        "uid", "title", "description", "quantity", "unit_price", "subtotal_amount", "discount_amount", "tax_amount", "tax_included", "total_amount", "tiered_unit_price", "period_range_start", "period_range_end", "transaction_id", "product_id", "product_version", "component_id", "price_point_id", "billing_schedule_item_id", "hide", "component_cost_data", "product_price_point_id", "list_unit_price", "list_total_amount", "list_discount_amount", "list_discount_rate", "list_price_point_id", "custom_item", "kind", "prepaid_allocation_expires_at"); err != nil {
         return []byte{}, err
     }
     return json.Marshal(i.toMap())
@@ -191,6 +201,41 @@ func (i InvoiceLineItem) toMap() map[string]any {
             structMap["product_price_point_id"] = nil
         }
     }
+    if i.ListUnitPrice.IsValueSet() {
+        if i.ListUnitPrice.Value() != nil {
+            structMap["list_unit_price"] = i.ListUnitPrice.Value()
+        } else {
+            structMap["list_unit_price"] = nil
+        }
+    }
+    if i.ListTotalAmount.IsValueSet() {
+        if i.ListTotalAmount.Value() != nil {
+            structMap["list_total_amount"] = i.ListTotalAmount.Value()
+        } else {
+            structMap["list_total_amount"] = nil
+        }
+    }
+    if i.ListDiscountAmount.IsValueSet() {
+        if i.ListDiscountAmount.Value() != nil {
+            structMap["list_discount_amount"] = i.ListDiscountAmount.Value()
+        } else {
+            structMap["list_discount_amount"] = nil
+        }
+    }
+    if i.ListDiscountRate.IsValueSet() {
+        if i.ListDiscountRate.Value() != nil {
+            structMap["list_discount_rate"] = i.ListDiscountRate.Value()
+        } else {
+            structMap["list_discount_rate"] = nil
+        }
+    }
+    if i.ListPricePointId.IsValueSet() {
+        if i.ListPricePointId.Value() != nil {
+            structMap["list_price_point_id"] = i.ListPricePointId.Value()
+        } else {
+            structMap["list_price_point_id"] = nil
+        }
+    }
     if i.CustomItem != nil {
         structMap["custom_item"] = i.CustomItem
     }
@@ -220,7 +265,7 @@ func (i *InvoiceLineItem) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "uid", "title", "description", "quantity", "unit_price", "subtotal_amount", "discount_amount", "tax_amount", "tax_included", "total_amount", "tiered_unit_price", "period_range_start", "period_range_end", "transaction_id", "product_id", "product_version", "component_id", "price_point_id", "billing_schedule_item_id", "hide", "component_cost_data", "product_price_point_id", "custom_item", "kind", "prepaid_allocation_expires_at")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "uid", "title", "description", "quantity", "unit_price", "subtotal_amount", "discount_amount", "tax_amount", "tax_included", "total_amount", "tiered_unit_price", "period_range_start", "period_range_end", "transaction_id", "product_id", "product_version", "component_id", "price_point_id", "billing_schedule_item_id", "hide", "component_cost_data", "product_price_point_id", "list_unit_price", "list_total_amount", "list_discount_amount", "list_discount_rate", "list_price_point_id", "custom_item", "kind", "prepaid_allocation_expires_at")
     if err != nil {
     	return err
     }
@@ -260,6 +305,11 @@ func (i *InvoiceLineItem) UnmarshalJSON(input []byte) error {
     i.Hide = temp.Hide
     i.ComponentCostData = temp.ComponentCostData
     i.ProductPricePointId = temp.ProductPricePointId
+    i.ListUnitPrice = temp.ListUnitPrice
+    i.ListTotalAmount = temp.ListTotalAmount
+    i.ListDiscountAmount = temp.ListDiscountAmount
+    i.ListDiscountRate = temp.ListDiscountRate
+    i.ListPricePointId = temp.ListPricePointId
     i.CustomItem = temp.CustomItem
     i.Kind = temp.Kind
     i.PrepaidAllocationExpiresAt.ShouldSetValue(temp.PrepaidAllocationExpiresAt.IsValueSet())
@@ -297,6 +347,11 @@ type tempInvoiceLineItem  struct {
     Hide                       *bool                                      `json:"hide,omitempty"`
     ComponentCostData          Optional[InvoiceLineItemComponentCostData] `json:"component_cost_data"`
     ProductPricePointId        Optional[int]                              `json:"product_price_point_id"`
+    ListUnitPrice              Optional[string]                           `json:"list_unit_price"`
+    ListTotalAmount            Optional[string]                           `json:"list_total_amount"`
+    ListDiscountAmount         Optional[string]                           `json:"list_discount_amount"`
+    ListDiscountRate           Optional[string]                           `json:"list_discount_rate"`
+    ListPricePointId           Optional[int]                              `json:"list_price_point_id"`
     CustomItem                 *bool                                      `json:"custom_item,omitempty"`
     Kind                       *string                                    `json:"kind,omitempty"`
     PrepaidAllocationExpiresAt Optional[string]                           `json:"prepaid_allocation_expires_at"`

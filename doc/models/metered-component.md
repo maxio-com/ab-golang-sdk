@@ -15,7 +15,8 @@
 | `Handle` | `*string` | Optional | A unique identifier for your use that can be used to retrieve this component in subsequent requests. Must start with a letter or number and may only contain lowercase letters, numbers, or the characters '.', ':', '-', or '_'.<br><br>**Constraints**: *Pattern*: `^[a-z0-9][a-z0-9\-_:.]*$` |
 | `Taxable` | `*bool` | Optional | Boolean flag describing whether a component is taxable or not. |
 | `PricingScheme` | [`models.PricingScheme`](../../doc/models/pricing-scheme.md) | Required | The identifier for the pricing scheme. See [Product Components](https://help.chargify.com/products/product-components.html) for an overview of pricing schemes. |
-| `Prices` | [`[]models.Price`](../../doc/models/price.md) | Optional | (Not required for ‘per_unit’ pricing schemes) One or more price brackets. See [Price Bracket Rules](https://maxio.zendesk.com/hc/en-us/articles/24261149166733-Component-Pricing-Schemes#price-bracket-rules) for an overview of how price brackets work for different pricing schemes. |
+| `Prices` | [`[]models.Price`](../../doc/models/price.md) | Optional | (Not required for ‘per_unit’ pricing schemes) One or more price brackets. See [Price Bracket Rules](https://docs.maxio.com/billing/catalog/products/use-product-pricing-schemes#price-bracket-rules) for an overview of how price brackets work for different pricing schemes. |
+| `SecondaryPricing` | [`*models.SecondaryPricing`](../../doc/models/secondary-pricing.md) | Optional | Hybrid Pricing only. The secondary pricing model that takes over once usage passes the primary model's included threshold. Applies to Quantity-Based and Metered Components on Sites with Hybrid Pricing enabled; ignored otherwise. Its `prices` brackets start at `1`, not at the primary model's highest `ending_quantity`. See [Hybrid Pricing](http://localhost:8080/go). |
 | `PricePoints` | [`[]models.ComponentPricePointItem`](../../doc/models/component-price-point-item.md) | Optional | - |
 | `UnitPrice` | [`*models.MeteredComponentUnitPrice`](../../doc/models/containers/metered-component-unit-price.md) | Optional | This is a container for one-of cases. |
 | `TaxCode` | `*string` | Optional | A string representing the tax code related to the component type. This is especially important when using AvaTax to tax based on locale. This attribute has a max length of 25 characters. |
@@ -61,22 +62,21 @@ func main() {
                 UnitPrice:            models.PriceUnitPriceContainer.FromPrecision(float64(23.26)),
             },
         },
-        PricePoints:               []models.ComponentPricePointItem{
-            models.ComponentPricePointItem{
-                Name:                 models.ToPointer("name2"),
-                Handle:               models.ToPointer("handle8"),
-                PricingScheme:        models.ToPointer(models.PricingScheme_PERUNIT),
-                Interval:             models.ToPointer(92),
-                IntervalUnit:         models.NewOptional(models.ToPointer(models.IntervalUnit_DAY)),
+        SecondaryPricing:          models.ToPointer(models.SecondaryPricing{
+            PricingScheme:        models.ToPointer(models.PricingScheme_STAIRSTEP),
+            Prices:               []models.Price{
+                models.Price{
+                    StartingQuantity:     models.PriceStartingQuantityContainer.FromNumber(242),
+                    EndingQuantity:       models.NewOptional(models.ToPointer(models.PriceEndingQuantityContainer.FromNumber(40))),
+                    UnitPrice:            models.PriceUnitPriceContainer.FromPrecision(float64(23.26)),
+                },
+                models.Price{
+                    StartingQuantity:     models.PriceStartingQuantityContainer.FromNumber(242),
+                    EndingQuantity:       models.NewOptional(models.ToPointer(models.PriceEndingQuantityContainer.FromNumber(40))),
+                    UnitPrice:            models.PriceUnitPriceContainer.FromPrecision(float64(23.26)),
+                },
             },
-            models.ComponentPricePointItem{
-                Name:                 models.ToPointer("name2"),
-                Handle:               models.ToPointer("handle8"),
-                PricingScheme:        models.ToPointer(models.PricingScheme_PERUNIT),
-                Interval:             models.ToPointer(92),
-                IntervalUnit:         models.NewOptional(models.ToPointer(models.IntervalUnit_DAY)),
-            },
-        },
+        }),
     }
 
 }

@@ -16,6 +16,7 @@ Input structure for the method ListSegmentsForPricePoint
 | `Page` | `*int` | Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br><br>**Default**: `1`<br><br>**Constraints**: `>= 1` |
 | `PerPage` | `*int` | Optional | This parameter indicates how many records to fetch in each request. Default value is 30. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`.<br><br>**Default**: `30`<br><br>**Constraints**: `<= 200` |
 | `Filter` | [`*models.ListSegmentsFilter`](../../doc/models/list-segments-filter.md) | Optional | Filter to use for List Segments for a Price Point operation |
+| `CurrencyPrices` | `*bool` | Optional | (Optional) If you have defined multiple currencies at the site level, pass `true` to include each segment's `currency_prices` in the response. Use in query: `currency_prices=true`. |
 
 ## Example
 
@@ -38,6 +39,7 @@ func main() {
             SegmentProperty3Value: models.ToPointer("segment_property_3_value0"),
             SegmentProperty4Value: models.ToPointer("segment_property_4_value4"),
         }),
+        CurrencyPrices:       models.ToPointer(true),
     }
 
 }

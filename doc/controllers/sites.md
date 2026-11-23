@@ -1,5 +1,7 @@
 # Sites
 
+The Site object represents a single billing account and holds site-wide configuration, such as default currency, tax settings, net terms, and which billing features are enabled. For more information, see [Understand Advanced Billing Sites](https://docs.maxio.com/configuration/advanced-billing/sites/sites-overview).
+
 ```go
 sitesController := client.SitesController()
 ```
@@ -19,7 +21,7 @@ sitesController := client.SitesController()
 
 Retrieves site data.
 
-For more information, see [Sites](https://maxio.zendesk.com/hc/en-us/sections/24250550707085-Sites) in the product documentation. Specifically, the [Clearing Site Data](https://maxio.zendesk.com/hc/en-us/articles/24250617028365-Clearing-Site-Data) section is relevant to this endpoint.
+For more information, see [Sites](https://docs.maxio.com/configuration/advanced-billing/sites/sites-overview) in the product documentation. Specifically, the [Clearing Site Data](https://docs.maxio.com/configuration/advanced-billing/sites/clearing-site-data) section is relevant to this endpoint.
 
 #### Relationship invoicing enabled
 
@@ -31,7 +33,7 @@ If the site has Relationship invoicing enabled, additional properties are return
 "whopays_default_payer": "self"
 ```
 
-For more information, see [Who Pays & Customer Hierarchy](https://maxio.zendesk.com/hc/en-us/articles/24252185211533-Customer-Hierarchies-WhoPays).
+For more information, see [Who Pays & Customer Hierarchy](https://docs.maxio.com/billing/subscriptions/customers/understand-customer-hierarchies-and-whopays).
 
 ```go
 ReadSite(

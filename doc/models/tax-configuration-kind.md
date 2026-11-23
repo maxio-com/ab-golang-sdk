@@ -13,6 +13,11 @@
 | `ENUMMANAGEDAVALARA` |
 | `ENUMLINKEDAVALARA` |
 | `ENUMDIGITALRIVER` |
+| `ANROK` |
+| `TAXJAR` |
+| `NUMERAL` |
+| `SPHERE` |
+| `TAXWIRE` |
 
 ## Example
 
@@ -24,7 +29,7 @@ import (
 )
 
 func main() {
-    taxConfigurationKind := models.TaxConfigurationKind_CUSTOM
+    taxConfigurationKind := models.TaxConfigurationKind_NUMERAL
 
 }
 ```

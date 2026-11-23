@@ -46,29 +46,21 @@ func main() {
                     UnitPrice:            models.PriceUnitPriceContainer.FromPrecision(float64(23.26)),
                 },
             },
-            PricePoints:               []models.ComponentPricePointItem{
-                models.ComponentPricePointItem{
-                    Name:                 models.ToPointer("name2"),
-                    Handle:               models.ToPointer("handle8"),
-                    PricingScheme:        models.ToPointer(models.PricingScheme_PERUNIT),
-                    Interval:             models.ToPointer(92),
-                    IntervalUnit:         models.NewOptional(models.ToPointer(models.IntervalUnit_DAY)),
+            SecondaryPricing:          models.ToPointer(models.SecondaryPricing{
+                PricingScheme:        models.ToPointer(models.PricingScheme_STAIRSTEP),
+                Prices:               []models.Price{
+                    models.Price{
+                        StartingQuantity:     models.PriceStartingQuantityContainer.FromNumber(242),
+                        EndingQuantity:       models.NewOptional(models.ToPointer(models.PriceEndingQuantityContainer.FromNumber(40))),
+                        UnitPrice:            models.PriceUnitPriceContainer.FromPrecision(float64(23.26)),
+                    },
+                    models.Price{
+                        StartingQuantity:     models.PriceStartingQuantityContainer.FromNumber(242),
+                        EndingQuantity:       models.NewOptional(models.ToPointer(models.PriceEndingQuantityContainer.FromNumber(40))),
+                        UnitPrice:            models.PriceUnitPriceContainer.FromPrecision(float64(23.26)),
+                    },
                 },
-                models.ComponentPricePointItem{
-                    Name:                 models.ToPointer("name2"),
-                    Handle:               models.ToPointer("handle8"),
-                    PricingScheme:        models.ToPointer(models.PricingScheme_PERUNIT),
-                    Interval:             models.ToPointer(92),
-                    IntervalUnit:         models.NewOptional(models.ToPointer(models.IntervalUnit_DAY)),
-                },
-                models.ComponentPricePointItem{
-                    Name:                 models.ToPointer("name2"),
-                    Handle:               models.ToPointer("handle8"),
-                    PricingScheme:        models.ToPointer(models.PricingScheme_PERUNIT),
-                    Interval:             models.ToPointer(92),
-                    IntervalUnit:         models.NewOptional(models.ToPointer(models.IntervalUnit_DAY)),
-                },
-            },
+            }),
         },
     }
 

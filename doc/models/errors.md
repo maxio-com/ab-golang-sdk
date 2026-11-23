@@ -1,6 +1,8 @@
 
 # Errors
 
+Validation error details for listing segments.
+
 ## Structure
 
 `Errors`

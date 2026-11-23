@@ -25,6 +25,32 @@ func main() {
         PricePoint:           models.CloneComponentPricePoint{
             Name:                 "name0",
             Handle:               models.ToPointer("handle6"),
+            FeatureCatalogItems:  []models.CloneFeatureCatalogItem{
+                models.CloneFeatureCatalogItem{
+                    FeatureTemplateId:       8,
+                    Value:                   "value4",
+                    PeriodicityInterval:     models.NewOptional(models.ToPointer(136)),
+                    PeriodicityUnit:         models.NewOptional(models.ToPointer(models.EntitlementPeriodicityUnit_HOUR)),
+                    GrantExpirationInterval: models.NewOptional(models.ToPointer(60)),
+                    GrantExpirationUnit:     models.NewOptional(models.ToPointer(models.GrantExpirationUnit_MONTH)),
+                },
+                models.CloneFeatureCatalogItem{
+                    FeatureTemplateId:       8,
+                    Value:                   "value4",
+                    PeriodicityInterval:     models.NewOptional(models.ToPointer(136)),
+                    PeriodicityUnit:         models.NewOptional(models.ToPointer(models.EntitlementPeriodicityUnit_HOUR)),
+                    GrantExpirationInterval: models.NewOptional(models.ToPointer(60)),
+                    GrantExpirationUnit:     models.NewOptional(models.ToPointer(models.GrantExpirationUnit_MONTH)),
+                },
+                models.CloneFeatureCatalogItem{
+                    FeatureTemplateId:       8,
+                    Value:                   "value4",
+                    PeriodicityInterval:     models.NewOptional(models.ToPointer(136)),
+                    PeriodicityUnit:         models.NewOptional(models.ToPointer(models.EntitlementPeriodicityUnit_HOUR)),
+                    GrantExpirationInterval: models.NewOptional(models.ToPointer(60)),
+                    GrantExpirationUnit:     models.NewOptional(models.ToPointer(models.GrantExpirationUnit_MONTH)),
+                },
+            },
         },
     }
 

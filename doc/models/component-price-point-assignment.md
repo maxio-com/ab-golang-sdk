@@ -9,7 +9,7 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `ComponentId` | `*int` | Optional | - |
+| `ComponentId` | [`*models.ComponentPricePointAssignmentComponentId`](../../doc/models/containers/component-price-point-assignment-component-id.md) | Optional | This is a container for one-of cases. |
 | `PricePoint` | [`*models.ComponentPricePointAssignmentPricePoint`](../../doc/models/containers/component-price-point-assignment-price-point.md) | Optional | This is a container for one-of cases. |
 
 ## Example
@@ -23,7 +23,7 @@ import (
 
 func main() {
     componentPricePointAssignment := models.ComponentPricePointAssignment{
-        ComponentId:          models.ToPointer(190),
+        ComponentId:          models.ToPointer(models.ComponentPricePointAssignmentComponentIdContainer.FromNumber(112)),
         PricePoint:           models.ToPointer(models.ComponentPricePointAssignmentPricePointContainer.FromString("String7")),
     }
 

@@ -1,5 +1,9 @@
 # Products
 
+The Product object defines what you sell, including default pricing, billing interval, and trial configuration. With the new catalog experience, the UI labels products as Plans, while the API keeps the product name. See [Catalog terminology](https://docs.maxio.com/billing/catalog/overview/using-the-new-product-catalog#catalog-terminology).
+
+Products are grouped under a Product Family and are the base type a customer subscribes to. Products can also grant features to subscribers through [Create Product Feature Catalog Item](../../doc/controllers/product-features.md#create-product-feature). For more information, see [Understand Plans](https://docs.maxio.com/billing/catalog/plans/understand-plans).
+
 ```go
 productsController := client.ProductsController()
 ```
@@ -26,8 +30,8 @@ If you have the new [Catalog experience](http://localhost:8080/go) enabled, the 
 
 For more information, see:
 
-+ [Products Overview](https://maxio.zendesk.com/hc/en-us/articles/24261090117645-Products-Overview)
-+ [Changing a Subscription's Product](https://maxio.zendesk.com/hc/en-us/articles/24252069837581-Product-Changes-and-Migrations)
++ [Products Overview](https://docs.maxio.com/billing/catalog/plans/understand-plans)
++ [Changing a Subscription's Product](https://docs.maxio.com/billing/subscriptions/management/subscription-actions/understand-upgrade-and-downgrade-scenarios)
 
 ```go
 CreateProduct(
@@ -155,7 +159,8 @@ Reads the current details of a product.
 ```go
 ReadProduct(
     ctx context.Context,
-    productId int) (
+    productId int,
+    includeFeatures *bool) (
     models.ApiResponse[models.ProductResponse],
     error)
 ```
@@ -169,6 +174,7 @@ This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `productId` | `int` | Template, Required | The Advanced Billing id of the product |
+| `includeFeatures` | `*bool` | Query, Optional | When `true`, embeds the active feature catalog items for each result in a `features` array. Default value is `false`. Ignored on sites without Entitlements enabled: no `features` key is returned and no error is raised.<br><br>**Default**: `false` |
 
 ## Response Type
 
@@ -183,7 +189,9 @@ ctx := context.Background()
 
 productId := 202
 
-apiResponse, err := productsController.ReadProduct(ctx, productId)
+includeFeatures := false
+
+apiResponse, err := productsController.ReadProduct(ctx, productId, &includeFeatures)
 if err != nil {
     log.Fatalln(err)
 } else {
@@ -614,6 +622,7 @@ collectedInput := advancedbilling.ListProductsInput{
     PerPage:         models.ToPointer(50),
     IncludeArchived: models.ToPointer(true),
     Include:         models.ToPointer(models.ListProductsInclude_PREPAIDPRODUCTPRICEPOINT),
+    IncludeFeatures: models.ToPointer(false),
 }
 
 apiResponse, err := productsController.ListProducts(ctx, collectedInput)

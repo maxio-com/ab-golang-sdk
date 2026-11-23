@@ -54,7 +54,7 @@ type ListEventsInput struct {
 // an error if there was an issue with the request or response.
 // Lists events for a site.
 // Events include various activity that happens around a Site. This information is **especially** useful to track down issues that arise when subscriptions are not created due to errors.
-// Within the UI, Events are referred to as Site Activity. For more information, see [Site Activity](https://maxio.zendesk.com/hc/en-us/articles/24250671733517-Site-Activity).
+// Within the UI, Events are referred to as Site Activity. For more information, see [Site Activity](https://docs.maxio.com/configuration/advanced-billing/sites/site-activity).
 // Use query string filters to narrow down results. You can use the `filter` parameter to filter by event key.
 // ### Legacy Filters
 // The following keys are no longer supported.

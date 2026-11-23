@@ -18,6 +18,8 @@ type ComponentPricePointItem struct {
     // A string representing the interval unit for this component price point, either month or day. This property is only available for sites with Multifrequency enabled.
     IntervalUnit         Optional[IntervalUnit] `json:"interval_unit"`
     Prices               []Price                `json:"prices,omitempty"`
+    // Hybrid Pricing only. Applies only to price points of Quantity-Based and Metered Components on Sites with Hybrid Pricing enabled; ignored for other component types and on Sites without Hybrid Pricing. Omit it to create a normal, non-hybrid price point. See [Hybrid Pricing](page:introduction/basic-concepts/hybrid-pricing).
+    SecondaryPricing     *SecondaryPricing      `json:"secondary_pricing,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
 }
 
@@ -25,8 +27,8 @@ type ComponentPricePointItem struct {
 // providing a human-readable string representation useful for logging, debugging or displaying information.
 func (c ComponentPricePointItem) String() string {
     return fmt.Sprintf(
-    	"ComponentPricePointItem[Name=%v, Handle=%v, PricingScheme=%v, Interval=%v, IntervalUnit=%v, Prices=%v, AdditionalProperties=%v]",
-    	c.Name, c.Handle, c.PricingScheme, c.Interval, c.IntervalUnit, c.Prices, c.AdditionalProperties)
+    	"ComponentPricePointItem[Name=%v, Handle=%v, PricingScheme=%v, Interval=%v, IntervalUnit=%v, Prices=%v, SecondaryPricing=%v, AdditionalProperties=%v]",
+    	c.Name, c.Handle, c.PricingScheme, c.Interval, c.IntervalUnit, c.Prices, c.SecondaryPricing, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for ComponentPricePointItem.
@@ -35,7 +37,7 @@ func (c ComponentPricePointItem) MarshalJSON() (
     []byte,
     error) {
     if err := DetectConflictingProperties(c.AdditionalProperties,
-        "name", "handle", "pricing_scheme", "interval", "interval_unit", "prices"); err != nil {
+        "name", "handle", "pricing_scheme", "interval", "interval_unit", "prices", "secondary_pricing"); err != nil {
         return []byte{}, err
     }
     return json.Marshal(c.toMap())
@@ -67,6 +69,9 @@ func (c ComponentPricePointItem) toMap() map[string]any {
     if c.Prices != nil {
         structMap["prices"] = c.Prices
     }
+    if c.SecondaryPricing != nil {
+        structMap["secondary_pricing"] = c.SecondaryPricing.toMap()
+    }
     return structMap
 }
 
@@ -78,7 +83,7 @@ func (c *ComponentPricePointItem) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "name", "handle", "pricing_scheme", "interval", "interval_unit", "prices")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "name", "handle", "pricing_scheme", "interval", "interval_unit", "prices", "secondary_pricing")
     if err != nil {
     	return err
     }
@@ -90,15 +95,17 @@ func (c *ComponentPricePointItem) UnmarshalJSON(input []byte) error {
     c.Interval = temp.Interval
     c.IntervalUnit = temp.IntervalUnit
     c.Prices = temp.Prices
+    c.SecondaryPricing = temp.SecondaryPricing
     return nil
 }
 
 // tempComponentPricePointItem is a temporary struct used for validating the fields of ComponentPricePointItem.
 type tempComponentPricePointItem  struct {
-    Name          *string                `json:"name,omitempty"`
-    Handle        *string                `json:"handle,omitempty"`
-    PricingScheme *PricingScheme         `json:"pricing_scheme,omitempty"`
-    Interval      *int                   `json:"interval,omitempty"`
-    IntervalUnit  Optional[IntervalUnit] `json:"interval_unit"`
-    Prices        []Price                `json:"prices,omitempty"`
+    Name             *string                `json:"name,omitempty"`
+    Handle           *string                `json:"handle,omitempty"`
+    PricingScheme    *PricingScheme         `json:"pricing_scheme,omitempty"`
+    Interval         *int                   `json:"interval,omitempty"`
+    IntervalUnit     Optional[IntervalUnit] `json:"interval_unit"`
+    Prices           []Price                `json:"prices,omitempty"`
+    SecondaryPricing *SecondaryPricing      `json:"secondary_pricing,omitempty"`
 }

@@ -55,7 +55,7 @@ func main() {
                 SiteId:               models.ToPointer(72),
                 CustomerId:           models.ToPointer(184),
                 SubscriptionId:       models.ToPointer(0),
-                Number:               models.ToPointer("number0"),
+                Number:               models.NewOptional(models.ToPointer("number0")),
             },
             Memo:                 "memo0",
             AppliedAmount:        "applied_amount2",

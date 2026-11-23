@@ -34,7 +34,7 @@ func NewCustomFieldsController(baseController baseController) *CustomFieldsContr
 // In the UI and product documentation, metafields and metadata are called Custom Fields. 
 // - Metafield is the custom field
 // - Metadata is the data populating the custom field.
-// See [Custom Fields Reference](https://docs.maxio.com/hc/en-us/articles/24266140850573-Custom-Fields-Reference) and [Custom Fields Tab](https://maxio.zendesk.com/hc/en-us/articles/24251701302925-Subscription-Summary-Custom-Fields-Tab) for information on using Custom Fields in the Advanced Billing UI.
+// See [Custom Fields Reference](https://docs.maxio.com/configuration/advanced-billing/custom-fields/configure-custom-fields) and [Custom Fields Tab](https://docs.maxio.com/getting-started/maxio-platform-basics/advanced-billing-overview-and-resources/subscription-summary-tabs/viewing-and-editing-custom-fields) for information on using Custom Fields in the Advanced Billing UI.
 func (c *CustomFieldsController) CreateMetafields(
     ctx context.Context,
     resourceType models.ResourceType,

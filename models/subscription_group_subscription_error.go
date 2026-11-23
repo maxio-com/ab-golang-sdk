@@ -10,6 +10,7 @@ import (
 // SubscriptionGroupSubscriptionError represents a SubscriptionGroupSubscriptionError struct.
 // Object which contains subscription errors.
 type SubscriptionGroupSubscriptionError struct {
+    Customer                      []string               `json:"customer,omitempty"`
     Product                       []string               `json:"product,omitempty"`
     ProductPricePointId           []string               `json:"product_price_point_id,omitempty"`
     PaymentProfile                []string               `json:"payment_profile,omitempty"`
@@ -25,8 +26,8 @@ type SubscriptionGroupSubscriptionError struct {
 // providing a human-readable string representation useful for logging, debugging or displaying information.
 func (s SubscriptionGroupSubscriptionError) String() string {
     return fmt.Sprintf(
-    	"SubscriptionGroupSubscriptionError[Product=%v, ProductPricePointId=%v, PaymentProfile=%v, PaymentProfileChargifyToken=%v, Base=%v, PaymentProfileExpirationMonth=%v, PaymentProfileExpirationYear=%v, PaymentProfileFullNumber=%v, AdditionalProperties=%v]",
-    	s.Product, s.ProductPricePointId, s.PaymentProfile, s.PaymentProfileChargifyToken, s.Base, s.PaymentProfileExpirationMonth, s.PaymentProfileExpirationYear, s.PaymentProfileFullNumber, s.AdditionalProperties)
+    	"SubscriptionGroupSubscriptionError[Customer=%v, Product=%v, ProductPricePointId=%v, PaymentProfile=%v, PaymentProfileChargifyToken=%v, Base=%v, PaymentProfileExpirationMonth=%v, PaymentProfileExpirationYear=%v, PaymentProfileFullNumber=%v, AdditionalProperties=%v]",
+    	s.Customer, s.Product, s.ProductPricePointId, s.PaymentProfile, s.PaymentProfileChargifyToken, s.Base, s.PaymentProfileExpirationMonth, s.PaymentProfileExpirationYear, s.PaymentProfileFullNumber, s.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for SubscriptionGroupSubscriptionError.
@@ -35,7 +36,7 @@ func (s SubscriptionGroupSubscriptionError) MarshalJSON() (
     []byte,
     error) {
     if err := DetectConflictingProperties(s.AdditionalProperties,
-        "product", "product_price_point_id", "payment_profile", "payment_profile.chargify_token", "base", "payment_profile.expiration_month", "payment_profile.expiration_year", "payment_profile.full_number"); err != nil {
+        "customer", "product", "product_price_point_id", "payment_profile", "payment_profile.chargify_token", "base", "payment_profile.expiration_month", "payment_profile.expiration_year", "payment_profile.full_number"); err != nil {
         return []byte{}, err
     }
     return json.Marshal(s.toMap())
@@ -45,6 +46,9 @@ func (s SubscriptionGroupSubscriptionError) MarshalJSON() (
 func (s SubscriptionGroupSubscriptionError) toMap() map[string]any {
     structMap := make(map[string]any)
     MergeAdditionalProperties(structMap, s.AdditionalProperties)
+    if s.Customer != nil {
+        structMap["customer"] = s.Customer
+    }
     if s.Product != nil {
         structMap["product"] = s.Product
     }
@@ -80,12 +84,13 @@ func (s *SubscriptionGroupSubscriptionError) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "product", "product_price_point_id", "payment_profile", "payment_profile.chargify_token", "base", "payment_profile.expiration_month", "payment_profile.expiration_year", "payment_profile.full_number")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "customer", "product", "product_price_point_id", "payment_profile", "payment_profile.chargify_token", "base", "payment_profile.expiration_month", "payment_profile.expiration_year", "payment_profile.full_number")
     if err != nil {
     	return err
     }
     s.AdditionalProperties = additionalProperties
     
+    s.Customer = temp.Customer
     s.Product = temp.Product
     s.ProductPricePointId = temp.ProductPricePointId
     s.PaymentProfile = temp.PaymentProfile
@@ -99,6 +104,7 @@ func (s *SubscriptionGroupSubscriptionError) UnmarshalJSON(input []byte) error {
 
 // tempSubscriptionGroupSubscriptionError is a temporary struct used for validating the fields of SubscriptionGroupSubscriptionError.
 type tempSubscriptionGroupSubscriptionError  struct {
+    Customer                      []string `json:"customer,omitempty"`
     Product                       []string `json:"product,omitempty"`
     ProductPricePointId           []string `json:"product_price_point_id,omitempty"`
     PaymentProfile                []string `json:"payment_profile,omitempty"`

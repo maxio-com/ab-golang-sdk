@@ -43,6 +43,10 @@ type ComponentPricePoint struct {
     OveragePrices            []ComponentPrice                 `json:"overage_prices,omitempty"`
     // Applicable only to prepaid usage components. Pricing scheme for overage pricing.
     OveragePricingScheme     *PricingScheme                   `json:"overage_pricing_scheme,omitempty"`
+    // Returned only for hybrid price points. An array of secondary price brackets. Hybrid price points never return `overage_prices` or `overage_pricing_scheme`.
+    SecondaryPrices          []ComponentPrice                 `json:"secondary_prices,omitempty"`
+    // Returned only for hybrid price points. Pricing scheme for the secondary pricing model.
+    SecondaryPricingScheme   *PricingScheme                   `json:"secondary_pricing_scheme,omitempty"`
     // Applicable only to prepaid usage components. Boolean which controls whether or not the allocated quantity should be renewed at the beginning of each period.
     RenewPrepaidAllocation   *bool                            `json:"renew_prepaid_allocation,omitempty"`
     // Applicable only to prepaid usage components. Boolean which controls whether or not remaining units should be rolled over to the next period.
@@ -58,8 +62,8 @@ type ComponentPricePoint struct {
 // providing a human-readable string representation useful for logging, debugging or displaying information.
 func (c ComponentPricePoint) String() string {
     return fmt.Sprintf(
-    	"ComponentPricePoint[Id=%v, Type=%v, Default=%v, Name=%v, PricingScheme=%v, ComponentId=%v, Handle=%v, ArchivedAt=%v, CreatedAt=%v, UpdatedAt=%v, Prices=%v, UseSiteExchangeRate=%v, SubscriptionId=%v, TaxIncluded=%v, Interval=%v, IntervalUnit=%v, CurrencyPrices=%v, OveragePrices=%v, OveragePricingScheme=%v, RenewPrepaidAllocation=%v, RolloverPrepaidRemainder=%v, ExpirationInterval=%v, ExpirationIntervalUnit=%v, AdditionalProperties=%v]",
-    	c.Id, c.Type, c.Default, c.Name, c.PricingScheme, c.ComponentId, c.Handle, c.ArchivedAt, c.CreatedAt, c.UpdatedAt, c.Prices, c.UseSiteExchangeRate, c.SubscriptionId, c.TaxIncluded, c.Interval, c.IntervalUnit, c.CurrencyPrices, c.OveragePrices, c.OveragePricingScheme, c.RenewPrepaidAllocation, c.RolloverPrepaidRemainder, c.ExpirationInterval, c.ExpirationIntervalUnit, c.AdditionalProperties)
+    	"ComponentPricePoint[Id=%v, Type=%v, Default=%v, Name=%v, PricingScheme=%v, ComponentId=%v, Handle=%v, ArchivedAt=%v, CreatedAt=%v, UpdatedAt=%v, Prices=%v, UseSiteExchangeRate=%v, SubscriptionId=%v, TaxIncluded=%v, Interval=%v, IntervalUnit=%v, CurrencyPrices=%v, OveragePrices=%v, OveragePricingScheme=%v, SecondaryPrices=%v, SecondaryPricingScheme=%v, RenewPrepaidAllocation=%v, RolloverPrepaidRemainder=%v, ExpirationInterval=%v, ExpirationIntervalUnit=%v, AdditionalProperties=%v]",
+    	c.Id, c.Type, c.Default, c.Name, c.PricingScheme, c.ComponentId, c.Handle, c.ArchivedAt, c.CreatedAt, c.UpdatedAt, c.Prices, c.UseSiteExchangeRate, c.SubscriptionId, c.TaxIncluded, c.Interval, c.IntervalUnit, c.CurrencyPrices, c.OveragePrices, c.OveragePricingScheme, c.SecondaryPrices, c.SecondaryPricingScheme, c.RenewPrepaidAllocation, c.RolloverPrepaidRemainder, c.ExpirationInterval, c.ExpirationIntervalUnit, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for ComponentPricePoint.
@@ -68,7 +72,7 @@ func (c ComponentPricePoint) MarshalJSON() (
     []byte,
     error) {
     if err := DetectConflictingProperties(c.AdditionalProperties,
-        "id", "type", "default", "name", "pricing_scheme", "component_id", "handle", "archived_at", "created_at", "updated_at", "prices", "use_site_exchange_rate", "subscription_id", "tax_included", "interval", "interval_unit", "currency_prices", "overage_prices", "overage_pricing_scheme", "renew_prepaid_allocation", "rollover_prepaid_remainder", "expiration_interval", "expiration_interval_unit"); err != nil {
+        "id", "type", "default", "name", "pricing_scheme", "component_id", "handle", "archived_at", "created_at", "updated_at", "prices", "use_site_exchange_rate", "subscription_id", "tax_included", "interval", "interval_unit", "currency_prices", "overage_prices", "overage_pricing_scheme", "secondary_prices", "secondary_pricing_scheme", "renew_prepaid_allocation", "rollover_prepaid_remainder", "expiration_interval", "expiration_interval_unit"); err != nil {
         return []byte{}, err
     }
     return json.Marshal(c.toMap())
@@ -156,6 +160,12 @@ func (c ComponentPricePoint) toMap() map[string]any {
     if c.OveragePricingScheme != nil {
         structMap["overage_pricing_scheme"] = c.OveragePricingScheme
     }
+    if c.SecondaryPrices != nil {
+        structMap["secondary_prices"] = c.SecondaryPrices
+    }
+    if c.SecondaryPricingScheme != nil {
+        structMap["secondary_pricing_scheme"] = c.SecondaryPricingScheme
+    }
     if c.RenewPrepaidAllocation != nil {
         structMap["renew_prepaid_allocation"] = c.RenewPrepaidAllocation
     }
@@ -187,7 +197,7 @@ func (c *ComponentPricePoint) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "id", "type", "default", "name", "pricing_scheme", "component_id", "handle", "archived_at", "created_at", "updated_at", "prices", "use_site_exchange_rate", "subscription_id", "tax_included", "interval", "interval_unit", "currency_prices", "overage_prices", "overage_pricing_scheme", "renew_prepaid_allocation", "rollover_prepaid_remainder", "expiration_interval", "expiration_interval_unit")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "id", "type", "default", "name", "pricing_scheme", "component_id", "handle", "archived_at", "created_at", "updated_at", "prices", "use_site_exchange_rate", "subscription_id", "tax_included", "interval", "interval_unit", "currency_prices", "overage_prices", "overage_pricing_scheme", "secondary_prices", "secondary_pricing_scheme", "renew_prepaid_allocation", "rollover_prepaid_remainder", "expiration_interval", "expiration_interval_unit")
     if err != nil {
     	return err
     }
@@ -231,6 +241,8 @@ func (c *ComponentPricePoint) UnmarshalJSON(input []byte) error {
     c.CurrencyPrices = temp.CurrencyPrices
     c.OveragePrices = temp.OveragePrices
     c.OveragePricingScheme = temp.OveragePricingScheme
+    c.SecondaryPrices = temp.SecondaryPrices
+    c.SecondaryPricingScheme = temp.SecondaryPricingScheme
     c.RenewPrepaidAllocation = temp.RenewPrepaidAllocation
     c.RolloverPrepaidRemainder = temp.RolloverPrepaidRemainder
     c.ExpirationInterval = temp.ExpirationInterval
@@ -259,6 +271,8 @@ type tempComponentPricePoint  struct {
     CurrencyPrices           []ComponentCurrencyPrice         `json:"currency_prices,omitempty"`
     OveragePrices            []ComponentPrice                 `json:"overage_prices,omitempty"`
     OveragePricingScheme     *PricingScheme                   `json:"overage_pricing_scheme,omitempty"`
+    SecondaryPrices          []ComponentPrice                 `json:"secondary_prices,omitempty"`
+    SecondaryPricingScheme   *PricingScheme                   `json:"secondary_pricing_scheme,omitempty"`
     RenewPrepaidAllocation   *bool                            `json:"renew_prepaid_allocation,omitempty"`
     RolloverPrepaidRemainder *bool                            `json:"rollover_prepaid_remainder,omitempty"`
     ExpirationInterval       Optional[int]                    `json:"expiration_interval"`

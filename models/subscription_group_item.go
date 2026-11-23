@@ -11,6 +11,8 @@ import (
 type SubscriptionGroupItem struct {
     Id                      *int                   `json:"id,omitempty"`
     Reference               Optional[string]       `json:"reference"`
+    // The ID of the customer the subscription belongs to. This is the payer unless the signup request named another customer for the subscription.
+    CustomerId              *int                   `json:"customer_id,omitempty"`
     ProductId               *int                   `json:"product_id,omitempty"`
     ProductHandle           Optional[string]       `json:"product_handle"`
     ProductPricePointId     *int                   `json:"product_price_point_id,omitempty"`
@@ -26,8 +28,8 @@ type SubscriptionGroupItem struct {
 // providing a human-readable string representation useful for logging, debugging or displaying information.
 func (s SubscriptionGroupItem) String() string {
     return fmt.Sprintf(
-    	"SubscriptionGroupItem[Id=%v, Reference=%v, ProductId=%v, ProductHandle=%v, ProductPricePointId=%v, ProductPricePointHandle=%v, Currency=%v, CouponCode=%v, TotalRevenueInCents=%v, BalanceInCents=%v, AdditionalProperties=%v]",
-    	s.Id, s.Reference, s.ProductId, s.ProductHandle, s.ProductPricePointId, s.ProductPricePointHandle, s.Currency, s.CouponCode, s.TotalRevenueInCents, s.BalanceInCents, s.AdditionalProperties)
+    	"SubscriptionGroupItem[Id=%v, Reference=%v, CustomerId=%v, ProductId=%v, ProductHandle=%v, ProductPricePointId=%v, ProductPricePointHandle=%v, Currency=%v, CouponCode=%v, TotalRevenueInCents=%v, BalanceInCents=%v, AdditionalProperties=%v]",
+    	s.Id, s.Reference, s.CustomerId, s.ProductId, s.ProductHandle, s.ProductPricePointId, s.ProductPricePointHandle, s.Currency, s.CouponCode, s.TotalRevenueInCents, s.BalanceInCents, s.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for SubscriptionGroupItem.
@@ -36,7 +38,7 @@ func (s SubscriptionGroupItem) MarshalJSON() (
     []byte,
     error) {
     if err := DetectConflictingProperties(s.AdditionalProperties,
-        "id", "reference", "product_id", "product_handle", "product_price_point_id", "product_price_point_handle", "currency", "coupon_code", "total_revenue_in_cents", "balance_in_cents"); err != nil {
+        "id", "reference", "customer_id", "product_id", "product_handle", "product_price_point_id", "product_price_point_handle", "currency", "coupon_code", "total_revenue_in_cents", "balance_in_cents"); err != nil {
         return []byte{}, err
     }
     return json.Marshal(s.toMap())
@@ -55,6 +57,9 @@ func (s SubscriptionGroupItem) toMap() map[string]any {
         } else {
             structMap["reference"] = nil
         }
+    }
+    if s.CustomerId != nil {
+        structMap["customer_id"] = s.CustomerId
     }
     if s.ProductId != nil {
         structMap["product_id"] = s.ProductId
@@ -99,7 +104,7 @@ func (s *SubscriptionGroupItem) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "id", "reference", "product_id", "product_handle", "product_price_point_id", "product_price_point_handle", "currency", "coupon_code", "total_revenue_in_cents", "balance_in_cents")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "id", "reference", "customer_id", "product_id", "product_handle", "product_price_point_id", "product_price_point_handle", "currency", "coupon_code", "total_revenue_in_cents", "balance_in_cents")
     if err != nil {
     	return err
     }
@@ -107,6 +112,7 @@ func (s *SubscriptionGroupItem) UnmarshalJSON(input []byte) error {
     
     s.Id = temp.Id
     s.Reference = temp.Reference
+    s.CustomerId = temp.CustomerId
     s.ProductId = temp.ProductId
     s.ProductHandle = temp.ProductHandle
     s.ProductPricePointId = temp.ProductPricePointId
@@ -122,6 +128,7 @@ func (s *SubscriptionGroupItem) UnmarshalJSON(input []byte) error {
 type tempSubscriptionGroupItem  struct {
     Id                      *int             `json:"id,omitempty"`
     Reference               Optional[string] `json:"reference"`
+    CustomerId              *int             `json:"customer_id,omitempty"`
     ProductId               *int             `json:"product_id,omitempty"`
     ProductHandle           Optional[string] `json:"product_handle"`
     ProductPricePointId     *int             `json:"product_price_point_id,omitempty"`

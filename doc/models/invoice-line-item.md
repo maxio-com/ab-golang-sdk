@@ -31,6 +31,11 @@
 | `Hide` | `*bool` | Optional | - |
 | `ComponentCostData` | [`models.Optional[models.InvoiceLineItemComponentCostData]`](../../doc/models/invoice-line-item-component-cost-data.md) | Optional | - |
 | `ProductPricePointId` | `models.Optional[int]` | Optional | The price point ID of the line item's product |
+| `ListUnitPrice` | `models.Optional[string]` | Optional | The unit price from the list price point, in decimal format. Returned only when list vs sales pricing is enabled for the site. |
+| `ListTotalAmount` | `models.Optional[string]` | Optional | The total amount for the line item at the list price, in decimal format |
+| `ListDiscountAmount` | `models.Optional[string]` | Optional | The difference between the list total and the sales total, in decimal format |
+| `ListDiscountRate` | `models.Optional[string]` | Optional | The list discount as a fraction of the list total, in decimal format. For example, `"0.25"` is a 25% discount. |
+| `ListPricePointId` | `models.Optional[int]` | Optional | The ID of the list price point this line item's sales price is compared against |
 | `CustomItem` | `*bool` | Optional | - |
 | `Kind` | `*string` | Optional | - |
 | `PrepaidAllocationExpiresAt` | `models.Optional[time.Time]` | Optional | The date a prepaid allocation is set to expire. Only present on line items representing prepaid component allocations. The format is `"YYYY-MM-DD"`. |

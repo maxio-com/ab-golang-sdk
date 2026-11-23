@@ -11,6 +11,7 @@ Object which contains subscription errors.
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
+| `Customer` | `[]string` | Optional | - |
 | `Product` | `[]string` | Optional | - |
 | `ProductPricePointId` | `[]string` | Optional | - |
 | `PaymentProfile` | `[]string` | Optional | - |
@@ -31,6 +32,11 @@ import (
 
 func main() {
     subscriptionGroupSubscriptionError := models.SubscriptionGroupSubscriptionError{
+        Customer:                      []string{
+            "customer7",
+            "customer8",
+            "customer9",
+        },
         Product:                       []string{
             "product7",
             "product8",
@@ -46,11 +52,6 @@ func main() {
         PaymentProfileChargifyToken:   []string{
             "payment_profile.chargify_token2",
             "payment_profile.chargify_token3",
-        },
-        Base:                          []string{
-            "base1",
-            "base2",
-            "base3",
         },
     }
 

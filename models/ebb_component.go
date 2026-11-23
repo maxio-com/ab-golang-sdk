@@ -23,7 +23,7 @@ type EBBComponent struct {
     Taxable                   *bool                     `json:"taxable,omitempty"`
     // The identifier for the pricing scheme. See [Product Components](https://help.chargify.com/products/product-components.html) for an overview of pricing schemes.
     PricingScheme             PricingScheme             `json:"pricing_scheme"`
-    // (Not required for ‘per_unit’ pricing schemes) One or more price brackets. See [Price Bracket Rules](https://maxio.zendesk.com/hc/en-us/articles/24261149166733-Component-Pricing-Schemes#price-bracket-rules) for an overview of how price brackets work for different pricing schemes.
+    // (Not required for ‘per_unit’ pricing schemes) One or more price brackets. See [Price Bracket Rules](https://docs.maxio.com/billing/catalog/products/use-product-pricing-schemes#price-bracket-rules) for an overview of how price brackets work for different pricing schemes.
     Prices                    []Price                   `json:"prices,omitempty"`
     PricePoints               []ComponentPricePointItem `json:"price_points,omitempty"`
     // The amount the customer will be charged per unit when the pricing scheme is “per_unit”. The price can contain up to 8 decimal places. i.e., 1.00 or 0.0012 or 0.00000065
@@ -32,8 +32,12 @@ type EBBComponent struct {
     TaxCode                   *string                   `json:"tax_code,omitempty"`
     // (Only available on Relationship Invoicing sites) Boolean flag describing if the service date range should show for the component on generated invoices.
     HideDateRangeOnInvoice    *bool                     `json:"hide_date_range_on_invoice,omitempty"`
-    // The ID of an event based billing metric that will be attached to this component.
-    EventBasedBillingMetricId int                       `json:"event_based_billing_metric_id"`
+    // ID of a site-owned metric. Required to create a component with legacy Events Based Billing. During migration, a meter linked to the metric is attached automatically when present. Sites using Maxio Metering ignore this input; provide metering_meter_id or metering_formula instead.
+    EventBasedBillingMetricId *int                      `json:"event_based_billing_metric_id,omitempty"`
+    // ID of a merchant-owned Maxio Metering meter. To create a component with Maxio Metering, provide this ID or metering_formula, but not both. Meter IDs and legacy metric IDs identify different resources. Sites using Events Based Billing ignore this input and require event_based_billing_metric_id instead.
+    MeteringMeterId           *int                      `json:"metering_meter_id,omitempty"`
+    // An Advanced Formula using Maxio Metering meters available to the site. To create a component with Maxio Metering, provide a non-blank formula or metering_meter_id, but not both. Sites using Events Based Billing ignore this input and require event_based_billing_metric_id instead.
+    MeteringFormula           *string                   `json:"metering_formula,omitempty"`
     // The numerical interval. i.e., an interval of ‘30’ coupled with an interval_unit of day would mean this component's default price point would renew every 30 days. This property is only available for sites with Multifrequency enabled.
     Interval                  *int                      `json:"interval,omitempty"`
     // A string representing the interval unit for this component's default price point, either month or day. This property is only available for sites with Multifrequency enabled.
@@ -47,8 +51,8 @@ type EBBComponent struct {
 // providing a human-readable string representation useful for logging, debugging or displaying information.
 func (e EBBComponent) String() string {
     return fmt.Sprintf(
-    	"EBBComponent[Name=%v, UnitName=%v, Description=%v, Handle=%v, Taxable=%v, PricingScheme=%v, Prices=%v, PricePoints=%v, UnitPrice=%v, TaxCode=%v, HideDateRangeOnInvoice=%v, EventBasedBillingMetricId=%v, Interval=%v, IntervalUnit=%v, UnspscCode=%v, AdditionalProperties=%v]",
-    	e.Name, e.UnitName, e.Description, e.Handle, e.Taxable, e.PricingScheme, e.Prices, e.PricePoints, e.UnitPrice, e.TaxCode, e.HideDateRangeOnInvoice, e.EventBasedBillingMetricId, e.Interval, e.IntervalUnit, e.UnspscCode, e.AdditionalProperties)
+    	"EBBComponent[Name=%v, UnitName=%v, Description=%v, Handle=%v, Taxable=%v, PricingScheme=%v, Prices=%v, PricePoints=%v, UnitPrice=%v, TaxCode=%v, HideDateRangeOnInvoice=%v, EventBasedBillingMetricId=%v, MeteringMeterId=%v, MeteringFormula=%v, Interval=%v, IntervalUnit=%v, UnspscCode=%v, AdditionalProperties=%v]",
+    	e.Name, e.UnitName, e.Description, e.Handle, e.Taxable, e.PricingScheme, e.Prices, e.PricePoints, e.UnitPrice, e.TaxCode, e.HideDateRangeOnInvoice, e.EventBasedBillingMetricId, e.MeteringMeterId, e.MeteringFormula, e.Interval, e.IntervalUnit, e.UnspscCode, e.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for EBBComponent.
@@ -57,7 +61,7 @@ func (e EBBComponent) MarshalJSON() (
     []byte,
     error) {
     if err := DetectConflictingProperties(e.AdditionalProperties,
-        "name", "unit_name", "description", "handle", "taxable", "pricing_scheme", "prices", "price_points", "unit_price", "tax_code", "hide_date_range_on_invoice", "event_based_billing_metric_id", "interval", "interval_unit", "unspsc_code"); err != nil {
+        "name", "unit_name", "description", "handle", "taxable", "pricing_scheme", "prices", "price_points", "unit_price", "tax_code", "hide_date_range_on_invoice", "event_based_billing_metric_id", "metering_meter_id", "metering_formula", "interval", "interval_unit", "unspsc_code"); err != nil {
         return []byte{}, err
     }
     return json.Marshal(e.toMap())
@@ -94,7 +98,15 @@ func (e EBBComponent) toMap() map[string]any {
     if e.HideDateRangeOnInvoice != nil {
         structMap["hide_date_range_on_invoice"] = e.HideDateRangeOnInvoice
     }
-    structMap["event_based_billing_metric_id"] = e.EventBasedBillingMetricId
+    if e.EventBasedBillingMetricId != nil {
+        structMap["event_based_billing_metric_id"] = e.EventBasedBillingMetricId
+    }
+    if e.MeteringMeterId != nil {
+        structMap["metering_meter_id"] = e.MeteringMeterId
+    }
+    if e.MeteringFormula != nil {
+        structMap["metering_formula"] = e.MeteringFormula
+    }
     if e.Interval != nil {
         structMap["interval"] = e.Interval
     }
@@ -127,7 +139,7 @@ func (e *EBBComponent) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "name", "unit_name", "description", "handle", "taxable", "pricing_scheme", "prices", "price_points", "unit_price", "tax_code", "hide_date_range_on_invoice", "event_based_billing_metric_id", "interval", "interval_unit", "unspsc_code")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "name", "unit_name", "description", "handle", "taxable", "pricing_scheme", "prices", "price_points", "unit_price", "tax_code", "hide_date_range_on_invoice", "event_based_billing_metric_id", "metering_meter_id", "metering_formula", "interval", "interval_unit", "unspsc_code")
     if err != nil {
     	return err
     }
@@ -144,7 +156,9 @@ func (e *EBBComponent) UnmarshalJSON(input []byte) error {
     e.UnitPrice = temp.UnitPrice
     e.TaxCode = temp.TaxCode
     e.HideDateRangeOnInvoice = temp.HideDateRangeOnInvoice
-    e.EventBasedBillingMetricId = *temp.EventBasedBillingMetricId
+    e.EventBasedBillingMetricId = temp.EventBasedBillingMetricId
+    e.MeteringMeterId = temp.MeteringMeterId
+    e.MeteringFormula = temp.MeteringFormula
     e.Interval = temp.Interval
     e.IntervalUnit = temp.IntervalUnit
     e.UnspscCode = temp.UnspscCode
@@ -164,7 +178,9 @@ type tempEBBComponent  struct {
     UnitPrice                 *EBBComponentUnitPrice    `json:"unit_price,omitempty"`
     TaxCode                   *string                   `json:"tax_code,omitempty"`
     HideDateRangeOnInvoice    *bool                     `json:"hide_date_range_on_invoice,omitempty"`
-    EventBasedBillingMetricId *int                      `json:"event_based_billing_metric_id"`
+    EventBasedBillingMetricId *int                      `json:"event_based_billing_metric_id,omitempty"`
+    MeteringMeterId           *int                      `json:"metering_meter_id,omitempty"`
+    MeteringFormula           *string                   `json:"metering_formula,omitempty"`
     Interval                  *int                      `json:"interval,omitempty"`
     IntervalUnit              Optional[IntervalUnit]    `json:"interval_unit"`
     UnspscCode                Optional[string]          `json:"unspsc_code"`
@@ -180,9 +196,6 @@ func (e *tempEBBComponent) validate() error {
     }
     if e.PricingScheme == nil {
         errs = append(errs, "required field `pricing_scheme` is missing for type `EBB Component`")
-    }
-    if e.EventBasedBillingMetricId == nil {
-        errs = append(errs, "required field `event_based_billing_metric_id` is missing for type `EBB Component`")
     }
     if len(errs) == 0 {
         return nil

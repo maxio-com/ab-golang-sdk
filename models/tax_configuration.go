@@ -11,7 +11,7 @@ import (
 type TaxConfiguration struct {
     Kind                 *TaxConfigurationKind  `json:"kind,omitempty"`
     DestinationAddress   *TaxDestinationAddress `json:"destination_address,omitempty"`
-    // Returns `true` when Chargify has been properly configured to charge tax using the specified tax system. More details about taxes: https://maxio.zendesk.com/hc/en-us/articles/24287012608909-Taxes-Overview
+    // Returns `true` when Chargify has been properly configured to charge tax using the specified tax system. More details about taxes: https://docs.maxio.com/billing/taxes/overview/understand-tax-options
     FullyConfigured      *bool                  `json:"fully_configured,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
 }

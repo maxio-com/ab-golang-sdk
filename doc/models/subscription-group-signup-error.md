@@ -9,7 +9,7 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `Subscriptions` | [`map[string]models.SubscriptionGroupSubscriptionError`](../../doc/models/subscription-group-subscription-error.md) | Optional | Object that as key have subscription position in request subscriptions array and as value subscription errors object. |
+| `Subscriptions` | [`map[string]models.SubscriptionGroupSubscriptionError`](../../doc/models/subscription-group-subscription-error.md) | Optional | Subscription errors keyed by the subscription's `reference` from the request, or by its zero-based position in the `subscriptions` array when it has no reference. |
 | `PayerReference` | `*string` | Optional | - |
 | `Payer` | [`*models.PayerError`](../../doc/models/payer-error.md) | Optional | - |
 | `SubscriptionGroup` | `[]string` | Optional | - |
@@ -29,6 +29,10 @@ func main() {
     subscriptionGroupSignupError := models.SubscriptionGroupSignupError{
         Subscriptions:        map[string]models.SubscriptionGroupSubscriptionError{
             "key0": models.SubscriptionGroupSubscriptionError{
+                Customer:                      []string{
+                    "customer1",
+                    "customer2",
+                },
                 Product:                       []string{
                     "product9",
                 },
@@ -40,13 +44,13 @@ func main() {
                 },
                 PaymentProfileChargifyToken:   []string{
                     "payment_profile.chargify_token6",
-                },
-                Base:                          []string{
-                    "base5",
-                    "base6",
                 },
             },
             "key1": models.SubscriptionGroupSubscriptionError{
+                Customer:                      []string{
+                    "customer1",
+                    "customer2",
+                },
                 Product:                       []string{
                     "product9",
                 },
@@ -58,13 +62,13 @@ func main() {
                 },
                 PaymentProfileChargifyToken:   []string{
                     "payment_profile.chargify_token6",
-                },
-                Base:                          []string{
-                    "base5",
-                    "base6",
                 },
             },
             "key2": models.SubscriptionGroupSubscriptionError{
+                Customer:                      []string{
+                    "customer1",
+                    "customer2",
+                },
                 Product:                       []string{
                     "product9",
                 },
@@ -76,10 +80,6 @@ func main() {
                 },
                 PaymentProfileChargifyToken:   []string{
                     "payment_profile.chargify_token6",
-                },
-                Base:                          []string{
-                    "base5",
-                    "base6",
                 },
             },
         },

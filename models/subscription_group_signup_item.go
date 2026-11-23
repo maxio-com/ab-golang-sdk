@@ -21,6 +21,10 @@ type SubscriptionGroupSignupItem struct {
     OfferId                 *int                               `json:"offer_id,omitempty"`
     // The reference value (provided by your app) for the subscription itself.
     Reference               *string                            `json:"reference,omitempty"`
+    // (Optional) The ID of the customer the subscription belongs to. The customer must be the payer or a customer below the payer in the customer hierarchy. If you omit both `customer_id` and `customer_reference`, the subscription belongs to the payer.
+    CustomerId              *int                               `json:"customer_id,omitempty"`
+    // (Optional) The reference of the customer the subscription belongs to, matched case-insensitively. Use in place of `customer_id`. If you pass both, `customer_id` is used.
+    CustomerReference       *string                            `json:"customer_reference,omitempty"`
     // One of the subscriptions must be marked as primary in the group.
     Primary                 *bool                              `json:"primary,omitempty"`
     // (Optional) If Multi-Currency is enabled and the currency is configured in Chargify, pass it at signup to create a subscription on a non-default currency. Note that you cannot update the currency of an existing subscription.
@@ -41,8 +45,8 @@ type SubscriptionGroupSignupItem struct {
 // providing a human-readable string representation useful for logging, debugging or displaying information.
 func (s SubscriptionGroupSignupItem) String() string {
     return fmt.Sprintf(
-    	"SubscriptionGroupSignupItem[ProductHandle=%v, ProductId=%v, ProductPricePointId=%v, ProductPricePointHandle=%v, OfferId=%v, Reference=%v, Primary=%v, Currency=%v, CouponCodes=%v, Components=%v, CustomPrice=%v, CalendarBilling=%v, Metafields=%v, AdditionalProperties=%v]",
-    	s.ProductHandle, s.ProductId, s.ProductPricePointId, s.ProductPricePointHandle, s.OfferId, s.Reference, s.Primary, s.Currency, s.CouponCodes, s.Components, s.CustomPrice, s.CalendarBilling, s.Metafields, s.AdditionalProperties)
+    	"SubscriptionGroupSignupItem[ProductHandle=%v, ProductId=%v, ProductPricePointId=%v, ProductPricePointHandle=%v, OfferId=%v, Reference=%v, CustomerId=%v, CustomerReference=%v, Primary=%v, Currency=%v, CouponCodes=%v, Components=%v, CustomPrice=%v, CalendarBilling=%v, Metafields=%v, AdditionalProperties=%v]",
+    	s.ProductHandle, s.ProductId, s.ProductPricePointId, s.ProductPricePointHandle, s.OfferId, s.Reference, s.CustomerId, s.CustomerReference, s.Primary, s.Currency, s.CouponCodes, s.Components, s.CustomPrice, s.CalendarBilling, s.Metafields, s.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for SubscriptionGroupSignupItem.
@@ -51,7 +55,7 @@ func (s SubscriptionGroupSignupItem) MarshalJSON() (
     []byte,
     error) {
     if err := DetectConflictingProperties(s.AdditionalProperties,
-        "product_handle", "product_id", "product_price_point_id", "product_price_point_handle", "offer_id", "reference", "primary", "currency", "coupon_codes", "components", "custom_price", "calendar_billing", "metafields"); err != nil {
+        "product_handle", "product_id", "product_price_point_id", "product_price_point_handle", "offer_id", "reference", "customer_id", "customer_reference", "primary", "currency", "coupon_codes", "components", "custom_price", "calendar_billing", "metafields"); err != nil {
         return []byte{}, err
     }
     return json.Marshal(s.toMap())
@@ -78,6 +82,12 @@ func (s SubscriptionGroupSignupItem) toMap() map[string]any {
     }
     if s.Reference != nil {
         structMap["reference"] = s.Reference
+    }
+    if s.CustomerId != nil {
+        structMap["customer_id"] = s.CustomerId
+    }
+    if s.CustomerReference != nil {
+        structMap["customer_reference"] = s.CustomerReference
     }
     if s.Primary != nil {
         structMap["primary"] = s.Primary
@@ -111,7 +121,7 @@ func (s *SubscriptionGroupSignupItem) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "product_handle", "product_id", "product_price_point_id", "product_price_point_handle", "offer_id", "reference", "primary", "currency", "coupon_codes", "components", "custom_price", "calendar_billing", "metafields")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "product_handle", "product_id", "product_price_point_id", "product_price_point_handle", "offer_id", "reference", "customer_id", "customer_reference", "primary", "currency", "coupon_codes", "components", "custom_price", "calendar_billing", "metafields")
     if err != nil {
     	return err
     }
@@ -123,6 +133,8 @@ func (s *SubscriptionGroupSignupItem) UnmarshalJSON(input []byte) error {
     s.ProductPricePointHandle = temp.ProductPricePointHandle
     s.OfferId = temp.OfferId
     s.Reference = temp.Reference
+    s.CustomerId = temp.CustomerId
+    s.CustomerReference = temp.CustomerReference
     s.Primary = temp.Primary
     s.Currency = temp.Currency
     s.CouponCodes = temp.CouponCodes
@@ -141,6 +153,8 @@ type tempSubscriptionGroupSignupItem  struct {
     ProductPricePointHandle *string                            `json:"product_price_point_handle,omitempty"`
     OfferId                 *int                               `json:"offer_id,omitempty"`
     Reference               *string                            `json:"reference,omitempty"`
+    CustomerId              *int                               `json:"customer_id,omitempty"`
+    CustomerReference       *string                            `json:"customer_reference,omitempty"`
     Primary                 *bool                              `json:"primary,omitempty"`
     Currency                *string                            `json:"currency,omitempty"`
     CouponCodes             []string                           `json:"coupon_codes,omitempty"`

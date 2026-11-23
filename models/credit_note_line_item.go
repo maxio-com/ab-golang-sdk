@@ -54,6 +54,12 @@ type CreditNoteLineItem struct {
     ComponentId                Optional[int]          `json:"component_id"`
     // The price point ID of the component being credited. Will be `nil` for non-component credits.
     PricePointId               Optional[int]          `json:"price_point_id"`
+    // The unit price from the list price point, in decimal format
+    ListUnitPrice              Optional[string]       `json:"list_unit_price"`
+    // The total amount for the line item at the list price, in decimal format
+    ListTotalAmount            Optional[string]       `json:"list_total_amount"`
+    // The ID of the list price point this line item's sales price is compared against
+    ListPricePointId           Optional[int]          `json:"list_price_point_id"`
     BillingScheduleItemId      Optional[int]          `json:"billing_schedule_item_id"`
     CustomItem                 *bool                  `json:"custom_item,omitempty"`
     // The date a prepaid allocation is set to expire. Only present on line items representing prepaid component allocations. The format is `"YYYY-MM-DD"`.
@@ -65,8 +71,8 @@ type CreditNoteLineItem struct {
 // providing a human-readable string representation useful for logging, debugging or displaying information.
 func (c CreditNoteLineItem) String() string {
     return fmt.Sprintf(
-    	"CreditNoteLineItem[Uid=%v, Title=%v, Description=%v, Quantity=%v, UnitPrice=%v, SubtotalAmount=%v, DiscountAmount=%v, TaxAmount=%v, TaxIncluded=%v, TotalAmount=%v, TieredUnitPrice=%v, PeriodRangeStart=%v, PeriodRangeEnd=%v, ProductId=%v, ProductVersion=%v, ComponentId=%v, PricePointId=%v, BillingScheduleItemId=%v, CustomItem=%v, PrepaidAllocationExpiresAt=%v, AdditionalProperties=%v]",
-    	c.Uid, c.Title, c.Description, c.Quantity, c.UnitPrice, c.SubtotalAmount, c.DiscountAmount, c.TaxAmount, c.TaxIncluded, c.TotalAmount, c.TieredUnitPrice, c.PeriodRangeStart, c.PeriodRangeEnd, c.ProductId, c.ProductVersion, c.ComponentId, c.PricePointId, c.BillingScheduleItemId, c.CustomItem, c.PrepaidAllocationExpiresAt, c.AdditionalProperties)
+    	"CreditNoteLineItem[Uid=%v, Title=%v, Description=%v, Quantity=%v, UnitPrice=%v, SubtotalAmount=%v, DiscountAmount=%v, TaxAmount=%v, TaxIncluded=%v, TotalAmount=%v, TieredUnitPrice=%v, PeriodRangeStart=%v, PeriodRangeEnd=%v, ProductId=%v, ProductVersion=%v, ComponentId=%v, PricePointId=%v, ListUnitPrice=%v, ListTotalAmount=%v, ListPricePointId=%v, BillingScheduleItemId=%v, CustomItem=%v, PrepaidAllocationExpiresAt=%v, AdditionalProperties=%v]",
+    	c.Uid, c.Title, c.Description, c.Quantity, c.UnitPrice, c.SubtotalAmount, c.DiscountAmount, c.TaxAmount, c.TaxIncluded, c.TotalAmount, c.TieredUnitPrice, c.PeriodRangeStart, c.PeriodRangeEnd, c.ProductId, c.ProductVersion, c.ComponentId, c.PricePointId, c.ListUnitPrice, c.ListTotalAmount, c.ListPricePointId, c.BillingScheduleItemId, c.CustomItem, c.PrepaidAllocationExpiresAt, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreditNoteLineItem.
@@ -75,7 +81,7 @@ func (c CreditNoteLineItem) MarshalJSON() (
     []byte,
     error) {
     if err := DetectConflictingProperties(c.AdditionalProperties,
-        "uid", "title", "description", "quantity", "unit_price", "subtotal_amount", "discount_amount", "tax_amount", "tax_included", "total_amount", "tiered_unit_price", "period_range_start", "period_range_end", "product_id", "product_version", "component_id", "price_point_id", "billing_schedule_item_id", "custom_item", "prepaid_allocation_expires_at"); err != nil {
+        "uid", "title", "description", "quantity", "unit_price", "subtotal_amount", "discount_amount", "tax_amount", "tax_included", "total_amount", "tiered_unit_price", "period_range_start", "period_range_end", "product_id", "product_version", "component_id", "price_point_id", "list_unit_price", "list_total_amount", "list_price_point_id", "billing_schedule_item_id", "custom_item", "prepaid_allocation_expires_at"); err != nil {
         return []byte{}, err
     }
     return json.Marshal(c.toMap())
@@ -144,6 +150,27 @@ func (c CreditNoteLineItem) toMap() map[string]any {
             structMap["price_point_id"] = nil
         }
     }
+    if c.ListUnitPrice.IsValueSet() {
+        if c.ListUnitPrice.Value() != nil {
+            structMap["list_unit_price"] = c.ListUnitPrice.Value()
+        } else {
+            structMap["list_unit_price"] = nil
+        }
+    }
+    if c.ListTotalAmount.IsValueSet() {
+        if c.ListTotalAmount.Value() != nil {
+            structMap["list_total_amount"] = c.ListTotalAmount.Value()
+        } else {
+            structMap["list_total_amount"] = nil
+        }
+    }
+    if c.ListPricePointId.IsValueSet() {
+        if c.ListPricePointId.Value() != nil {
+            structMap["list_price_point_id"] = c.ListPricePointId.Value()
+        } else {
+            structMap["list_price_point_id"] = nil
+        }
+    }
     if c.BillingScheduleItemId.IsValueSet() {
         if c.BillingScheduleItemId.Value() != nil {
             structMap["billing_schedule_item_id"] = c.BillingScheduleItemId.Value()
@@ -177,7 +204,7 @@ func (c *CreditNoteLineItem) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "uid", "title", "description", "quantity", "unit_price", "subtotal_amount", "discount_amount", "tax_amount", "tax_included", "total_amount", "tiered_unit_price", "period_range_start", "period_range_end", "product_id", "product_version", "component_id", "price_point_id", "billing_schedule_item_id", "custom_item", "prepaid_allocation_expires_at")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "uid", "title", "description", "quantity", "unit_price", "subtotal_amount", "discount_amount", "tax_amount", "tax_included", "total_amount", "tiered_unit_price", "period_range_start", "period_range_end", "product_id", "product_version", "component_id", "price_point_id", "list_unit_price", "list_total_amount", "list_price_point_id", "billing_schedule_item_id", "custom_item", "prepaid_allocation_expires_at")
     if err != nil {
     	return err
     }
@@ -212,6 +239,9 @@ func (c *CreditNoteLineItem) UnmarshalJSON(input []byte) error {
     c.ProductVersion = temp.ProductVersion
     c.ComponentId = temp.ComponentId
     c.PricePointId = temp.PricePointId
+    c.ListUnitPrice = temp.ListUnitPrice
+    c.ListTotalAmount = temp.ListTotalAmount
+    c.ListPricePointId = temp.ListPricePointId
     c.BillingScheduleItemId = temp.BillingScheduleItemId
     c.CustomItem = temp.CustomItem
     c.PrepaidAllocationExpiresAt.ShouldSetValue(temp.PrepaidAllocationExpiresAt.IsValueSet())
@@ -244,6 +274,9 @@ type tempCreditNoteLineItem  struct {
     ProductVersion             *int             `json:"product_version,omitempty"`
     ComponentId                Optional[int]    `json:"component_id"`
     PricePointId               Optional[int]    `json:"price_point_id"`
+    ListUnitPrice              Optional[string] `json:"list_unit_price"`
+    ListTotalAmount            Optional[string] `json:"list_total_amount"`
+    ListPricePointId           Optional[int]    `json:"list_price_point_id"`
     BillingScheduleItemId      Optional[int]    `json:"billing_schedule_item_id"`
     CustomItem                 *bool            `json:"custom_item,omitempty"`
     PrepaidAllocationExpiresAt Optional[string] `json:"prepaid_allocation_expires_at"`

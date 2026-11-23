@@ -23,8 +23,10 @@ type MeteredComponent struct {
     Taxable                   *bool                      `json:"taxable,omitempty"`
     // The identifier for the pricing scheme. See [Product Components](https://help.chargify.com/products/product-components.html) for an overview of pricing schemes.
     PricingScheme             PricingScheme              `json:"pricing_scheme"`
-    // (Not required for ‘per_unit’ pricing schemes) One or more price brackets. See [Price Bracket Rules](https://maxio.zendesk.com/hc/en-us/articles/24261149166733-Component-Pricing-Schemes#price-bracket-rules) for an overview of how price brackets work for different pricing schemes.
+    // (Not required for ‘per_unit’ pricing schemes) One or more price brackets. See [Price Bracket Rules](https://docs.maxio.com/billing/catalog/products/use-product-pricing-schemes#price-bracket-rules) for an overview of how price brackets work for different pricing schemes.
     Prices                    []Price                    `json:"prices,omitempty"`
+    // Hybrid Pricing only. The secondary pricing model that takes over once usage passes the primary model's included threshold. Applies to Quantity-Based and Metered Components on Sites with Hybrid Pricing enabled; ignored otherwise. Its `prices` brackets start at `1`, not at the primary model's highest `ending_quantity`. See [Hybrid Pricing](page:introduction/basic-concepts/hybrid-pricing).
+    SecondaryPricing          *SecondaryPricing          `json:"secondary_pricing,omitempty"`
     PricePoints               []ComponentPricePointItem  `json:"price_points,omitempty"`
     // The amount the customer will be charged per unit when the pricing scheme is “per_unit”. For On/Off Components, this is the amount that the customer will be charged when they turn the component on for the subscription. The price can contain up to 8 decimal places. e.g., 1.00 or 0.0012 or 0.00000065
     UnitPrice                 *MeteredComponentUnitPrice `json:"unit_price,omitempty"`
@@ -48,8 +50,8 @@ type MeteredComponent struct {
 // providing a human-readable string representation useful for logging, debugging or displaying information.
 func (m MeteredComponent) String() string {
     return fmt.Sprintf(
-    	"MeteredComponent[Name=%v, UnitName=%v, Description=%v, Handle=%v, Taxable=%v, PricingScheme=%v, Prices=%v, PricePoints=%v, UnitPrice=%v, TaxCode=%v, HideDateRangeOnInvoice=%v, DisplayOnHostedPage=%v, AllowFractionalQuantities=%v, PublicSignupPageIds=%v, Interval=%v, IntervalUnit=%v, UnspscCode=%v, AdditionalProperties=%v]",
-    	m.Name, m.UnitName, m.Description, m.Handle, m.Taxable, m.PricingScheme, m.Prices, m.PricePoints, m.UnitPrice, m.TaxCode, m.HideDateRangeOnInvoice, m.DisplayOnHostedPage, m.AllowFractionalQuantities, m.PublicSignupPageIds, m.Interval, m.IntervalUnit, m.UnspscCode, m.AdditionalProperties)
+    	"MeteredComponent[Name=%v, UnitName=%v, Description=%v, Handle=%v, Taxable=%v, PricingScheme=%v, Prices=%v, SecondaryPricing=%v, PricePoints=%v, UnitPrice=%v, TaxCode=%v, HideDateRangeOnInvoice=%v, DisplayOnHostedPage=%v, AllowFractionalQuantities=%v, PublicSignupPageIds=%v, Interval=%v, IntervalUnit=%v, UnspscCode=%v, AdditionalProperties=%v]",
+    	m.Name, m.UnitName, m.Description, m.Handle, m.Taxable, m.PricingScheme, m.Prices, m.SecondaryPricing, m.PricePoints, m.UnitPrice, m.TaxCode, m.HideDateRangeOnInvoice, m.DisplayOnHostedPage, m.AllowFractionalQuantities, m.PublicSignupPageIds, m.Interval, m.IntervalUnit, m.UnspscCode, m.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for MeteredComponent.
@@ -58,7 +60,7 @@ func (m MeteredComponent) MarshalJSON() (
     []byte,
     error) {
     if err := DetectConflictingProperties(m.AdditionalProperties,
-        "name", "unit_name", "description", "handle", "taxable", "pricing_scheme", "prices", "price_points", "unit_price", "tax_code", "hide_date_range_on_invoice", "display_on_hosted_page", "allow_fractional_quantities", "public_signup_page_ids", "interval", "interval_unit", "unspsc_code"); err != nil {
+        "name", "unit_name", "description", "handle", "taxable", "pricing_scheme", "prices", "secondary_pricing", "price_points", "unit_price", "tax_code", "hide_date_range_on_invoice", "display_on_hosted_page", "allow_fractional_quantities", "public_signup_page_ids", "interval", "interval_unit", "unspsc_code"); err != nil {
         return []byte{}, err
     }
     return json.Marshal(m.toMap())
@@ -82,6 +84,9 @@ func (m MeteredComponent) toMap() map[string]any {
     structMap["pricing_scheme"] = m.PricingScheme
     if m.Prices != nil {
         structMap["prices"] = m.Prices
+    }
+    if m.SecondaryPricing != nil {
+        structMap["secondary_pricing"] = m.SecondaryPricing.toMap()
     }
     if m.PricePoints != nil {
         structMap["price_points"] = m.PricePoints
@@ -136,7 +141,7 @@ func (m *MeteredComponent) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "name", "unit_name", "description", "handle", "taxable", "pricing_scheme", "prices", "price_points", "unit_price", "tax_code", "hide_date_range_on_invoice", "display_on_hosted_page", "allow_fractional_quantities", "public_signup_page_ids", "interval", "interval_unit", "unspsc_code")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "name", "unit_name", "description", "handle", "taxable", "pricing_scheme", "prices", "secondary_pricing", "price_points", "unit_price", "tax_code", "hide_date_range_on_invoice", "display_on_hosted_page", "allow_fractional_quantities", "public_signup_page_ids", "interval", "interval_unit", "unspsc_code")
     if err != nil {
     	return err
     }
@@ -149,6 +154,7 @@ func (m *MeteredComponent) UnmarshalJSON(input []byte) error {
     m.Taxable = temp.Taxable
     m.PricingScheme = *temp.PricingScheme
     m.Prices = temp.Prices
+    m.SecondaryPricing = temp.SecondaryPricing
     m.PricePoints = temp.PricePoints
     m.UnitPrice = temp.UnitPrice
     m.TaxCode = temp.TaxCode
@@ -171,6 +177,7 @@ type tempMeteredComponent  struct {
     Taxable                   *bool                      `json:"taxable,omitempty"`
     PricingScheme             *PricingScheme             `json:"pricing_scheme"`
     Prices                    []Price                    `json:"prices,omitempty"`
+    SecondaryPricing          *SecondaryPricing          `json:"secondary_pricing,omitempty"`
     PricePoints               []ComponentPricePointItem  `json:"price_points,omitempty"`
     UnitPrice                 *MeteredComponentUnitPrice `json:"unit_price,omitempty"`
     TaxCode                   *string                    `json:"tax_code,omitempty"`

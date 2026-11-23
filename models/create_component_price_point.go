@@ -11,28 +11,32 @@ import (
 
 // CreateComponentPricePoint represents a CreateComponentPricePoint struct.
 type CreateComponentPricePoint struct {
-    Name                 string                 `json:"name"`
-    Handle               *string                `json:"handle,omitempty"`
+    Name                   string                 `json:"name"`
+    Handle                 *string                `json:"handle,omitempty"`
     // The identifier for the pricing scheme. See [Product Components](https://help.chargify.com/products/product-components.html) for an overview of pricing schemes.
-    PricingScheme        PricingScheme          `json:"pricing_scheme"`
-    Prices               []Price                `json:"prices"`
+    PricingScheme          PricingScheme          `json:"pricing_scheme"`
+    Prices                 []Price                `json:"prices"`
+    // Hybrid Pricing only. The secondary pricing model that takes over once usage passes the primary model's included threshold. Applies to Quantity-Based and Metered Components on Sites with Hybrid Pricing enabled; ignored otherwise. Its `prices` brackets start at `1`, not at the primary model's highest `ending_quantity`. See [Hybrid Pricing](page:introduction/basic-concepts/hybrid-pricing).
+    SecondaryPricing       *SecondaryPricing      `json:"secondary_pricing,omitempty"`
+    // Hybrid Pricing only. Alternative to `secondary_pricing.pricing_scheme`; when both are sent, `secondary_pricing.pricing_scheme` is used. Setting not supported when creating price points in bulk.
+    SecondaryPricingScheme *PricingScheme         `json:"secondary_pricing_scheme,omitempty"`
     // Whether to use the site level exchange rate or define your own prices for each currency if you have multiple currencies defined on the site. Setting not supported when creating price points in bulk.
-    UseSiteExchangeRate  *bool                  `json:"use_site_exchange_rate,omitempty"`
+    UseSiteExchangeRate    *bool                  `json:"use_site_exchange_rate,omitempty"`
     // Whether or not the price point includes tax. Setting not supported when creating price points in bulk.
-    TaxIncluded          *bool                  `json:"tax_included,omitempty"`
+    TaxIncluded            *bool                  `json:"tax_included,omitempty"`
     // The numerical interval. e.g., an interval of ‘30’ coupled with an interval_unit of day would mean this price point would renew every 30 days. This property is only available for sites with Multifrequency enabled.
-    Interval             *int                   `json:"interval,omitempty"`
+    Interval               *int                   `json:"interval,omitempty"`
     // A string representing the interval unit for this price point, either month or day. This property is only available for sites with Multifrequency enabled.
-    IntervalUnit         Optional[IntervalUnit] `json:"interval_unit"`
-    AdditionalProperties map[string]interface{} `json:"_"`
+    IntervalUnit           Optional[IntervalUnit] `json:"interval_unit"`
+    AdditionalProperties   map[string]interface{} `json:"_"`
 }
 
 // String implements the fmt.Stringer interface for CreateComponentPricePoint,
 // providing a human-readable string representation useful for logging, debugging or displaying information.
 func (c CreateComponentPricePoint) String() string {
     return fmt.Sprintf(
-    	"CreateComponentPricePoint[Name=%v, Handle=%v, PricingScheme=%v, Prices=%v, UseSiteExchangeRate=%v, TaxIncluded=%v, Interval=%v, IntervalUnit=%v, AdditionalProperties=%v]",
-    	c.Name, c.Handle, c.PricingScheme, c.Prices, c.UseSiteExchangeRate, c.TaxIncluded, c.Interval, c.IntervalUnit, c.AdditionalProperties)
+    	"CreateComponentPricePoint[Name=%v, Handle=%v, PricingScheme=%v, Prices=%v, SecondaryPricing=%v, SecondaryPricingScheme=%v, UseSiteExchangeRate=%v, TaxIncluded=%v, Interval=%v, IntervalUnit=%v, AdditionalProperties=%v]",
+    	c.Name, c.Handle, c.PricingScheme, c.Prices, c.SecondaryPricing, c.SecondaryPricingScheme, c.UseSiteExchangeRate, c.TaxIncluded, c.Interval, c.IntervalUnit, c.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for CreateComponentPricePoint.
@@ -41,7 +45,7 @@ func (c CreateComponentPricePoint) MarshalJSON() (
     []byte,
     error) {
     if err := DetectConflictingProperties(c.AdditionalProperties,
-        "name", "handle", "pricing_scheme", "prices", "use_site_exchange_rate", "tax_included", "interval", "interval_unit"); err != nil {
+        "name", "handle", "pricing_scheme", "prices", "secondary_pricing", "secondary_pricing_scheme", "use_site_exchange_rate", "tax_included", "interval", "interval_unit"); err != nil {
         return []byte{}, err
     }
     return json.Marshal(c.toMap())
@@ -57,6 +61,12 @@ func (c CreateComponentPricePoint) toMap() map[string]any {
     }
     structMap["pricing_scheme"] = c.PricingScheme
     structMap["prices"] = c.Prices
+    if c.SecondaryPricing != nil {
+        structMap["secondary_pricing"] = c.SecondaryPricing.toMap()
+    }
+    if c.SecondaryPricingScheme != nil {
+        structMap["secondary_pricing_scheme"] = c.SecondaryPricingScheme
+    }
     if c.UseSiteExchangeRate != nil {
         structMap["use_site_exchange_rate"] = c.UseSiteExchangeRate
     }
@@ -88,7 +98,7 @@ func (c *CreateComponentPricePoint) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "name", "handle", "pricing_scheme", "prices", "use_site_exchange_rate", "tax_included", "interval", "interval_unit")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "name", "handle", "pricing_scheme", "prices", "secondary_pricing", "secondary_pricing_scheme", "use_site_exchange_rate", "tax_included", "interval", "interval_unit")
     if err != nil {
     	return err
     }
@@ -98,6 +108,8 @@ func (c *CreateComponentPricePoint) UnmarshalJSON(input []byte) error {
     c.Handle = temp.Handle
     c.PricingScheme = *temp.PricingScheme
     c.Prices = *temp.Prices
+    c.SecondaryPricing = temp.SecondaryPricing
+    c.SecondaryPricingScheme = temp.SecondaryPricingScheme
     c.UseSiteExchangeRate = temp.UseSiteExchangeRate
     c.TaxIncluded = temp.TaxIncluded
     c.Interval = temp.Interval
@@ -107,14 +119,16 @@ func (c *CreateComponentPricePoint) UnmarshalJSON(input []byte) error {
 
 // tempCreateComponentPricePoint is a temporary struct used for validating the fields of CreateComponentPricePoint.
 type tempCreateComponentPricePoint  struct {
-    Name                *string                `json:"name"`
-    Handle              *string                `json:"handle,omitempty"`
-    PricingScheme       *PricingScheme         `json:"pricing_scheme"`
-    Prices              *[]Price               `json:"prices"`
-    UseSiteExchangeRate *bool                  `json:"use_site_exchange_rate,omitempty"`
-    TaxIncluded         *bool                  `json:"tax_included,omitempty"`
-    Interval            *int                   `json:"interval,omitempty"`
-    IntervalUnit        Optional[IntervalUnit] `json:"interval_unit"`
+    Name                   *string                `json:"name"`
+    Handle                 *string                `json:"handle,omitempty"`
+    PricingScheme          *PricingScheme         `json:"pricing_scheme"`
+    Prices                 *[]Price               `json:"prices"`
+    SecondaryPricing       *SecondaryPricing      `json:"secondary_pricing,omitempty"`
+    SecondaryPricingScheme *PricingScheme         `json:"secondary_pricing_scheme,omitempty"`
+    UseSiteExchangeRate    *bool                  `json:"use_site_exchange_rate,omitempty"`
+    TaxIncluded            *bool                  `json:"tax_included,omitempty"`
+    Interval               *int                   `json:"interval,omitempty"`
+    IntervalUnit           Optional[IntervalUnit] `json:"interval_unit"`
 }
 
 func (c *tempCreateComponentPricePoint) validate() error {

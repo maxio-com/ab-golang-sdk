@@ -1,5 +1,9 @@
 # Offers
 
+The Offer object packages a combination of products, components, and coupons into a single option that customers can subscribe to, just like a product. Once an offer is defined, the offer can be used as an alternative to a product when creating subscriptions.
+
+Offers are commonly used to power self-service signup pages without requiring each pricing combination to be built manually. For more information, see [Understand Offers](https://docs.maxio.com/billing/catalog/offers/understand-offers).
+
 ```go
 offersController := client.OffersController()
 ```
@@ -25,7 +29,7 @@ Offers allow you to package complicated combinations of products, components and
 
 Once an offer is defined it can be used as an alternative to the product when creating subscriptions.
 
-For more information, see [Offers](https://maxio.zendesk.com/hc/en-us/articles/24261295098637-Offers-Overview) in the product documentation.
+For more information, see [Offers](https://docs.maxio.com/billing/catalog/offers/understand-offers) in the product documentation.
 
 ## Using a Product Price Point
 
