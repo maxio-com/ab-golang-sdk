@@ -199,7 +199,7 @@ func (e ErrorStringMapResponse) String() string {
 // EventBasedBillingListSegmentsErrors is a custom error.
 type EventBasedBillingListSegmentsErrors struct {
     https.ApiError
-    Errors         *models.Errors1 `json:"errors,omitempty"`
+    Errors         *models.Errors `json:"errors,omitempty"`
 }
 
 // NewEventBasedBillingListSegmentsErrors is a constructor for EventBasedBillingListSegmentsErrors.
@@ -231,7 +231,7 @@ func (e EventBasedBillingListSegmentsErrors) String() string {
 // Errors returned when creating or updating a single segment. Validation problems use the per-field error map; a write to a subscription's custom price point returns a `price_point` error.
 type EventBasedBillingSegmentWriteErrorResponse struct {
     https.ApiError
-    Errors         *models.EventBasedBillingSegmentSingleError `json:"errors,omitempty"`
+    Errors         map[string]interface{} `json:"errors,omitempty"`
 }
 
 // NewEventBasedBillingSegmentWriteErrorResponse is a constructor for EventBasedBillingSegmentWriteErrorResponse.
@@ -353,35 +353,35 @@ func (r RefundPrepaymentBaseErrorsResponse) String() string {
     	prefixTrimmed, r.Errors)
 }
 
-// SegmentPricePointErrorsError is a custom error.
+// SegmentPricePointErrors is a custom error.
 // Returned when a segment write targets a subscription's custom price point. Segments on a custom price point can only be set through `custom_price` on the subscription or component endpoints.
-type SegmentPricePointErrorsError struct {
+type SegmentPricePointErrors struct {
     https.ApiError
-    Errors         models.Errors `json:"errors"`
+    Errors         models.SegmentPricePointErrorDetails `json:"errors"`
 }
 
-// NewSegmentPricePointErrorsError is a constructor for SegmentPricePointErrorsError.
-// It creates and returns a pointer to a new SegmentPricePointErrorsError instance with the given statusCode and body.
-func NewSegmentPricePointErrorsError(apiError https.ApiError) error {
-    return &SegmentPricePointErrorsError{
+// NewSegmentPricePointErrors is a constructor for SegmentPricePointErrors.
+// It creates and returns a pointer to a new SegmentPricePointErrors instance with the given statusCode and body.
+func NewSegmentPricePointErrors(apiError https.ApiError) error {
+    return &SegmentPricePointErrors{
 		ApiError: apiError,
     }
 }
 
 // Error implements the Error method for the error interface.
-// It returns a formatted error message for SegmentPricePointErrorsError.
-func (s SegmentPricePointErrorsError) Error() string {
-    return fmt.Sprintf("SegmentPricePointErrorsError occured: %v", s.Message)
+// It returns a formatted error message for SegmentPricePointErrors.
+func (s SegmentPricePointErrors) Error() string {
+    return fmt.Sprintf("SegmentPricePointErrors occured: %v", s.Message)
 }
 
-// String implements the fmt.Stringer interface for SegmentPricePointErrorsError,
+// String implements the fmt.Stringer interface for SegmentPricePointErrors,
 // providing a human-readable string representation useful for logging, debugging or displaying information.
-func (s SegmentPricePointErrorsError) String() string {
+func (s SegmentPricePointErrors) String() string {
     suffixTrimmed := strings.TrimSuffix(s.ApiError.String(), "]")
     prefixTrimmed := strings.TrimPrefix(suffixTrimmed, "ApiError[")
     
     return fmt.Sprintf(
-    	"SegmentPricePointErrorsError[%v, Errors=%v]",
+    	"SegmentPricePointErrors[%v, Errors=%v]",
     	prefixTrimmed, s.Errors)
 }
 

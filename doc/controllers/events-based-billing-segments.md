@@ -235,7 +235,12 @@ id := float64(60)
 
 apiResponse, err := eventsBasedBillingSegmentsController.UpdateSegment(ctx, componentId, pricePointId, id, nil)
 if err != nil {
-    log.Fatalln(err)
+    switch typedErr := err.(type) {
+        case *errors.EventBasedBillingSegmentWriteErrorResponse:
+            log.Fatalln("EventBasedBillingSegmentWriteErrorResponseException: ", typedErr)
+        default:
+            log.Fatalln(err)
+    }
 } else {
     // Printing the result and response
     fmt.Println(apiResponse.Data)
@@ -248,7 +253,7 @@ if err != nil {
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
 | 404 | Not Found | `ApiError` |
-| 422 | Unprocessable Entity (WebDAV) | `ApiError` |
+| 422 | Unprocessable Entity (WebDAV) | [`EventBasedBillingSegmentWriteErrorResponseException`](../../doc/models/event-based-billing-segment-write-error-response-exception.md) |
 
 
 # Delete Segment
@@ -303,8 +308,8 @@ id := float64(60)
 resp, err := eventsBasedBillingSegmentsController.DeleteSegment(ctx, componentId, pricePointId, id)
 if err != nil {
     switch typedErr := err.(type) {
-        case *errors.SegmentPricePointErrorsError:
-            log.Fatalln("SegmentPricePointErrorsErrorException: ", typedErr)
+        case *errors.SegmentPricePointErrors:
+            log.Fatalln("SegmentPricePointErrorsException: ", typedErr)
         default:
             log.Fatalln(err)
     }
@@ -318,7 +323,7 @@ if err != nil {
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
 | 404 | Not Found | `ApiError` |
-| 422 | Unprocessable Entity (WebDAV) | [`SegmentPricePointErrorsErrorException`](../../doc/models/segment-price-point-errors-error-exception.md) |
+| 422 | Unprocessable Entity (WebDAV) | [`SegmentPricePointErrorsException`](../../doc/models/segment-price-point-errors-exception.md) |
 
 
 # Bulk Create Segments

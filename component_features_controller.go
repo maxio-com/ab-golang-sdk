@@ -149,7 +149,7 @@ func (c *ComponentFeaturesController) UpdateComponentFeature(
 }
 
 // RemoveComponentFeature takes context, componentId, id, destroyEntitlements as parameters and
-// returns an models.ApiResponse with models.FeatureCatalogItemResponse data and
+// returns an models.ApiResponse with *models.FeatureCatalogItemResponse data and
 // an error if there was an issue with the request or response.
 // Removes a feature catalog item from this component. Returns `204` when the item is removed in place.
 // **Price points with subscribers.** When the feature catalog item is scoped to a price point that already has subscribers and you don't send `destroy_entitlements=true`, the removal applies to new subscriptions only. The price point is cloned with its current features, the removal is applied to the clone, and the call returns `200` with the archived feature catalog item on the clone (carrying the clone's `price_point_id` and a new `id`) instead of `204`. Existing subscribers stay on the original price point, unchanged; sign new subscriptions up on the clone to give them the change. A component price point has subscribers when any subscription, including a canceled one or one allocated a quantity of zero, has the component at that price point. Price points that can't be cloned (archived or custom ones, or a component price point with an interval on a site without multi-frequency) make the request return `422`, with a message naming `destroy_entitlements=true` as the way to apply the change to existing subscribers instead.
@@ -158,7 +158,7 @@ func (c *ComponentFeaturesController) RemoveComponentFeature(
     componentId int,
     id int,
     destroyEntitlements *bool) (
-    models.ApiResponse[models.FeatureCatalogItemResponse],
+    models.ApiResponse[*models.FeatureCatalogItemResponse],
     error) {
     req := c.prepareRequest(ctx, "DELETE", "/components/%v/features/%v.json")
     req.AppendTemplateParams(componentId, id)
@@ -172,13 +172,13 @@ func (c *ComponentFeaturesController) RemoveComponentFeature(
         req.QueryParam("destroy_entitlements", *destroyEntitlements)
     }
     
-    var result models.FeatureCatalogItemResponse
+    var result *models.FeatureCatalogItemResponse
     decoder, resp, err := req.CallAsJson()
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
     
-    result, err = utilities.DecodeResults[models.FeatureCatalogItemResponse](decoder)
+    result, err = utilities.DecodeResults[*models.FeatureCatalogItemResponse](decoder)
     return models.NewApiResponse(result, resp), err
 }
 

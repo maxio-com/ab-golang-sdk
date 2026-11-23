@@ -1,6 +1,8 @@
 
 # Errors
 
+Validation error details for listing segments.
+
 ## Structure
 
 `Errors`
@@ -9,7 +11,8 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `PricePoint` | `[]string` | Required | - |
+| `PerPage` | `[]string` | Optional | - |
+| `PricePoint` | `[]string` | Optional | - |
 
 ## Example
 
@@ -22,6 +25,11 @@ import (
 
 func main() {
     mErrors := models.Errors{
+        PerPage:              []string{
+            "per_page9",
+            "per_page8",
+            "per_page7",
+        },
         PricePoint:           []string{
             "price_point0",
             "price_point1",

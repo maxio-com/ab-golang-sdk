@@ -152,7 +152,7 @@ func (e *EventsBasedBillingSegmentsController) UpdateSegment(
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
-        "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'."},
+        "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewEventBasedBillingSegmentWriteErrorResponse},
     })
     req.Header("Content-Type", "application/json")
     if body != nil {
@@ -192,7 +192,7 @@ func (e *EventsBasedBillingSegmentsController) DeleteSegment(
     req.Authenticate(NewAuth("BasicAuth"))
     req.AppendErrors(map[string]https.ErrorBuilder[error]{
         "404": {TemplatedMessage: "Not Found:'{$response.body}'"},
-        "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewSegmentPricePointErrorsError},
+        "422": {TemplatedMessage: "HTTP Response Not OK. Status code: {$statusCode}. Response: '{$response.body}'.", Unmarshaller: errors.NewSegmentPricePointErrors},
     })
     
     httpCtx, err := req.Call()

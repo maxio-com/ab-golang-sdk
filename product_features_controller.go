@@ -149,7 +149,7 @@ func (p *ProductFeaturesController) UpdateProductFeature(
 }
 
 // RemoveProductFeature takes context, productId, id, destroyEntitlements as parameters and
-// returns an models.ApiResponse with models.FeatureCatalogItemResponse data and
+// returns an models.ApiResponse with *models.FeatureCatalogItemResponse data and
 // an error if there was an issue with the request or response.
 // Removes a feature catalog item from this product. Returns `204` when the item is removed in place.
 // **Price points with subscribers.** When the feature catalog item is scoped to a price point that already has subscribers and you don't send `destroy_entitlements=true`, the removal applies to new subscriptions only. The price point is cloned with its current features, the removal is applied to the clone, and the call returns `200` with the archived feature catalog item on the clone (carrying the clone's `price_point_id` and a new `id`) instead of `204`. Existing subscribers stay on the original price point, unchanged; sign new subscriptions up on the clone to give them the change. A product price point has subscribers when any live subscription (including one in `awaiting_signup`) is on it. Price points that can't be cloned (archived or custom ones, or a component price point with an interval on a site without multi-frequency) make the request return `422`, with a message naming `destroy_entitlements=true` as the way to apply the change to existing subscribers instead.
@@ -158,7 +158,7 @@ func (p *ProductFeaturesController) RemoveProductFeature(
     productId int,
     id int,
     destroyEntitlements *bool) (
-    models.ApiResponse[models.FeatureCatalogItemResponse],
+    models.ApiResponse[*models.FeatureCatalogItemResponse],
     error) {
     req := p.prepareRequest(ctx, "DELETE", "/products/%v/features/%v.json")
     req.AppendTemplateParams(productId, id)
@@ -172,13 +172,13 @@ func (p *ProductFeaturesController) RemoveProductFeature(
         req.QueryParam("destroy_entitlements", *destroyEntitlements)
     }
     
-    var result models.FeatureCatalogItemResponse
+    var result *models.FeatureCatalogItemResponse
     decoder, resp, err := req.CallAsJson()
     if err != nil {
         return models.NewApiResponse(result, resp), err
     }
     
-    result, err = utilities.DecodeResults[models.FeatureCatalogItemResponse](decoder)
+    result, err = utilities.DecodeResults[*models.FeatureCatalogItemResponse](decoder)
     return models.NewApiResponse(result, resp), err
 }
 

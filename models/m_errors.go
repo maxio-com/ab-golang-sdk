@@ -4,14 +4,14 @@ package models
 
 import (
     "encoding/json"
-    "errors"
     "fmt"
-    "strings"
 )
 
 // Errors represents a Errors struct.
+// Validation error details for listing segments.
 type Errors struct {
-    PricePoint           []string               `json:"price_point"`
+    PerPage              []string               `json:"per_page,omitempty"`
+    PricePoint           []string               `json:"price_point,omitempty"`
     AdditionalProperties map[string]interface{} `json:"_"`
 }
 
@@ -19,8 +19,8 @@ type Errors struct {
 // providing a human-readable string representation useful for logging, debugging or displaying information.
 func (m Errors) String() string {
     return fmt.Sprintf(
-    	"Errors[PricePoint=%v, AdditionalProperties=%v]",
-    	m.PricePoint, m.AdditionalProperties)
+    	"Errors[PerPage=%v, PricePoint=%v, AdditionalProperties=%v]",
+    	m.PerPage, m.PricePoint, m.AdditionalProperties)
 }
 
 // MarshalJSON implements the json.Marshaler interface for Errors.
@@ -29,7 +29,7 @@ func (m Errors) MarshalJSON() (
     []byte,
     error) {
     if err := DetectConflictingProperties(m.AdditionalProperties,
-        "price_point"); err != nil {
+        "per_page", "price_point"); err != nil {
         return []byte{}, err
     }
     return json.Marshal(m.toMap())
@@ -39,7 +39,12 @@ func (m Errors) MarshalJSON() (
 func (m Errors) toMap() map[string]any {
     structMap := make(map[string]any)
     MergeAdditionalProperties(structMap, m.AdditionalProperties)
-    structMap["price_point"] = m.PricePoint
+    if m.PerPage != nil {
+        structMap["per_page"] = m.PerPage
+    }
+    if m.PricePoint != nil {
+        structMap["price_point"] = m.PricePoint
+    }
     return structMap
 }
 
@@ -51,32 +56,19 @@ func (m *Errors) UnmarshalJSON(input []byte) error {
     if err != nil {
     	return err
     }
-    err = temp.validate()
-    if err != nil {
-    	return err
-    }
-    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "price_point")
+    additionalProperties, err := ExtractAdditionalProperties[interface{}](input, "per_page", "price_point")
     if err != nil {
     	return err
     }
     m.AdditionalProperties = additionalProperties
     
-    m.PricePoint = *temp.PricePoint
+    m.PerPage = temp.PerPage
+    m.PricePoint = temp.PricePoint
     return nil
 }
 
 // tempErrors is a temporary struct used for validating the fields of Errors.
 type tempErrors  struct {
-    PricePoint *[]string `json:"price_point"`
-}
-
-func (m *tempErrors) validate() error {
-    var errs []string
-    if m.PricePoint == nil {
-        errs = append(errs, "required field `price_point` is missing for type `Errors`")
-    }
-    if len(errs) == 0 {
-        return nil
-    }
-    return errors.New(strings.Join (errs, "\n"))
+    PerPage    []string `json:"per_page,omitempty"`
+    PricePoint []string `json:"price_point,omitempty"`
 }

@@ -2768,7 +2768,7 @@ This endpoint requires [BasicAuth](../../doc/auth/basic-authentication.md)
 
 ## Response Type
 
-**200**: OK
+**201**: Created
 
 This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The `Data` property of this instance returns the response data which is of type [models.InvoiceResponse](../../doc/models/invoice-response.md).
 
